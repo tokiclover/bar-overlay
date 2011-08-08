@@ -58,6 +58,7 @@ pkg_setup() {
 			die "missing kernel patch, please apply it first"
 		fi
 	fi
+	export PKG_SETUP_HAS_BEEN_RAN=1
 }
 
 set_config() {
