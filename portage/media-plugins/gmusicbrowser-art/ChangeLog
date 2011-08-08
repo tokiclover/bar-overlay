@@ -1,0 +1,32 @@
+# ChangeLog for media-sound/gmusicbrowser
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/media-sound/gmusicbrowser/ChangeLog,v 1.5 2009/10/27 11:28:16 aballier Exp $
+
+*gmusicbrowser-1.0.2 (27 Oct 2009)
+
+  27 Oct 2009; Alexis Ballier <aballier@gentoo.org>
+  +gmusicbrowser-1.0.2.ebuild:
+  version bump, by Sergiy Borodych <bor@univ.kiev.ua>, bug #289036
+
+*gmusicbrowser-1.0.1 (27 Feb 2009)
+
+  27 Feb 2009; Alexis Ballier <aballier@gentoo.org> metadata.xml,
+  +gmusicbrowser-1.0.1.ebuild:
+  version bump, by Sergiy Borodych <bor@univ.kiev.ua>, bug #249869
+
+*gmusicbrowser-1.0 (13 Aug 2008)
+
+  13 Aug 2008; Alexis Ballier <aballier@gentoo.org>
+  +gmusicbrowser-1.0.ebuild:
+  version bump
+
+  16 May 2008; Raúl Porcel <armin76@gentoo.org> gmusicbrowser-0.964.ebuild:
+  Add ~sparc
+
+*gmusicbrowser-0.964 (16 May 2008)
+
+  16 May 2008; Samuli Suominen <drac@gentoo.org>
+  +gmusicbrowser-0.964.ebuild:
+  Initial commit wrt #110989, thanks to Ed Catmur, Sergiy Borodych and
+  others.
+

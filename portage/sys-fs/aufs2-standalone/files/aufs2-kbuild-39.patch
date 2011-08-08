@@ -1,0 +1,35 @@
+aufs2.1 kbuild patch for linux-2.6[ufs2-kbuild-39-rcN-20110418.patch].
+
+diff --git a/fs/Kconfig b/fs/Kconfig
+index f3aa9b0..d0eaf6e 100644
+--- a/fs/Kconfig
++++ b/fs/Kconfig
+@@ -191,6 +191,7 @@ source "fs/pstore/Kconfig"
+ source "fs/sysv/Kconfig"
+ source "fs/ufs/Kconfig"
+ source "fs/exofs/Kconfig"
++source "fs/aufs/Kconfig"
+ 
+ endif # MISC_FILESYSTEMS
+ 
+diff --git a/fs/Makefile b/fs/Makefile
+index fb68c2b..c031a85 100644
+--- a/fs/Makefile
++++ b/fs/Makefile
+@@ -124,3 +124,4 @@ obj-$(CONFIG_GFS2_FS)           += gfs2/
+ obj-$(CONFIG_EXOFS_FS)          += exofs/
+ obj-$(CONFIG_CEPH_FS)		+= ceph/
+ obj-$(CONFIG_PSTORE)		+= pstore/
++obj-$(CONFIG_AUFS_FS)           += aufs/
+diff --git a/include/linux/Kbuild b/include/linux/Kbuild
+index 75cf611..f9f42b5 100644
+--- a/include/linux/Kbuild
++++ b/include/linux/Kbuild
+@@ -64,6 +64,7 @@ header-y += atmppp.h
+ header-y += atmsap.h
+ header-y += atmsvc.h
+ header-y += audit.h
++header-y += aufs_type.h
+ header-y += auto_fs.h
+ header-y += auto_fs4.h
+ header-y += auxvec.h

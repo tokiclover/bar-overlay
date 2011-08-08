@@ -1,0 +1,20 @@
+# ChangeLog for media-sound/gmorgan
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/local/media-sound/gmorgan/ChangeLog,v 1.0 2011/06/16 by tokclover Exp $
+
+*2011-07-31
+	edited live ebuild because the mplayer2 patch is not needed anymore.
+
+*2011-06-19
+	removed git needless git USE flag downgrade EAPI from 4 to 3.
+
+*2011-06-18
+	cleaned/removed USE flags (mplayer{,2},titlebar} and typos fix of version string.
+
+*2011-06-17
+	gmusicbrowser-0.1.16.ebuild version string fix.
+
+*2011-06-16
+	initial ebuild release of version {1.1.[6-7],9999} with a patch for mplayer2
+	support files/gmusicbrowser_mplayer2.patch, with an ebuild for gmb layout
+	media-plugins/gmuscibrowser-art-0.1.16.ebuild.

@@ -1,0 +1,13 @@
+*** a/gmusicbrowser_mplayer.pm
+--- b/gmusicbrowser_mplayer.pm
+***************
+*** 27,32 ****
+--- 27,34 ----
+  	for my $path (split /:/, $ENV{PATH})
+  	{	if (-x $path.::SLASH.'mplayer')
+  		 {$mplayer=$path.::SLASH.'mplayer';last;}
++ 		elsif (-x $path.::SLASH.'mplayer2')
++ 		 {$mplayer=$path.::SLASH.'mplayer2';last;}
+  	}
+  
+  	return unless $mplayer;

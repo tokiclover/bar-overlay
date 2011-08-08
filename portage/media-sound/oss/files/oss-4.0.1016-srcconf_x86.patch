@@ -1,0 +1,11 @@
+--- setup.old/srcconf.c	2008-03-24 04:42:28.000000000 +0100
++++ setup/srcconf.c	2008-05-18 13:13:14.000000000 +0200
+@@ -639,7 +639,7 @@
+ 
+   fprintf (f, "THISOS=%s\n", this_os);
+ 
+-  if (conf.mode != MD_USERLAND && conf.mode != MD_SBIN)
++  if (conf.mode == MD_KERNEL || conf.mode == MD_MODULE)
+     {
+       fprintf (f, "CFLAGS=-D_KERNEL\n");
+ #ifdef sun

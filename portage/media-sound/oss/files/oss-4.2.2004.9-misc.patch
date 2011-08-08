@@ -1,0 +1,87 @@
+     1.1 --- a/EULA	Thu Jan 06 07:55:36 2011 +0200
+     1.2 +++ b/EULA	Tue Feb 15 04:54:33 2011 +0200
+     1.3 @@ -78,9 +78,9 @@
+     1.4  
+     1.5  ______________________________________________________________________________
+     1.6  
+     1.7 -4Front Technologies
+     1.8 -4035 Lafayette Place Unit F
+     1.9 -Culver City, CA 90232
+    1.10 +4Front Technologies, Inc.
+    1.11 +9826 Beverlywood Street
+    1.12 +Los Angeles, CA 90064
+    1.13  U.S.A.
+    1.14  
+    1.15  Tel: (+01) 310-202-8530         WWW: http://www.opensound.com
+
+     2.1 --- a/kernel/drv/oss_audigyls/oss_audigyls.c	Thu Jan 06 07:55:36 2011 +0200
+     2.2 +++ b/kernel/drv/oss_audigyls/oss_audigyls.c	Tue Feb 15 04:54:33 2011 +0200
+     2.3 @@ -1648,7 +1648,7 @@
+     2.4  int
+     2.5  oss_audigyls_attach (oss_device_t * osdev)
+     2.6  {
+     2.7 -  int tmp, err, i, tries;
+     2.8 +  int tmp, err, i;
+     2.9    unsigned char pci_irq_line, pci_revision;
+    2.10    unsigned short pci_command, vendor, device;
+    2.11    unsigned int pci_ioaddr;
+    2.12 @@ -1796,15 +1796,9 @@
+    2.13        /* for SBLive 7.1 */
+    2.14        OUTL (devc->osdev, 0x005f4301, devc->base + 0x18);
+    2.15        audigyls_i2c_write (devc, 0x15, 0x4);
+    2.16 -      tries = 0;
+    2.17 -    again:
+    2.18 -      for (i = 0; i < sizeof (spi_dac); i++)
+    2.19 +      for (i = 0; i < (sizeof (spi_dac)/sizeof (spi_dac[0])); i++)
+    2.20  	{
+    2.21 -	  if (!audigyls_spi_write (devc, spi_dac[i]) && tries < 100)
+    2.22 -	    {
+    2.23 -	      tries++;
+    2.24 -	      goto again;
+    2.25 -	    }
+    2.26 +	  audigyls_spi_write (devc, spi_dac[i]);
+    2.27  	}
+    2.28      }
+    2.29  
+
+     3.1 --- a/kernel/framework/sndstat/oss_sndstat.c	Thu Jan 06 07:55:36 2011 +0200
+     3.2 +++ b/kernel/framework/sndstat/oss_sndstat.c	Tue Feb 15 04:54:33 2011 +0200
+     3.3 @@ -65,7 +65,7 @@
+     3.4  
+     3.5    put_status ("OSS " OSS_VERSION_STRING);
+     3.6    put_status (oss_license_string);
+     3.7 -  put_status (" (C) 4Front Technologies 1996-2009\n");
+     3.8 +  put_status (" (C) 4Front Technologies 1996-2011\n");
+     3.9  
+    3.10    if (riptide_notice)
+    3.11      put_status ("RipTide Driver (C) 2000, Conexant Systems, Inc.\n");
+
+     4.1 --- a/setup/FreeBSD/pkg-message	Thu Jan 06 07:55:36 2011 +0200
+     4.2 +++ b/setup/FreeBSD/pkg-message	Tue Feb 15 04:54:33 2011 +0200
+     4.3 @@ -78,9 +78,9 @@
+     4.4  
+     4.5  ______________________________________________________________________________
+     4.6  
+     4.7 -4Front Technologies
+     4.8 -4035 Lafayette Place Unit F
+     4.9 -Culver City, CA 90232
+    4.10 +4Front Technologies, Inc.
+    4.11 +9826 Beverlywood Street
+    4.12 +Los Angeles, CA 90064
+    4.13  U.S.A.
+    4.14  
+    4.15  Tel: (+01) 310-202-8530         WWW: http://www.opensound.com
+
+     5.1 --- a/setup/SunOS/confgen.c	Thu Jan 06 07:55:36 2011 +0200
+     5.2 +++ b/setup/SunOS/confgen.c	Tue Feb 15 04:54:33 2011 +0200
+     5.3 @@ -178,9 +178,7 @@
+     5.4    else
+     5.5      fprintf (conf, "name=\"%s\" parent=\"pseudo\" instance=0 ", module);
+     5.6  
+     5.7 -#ifdef SOL9
+     5.8     fprintf (conf, "ddi-no-autodetach=1 ddi-forceattach=1 \n");
+     5.9 -#endif
+    5.10  
+    5.11    sprintf (tmp, "%s/.params", srcdir);
+    5.12    if ((f = fopen (tmp, "r")) != NULL)
+

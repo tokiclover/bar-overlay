@@ -1,0 +1,31 @@
+*0.20
++Boxee
++Clementine
++Dropbox (including emblems as seen in Faenza 0.8)
++Github Octocat
++Small sizes for all icons
++Indicator/Panel icon when moving or copying files (system-file-manager-panel
++Faenza Dark and Faenza Cupertino packages.
+
+*0.15
++aMSN
++Gnome Subtitlles
++Gwibber (Updated)
++Small sizes (32px, 24px, 22px and 16px), for aMSN, Chromium, Firefox, Gmail, Google Chrome and Shotwell.
++New package. Now the icons are packaged as a theme, so you can install it without overwriting the original Faenza theme.
+
+*0.12
++ Chromium
+
+*0.11
++ Firefox
+
+*0.1
++ Banshee
++ Gmail
++ Google Chrome
++ Gwibber
++ Shotwell
++ Subtitle Editor
++ Nautilus/File Manager
++ Totem

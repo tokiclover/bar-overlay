@@ -1,0 +1,13 @@
+# Index: popt-1.7/Makefile.am
+
+--- popt-1.7.orig/Makefile.am
++++ popt-1.7/Makefile.am
+@@ -34,6 +34,7 @@ TESTS = testit.sh
+ include_HEADERS = popt.h
+ lib_LTLIBRARIES = libpopt.la
+ libpopt_la_SOURCES = popt.c findme.c poptparse.c poptconfig.c popthelp.c
++libpopt_la_LIBADD = $(LTLIBINTL)
+ 
+ man_MANS = popt.3
+ 
+

@@ -1,0 +1,1164 @@
+--- a/buildid.dat	Thu Jan 06 06:42:18 2011 +0200
++++ b/buildid.dat	Thu Jan 06 06:43:12 2011 +0200
+@@ -1,1 +1,1 @@
+-2003
++2004
+
+--- a/devlists/Linux	Thu Jan 06 06:42:18 2011 +0200
++++ b/devlists/Linux	Thu Jan 06 06:43:12 2011 +0200
+@@ -15,8 +15,12 @@
+oss_audioloop	AUDIOLOOP	OSS loopback audio driver
+oss_audiopci	pci1274,5000	Creative AudioPCI (ES1370)
+oss_cmi878x	pci13f6,8788	CMedia CMI8788
+-oss_cmi878x	pci1043,834f	Asus Xonar D1 (AV100)
+-oss_cmi878x	pci1043,8275    Asus Xonar DX (AV100)
++oss_cmi878x	pci1043,8269    Asus Xonar D2 
++oss_cmi878x	pci1043,834f	Asus Xonar D1 
++oss_cmi878x	pci1043,8275    Asus Xonar DX 
++oss_cmi878x	pci1043,82b7    Asus Xonar D2X 
++oss_cmi878x	pci1043,838e    Asus Xonar DS 
++oss_cmi878x	pci1043,835c    Asus Xonar Essence STX 
+oss_cmpci	pci13f6,100	C-Media CM8338A
+oss_cmpci	pci13f6,100	MIDIMan DiO 2448
+oss_cmpci	pci13f6,101	CMedia CM8338B
+@@ -64,7 +68,7 @@
+oss_fmedia	pcs1489,7008	Genius Sound Maker Live
+oss_geode	pci100b,503	National Semiconductor Geode SC1200
+oss_geode	pci1078,103	National Semiconductor Geode CS5530
+-oss_geode	pci1022,2093	AMD Geode CS5536 (BETA)
++oss_geode	pci1022,2093	AMD Geode CS5536 
+oss_hdaudio	pci8086,2668	Intel High Definition Audio (ICH6)
+oss_hdaudio	pci8086,27d8	Intel High Definition Audio (ICH7)
+oss_hdaudio	pci8086,269a	Intel High Definition Audio (ESB2)
+
+--- a/kernel/drv/oss_cmi878x/.devices	Thu Jan 06 06:42:18 2011 +0200
++++ b/kernel/drv/oss_cmi878x/.devices	Thu Jan 06 06:43:12 2011 +0200
+@@ -1,6 +1,8 @@
+oss_cmi878x	pci13f6,8788	CMedia CMI8788
+-oss_cmi878x	pci1043,8269    Asus Xonar D2 (AV200)
+-oss_cmi878x	pci1043,834f	Asus Xonar D1 (AV100)
+-oss_cmi878x	pci1043,8275    Asus Xonar DX (AV100)
+-oss_cmi878x	pci1043,82b7    Asus Xonar D2X (AV200)
+-oss_cmi878x	pci1043,835c    Asus Xonar Essence STX (AV100)
++oss_cmi878x	pci1043,8269    Asus Xonar D2 
++oss_cmi878x	pci1043,834f	Asus Xonar D1 
++oss_cmi878x	pci1043,8275    Asus Xonar DX 
++oss_cmi878x	pci1043,82b7    Asus Xonar D2X 
++oss_cmi878x	pci1043,838e    Asus Xonar DS 
++oss_cmi878x	pci1043,835c    Asus Xonar Essence STX 
++
+
+--- a/kernel/drv/oss_cmi878x/oss_cmi878x.c	Thu Jan 06 06:42:18 2011 +0200
++++ b/kernel/drv/oss_cmi878x/oss_cmi878x.c	Thu Jan 06 06:43:12 2011 +0200
+@@ -95,23 +95,17 @@
+#define SUBID_XONAR_D1		0x834f
+#define SUBID_XONAR_DX		0x8275
+#define SUBID_XONAR_STX 	0x835c
++#define SUBID_XONAR_DS		0x838e
+
+#define SUBID_GENERIC		0x0000
+
+/* Xonar specific */
+#define XONAR_DX_FRONTDAC	0x9e
+#define XONAR_DX_SURRDAC	0x30
+-#define XONAR_DX_OUTPUT		0x01
+-#define XONAR_DX_MCLOCK_256	0x10
+-
+-/* Xonar D2 spi specific */
+-#define XONAR_D2_FRONTDAC	0x98
+-#define XONAR_D2_SURRDAC	0x9a
+-#define XONAR_D2_LFEDAC 	0x9c
+-#define XONAR_D2_REARDAC	0x9e
+-
+-/* defs for Xonar STX */
+#define XONAR_STX_FRONTDAC	0x98
++#define XONAR_DS_FRONTDAC	0x1
++#define XONAR_DS_SURRDAC	0x0
++#define XONAR_MCLOCK_256	0x10
+
+/* defs for AKM 4396 DAC */
+#define AK4396_CTL1        0x00
+@@ -278,6 +272,7 @@
+ac97_devc ac97devc, fp_ac97devc;
+int ac97_mixer_dev, fp_mixer_dev, cmi_mixer_dev;
+int playvol[4];
++  int recvol;
+/* uart401 */
+oss_midi_inputbyte_t midi_input_intr;
+int midi_opened, midi_disabled;
+@@ -287,6 +282,10 @@
+    4.40  }
+    4.41  cmi8788_devc;
+    4.42  
+    4.43 +static const char xd2_codec_map[4] = {
+    4.44 +                0, 1, 2, 4
+    4.45 +        };
+    4.46 +
+    4.47  static void cmi8788uartintr (cmi8788_devc * devc);
+    4.48  static int reset_cmi8788uart (cmi8788_devc * devc);
+    4.49  static void enter_uart_mode (cmi8788_devc * devc);
+    4.50 @@ -369,37 +368,54 @@
+    4.51  }
+    4.52  
+    4.53  static int
+    4.54 -spi_write (void *devc_, int codec_num, unsigned char *data)
+    4.55 +spi_write (cmi8788_devc *devc, int codec_num, unsigned char reg, int val)
+    4.56  {
+    4.57 -  cmi8788_devc *devc = devc_;
+    4.58    oss_native_word flags;
+    4.59 -  unsigned char val;
+    4.60 +  unsigned int tmp;
+    4.61 +  int latch, shift, count;
+    4.62  
+    4.63    MUTEX_ENTER_IRQDISABLE (devc->low_mutex, flags);
+    4.64  
+    4.65 +  /* check if SPI is busy */
+    4.66 +   count = 10;
+    4.67 +   while ((INB(devc, SPI_CONTROL) & 0x1) && count-- > 0) {
+    4.68 +    	oss_udelay(10);
+    4.69 +  }
+    4.70 +
+    4.71 +  if (devc->model == SUBID_XONAR_DS) {
+    4.72 +	shift = 9;
+    4.73 +	latch = 0;
+    4.74 +  }
+    4.75 +  else {
+    4.76 +	shift = 8;
+    4.77 +	latch = 0x80;
+    4.78 +  }
+    4.79 +
+    4.80 +  /* 2 byte data/reg info to be written */
+    4.81 +  tmp = val;
+    4.82 +  tmp |= (reg << shift);
+    4.83 +
+    4.84    /* write 2-byte data values */
+    4.85 -  OUTB (devc->osdev, data[0], SPI_DATA + 0);
+    4.86 -  OUTB (devc->osdev, data[1], SPI_DATA + 1);
+    4.87 +  OUTB (devc->osdev, tmp & 0xff, SPI_DATA + 0);
+    4.88 +  OUTB (devc->osdev, (tmp >> 8) & 0xff, SPI_DATA + 1);
+    4.89  
+    4.90    /* Latch high, clock=160, Len=2byte, mode=write */
+    4.91 -  val = (INB (devc->osdev, SPI_CONTROL) & ~0x7E) | 0x81;
+    4.92 +  tmp = (INB (devc->osdev, SPI_CONTROL) & ~0x7E) | latch | 0x1;
+    4.93  
+    4.94    /* now address which codec you want to send the data to */
+    4.95 -  val |= (codec_num << 4) & 0x70;
+    4.96 +  tmp |= (codec_num << 4);
+    4.97  
+    4.98    /* send the command to write the data */
+    4.99 -  OUTB (devc->osdev, val, SPI_CONTROL);
+   4.100 -
+   4.101 -  oss_udelay (100);
+   4.102 +  OUTB (devc->osdev, tmp, SPI_CONTROL);
+   4.103 +
+   4.104    MUTEX_EXIT_IRQRESTORE (devc->low_mutex, flags);
+   4.105    return 1;
+   4.106  }
+   4.107  
+   4.108  static int
+   4.109 -two_wire_write (void *devc_, unsigned char codec_num, unsigned char reg,
+   4.110 +i2c_write (cmi8788_devc *devc, unsigned char codec_num, unsigned char reg,
+   4.111  		unsigned char data)
+   4.112  {
+   4.113 -  cmi8788_devc *devc = devc_;
+   4.114    oss_native_word flags;
+   4.115    int count = 50;
+   4.116  
+   4.117 @@ -428,25 +444,12 @@
+   4.118    /* select the codec number to address */
+   4.119    OUTB (devc->osdev, codec_num, TWO_WIRE_ADDR);
+   4.120    MUTEX_EXIT_IRQRESTORE (devc->low_mutex, flags);
+   4.121 -  oss_udelay(100);
+   4.122 +  oss_udelay(100); 
+   4.123  
+   4.124    return 1;
+   4.125  
+   4.126  }
+   4.127  
+   4.128 -static void
+   4.129 -pcm1796_write(cmi8788_devc *devc, int codec_id, unsigned char reg, unsigned char val)
+   4.130 -{
+   4.131 -static const char codec_map[4] = {
+   4.132 -                0, 1, 2, 4
+   4.133 -        };
+   4.134 -unsigned char data[2];
+   4.135 -
+   4.136 -      data[0] = val;
+   4.137 -      data[1] = reg;
+   4.138 -      spi_write (devc, codec_map[codec_id], data);
+   4.139 -}
+   4.140 -
+   4.141  static int
+   4.142  cs4398_init (void *devc_, int codec_)
+   4.143  {
+   4.144 @@ -456,22 +459,22 @@
+   4.145    OUTW(devc->osdev, 0x0100, TWO_WIRE_CTRL);
+   4.146  
+   4.147    // Power down, enable control mode.
+   4.148 -  two_wire_write(devc_, codec_, CS4398_MISC_CTRL,
+   4.149 +  i2c_write(devc_, codec_, CS4398_MISC_CTRL, 
+   4.150      CS4398_CPEN | CS4398_POWER_DOWN);
+   4.151    // Left justified PCM (DAC and 8788 support I2S, but doesn't work.
+   4.152    // Setting it introduces clipping like hell).
+   4.153 -  two_wire_write(devc_, codec_, CS4398_MODE_CTRL, 0);
+   4.154 -  // That's the DAC default, set anyway.
+   4.155 -  two_wire_write(devc_, codec_, 3, 0x09);
+   4.156 +  i2c_write(devc_, codec_, CS4398_MODE_CTRL, 0);
+   4.157 +  // That's the DAC default, set anyway. 
+   4.158 +  i2c_write(devc_, codec_, 3, 0x09);
+   4.159    // PCM auto-mute.
+   4.160 -  two_wire_write(devc_, codec_, 4, 0x82);
+   4.161 +  i2c_write(devc_, codec_, 4, 0x82);
+   4.162    // Vol A+B to -64dB.
+   4.163 -  two_wire_write(devc_, codec_, 5, 0x80);
+   4.164 -  two_wire_write(devc_, codec_, 6, 0x80);
+   4.165 +  i2c_write(devc_, codec_, 5, 0x80);
+   4.166 +  i2c_write(devc_, codec_, 6, 0x80);
+   4.167    // Soft-ramping.
+   4.168 -  two_wire_write(devc_, codec_, 7, 0xF0);
+   4.169 +  i2c_write(devc_, codec_, 7, 0xF0);
+   4.170    // Remove power down flag.
+   4.171 -  two_wire_write(devc_, codec_, CS4398_MISC_CTRL, CS4398_CPEN);
+   4.172 +  i2c_write(devc_, codec_, CS4398_MISC_CTRL, CS4398_CPEN);
+   4.173  
+   4.174    return 1;
+   4.175  }
+   4.176 @@ -480,33 +483,33 @@
+   4.177  cs4362a_init(void * devc_, int codec_)
+   4.178  {
+   4.179    cmi8788_devc *devc = devc_;
+   4.180 -
+   4.181 +  
+   4.182    // Fast Two-Wire. Reduces the wire ready time.
+   4.183    OUTW(devc->osdev, 0x0100, TWO_WIRE_CTRL);
+   4.184  
+   4.185 -  /* Power down and enable control port. */
+   4.186 -  two_wire_write(devc_, codec_, CS4362A_MODE1_CTRL, CS4362A_CPEN | CS4362A_POWER_DOWN);
+   4.187 +  /* Power down and enable control port. */ 
+   4.188 +  i2c_write(devc_, codec_, CS4362A_MODE1_CTRL, CS4362A_CPEN | CS4362A_POWER_DOWN);
+   4.189    /* Left-justified PCM */
+   4.190 -  two_wire_write(devc_, codec_, CS4362A_MODE2_CTRL, CS4362A_DIF_LJUST);
+   4.191 +  i2c_write(devc_, codec_, CS4362A_MODE2_CTRL, CS4362A_DIF_LJUST);
+   4.192    /* Ramp & Automute, re-set DAC defaults. */
+   4.193 -  two_wire_write(devc_, codec_, CS4362A_MODE3_CTRL, 0x84);
+   4.194 +  i2c_write(devc_, codec_, CS4362A_MODE3_CTRL, 0x84); 
+   4.195    /* Filter control, DAC defs. */
+   4.196 -  two_wire_write(devc_, codec_, CS4362A_FILTER_CTRL, 0);
+   4.197 +  i2c_write(devc_, codec_, CS4362A_FILTER_CTRL, 0);
+   4.198    /* Invert control, DAC defs. */
+   4.199 -  two_wire_write(devc_, codec_, CS4362A_INVERT_CTRL, 0);
+   4.200 +  i2c_write(devc_, codec_, CS4362A_INVERT_CTRL, 0);
+   4.201    /* Mixing control, DAC defs. */
+   4.202 -  two_wire_write(devc_, codec_, CS4362A_MIX1_CTRL, 0x24);
+   4.203 -  two_wire_write(devc_, codec_, CS4362A_MIX2_CTRL, 0x24);
+   4.204 -  two_wire_write(devc_, codec_, CS4362A_MIX3_CTRL, 0x24);
+   4.205 +  i2c_write(devc_, codec_, CS4362A_MIX1_CTRL, 0x24);
+   4.206 +  i2c_write(devc_, codec_, CS4362A_MIX2_CTRL, 0x24);
+   4.207 +  i2c_write(devc_, codec_, CS4362A_MIX3_CTRL, 0x24);
+   4.208    /* Volume to -64dB. */
+   4.209 -  two_wire_write(devc_, codec_, CS4362A_VOLA_1, 0x40);
+   4.210 -  two_wire_write(devc_, codec_, CS4362A_VOLB_1, 0x40);
+   4.211 -  two_wire_write(devc_, codec_, CS4362A_VOLA_2, 0x40);
+   4.212 -  two_wire_write(devc_, codec_, CS4362A_VOLB_2, 0x40);
+   4.213 -  two_wire_write(devc_, codec_, CS4362A_VOLA_3, 0x40);
+   4.214 -  two_wire_write(devc_, codec_, CS4362A_VOLB_3, 0x40);
+   4.215 +  i2c_write(devc_, codec_, CS4362A_VOLA_1, 0x40);
+   4.216 +  i2c_write(devc_, codec_, CS4362A_VOLB_1, 0x40);
+   4.217 +  i2c_write(devc_, codec_, CS4362A_VOLA_2, 0x40);
+   4.218 +  i2c_write(devc_, codec_, CS4362A_VOLB_2, 0x40);
+   4.219 +  i2c_write(devc_, codec_, CS4362A_VOLA_3, 0x40);
+   4.220 +  i2c_write(devc_, codec_, CS4362A_VOLB_3, 0x40);
+   4.221    /* Power up. */
+   4.222 -  two_wire_write(devc_, codec_, CS4362A_MODE1_CTRL, CS4362A_CPEN);
+   4.223 +  i2c_write(devc_, codec_, CS4362A_MODE1_CTRL, CS4362A_CPEN);
+   4.224  
+   4.225    return 1;
+   4.226  }
+   4.227 @@ -517,121 +520,142 @@
+   4.228    vol = mix_cvt[vol];
+   4.229    return (vol * ((1 << bits) - 1) / 100);
+   4.230  }
+   4.231 -#if 0
+   4.232 -static int
+   4.233 -cs4398_cleanup(void * devc_, int codec_)
+   4.234 +
+   4.235 +
+   4.236 +static void
+   4.237 +cmi8788_generic_set_play_volume (cmi8788_devc *devc, int codec_id, int left, int right)
+   4.238 +
+   4.239  {
+   4.240 -  /* Simply power down. Keep control port mode up. */
+   4.241 -  two_wire_write(devc_, codec_, CS4398_MISC_CTRL,
+   4.242 -    CS4398_POWER_DOWN | CS4398_CPEN);
+   4.243 -
+   4.244 -  return 1;
+   4.245 +  spi_write (devc, codec_id, AK4396_LchATTCtl | 0x20, mix_scale(left, 8));
+   4.246 +  spi_write (devc, codec_id, AK4396_RchATTCtl | 0x20, mix_scale(right, 8));
+   4.247  }
+   4.248  
+   4.249 -static int cs4362a_cleanup(void *devc_, int codec_)
+   4.250 +static void
+   4.251 +xonar_d1_set_play_volume(cmi8788_devc * devc, int codec_id, int left, int right)
+   4.252  {
+   4.253 -  /* Simply power down. Keep control port mode up. */
+   4.254 -  two_wire_write(devc_, codec_, CS4362A_MODE1_CTRL,
+   4.255 -    CS4362A_CPEN | CS4362A_POWER_DOWN);
+   4.256 -
+   4.257 -  return 1;
+   4.258 -}
+   4.259 -#endif
+   4.260 -
+   4.261 -
+   4.262 -static void
+   4.263 -xonar_dx_set_play_volume(cmi8788_devc * devc, int codec_id, int value)
+   4.264 -{
+   4.265 -  int left, right;
+   4.266 -
+   4.267 -  left = (value & 0x00FF);
+   4.268 -  right = (value & 0xFF00) >> 8;
+   4.269 -
+   4.270    switch(codec_id)
+   4.271    {
+   4.272      case 0:
+   4.273 -      two_wire_write(devc, XONAR_DX_FRONTDAC, CS4398_VOLA, CS4398_VOL(left));
+   4.274 -      two_wire_write(devc, XONAR_DX_FRONTDAC, CS4398_VOLB, CS4398_VOL(right));
+   4.275 +      i2c_write(devc, XONAR_DX_FRONTDAC, CS4398_VOLA, CS4398_VOL(left));
+   4.276 +      i2c_write(devc, XONAR_DX_FRONTDAC, CS4398_VOLB, CS4398_VOL(right));
+   4.277        break;
+   4.278      case 1:
+   4.279 -      two_wire_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLA_1, CS4362A_VOL(left));
+   4.280 -      two_wire_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLB_1, CS4362A_VOL(right));
+   4.281 +      i2c_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLA_1, CS4362A_VOL(left));
+   4.282 +      i2c_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLB_1, CS4362A_VOL(right));
+   4.283        break;
+   4.284      case 2:
+   4.285 -      two_wire_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLA_2, CS4362A_VOL(left));
+   4.286 -      two_wire_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLB_2, CS4362A_VOL(right));
+   4.287 +      i2c_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLA_2, CS4362A_VOL(left));
+   4.288 +      i2c_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLB_2, CS4362A_VOL(right));
+   4.289        break;
+   4.290      case 3:
+   4.291 -      two_wire_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLA_3, CS4362A_VOL(left));
+   4.292 -      two_wire_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLB_3, CS4362A_VOL(right));
+   4.293 +      i2c_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLA_3, CS4362A_VOL(left));
+   4.294 +      i2c_write(devc, XONAR_DX_SURRDAC, CS4362A_VOLB_3, CS4362A_VOL(right));
+   4.295        break;
+   4.296    }
+   4.297  }
+   4.298  
+   4.299  static void
+   4.300 -xonar_d2_set_play_volume(cmi8788_devc * devc, int codec_id, int value)
+   4.301 +xonar_d2_set_play_volume(cmi8788_devc *devc, int codec_id, int left, int right)
+   4.302  {
+   4.303 -  int left, right;
+   4.304 -
+   4.305 -  left = (value & 0x00FF);
+   4.306 -  right = (value & 0xFF00) >> 8;
+   4.307 -
+   4.308 -  pcm1796_write (devc, codec_id, 16, mix_scale(left,8));
+   4.309 -  pcm1796_write (devc, codec_id, 17, mix_scale(right,8));
+   4.310 +  spi_write (devc, xd2_codec_map[codec_id], 16, mix_scale(left,8));
+   4.311 +  spi_write (devc, xd2_codec_map[codec_id], 17, mix_scale(right,8));
+   4.312  }
+   4.313  
+   4.314  static void
+   4.315 -xonar_stx_set_play_volume(cmi8788_devc * devc, int codec_id, int value)
+   4.316 +xonar_stx_set_play_volume(cmi8788_devc * devc, int codec_id, int left, int right)
+   4.317  {
+   4.318 -  int left, right;
+   4.319 -
+   4.320 -  left = (value & 0x00FF);
+   4.321 -  right = (value & 0xFF00) >> 8;
+   4.322 -
+   4.323    if (codec_id == 0)
+   4.324    {
+   4.325 -      two_wire_write(devc, XONAR_STX_FRONTDAC, 16, mix_scale(left,8));
+   4.326 -      two_wire_write(devc, XONAR_STX_FRONTDAC, 17, mix_scale(right,8));
+   4.327 +      i2c_write(devc, XONAR_STX_FRONTDAC, 16, mix_scale(left,8));
+   4.328 +      i2c_write(devc, XONAR_STX_FRONTDAC, 17, mix_scale(right,8));
+   4.329    }
+   4.330  }
+   4.331  
+   4.332 +static void
+   4.333 +xonar_ds_set_play_volume(cmi8788_devc * devc, int codec_id, int left, int right)
+   4.334 +{
+   4.335 +  switch (codec_id)
+   4.336 +   {
+   4.337 +    	case 0:      /* front */
+   4.338 +		spi_write (devc, XONAR_DS_FRONTDAC, 0, mix_scale(left,7)|0x80);
+   4.339 +		spi_write (devc, XONAR_DS_FRONTDAC, 1, mix_scale(right,7)|0x180);
+   4.340 +		spi_write (devc, XONAR_DS_FRONTDAC, 3, mix_scale(left,7)|0x80);
+   4.341 +		spi_write (devc, XONAR_DS_FRONTDAC, 4, mix_scale(right,7)|0x180);
+   4.342 +                break;
+   4.343 +
+   4.344 +	case 1:      /* side */
+   4.345 +                spi_write (devc, XONAR_DS_SURRDAC, 0, mix_scale(left,7)|0x80);
+   4.346 +                spi_write (devc, XONAR_DS_SURRDAC, 1, mix_scale(right,7)|0x180);
+   4.347 +                break;
+   4.348 +	case 2:      /* rear */
+   4.349 +                spi_write (devc, XONAR_DS_SURRDAC, 4, mix_scale(left,7)|0x80);
+   4.350 +                spi_write (devc, XONAR_DS_SURRDAC, 5, mix_scale(right,7)|0x180);
+   4.351 +                break;
+   4.352 +	case 3:      /* center */
+   4.353 +                spi_write (devc, XONAR_DS_SURRDAC, 6, mix_scale(left,7)|0x80);
+   4.354 +                spi_write (devc, XONAR_DS_SURRDAC, 7, mix_scale(right,7)|0x180);
+   4.355 +                break;
+   4.356 +   }
+   4.357 +}
+   4.358 +
+   4.359 +static int
+   4.360 +cmi8788_set_rec_volume (cmi8788_devc * devc, int value)
+   4.361 +{
+   4.362 +  unsigned char left, right;
+   4.363 +
+   4.364 +  left = value & 0xff;
+   4.365 +  right = (value >> 8) & 0xff;
+   4.366 +
+   4.367 +  if (left > 100)
+   4.368 +	left = 100;
+   4.369 +  if (right > 100)
+   4.370 +	right = 100;
+   4.371 +
+   4.372 +  devc->recvol = left | (right << 8);
+   4.373 +
+   4.374 +  spi_write (devc, XONAR_DS_FRONTDAC, 0xe, mix_scale(left,8));
+   4.375 +  spi_write (devc, XONAR_DS_FRONTDAC, 0xf, mix_scale(right,8));
+   4.376 +
+   4.377 +  return devc->recvol;
+   4.378 +}
+   4.379 +
+   4.380 +
+   4.381  
+   4.382  static int
+   4.383  cmi8788_set_play_volume (cmi8788_devc * devc, int codec_id, int value)
+   4.384  {
+   4.385 -  unsigned char left, right;
+   4.386 -  unsigned char data[2];
+   4.387 -
+   4.388 -  left = value & 0xff;
+   4.389 -  right = (value >> 8) & 0xff;
+   4.390 -
+   4.391 -  devc->playvol[codec_id] = left | (right << 8);
+   4.392 +  int left, right;
+   4.393 +
+   4.394 +  left = (value & 0x00FF);
+   4.395 +  right = (value & 0xFF00) >> 8;
+   4.396 +
+   4.397 +  if (left > 100)
+   4.398 +	left = 100;
+   4.399 +  if (right > 100)
+   4.400 +        right = 100;
+   4.401 +
+   4.402 +  devc->playvol[codec_id] = left | (right<<8);
+   4.403  
+   4.404    switch(devc->model)
+   4.405    {
+   4.406      case SUBID_XONAR_D1:
+   4.407      case SUBID_XONAR_DX:
+   4.408 -      xonar_dx_set_play_volume(devc, codec_id, value);
+   4.409 +      xonar_d1_set_play_volume(devc, codec_id, left, right);
+   4.410        break;
+   4.411      case SUBID_XONAR_D2:
+   4.412      case SUBID_XONAR_D2X:
+   4.413 -      xonar_d2_set_play_volume(devc, codec_id, value);
+   4.414 +      xonar_d2_set_play_volume(devc, codec_id, left, right);
+   4.415        break;
+   4.416      case SUBID_XONAR_STX:
+   4.417 -      xonar_stx_set_play_volume(devc, codec_id, value);
+   4.418 +      xonar_stx_set_play_volume(devc, codec_id, left, right);
+   4.419        break;
+   4.420 -
+   4.421 +    case SUBID_XONAR_DS:
+   4.422 +      xonar_ds_set_play_volume(devc, codec_id, left, right);
+   4.423 +      break;
+   4.424      default:
+   4.425 -      /* Assume default AKM DACs */
+   4.426 -      data[0] = left;
+   4.427 -      data[1] = AK4396_LchATTCtl | 0x20;
+   4.428 -      spi_write (devc, codec_id, data);
+   4.429 -      data[0] = right;
+   4.430 -      data[1] = AK4396_RchATTCtl | 0x20;
+   4.431 -      spi_write (devc, codec_id, data);
+   4.432 +      cmi8788_generic_set_play_volume (devc, codec_id, left, right);
+   4.433        break;
+   4.434    }
+   4.435 -
+   4.436    return devc->playvol[codec_id];
+   4.437  }
+   4.438  
+   4.439 @@ -1758,7 +1782,7 @@
+   4.440  	    return *arg = 0;
+   4.441  	    break;
+   4.442  
+   4.443 -	  case SOUND_MIXER_VOLUME:
+   4.444 +	  case SOUND_MIXER_PCM:
+   4.445  	    val = *arg;
+   4.446  	    return *arg = cmi8788_set_play_volume (devc, 0, val);
+   4.447  	    break;
+   4.448 @@ -1778,6 +1802,11 @@
+   4.449  	    return *arg = cmi8788_set_play_volume (devc, 3, val);
+   4.450  	    break;
+   4.451  
+   4.452 +	  case SOUND_MIXER_RECLEV:
+   4.453 +	    val = *arg;
+   4.454 +	    return *arg = cmi8788_set_rec_volume (devc, val);
+   4.455 +	    break;
+   4.456 +
+   4.457  	  default:
+   4.458  	    val = *arg;
+   4.459  	    return *arg = 0;
+   4.460 @@ -1791,28 +1820,36 @@
+   4.461  	    break;
+   4.462  
+   4.463  	  case SOUND_MIXER_DEVMASK:
+   4.464 -		if (devc->model == SUBID_XONAR_STX)
+   4.465 -		   return *arg = SOUND_MASK_VOLUME;
+   4.466 -		else
+   4.467 -		   return *arg =
+   4.468 -	      SOUND_MASK_VOLUME | SOUND_MASK_REARVOL | SOUND_MASK_CENTERVOL |
+   4.469 -	      SOUND_MASK_SIDEVOL;
+   4.470 +            if (devc->model == SUBID_XONAR_STX)
+   4.471 +                *arg = SOUND_MASK_VOLUME;
+   4.472 +            else
+   4.473 +	    	*arg = SOUND_MASK_PCM | SOUND_MASK_REARVOL | 
+   4.474 +			SOUND_MASK_CENTERVOL | SOUND_MASK_SIDEVOL;
+   4.475 +
+   4.476 +	    if (devc->model == SUBID_XONAR_DS)
+   4.477 +		*arg |= SOUND_MASK_RECLEV;
+   4.478 +
+   4.479 +	    return *arg;
+   4.480  	    break;
+   4.481  
+   4.482  	  case SOUND_MIXER_STEREODEVS:
+   4.483 -                if (devc->model == SUBID_XONAR_STX)
+   4.484 -                   return *arg = SOUND_MASK_VOLUME;
+   4.485 -                else
+   4.486 -                   return *arg =
+   4.487 -              SOUND_MASK_VOLUME | SOUND_MASK_REARVOL | SOUND_MASK_CENTERVOL |
+   4.488 -              SOUND_MASK_SIDEVOL;
+   4.489 +            if (devc->model == SUBID_XONAR_STX)
+   4.490 +               *arg = SOUND_MASK_VOLUME;
+   4.491 +            else
+   4.492 +	       *arg = SOUND_MASK_PCM | SOUND_MASK_REARVOL | 
+   4.493 +			SOUND_MASK_CENTERVOL | SOUND_MASK_SIDEVOL;
+   4.494 +
+   4.495 +	    if (devc->model == SUBID_XONAR_DS)
+   4.496 +		*arg |= SOUND_MASK_RECLEV;
+   4.497 +
+   4.498 +	    return *arg;
+   4.499  	    break;
+   4.500  
+   4.501  	  case SOUND_MIXER_CAPS:
+   4.502  	    return *arg = SOUND_CAP_EXCL_INPUT;
+   4.503  	    break;
+   4.504  
+   4.505 -	  case SOUND_MIXER_VOLUME:
+   4.506 +	  case SOUND_MIXER_PCM:
+   4.507  	    return *arg = devc->playvol[0];
+   4.508  	    break;
+   4.509  
+   4.510 @@ -1827,6 +1864,10 @@
+   4.511  	  case SOUND_MIXER_SIDEVOL:
+   4.512  	    return *arg = devc->playvol[3];
+   4.513  	    break;
+   4.514 +	
+   4.515 +	  case SOUND_MIXER_RECLEV:
+   4.516 +	    return *arg = devc->recvol;
+   4.517 +	    break;
+   4.518  
+   4.519  	  default:
+   4.520  	    return *arg = 0;
+   4.521 @@ -1864,7 +1905,15 @@
+   4.522  	  value = (INB (devc->osdev, REC_MONITOR) & 0x10) ? 1 : 0;
+   4.523  	  break;
+   4.524  	case 2:		/* Record source select */
+   4.525 -	  value = (ac97_read (devc, 0x72) & 0x1) ? 1 : 0;
+   4.526 +	  switch (devc->model)
+   4.527 +		{
+   4.528 +		  case SUBID_XONAR_DS:		
+   4.529 +	  		value = (INW (devc->osdev, GPIO_DATA) & 0x40) ? 1 : 0;
+   4.530 +			break;
+   4.531 +		  default: 
+   4.532 +	  		value = (ac97_read (devc, 0x72) & 0x1) ? 1 : 0;
+   4.533 +			break;
+   4.534 +	        }
+   4.535  	  break;
+   4.536  	case 3:		/* Speaker Spread - check bit15 to see if it's set */
+   4.537  	  value = (INW (devc->osdev, PLAY_ROUTING) & 0x8000) ? 0 : 1;
+   4.538 @@ -1909,14 +1958,31 @@
+   4.539  	case 2:
+   4.540  	  if (value)
+   4.541            {
+   4.542 -             if (devc->model == SUBID_XONAR_D1 || devc->model == SUBID_XONAR_DX)
+   4.543 -		OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) | 0x100, GPIO_DATA);
+   4.544 +	     switch (devc->model)
+   4.545 +		{
+   4.546 +		case SUBID_XONAR_DS:
+   4.547 +			OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) | 0x40, GPIO_DATA);
+   4.548 +			break;
+   4.549 +		case SUBID_XONAR_D1:
+   4.550 +		case SUBID_XONAR_DX:
+   4.551 +			OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) | 0x100, GPIO_DATA);
+   4.552 +			break;
+   4.553 +		}
+   4.554  	     ac97_write(devc, 0x72, ac97_read(devc, 0x72) | 0x1);
+   4.555  	  }
+   4.556  	  else
+   4.557  	  {
+   4.558 -             if (devc->model == SUBID_XONAR_D1 || devc->model == SUBID_XONAR_DX)
+   4.559 -		OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) & ~0x100, GPIO_DATA);
+   4.560 +             switch (devc->model)
+   4.561 +                {
+   4.562 +                case SUBID_XONAR_DS:
+   4.563 +                        OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) & ~0x40, GPIO_DATA);
+   4.564 +                        break;
+   4.565 +                case SUBID_XONAR_D1:
+   4.566 +                case SUBID_XONAR_DX:
+   4.567 +                        OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) & ~0x100, GPIO_DATA);
+   4.568 +                        break;
+   4.569 +                }
+   4.570 +
+   4.571  	     ac97_write(devc, 0x72, ac97_read(devc, 0x72) & ~0x1);
+   4.572  	  }
+   4.573  	  break;
+   4.574 @@ -2290,6 +2356,7 @@
+   4.575    return 0;
+   4.576  }
+   4.577  
+   4.578 +
+   4.579  void ac97_hwinit(cmi8788_devc *devc)
+   4.580  {
+   4.581  
+   4.582 @@ -2355,8 +2422,8 @@
+   4.583  
+   4.584  
+   4.585    /* I2S to 16bit, see below. */
+   4.586 -  sDac = 0x010A;
+   4.587 -
+   4.588 +  sDac = 0x010A; 
+   4.589 + 
+   4.590    /* Non-generic DAC initialization */
+   4.591    switch(devc->model)
+   4.592    {
+   4.593 @@ -2365,8 +2432,9 @@
+   4.594      case SUBID_XONAR_D2:
+   4.595      case SUBID_XONAR_D2X:
+   4.596      case SUBID_XONAR_STX:
+   4.597 +    case SUBID_XONAR_DS:
+   4.598        /* Must set master clock. */
+   4.599 -      sDac |= XONAR_DX_MCLOCK_256;
+   4.600 +      sDac |= XONAR_MCLOCK_256;
+   4.601        break;
+   4.602    }
+   4.603  
+   4.604 @@ -2494,41 +2562,69 @@
+   4.605  
+   4.606                      /* for all 4 codecs: unmute, set to 24Bit SPI */
+   4.607  		    for (i = 0; i < 4; ++i) {
+   4.608 -			pcm1796_write(devc, i, 16, mix_scale(75,8)); /* left vol*/
+   4.609 -			pcm1796_write(devc, i, 17, mix_scale(75,8)); /* right vol */
+   4.610 -			pcm1796_write(devc, i, 18, 0x30 | 0x80); /* unmute/24LSB/ATLD */
+   4.611 +			spi_write(devc, xd2_codec_map[i], 16, mix_scale(75,8)); /* left vol*/
+   4.612 +			spi_write(devc, xd2_codec_map[i], 17, mix_scale(75,8)); /* right vol */
+   4.613 +			spi_write(devc, xd2_codec_map[i], 18, 0x30 | 0x80); /* unmute/24LSB/ATLD */
+   4.614  		    }
+   4.615    		    /* initialize the codec 0 */
+   4.616    		    ac97_hwinit(devc);
+   4.617  		    break;
+   4.618  
+   4.619 -       case SUBID_XONAR_STX:
+   4.620 -	    /*GPIO0 = Antipop control */
+   4.621 -	    /*GPIO1 = frontpanel h/p control*/
+   4.622 -            /*GPIO7 = 0x0080 controls analog out*/
+   4.623 -            /*GPIO8 = 0x0100 controls mic/line in*/
+   4.624 -            /*GPIO2/3 = 0x000C codec input control*/
+   4.625 -
+   4.626 -            /* setup for 2wire communication mode */
+   4.627 -            OUTB(devc->osdev, INB (devc->osdev, FUNCTION) | 0x40, FUNCTION);
+   4.628 -
+   4.629 -	    /* setup the GPIO direction control register */
+   4.630 -            OUTW(devc->osdev, INW(devc->osdev, GPIO_CONTROL) | 0x018F, GPIO_CONTROL);
+   4.631 -            /* setup GPIO pins mic/output */
+   4.632 -            OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) | 0x111, GPIO_DATA);
+   4.633 -
+   4.634 -            OUTW(devc->osdev, INW(devc, TWO_WIRE_CTRL)|0x0100, TWO_WIRE_CTRL);
+   4.635 -
+   4.636 -	    /* initialize the PCM1796 DAC */
+   4.637 -            two_wire_write(devc, XONAR_STX_FRONTDAC, 16, mix_scale(75,8));
+   4.638 -            two_wire_write(devc, XONAR_STX_FRONTDAC, 17, mix_scale(75,8));
+   4.639 -            two_wire_write(devc, XONAR_STX_FRONTDAC, 18, 0x00|0x30|0x80); /*unmute, 24LSB, ATLD */
+   4.640 -            two_wire_write(devc, XONAR_STX_FRONTDAC, 19, 0); /*ATS1/FLT_SHARP*/
+   4.641 -            two_wire_write(devc, XONAR_STX_FRONTDAC, 20, 0); /*OS_64*/
+   4.642 -            two_wire_write(devc, XONAR_STX_FRONTDAC, 21, 0); 
+   4.643 -
+   4.644 -            /* initialize the codec 0 */
+   4.645 -            ac97_hwinit(devc);
+   4.646 + 		case SUBID_XONAR_STX:
+   4.647 +            	    /*GPIO0 = Antipop control */
+   4.648 +                    /*GPIO1 = frontpanel h/p control*/
+   4.649 +                    /*GPIO7 = 0x0080 controls analog out*/
+   4.650 +                    /*GPIO8 = 0x0100 controls mic/line in*/
+   4.651 +                    /*GPIO2/3 = 0x000C codec input control*/
+   4.652 +
+   4.653 +                    /* setup for 2wire communication mode */
+   4.654 +                    OUTB(devc->osdev, INB (devc->osdev, FUNCTION) | 0x40, FUNCTION);
+   4.655 +
+   4.656 +                    /* setup the GPIO direction control register */
+   4.657 +                    OUTW(devc->osdev, INW(devc->osdev, GPIO_CONTROL) | 0x018F, GPIO_CONTROL);
+   4.658 +                    /* setup GPIO pins mic/output */
+   4.659 +                    OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) | 0x111, GPIO_DATA);
+   4.660 +
+   4.661 +                    OUTW(devc->osdev, INW(devc, TWO_WIRE_CTRL)|0x0100, TWO_WIRE_CTRL);
+   4.662 +
+   4.663 +                    /* initialize the PCM1796 DAC */
+   4.664 +                    i2c_write(devc, XONAR_STX_FRONTDAC, 16, mix_scale(75,8));
+   4.665 +                    i2c_write(devc, XONAR_STX_FRONTDAC, 17, mix_scale(75,8));
+   4.666 +                    i2c_write(devc, XONAR_STX_FRONTDAC, 18, 0x00|0x30|0x80); /*unmute, 24LSB, ATLD */
+   4.667 +                    i2c_write(devc, XONAR_STX_FRONTDAC, 19, 0); /*ATS1/FLT_SHARP*/
+   4.668 +                    i2c_write(devc, XONAR_STX_FRONTDAC, 20, 0); /*OS_64*/
+   4.669 +                    i2c_write(devc, XONAR_STX_FRONTDAC, 21, 0);
+   4.670 +
+   4.671 +                    /* initialize the codec 0 */
+   4.672 +                    ac97_hwinit(devc);
+   4.673 +		    break;
+   4.674 +
+   4.675 +	   case SUBID_XONAR_DS:
+   4.676 +			/* GPIO 8 = 1 output enabled 0 mute */
+   4.677 +			/* GPIO 7 = 1 lineout enabled 0 mute */
+   4.678 +			/* GPIO 6 = 1 mic select 0 line-in select */
+   4.679 +			/* GPIO 4 = 1 FP Headphone plugged in */
+   4.680 +			/* GPIO 3 = 1 FP Mic plugged in */
+   4.681 +
+   4.682 +                    /* setup for spi communication mode */
+   4.683 +                    OUTB(devc->osdev, (INB (devc->osdev, FUNCTION) & ~0x40)|0x32, FUNCTION);
+   4.684 +                    /* setup the GPIO direction */
+   4.685 +                    OUTW(devc->osdev, INW(devc->osdev, GPIO_CONTROL) | 0x1D0, GPIO_CONTROL);
+   4.686 +	            /* setup GPIO Pins */
+   4.687 +	            OUTW(devc->osdev, INW(devc->osdev, GPIO_DATA) | 0x1D0, GPIO_DATA);
+   4.688 +#if 1
+   4.689 +		    spi_write(devc, XONAR_DS_FRONTDAC, 0x17, 0x1); /* reset */
+   4.690 +	 	    spi_write(devc, XONAR_DS_FRONTDAC, 0x7, 0x90); /* dac control */
+   4.691 +	 	    spi_write(devc, XONAR_DS_FRONTDAC, 0x8, 0); /* unmute */
+   4.692 +	 	    spi_write(devc, XONAR_DS_FRONTDAC, 0xC, 0x22 ); /* powerdown hp */
+   4.693 +	 	    spi_write(devc, XONAR_DS_FRONTDAC, 0xD, 0x8); /* powerdown hp */
+   4.694 +	 	    spi_write(devc, XONAR_DS_FRONTDAC, 0xA, 0x1); /* LJust/16bit*/
+   4.695 +	 	    spi_write(devc, XONAR_DS_FRONTDAC, 0xB, 0x1); /* LJust/16bit*/
+   4.696 +
+   4.697 +	 	    spi_write(devc, XONAR_DS_SURRDAC, 0x1f, 1); /* reset */
+   4.698 +	 	    spi_write(devc, XONAR_DS_SURRDAC, 0x3, 0x1|0x20); /* LJust/24bit*/
+   4.699 +#endif
+   4.700 +		   break;
+   4.701  
+   4.702  	   default:
+   4.703  		   /* SPI default for anything else, including the */
+   4.704 @@ -2563,7 +2659,10 @@
+   4.705  		case SUBID_XONAR_STX:
+   4.706  			portc->adc_type = ADEV_I2SADC2;
+   4.707        			break;
+   4.708 -		default:
+   4.709 +		case SUBID_XONAR_DS:
+   4.710 +			portc->adc_type = ADEV_I2SADC1;
+   4.711 +			break;
+   4.712 +		default: 
+   4.713  			portc->adc_type = ADEV_I2SADC1;
+   4.714        			OUTB (devc->osdev, INB (devc->osdev, REC_ROUTING) | 0x18, REC_ROUTING);
+   4.715  			break;
+   4.716 @@ -2589,6 +2688,9 @@
+   4.717                  case SUBID_XONAR_STX:
+   4.718                          portc->adc_type = ADEV_I2SADC2;
+   4.719                          break;
+   4.720 +                case SUBID_XONAR_DS:
+   4.721 +                        portc->adc_type = ADEV_I2SADC1;
+   4.722 +                        break;
+   4.723                  default:
+   4.724                          portc->adc_type = ADEV_I2SADC1;
+   4.725        			OUTB (devc->osdev, INB (devc->osdev, REC_ROUTING) | 0x18, REC_ROUTING);
+   4.726 @@ -2669,9 +2771,10 @@
+   4.727      }
+   4.728  
+   4.729    /*
+   4.730 -   * Setup the default volumes to 75%
+   4.731 +   * Setup the default volumes to 90%
+   4.732     */
+   4.733 -  default_vol = 0x4b4b;
+   4.734 +  default_vol = mix_scale(90,8)<<8|mix_scale(90,8);
+   4.735 +
+   4.736    devc->playvol[0] =
+   4.737      cmi8788_mixer_ioctl (devc->cmi_mixer_dev, first_dev,
+   4.738  			 MIXER_WRITE (SOUND_MIXER_PCM), &default_vol);
+   4.739 @@ -2768,6 +2871,9 @@
+   4.740            case SUBID_XONAR_STX:
+   4.741              devc->chip_name = "Asus Xonar Essence STX (AV100)";
+   4.742              break;
+   4.743 +	  case SUBID_XONAR_DS:
+   4.744 +	    devc->chip_name = "Asus Xonar DS (AV66)";
+   4.745 +	    break;
+   4.746            default:
+   4.747              devc->chip_name = "Asus Xonar (unknown)";
+   4.748              sub_id = SUBID_GENERIC;
+
+     5.1 --- a/kernel/drv/oss_geode/.devices	Thu Jan 06 06:42:18 2011 +0200
+     5.2 +++ b/kernel/drv/oss_geode/.devices	Thu Jan 06 06:43:12 2011 +0200
+     5.3 @@ -1,3 +1,3 @@
+     5.4  oss_geode	pci100b,503	National Semiconductor Geode SC1200
+     5.5  oss_geode	pci1078,103	National Semiconductor Geode CS5530
+     5.6 -oss_geode	pci1022,2093	AMD Geode CS5536 (BETA)
+     5.7 +oss_geode	pci1022,2093	AMD Geode CS5536 
+
+     6.1 --- a/kernel/drv/oss_geode/oss_geode.c	Thu Jan 06 06:42:18 2011 +0200
+     6.2 +++ b/kernel/drv/oss_geode/oss_geode.c	Thu Jan 06 06:43:12 2011 +0200
+     6.3 @@ -49,7 +49,6 @@
+     6.4    oss_device_t *osdev;
+     6.5    int physaddr;
+     6.6    void *linaddr;
+     6.7 -  unsigned char *f3bar;
+     6.8    int irq;
+     6.9    char *chip_name;
+    6.10    oss_mutex_t mutex;
+    6.11 @@ -75,19 +74,27 @@
+    6.12  
+    6.13    geode_devc *devc = osdev->devc;
+    6.14    geode_portc *portc;
+    6.15 -  int i, n;
+    6.16 +  int i, n, irqstat;
+    6.17    int serviced = 0;
+    6.18    unsigned int pos;
+    6.19    int ptr;
+    6.20  
+    6.21 +  irqstat = CS_READW (devc, 0x12);
+    6.22 +  if (irqstat & 3) /* either gpio or gpio wakeup */
+    6.23 +    {
+    6.24 +          CS_READL (devc, 0x00);
+    6.25 +          serviced = 1;
+    6.26 +    }
+    6.27 +
+    6.28    for (i = 0; i < MAX_PORTC; i++)
+    6.29      {
+    6.30        portc = &devc->portc[i];
+    6.31  
+    6.32 -      if (portc->trigger_bits & PCM_ENABLE_OUTPUT)
+    6.33 +      if ((portc->trigger_bits & PCM_ENABLE_OUTPUT) && (irqstat & 4))
+    6.34  	{
+    6.35  	  dmap_t *dmap;
+    6.36  	  dmap = audio_engines[portc->audiodev]->dmap_out;
+    6.37 +	  CS_READB (devc, 0x21);	/* ack interrupt */
+    6.38  	  pos = CS_READL (devc, 0x24);
+    6.39  	  pos = (pos - devc->prdout_phys) / 8;
+    6.40  	  ptr = pos;
+    6.41 @@ -104,7 +111,7 @@
+    6.42  	}
+    6.43  
+    6.44  
+    6.45 -      if (portc->trigger_bits & PCM_ENABLE_INPUT)
+    6.46 +      if ((portc->trigger_bits & PCM_ENABLE_INPUT) && (irqstat & 8))
+    6.47  	{
+    6.48  	  dmap_t *dmap;
+    6.49  
+    6.50 @@ -135,78 +142,37 @@
+    6.51  
+    6.52    geode_devc *devc = osdev->devc;
+    6.53    geode_portc *portc;
+    6.54 -  int i, n;
+    6.55 +  int i;
+    6.56    int serviced = 0;
+    6.57 -  unsigned int pos;
+    6.58 -  int ptr;
+    6.59    int irqstat;
+    6.60  
+    6.61    irqstat = CS_READW (devc, 0x12);
+    6.62  
+    6.63 +  if (irqstat & 3) /* either gpio or gpio wakeup */
+    6.64 +    {
+    6.65 +          CS_READL (devc, 0x00);
+    6.66 +          serviced = 1;
+    6.67 +    }
+    6.68 +
+    6.69    for (i = 0; i < MAX_PORTC; i++)
+    6.70      {
+    6.71        portc = &devc->portc[i];
+    6.72  
+    6.73 -      if (irqstat & 3) /* either gpio or gpio wakeup */
+    6.74 -	{
+    6.75 -	  CS_READB (devc, 0x00);
+    6.76 -	  serviced = 1;
+    6.77 -	}
+    6.78 -
+    6.79 -      /* always clear the bits, even if we're not gonna handle it, and mark
+    6.80 -	 it handled. otherwise, the kernel will find noone has handled the
+    6.81 -	 interrupt and therefore disable it */
+    6.82 -      if (irqstat & 4)
+    6.83 -	{
+    6.84 -	  CS_READB (devc, 0x21);
+    6.85 -	  serviced = 1;
+    6.86 -	}
+    6.87 -
+    6.88 -      if (irqstat & 8)
+    6.89 -	{
+    6.90 -	  CS_READB (devc, 0x29);
+    6.91 -	  serviced = 1;
+    6.92 -	}
+    6.93 -
+    6.94        if ((portc->trigger_bits & PCM_ENABLE_OUTPUT) && (irqstat & 4))
+    6.95 -	{
+    6.96 -	  dmap_t *dmap;
+    6.97 -	  dmap = audio_engines[portc->audiodev]->dmap_out;
+    6.98 -
+    6.99 -	  pos = CS_READL (devc, 0x60);
+   6.100 -	  pos = pos - dmap->dmabuf_phys;
+   6.101 -	  ptr = pos;
+   6.102 -	  ptr--;
+   6.103 -
+   6.104 -	  if (ptr < 0)
+   6.105 -	    ptr = 0;
+   6.106 -	  ptr %= dmap->nfrags;
+   6.107 -
+   6.108 -	  n = 0;
+   6.109 -	  while (ptr != dmap_get_qhead (dmap) && n++ < dmap->nfrags)
+   6.110 -	    oss_audio_outputintr (portc->audiodev, 0);
+   6.111 -	}
+   6.112 +	  if (CS_READB (devc, 0x21) & 1)
+   6.113 +	    {
+   6.114 +		oss_audio_outputintr (portc->audiodev, 0);
+   6.115 +		serviced = 1;
+   6.116 +		
+   6.117 +	    }
+   6.118  
+   6.119  
+   6.120        if ((portc->trigger_bits & PCM_ENABLE_INPUT) && (irqstat & 8))
+   6.121 -	{
+   6.122 -	  dmap_t *dmap;
+   6.123 -
+   6.124 -	  dmap = audio_engines[portc->audiodev]->dmap_in;
+   6.125 -
+   6.126 -	  pos = CS_READL (devc, 0x64);
+   6.127 -	  pos = pos - dmap->dmabuf_phys;
+   6.128 -	  ptr = pos;
+   6.129 -	  ptr--;
+   6.130 -
+   6.131 -	  if (ptr < 0)
+   6.132 -	    ptr = 0;
+   6.133 -	  ptr %= dmap->nfrags;
+   6.134 -
+   6.135 -	  n = 0;
+   6.136 -	  while (ptr != dmap_get_qtail (dmap) && n++ < dmap->nfrags)
+   6.137 -	    oss_audio_inputintr (portc->audiodev, 0);
+   6.138 -	}
+   6.139 +	  if (CS_READB (devc, 0x29) & 1)
+   6.140 +	    {
+   6.141 +	    	oss_audio_inputintr (portc->audiodev, 0);
+   6.142 +		serviced = 1;
+   6.143 +	    }
+   6.144      }
+   6.145    return serviced;
+   6.146  }
+   6.147 @@ -464,7 +430,6 @@
+   6.148  	      !(portc->trigger_bits & PCM_ENABLE_OUTPUT))
+   6.149  	    {
+   6.150  	      CS_WRITEB (devc, 0x20, 0x01);
+   6.151 -	      CS_WRITEB (devc, 0x21, 0x00);
+   6.152  	      portc->trigger_bits |= PCM_ENABLE_OUTPUT;
+   6.153  	    }
+   6.154  	}
+   6.155 @@ -475,7 +440,7 @@
+   6.156  	    {
+   6.157  	      portc->audio_enabled &= ~PCM_ENABLE_OUTPUT;
+   6.158  	      portc->trigger_bits &= ~PCM_ENABLE_OUTPUT;
+   6.159 -
+   6.160 +	      CS_WRITEB (devc, 0x20, 0x00);
+   6.161  	      for (i = 0; i < 512; i++)
+   6.162  		{
+   6.163  		  devc->prdout[i].size = PRD_EOT;	/* Stop */
+   6.164 @@ -492,7 +457,6 @@
+   6.165  	      !(portc->trigger_bits & PCM_ENABLE_INPUT))
+   6.166  	    {
+   6.167  	      CS_WRITEB (devc, 0x28, 0x09);
+   6.168 -	      CS_WRITEB (devc, 0x29, 0x00);
+   6.169  	      portc->trigger_bits |= PCM_ENABLE_INPUT;
+   6.170  	    }
+   6.171  	}
+   6.172 @@ -504,6 +468,7 @@
+   6.173  	      portc->audio_enabled &= ~PCM_ENABLE_INPUT;
+   6.174  	      portc->trigger_bits &= ~PCM_ENABLE_INPUT;
+   6.175  
+   6.176 +	      CS_WRITEB (devc, 0x28, 0x00);
+   6.177  	      for (i = 0; i < 512; i++)
+   6.178  		{
+   6.179  		  devc->prdin[i].size = PRD_EOT;	/* Stop */
+   6.180 @@ -521,28 +486,16 @@
+   6.181    geode_devc *devc = audio_engines[dev]->devc;
+   6.182    geode_portc *portc = audio_engines[dev]->portc;
+   6.183    dmap_t *dmap = audio_engines[dev]->dmap_in;
+   6.184 -  int i, stat;
+   6.185 +  int i;
+   6.186    oss_native_word flags;
+   6.187  
+   6.188    MUTEX_ENTER_IRQDISABLE (devc->mutex, flags);
+   6.189    ac97_recrate (&devc->ac97devc, portc->speed);
+   6.190  
+   6.191 -#if 0
+   6.192 -  if (dmap->nfrags > 256)
+   6.193 -    {
+   6.194 -      dmap->nfrags = 256;
+   6.195 -      dmap->bytes_in_use = 256 * dmap->fragment_size;
+   6.196 -    }
+   6.197 -#endif
+   6.198 -
+   6.199  
+   6.200    /* clear out the prd table */
+   6.201    memset (devc->prdin, 0, 512 * sizeof (PRD_rec));
+   6.202  
+   6.203 -  /* Clear DMA Bus Master Status */
+   6.204 -  stat = CS_READB (devc, 0x29);
+   6.205 -  stat++;			/* To supress warnings by lint */
+   6.206 -
+   6.207    /* Initialize PRD entries */
+   6.208    for (i = 0; i < dmap->nfrags; i++)
+   6.209      {
+   6.210 @@ -569,18 +522,12 @@
+   6.211    geode_devc *devc = audio_engines[dev]->devc;
+   6.212    geode_portc *portc = audio_engines[dev]->portc;
+   6.213    dmap_t *dmap = audio_engines[dev]->dmap_out;
+   6.214 -  int i, stat;
+   6.215 +  int i;
+   6.216    oss_native_word flags;
+   6.217  
+   6.218    MUTEX_ENTER_IRQDISABLE (devc->mutex, flags);
+   6.219    ac97_playrate (&devc->ac97devc, portc->speed);
+   6.220 -#if 0
+   6.221 -  if (dmap->nfrags > 256)
+   6.222 -    {
+   6.223 -      dmap->nfrags = 256;
+   6.224 -      dmap->bytes_in_use = 256 * dmap->fragment_size;
+   6.225 -    }
+   6.226 -#endif
+   6.227 +
+   6.228    /* clear out the PRD table */
+   6.229    memset (devc->prdout, 0, 512 * sizeof (PRD_rec));
+   6.230  
+   6.231 @@ -598,9 +545,6 @@
+   6.232  
+   6.233    CS_WRITEL (devc, 0x24, devc->prdout_phys);
+   6.234  
+   6.235 -  /* Clear DMA Bus master status */
+   6.236 -  stat = CS_READB (devc, 0x21);
+   6.237 -  stat++;			/* To supress warnings by lint */
+   6.238    portc->audio_enabled &= ~PCM_ENABLE_OUTPUT;
+   6.239    portc->trigger_bits &= ~PCM_ENABLE_OUTPUT;
+   6.240    MUTEX_EXIT_IRQRESTORE (devc->mutex, flags);
+   6.241 @@ -692,16 +636,18 @@
+   6.242  
+   6.243    devc->prdout_phys = phaddr;
+   6.244  
+   6.245 -  /* VSA2 IRQ config method */
+   6.246 -  OUTW (devc->osdev, 0xFC53, 0xAC1C);
+   6.247 -  OUTW (devc->osdev, 0x108, 0xAC1C);
+   6.248 -  OUTW (devc->osdev, devc->irq, 0xAC1E);
+   6.249 +  if (devc->chip != AMD_CS5536_ID)
+   6.250 +    {
+   6.251 +  	/* VSA2 IRQ config method */
+   6.252 +  	OUTW (devc->osdev, 0xFC53, 0xAC1C);
+   6.253 +  	OUTW (devc->osdev, 0x108, 0xAC1C);
+   6.254 +  	OUTW (devc->osdev, devc->irq, 0xAC1E);
+   6.255  
+   6.256 -  /* VSA1 IRQ config method */
+   6.257 -  OUTL (devc->osdev, 0x800090D0, 0x0CF8);
+   6.258 -  OUTL (devc->osdev, (devc->irq << 16) | 0xA00A, 0x0CFC);
+   6.259 -  oss_udelay (10000);
+   6.260 -
+   6.261 +  	/* VSA1 IRQ config method */
+   6.262 +  	OUTL (devc->osdev, 0x800090D0, 0x0CF8);
+   6.263 +  	OUTL (devc->osdev, (devc->irq << 16) | 0xA00A, 0x0CFC);
+   6.264 +  	oss_udelay (10000);
+   6.265 +   }
+   6.266    /* Now configure the OSS devices */
+   6.267  
+   6.268    devc->mixer_dev =
+   6.269 @@ -735,12 +681,20 @@
+   6.270  
+   6.271        if (i == 0)
+   6.272  	{
+   6.273 -	  strcpy (tmp_name, devc->chip_name);
+   6.274 +          if (devc->chip == AMD_CS5536_ID)
+   6.275 +                sprintf (tmp_name, "%s", "Geode CS5536");
+   6.276 +          else
+   6.277 +                sprintf (tmp_name, "%s", "Geode CS5530");
+   6.278 +
+   6.279  	  caps = opts | ADEV_DUPLEX;
+   6.280  	}
+   6.281        else
+   6.282  	{
+   6.283 -	  strcpy (tmp_name, devc->chip_name);
+   6.284 +          if (devc->chip == AMD_CS5536_ID)
+   6.285 +                sprintf (tmp_name, "%s", "Geode CS5536 (playback)");
+   6.286 +          else
+   6.287 +                sprintf (tmp_name, "%s", "Geode CS5530 (playback");
+   6.288 +
+   6.289  	  caps = opts | ADEV_DUPLEX | ADEV_SHADOW;
+   6.290  	}
+   6.291  
+   6.292 @@ -805,7 +759,7 @@
+   6.293    pci_read_config_dword (osdev, PCI_MEM_BASE_ADDRESS_0, &pci_ioaddr);
+   6.294    pci_read_config_irq (osdev, PCI_INTERRUPT_LINE, &pci_irq_line);
+   6.295  
+   6.296 -  pci_command |= PCI_COMMAND_MASTER | PCI_COMMAND_MEMORY;
+   6.297 +  pci_command |= PCI_COMMAND_MASTER | PCI_COMMAND_IO;
+   6.298    pci_write_config_word (osdev, PCI_COMMAND, pci_command);
+   6.299  
+   6.300    if (pci_ioaddr == 0)
+   6.301 @@ -854,18 +808,6 @@
+   6.302  	}
+   6.303      }
+   6.304  
+   6.305 -  /* Now map the Memory space - BROKEN for unknown reason. all input is valid
+   6.306 -     and all output from it can be interpreted as valid output from codec, it
+   6.307 -     still does only give write timeouts.
+   6.308 -     as the CS_* stuff works, this is worth being fixed only for following
+   6.309 -     good style.
+   6.310 -     when it's fixed, change stuff from this:
+   6.311 -     CS_READL (devc, 0x09)
+   6.312 -     to
+   6.313 -     PCI_READL (devc->osdev, devc->f3bar + 0x09) */
+   6.314 -  /* devc->linaddr = MAP_PCI_MEM (devc->osdev, 0, devc->physaddr, 128);
+   6.315 -  devc->f3bar = (unsigned char *) devc->linaddr; */
+   6.316 -
+   6.317    return init_geode (devc);	/* Detected */
+   6.318  }
+   6.319  
+   6.320 @@ -888,9 +830,6 @@
+   6.321    MUTEX_CLEANUP (devc->mutex);
+   6.322    MUTEX_CLEANUP (devc->low_mutex);
+   6.323  
+   6.324 -  /* - disabled - see end of oss_geode_attach for explanation
+   6.325 -  UNMAP_PCI_MEM (devc->osdev, 0, devc->physaddr, devc->linaddr, 128); */
+   6.326 -
+   6.327    if (devc->prdin != NULL)
+   6.328      CONTIG_FREE (devc->osdev, devc->prdin, 512 * sizeof (PRD_rec), devc->prdin_dma_handle);
+   6.329    if (devc->prdout != NULL)
+
+     7.1 --- a/os_cmd/SunOS/ossdetect/ossdetect.c	Thu Jan 06 06:42:18 2011 +0200
+     7.2 +++ b/os_cmd/SunOS/ossdetect/ossdetect.c	Thu Jan 06 06:43:12 2011 +0200
+     7.3 @@ -735,10 +735,11 @@
+     7.4  
+     7.5  #ifdef sparc
+     7.6    if (stat("/kernel/drv/sparcv9/oss_sadasupport", &st) != -1)
+     7.7 +    if (stat("/kernel/misc/sparcv9/audiosup", &st) != -1)
+     7.8  #else
+     7.9    if (stat("/kernel/drv/oss_sadasupport", &st) != -1)
+    7.10 +    if (stat("/kernel/misc/audiosup", &st) != -1)
+    7.11  #endif
+    7.12 -  if (stat("/kernel/misc/audiosup", &st) != -1)
+    7.13       {
+    7.14    	check_conf ("oss_sadasupport", 1, "");
+    7.15    	add_drv ("SADA emulation layer", "oss_sadasupport", "-m '* 0666 root sys'");
+
+     8.1 --- a/setup/SunOS/sbin/soundon	Thu Jan 06 06:42:18 2011 +0200
+     8.2 +++ b/setup/SunOS/sbin/soundon	Thu Jan 06 06:43:12 2011 +0200
+     8.3 @@ -57,6 +57,7 @@
+     8.4     do
+     8.5  	/usr/sbin/modload $DRVPATH/$n >> $LOG 2>&1
+     8.6  	/usr/sbin/modinfo|grep " $n " >> $LOG
+     8.7 +	/usr/sbin/devfsadm -i $n
+     8.8     done
+     8.9  else
+    8.10  	echo /etc/oss/installed_drivers not found. >> $LOG
+

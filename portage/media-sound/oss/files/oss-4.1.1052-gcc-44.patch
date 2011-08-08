@@ -1,0 +1,26 @@
+--- build/kernel/drv/oss_envy24/oss_envy24.c.orig	2009-08-18 12:31:49.983541447 +0200
++++ build/kernel/drv/oss_envy24/oss_envy24.c	2009-08-18 12:33:50.888291454 +0200
+@@ -302,9 +302,9 @@
+ 
+ 	    for (ch = 0; ch < portc->channels; ch++)
+ 	      {
+-		short s = (short) (((*(unsigned short *) ip & 0xff) << 8) |
+-				   ((*(unsigned short *) ip++ & 0xff00) >>
+-				    8));
++		unsigned short lip = (*(unsigned short *) ip & 0xff) << 8;
++		unsigned short rip = (*(unsigned short *) ip++ & 0xff00) >> 8;
++		short s = (short) (lip | rip);
+ 		*p++ = s << 16;
+ 	      }
+ 	  }
+--- build/kernel/drv/oss_imux/oss_imux.c.orig	2009-08-18 12:39:33.453542456 +0200
++++ build/kernel/drv/oss_imux/oss_imux.c	2009-08-18 12:39:42.726542290 +0200
+@@ -485,7 +485,7 @@
+   oss_audio_ioctl (devc->hw_dev, NULL, SNDCTL_DSP_GETBLKSIZE,
+ 		   (ioctl_arg) & devc->fragsize);
+ 
+-  if ((!devc->hw_fmt & SUPPORTED_FORMATS))
++  if (!(devc->hw_fmt & SUPPORTED_FORMATS))
+     {
+       oss_audio_release (devc->hw_dev, &devc->finfo);
+       cmn_err (CE_WARN,
