@@ -6,7 +6,7 @@ inherit git-2
 
 EAPI=4
 
-DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac files"
+DESCRIPTION="A collection of gmb layouts, more in on #gmusicbrowser on DA."
 HOMEPAGE="http://gmusicbrowser.deviantart.com/"
 EGIT_REPO_URI="https://github.com/aboettger/gmusicbrowser-layouts/"
 

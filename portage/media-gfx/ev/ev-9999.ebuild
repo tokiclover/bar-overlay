@@ -5,7 +5,7 @@
 ESVN_SUB_PROJECT="PROTO"
 inherit enlightenment
 
-DESCRIPTION="Open session with pam with the possibility to chose a WM."
+DESCRIPTION="Images viwerver based on updated xv, supposed to be more stable."
 
 DEPEND="dev-libs/ecore
 	x11-libs/elementary"

@@ -4,7 +4,7 @@
 
 inherit enlightenment
 
-DESCRIPTION="Open session with pam with the possibility to chose a WM."
+DESCRIPTION="Psplash based on EFL with no need for platform-specific themes or modules."
 
 DEPEND=">=dev-libs/ecore-1.0
 	>=dev-libs/eet-1.4.0

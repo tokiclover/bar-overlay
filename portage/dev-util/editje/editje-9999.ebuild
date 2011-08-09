@@ -4,7 +4,7 @@
 
 inherit enlightenment
 
-DESCRIPTION="an Edje editor oriented towards UI design and not just being a GUI over .edc syntax."
+DESCRIPTION="Edje editor oriented towards UI design and not just being a GUI over edc syntax."
 
 DEPEND="dev-libs/ecore
 	dev-libs/eina

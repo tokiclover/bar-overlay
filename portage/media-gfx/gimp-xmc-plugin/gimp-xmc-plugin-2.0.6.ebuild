@@ -4,8 +4,7 @@
 
 EAPI=3
 
-DESCRIPTION="X11 Mouse Cursor plug-in for GIMP (or gimp-xmc-plugin) enable GIMP to import,
-export X11 mouse cursor"
+DESCRIPTION="X11 Mouse Cursor plug-in for GIMP enable to import/export X11 mouse cursor themes"
 HOMEPAGE="http://gimpstuff.org/content/show.php/X11+Mouse+Cursor+%28XMC%29+plug-in?content=94503"
 SRC_URI="${DISTDIR}/${P}.tar.gz"
 

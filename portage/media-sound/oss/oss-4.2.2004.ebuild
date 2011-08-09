@@ -9,7 +9,7 @@ MY_PV=$(get_version_component_range 1-2)
 MY_BUILD=$(get_version_component_range 3)
 MY_P="oss-v${MY_PV}-build${MY_BUILD}-src-gpl"
 
-DESCRIPTION="Open Sound System - portable, mixing-capable, high quality sound system for Unix."
+DESCRIPTION="OSS-${PV} stable build - portable, mixing-capable, high quality sound system for Unix."
 HOMEPAGE="http://developer.opensound.com/"
 SRC_URI="http://www.4front-tech.com/developer/sources/stable/gpl/${MY_P}.tar.bz2"
 
@@ -68,7 +68,7 @@ src_install() {
 pkg_postinst() {
 	elog "PLEASE NOTE:"
 	elog ""
-	elog "In order to use OSSv4.1 you must run"
+	elog "In order to use ${P} you must run"
 	elog "# /etc/init.d/oss start "
 	elog ""
 	elog "If you are upgrading from a previous build of OSSv4.1 you must run"

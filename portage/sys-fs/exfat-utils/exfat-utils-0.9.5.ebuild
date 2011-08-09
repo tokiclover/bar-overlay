@@ -6,7 +6,7 @@ inherit scons-utils
 
 EAPI=3
 
-DESCRIPTION="fuse implementation of the exfat filesystem"
+DESCRIPTION="exFAT filesystem utilities."
 HOMEPAGE="http://code.google.com/p/exfat/"
 SRC_URI="http://exfat.googlecode.com/files/${P}.tar.gz"
 

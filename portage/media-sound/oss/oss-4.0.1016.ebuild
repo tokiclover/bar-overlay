@@ -6,7 +6,7 @@ inherit eutils versionator
 
 # For the news, see the commit messages.
 
-DESCRIPTION="Open Sound System - portable, mixing-capable, high quality sound system for Unix."
+DESCRIPTION="OSS-${PV} stable build - portable, mixing-capable, high quality sound system for Unix."
 HOMEPAGE="http://developer.opensound.com/"
 LICENSE="GPL-2"
 SLOT="0"
@@ -81,7 +81,7 @@ src_install() {
 pkg_postinst() {
 	elog "PLEASE NOTE:"
 	elog ""
-	elog "In order to use OSSv4.0 you must run"
+	elog "In order to use ${P} you must run"
 	elog "# /etc/init.d/oss start "
 	elog ""
 	elog "If you are upgrading from a previous build of OSSv4.0 you must run"

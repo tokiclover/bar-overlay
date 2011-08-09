@@ -6,7 +6,7 @@ EAPI="2"
 
 inherit enlightenment
 
-DESCRIPTION="Web browser using EFL Webkit."
+DESCRIPTION="Web browser based EFL Webkit."
 
 IUSE="nls"
 

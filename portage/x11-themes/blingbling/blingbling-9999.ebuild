@@ -5,7 +5,7 @@
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
-DESCRIPTION="An EFL theme based on detour"
+DESCRIPTION="An EFL theme to make it bling: used with a golden Rolex(TM)."
 
 DEPEND="x11-wm/enlightenment"
 

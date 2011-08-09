@@ -5,7 +5,7 @@
 ESVN_SUB_PROJECT="exalt"
 inherit enlightenment
 
-DESCRIPTION="An EFL theme based on detour"
+DESCRIPTION="ConMan based onn EFL and... HAL. Period."
 
 RDEPEND="x11-wm/enlightenment
 	sys-apps/dbus"

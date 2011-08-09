@@ -5,7 +5,7 @@
 ESVN_SUB_PROJECT="eterm"
 inherit enlightenment
 
-DESCRIPTION="An EFL Based Terminal"
+DESCRIPTION="LIBrary of Assorted Spiffy Things."
 
 DEPEND="dev-libs/ecore
 	media-libs/evas

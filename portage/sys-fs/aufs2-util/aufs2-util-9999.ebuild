@@ -6,7 +6,7 @@ EAPI="4"
 
 inherit multilib toolchain-funcs git-2 linux-info
 
-DESCRIPTION="An entirely re-designed and re-implemented Unionfs"
+DESCRIPTION="AUFS-2.1 filesystem utilities."
 HOMEPAGE="http://aufs.sourceforge.net/"
 EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs2-util.git"
 EGIT_PROJECT=${PN}

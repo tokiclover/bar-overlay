@@ -8,7 +8,7 @@ filter-ldflags "-Wl,-O1"
 
 EHG_REPO_URI="http://opensound.hg.sourceforge.net:8000/hgroot/opensound/opensound"
 
-DESCRIPTION="Open Sound System - portable, mixing-capable, high quality sound system for Unix."
+DESCRIPTION="OSS-${PV} live build - portable, mixing-capable, high quality sound system for Unix."
 HOMEPAGE="http://developer.opensound.com/"
 
 LICENSE="GPL-2"
@@ -20,6 +20,7 @@ DEPEND="sys-apps/gawk
 	>=x11-libs/gtk+-2
 	>=sys-kernel/linux-headers-2.6.11
 	!media-sound/oss-devel"
+
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}"
@@ -51,7 +52,7 @@ src_install() {
 }
 
 pkg_postinst() {
-	elog "To use OSSv4 for the first time you must run"
+	elog "To use ${P} for the first time you must run"
 	elog "# /etc/init.d/oss start "
 	elog ""
 	elog "If you are upgrading, run"

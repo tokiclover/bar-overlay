@@ -209,7 +209,7 @@ git-2_branch() {
 	local branchname=branch-${EGIT_BRANCH} src=origin/${EGIT_BRANCH}
 	if [[ ${EGIT_COMMIT} != ${EGIT_BRANCH} ]]; then
 		if [[ -n ${EGIT_TAG} ]]; then
-			branchname=tree-${EGIT_TAG}
+			branchname=tag-${EGIT_TAG}
 			src=${EGIT_TAG}
 		else
 			branchname=tree-${EGIT_COMMIT}

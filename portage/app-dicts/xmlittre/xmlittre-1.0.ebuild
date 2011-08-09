@@ -6,8 +6,7 @@ inherit stardict
 
 EAPI="2"
 
-DESCRIPTION="XMLittre offline installation of Emile Littrre's refresh 1872-1877
-of 1863 dictionary"
+DESCRIPTION="XMLittre offline of E. Littrre's refresh 187i{2,-7} of 1863 dictionary."
 HOMEPAGE="http://francois.gannaz.free.fr/Littre/accueil.php"
 #SRC_URI="http://francois.gannaz.free.fr/Littre/dlds/XMLittre_stardict_1.0.zip"
 SRC_URI="$DISTDIR/$P.tgz"

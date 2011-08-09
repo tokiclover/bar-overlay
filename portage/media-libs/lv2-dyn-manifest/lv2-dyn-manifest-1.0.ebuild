@@ -6,7 +6,7 @@ inherit eutils
 
 EAPI=3
 
-DESCRIPTION="LV2 Dynamic extension API"
+DESCRIPTION="LV2 Dynamic extension API (which wasn't yet in pro-audio overlay.)"
 HOMEPAGE="http://lv2plug.in/trac/"
 SRC_URI="http://lv2plug.in/spec/${P}.tar.gz"
 

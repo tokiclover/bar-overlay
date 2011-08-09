@@ -15,7 +15,7 @@ inherit kernel-2
 detect_version
 K_NOSETEXTRAVERSION="don't_set_it"
 
-DESCRIPTION="The Zen Kernel Sources v2.6"
+DESCRIPTION="Zen Kernel Sources based one *stable* snapshot diff."
 HOMEPAGE="http://zen-kernel.org"
 
 ZEN_FILE="zenpatch-${PV}.diff.gz"

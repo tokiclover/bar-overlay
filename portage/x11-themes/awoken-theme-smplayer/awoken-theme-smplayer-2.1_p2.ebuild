@@ -4,9 +4,9 @@
 
 inherit eutils
 
-DESCRIPTION="Faenza icon theme ported to SMPlyer."
+DESCRIPTION="AwOken icon theme ported to SMPlyer."
 HOMEPAGE="http://reikonya.deviantart.com/"
-SRC_URI="${DISTDIR}/${P}.tgz"
+#SRC_URI="${DISTDIR}/${P}.tgz"
 
 LICENSE="GPL-3"
 SLOT="0"

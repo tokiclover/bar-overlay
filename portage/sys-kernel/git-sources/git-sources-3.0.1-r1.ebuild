@@ -17,7 +17,7 @@ inherit kernel-2 git-2
 detect_version
 detect_arch
 
-DESCRIPTION="The very latest -git version of the Linux kernel"
+DESCRIPTION="The very latest stable (-git version as pulled by git) of the Linux kernel"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 EGIT_COMMIT="94ed5b4788a7cdbe68bc7cb8516972cbebdc8274"
