@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="2"
+EAPI="3"
 
 inherit cmake-utils flag-o-matic
 
@@ -14,7 +14,7 @@ E_STATE="snapshot"
 WANT_AUTOTOOLS="no"
 
 LICENSE="LGPL-2 LGPL-2.1 BSD"
-IUSE="curl glib gstreamer static-libs xhtml plugins"
+IUSE="curl glib gstreamer plugins static-libs xhtml video"
 SLOT="0"
 
 DEPEND="${RDEPEND}
@@ -55,19 +55,22 @@ S="${WORKDIR}/${PN}-svn-r${PV/0.1.}"
 src_configure() {
 		[ gcc-major-version == 4 ] && [ gcc-minor-version == 4 ] && append-flags -fno-strict-aliasing
 
-		MYCMAKEARGS="-DPORT=Efl -DSHARED_CORE=ON"
+		sed -i -e "s:NOPORT:Efl:g" CMakeLists.txt || die "eek!"
+		use video && use !gstreamer && die "video require gstreamer and glib USE flag."
+		MYCMAKEARGS=" -DSHARED_CORE=ON -DPORT=Efl"
 		use static-libs && MYCMAKEARGS="${MYCMAKEARGS/SHARED_CORE=ON/SHARED_CORE=OFF/}"
-		use !glib && MYCMAKEARGS+=" -DNETWORK_BACKEND=curl -DENABLE_GLIB_SUPPORT=OFF" || \
-            MYCMAKEARGS+=" -DNETWORK_BACKEND=soup -DENABLE_GLIB_SUPPORT=ON"
-        use gstreamer && use !glib && die "gtsreamer requiire glib USE flag." || \
-                MYCMAKEARGS="${MYCMAKEARGS/curl/soup}" && \
-                MYCMAKEARGS="${MYCMAKEARGS/GLIB_SUPPORT=OFF/GLIB_SUPPORT=ON}"
-        MYCMAKEARGS+=" $(cmake-utils_use_enable gstreamer VIDEO)"
-       	use xhtml && MYCMAKEARGS+=" $(cmake-utils_use_enable xhtml)"
-		use plugins && MYCMAKEARGS+=" -DNETSCAPE_PLUGIN_API=ON"
+		use curl && MYCMAKEARGS+=" -DNETWORK_BACKEND=curl" || \ 
+		MYCMAKEARGS+=" -DNETWORK_BACKEND=soup"
+		use gstreamer && use !glib && die "gtsreamer requiire glib USE flag." || \
+            MYCMAKEARGS="${MYCMAKEARGS/curl/soup}"
+   		use plugins && MYCMAKEARGS+=" -DNETSCAPE_PLUGIN_API=ON"
+		MYCMAKEARGS+=" $(cmake-utils_use_enable gstreamer VIDEO) \
+					   $(cmake-utils_use_enable glib GLIB_SUPPORT) \
+					   $(cmake-utils_use_enable xhtml XHTML) 
+					   "
 		enable_cmake-utils_src_configure
 }
 
 src_install() {
-		cmake -DCMAKE_INSTALL_PREFIX="${D}"/usr -P cmake_install.cmake || die
+		cmake -DCMAKE_INSTALL_PREFIX="${D}"/usr -P cmake_install.cmake || die "eek!"
 }

@@ -1,4 +1,2 @@
-net-libs/webkit-efl
 media-gfx/ev
-www-client/eve
 x11-misc/xkbswitch
