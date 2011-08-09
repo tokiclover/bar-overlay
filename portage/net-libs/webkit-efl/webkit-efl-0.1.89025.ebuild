@@ -14,7 +14,7 @@ E_STATE="snapshot"
 WANT_AUTOTOOLS="no"
 
 LICENSE="LGPL-2 LGPL-2.1 BSD"
-IUSE="curl glib gstreamer plugins static-libs xhtml video"
+IUSE="curl glib gstreamer plugins static-libs xhtml"
 SLOT="0"
 
 DEPEND="${RDEPEND}
