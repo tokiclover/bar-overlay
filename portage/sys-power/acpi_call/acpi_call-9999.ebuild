@@ -26,6 +26,7 @@ MODULE_NAMES="acpi_call(misc:${S})"
 src_prepare() { sed -i -e "s:default:module:" Makefile || die "eek!"; }
 
 src_install() {
+	linux-mod_src_install
 	insinto /usr/share/acpi_call/
 	doins test_off.sh || die "eek!"
 	doins README || die "eek!"
