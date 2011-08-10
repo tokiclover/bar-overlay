@@ -15,7 +15,7 @@ EGIT_PROJECT=${PN}
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug fuse hardened hfs inotify kernel-patch nfs ramfs"
+IUSE="debug fuse hardened header hfs inotify kernel-patch nfs ramfs"
 
 RDEPEND="!sys-fs/aufs2
 		=sys-fs/${P/standalone/util}"
@@ -96,7 +96,7 @@ src_compile() {
 src_install() {
 	linux-mod_src_install
 	insinto /usr/include/linux
-	doins include/linux/aufs_type.h || die "failed to install header."
+	use header && doins include/linux/aufs_type.h || die "failed to install header."
 	dodoc README
 	docinto design
 	dodoc design/*.txt

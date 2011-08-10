@@ -20,7 +20,7 @@ IUSE="kernel"
 
 RDEPEND="${DEPEND}
 		!sys-fs/aufs2"
-DEPEND="!kernel? ( =sys-fs/${P/util/standalone} )"
+DEPEND="!kernel? ( =sys-fs/${P/util/standalone}[header] )"
 
 pkg_setup(){
 	if use kernel; then
