@@ -84,7 +84,7 @@ src_prepare() {
 		fi
 	fi
 	rm -r .git
-	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git-r2:" \
+	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" \
 		-e "s:SUBLEVEL = 0:SUBLEVEL = 1:" -i Makefile || die "eek!"
 }
 
