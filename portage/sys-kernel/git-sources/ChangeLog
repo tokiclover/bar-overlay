@@ -1,0 +1,5 @@
+2011-08-11:
+	*-r1 ebuild version 1.4 with {ck,bfs,hz} new USE flags.
+2011-08-08:
+	*-r1 ebuild version 1.1 with {tuxonice,fbcondecor} USE flags and
+	aufs2.1 modules.
