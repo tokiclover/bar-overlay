@@ -33,7 +33,6 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="bfs fbcondecor ck hz tuxonice"
 
 CK_BFILE=${KV/1-git/0-ck1}-broken-out.tar.bz2
-#CK_MFILE=patch-${KV/1-git/0-ck1}.bz2
 CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV/.1-git}/${KV/1-git/0-ck1}/"
 TOI_FILE="current-tuxonice-for-$(get_version_component_range 1-2).patch.bz2"
 TOI_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )"
@@ -47,7 +46,7 @@ SRC_URI="${TOI_URI}
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
 that you may suspect being the source of your issues because this ebuild is
-based on the latest mainline stable tree."
+based on the latest vanilla (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
