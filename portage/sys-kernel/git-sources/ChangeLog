@@ -1,3 +1,6 @@
+2011-08-13:
+	adding 3.1_rc1 for the most experimental pals with minor changes of
+	the main ebuild.
 2011-08-11:
 	*-r1 ebuild version 1.4 with {ck,bfs,hz} new USE flags.
 2011-08-08:

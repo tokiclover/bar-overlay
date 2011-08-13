@@ -23,7 +23,7 @@ detect_arch
 DESCRIPTION="The very latest stable (-git version as pulled by git) of the Linux kernel"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
-EGIT_COMMIT="94ed5b4788a7cdbe68bc7cb8516972cbebdc8274"
+#EGIT_COMMIT="94ed5b4788a7cdbe68bc7cb8516972cbebdc8274"
 EGIT_PROJECT=${PN}
 EGIT_TAG=v${KV_MAJOR}.${KV_MINOR}
 EGIT_NOUNPACK="yes"
@@ -32,10 +32,10 @@ EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs2-standalone.git
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="bfs fbcondecor ck hz tuxonice"
 
-GEN_FILE=genpatches-${OKV/.${KV_PATCH}}-${K_GENPATCHES_VER}.extras.tar.bz2
-CK_BFILE=${KV/1-git/0-ck1}-broken-out.tar.bz2
-CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV/.1-git}/${KV/1-git/0-ck1}/"
-TOI_FILE="current-tuxonice-for-$(get_version_component_range 1-2).patch.bz2"
+GEN_FILE=genpatches-${PV/1_rc[0-9]*/0}-${K_GENPATCHES_VER}.extras.tar.bz2
+CK_BFILE=${PV/1_rc[0-9]*/0.0-ck1}-broken-out.tar.bz2
+CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${PV/1_rc[0-9]*/0}/${PV/1_rc[09-]*/0.0-ck1}/"
+TOI_FILE="current-tuxonice-for-${PV/1_rc[0-9]*/0}.patch.bz2"
 SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
 		fbcondecor? ( mirror://${GEN_FILE} )
 		bfs? 		( ${CK_URI}/${CK_BFILE} )
