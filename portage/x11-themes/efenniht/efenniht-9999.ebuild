@@ -5,16 +5,21 @@
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
-DESCRIPTION="An EFL theme based on detour"
+DESCRIPTION="An EFL theme derived from equinox..."
 RDEPEND="x11-wm/enlightenment"
 
 src_unpack() {
 	subversion_src_unpack
-	export ESVN_REPO_URI=${ESVN_SERVER:-${E_LIVE_SERVER_DEFAULT_SVN}}/elementary && \
-	ESVN_SUB_PROJECT="" && subversion_src_unpack
+	export ESVN_REPO_URI=${ESVN_SERVER:-${E_LIVE_SERVER_DEFAULT_SVN}}/elementary
+	unset ESVN_SUB_PROJECT && export ESVN_PROJECT=${ESVN_PROJECT/THEMES}
+	mv ${WORKDIR}/efennih{t,} || die "eek!"
+	subversion_src_unpack
+	mv ${WORKDIR}/{efenniht,elemenary}
+	mv ${WORKDIR}/efennih{,t}
 }
 
 src_compile() {
+	sed -e "s:../elem:elem:g" -i Makefile || die "eek!"
 	emake all || die "eek!"
 }
 
