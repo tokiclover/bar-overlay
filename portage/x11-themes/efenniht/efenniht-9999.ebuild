@@ -7,6 +7,7 @@ inherit enlightenment
 
 DESCRIPTION="An EFL theme derived from equinox..."
 RDEPEND="x11-wm/enlightenment"
+DEPEND="dev-util/pkgconfig"
 
 src_unpack() {
 	subversion_src_unpack
@@ -14,15 +15,17 @@ src_unpack() {
 	unset ESVN_SUB_PROJECT && export ESVN_PROJECT=${ESVN_PROJECT/THEMES}
 	mv ${WORKDIR}/efennih{t,} || die "eek!"
 	subversion_src_unpack
-	mv ${WORKDIR}/{efenniht,elemenary}
+	mv ${WORKDIR}/{efenniht,elementary}
 	mv ${WORKDIR}/efennih{,t}
 }
 
 src_compile() {
-	sed -e "s:../elem:elem:g" -i Makefile || die "eek!"
+	sed	-e "s:../elem:elem:g" -i Makefile || die "eek!"
 	emake all || die "eek!"
 }
 
 src_install() {
+	sed	-e "s:\$(.*prefix enlightenment):${D}/usr:g" \
+		-e "s:\$(.*prefix elementary)/sha:${D}/usr/share/:g" -i Makefile || die "eek!"
 	emake install-system || die "eek!"
 }
