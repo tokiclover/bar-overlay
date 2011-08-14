@@ -3,6 +3,9 @@
 <pkgmetadata>
 <herd>no-herd</herd>
 <maintainer>
- <email>enlightenment@gentoo.org</email>
+ <email></email>
 </maintainer>
+	<use>
+		<flag name="gtk">Include gtk2 theme port</flag>
+	</use>
 </pkgmetadata>

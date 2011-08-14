@@ -5,9 +5,8 @@
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
-DESCRIPTION="An e17 theme based/derived from detour[ious] e17 theme."
-RDEPEND="x11-wm/enlightenment
-	"
+DESCRIPTION="An e17 theme based/derived from detour e17 theme."
+RDEPEND="x11-wm/enlightenment"
 IUSE="gtk"
 
 src_unpack() {
@@ -26,4 +25,3 @@ src_install() {
 		doins -r ./gtk/detourious || die "eek!"
 	fi
 }
-
