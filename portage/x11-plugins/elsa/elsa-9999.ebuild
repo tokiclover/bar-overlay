@@ -5,12 +5,12 @@
 ESVN_SUB_PROJECT="PROTO"
 inherit enlightenment
 
-DESCRIPTION="PAM compatible session manager--successor of entrance, new entrance enter!"
+DESCRIPTION="PAM compatible session manager,--successor of entrance,--new entrance enter!"
 
 DEPEND=">=dev-libs/ecore-1.0
 	>=dev-libs/eet-1.4.0
 	>=dev-libs/eina-1.0
 	>=media-libs/edje-1.0
 	>=media-libs/evas-1.0
-	>=x11-plugins/elementary-0.5"
+	>=x11-libs/elementary-0.5"
 RDEPEND="virtual/pam"
