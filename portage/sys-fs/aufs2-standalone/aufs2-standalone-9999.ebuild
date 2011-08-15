@@ -35,9 +35,9 @@ pkg_setup() {
 	[ -n "$PKG_SETUP_HAS_BEEN_RAN" ] && return
 
 	get_version
-	kernel_is lt 2 6 31 && die "kernel too old"
-	kernel_is gt 3 0 1 && die "kernel too new"
-	kernel_is ge 3 0 0 && EGIT_BRANCH=aufs2.1 || EGIT_BRANCH=aufs2.1-${KV_PATCH}
+	kernel_is lt 2 6 35 && die "kernel too old"
+	kernel_is gt 2 6 39 && die "kernel too new--use aufs3 instead"
+	EGIT_BRANCH=aufs2.2-${KV_PATCH}
 
 	linux-mod_pkg_setup
 	if ! ( patch -p1 --dry-run --force -R -d ${KV_DIR} < "${FILESDIR}"/aufs2-standalone-${KV_PATCH}.patch >/dev/null && \
@@ -86,6 +86,7 @@ src_prepare() {
 
 	sed -i "s:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g" Makefile || die "eek!"
 	sed -i "s:__user::g" include/linux/aufs_type.h || die "eek!"
+	sed -i "s:/lib/modules/\$(shell uname -r)/build:${KV_OUT_DIR}:g" Makefile || die "eek!"
 }
 
 src_compile() {
@@ -97,6 +98,7 @@ src_install() {
 	linux-mod_src_install
 	insinto /usr/include/linux
 	use header && doins include/linux/aufs_type.h || die "failed to install header."
+#	use header && emake DESTDIR="${D}" install_header || die "eek!"
 	dodoc README
 	docinto design
 	dodoc design/*.txt

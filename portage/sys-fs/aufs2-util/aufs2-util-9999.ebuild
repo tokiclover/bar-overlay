@@ -10,7 +10,7 @@ DESCRIPTION="AUFS-2.1 filesystem utilities."
 HOMEPAGE="http://aufs.sourceforge.net/"
 EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs2-util.git"
 EGIT_PROJECT=${PN}
-EGIT_BRANCH=aufs2.1
+EGIT_BRANCH=aufs2.2
 
 LICENSE="GPL-2"
 SLOT="0"
