@@ -35,13 +35,13 @@ pkg_setup() {
 	[ -n "$PKG_SETUP_HAS_BEEN_RAN" ] && return
 
 	get_version
-	kernel_is lt 2 6 35 && die "kernel too old"
+	kernel_is lt 2 6 31 && die "kernel too old"
 	kernel_is gt 2 6 39 && die "kernel too new--use aufs3 instead"
 	EGIT_BRANCH=aufs2.2-${KV_PATCH}
 
 	linux-mod_pkg_setup
 	if ! ( patch -p1 --dry-run --force -R -d ${KV_DIR} < "${FILESDIR}"/aufs2-standalone-${KV_PATCH}.patch >/dev/null && \
-		patch -p1 --dry-run --force -R -d ${KV_DIR} < "${FILESDIR}"/aufs2-base.patch >/dev/null ); then
+		patch -p1 --dry-run --force -R -d ${KV_DIR} < "${FILESDIR}"/aufs2-base-${KV_PATCH}.patch >/dev/null ); then
 		if use kernel-patch; then
 			cd ${KV_DIR}
 			ewarn "Patching your kernel..."
@@ -53,8 +53,8 @@ pkg_setup() {
 		else
 			eerror "You need to apply a patch to your kernel to compile and run the aufs2 module"
 			eerror "Either enable the kernel-patch useflag to do it with this ebuild"
-			eerror "or apply 'patch -p1 < ${FILESDIR}/aufs2-base.patch' and"
-			eerror "'patch -p1 < ${FILESDIR}/aufs2-standalone.patch' by hand"
+			eerror "or apply 'patch -p1 < ${FILESDIR}/aufs2-base-${KV_PATCH}.patch' and"
+			eerror "'patch -p1 < ${FILESDIR}/aufs2-standalone-${KV_PATCH}.patch' by hand"
 			die "missing kernel patch, please apply it first"
 		fi
 	fi
