@@ -50,14 +50,13 @@ based on the latest vanilla (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
-	if [[ ${KV_MAJOR} -le 3 ]]; then EGIT_BRANCH=aufs2.1
-	else EGIT_BRANCH=aufs2.1-${KV_PATCH}; fi
+	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${VERSION}
 	unset EGIT_COMMIT
 	unset EGIT_TAG
 	export EGIT_NONBARE=yes
 	export EGIT_REPO_URI=${EGIT_REPO_AUFS}
-	export EGIT_SOURCEDIR="${WORKDIR}"/aufs2-standalone
-	export EGIT_PROJECT=aufs2-standalone
+	export EGIT_SOURCEDIR="${WORKDIR}"/aufs3-standalone
+	export EGIT_PROJECT=aufs3-standalone
 	git-2_src_unpack
 	if use bfs || use hz || use ck; then
 		unpack ${CK_BFILE} || die "eek!"
