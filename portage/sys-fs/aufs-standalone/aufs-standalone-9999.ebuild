@@ -12,7 +12,7 @@ EGIT_NONBARE=yes
 
 get_version
 if kernel_is gt 3 0; then
-	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rc || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
+	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
 	VERSION=${KV_MAJOR}.${KV_MINOR}
 elif kernel_is lt 2 6 35; then
 	EGIT_BRANCH=aufs${KV_MAJOR}.1-${KV_PATCH}
