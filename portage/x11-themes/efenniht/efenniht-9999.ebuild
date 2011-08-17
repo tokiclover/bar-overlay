@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-terms/enterminus/enterminus-9999.ebuild,v 1.1 2005/09/07 03:52:46 vapier Exp $
+# $Header: $BAR-overlay/portage/x11-themes/efenniht-9999.ebuild, v1.2 2011/08/17 Exp $
 
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
@@ -29,7 +29,8 @@ src_compile() {
 }
 
 src_install() {
-	sed	-e "s:\$(.*prefix .*):${D}/usr:g" -i Makefile || die "eek!"
+	sed	-e "s:\$(.*prefix .*):${D}/usr:g" \
+		-e "s:shaelem:share/elem:g" -i Makefile || die "eek!"
 	emake install-system || die "eek!"
 	if use gtk; then
 		insinto /usr/share/themes
