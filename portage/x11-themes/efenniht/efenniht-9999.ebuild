@@ -29,8 +29,7 @@ src_compile() {
 }
 
 src_install() {
-	sed	-e "s:\$(.*prefix enlightenment):${D}/usr:g" \
-		-e "s:\$(.*prefix elementary)/sha:${D}/usr/share/:g" -i Makefile || die "eek!"
+	sed	-e "s:\$(.*prefix .*):${D}/usr:g" -i Makefile || die "eek!"
 	emake install-system || die "eek!"
 	if use gtk; then
 		insinto /usr/share/themes
