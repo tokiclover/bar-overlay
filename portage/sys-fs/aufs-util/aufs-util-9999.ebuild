@@ -6,7 +6,7 @@ EAPI="4"
 
 inherit multilib toolchain-funcs git-2 linux-info
 
-DESCRIPTION="AUFS-2.1 filesystem utilities."
+DESCRIPTION=">=AUFS-2.2 filesystem utilities."
 HOMEPAGE="http://aufs.sourceforge.net/"
 EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs-util.git"
 
@@ -21,7 +21,6 @@ else
 	EGIT_REPO_URI=${EGIT_REPO_URI/-/${KV_MAJOR}-}
 	EGIT_PROJECT=${PN/-/${KV_MAJOR}-}
 	EGIT_BRANCH=aufs${KV_MAJOR}.2
-	RDEPEND="${RDEPEND} !sys-fs/${PN/-/${KV_MAJOR}-}"
 fi
 
 LICENSE="GPL-2"

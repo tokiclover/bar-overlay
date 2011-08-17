@@ -30,7 +30,6 @@ KEYWORDS="~amd64 ~x86"
 IUSE="debug fuse header hfs inotify kernel-patch nfs pax_kernel ramfs"
 
 RDEPEND="!sys-fs/aufs2
-		!sys-fs/${PN/-/${KV_MAJOR}-}
 		=sys-fs/${P/standalone/util}"
 
 S="${WORKDIR}"/${PN}
