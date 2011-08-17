@@ -27,7 +27,7 @@ EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-stand
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug fuse hardened header hfs inotify kernel-patch nfs ramfs"
+IUSE="debug fuse header hfs inotify kernel-patch nfs pax_kernel ramfs"
 
 RDEPEND="!sys-fs/aufs2
 		!sys-fs/${PN/-/${KV_MAJOR}-}
@@ -49,6 +49,7 @@ pkg_setup() {
 
 	get_version
 	kernel_is lt 2 6 31 && die "kernel too old"
+	kernel_is lt 2 6 35 && ewarn "there's no support for kernel <v2.6.35 as of 2011-08-15, upgrde to kernel >v2.6.34"
 	kernel_is gt 3 1 	&& die "kernel too new"
 
 	linux-mod_pkg_setup
@@ -94,7 +95,7 @@ src_prepare() {
 	use nfs && use amd64 && set_config INO_T_64
 	use ramfs && set_config BR_RAMFS
 
-	use hardened && epatch "${FILESDIR}"/pax.patch
+	use pax_kernel && epatch "${FILESDIR}"/pax.patch
 
 	sed -i "s:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g" Makefile || die "eek!"
 	sed -i "s:__user::g" include/linux/aufs_type.h || die "eek!"

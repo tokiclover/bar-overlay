@@ -10,12 +10,13 @@
 	</maintainer>
 	<use>
 		<flag name="debug">Enable additional debugging support</flag>
+		<flag name="fuse">Enable fuse support</flag>
 		<flag name="header">Install include/linux/aufs_type.h header file necessesary to compile the *-util pkg</flag>
+		<flag name="hfs">Enable hfs support</flag>
 		<flag name="inotify">Enable inotify support</flag>
 		<flag name="kernel-patch">Patch the current kernel for aufs2 support</flag>
 		<flag name="nfs">Enable support for nfs export</flag>
+		<flag name="pax_kernel">Enable hardening kernel (and not toolchain)</flag>
 		<flag name="ramfs">Enable initramfs/rootfs support</flag>
-		<flag name="fuse">Enable fuse support</flag>
-		<flag name="hfs">Enable hfs support</flag>
 	</use>
 </pkgmetadata>
