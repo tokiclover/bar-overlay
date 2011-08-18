@@ -22,7 +22,9 @@ detect_arch
 
 DESCRIPTION="The very latest stable (-git version as pulled by git) of the Linux kernel"
 HOMEPAGE="http://www.kernel.org"
-EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
+EGIT_REPO_URI=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-3.0.y.git
+EGIT_COMMIT=d31bf2883542cd3414674238f94123bd1d9c0b9f
+EGIT_TAG=v${PV/-r[0-9]*}
 EGIT_PROJECT=${PN}
 EGIT_NOUNPACK="yes"
 
@@ -30,10 +32,10 @@ EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-stan
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="bfs fbcondecor ck hz tuxonice"
 
-GEN_FILE=genpatches-${KV_MAJOR}.0-${K_GENPATCHES_VER}.extras.tar.bz2
-CK_BFILE=${KV_MAJOR}.0.0-ck1-broken-out.tar.bz2
-CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV_MAJOR}.0/${KV_MAJOR}.0.0-ck1}/"
-TOI_FILE="current-tuxonice-for-${KV_MAJOR}.0.patch.bz2"
+GEN_FILE=genpatches-${OKV/.${KV_PATCH}}-${K_GENPATCHES_VER}.extras.tar.bz2
+CK_BFILE=${KV/${KV_PATCH}-git/0-ck1}-broken-out.tar.bz2
+CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV/${KV_PATCH}-git}/${KV/${KV_PATCH}-git/0-ck1}/"
+TOI_FILE="current-tuxonice-for-$(get_version_component_range 1-2).patch.bz2"
 SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
 		fbcondecor? ( mirror://${GEN_FILE} )
 		bfs? 		( ${CK_URI}/${CK_BFILE} )
@@ -48,7 +50,7 @@ based on the latest vanilla (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
-	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-0}
+	kernel_is gt 3 0 3 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-0}
 	unset EGIT_COMMIT
 	unset EGIT_TAG
 	export EGIT_NONBARE=yes
@@ -80,8 +82,7 @@ src_prepare() {
 		fi
 	fi
 	rm -r .git
-	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" \
-		-e "s:SUBLEVEL = 0:SUBLEVEL = 1:" -i Makefile || die "eek!"
+	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" || die "eek!"
 }
 
 pkg_postinst() {
