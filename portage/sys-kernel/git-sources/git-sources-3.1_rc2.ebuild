@@ -82,8 +82,7 @@ src_prepare() {
 		fi
 	fi
 	rm -r .git
-	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" \
-		-e "s:SUBLEVEL = 0:SUBLEVEL = 1:" -i Makefile || die "eek!"
+	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die "eek!"
 }
 
 pkg_postinst() {
