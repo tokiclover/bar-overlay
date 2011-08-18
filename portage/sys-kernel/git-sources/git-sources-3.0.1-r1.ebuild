@@ -25,10 +25,9 @@ HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 EGIT_COMMIT="94ed5b4788a7cdbe68bc7cb8516972cbebdc8274"
 EGIT_PROJECT=${PN}
-EGIT_TAG=v${KV_MAJOR}.${KV_MINOR}
 EGIT_NOUNPACK="yes"
 
-EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs2-standalone.git"
+EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="bfs fbcondecor ck hz tuxonice"
 
@@ -50,13 +49,13 @@ based on the latest vanilla (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
-	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${VERSION}
+	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-0}
 	unset EGIT_COMMIT
 	unset EGIT_TAG
 	export EGIT_NONBARE=yes
 	export EGIT_REPO_URI=${EGIT_REPO_AUFS}
-	export EGIT_SOURCEDIR="${WORKDIR}"/aufs3-standalone
-	export EGIT_PROJECT=aufs3-standalone
+	export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
+	export EGIT_PROJECT=aufs${KV_MAJOR}-standalone
 	git-2_src_unpack
 	if use bfs || use hz || use ck; then
 		unpack ${CK_BFILE} || die "eek!"
@@ -65,10 +64,10 @@ src_unpack() {
 
 src_prepare() {
 	for i in Documentation fs include/linux/aufs_type.h; do
-		cp -pPR "${WORKDIR}"/aufs2-standalone/$i . || die "eek!"
+		cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$i . || die "eek!"
 	done
 	mv aufs_type.h include/linux/ || die "eek!"
-	epatch "${WORKDIR}"/aufs2-standalone/{aufs2-{kbuild,base,standalone},loopback,proc_map}.patch
+	epatch "${WORKDIR}"/aufs${KV_MAJOR}-standalone/{aufs${KV_MAJOR}-{kbuild,base,standalone},loopback,proc_map}.patch
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
 	if use ck; then
