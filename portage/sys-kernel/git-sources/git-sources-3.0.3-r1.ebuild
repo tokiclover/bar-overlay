@@ -69,6 +69,8 @@ src_prepare() {
 	done
 	mv aufs_type.h include/linux/ || die "eek!"
 	epatch "${WORKDIR}"/aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}-{kbuild,base,standalone,loopback,proc_map}.patch
+	grep cap_file_mmap "${WORKDIR}"/aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}-standalone.patch || \
+	epatch "${FILESDIR}"/cap_file_mmap-es.patch
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
 	if use ck; then
