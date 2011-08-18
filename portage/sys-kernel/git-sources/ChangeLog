@@ -1,4 +1,10 @@
 2011-08-16:
+	there were truly more stuff to fix which were introduced with the
+	aufs3-standalone.git repository; and the 3.0.1-r1 to 3.0.3-r1 revision
+	bump just pop out a major issue: now linux-3.0.y.git (stable) is
+	linked to the stables ebuilds and linux.git (mainline) linked to _rc*;
+	new git-sources-3.0.3-r1.ebuild and a fully working -3.0.1-r1.ebuild!
+2011-08-16:
 	revision bump fro rc1 to rc2.
 2011-08-13:
 	adding 3.1_rc1 for the most experimental pals with minor changes of
