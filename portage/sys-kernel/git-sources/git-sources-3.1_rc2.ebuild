@@ -66,7 +66,7 @@ src_prepare() {
 		cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$i . || die "eek!"
 	done
 	mv aufs_type.h include/linux/ || die "eek!"
-	epatch "${WORKDIR}"/aufs${KV_MAJOR}-standalone/{aufs${KV_MAJOR}-{kbuild,base,standalone},loopback,proc_map}.patch
+	epatch "${WORKDIR}"/aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}-{kbuild,base,standalone,loopback,proc_map}.patch
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
 	if use ck; then
