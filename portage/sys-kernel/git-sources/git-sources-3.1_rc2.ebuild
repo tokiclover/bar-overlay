@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-kernel/git-sources/git-sources-3.1_rc*.ebuild, v1.5 2011/08/11 Exp $
+# $Header: $BAR-overlay/portage/sys-kernel/git-sources/git-sources-3.1_rc*.ebuild, v1.5 2011/08/18 Exp $
 
 EAPI=2
 UNIPATCH_STRICTORDER="yes"
@@ -20,7 +20,7 @@ inherit kernel-2 git-2
 detect_version
 detect_arch
 
-DESCRIPTION="The very latest stable (-git version as pulled by git) of the Linux kernel"
+DESCRIPTION="The very latest *-git as pulled by git* of the mainline tree"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 EGIT_PROJECT=${PN}
@@ -48,7 +48,7 @@ based on the latest vanilla (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
-	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-0}
+	kernel_is gt 3 0 3 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-0}
 	unset EGIT_COMMIT
 	unset EGIT_TAG
 	export EGIT_NONBARE=yes

@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-kernel/git-sources/git-sources-3.0.3-r1.ebuild, v1.5 2011/08/11 Exp $
+# $Header: $BAR-overlay/portage/sys-kernel/git-sources/git-sources-3.0.3-r1.ebuild, v1.5 2011/08/18 Exp $
 
 EAPI=2
 UNIPATCH_STRICTORDER="yes"
@@ -20,7 +20,7 @@ inherit kernel-2 git-2
 detect_version
 detect_arch
 
-DESCRIPTION="The very latest stable (-git version as pulled by git) of the Linux kernel"
+DESCRIPTION="The very latest stable *-git as pulled by git* of the stable tree"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-3.0.y.git
 EGIT_COMMIT=d31bf2883542cd3414674238f94123bd1d9c0b9f
