@@ -44,7 +44,7 @@ SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
 that you may suspect being the source of your issues because this ebuild is
-based on the latest vanilla (stable) tree."
+based on the latest mainline (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
