@@ -1,20 +1,19 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-themes/faenza-icon-theme/faenza-icon-theme-0.7.ebuild,v 1.4 2011/01/26 16:52:26 ssuominen Exp $
+# $Header: $BAR-overlay/portage/x11-themes/faenza-variants-icon-theme/faenza-variants-icon-theme-0.20.ebuild,v1.1 2011/08/18 Exp $
 
 inherit gnome2-utils
 
 DESCRIPTION="Variants from he original Faenza{,-Cupertino} icon themes."
 HOMEPAGE="http://spg76.deviantart.com/art/Faenza-Variants-184551528?loggedin=1"
 
-# nice LibreOffice LibreOffice Faenza Icons [inofficial] icons 
-# from http://gnome-look.org/content/show.php?content=138339
-SRC_URI="${DISTDIR}/${P}.zip"
+SRC_URI="http://www.deviantart.com/download/184551528/faenza_variants_by_spg76-d31vkvc.zip -> ${P}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
+EAPI=2
 
 DEPEND="app-arch/unzip"
 RDEPEND="x11-themes/faenza-cupertino-icon-theme"

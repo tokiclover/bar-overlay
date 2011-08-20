@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-themes/faenza-icon-theme/faenza-icon-theme-0.7.ebuild,v 1.4 2011/01/26 16:52:26 ssuominen Exp $
+# $Header: $BAR-overlay/portage/x11-themes/awoken-icon-theme/awoken-icon-theme-2.0.ebuild,v1.4 2011/08/18 Exp $
 
 inherit gnome2-utils
 

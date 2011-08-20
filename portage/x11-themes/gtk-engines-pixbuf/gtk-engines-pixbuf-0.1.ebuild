@@ -1,13 +1,13 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: $BAR-overlay/portage/x11-themes/gtk-engines-pixbuf/gtk-engines-pixbuf-0.1.ebuild,v1.1 2011/08/18 Exp $
 
 EAPI=3
 
-DESCRIPTION="Gtk pixbuf engine patched to support real transparency for
-insensitive (disabled) images on buttons, menus, etc."
+DESCRIPTION="Gtk pixbuf engine patched to support real transparency \
+	for insensitive (disabled) images on buttons, menus, etc."
 HOMEPAGE="http://gnome-look.org/content/show.php/gtk2-engine-pixbuf+%28Patched%29?content=77783"
-SRC_URI="${DISTDIR}/${P}.tar.gz"
+SRC_URI="http://gnome-look.org/CONTENT/content-files/77783-pixbuf-engine.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL"
 SLOT="0"

@@ -6,6 +6,6 @@
  <email></email>
 </maintainer>
 	<use>
-		<flag name="gtk">Include gtk2 theme port</flag>
+		<flag name="gtk">Pull in the gtk2 port</flag>
 	</use>
 </pkgmetadata>

@@ -1,17 +1,18 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-themes/faenza-icon-theme/faenza-icon-theme-0.7.ebuild,v 1.4 2011/01/26 16:52:26 ssuominen Exp $
+# $Header: $BAR-overlay/portage/x11-themes/awoken-icon-theme/awoken-icon-theme-2.1.ebuild,v1.4 2011/08/18 Exp $
 
 inherit gnome2-utils
 
 DESCRIPTION="A scalable icon theme called AwOken"
 HOMEPAGE="http://alecive.deviantart.com/art/AwOken-163570862"
-SRC_URI="http://www.deviantart.com/download/163570862/awoken_by_alecive-d2pdw32.zip"
+SRC_URI="http://www.deviantart.com/download/163570862/awoken_by_alecive-d2pdw32.zip -> ${P}.zip"
 
 LICENSE="CC BY-NC-SA-3.0 - CC BY-NC-ND-3.0"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="minimal"
+EAPI=2
 
 RDEPEND="!minimal? ( x11-themes/gnome-icon-theme )"
 DEPEND="app-arch/unzip"

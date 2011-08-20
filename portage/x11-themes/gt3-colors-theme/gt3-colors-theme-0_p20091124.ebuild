@@ -1,17 +1,18 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-themes/faenza-icon-theme/faenza-icon-theme-0.7.ebuild,v 1.4 2011/01/26 16:52:26 ssuominen Exp $
+# $Header: $BAR-overlay/portage/x11-themesgt3-colors-theme/gt3-colors-theme-0_p20091124.ebuild, v1.1 2011/08/18 Exp $
 
 inherit gnome2-utils
 
 DESCRIPTION="GT3 cursor themes ported to *nix."
 HOMEPAGE="http://kde-look.org/content/show.php/GT3?content=106536"
-SRC_URI="${DISTDIR}/GT3-colors-pack.rar"
+SRC_URI="http://kde-look.org/CONTENT/content-files/106536-GT3-colors-pack.rar -> ${P}.rar"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="minimal"
+EAPI=2
 
 RDEPEND="!minimal? ( x11-themes/xcursor-themes )"
 DEPEND="app-arch/unrar"
