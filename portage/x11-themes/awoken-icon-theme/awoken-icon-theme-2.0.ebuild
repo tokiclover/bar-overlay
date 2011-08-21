@@ -4,8 +4,9 @@
 
 inherit gnome2-utils
 
-DESCRIPTION="A scalable icon theme called AwOken"
-HOMEPAGE="http://alecive.deviantart.com/art/AwOken-163570862"
+DESCRIPTION="A great monochrome-ish scalable icon theme with 100³ colors, \
+	115 start-here logos, 48 folders types and more"
+HOMEPAGE="https://alecive.deviantart.com/art/AwOken-163570862"
 SRC_URI="${DISTDIR}/${P}.zip"
 
 LICENSE="CC BY-NC-SA-3.0 - CC BY-NC-ND-3.0"
@@ -31,7 +32,7 @@ src_install() {
 	mv ./${PNC}/Installation_and_Instructions.pdf README.pdf
 	dodoc README.pdf
 	dodir /usr/share/icons
-	for i in ${PNC}{,Dark}; do mv ./${i} "${D}"/usr/share/icons; done || die "eek!"
+	for dir in ${PNC}{,Dark}; do mv ./${dir} "${D}"/usr/share/icons/; done || die "eek!"
 }
 
 pkg_preinst() { gnome2_icon_savelist; }
