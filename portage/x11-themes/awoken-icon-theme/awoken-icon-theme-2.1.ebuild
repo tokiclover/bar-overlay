@@ -5,7 +5,7 @@
 inherit gnome2-utils
 
 DESCRIPTION="A great monochrome-ish scalable icon theme with 100³ colors and more"
-HOMEPAGE="http://alecive.deviantart.com/art/AwOken-163570862"
+HOMEPAGE="http://alecive.deviantart.com/art/"
 SRC_URI="https://www.deviantart.com/download/163570862/awoken_by_alecive-d2pdw32.zip -> ${P}.zip"
 
 LICENSE="CC BY-NC-SA-3.0 - CC BY-NC-ND-3.0"

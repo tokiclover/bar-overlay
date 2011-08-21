@@ -5,7 +5,7 @@
 inherit eutils
 
 DESCRIPTION="The infamous elementary icon theme by DanRabbit"
-HOMEPAGE="http://danrabbit.deviantart.com/art/elementary-Icons-65437279"
+HOMEPAGE="http://danrabbit.deviantart.com/art/"
 SRC_URI="http://www.deviantart.com/download/65437279/elementary_icons_by_danrabbit-d12yjq7.zip -> ${P}.zip"
 
 LICENSE="GPL-3"
@@ -14,8 +14,7 @@ KEYWORDS="amd64 x86"
 IUSE="minimal"
 EAPI=2
 
-RDEPEND="!minimal? ( x11-themes/smplayer-themes )
-		media-video/smplayer"
+RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )"
 
 RESTRICT="binchecks strip"
 
