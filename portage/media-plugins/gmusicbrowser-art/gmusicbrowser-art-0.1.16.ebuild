@@ -6,9 +6,9 @@ inherit git-2
 
 EAPI=4
 
-DESCRIPTION="A collection of gmb layouts, more in on #gmusicbrowser on DA."
+DESCRIPTION="A collection of gmb-art_layouts, more info on #gmusicbrowser@DA"
 HOMEPAGE="http://gmusicbrowser.deviantart.com/"
-EGIT_REPO_URI="https://github.com/aboettger/gmusicbrowser-layouts/"
+EGIT_REPO_URI="git@github.com:aboettger/gmusicbrowser-layouts.git"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -17,6 +17,6 @@ KEYWORDS="~amd64 ~sparc ~x86"
 RDEPEND=">=media-sound/gmusicbrowser-1.1.6"
 
 src_prepare() {
-	sed -e "s:gmb-art - :gmb-art-:g" -i ./Makefile || die "eek!"
-	sed -e "s:faenza dark:faenza-dark:g" -i ./Makefile || die "eek!"
+	sed -e "s:gmb-art - :gmb-art-:g" \
+		-e "s:faenza dark:faenza-dark:g" -i ./Makefile || die "eek!"
 }
