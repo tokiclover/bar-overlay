@@ -13,7 +13,7 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="minimal"
 EAPI=2
-RDEPEND="!minimal? ( x11-themes/gnome-icon-theme )"
+RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )"
 DEPEND="x11-themes/faenza-icon-theme"
 
 RESTRICT="binchecks strip"

@@ -5,18 +5,21 @@
 inherit gnome2-utils
 
 DESCRIPTION="Variants from he original Faenza{,-Cupertino} icon themes."
-HOMEPAGE="http://spg76.deviantart.com/art/Faenza-Variants-184551528?loggedin=1"
+HOMEPAGE="http://spg76.deviantart.com/"
 
 SRC_URI="http://www.deviantart.com/download/184551528/faenza_variants_by_spg76-d31vkvc.zip -> ${P}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE=""
+IUSE="minimal"
 EAPI=2
 
+RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
+		!x11-themes/faenza-cupertino-icon-theme
+		x11-themes/faenza-icon-theme
+"
 DEPEND="app-arch/unzip"
-RDEPEND="x11-themes/faenza-cupertino-icon-theme"
 
 RESTRICT="binchecks strip"
 
