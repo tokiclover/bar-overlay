@@ -14,7 +14,7 @@ KEYWORDS="amd64 x86"
 IUSE="minimal"
 EAPI=2
 
-RDEPEND="!minimal? ( x11-themes/gnome-icon-theme )"
+RDEPEND="!minimal? ( kde-base/oxygen-icons )"
 DEPEND="app-arch/unzip"
 
 RESTRICT="binchecks strip"
