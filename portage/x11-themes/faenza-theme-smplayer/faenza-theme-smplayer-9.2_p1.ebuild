@@ -6,13 +6,15 @@ inherit eutils
 
 DESCRIPTION="Faenza icon theme ported to SMPlyer."
 HOMEPAGE="http://reikonya.deviantart.com/"
-SRC_URI="${DISTDIR}/${P}.tgz"
+SRC_URI="http://www.deviantart.com/download/244895655/faenza_smplayer_9_1_p1_by_reikonya-d41syp3.zip -> ${P}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="minimal"
+IUSE="-minimal"
+EAPI=2
 
+DEPEND="app-arch/unzip"
 RDEPEND="!minimal? ( x11-themes/smplayer-themes )
 		media-video/smplayer"
 
@@ -25,6 +27,7 @@ src_unpack() {
 }
 
 src_install() {
+	unpack ./${P}.tgz || die "eek!"
 	insinto /usr/share/smplayer/themes
 	doins -r Faenza-SMPlayer || die "eek!"
 }
