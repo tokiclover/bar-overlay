@@ -4,8 +4,7 @@
 
 inherit gnome2-utils
 
-DESCRIPTION="A great monochrome-ish scalable icon theme with 100³ colors, \
-	115 start-here logos, 48 folders types and more--KDE *port*"
+DESCRIPTION="kde port of--a great monochrome-ish scalable icon theme with 100³ colors and more"
 HOMEPAGE="https://alecive.deviantart.com/art/kAwOken-244166779"
 SRC_URI="http://www.deviantart.com/download/244166779/kawoken_by_alecive-d41dcaj.zip -> ${P}.zip"
 
