@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/elementary-icon-theme/elementary-icon-theme-2.5,v1.1 2011/08/18 Exp $
+# $Header: $BAR-overlay/portage/x11-themes/elementary-extras-icon-theme/elementary-extras-icon-theme-0.31,v1.1 2011/08/22 Exp $
 
 inherit eutils
 
