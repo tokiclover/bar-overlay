@@ -11,6 +11,6 @@ DESCRIPTION="Web browser based EFL Webkit."
 IUSE="nls"
 
 DEPEND="net-libs/webkit-efl
-    media-libs/elementary[X]
+    x11-libs/elementary[X]
     dev-libs/e_dbus"
 
