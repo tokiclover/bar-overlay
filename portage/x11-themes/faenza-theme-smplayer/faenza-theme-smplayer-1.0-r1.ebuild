@@ -15,7 +15,7 @@ IUSE="-minimal"
 EAPI=2
 
 DEPEND="app-arch/unzip"
-RDEPEND="!minimal? ( x11-themes/smplayer-themes )
+RDEPEND="minimal? ( !x11-themes/smplayer-themes )
 		media-video/smplayer"
 
 RESTRICT="binchecks strip"
