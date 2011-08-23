@@ -23,7 +23,7 @@ detect_arch
 DESCRIPTION="The very latest stable *-git as pulled by git* of the stable tree"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-3.0.y.git
-EGIT_COMMIT=d31bf2883542cd3414674238f94123bd1d9c0b9f
+#EGIT_COMMIT=d31bf2883542cd3414674238f94123bd1d9c0b9f
 EGIT_TAG=v${PV/-r[0-9]*}
 EGIT_PROJECT=${PN}
 EGIT_NOUNPACK="yes"
@@ -38,10 +38,8 @@ CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV/${KV_PATC
 TOI_FILE="current-tuxonice-for-$(get_version_component_range 1-2).patch.bz2"
 SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
 		fbcondecor? ( mirror://${GEN_FILE} )
-		bfs? 		( ${CK_URI}/${CK_BFILE} )
-		hz? 		( ${CK_URI}/${CK_BFILE} )
-		ck? 		( ${CK_URI}/${CK_BFILE} )
 "
+if use bfs || use ck || use hz; then  SRC_URI+=" ${CK_URI}/${CK_BFILE}"; fi
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -64,22 +62,20 @@ src_unpack() {
 }
 
 src_prepare() {
-	for i in Documentation fs include/linux/aufs_type.h; do
-		cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$i . || die "eek!"
+	for f in Documentation fs include/linux/aufs_type.h; do
+		cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$f . || die "eek!"
 	done
 	mv aufs_type.h include/linux/ || die "eek!"
 	epatch "${WORKDIR}"/aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}-{kbuild,base,standalone,loopback,proc_map}.patch
-	grep cap_file_mmap "${WORKDIR}"/aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}-standalone.patch || \
-	epatch "${FILESDIR}"/cap_file_mmap-es.patch
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
 	if use ck; then
 		sed -i -e "s:ck1-version.patch::g" ../patches/series || die "eek!"
-		for i in $(< ../patches/series); do epatch ../patches/$i || die "eek!"; done
+		for pch in $(< ../patches/series); do epatch ../patches/$pch || die "eek!"; done
 	else
 		use bfs && epatch ../patches/{3.0-sched-bfs-406,cpufreq-bfs_tweaks}.patch || die "eek!"
 		if use hz; then
-			for i in $(grep hz ../patches/series); do epatch ../patches/$i || die "eek!"; done
+			for pch in $(grep hz ../patches/series); do epatch ../patches/$pch || die "eek!"; done
 			epatch ../patches/preempt-desktop-tune.patch || die "eek!"
 		fi
 	fi

@@ -1,3 +1,5 @@
+*2011-08-23:
+	revision bumb from rc2 to rc3; removed the aufs patch; and minor edit
 2011-08-16:
 	there were truly more stuff to fix which were introduced with the
 	aufs3-standalone.git repository; and the 3.0.1-r1 to 3.0.3-r1 revision
