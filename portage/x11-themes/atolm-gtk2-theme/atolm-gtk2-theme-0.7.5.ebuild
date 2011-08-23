@@ -1,7 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header:
-# $BAR-overlay/portage/x11-themes/faenza-icon-theme/faenza-icon-theme-0.7.5.ebuild, v1.4 2011/08/18 Exp $
+# $Header: $BAR-overlay/portage/x11-themes/faenza-icon-theme/faenza-icon-theme-0.7.5.ebuild, v1.4 2011/08/18 Exp $
 
 inherit eutils
 
@@ -15,7 +14,7 @@ KEYWORDS="amd64 x86"
 IUSE="minimal"
 EAPI=2
 
-RDEPEND="!minimal? ( x11-themes/gnome-theme )"
+RDEPEND="minimal? ( !x11-themes/gnome-theme )"
 DEPEND="app-arch/unzip"
 
 RESTRICT="binchecks strip"

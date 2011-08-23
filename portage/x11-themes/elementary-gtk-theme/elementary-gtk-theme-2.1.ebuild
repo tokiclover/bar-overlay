@@ -18,7 +18,7 @@ EAPI=2
 RDEPEND="!minimal? ( x11-themes/gnome-theme )"
 DEPEND="app-arch/unzip"
 
-RESTRICT="binchecks strip"
+#RESTRICT="binchecks strip"
 
 S=${WORKDIR}
 
@@ -27,10 +27,10 @@ src_unpack() {
 }
 
 src_install() {
-	rm -rf ./egtk/{.bzr,debian} || die "eek!"é
-	mv ./egtk ./elementary-gtk || die "eek!"
+	rm -rf egtk/{.bzr,debian} || die "eek!"
+	mv egtk elementary-gtk || die "eek!"
 	insinto /usr/share/themes
-	doins -r ./elementary-gtk || die "eek!"
+	doins -r elementary-gtk || die "eek!"
 	dodoc AUTHORS CONTRIBUTORS
 }
 
