@@ -6,7 +6,7 @@ EAPI="3"
 
 inherit cmake-utils flag-o-matic
 
-DESCRIPTION="Open source web browser engine--EFL version"
+DESCRIPTION="Open source web browser engine--EFL port from gtk library"
 HOMEPAGE="http://trac.webkit.org/wiki/EFLWebKit"
 
 SRC_URI="http://packages.profusion.mobi/${PN}/${PN}-svn-r${PV/0.1.}.tar.bz2"
@@ -56,7 +56,6 @@ src_configure() {
 		[ gcc-major-version == 4 ] && [ gcc-minor-version == 4 ] && append-flags -fno-strict-aliasing
 
 		sed -i -e "s:NOPORT:Efl:g" CMakeLists.txt || die "eek!"
-		use video && use !gstreamer && die "video require gstreamer and glib USE flag."
 		MYCMAKEARGS=" -DSHARED_CORE=ON -DPORT=Efl"
 		use static-libs && MYCMAKEARGS="${MYCMAKEARGS/SHARED_CORE=ON/SHARED_CORE=OFF/}"
 		use curl && MYCMAKEARGS+=" -DNETWORK_BACKEND=curl" || \ 
