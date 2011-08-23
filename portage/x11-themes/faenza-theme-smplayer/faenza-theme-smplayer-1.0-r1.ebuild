@@ -27,8 +27,8 @@ src_unpack() {
 }
 
 src_install() {
-	unpack ./${P}-r1.tar.xz || die "eek!"
+	tar xJf ${PF}.tar.xz || die "eek!"
 	insinto /usr/share/smplayer/themes
-	doins -r Faenza{,-Darkest,Silver}-SMPlayer || die "eek!"
+	doins -r ./Faenza{,-Darkest,-Silver}-SMPlayer || die "eek!"
 }
 
