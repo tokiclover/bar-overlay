@@ -36,7 +36,6 @@ src_prepare() {
 	einfo "Replacing init script with gentoo friendly one ..."
 	cp "${FILESDIR}/oss" "${S}/setup/Linux/oss/etc/S89oss"
 
-	epatch "${FILESDIR}"/${P}*.patch
 	# Fix issues with 2.6.30 Linux kernels
 	# epatch "${FILESDIR}/01-2.6.30-kernel-pcidev.patch"
 	# Fix gcc-4.3 warnings (becoming errors by means of -Werror)
