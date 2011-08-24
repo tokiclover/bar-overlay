@@ -42,7 +42,6 @@ SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
 		ck?			( ${CK_URI}/${CK_FILE} )
 		hz? 		( ${CK_URI}/${CK_FILE} )
 "
-if use bfs || use ck || use hz; then  SRC_URI+=" ${CK_URI}/${CK_BFILE}"; fi
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
