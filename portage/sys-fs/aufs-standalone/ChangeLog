@@ -1,11 +1,10 @@
 # ChangeLog for sys-fs/aufs2
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/sys-fs/aufs2/ChangeLog,v 1.35 2011/03/27 13:09:40 jlec Exp $
+# $Header: $BAR-overlay/portage/sys-fs/aufs-standalone/ChangeLog, v1.45 2011/08/24 Exp $
 
 *2011-08-17
-	* merging: media-fonts/font-misc-misc; and adding a warning for kernel
 	<v2.6.35 users to upgrade to >v2.6.34 as there won't be no support as 
-	of 2011-08-15
+	of 2011-08-15 for aufs2.1
 
 *2011-08-06
   * creattion of sys-fs/aufs-standalone-9999 merging aufs{2,3} and update of
