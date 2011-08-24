@@ -40,7 +40,7 @@ src_unpack() {
 
 	epatch "${FILESDIR}/${P}-soundon_no_libsalsa.patch" \
 			|| die "soundon_no_libsalsa patch failed"
-	
+
 	if [ "${ARCH}" == "x86" ]
 	then
 		epatch "${FILESDIR}/${P}-srcconf_x86.patch" \
@@ -53,13 +53,12 @@ src_unpack() {
 }
 
 src_compile() {
-	
 	# Configure has to be run from build dir with full path.
 	cd "${WORKDIR}/build"
 	"${S}"/configure || die  "configure failed"
 
-        einfo "Stripping compiler flags..."
-        sed -i -e 's/-D_KERNEL//' \
+	einfo "Stripping compiler flags..."
+	sed -i -e 's/-D_KERNEL//' \
 		"${WORKDIR}/build/Makefile"
 
 	# Remove libsalsa as it's outdated
@@ -70,12 +69,12 @@ src_compile() {
 
 	emake build || die "emake build failed"
 }
-	
+
 
 src_install() {
 	newinitd "${FILESDIR}/oss" oss
 	cd "${WORKDIR}/build"
-	cp -R prototype/* "${D}" 
+	cp -R prototype/* "${D}"
 }
 
 pkg_postinst() {
@@ -87,5 +86,5 @@ pkg_postinst() {
 	elog "If you are upgrading from a previous build of OSSv4.0 you must run"
 	elog "# /etc/init.d/oss restart "
 	elog ""
-	elog "Enjoy OSSv4.0 !"
+	elog "Enjoy OSSv${PV} !"
 }

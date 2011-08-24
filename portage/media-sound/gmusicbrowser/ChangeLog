@@ -1,6 +1,9 @@
 # ChangeLog for media-sound/gmorgan
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/local/media-sound/gmorgan/ChangeLog,v 1.0 2011/06/16 by tokclover Exp $
+# $Header: $BAR-overlay/portage/media-sound/gmusicbrowser/ChangeLog, v1.0 2011/06/16 Exp $
+
+*2011-08-24:
+	removed that mplayer2 pacth from v1.1.x and rm-ed the patch; plus minor editing updte
 
 *2011-07-31
 	edited live ebuild because the mplayer2 patch is not needed anymore.

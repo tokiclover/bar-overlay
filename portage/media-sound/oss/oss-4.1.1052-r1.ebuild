@@ -46,7 +46,7 @@ src_prepare() {
 
 src_configure() {
 	local myconf="--enable-libsalsa=$(use salsa && echo YES || echo NO)"
-	
+
 	cd "${WORKDIR}/build"
 
 	# Configure has to be run from build dir with full path.
@@ -59,10 +59,10 @@ src_compile() {
 
 	emake build
 }
-	
+
 src_install() {
 	newinitd "${FILESDIR}/oss" oss
-	cp -R "${WORKDIR}"/build/prototype/* "${D}" 
+	cp -R "${WORKDIR}"/build/prototype/* "${D}"
 }
 
 pkg_postinst() {
@@ -74,5 +74,5 @@ pkg_postinst() {
 	elog "If you are upgrading from a previous build of OSSv4.1 you must run"
 	elog "# /etc/init.d/oss restart "
 	elog ""
-	elog "Enjoy OSSv4.1 !"
+	elog "Enjoy OSSv${PV} !"
 }

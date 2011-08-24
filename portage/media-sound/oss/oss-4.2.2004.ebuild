@@ -36,6 +36,7 @@ src_prepare() {
 	einfo "Replacing init script with gentoo friendly one ..."
 	cp "${FILESDIR}/oss" "${S}/setup/Linux/oss/etc/S89oss"
 
+	epatch "${FILESDIR}"/${P}*.patch
 	# Fix issues with 2.6.30 Linux kernels
 	# epatch "${FILESDIR}/01-2.6.30-kernel-pcidev.patch"
 	# Fix gcc-4.3 warnings (becoming errors by means of -Werror)
@@ -74,5 +75,5 @@ pkg_postinst() {
 	elog "If you are upgrading from a previous build of OSSv4.1 you must run"
 	elog "# /etc/init.d/oss restart "
 	elog ""
-	elog "Enjoy OSSv4.1 !"
+	elog "Enjoy OSSv${PV} !"
 }

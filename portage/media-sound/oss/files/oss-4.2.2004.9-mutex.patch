@@ -1,10 +1,10 @@
-     1.1 --- a/kernel/framework/remux/oss_remux.c	Tue Feb 15 06:26:53 2011 +0200
-     1.2 +++ b/kernel/framework/remux/oss_remux.c	Tue Mar 01 08:05:04 2011 +0200
-     1.3 @@ -363,6 +363,7 @@
-     1.4        if (dmap->dmabuf == NULL)
-     1.5  	{
-     1.6  	  cmn_err (CE_WARN, "dmabuf==NULL\n");
-     1.7 +	  MUTEX_EXIT_IRQRESTORE (devc->mutex, flags);
-     1.8  	  return OSS_ENOMEM;
-     1.9  	}
-    1.10 
+--- a/kernel/framework/remux/oss_remux.c	Tue Feb 15 06:26:53 2011 +0200
++++ b/kernel/framework/remux/oss_remux.c	Tue Mar 01 08:05:04 2011 +0200
+@@ -363,6 +363,7 @@
+       if (dmap->dmabuf == NULL)
+ 	{
+ 	  cmn_err (CE_WARN, "dmabuf==NULL\n");
++	  MUTEX_EXIT_IRQRESTORE (devc->mutex, flags);
+ 	  return OSS_ENOMEM;
+ 	}
+

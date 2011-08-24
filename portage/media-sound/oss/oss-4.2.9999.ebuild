@@ -58,5 +58,5 @@ pkg_postinst() {
 	elog "If you are upgrading, run"
 	elog "# /etc/init.d/oss restart "
 	elog ""
-	elog "Enjoy OSSv4 !"
+	elog "Enjoy OSSv${PV} !"
 }
