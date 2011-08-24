@@ -12,7 +12,7 @@ K_DEBLOB_AVAILABLE=0
 #K_WANT_GENPATCHES="extras"
 K_GENPATCHES_VER="3"
 ETYPE="sources"
-CKV="${PVR/-r[0-9]*/-git}"
+CKV=${PV}-git
 
 # only use this if it's not an _rc/_pre release
 [ "${PV/_p}" == "${PV}" ] && [ "${PV/_rc}" == "${PV}" ] && OKV="${PV}"
@@ -28,16 +28,18 @@ EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="bfs fbcondecor ck hz tuxonice"
+IUSE="aufs bfs fbcondecor ck hz tuxonice"
 
-GEN_FILE=genpatches-${KV_MAJOR}.0-${K_GENPATCHES_VER}.extras.tar.bz2
-CK_BFILE=${KV_MAJOR}.0.0-ck1-broken-out.tar.bz2
+CK_FILE=${KV_MAJOR}.0.0-ck1-broken-out.tar.bz2
 CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV_MAJOR}.0/${KV_MAJOR}.0.0-ck1}/"
+GEN_FILE=genpatches-${OKV/.${KV_PATCH}}-${K_GENPATCHES_VER}.extras.tar.bz2
 TOI_FILE="current-tuxonice-for-${KV_MAJOR}.0.patch.bz2"
-SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
+SRC_URI="tuxonice? 	( http://tuxonice.net/files/${TOI_FILE} )
 		fbcondecor? ( mirror://${GEN_FILE} )
+		bfs? 		( ${CK_URI}/${CK_FILE} )
+		ck?			( ${CK_URI}/${CK_FILE} )
+		hz? 		( ${CK_URI}/${CK_FILE} )
 "
-if use bfs || use ck || use hz; then  SRC_URI+=" ${CK_URI}/${CK_BFILE}"; fi
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -46,25 +48,29 @@ based on the latest mainline (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
-	kernel_is gt 3 0 3 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-0}
-	unset EGIT_COMMIT
-	unset EGIT_TAG
-	export EGIT_NONBARE=yes
-	export EGIT_REPO_URI=${EGIT_REPO_AUFS}
-	export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
-	export EGIT_PROJECT=aufs${KV_MAJOR}-standalone
-	git-2_src_unpack
+	if use aufs; then
+		kernel_is gt 3 0 3 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-0}
+		unset EGIT_COMMIT
+		unset EGIT_TAG
+		export EGIT_NONBARE=yes
+		export EGIT_REPO_URI=${EGIT_REPO_AUFS}
+		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
+		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone
+		git-2_src_unpack
+	fi
 	if use bfs || use hz || use ck; then
-		unpack ${CK_BFILE} || die "eek!"
+		unpack ${CK_FILE} || die "eek!"
 	fi
 }
 
 src_prepare() {
+	if use aufs; then
 	for f in Documentation fs include/linux/aufs_type.h; do
 		cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$f . || die "eek!"
 	done
 	mv aufs_type.h include/linux/ || die "eek!"
 	epatch "${WORKDIR}"/aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}-{kbuild,base,standalone,loopback,proc_map}.patch
+	fi
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
 	if use ck; then

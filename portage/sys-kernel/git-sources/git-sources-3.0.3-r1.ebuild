@@ -32,12 +32,15 @@ EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-stan
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="bfs fbcondecor ck hz tuxonice"
 
-GEN_FILE=genpatches-${OKV/.${KV_PATCH}}-${K_GENPATCHES_VER}.extras.tar.bz2
-CK_BFILE=${KV/${KV_PATCH}-git/0-ck1}-broken-out.tar.bz2
+CK_FILE=${KV/${KV_PATCH}-git/0-ck1}-broken-out.tar.bz2
 CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV/${KV_PATCH}-git}/${KV/${KV_PATCH}-git/0-ck1}/"
+GEN_FILE=genpatches-${OKV/.${KV_PATCH}}-${K_GENPATCHES_VER}.extras.tar.bz2
 TOI_FILE="current-tuxonice-for-$(get_version_component_range 1-2).patch.bz2"
 SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
 		fbcondecor? ( mirror://${GEN_FILE} )
+		bfs? 		( ${CK_URI}/${CK_FILE} )
+		ck?			( ${CK_URI}/${CK_FILE} )
+		hz? 		( ${CK_URI}/${CK_FILE} )
 "
 if use bfs || use ck || use hz; then  SRC_URI+=" ${CK_URI}/${CK_BFILE}"; fi
 
@@ -57,7 +60,7 @@ src_unpack() {
 	export EGIT_PROJECT=aufs${KV_MAJOR}-standalone
 	git-2_src_unpack
 	if use bfs || use hz || use ck; then
-		unpack ${CK_BFILE} || die "eek!"
+		unpack ${CK_FILE} || die "eek!"
 	fi
 }
 
