@@ -1,2 +1,3 @@
 media-gfx/ev
 x11-misc/xkbswitch
+x11-themes/detour
