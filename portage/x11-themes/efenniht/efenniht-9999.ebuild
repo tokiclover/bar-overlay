@@ -28,14 +28,14 @@ src_unpack() {
 }
 
 src_compile() {
-	sed	-e "s:../elementary:elementary-${PV}:g" -i Makefile || die "eek!"
+	sed	-e "s:\.\./elementary:elementary-${PV}:g" -i Makefile || die "eek!"
 	emake all || die "eek!"
 }
 
 src_install() {
-	sed	-e "s:\$(.*prefix .*):${D}/usr:g" \
-		-e "s:shaelementary.*/data:share/elementary:g" -i Makefile || die "eek!"
-	emake install-system || die "eek!"
+	sed -e "s:elementary/data:elementary:" \
+		-e "s:\$(shell :\$(DESTDIR)$\$(:" -i Makefile || die "eek!"
+	emake DESTDIR="${D}" install-system || die "eek!"
 	if use gtk; then
 		mv ../{E,e}fenniht-gtk2 || die "eek!"
 		insinto /usr/share/themes
