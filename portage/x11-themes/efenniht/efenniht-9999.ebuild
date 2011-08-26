@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $BAR-overlay/portage/x11-themes/efenniht-9999.ebuild, v1.2 2011/08/17 Exp $
 
-ESVN_SUB_PROJECT="THEMES"
-inherit enlightenment
+ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/THEMES/efenniht"
+inherit subversion
 
 DESCRIPTION="An EFL theme derived from equinox..."
 RDEPEND="x11-wm/enlightenment"
@@ -12,29 +12,33 @@ IUSE="gtk"
 EGTK=efenniht-gtk2-0.1.tar.gz
 SRC_URI=" gtk? ( http://gnome-look.org/CONTENT/content-files/142710-Efenniht-gtk2.tar.gz -> ${EGTK} )"
 EAPI=2
+WANT_AUTOTOOLS=no
+ESVN_PROJECT=enlightenment/THEMES
+SLOT=0
 
 src_unpack() {
 	use gtk && unpack ${EGTK} || die "eek!"
 	subversion_src_unpack
-	export ESVN_REPO_URI=${ESVN_SERVER:-${E_LIVE_SERVER_DEFAULT_SVN}}/elementary
-	unset ESVN_SUB_PROJECT && export ESVN_PROJECT=${ESVN_PROJECT/THEMES}
-	mv ${WORKDIR}/efennih{t,} || die "eek!"
+	export ESVN_REPO_URI=${ESVN_REPO_URI/THEMES\/${PN}/elementary}
+	export ESVN_PROJECT=${ESVN_PROJECT/THEMES}
+	mv ${WORKDIR}/efennih{t,}-${PV} || die "eek!"
 	subversion_src_unpack
-	mv ${WORKDIR}/{efenniht,elementary}
-	mv ${WORKDIR}/efennih{,t}
+	mv ${WORKDIR}/{efenniht,elementary}-${PV}
+	mv ${WORKDIR}/efennih{,t}-${PV}
 }
 
 src_compile() {
-	sed	-e "s:../elem:elem:g" -i Makefile || die "eek!"
+	sed	-e "s:../elementary:elementary-${PV}:g" -i Makefile || die "eek!"
 	emake all || die "eek!"
 }
 
 src_install() {
 	sed	-e "s:\$(.*prefix .*):${D}/usr:g" \
-		-e "s:shaelem:share/elem:g" -i Makefile || die "eek!"
+		-e "s:shaelementary.*/data:share/elementary:g" -i Makefile || die "eek!"
 	emake install-system || die "eek!"
 	if use gtk; then
+		mv ../{E,e}fenniht-gtk2 || die "eek!"
 		insinto /usr/share/themes
-		doins -r ../Efenniht-gtk2 || die "eek!"
+		doins -r ../efenniht-gtk2 || die "eek!"
 	fi
 }
