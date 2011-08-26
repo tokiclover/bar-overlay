@@ -1,6 +1,6 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/efenniht-9999.ebuild, v1.2 2011/08/17 Exp $
+# $Header: $BAR-overlay/portage/x11-themes/efenniht-9999.ebuild, v1.3 2011/08/26 Exp $
 
 ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/THEMES/efenniht"
 inherit subversion
