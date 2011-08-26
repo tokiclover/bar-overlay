@@ -1,11 +1,13 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-terms/enterminus/enterminus-9999.ebuild,v 1.1 2005/09/07 03:52:46 vapier Exp $
+# $Header: $BAR-overlay/portage/x11-themes/detour-elm/detour-elm-9999.ebuild, v1.1 201/08/25 Exp $
+
+EAPI=0
 
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
-DESCRIPTION="An EFL theme based on detour"
+DESCRIPTION="An elm theme based/derived from detour e17 theme"
 
 DEPEND="x11-wm/enlightenment"
 
@@ -13,10 +15,11 @@ src_unpack() {
 	subversion_src_unpack
 }
 
-src_configure() {
-	sed -e "s:.elementary:enlightenment/data:g" -i Makefile || die
+src_compile() {
+	emake all || die "eek!"
 }
 
 src_install() {
-	emake HOME="${D}"/usr/share install || die
+	insinto /usr/share/elementary/themes
+	doins detour-elm.edj || die "eek!"
 }
