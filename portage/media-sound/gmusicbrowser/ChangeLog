@@ -2,6 +2,11 @@
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $BAR-overlay/portage/media-sound/gmusicbrowser/ChangeLog, v1.0 2011/06/16 Exp $
 
+*2011-08-26:
+	updating gmusicbrowser-9999.ebuild for a single ebuild for live|beta|stabe ebuil;
+	-gmusicbrowser-1.1.6.ebuild or rather renaming to stable v1.0.2, or rather...
+	just a matter of EGIT_TAG=v${PV}; so git-2.eclass for everything.
+
 *2011-08-24:
 	removed that mplayer2 pacth from v1.1.x and rm-ed the patch; plus minor editing updte
 

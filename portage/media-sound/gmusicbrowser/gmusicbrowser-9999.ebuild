@@ -1,6 +1,6 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/media-sound/gmusicbrowser/gmusicbrowser-9999.ebuild, v1.2 2011/08/24 Exp $
+# $Header: $BAR-overlay/portage/media-sound/gmusicbrowser/gmusicbrowser-9999.ebuild, v1.3 2011/08/26 Exp $
 
 inherit fdo-mime git-2
 
@@ -8,6 +8,7 @@ DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac files"
 HOMEPAGE="http://squentin.free.fr/gmusicbrowser/gmusicbrowser.html"
 EGIT_REPO_URI="git://github.com/squentin/gmusicbrowser.git"
 EGIT_PROJECT=${PN}
+[ ${PV} != 9999 ] && EGIT_TAG=v${PV}
 
 EAPI=2
 LICENSE="GPL-2"
