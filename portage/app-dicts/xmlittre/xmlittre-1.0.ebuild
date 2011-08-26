@@ -15,8 +15,8 @@ SLOT="0"
 KEYWORDS="x86 amd64"
 IUSE=""
 
-DEPEND=">=app-text/stardict-2.0"
-RDEPEND="${DEPEND}"
+RDEPEND=">=app-text/stardict-2.0"
+DEPEND="app-arch/unzip"
 
 S="${WORKDIR}"/XMLittre
 
