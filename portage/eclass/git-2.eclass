@@ -161,7 +161,7 @@ git-2_init_variables() {
 
 	eval x="\$${PN//[-+]/_}_LIVE_COMMIT"
 	[[ -n ${x} ]] && ewarn "QA: using \"${PN//[-+]/_}_LIVE_COMMIT\" variable, you won't get any support"
-	EGIT_COMMIT=${x:-${EGIT_COMMIT:-${EGIT_BRANCH}}}
+	EGIT_COMMIT=${x:-${EGIT_COMMIT:-${EGIT_TAG:-${EGIT_BRANCH}}}}
 
 	: ${EGIT_REPACK:=}
 
@@ -207,7 +207,8 @@ git-2_branch() {
 	pushd "${EGIT_SOURCEDIR}" > /dev/null
 
 	local branchname=branch-${EGIT_BRANCH} src=origin/${EGIT_BRANCH}
-	if [[ ${EGIT_COMMIT} != ${EGIT_BRANCH} ]]; then
+	if [[ ${EGIT_COMMIT} != ${EGIT_BRANCH} ]] || \
+		[[ ${EGIT_COMMIT} != ${EGIT_BRANCH} ]]; then
 		if [[ -n ${EGIT_TAG} ]]; then
 			branchname=tag-${EGIT_TAG}
 			src=${EGIT_TAG}

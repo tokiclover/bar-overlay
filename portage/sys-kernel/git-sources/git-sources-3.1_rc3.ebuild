@@ -65,10 +65,10 @@ src_unpack() {
 
 src_prepare() {
 	if use aufs; then
-	for f in Documentation fs include/linux/aufs_type.h; do
-		cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$f . || die "eek!"
-	done
-	mv aufs_type.h include/linux/ || die "eek!"
+		for f in Documentation fs include/linux/aufs_type.h; do
+			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$f . || die "eek!"
+		done
+		mv aufs_type.h include/linux/ || die "eek!"
 	epatch "${WORKDIR}"/aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}-{kbuild,base,standalone,loopback,proc_map}.patch
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}

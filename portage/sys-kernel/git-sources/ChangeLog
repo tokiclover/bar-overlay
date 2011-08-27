@@ -1,18 +1,35 @@
+# ChangeLog for media-sound/gmorgan
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $BAR-overlay/portage/sys-kernel/git-sources/ChangeLog, v1.0 2011/06/16 Exp $
+
+*2011-08-26:
+	important update since commit 1c2e82bdefa3bec39891 (2011-08-22) EGIT_COMMIT were
+	commented out as EGIT_TAG should have been enough to switch to the right bracnh,
+	but alas it was not the case. git-2.eclass required a fix for that which is 
+	already done. however, EGIT_COMMIT were commented in again as without those,
+	the stable branch could not be merged with official portage git-2.eclass and even
+	with EGIT_COMMIT in again, it might be impossible to merge the stable branch.
+
 *2011-08-23:
 	revision bumb from rc2 to rc3; removed the aufs patch; and minor edit
-2011-08-16:
+
+*2011-08-16:
 	there were truly more stuff to fix which were introduced with the
 	aufs3-standalone.git repository; and the 3.0.1-r1 to 3.0.3-r1 revision
 	bump just pop out a major issue: now linux-3.0.y.git (stable) is
 	linked to the stables ebuilds and linux.git (mainline) linked to _rc*;
 	new git-sources-3.0.3-r1.ebuild and a fully working -3.0.1-r1.ebuild!
-2011-08-16:
+
+*2011-08-16:
 	revision bump fro rc1 to rc2.
-2011-08-13:
+
+*2011-08-13:
 	adding 3.1_rc1 for the most experimental pals with minor changes of
 	the main ebuild.
-2011-08-11:
+
+*2011-08-11:
 	*-r1 ebuild version 1.4 with {ck,bfs,hz} new USE flags.
-2011-08-08:
+
+*2011-08-08:
 	*-r1 ebuild version 1.1 with {tuxonice,fbcondecor} USE flags and
 	aufs2.1 modules.
