@@ -25,6 +25,7 @@ RDEPEND=""
 src_install() {
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
+	bzip2 KnownIssue
 	bzip2 README
 	if use extras; then
 		emake DESTDIR="${D}" install_extras || die "eek!"
