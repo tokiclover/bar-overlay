@@ -23,9 +23,6 @@ DEPEND="sys-apps/v86d
 RDEPEND=""
 
 src_install() {
-	for scr in mkinitramfs-ll{,_{bb,gen,gpg}}; do
-		sed -e "s:\$MISC/init:/etc/init:g" -i $scr || die "eek!"
-	done
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
 	bzip2 README
