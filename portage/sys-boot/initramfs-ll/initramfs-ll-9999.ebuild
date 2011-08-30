@@ -13,11 +13,13 @@ EGIT_REPO_URI="git://github.com/tokiclover/initramfs-luks-lvm-sqfsd.git"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 ia64 ppc ppc64 x86"
-IUSE="aufs extras lvm"
+IUSE="aufs extras lvm splash tuxonice"
 
 DEPEND="sys-apps/v86d
 		sys-fs/cryptsetup[nls,static]
 		lvm? ( sys-fs/lvm2[static] )
+		splash? ( media-gfx/splashutils )
+		tuxonice? ( sys-apps/tuxonice-userui )
 "
 
 RDEPEND=""
