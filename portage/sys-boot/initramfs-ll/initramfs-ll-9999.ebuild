@@ -17,6 +17,7 @@ IUSE="aufs fbsplash extras lvm tuxonice"
 
 DEPEND="sys-apps/v86d
 		sys-fs/cryptsetup[nls,static]
+		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 ) )
 		lvm? ( sys-fs/lvm2[static] )
 		fbsplash? ( media-gfx/splashutils[fbcondecor,png,truetype] )
 		tuxonice? ( sys-apps/tuxonice-userui[fbsplash?] )

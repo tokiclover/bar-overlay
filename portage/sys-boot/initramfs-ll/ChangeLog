@@ -5,6 +5,7 @@
 *2011-08-30:
 	+tuxonice and +spalsh USE flags.
 	splash -> fbsplash so the USE flags plays nicely together.
+	+aufs related PKG, and post install msg update.
 
 *2011-08-29:
 	+initramfs-ll-9999.ebuild.
