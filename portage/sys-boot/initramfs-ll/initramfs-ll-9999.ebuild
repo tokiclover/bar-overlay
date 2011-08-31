@@ -9,6 +9,7 @@ inherit git-2
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/initramfs-luks-lvm-sqfsd"
 EGIT_REPO_URI="git://github.com/tokiclover/initramfs-luks-lvm-sqfsd.git"
+EGIT_PROJECT=${PN}
 
 LICENSE="GPL-3"
 SLOT="0"
