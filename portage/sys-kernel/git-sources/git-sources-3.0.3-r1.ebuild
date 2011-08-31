@@ -36,7 +36,7 @@ IUSE="bfs fbcondecor ck hz tuxonice"
 CK_VERSION=${KV_MAJOR}.${KV_MINOR}.0-ck1
 CK_FILE=${CK_VERSION}-broken-out.tar.bz2
 CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV_MAJOR}.${KV_MINOR}/${CK_VERSION}/"
-GEN_FILE=genpatches-${CKV/.${KV_PATCH}*}-${K_GENPATCHES_VER}.extras.tar.bz2
+GEN_FILE=genpatches-${KV_MAJOR}.${KV_MINOR}-${K_GENPATCHES_VER}.extras.tar.bz2
 TOI_FILE="current-tuxonice-for-$(get_version_component_range 1-2).patch.bz2"
 SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
 		fbcondecor? ( mirror://${GEN_FILE} )
