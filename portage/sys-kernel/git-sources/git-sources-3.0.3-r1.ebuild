@@ -23,7 +23,7 @@ detect_arch
 
 DESCRIPTION="The very latest stable *-git as pulled by git* of the stable tree"
 HOMEPAGE="http://www.kernel.org"
-EGIT_REPO_URI=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-${CKV/.${KV_PATCH}*}.y.git
+EGIT_REPO_URI=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-${KV_MAJOR}${KV_MINOR}.y.git
 EGIT_COMMIT=d31bf2883542cd3414674238f94123bd1d9c0b9f
 EGIT_TAG=v${PV/-r[0-9]*}
 EGIT_PROJECT=${PN}
