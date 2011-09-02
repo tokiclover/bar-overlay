@@ -23,6 +23,6 @@ S="${WORKDIR}"/XMLittre
 src_install() {
 	dodir/usr/share/stardict/dic
 	insinto /usr/share/stardict/dic
-	mv {,XMLittre.}README 
-	doins -r XMLitrre.* || die "eek!"
+	mv {,XMLittre.}README
+	doins XMLitrre.{dict.dz,idx.gz,ifo,README} || die "eek!"
 }
