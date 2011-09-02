@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-fs/aufs-util/aufs-util-9999.ebuild, v1.2 2011/08/17 Exp $
+# $Header: $BAR-overlay/portage/sys-fs/aufs-util/aufs-util-9999.ebuild, v1.3 2011/09/02 Exp $
 
 EAPI="4"
 
@@ -15,12 +15,15 @@ RDEPEND="${DEPEND}
 DEPEND="!kernel? ( =sys-fs/${P/util/standalone}[header] )"
 
 get_version
-if kernel_is gt 3 0; then
-	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
+
+if [ ${KV_MAJOR} -eq 3 ]; then
+	[ ${KV_MINOR} -eq 1 ] &&  EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || \
+		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
 else
 	EGIT_REPO_URI=${EGIT_REPO_URI/-/${KV_MAJOR}-}
 	EGIT_PROJECT=${PN/-/${KV_MAJOR}-}
-	EGIT_BRANCH=aufs${KV_MAJOR}.2
+	[ ${KV_PATCH} -lt 35 ] && EGIT_BRANCH=aufs${KV_MAJOR}.1 || \
+		EGIT_BRANCH=aufs${KV_MAJOR}.2
 fi
 
 LICENSE="GPL-2"

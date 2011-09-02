@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-fs/aufs2/aufs2-0_p20110327.ebuild, v1.2 2011/08/17 Exp $
+# $Header: $BAR-overlay/portage/sys-fs/aufs2/aufs2-0_p20110327.ebuild, v1.3 2011/08/17 Exp $
 
 EAPI="4"
 
@@ -11,16 +11,19 @@ HOMEPAGE="http://aufs.sourceforge.net/"
 EGIT_NONBARE=yes
 
 get_version
-if kernel_is gt 3 0; then
-	kernel_is gt 3 0 2 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
-	VERSION=${KV_MAJOR}.${KV_MINOR}
-elif kernel_is lt 2 6 35; then
-	EGIT_BRANCH=aufs${KV_MAJOR}.1-${KV_PATCH}
-	VERSION=${KV_MAJOR}.1-${KV_PATCH}
-else
-	EGIT_BRANCH=aufs${KV_MAJOR}.2-${KV_PATCH}
-	VERSION=${KV_MAJOR}.2-${KV_PATCH}
+
+if [ ${KV_MAJOR} -eq 3 ]; then
+	[ ${PV/_rc} = ${PV} ] && EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR} || \
+		EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN
+elif [ ${KV_MAJOR} -eq 2 ]; then
+	if [ ${KV_PATCH} -lt 35 ]; then
+		EGIT_BRANCH=aufs${KV_MAJOR}.1-${KV_PATCH}
+		VERSION=${KV_MAJOR}.1-${KV_PATCH}
+	else
+		EGIT_BRANCH=aufs${KV_MAJOR}.2-${KV_PATCH}
+		VERSION=${KV_MAJOR}.2-${KV_PATCH}; fi
 fi
+
 EGIT_PROJECT=${PN/-/${KV_MAJOR}-}
 EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 

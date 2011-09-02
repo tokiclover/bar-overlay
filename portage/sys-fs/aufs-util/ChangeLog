@@ -2,6 +2,9 @@
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $BAR-overlay/portage/sys-fs/aufs-util/ChangeLog, v1.1 2011/08/24 Exp $
 
+*2011-09-02:
+	ebuild update to get rid of use of kernel_is in the main ebuild core
+
 *2011-08-24:
 	minor edit the ebuild header and major edit to the ChangeLog
 
