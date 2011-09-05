@@ -34,7 +34,7 @@ src_compile() {
 
 src_install() {
 	sed -e "s:elementary/data:elementary:" \
-		-e "s:\$(shell :\$(DESTDIR)\$(:" -i Makefile || die "eek!"
+		-e "s:\$(shell:\$(DESTDIR)/\$(shell:g" -i Makefile || die "eek!"
 	emake DESTDIR="${D}" install-system || die "eek!"
 	if use gtk; then
 		mv ../{E,e}fenniht-gtk2 || die "eek!"
