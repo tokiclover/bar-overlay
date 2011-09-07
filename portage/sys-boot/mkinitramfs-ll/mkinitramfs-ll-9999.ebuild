@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-boot/initramfs-ll/initramfs-ll-9999.ebuild, v1.1 2011/08/29 -tclover Exp $
+# $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild, v1.1 2011/08/29 -tclover Exp $
 
 EAPI=2
 

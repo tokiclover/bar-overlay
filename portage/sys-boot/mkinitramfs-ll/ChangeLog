@@ -1,6 +1,9 @@
 # ChangeLog for media-sound/gmorgan
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $BAR-overlay/portage/sys-boot/initramfs-ll/ChangeLog, v1.0 2011/08/29 Exp $
+# $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/ChangeLog, v1.0 2011/08/29 Exp $
+
+*2011-09-07:
+	pkg name change initramfs-ll -> mkinitramfs-ll.
 
 *2011-08-30:
 	+tuxonice and +spalsh USE flags.
