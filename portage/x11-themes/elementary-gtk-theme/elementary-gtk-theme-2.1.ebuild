@@ -1,7 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header:
-# $BAR-overlay/portage/x11-themes/elementary-gtk-theme/elementary-gtk-theme-2.1.ebuild, v1.4 2011/08/18 Exp $
+# $Header: $BAR-overlay/portage/x11-themes/elementary-gtk-theme/elementary-gtk-theme-2.1.ebuild, v1.1 2011/09/08 Exp $
 
 inherit eutils
 
@@ -15,7 +14,8 @@ KEYWORDS="amd64 x86"
 IUSE="minimal"
 EAPI=2
 
-RDEPEND="!minimal? ( x11-themes/gnome-theme )"
+RDEPEND="minimal? ( !x11-themes/gnome-theme )
+		x11-themes/gtk-engines-murrine"
 DEPEND="app-arch/unzip"
 
 #RESTRICT="binchecks strip"
@@ -28,9 +28,8 @@ src_unpack() {
 
 src_install() {
 	rm -rf egtk/{.bzr,debian} || die "eek!"
-	mv egtk elementary-gtk || die "eek!"
+	mv egtk ${PN/-theme} || die "eek!"
 	insinto /usr/share/themes
-	doins -r elementary-gtk || die "eek!"
+	doins -r ${PN/-theme} || die "eek!"
 	dodoc AUTHORS CONTRIBUTORS
 }
-
