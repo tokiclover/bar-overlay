@@ -30,9 +30,9 @@ src_unpack() {
 
 src_install() {
 	for dir in $(ls -d Equinox\ *); do
-		local ren=$(echo $dir|sed "s: ::g")
+		local ren=$(echo "$dir"|sed "s: ::g")
 		if [ "$dir" != "$ren" ]; then
-			mv $(echo $dir|sed "s: :\ :g") $ren || die "eek!"
+			mv $(echo "$dir"|sed "s: :\ :g") $ren || die "eek!"
 		fi
 	done
 	mv userChrome.css Equinox/
