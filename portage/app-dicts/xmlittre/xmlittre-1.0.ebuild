@@ -18,11 +18,11 @@ IUSE=""
 RDEPEND=">=app-text/stardict-2.0"
 DEPEND="app-arch/unzip"
 
-S="${WORKDIR}"/XMLittre
+S="${WORKDIR}"/${PN/xml/XML}
 
 src_install() {
 	dodir/usr/share/stardict/dic
 	insinto /usr/share/stardict/dic
-	mv {,XMLittre.}README
-	doins XMLitrre.{dict.dz,idx.gz,ifo,README} || die "eek!"
+	mv {,${PN/xml/XML}.}README
+	doins ${PN/xml/XML}.* || die "eek!"
 }
