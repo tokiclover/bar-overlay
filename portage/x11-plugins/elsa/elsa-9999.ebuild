@@ -16,13 +16,14 @@ DEPEND=">=dev-libs/ecore-1.0
 	>=media-libs/evas-1.0
 	>=x11-libs/elementary-0.5"
 RDEPEND="virtual/pam
-		sys-auth/consolekit
+	consolekit? ( sys-auth/consolekit )
 		grub2? ( sys-boot/grub:2 )"
 
-IUSE="grub2"
+IUSE="consolekit grub2"
 
 src_configure() {
 	export MY_ECONF="
+		$(use_enable consolekit consolekit)
 		$(use_enable grub2 grub2)
 	"
 	enlightenment_src_configure
