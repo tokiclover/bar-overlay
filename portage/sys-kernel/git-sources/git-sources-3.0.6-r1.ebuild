@@ -11,7 +11,7 @@ K_NOUSEPR="yes"
 K_SECURITY_UNSUPPORTED="yes"
 K_DEBLOB_AVAILABLE=0
 #K_WANT_GENPATCHES="extras"
-K_GENPATCHES_VER="3"
+K_GENPATCHES_VER="7"
 ETYPE="sources"
 CKV="${PVR/-r[0-9]*/-git}"
 
@@ -51,7 +51,7 @@ based on the latest vanilla (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
-	kernel_is gt 3 0 4 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
+	kernel_is gt 3 0 6 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
 	unset EGIT_COMMIT
 	unset EGIT_TAG
 	export EGIT_NONBARE=yes
