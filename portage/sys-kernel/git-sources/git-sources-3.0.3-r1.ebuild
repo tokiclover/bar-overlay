@@ -11,7 +11,7 @@ K_NOUSEPR="yes"
 K_SECURITY_UNSUPPORTED="yes"
 K_DEBLOB_AVAILABLE=0
 #K_WANT_GENPATCHES="extras"
-K_GENPATCHES_VER="3"
+K_GENPATCHES_VER="4"
 ETYPE="sources"
 CKV="${PVR/-r[0-9]*/-git}"
 [ "${PV/_p}" == "${PV}" ] && [ "${PV/_rc}" == "${PV}" ] && OKV="${CKV/-git}"
