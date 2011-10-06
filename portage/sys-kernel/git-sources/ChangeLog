@@ -2,6 +2,22 @@
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $BAR-overlay/portage/sys-kernel/git-sources/ChangeLog, v1.0 2011/06/16 Exp $
 
+*2011-10-06:
+	-git-sources-3.0.4-r1.ebuild +git-sources-3.0.6-r1.ebuild (+new git URI)
+	+git-sources-3.1_rc9.ebuild revision bump.
+
+*2011-09-30:
+	+git-sources-3.1_rc9.ebuild	revision bump
+
+*2011-09-30:
+	+git-sources-3.1_rc8.ebuild	revision bump
+
+*2011-09-23:
+	+git-sources-3.1_rc7.ebuild	revision bump
+
+*2011-09-15:
+	+git-sources-3.1_rc6.ebuild	revision bump
+
 *2011-08-30:
 	-git-sources-3.0.1-r1.ebuild +git-sources-3.0.4-r1.ebuild +minor ebuild editings.
 
