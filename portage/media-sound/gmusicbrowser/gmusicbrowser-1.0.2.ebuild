@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/media-sound/gmusicbrowser/gmusicbrowser-9999.ebuild, v1.3 2011/08/26 Exp $
+# $Header: $BAR-overlay/portage/media-sound/gmusicbrowser/gmusicbrowser-1.0.2.ebuild, v1.1 2011/10/09 -tclover Exp $
 
 inherit fdo-mime git-2
 
@@ -30,13 +30,15 @@ RDEPEND=">=dev-lang/perl-5.8
 		media-libs/gst-plugins-good
 	)
 	mplayer? ( || ( media-video/mplayer media-video/mplayer2 ) )
-	!gstreamer? ( !mplayer? (
-		media-sound/mpg123
-		media-sound/mpg321
-		media-sound/vorbis-tools
-		media-sound/flac123
-		media-sound/alsa-utils
-	) )
+	!gstreamer? ( 
+		!mplayer? (
+			media-sound/mpg123
+			media-sound/mpg321
+			media-sound/vorbis-tools
+			media-sound/flac123
+			media-sound/alsa-utils
+		) 
+	)
 	mozilla? ( dev-perl/Gtk2-MozEmbed )
 	webkit? ( dev-perl/Gtk2-WebKit )"
 
