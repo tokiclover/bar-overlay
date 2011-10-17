@@ -15,7 +15,8 @@ IUSE="minimal"
 EAPI=2
 
 RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
-		dev-lang/perl"
+		dev-lang/perl
+		dev-python/gconf-python"
 DEPEND="app-arch/unzip"
 
 RESTRICT="binchecks strip"
@@ -48,4 +49,3 @@ pkg_postinst() {
 	einfo "modify colors and don't forget a \`chmod g+w -R /usr/share/icons/$PN"
 	einfo
 }
-pkg_postrm() { gnome2_icon_cache_update; }
