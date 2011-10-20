@@ -1,19 +1,20 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild, v1.1 2011/10/20 -tclover Exp $
+# $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.3.5_p*.ebuild, v1.1 2011/10/20 -tclover Exp $
 
 EAPI=2
 
-inherit git-2
+inherit eutils
+
+MY_PN="initramfs-luks-lvm-sqfsd"
 
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/initramfs-luks-lvm-sqfsd"
-EGIT_REPO_URI="git://github.com/tokiclover/initramfs-luks-lvm-sqfsd.git"
-EGIT_PROJECT=${PN}
-
+SRC_URI="https://nodeload.github.com/tokiclover/${MY_PN}/tarball/v${PV} -> ${P}.tar.gz"
 LICENSE="GPL-3"
+
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE="aufs fbsplash extras lvm tuxonice"
 
 DEPEND="sys-apps/v86d
@@ -27,6 +28,7 @@ DEPEND="sys-apps/v86d
 RDEPEND=""
 
 src_install() {
+	cd "${WORKDIR}"/*-${MY_PN}-*
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
 	bzip2 KnownIssue
