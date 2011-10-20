@@ -5,6 +5,7 @@
 *2011-10-20:
 	+mkinitramfs-ll-0.3.5_p20110907.ebuild stable, +~ keyworded -9999 version
 	and ebuilds update.
+	+mkinitramfs-ll-0.3.5_p20111020.ebuild revision bump, removed previous stable.
 
 *2011-09-07:
 	pkg name change initramfs-ll -> mkinitramfs-ll.
