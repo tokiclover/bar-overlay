@@ -10,11 +10,12 @@ DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS
 HOMEPAGE="https://github.com/tokiclover/initramfs-luks-lvm-sqfsd"
 EGIT_REPO_URI="git://github.com/tokiclover/initramfs-luks-lvm-sqfsd.git"
 EGIT_PROJECT=${PN}
+if use zsh; then EGIT_BRANCH=devel; fi
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="aufs fbsplash extras lvm tuxonice"
+IUSE="aufs fbsplash extras lvm tuxonice zsh"
 
 DEPEND="sys-apps/v86d
 		sys-fs/cryptsetup[nls,static]
@@ -24,7 +25,8 @@ DEPEND="sys-apps/v86d
 		tuxonice? ( sys-apps/tuxonice-userui[fbsplash?] )
 "
 
-RDEPEND=""
+RDEPEND="zsh? ( app-shells/zsh )
+"
 
 src_install() {
 	emake DESTDIR="${D}" install || die "eek!"
