@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.3.6_p*.ebuild, v1.1 2011/10/24 -tclover Exp $
 
-EAPI=4
+EAPI=2
 inherit eutils
 
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
