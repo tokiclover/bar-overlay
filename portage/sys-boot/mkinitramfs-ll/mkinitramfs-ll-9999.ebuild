@@ -1,14 +1,13 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild, v1.1 2011/10/20 -tclover Exp $
+# $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild, v1.1 2011/10/24 -tclover Exp $
 
-EAPI=2
-
+EAPI=4
 inherit git-2
 
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
-HOMEPAGE="https://github.com/tokiclover/initramfs-luks-lvm-sqfsd"
-EGIT_REPO_URI="git://github.com/tokiclover/initramfs-luks-lvm-sqfsd.git"
+HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
+EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 EGIT_PROJECT=${PN}
 if use zsh; then EGIT_BRANCH=devel; fi
 

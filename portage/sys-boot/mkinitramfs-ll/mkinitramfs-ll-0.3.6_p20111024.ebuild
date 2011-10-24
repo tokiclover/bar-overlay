@@ -1,21 +1,23 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.3.5_p*.ebuild, v1.1 2011/10/20 -tclover Exp $
+# $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.3.6_p*.ebuild, v1.1 2011/10/24 -tclover Exp $
 
-EAPI=2
-
+EAPI=4
 inherit eutils
 
-MY_PN="initramfs-luks-lvm-sqfsd"
-
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
-HOMEPAGE="https://github.com/tokiclover/initramfs-luks-lvm-sqfsd"
-SRC_URI="https://nodeload.github.com/tokiclover/${MY_PN}/tarball/v${PV} -> ${P}.tar.gz"
+HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
+SRC_URI="
+	zsh? ( https://nodeload.github.com/tokiclover/${PN}/tarball/v${PV}.zsh -> ${P}.zsh.tar.gz )
+	!zsh? ( https://nodeload.github.com/tokiclover/${PN}/tarball/v${PV}.bash -> ${P}.bash.tar.gz )
+"
 LICENSE="GPL-3"
 
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="aufs fbsplash extras lvm tuxonice"
+IUSE="aufs fbsplash extras lvm tuxonice zsh"
+
+
 
 DEPEND="sys-apps/v86d
 		sys-fs/cryptsetup[nls,static]
@@ -25,10 +27,10 @@ DEPEND="sys-apps/v86d
 		tuxonice? ( sys-apps/tuxonice-userui[fbsplash?] )
 "
 
-RDEPEND=""
+RDEPEND="zsh? ( app-shells/zsh )"
 
 src_install() {
-	cd "${WORKDIR}"/*-${MY_PN}-*
+	cd "${WORKDIR}"/*-${PN}-*
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
 	bzip2 KnownIssue

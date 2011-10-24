@@ -2,11 +2,15 @@
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/ChangeLog, v1.0 2011/08/29 Exp $
 
+*2011-10-24:
+	+mkinitramfs-ll-0.3.6_p20111024.ebuil -mkinitramfs-ll-0.3.6_p20111023.ebuildd
+	+ebuild update +zsh USE flag for the stable ebuild.
+
 *2011-10-23:
 	+zsh USE flags to merge devel branch.
 
 *2011-10-22:
-	+mkinitramfs-ll-0.3.5_p20111022.ebuil +mkinitramfs-ll-0.3.5_p20111020.ebuildd
+	+mkinitramfs-ll-0.3.5_p20111022.ebuil -mkinitramfs-ll-0.3.5_p20111020.ebuildd
 
 *2011-10-20:
 	+mkinitramfs-ll-0.3.5_p20110907.ebuild stable, +~ keyworded -9999 version
