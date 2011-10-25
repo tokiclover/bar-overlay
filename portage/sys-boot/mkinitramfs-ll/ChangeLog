@@ -3,6 +3,9 @@
 # $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/ChangeLog, v1.0 2011/08/29 Exp $
 
 *2011-10-24:
+	+mkinitramfs-ll-0.3.6_p20111025.ebuil -mkinitramfs-ll-0.3.6_p20111024.ebuildd
+
+*2011-10-24:
 	+mkinitramfs-ll-0.3.6_p20111024.ebuil -mkinitramfs-ll-0.3.6_p20111023.ebuildd
 	+ebuild update +zsh USE flag for the stable ebuild.
 
