@@ -24,7 +24,7 @@ detect_arch
 DESCRIPTION="The very latest linux-stable.git stable tree, -git as pulled by git"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-EGIT_COMMIT=97596c34030ed28657ccafddb67e17a03890b90a
+EGIT_COMMIT=a004e0962a10dfa7fc83dfa4ed4109d1cf84124b
 EGIT_TAG=v${PV/-r[0-9]*}
 EGIT_PROJECT=${PN}
 EGIT_NOUNPACK="yes"
