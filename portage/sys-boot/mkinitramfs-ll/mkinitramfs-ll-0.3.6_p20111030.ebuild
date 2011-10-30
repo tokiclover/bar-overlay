@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.3.6_p20111028.ebuild, v1.1 2011/10/28 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.3.6_p20111030.ebuild, v1.1 2011/10/30 -tclover Exp $
 
 EAPI=2
 inherit eutils
@@ -20,14 +20,15 @@ IUSE="aufs fbsplash extras lvm tuxonice zsh"
 
 
 DEPEND="
+		sys-apps/busybox
 		sys-fs/cryptsetup[nls,static]
 		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 ) )
 		lvm? ( sys-fs/lvm2[static] )
 		fbsplash? ( 
 				  	media-gfx/splashutils[fbcondecor,png,truetype] 
 				  	sys-apps/v86d 
-				  )
-		tuxonice? ( sys-apps/tuxonice-userui[fbsplash?] )
+					tuxonice? ( sys-apps/tuxonice-userui )
+		          )
 "
 
 RDEPEND="zsh? ( app-shells/zsh )"
