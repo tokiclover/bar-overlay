@@ -1,6 +1,7 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: $BAR-overlay/media-sound/oss-4.2.2005,v 1.1 2011/10/30 -tclover Exp $
+
 EAPI=2
 
 inherit eutils versionator

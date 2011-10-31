@@ -1,0 +1,6 @@
+# ChangeLog for media-sound/gmorgan
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $BAR-overlay/media-sound/oss/ChangeLog, v1.0 2011/10/30 Exp $
+
+*2011-10-30:
+	+v4.2.2005 +v4.2.2006 version bump
