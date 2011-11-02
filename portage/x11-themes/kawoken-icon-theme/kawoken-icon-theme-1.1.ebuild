@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/kawoken-icon-theme/kawoken-icon-theme-0.9.ebuild,v1.1 2011/08/21 Exp $
+# $Header: $BAR-overlay/x11-themes/kawoken-icon-theme-1.1.ebuild,v 1.1 2011/11/02 -tclover Exp $
 
 inherit gnome2-utils
 

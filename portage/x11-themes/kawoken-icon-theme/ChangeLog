@@ -1,3 +1,10 @@
+# ChangeLog for media-sound/gmorgan
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $BAR-overlay/x11-themes/kawoken-icon-theme/ChangeLog Exp $
+
+*2011-11-02:
+	+v1.1 ebuild -v0.9 ebuild
+
 *2011-08-21:
 	added ${PN}-0.9.ebuild and created an ebuild for this port of awoken
 	icon theme.
