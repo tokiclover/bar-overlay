@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-kernel/git-sources/git-sources-3.1_rc*.ebuild, v1.5 2011/08/18 Exp $
+# $Header: $BAR-overlay/sys-kernel/git-sources-3.1.ebuild, v1.1 2011/10/27 -tclover Exp $
 
 EAPI=2
 UNIPATCH_STRICTORDER="yes"
@@ -9,8 +9,8 @@ K_NOSETEXTRAVERSION="yes"
 K_NOUSEPR="yes"
 K_SECURITY_UNSUPPORTED="yes"
 K_DEBLOB_AVAILABLE=0
-#K_WANT_GENPATCHES="extras"
-K_GENPATCHES_VER="7"
+K_WANT_GENPATCHES="extras"
+K_GENPATCHES_VER="2"
 ETYPE="sources"
 CKV=${PV}-git
 
@@ -20,26 +20,26 @@ inherit kernel-2 git-2
 detect_version
 detect_arch
 
-DESCRIPTION="The very latest *-git as pulled by git* of the mainline tree"
+DESCRIPTION="The very latest linux.git mainline tree, -git as pulled by git"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 EGIT_PROJECT=${PN}
+EGIT_TAG=v${PV}
 EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="aufs bfs fbcondecor ck hz tuxonice"
 
-CK_FILE=${KV_MAJOR}.0.0-ck1-broken-out.tar.bz2
-CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV_MAJOR}.0/${KV_MAJOR}.0.0-ck1}/"
-GEN_FILE=genpatches-${OKV/.${KV_PATCH}}-${K_GENPATCHES_VER}.extras.tar.bz2
-TOI_FILE="current-tuxonice-for-${KV_MAJOR}.0.patch.bz2"
+BFS_VERSION=413
+BFS_FILE=${KV_MAJOR}.0-sched-bfs-${BFS_VERSION}.patch
+BFS_URI=http://ck.kolivas.org/patches/bfs/${KV_MAJOR}.0.0/
+GEN_FILE=genpatches-${KV_MAJOR}.1-${K_GENPATCHES_VER}.extras.tar.bz2
+TOI_FILE=current-tuxonice-for-${KV_MAJOR}.0.patch.bz2
 SRC_URI="tuxonice? 	( http://tuxonice.net/files/${TOI_FILE} )
+		bfs? 		( ${BFS_URI}/${BFS_FILE} )
 		fbcondecor? ( mirror://${GEN_FILE} )
-		bfs? 		( ${CK_URI}/${CK_FILE} )
-		ck?			( ${CK_URI}/${CK_FILE} )
-		hz? 		( ${CK_URI}/${CK_FILE} )
-"
+		"
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -48,8 +48,9 @@ based on the latest mainline (stable) tree."
 
 src_unpack() {
 	git-2_src_unpack
-	if use aufs; then
-		kernel_is gt 3 0 3 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-0}
+	use aufs && {
+		kernel_is gt 3 2 0 && EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || \
+			EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR:-${KV_PATCH}}
 		unset EGIT_COMMIT
 		unset EGIT_TAG
 		export EGIT_NONBARE=yes
@@ -57,32 +58,22 @@ src_unpack() {
 		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
 		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone
 		git-2_src_unpack
-	fi
-	if use bfs || use hz || use ck; then
-		unpack ${CK_FILE} || die "eek!"
-	fi
+	}
 }
 
 src_prepare() {
-	if use aufs; then
-		for f in Documentation fs include/linux/aufs_type.h; do
-			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$f . || die "eek!"
+	use aufs && {
+		for fle in Documentation fs include/linux/aufs_type.h; do
+			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$fle . || die "eek!"
 		done
-		mv aufs_type.h include/linux/ || die "eek!"
-	epatch "${WORKDIR}"/aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}-{kbuild,base,standalone,loopback,proc_map}.patch
-	fi
+		mv aufs_type.h include/linux/ || die "eek!"a
+		local AUFS_PREFIX=aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}
+		epatch "${WORKDIR}"/${AUFS_PREFIX}-{kbuild,base,standalone,loopback,proc_map}.patch
+	}
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
-	if use ck; then
-		sed -i -e "s:ck1-version.patch::g" ../patches/series || die "eek!"
-		for pch in $(< ../patches/series); do epatch ../patches/$pch || die "eek!"; done
-	else
-		use bfs && epatch ../patches/{3.0-sched-bfs-406,cpufreq-bfs_tweaks}.patch || die "eek!"
-		if use hz; then
-			for pch in $(grep hz ../patches/series); do epatch ../patches/$pch || die "eek!"; done
-			epatch ../patches/preempt-desktop-tune.patch || die "eek!"
-		fi
-	fi
+	use bfs && epatch "${FILESDIR}"/${BFS_FILE}
+	use hz && epatch "${FILESDIR}"/hz-preempt-bfs.patch.bz2
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die "eek!"
 }
