@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/awoken-icon-theme/awoken-icon-theme-2.2.ebuild,v1.1 2011/09/10 Exp $
+# $Header: $BAR-overlay/x11-themes/awoken-icon-theme-2.2.ebuild,v 1.1 2011/09/10 -tclover Exp $
 
 EAPI=4
 inherit gnome2-utils
@@ -12,10 +12,12 @@ SRC_URI="http://www.deviantart.com/download/163570862/awoken_by_alecive-d2pdw32.
 LICENSE="CC BY-NC-SA-3.0 - CC BY-NC-ND-3.0"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="minimal"
+IUSE="colorization minimal"
 EAPI=2
 
-RDEPEND="!minimal? ( x11-themes/gnome-icon-theme )"
+RDEPEND="!minimal? ( x11-themes/gnome-icon-theme )
+	colorization? ( media-gfx/imagemagick )
+"
 DEPEND="app-arch/unzip"
 
 RESTRICT="binchecks strip"
@@ -31,6 +33,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	for theme in ${MY_PN}{,Dark}; do unpack ./$theme.tar.gz || die "eek!"; done
 	local res x
 	for x in ${MY_PN}{,Dark}; do
 		for res in 24 128; do
