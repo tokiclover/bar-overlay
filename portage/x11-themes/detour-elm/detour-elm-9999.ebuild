@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/detour-elm/detour-elm-9999.ebuild, v1.1 201/08/25 Exp $
+# $Header: $BAR-overlay/x11-themes/detour-elm-9999.ebuild,v 1.1 2011/11/02 -tclover Exp $
 
 EAPI=0
 

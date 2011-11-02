@@ -1,11 +1,11 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-terms/enterminus/enterminus-9999.ebuild,v 1.1 2005/09/07 03:52:46 vapier Exp $
+# $Header: $BAR-overlay/x11-themes/detourious-9999.ebuild,v 1.1 2011/11/02 -tclover Exp $
 
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
-DESCRIPTION="An e17 theme based/derived from detour e17 theme."
+DESCRIPTION="An e17 theme based/derived from detour e17 theme"
 RDEPEND="x11-wm/enlightenment"
 IUSE="gtk"
 
