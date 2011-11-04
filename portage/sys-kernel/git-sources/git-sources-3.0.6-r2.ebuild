@@ -72,14 +72,14 @@ src_prepare() {
 			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$fle . || die "eek!"
 		done
 		mv aufs_type.h include/linux/ || die "eek!"
-		kernel_is gt 3 0 6 && cd ../aufs* && epatch "${FILESDIR}"/aufs-3.0.6-8-loopback.patch && cd ../linux-*
+		kernel_is ge 3 0 6 && cd ../aufs* && epatch "${FILESDIR}"/aufs-3.0.6-8-loopback.patch && cd ../linux-*
 		local AUFS_PREFIX=aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}
 		epatch "${WORKDIR}"/${AUFS_PREFIX}-{kbuild,base,standalone,loopback,proc_map}.patch
 	}
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
 	if use ck; then
-		kernel_is gt 3 0 6 && cd ../patches && epatch "${FILESDIR}"/bfs-406-413.patch && cd ../linux-*
+		kernel_is ge 3 0 6 && cd ../patches && epatch "${FILESDIR}"/bfs-406-413.patch && cd ../linux-*
 		sed -i -e "s:ck1-version.patch::g" ../patches/series || die "eek!"
 		for pch in $(< ../patches/series); do epatch ../patches/$pch || die "eek!"; done
 		epatch "${DISTDIR}"/${BFS_FILE/sched-bfs-406/ck1-bfs-406-413}
