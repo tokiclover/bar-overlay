@@ -20,7 +20,7 @@ inherit kernel-2 git-2
 detect_version
 detect_arch
 
-DESCRIPTION="The very latest linux.git mainline tree, -git as pulled by git"
+DESCRIPTION="The very latest linux-stable.git, -git as pulled by git of the stable tree"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_PROJECT=${PN}
@@ -41,7 +41,7 @@ CK_URI="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${KV_MAJOR}.${KV_MINOR}/${CK
 GEN_FILE=genpatches-${KV_MAJOR}.${KV_MINOR}-${K_GENPATCHES_VER}.extras.tar.bz2
 TOI_FILE=current-tuxonice-for-${KV_MAJOR}.0.patch.bz2
 SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
-		fbcondecor? ( mirror://${GEN_FILE} )
+		fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${GEN_FILE} )
 		bfs? 		( ${CK_URI}/${CK_FILE} )
 		ck?			( ${CK_URI}/${CK_FILE} )
 		hz? 		( ${CK_URI}/${CK_FILE} )
@@ -72,7 +72,7 @@ src_prepare() {
 		for fle in Documentation fs include/linux/aufs_type.h; do
 			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$fle . || die "eek!"
 		done
-		mv aufs_type.h include/linux/ || die "eek!"a
+		mv aufs_type.h include/linux/ || die "eek!"
 		local AUFS_PREFIX=aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}
 		epatch "${WORKDIR}"/${AUFS_PREFIX}-{kbuild,base,standalone,loopback,proc_map}.patch
 	}

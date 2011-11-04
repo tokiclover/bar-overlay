@@ -21,7 +21,7 @@ inherit kernel-2 git-2
 detect_version
 detect_arch
 
-DESCRIPTION="The very latest stable *-git as pulled by git* of the stable tree"
+DESCRIPTION="The very latest linux-stable.git, -git as pulled by git of the stable tree"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 EGIT_COMMIT=d31bf2883542cd3414674238f94123bd1d9c0b9f
@@ -39,7 +39,7 @@ CK_URI="https://www.kernel.org/pub/linux/kernel/people/ck/patches/${KV_MAJOR}.${
 GEN_FILE=genpatches-${KV_MAJOR}.${KV_MINOR}-${K_GENPATCHES_VER}.extras.tar.bz2
 TOI_FILE="current-tuxonice-for-$(get_version_component_range 1-2).patch.bz2"
 SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
-		fbcondecor? ( mirror://${GEN_FILE} )
+		fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${GEN_FILE} )
 		bfs? 		( ${CK_URI}/${CK_FILE} )
 		ck?			( ${CK_URI}/${CK_FILE} )
 		hz? 		( ${CK_URI}/${CK_FILE} )

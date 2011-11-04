@@ -20,7 +20,7 @@ inherit kernel-2 git-2
 detect_version
 detect_arch
 
-DESCRIPTION="The very latest linux.git mainline tree, -git as pulled by git"
+DESCRIPTION="The very latest linux-stable.git, -git as pulled by git of the stable tree"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_PROJECT=${PN}
@@ -40,7 +40,7 @@ CK_URI="http://ck.kolivas.org/patches/${KV_MAJOR}.${KV_MINOR}/${KV_MAJOR}.${KV_M
 GEN_FILE=genpatches-${KV_MAJOR}.${KV_MINOR}-${K_GENPATCHES_VER}.extras.tar.bz2
 TOI_FILE=current-tuxonice-for-${KV_MAJOR}.${KV_MINOR}.patch.bz2
 SRC_URI="tuxonice?  ( http://tuxonice.net/files/${TOI_FILE} )
-		fbcondecor? ( mirror://${GEN_FILE} )
+		fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${GEN_FILE} )
 		bfs?        ( ${BFS_URI}/${BFS_FILE/sched-bfs-406/bfs-406-413} ${CK_URI}/${CK_FILE} )
 		ck?         ( ${BFS_URI}/${BFS_FILE/sched-bfs-406/ck1-bfs-406-413} ${CK_URI}/${CK_FILE} )
 		hz?         ( ${CK_URI}/${CK_FILE} )
@@ -71,18 +71,21 @@ src_prepare() {
 		for fle in Documentation fs include/linux/aufs_type.h; do
 			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$fle . || die "eek!"
 		done
-		mv aufs_type.h include/linux/ || die "eek!"a
+		mv aufs_type.h include/linux/ || die "eek!"
+		kernel_is gt 3 0 6 && cd ../aufs* && epatch "${FILESDIR}"/aufs-3.0.6-8-loopback.patch && cd ../linux-*
 		local AUFS_PREFIX=aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}
 		epatch "${WORKDIR}"/${AUFS_PREFIX}-{kbuild,base,standalone,loopback,proc_map}.patch
 	}
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
 	if use ck; then
+		kernel_is gt 3 0 6 && cd ../patches && epatch "${FILESDIR}"/bfs-406-413.patch && cd ../linux-*
 		sed -i -e "s:ck1-version.patch::g" ../patches/series || die "eek!"
 		for pch in $(< ../patches/series); do epatch ../patches/$pch || die "eek!"; done
 		epatch "${DISTDIR}"/${BFS_FILE/sched-bfs-406/ck1-bfs-406-413}
 	else
 		use bfs && {
+			kernel_is gt 3 0 6 && cd ../patches && epatch "${FILESDIR}"/bfs-406-413.patch && cd ../linux-*
 			epatch ../patches/{${BFS_FILE},cpufreq-bfs_tweaks.patch}
 			epatch "${DISTDIR}"/${BFS_FILE/sched-bfs-406/bfs-406-413}
 		}
