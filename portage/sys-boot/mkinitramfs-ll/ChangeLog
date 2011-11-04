@@ -2,6 +2,9 @@
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/ChangeLog, v1.0 2011/08/29 Exp $
 
+*2011-11-04:
+	+mkinitramfs-ll-0.3.6_p20111104.ebuild -mkinitramfs-ll-0.3.6_p20111101.ebuild
+
 *2011-10-31:
 	+mkinitramfs-ll-0.3.6_p20111101.ebuild -mkinitramfs-ll-0.3.6_p20111031.ebuild
 
