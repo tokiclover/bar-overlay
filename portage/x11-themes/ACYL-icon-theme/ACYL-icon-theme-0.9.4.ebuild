@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/ACYL-icon-theme/ACYL-icon-theme-0.9.4.ebuild,v1.1 2011/03/10 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/ACYL-icon-theme-0.9.4.ebuild,v 1.1 2011/03/10 -tclover Exp $
 
 inherit gnome2-utils
 

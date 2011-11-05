@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/awoken-theme-smplayer/awoken-theme-smplayer-2.1-r2.ebuild,v1.1 2011/08/18 Exp $
+# $Header: $BAR-overlay/x11-themes/awoken-theme-smplayer-2.1-r2.ebuild,v 1.1 2011/08/18 -tclover Exp $
 
 inherit eutils
 
@@ -29,4 +29,3 @@ src_install() {
 	insinto /usr/share/smplayer/themes
 	doins -r AwOken{,Dark}-SMPlayer || die "eek!"
 }
-

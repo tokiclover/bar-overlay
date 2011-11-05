@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /x11-themes/faenza-icon-theme-lo/faenza-icon-theme-lo-9.2_pre20110614.ebuild 1.0 20110725 $
+# $Header: $BAR-overlay/x11-themes/faenza-icon-theme-lo-0.9.2_pre20110614,v 1.1 2011/07/25 -tclover Exp $
 
 EAPI=3
 

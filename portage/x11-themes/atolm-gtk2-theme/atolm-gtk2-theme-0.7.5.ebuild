@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/faenza-icon-theme/faenza-icon-theme-0.7.5.ebuild, v1.4 2011/08/18 Exp $
+# $Header: $BAR-overlay/x11-themes/-tolm-gtktheme-0.7.5.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
 inherit eutils
 
@@ -32,7 +32,6 @@ src_install() {
 	unpack ./Atolm.tar.gz
 	unpack ./Atolm-Squared.tar.gz
 	insinto /usr/share/themes
-	doins -r ./Atolm{,-Squared,.emerald} || die "eek!"
+	doins -r Atolm{,-Squared,.emerald} || die "eek!"
 	dodoc CHANGELOG
 }
-

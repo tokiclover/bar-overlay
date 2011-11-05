@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/elementary-gtk-theme/elementary-gtk-theme-2.1.ebuild, v1.1 2011/09/08 Exp $
+# $Header: $BAR-overlay/x11-themes/elementary-gtk-theme-2.1.ebuild,v 1.1 2011/09/08 -tclover Exp $
 
 inherit eutils
 

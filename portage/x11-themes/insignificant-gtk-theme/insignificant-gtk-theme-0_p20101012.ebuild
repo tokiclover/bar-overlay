@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/insignificant-gtk-theme/insignificant-gtk-theme-*.ebuild, v1.1 2011/09/08 Exp $
+# $Header: $BAR-overlay/x11-themes/insignificant-gtk-theme-0_p20101012,v 1.1 2011/09/08 -tclover Exp $
 
 inherit eutils
 
@@ -34,4 +34,3 @@ src_install() {
 	insinto /usr/share/themes
 	doins -r insignificant* || die "eek!"
 }
-

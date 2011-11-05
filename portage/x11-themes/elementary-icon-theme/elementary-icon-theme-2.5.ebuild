@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/elementary-icon-theme/elementary-icon-theme-2.5,v1.1 2011/08/18 Exp $
+# $Header: $BAR-overlay/x11-themes/elementary-icon-theme-2.5,v 1.1 2011/08/18 -tclover Exp $
 
 inherit eutils
 
@@ -28,6 +28,5 @@ src_install() {
 	unpack ./elementary.tar.gz || die "eek!"
 	unpack ./elementary-mono-dark.tar.gz || die "eek!"
 	insinto /usr/share/icons
-	doins -r ./elementary{,-mono-dark} || die "eek!"
+	doins -r elementary{,-mono-dark} || die "eek!"
 }
-

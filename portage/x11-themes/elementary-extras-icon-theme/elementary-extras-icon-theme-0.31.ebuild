@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/elementary-extras-icon-theme/elementary-extras-icon-theme-0.31,v1.1 2011/08/22 Exp $
+# $Header: $BAR-overlay/x11-themes/elementary-extras-icon-theme-0.31,v 1.1 2011/11/05 -tclover Exp $
 
 inherit eutils
 
@@ -27,6 +27,5 @@ src_unpack() {
 
 src_install() {
 	insinto /usr/share/icons
-	doins -r ./elementary-extras || die "eek!"
+	doins -r elementary-extras || die "eek!"
 }
-

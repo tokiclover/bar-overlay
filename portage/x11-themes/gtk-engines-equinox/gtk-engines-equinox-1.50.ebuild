@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/poratge/x11-themes/gtk-engines-equinox/gtk-engines-equinox-1.50.ebuild, v1.1 2011/08/26 Exp $
+# $Header: $BAR-overlay/x11-themes/gtk-engines-equinox-1.50,v 1.1 2011/08/26 -tclover Exp $
 
 EAPI="2"
 
