@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/app-dicts/xmlitrre/xmlittre-1.0.ebuild, v1.1 Exp $
+# $Header: $BAR-overlay/app-dicts/xmlittre-1.0.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
 inherit stardict
 

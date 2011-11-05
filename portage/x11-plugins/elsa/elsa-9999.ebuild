@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-terms/enterminus/enterminus-9999.ebuild,v 1.1 2005/09/07 03:52:46 vapier Exp $
+# $Header: $BAR-overlay/x11-plugins/elsa-9999.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
 EAPI="2"
 

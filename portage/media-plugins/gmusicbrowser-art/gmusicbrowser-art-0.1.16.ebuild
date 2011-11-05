@@ -1,6 +1,6 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-sound/gmusicbrowser/gmusicbrowser-1.0.2.ebuild,v 1.1 2009/10/27 11:28:16 aballier Exp $
+# $Header: $BAR-overlay/media-plugins/gmusicbrowser-art-0.1.16.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
 inherit git-2
 

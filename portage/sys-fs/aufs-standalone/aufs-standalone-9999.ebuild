@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-fs/aufs2/aufs2-0_p20110327.ebuild, v1.3 2011/08/17 Exp $
+# $Header: $BAR-overlay/sys-fs/aufs-standalone-9999.ebuild, v1.3 2011/08/17 Exp $
 
 EAPI="4"
 

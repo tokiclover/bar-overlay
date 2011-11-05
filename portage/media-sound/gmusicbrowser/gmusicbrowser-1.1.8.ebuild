@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/media-sound/gmusicbrowser/gmusicbrowser-1.1.8.ebuild, v1.1 2011/10/09 -tclover Exp $
+# $Header: $BAR-overlay/media-sound/gmusicbrowser-1.1.8.ebuild,v 1.1 2011/10/09 -tclover Exp $
 
 inherit fdo-mime git-2
 
