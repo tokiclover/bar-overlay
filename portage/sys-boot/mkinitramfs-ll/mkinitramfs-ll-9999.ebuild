@@ -19,7 +19,7 @@ IUSE="aufs fbsplash extras lvm tuxonice zsh"
 DEPEND="
 		sys-apps/busybox
 		sys-fs/cryptsetup[nls,static]
-		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 ) )
+		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
 		lvm? ( sys-fs/lvm2[static] )
 		fbsplash? ( 
 				media-gfx/splashutils[fbcondecor,png,truetype] 
