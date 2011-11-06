@@ -32,7 +32,6 @@ RDEPEND="zsh? ( app-shells/zsh )
 "
 
 src_install() {
-	cd "${WORKDIR}"/*-${PN}-*
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
 	bzip2 KnownIssue
