@@ -6,6 +6,6 @@
  <email></email>
 </maintainer>
 	<use>
-		<flag name="extras">Adds *squash* or sqfsd scripts along with an apllets and options.skel files</flag>
+		<flag name="extras">Adds *squash* or sqfsd scripts files</flag>
 	</use>
 </pkgmetadata>

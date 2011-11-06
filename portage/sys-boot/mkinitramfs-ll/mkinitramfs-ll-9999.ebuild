@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2011/10/30 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2011/11/06 -tclover Exp $
 
 EAPI=2
 inherit git-2
@@ -22,10 +22,10 @@ DEPEND="
 		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 ) )
 		lvm? ( sys-fs/lvm2[static] )
 		fbsplash? ( 
-				  	media-gfx/splashutils[fbcondecor,png,truetype] 
-				  	sys-apps/v86d 
-					tuxonice? ( sys-apps/tuxonice-userui )
-		          )
+				media-gfx/splashutils[fbcondecor,png,truetype] 
+				sys-apps/v86d 
+				tuxonice? ( sys-apps/tuxonice-userui )
+		)
 "
 
 RDEPEND="zsh? ( app-shells/zsh )

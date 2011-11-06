@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.3.6_p20111030.ebuild, v1.1 2011/10/30 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.3.6_p20111030.ebuild, v1.1 2011/11/06 -tclover Exp $
 
 EAPI=2
 inherit eutils
@@ -25,10 +25,10 @@ DEPEND="
 		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 ) )
 		lvm? ( sys-fs/lvm2[static] )
 		fbsplash? ( 
-				  	media-gfx/splashutils[fbcondecor,png,truetype] 
-				  	sys-apps/v86d 
-					tuxonice? ( sys-apps/tuxonice-userui )
-		          )
+				media-gfx/splashutils[fbcondecor,png,truetype] 
+				sys-apps/v86d 
+				tuxonice? ( sys-apps/tuxonice-userui )
+        )
 "
 
 RDEPEND="zsh? ( app-shells/zsh )"
@@ -40,7 +40,6 @@ src_install() {
 	bzip2 KnownIssue
 	bzip2 README
 	if use extras; then
-		emake DESTDIR="${D}" install_extras || die "eek!"
 		emake DESTDIR="${D}" install_sqfsd || die "eek!"
 		mv sqfsd/README README-sqfsd || die "eek!"
 		bzip2 README-sqfsd
