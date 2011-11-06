@@ -50,18 +50,18 @@ src_install() {
 
 pkg_postinst() {
 	einfo
-	einfo "If you have already static binaries of gnupg-1.4*, busybox and its applets"
+	einfo "If you have already static binaries of gnupg-1.4.x, busybox and its applets"
 	einfo "the easiest way to build an intramfs is running in \`/usr/share/local/${PN}'"
 	einfo " \`mkifs-ll --k-version=$(uname -r) --full'. And don't forget to copy those"
-	einfo "binaries before to \`./bin'  along with gpg.conf to \`./misc/.gnupg/'."
+	einfo "binaries before to \`bin/'  along with gpg.conf to \`misc/.gnupg/'."
 	einfo "Else, run \`mkifs-ll_gen --build-all --aufs --lvm' and that script will take"
 	einfo "care of everything for kernel $(uname -r), you can add gpg.conf by appending"
-	einfo "\`--conf-dir=${HOME}' argument for example."
+	einfo "\`--confdir=${HOME}' argument for example."
 	if use extras; then
 		einfo
 		einfo "If you want to squash \$PORTDIR:var/lib/layman:var/db:var/cache/edb"
-		einfo "you have to add \$PORTDIR: to /etc/conf.d/sqfsdmount SQFSD_LOCAL	and"
-		einfo "run \`sdr -d \$PORTDIR:var/lib/layman:var/db:var/cache/edb'."
+		einfo "you have to add that list to /etc/conf.d/sqfsdmount SQFSD_LOCAL and"
+		einfo "then run \`sdr -d \$PORTDIR:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
 }
