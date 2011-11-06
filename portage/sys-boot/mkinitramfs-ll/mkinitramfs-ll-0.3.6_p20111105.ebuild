@@ -61,7 +61,7 @@ pkg_postinst() {
 		einfo
 		einfo "If you want to squash \$PORTDIR:var/lib/layman:var/db:var/cache/edb"
 		einfo "you have to add that list to /etc/conf.d/sqfsdmount SQFSD_LOCAL and"
-		einfo "then run \`sdr -d \$PORTDIR:var/lib/layman:var/db:var/cache/edb'."
+		einfo "then run \`sdr -rm -d \$PORTDIR:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
 }
