@@ -16,7 +16,6 @@ EAPI=2
 
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
 		x11-themes/gtk-engines-equinox
-		x11-themes/gtk-engines-pixbuf
 		x11-themes/gtk-engines-murrine"
 DEPEND="app-arch/unzip"
 
