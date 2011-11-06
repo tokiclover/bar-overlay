@@ -9,7 +9,7 @@ DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 EGIT_PROJECT=${PN}
-if use zsh; then EGIT_BRANCH=devel; fi
+use zsh && EGIT_BRANCH=devel
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -32,12 +32,12 @@ RDEPEND="zsh? ( app-shells/zsh )
 "
 
 src_install() {
+	cd "${WORKDIR}"/*-${PN}-*
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
 	bzip2 KnownIssue
 	bzip2 README
 	if use extras; then
-		emake DESTDIR="${D}" install_extras || die "eek!"
 		emake DESTDIR="${D}" install_sqfsd || die "eek!"
 		mv sqfsd/README README-sqfsd || die "eek!"
 		bzip2 README-sqfsd
