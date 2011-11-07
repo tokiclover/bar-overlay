@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/faenza-smplayer-theme-1.0-r2,v 1.1 2011/11/05 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/faenza-smplayer-theme-1.0-r2,v 1.1 2011/11/07 -tclover Exp $
 
 inherit eutils
 
@@ -16,7 +16,7 @@ EAPI=2
 
 DEPEND="app-arch/unzip"
 RDEPEND="minimal? ( !x11-themes/smplayer-themes )
-		media-video/smplayer"
+		|| ( media-video/smplayer media-video/smplayer2 )"
 
 RESTRICT="binchecks strip"
 
@@ -27,7 +27,11 @@ src_unpack() {
 }
 
 src_install() {
-	unpack ./${PF}.tar.xz || die "eek!"
+	tar xf ${PF}.tar.xz || die "eek!"
 	insinto /usr/share/smplayer/themes
 	doins -r Faenza{,-Darkest,-Silver}-SMPlayer || die "eek!"
+	insinto /usr/share/smplayer2/themes
+	cd "${D}"/usr/share/smplayer2/themes
+	for theme in Faenza{,-Darkest,-Silver}-SMPlayer
+	do ln -s {../../smplayer/themes/,}$theme; done || die "eek!"
 }

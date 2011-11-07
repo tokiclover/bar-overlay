@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/awoken-theme-smplayer-2.1-r2.ebuild,v 1.1 2011/08/18 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/awoken-theme-smplayer-2.1-r2.ebuild,v 1.1 2011/11/07 -tclover Exp $
 
 inherit eutils
 
@@ -15,7 +15,7 @@ IUSE="minimal"
 EAPI=2
 
 RDEPEND="minimal? ( !x11-themes/smplayer-themes )
-		media-video/smplayer"
+		|| ( media-video/smplayer media-video/smplayer2 )"
 
 RESTRICT="binchecks strip"
 
@@ -26,6 +26,12 @@ src_unpack() {
 }
 
 src_install() {
+	for pkg in AwOken{,Dark}-SMplayer
+	do unpack ./$pkg.tar.gz; done || die "eek!"
 	insinto /usr/share/smplayer/themes
-	doins -r AwOken{,Dark}-SMPlayer || die "eek!"
+	doins -r AwOken{,Dark}-SMplayer || die "eek!"
+	insinto /usr/share/smplayer2/themes
+	cd "${D}"/usr/share/smplayer2/themes
+	for theme in AwOken{,Dark}-SMplayer
+	do ln -s {../../smplayer/themes/,}$theme; done || die "eek!"
 }
