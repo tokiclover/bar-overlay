@@ -42,7 +42,7 @@ RDEPEND="minimal? ( !x11-themes/gnome-theme )
 	mac-menu? ( gnome-base/gnome-panel )
 	openbox?  ( x11-wm/openbox )
 	pekwm?    ( x11-wm/pekwm )
-	xfwm?     ( x11-wm/xfwm4 )
+	xfwm?     ( xfce-base/xfwm4 )
 "
 DEPEND="gtk3? ( app-arch/p7zip )"
 
