@@ -24,7 +24,7 @@ SRC_URI="http://gnome-look.org/CONTENT/content-files/51023-Mire%20v2.tar.gz -> $
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="axonkolor conky emerald firefox fluxbox minimal openbox pekwm xfwm"
+IUSE="axonkolor conky emerald fluxbox minimal openbox pekwm xfwm"
 EAPI=2
 
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
@@ -71,9 +71,17 @@ src_install() {
 		mv Mire\ v2_${theme} mire-${theme,} || die "eek!"
 		use emerald && mv Mire\ v2/Mire\ v2\ ${theme}.emerald \
 			mire-${theme,}/mire-${theme,}.emerald
-		use fluxbox && mv Mire\ v2/Mirev2_${theme}/* mire-${theme,}/
+		mv Mire\ v2/start_${theme,}.png mire-${theme,}/start-here_mire-${theme,}.png
+		use fluxbox && {
+			mkdir -p styles/mire-${theme,}
+			mv Mire\ v2/Mirev2_${theme}/* styles/mire-${theme,}/
+		}
 		use openbox && mv Mire\ v2/Mire\ v2_${theme,}/* mire-${theme,}/
 	done
 	insinto /usr/share/themes
 	doins -r mire-* || die "eek!"
+	use fluxbox && {
+		insinto /usr/share/fluxbox
+		doins -r styles || die "eek!"
+	}
 }
