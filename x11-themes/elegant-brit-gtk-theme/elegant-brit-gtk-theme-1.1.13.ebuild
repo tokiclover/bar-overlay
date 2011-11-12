@@ -38,7 +38,6 @@ EAPI=2
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
 	emerald?  ( x11-wm/emerald )
 	gdm?      ( gnome-base/gdm )
-	gtk3?     ( gnome-base/gnome-shell )
 	mac-menu? ( gnome-base/gnome-panel )
 	openbox?  ( x11-wm/openbox )
 	pekwm?    ( x11-wm/pekwm )
