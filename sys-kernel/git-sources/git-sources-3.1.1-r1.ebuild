@@ -25,7 +25,7 @@ HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_PROJECT=${PN}
 EGIT_TAG=v${PV/-r[0-9]*}
-EGIT_COMMIT=c3b92c8787367a8bb53d57d9789b558f1295cc96
+EGIT_COMMIT=b48635635c1a696aea6423ec6c547c8c7bbf7aab
 EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
@@ -35,7 +35,7 @@ IUSE="aufs bfs fbcondecor ck hz tuxonice"
 BFS_VERSION=414
 BFS_FILE=${KV_MAJOR}.${KV_MINOR}-sched-bfs-${BFS_VERSION}.patch
 BFS_URI=http://ck.kolivas.org/patches/bfs/${KV_MAJOR}.${KV_MINOR}.0/
-CK_VERSION=${KV_MAJOR}.${KV_MINOR}.0-ck1
+CK_VERSION=${KV_MAJOR}.${KV_MINOR}.0-ck2
 CK_FILE=${CK_VERSION}-broken-out.tar.bz2
 CK_URI="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${KV_MAJOR}.${KV_MINOR}/${CK_VERSION}/"
 GEN_FILE=genpatches-${KV_MAJOR}.${KV_MINOR}-${K_GENPATCHES_VER}.extras.tar.bz2
@@ -82,12 +82,17 @@ src_prepare() {
 		sed -i -e "s:ck1-version.patch::g" ../patches/series || die "eek!"
 		for pch in $(< ../patches/series); do epatch ../patches/$pch || die "eek!"; done
 	else
-		use bfs && epatch ../patches/{${BFS_FILE},cpufreq-bfs_tweaks.patch}
+		use bfs && {
+			for pch in $(head -n2 ../patches/series) $(tail -n9 ../patches/series|head -n8)
+			do epatch ../patches/$pch; done
+		}
 		use hz && {
-			for pch in $(grep hz ../patches/series); do epatch ../patches/$pch || die "eek!"; done
+			for pch in $(grep hz ../patches/series)
+			do epatch ../patches/$pch || die "eek!"; done
 			epatch ../patches/preempt-desktop-tune.patch || die "eek!"
 		}
 	fi
+	epatch "${FILESDIR}"/mg-aspm.patch || die "eek!"
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die "eek!"
 }
