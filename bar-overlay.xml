@@ -1,7 +1,7 @@
 <!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
 <repositories xmlns="" version="1.0">
   <repo quality="experimental" status="unofficial">
-  <name><![CDATA[tclover]]></name>
+  <name><![CDATA[bar]]></name>
   <description lang="en"><![CDATA[another personnal/local foo-overlay]]></description>
   <homepage>https://github.com/tokiclover/bar-overlay</homepage>
   <owner type="person">
