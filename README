@@ -1,0 +1,7 @@
+# To use this overlay execute as root:
+% USE=git emerge -av layman
+% layman -o https://raw.github.com/tokiclover/bar-overlay/master/bar-overlay.xml -f -a bar
+# once your all set check the changes with
+% emerge -aNDuv world
+# and then happily emerge all those changes with
+% emerge -aNDuv world
