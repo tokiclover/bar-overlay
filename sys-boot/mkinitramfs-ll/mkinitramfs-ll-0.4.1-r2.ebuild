@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.3.6_p20111030.ebuild, v1.1 2011/11/06 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.4.1-r2.ebuild, v1.1 2011/12/05 -tclover Exp $
 
 EAPI=2
 inherit eutils
@@ -31,7 +31,9 @@ DEPEND="
         )
 "
 
-RDEPEND="zsh? ( app-shells/zsh )"
+RDEPEND="zsh? ( app-shells/zsh )
+		!zsh? ( sys-apps/util-linux )
+"
 
 src_install() {
 	cd "${WORKDIR}"/*-${PN}-*
