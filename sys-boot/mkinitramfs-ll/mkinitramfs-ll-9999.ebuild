@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2011/11/06 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2011/12/05 -tclover Exp $
 
 EAPI=2
 inherit git-2
@@ -28,9 +28,9 @@ DEPEND="
 		)
 "
 
-RDEPEND="zsh? ( app-shells/zsh )
+RDEPEND="zsh? ( app-shells/zsh[unicode] )
+		!zsh? ( sys-apps/util-linux[nls,unicode] )
 "
-
 src_install() {
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
@@ -49,16 +49,16 @@ pkg_postinst() {
 	einfo
 	einfo "If you have already static binaries of gnupg-1.4*, busybox and its applets"
 	einfo "the easiest way to build an intramfs is running in \`\$DISTDIR/egit-src/$PN'"
-	einfo " \`mkifs-ll --k-version=$(uname -r) --full'. And don't forget to copy those"
-	einfo "binaries before to \`bin'  along with gpg.conf to \`misc/.gnupg/'."
-	einfo "Else, run \`mkifs-ll_gen --build-all --aufs --lvm' and that script will take"
-	einfo "care of everything for kernel $(uname -r), you can add gpg.conf by appending"
-	einfo "\`--confdir=${HOME}' argument for example."
+	einfo " \`mkifs-ll -a -k$(uname -r)'. And don't forget to copy those binaries before"
+	einfo "to \`\$PWD/bin' along with options.skel to \`\$PWD/misc/share/gnupg/'."
+	einfo "Else, run \`mkifs-ll_gen -D -s -l -g' and that script will take care of"
+	einfo "for kernel $(uname -r), you can add gpg.conf by appending"
+	einfo "\`-C ${HOME}' for example. User scripts can be added to \`\$PWD/misc'."
 	if use extras; then
 		einfo
 		einfo "If you want to squash \$PORTDIR:var/lib/layman:var/db:var/cache/edb"
 		einfo "you have to add that list to /etc/conf.d/sqfsdmount SQFSD_LOCAL and"
-		einfo "then run \`sdr -rm -d \$PORTDIR:var/lib/layman:var/db:var/cache/edb'."
+		einfo "then run \`sdr -R -d \$PORTDIR:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
 }

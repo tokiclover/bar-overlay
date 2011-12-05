@@ -3,6 +3,7 @@
 # $Header: $BAR-overlay/portage/sys-boot/mkinitramfs-ll/ChangeLog Exp $
 
 *2011-12-05:
+	+mkinitramfs-ll-0.4.1-r3.ebuild -mkinitramfs-ll-0.4.1-r2.ebuild
 	+mkinitramfs-ll-0.4.1-r2.ebuild -mkinitramfs-ll-0.4.1-r1.ebuild
 
 *2011-11-28:
