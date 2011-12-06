@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/sys-fs/aufs-util-9999.ebuild, v1.3 2011/09/02 Exp $
+# $Header: $BAR-overlay/portage/sys-fs/aufs-util-9999.ebuild, v1.3 2011/12/06 Exp $
 
 EAPI="4"
 
@@ -16,14 +16,14 @@ DEPEND="!kernel? ( =sys-fs/${P/util/standalone}[header] )"
 
 get_version
 
-if [ ${KV_MAJOR} -eq 3 ]; then
-	[ ${KV_MINOR} -eq 1 ] &&  EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN || \
-		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
-else
+if [[ ${KV_MAJOR} -eq 3 ]]; then
+	if [[ ${KV_MINOR} -eq 1 ]]; then EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN
+	else EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}; fi
+elif [[ ${KV_MAJOR} -eq 2 ]]; then
 	EGIT_REPO_URI=${EGIT_REPO_URI/-/${KV_MAJOR}-}
 	EGIT_PROJECT=${PN/-/${KV_MAJOR}-}
-	[ ${KV_PATCH} -lt 35 ] && EGIT_BRANCH=aufs${KV_MAJOR}.1 || \
-		EGIT_BRANCH=aufs${KV_MAJOR}.2
+	if [[ ${KV_PATCH} -lt 35 ]]; then EGIT_BRANCH=aufs${KV_MAJOR}.1
+	else EGIT_BRANCH=aufs${KV_MAJOR}.2; fi
 fi
 
 LICENSE="GPL-2"
@@ -38,14 +38,13 @@ pkg_setup(){
 		ERROR_AUSFS_FS="aufs have to be enabled [y|m]."
 		linux-info_pkg_setup
 		ln -sf "${KV_DIR}"/include/ include
-	else
-		ln -sf /usr/include/ include
-	fi
+	else ln -sf /usr/include/ include; fi
 }
 
 src_prepare() {
-	sed -i "/LDFLAGS += -static -s/d" Makefile || die "eek!"
-	sed -i -e "s:m 644 -s:m 644:g" -e "s:/usr/lib:/usr/$(get_libdir):g"	libau/Makefile || die "eek!"
+	sed -e '/LDFLAGS += -static -s/d' -i Makefile || die "eek!"
+	sed -e 's:m 644 -s:m 644:g' -e 's:/usr/lib:/usr/$(get_libdir):g' \
+		-i libau/Makefile || die "eek!"
 	mv ../../include . || die "eek!"
 }
 
