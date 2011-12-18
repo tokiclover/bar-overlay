@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.4.1-r2.ebuild, v1.1 2011/12/05 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.4.2-r2.ebuild, v1.1 2011/12/18 -tclover Exp $
 
 EAPI=2
 inherit eutils
@@ -8,8 +8,10 @@ inherit eutils
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 SRC_URI="
-	zsh? ( https://nodeload.github.com/tokiclover/${PN}/tarball/v${PV}.zsh -> ${P}.zsh.tar.gz )
-	!zsh? ( https://nodeload.github.com/tokiclover/${PN}/tarball/v${PV}.bash -> ${P}.bash.tar.gz )
+	zsh? ( https://nodeload.github.com/tokiclover/${PN}/tarball/v${PVR/-r/_zsh-r} 
+		   -> ${PN}-${PVR/-r/_zsh-r}.tar.gz )
+	!zsh? ( https://nodeload.github.com/tokiclover/${PN}/tarball/v${PVR/-r/_bash-r}
+		   -> ${PN}-${PVR/-r/_bash-r}.tar.gz )
 "
 LICENSE="GPL-3"
 
