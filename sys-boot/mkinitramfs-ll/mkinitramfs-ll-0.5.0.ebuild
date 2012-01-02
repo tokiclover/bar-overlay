@@ -11,7 +11,7 @@ HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 SRC_URI=" zsh? ( ${HOMEPAGE}/tarball/v${PV}_zsh${MY_PVR:+-$MY_PVR} -> ${PN}-${PVR}_zsh.tar.gz )
 	!zsh? ( ${HOMEPAGE}/tarball/v${PV}_bash${MY_PVR:+-$MY_PVR} -> ${PN}-${PVR}_bash.tar.gz )
 "
-LICENSE="GPL-3"
+LICENSE="GPL-2"
 
 SLOT="0"
 KEYWORDS="amd64 x86"

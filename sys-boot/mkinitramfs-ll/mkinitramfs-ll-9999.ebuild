@@ -11,7 +11,7 @@ EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 EGIT_PROJECT=${PN}
 use zsh && EGIT_BRANCH=devel
 
-LICENSE="GPL-3"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="aufs fbsplash extras luks lvm raid tuxonice zsh"
