@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2011/12/05 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2012/01/01 -tclover Exp $
 
 EAPI=2
 inherit git-2
@@ -14,13 +14,14 @@ use zsh && EGIT_BRANCH=devel
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="aufs fbsplash extras lvm tuxonice zsh"
+IUSE="aufs fbsplash extras luks lvm raid tuxonice zsh"
 
 DEPEND="
 		sys-apps/busybox
-		sys-fs/cryptsetup[nls,static]
+		luks? ( sys-fs/cryptsetup[nls,static] )
 		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
 		lvm? ( sys-fs/lvm2[static] )
+		raid? ( sys-fs/mdadm )
 		fbsplash? ( 
 				media-gfx/splashutils[fbcondecor,png,truetype] 
 				sys-apps/v86d 

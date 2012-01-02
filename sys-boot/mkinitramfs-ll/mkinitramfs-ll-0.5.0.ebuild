@@ -1,31 +1,28 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.4.2-r2.ebuild, v1.1 2011/12/18 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.5.0.ebuild, v1.1 2012/01/01 -tclover Exp $
 
 EAPI=2
 inherit eutils
 
+MY_PVR=${PVR#*-}
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
-SRC_URI="
-	zsh? ( https://nodeload.github.com/tokiclover/${PN}/tarball/v${PVR/-r/_zsh-r} 
-		   -> ${PN}-${PVR/-r/_zsh-r}.tar.gz )
-	!zsh? ( https://nodeload.github.com/tokiclover/${PN}/tarball/v${PVR/-r/_bash-r}
-		   -> ${PN}-${PVR/-r/_bash-r}.tar.gz )
+SRC_URI=" zsh? ( ${HOMEPAGE}/tarball/v${PV}_zsh${MY_PVR:+-$MY_PVR} -> ${PN}-${PVR}_zsh.tar.gz )
+	!zsh? ( ${HOMEPAGE}/tarball/v${PV}_bash${MY_PVR:+-$MY_PVR} -> ${PN}-${PVR}_bash.tar.gz )
 "
 LICENSE="GPL-3"
 
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="aufs fbsplash extras lvm tuxonice zsh"
-
-
+IUSE="aufs fbsplash extras luks lvm raid tuxonice zsh"
 
 DEPEND="
 		sys-apps/busybox
-		sys-fs/cryptsetup[nls,static]
+		luks? ( sys-fs/cryptsetup[nls,static] )
 		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
 		lvm? ( sys-fs/lvm2[static] )
+		raid? ( sys-fs/mdadm )
 		fbsplash? ( 
 				media-gfx/splashutils[fbcondecor,png,truetype] 
 				sys-apps/v86d 
