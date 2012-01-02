@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/gnome-mplayer/gnome-mplayer-1.0.3-r2.ebuild,v 1.4 2011/07/12 15:03:21 tomka Exp $
+# $Header: $BAR-overlay/media-video/gnome-mplayer-1.0.3-r2.ebuild,v 1.1 2012/01/01 -tclover Exp $
 
 EAPI=4
 inherit fdo-mime gnome2-utils
@@ -17,7 +17,7 @@ IUSE="alsa dbus gnome ipod libnotify musicbrainz pulseaudio"
 RDEPEND=">=dev-libs/glib-2.26:2
 	|| ( 
 		>=media-video/mplayer-1.0_rc4_p20091026-r1[ass]
-		media-video/mplayer2[libass]
+		media-video/mplayer2[ass]
 	)
 	>=x11-libs/gtk+-2.22:2
 	x11-libs/libX11
