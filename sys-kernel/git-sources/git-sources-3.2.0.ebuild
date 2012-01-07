@@ -66,6 +66,7 @@ src_prepare() {
 		mv aufs_type.h include/linux/ || die "eek!"a
 		local AUFS_PREFIX=aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}
 		epatch "${WORKDIR}"/${AUFS_PREFIX}-{kbuild,base,standalone,loopback,proc_map}.patch
+		epatch "${FILESDIR}"/aufs3-fix-export-__devcgroup_inode_permission.patch
 	}
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
 	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
