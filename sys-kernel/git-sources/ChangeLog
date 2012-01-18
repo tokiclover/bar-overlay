@@ -3,7 +3,7 @@
 # $Header: $BAR-overlay/portage/sys-kernel/git-sources/ChangeLog, v1.0 2011/06/16 Exp $
 
 *2011-01-13:
-	+git-sources-3.1.10 -git-sources-3.1.8 
+	+git-sources-3.1.10 -git-sources-3.1.8 +git-sources-3.2.0 -git-sources-3.2.1 
 
 *2011-01-13:
 	+git-sources-3.1.9 -git-sources-3.1.7 +git-sources-3.0.17 -git-sources-3.0.13
