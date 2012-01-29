@@ -17,7 +17,7 @@ DEPEND="!kernel? ( =sys-fs/${P/util/standalone}[header] )"
 get_version
 
 if [[ ${KV_MAJOR} -eq 3 ]]; then
-	if [[ ${KV_MINOR} -eq 1 ]]; then EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN
+	if [[ ${KV_MINOR} -eq 3 ]]; then EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN
 	else EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}; fi
 elif [[ ${KV_MAJOR} -eq 2 ]]; then
 	EGIT_REPO_URI=${EGIT_REPO_URI/-/${KV_MAJOR}-}
