@@ -87,7 +87,6 @@ src_prepare() {
 			epatch ../patches/preempt-desktop-tune.patch || die "eek!"
 		}
 	fi
-	epatch "${FILESDIR}"/mg-aspm.patch || die "eek!"
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die "eek!"
 }
