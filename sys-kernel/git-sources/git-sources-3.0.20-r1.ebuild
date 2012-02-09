@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-kernel/git-sources-3.0.9-r1.ebuild, v1.2 2011/11/12 -tclover Exp $
+# $Header: $BAR-overlay/sys-kernel/git-sources-3.0.20-r1.ebuild, v1.2 2012/02/07 -tclover Exp $
 
 EAPI=2
 UNIPATCH_STRICTORDER="yes"
@@ -95,7 +95,6 @@ src_prepare() {
 			epatch ../patches/preempt-desktop-tune.patch || die "eek!"
 		}
 	fi
-	epatch "${FILESDIR}"/mg-aspm.patch || die "eek!"
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die "eek!"
 }
