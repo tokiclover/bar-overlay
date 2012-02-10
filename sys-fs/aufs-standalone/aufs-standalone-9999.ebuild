@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-fs/aufs-standalone-9999.ebuild, v1.3 2011/12/06 Exp $
+# $Header: $BAR-overlay/sys-fs/aufs-standalone-9999.ebuild, v1.3 2012/02/10 -tclover Exp $
 
 EAPI="4"
 
@@ -13,7 +13,7 @@ EGIT_NONBARE=yes
 get_version
 
 if [[ ${KV_MAJOR} -eq 3 ]]; then
-	if [[ ${PV/_rc} = ${PV} ]]; then EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
+	if [[ "${PV/_rc}" == "${PV}" ]]; then EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
 	else EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN; fi
 elif [[ ${KV_MAJOR} -eq 2 ]]; then
 	if [[ ${KV_PATCH} -lt 35 ]]; then
