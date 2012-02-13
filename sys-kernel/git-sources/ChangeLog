@@ -2,6 +2,9 @@
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $BAR-overlay/portage/sys-kernel/git-sources/ChangeLog, v1.0 2011/06/16 Exp $
 
+*2012-02-13:
+	+git-sources-3.0.21 -git-sources-3.0.18 +git-sources-3.2.6 
+
 *2012-02-09:
 	+git-sources-3.0.20 -git-sources-3.0.19
 
