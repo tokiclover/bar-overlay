@@ -30,7 +30,7 @@ EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfs fbcondecor ck hz tuxonice"
+IUSE="aufs bfs fbcondecor ck hz"
 
 BFS_VERSION=414
 BFS_FILE=${KV_MAJOR}.${KV_MINOR}-sched-bfs-${BFS_VERSION}.patch
