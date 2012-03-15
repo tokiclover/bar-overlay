@@ -10,4 +10,6 @@ DESCRIPTION="A module to set Alarms in Enlightenment 17"
 
 DEPEND=">=x11-wm/enlightenment-9999
 	>=media-libs/edje-0.5.0
-	media-sound/mpd"
+	>=sys-devel/gettext-0.14
+	>=sys-devel/automake-1.8
+"
