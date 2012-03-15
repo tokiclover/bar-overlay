@@ -1,12 +1,11 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: $BAR-overlay/media-libs/mesa-8.0.9999.ebuild,v 1.2 2012/03/15 -tclover Exp $
 
 EAPI=4
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
-EGIT_BRANCH=${PV%.9999}
-EGIT_PROJECT=${PN}
+EXPERIMENTAL="true"
 
 inherit base autotools multilib flag-o-matic toolchain-funcs git-2
 
@@ -37,8 +36,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic d3d debug +egl g3dvl +gallium gbm gles1 gles2 +llvm +nptl
-	openvg osmesa pax_kernel pic selinux +shared-glapi vdpau wayland xvmc kernel_FreeBSD"
+	bindist +classic d3d debug +egl g3dvl +gallium gbm gles1 gles2 +llvm +nptl openvg osmesa pax_kernel pic selinux shared-dricore +shared-glapi vdpau wayland xa xvmc kernel_FreeBSD"
 
 REQUIRED_USE="
 	d3d?    ( gallium )
@@ -48,6 +46,7 @@ REQUIRED_USE="
 	gbm?    ( shared-glapi )
 	g3dvl? ( || ( vdpau xvmc ) )
 	vdpau? ( g3dvl )
+	xa?    ( gallium )
 	xvmc?  ( g3dvl )
 	video_cards_intel?  ( || ( classic gallium ) )
 	video_cards_i915?   ( || ( classic gallium ) )
@@ -75,7 +74,7 @@ RDEPEND="${EXTERNAL_DEPEND}
 	!<=x11-proto/xf86driproto-2.0.3
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
-	>=app-admin/eselect-opengl-1.2.2
+	>=app-admin/eselect-opengl-1.2.5
 	dev-libs/expat
 	gbm? ( sys-fs/udev )
 	>=x11-libs/libX11-1.3.99.901
@@ -100,7 +99,6 @@ for card in ${RADEON_CARDS}; do
 		video_cards_${card}? ( ${LIBDRM_DEPSTRING}[video_cards_radeon] )
 	"
 done
-unset {INTEL,RADEON,VIDEO}_CARDS
 
 DEPEND="${RDEPEND}
 	llvm? ( >=sys-devel/llvm-2.9 )
@@ -140,6 +138,8 @@ src_prepare() {
 
 	# relax the requirement that r300 must have llvm, bug 380303
 	epatch "${FILESDIR}"/${P/${PV}/${PV##*.}}-dont-require-llvm-for-r300.patch
+	# fix for hardened pax_kernel, bug 240956
+	epatch "${FILESDIR}"/glx_ro_text_segm.patch
 
 	# Solaris needs some recent POSIX stuff in our case
 	if [[ ${CHOST} == *-solaris* ]] ; then
@@ -192,6 +192,7 @@ src_configure() {
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openvg)
 			$(use_enable vdpau)
+			$(use_enable xa)
 			$(use_enable xvmc)
 		"
 		gallium_enable swrast
@@ -229,6 +230,7 @@ src_configure() {
 		$(use_enable nptl glx-tls) \
 		$(use_enable osmesa) \
 		$(use_enable !pic asm) \
+		$(use_enable shared-dricore) \
 		$(use_enable shared-glapi) \
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
@@ -237,8 +239,6 @@ src_configure() {
 
 src_install() {
 	base_src_install
-
-	find "${ED}" -name '*.la' -exec rm -f {} + || die
 
 	if use !bindist; then
 		dodoc docs/patents.txt
@@ -251,14 +251,14 @@ src_install() {
 
 	# Install config file for eselect mesa
 	insinto /usr/share/mesa
-	newins "${FILESDIR}/eselect-mesa.conf.8.0" eselect-mesa.conf
+	newins "${FILESDIR}/eselect-mesa.conf.8.0.1" eselect-mesa.conf
 
 	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib
 	# because user can eselect desired GL provider.
 	ebegin "Moving libGL and friends for dynamic switching"
 		dodir /usr/$(get_libdir)/opengl/${OPENGL_DIR}/{lib,extensions,include}
 		local x
-		for x in "${ED}"/usr/$(get_libdir)/lib{EGL,GL,OpenVG}.{la,a,so*}; do
+		for x in "${ED}"/usr/$(get_libdir)/lib{EGL,GL*,OpenVG}.{la,a,so*}; do
 			if [ -f ${x} -o -L ${x} ]; then
 				mv -f "${x}" "${ED}"/usr/$(get_libdir)/opengl/${OPENGL_DIR}/lib \
 					|| die "Failed to move ${x}"
