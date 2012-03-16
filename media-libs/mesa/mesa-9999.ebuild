@@ -5,7 +5,6 @@
 EAPI=4
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
-EGIT_BRANCH=${PV%.9999}
 EXPERIMENTAL="true"
 
 inherit base autotools multilib flag-o-matic toolchain-funcs git-2
@@ -140,7 +139,7 @@ src_prepare() {
 	fi
 
 	# relax the requirement that r300 must have llvm, bug 380303
-	epatch "${FILESDIR}"/${P%.9999}-dont-require-llvm-for-r300.patch
+	epatch "${FILESDIR}"/${P}-dont-require-llvm-for-r300.patch
 	# fix for hardened pax_kernel, bug 240956
 	epatch "${FILESDIR}"/glx_ro_text_segm.patch
 
@@ -247,7 +246,7 @@ src_install() {
 	base_src_install
 
 	find "${ED}" -name '*.la' -exec rm -f {} + || die
-	
+
 	if use !bindist; then
 		dodoc docs/patents.txt
 	fi

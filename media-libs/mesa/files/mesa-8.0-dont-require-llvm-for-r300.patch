@@ -1,6 +1,8 @@
---- a/configure.ac	2012-03-15 20:50:51.871484426 +0000
-+++ b/configure.ac	2012-03-15 20:51:33.645962171 +0000
-@@ -1855,14 +1855,6 @@
+diff --git a/configure.ac b/configure.ac
+index 846b623..fbd05c1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1839,14 +1839,6 @@ gallium_check_st() {
      fi
  }
  
@@ -15,10 +17,10 @@
  dnl Gallium drivers
  dnl Duplicates in GALLIUM_DRIVERS_DIRS are removed by sorting it after this block
  if test "x$with_gallium_drivers" != x; then
-@@ -1884,7 +1876,6 @@
+@@ -1868,7 +1860,6 @@ if test "x$with_gallium_drivers" != x; then
+             gallium_check_st "i915/drm" "dri-i915" "xorg-i915"
              ;;
          xr300)
-             PKG_CHECK_MODULES([RADEON], [libdrm_radeon >= $LIBDRM_RADEON_REQUIRED])
 -            gallium_require_llvm "Gallium R300"
              GALLIUM_DRIVERS_DIRS="$GALLIUM_DRIVERS_DIRS r300"
              gallium_check_st "radeon/drm" "dri-r300" "xorg-r300" "" "xvmc-r300" "vdpau-r300" "va-r300"
