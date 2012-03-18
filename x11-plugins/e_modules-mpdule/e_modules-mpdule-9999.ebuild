@@ -1,17 +1,15 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-plugins/xkbswitch/xkbswitch-9999.ebuild,v 1.1 2012/03/18 -tclover Exp $
+# $Header: /var/cvsroot/gentoo-x86/x11-plugins/e_modules/e_modules-9999.ebuild,v 1.6 2006/09/14 15:21:04 vapier Exp $
 
 ESVN_SUB_PROJECT="E-MODULES-EXTRA"
 ESVN_URI_APPEND="${PN#e_modules-}"
 inherit enlightenment
 
-DESCRIPTION="XKB Switcher module for Enlightenment - E17"
+DESCRIPTION="A module to set Alarms in Enlightenment 17"
 
 IUSE="static-libs"
 
 DEPEND=">=x11-wm/enlightenment-9999
 	>=media-libs/edje-0.5.0
-	>=sys-devel/gettext-0.14
-	>=sys-devel/automake-1.8
-"
+	media-sound/mpd"

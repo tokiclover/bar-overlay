@@ -7,5 +7,7 @@ inherit enlightenment
 
 DESCRIPTION="E-Tiling is a tiling module the Enlightenment Window Manager"
 
+IUSE="static-libs"
+
 DEPEND=">=x11-wm/enlightenment-9999
 	>=media-libs/edje-0.5.0"

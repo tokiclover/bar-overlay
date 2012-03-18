@@ -9,6 +9,8 @@ inherit enlightenment
 
 DESCRIPTION="PAM compatible session manager, epigone of entrance"
 
+IUSE="static-libs"
+
 DEPEND=">=dev-libs/ecore-1.0
 	>=dev-libs/eet-1.4.0
 	>=dev-libs/eina-1.0
