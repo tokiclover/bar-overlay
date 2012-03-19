@@ -1,9 +1,9 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2012/01/01 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2012/03/19 -tclover Exp $
 
 EAPI=2
-inherit git-2
+inherit git-2 eutils
 
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
@@ -34,6 +34,7 @@ RDEPEND="zsh? ( app-shells/zsh[unicode] )
 "
 src_install() {
 	emake DESTDIR="${D}" install || die "eek!"
+#	make DESTDIR="${D}" install || die
 	bzip2 ChangeLog
 	bzip2 KnownIssue
 	bzip2 README
