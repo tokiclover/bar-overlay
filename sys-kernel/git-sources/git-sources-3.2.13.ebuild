@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-kernel/git-sources-3.2.5-r1.ebuild, v1.2 2012/02/07 -tclover Exp $
+# $Header: $BAR-overlay/sys-kernel/git-sources-3.2.13.ebuild, v1.2 2012/03/26 -tclover Exp $
 
 EAPI=2
 UNIPATCH_STRICTORDER="yes"
@@ -24,8 +24,7 @@ DESCRIPTION="The very latest linux-stable.git, -git as pulled by git of the stab
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_PROJECT=${PN}
-EGIT_TAG=v${PV/-r[0-9]*}
-#EGIT_COMMIT=b48635635c1a696aea6423ec6c547c8c7bbf7aab
+EGIT_TAG=v${PV}
 EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
