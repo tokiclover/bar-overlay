@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-kernel/git-sources-3.1.0-r1.ebuild, v1.2 2011/11/04 -tclover Exp $
+# $Header: $BAR-overlay/sys-kernel/git-sources-3.3.1.ebuild, v1.1 2012/04/03 -tclover Exp $
 
 EAPI=2
 UNIPATCH_STRICTORDER="yes"
@@ -10,7 +10,7 @@ K_NOUSEPR="yes"
 K_SECURITY_UNSUPPORTED="yes"
 K_DEBLOB_AVAILABLE=0
 K_WANT_GENPATCHES="extras"
-K_GENPATCHES_VER="2"
+K_GENPATCHES_VER="1"
 ETYPE="sources"
 CKV=${PV}-git
 
@@ -24,24 +24,22 @@ DESCRIPTION="The very latest linux-stable.git, -git as pulled by git of the stab
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_PROJECT=${PN}
-EGIT_TAG=v${PV/-r[0-9]*}
-#EGIT_COMMIT=b48635635c1a696aea6423ec6c547c8c7bbf7aab
+EGIT_TAG=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="aufs bfs fbcondecor ck hz"
 
-BFS_VERSION=414
+BFS_VERSION=420
 BFS_FILE=${KV_MAJOR}.${KV_MINOR}-sched-bfs-${BFS_VERSION}.patch
-BFS_URI=http://ck.kolivas.org/patches/bfs/${KV_MAJOR}.${KV_MINOR}.0/
-CK_VERSION=${KV_MAJOR}.${KV_MINOR}.0-ck2
+BFS_URI=http://ck.kolivas.org/patches/bfs/${KV_MAJOR}.${KV_MINOR}/
+CK_VERSION=${KV_MAJOR}.${KV_MINOR}-ck1
 CK_FILE=${CK_VERSION}-broken-out.tar.bz2
 CK_URI="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${KV_MAJOR}.${KV_MINOR}/${CK_VERSION}/"
 GEN_FILE=genpatches-${KV_MAJOR}.${KV_MINOR}-${K_GENPATCHES_VER}.extras.tar.bz2
-TOI_FILE=current-tuxonice-for-${KV_MAJOR}.0.patch.bz2
-SRC_URI="tuxonice? ( http://tuxonice.net/files/${TOI_FILE} )
-		fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${GEN_FILE} )
+TOI_FILE=current-tuxonice-for-${KV_MAJOR}.patch.bz2
+SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${GEN_FILE} )
 		bfs? 		( ${CK_URI}/${CK_FILE} )
 		ck?			( ${CK_URI}/${CK_FILE} )
 		hz? 		( ${CK_URI}/${CK_FILE} )
@@ -77,22 +75,17 @@ src_prepare() {
 		epatch "${WORKDIR}"/${AUFS_PREFIX}-{kbuild,base,standalone,loopback,proc_map}.patch
 	}
 	use fbcondecor && epatch "${DISTDIR}"/${GEN_FILE}
-	use tuxonice && epatch "${DISTDIR}"/${TOI_FILE}
 	if use ck; then
 		sed -i -e "s:ck1-version.patch::g" ../patches/series || die "eek!"
 		for pch in $(< ../patches/series); do epatch ../patches/$pch || die "eek!"; done
 	else
-		use bfs && {
-			for pch in $(head -n2 ../patches/series) $(tail -n9 ../patches/series|head -n8)
-			do epatch ../patches/$pch; done
-		}
+		use bfs && epatch ../patches/${BFS_FILE}
 		use hz && {
 			for pch in $(grep hz ../patches/series)
 			do epatch ../patches/$pch || die "eek!"; done
 			epatch ../patches/preempt-desktop-tune.patch || die "eek!"
 		}
 	fi
-	epatch "${FILESDIR}"/mg-aspm.patch || die "eek!"
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die "eek!"
 }
