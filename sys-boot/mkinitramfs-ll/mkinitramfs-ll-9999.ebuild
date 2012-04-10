@@ -3,7 +3,7 @@
 # $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-9999.ebuild, v1.1 2012/03/20 -tclover Exp $
 
 EAPI=2
-inherit git-2 eutils
+inherit eutils git-2
 
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
@@ -32,6 +32,7 @@ DEPEND="
 RDEPEND="zsh? ( app-shells/zsh[unicode] )
 		!zsh? ( sys-apps/util-linux[nls,unicode] )
 "
+src_compile(){ :; }
 src_install() {
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
