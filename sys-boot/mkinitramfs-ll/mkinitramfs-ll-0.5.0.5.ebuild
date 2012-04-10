@@ -8,8 +8,8 @@ inherit eutils
 MY_PVR=${PVR#*-}
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
-SRC_URI=" zsh? ( ${HOMEPAGE}/tarball/v${PVR/-r/_zsh-r} -> ${PN}-${PVR}_zsh.tar.gz )
-	!zsh? ( ${HOMEPAGE}/tarball/v${PVR/-r/_bash-r} -> ${PN}-${PVR}_bash.tar.gz )
+SRC_URI=" zsh? ( ${HOMEPAGE}/tarball/${PVR}_zsh -> ${PN}-${PVR}_zsh.tar.gz )
+	!zsh? ( ${HOMEPAGE}/tarball/${PVR}_bash -> ${PN}-${PVR}_bash.tar.gz )
 "
 LICENSE="GPL-2"
 
