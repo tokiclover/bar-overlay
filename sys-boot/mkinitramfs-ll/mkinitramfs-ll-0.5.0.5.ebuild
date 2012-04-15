@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.5.0.ebuild, v1.1 2012/01/01 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.5.0.ebuild, v1.1 2012/04/15 -tclover Exp $
 
 EAPI=2
 inherit eutils
@@ -50,19 +50,19 @@ src_install() {
 }
 
 pkg_postinst() {
-	einfo
+	local use zsh && shl=zsh || shl=bash
 	einfo "If you have already static binaries of gnupg-1.4*, busybox and its applets"
-	einfo "the easiest way to build an intramfs is running in \`\$DISTDIR/egit-src/$PN'"
-	einfo " \`mkifs-ll -a -k$(uname -r)'. And don't forget to copy those binaries before"
-	einfo "to \`\$PWD/bin' along with options.skel to \`\$PWD/misc/share/gnupg/'."
-	einfo "Else, run \`mkifs-ll_gen -D -s -l -g' and that script will take care of"
+	einfo "the easiest way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
+	einfo " \`mkifs-ll.${shl} -a -k$(uname -r)'. And don't forget to copy those binaries before"
+	einfo "to \`\${PWD}/bin' along with options.skel to \`\$PWD/misc/share/gnupg/'."
+	einfo "Else, run \`mkifs-ll.gen.${shl} -D -s -l -g' and that script will take care of"
 	einfo "for kernel $(uname -r), you can add gpg.conf by appending"
-	einfo "\`-C ${HOME}' for example. User scripts can be added to \`\$PWD/misc'."
+	einfo "\`-C ${HOME}' for example. User scripts can be added to \`\${PWD}/misc'."
 	if use extras; then
 		einfo
-		einfo "If you want to squash \$PORTDIR:var/lib/layman:var/db:var/cache/edb"
-		einfo "you have to add that list to /etc/conf.d/sqfsdmount SQFSD_LOCAL and"
-		einfo "then run \`sdr -U -d \$PORTDIR:var/lib/layman:var/db:var/cache/edb'."
+		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
+		einfo "you have to add that list to /etc/conf.d/sqfsdmount SQFSD_LOCAL and then"
+		einfo "run \`sdr.${shl} -U -d \${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
 }
