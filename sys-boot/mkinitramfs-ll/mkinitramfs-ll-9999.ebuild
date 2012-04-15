@@ -49,17 +49,17 @@ src_install() {
 
 pkg_postinst() {
 	local use zsh && shl=zsh || shl=bash
-	einfo "If you have already static binaries of gnupg-1.4*, busybox and its applets"
-	einfo "the easiest way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
-	einfo " \`mkifs-ll.${shl} -a -k$(uname -r)'. And don't forget to copy those binaries before"
-	einfo "to \`\${PWD}/bin' along with options.skel to \`\$PWD/misc/share/gnupg/'."
+	einfo "with a static binaries of gnupg-1.4*, busybox and its applets, the easiest"
+	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
+	einfo " \`mkifs-ll.${shl} -a -k$(uname -r)' without forgeting to copy those binaries"
+	einfo "before to \`\${PWD}/bin' along with options.skel to \`\${PWD}/misc/share/gnupg/'."
 	einfo "Else, run \`mkifs-ll.gen.${shl} -D -s -l -g' and that script will take care of"
-	einfo "for kernel $(uname -r), you can add gpg.conf by appending"
-	einfo "\`-C ${HOME}' for example. User scripts can be added to \`\${PWD}/misc'."
+	einfo "everything for kernel $(uname -r), you can add gpg.conf by appending \`-C~'"
+	einfo "for example. User scripts can be added to \`\${PWD}/misc' directory."
 	if use extras; then
 		einfo
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
-		einfo "you have to add that list to /etc/conf.d/sqfsdmount SQFSD_LOCAL and then"
+		einfo "you have to add that list to /etc/conf.d/sqfsdmount sqfsd_local and then"
 		einfo "run \`sdr.${shl} -U -d \${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
