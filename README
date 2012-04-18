@@ -1,5 +1,10 @@
 To use this overlay execute as root
 % USE=git emerge -av layman
 % layman -o https://raw.github.com/tokiclover/bar-overlay/master/bar-overlay.xml -f -a bar
-once you are all set check the changes and then merge all the changes with
+or alternatively... and do not forget to uncomment 
+`overlay_defs : /etc/layman/overlays' in `/etc/layman/layman.cfg' and then
+% mkdir -p /etc/layman/overlays
+% wget https://raw.github.com/tokiclover/bar-overlay/master/bar-overlay.xml
+% layman -a bar
+once done, merge all the goodies with
 % emerge -aNDuv @world
