@@ -3,7 +3,7 @@ To use this overlay execute as root
 % layman -o https://raw.github.com/tokiclover/bar-overlay/master/bar-overlay.xml -f -a bar
 or alternatively... and do not forget to uncomment 
 `overlay_defs : /etc/layman/overlays' in `/etc/layman/layman.cfg' and then
-% mkdir -p /etc/layman/overlays
+% mkdir -p /etc/layman/overlays && cd /etc/layman/overlays
 % wget https://raw.github.com/tokiclover/bar-overlay/master/bar-overlay.xml
 % layman -a bar
 once done, merge all the goodies with
