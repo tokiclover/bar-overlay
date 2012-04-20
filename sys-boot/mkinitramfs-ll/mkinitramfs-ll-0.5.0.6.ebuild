@@ -5,7 +5,6 @@
 EAPI=2
 inherit eutils
 
-MY_PVR=${PVR#*-}
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 SRC_URI=" zsh? ( ${HOMEPAGE}/tarball/${PVR}_zsh -> ${PN}-${PVR}_zsh.tar.gz )
@@ -32,9 +31,9 @@ DEPEND="
 RDEPEND="zsh? ( app-shells/zsh[unicode] )
 		!zsh? ( sys-apps/util-linux[nls,unicode] app-shells/bash[nls] )
 "
-S="${WORKDIR}"/*${PN}*
 src_compile(){ :; }
 src_install() {
+	cd "${WORKDIR}"/*-${PN}-*
 	emake DESTDIR="${D}" install || die "eek!"
 	bzip2 ChangeLog
 	bzip2 KnownIssue
@@ -46,15 +45,15 @@ src_install() {
 	fi
 	insinto /usr/local/share/${PN}/doc
 	doins *.bz2 || die "eek!"
-}
-
-pkg_postinst() {
 	local use zsh && shell=zsh || shell=bash
 	if use symlink; then
-		cd /usr/local/sbin
+		cd "${D}"/usr/local/sbin
 		ln -sf mkifs{-ll.${shell},}
 		use squash && ln -sf sdr{.${shell},}
 	fi
+}
+pkg_postinst() {
+	local use zsh && shell=zsh || shell=bash
 	einfo "with a static binaries of gnupg-1.4*, busybox and its applets, the easiest"
 	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
 	einfo " \`mkifs-ll.${shell} -a -k$(uname -r)' without forgeting to copy those binaries"

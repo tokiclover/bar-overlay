@@ -44,15 +44,15 @@ src_install() {
 	fi
 	insinto /usr/local/share/${PN}/doc
 	doins *.bz2 || die "eek!"
-}
-
-pkg_postinst() {
 	local use zsh && shell=zsh || shell=bash
 	if use symlink; then
-		cd /usr/local/sbin
+		cd "${D}"/usr/local/sbin
 		ln -sf mkifs{-ll.${shell},}
 		use squash && ln -sf sdr{.${shell},}
 	fi
+}
+pkg_postinst() {
+	local use zsh && shell=zsh || shell=bash
 	einfo "with a static binaries of gnupg-1.4*, busybox and its applets, the easiest"
 	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
 	einfo " \`mkifs-ll.${shell} -a -k$(uname -r)' without forgeting to copy those binaries"
