@@ -6,6 +6,7 @@
  <email></email>
 </maintainer>
 	<use>
-		<flag name="extras">Adds *squash* or sqfsd scripts files</flag>
+		<flag name="squash">Adds squashed directory-ies script and init service to the stack</flag>
+		<flag name="symlink">Force kernel ebuilds to automatically update the mkifs[,sdr] symlink</flag>
 	</use>
 </pkgmetadata>
