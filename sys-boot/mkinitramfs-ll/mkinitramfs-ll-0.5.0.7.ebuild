@@ -1,51 +1,52 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.5.0.6.ebuild, v1.1 2012/04/20 -tclover Exp $
+# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.5.0.6.ebuild, v1.2 2012/04/22 -tclover Exp $
 
 EAPI=2
 inherit eutils
 
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
-SRC_URI=" zsh? ( ${HOMEPAGE}/tarball/${PVR}_zsh -> ${PN}-${PVR}_zsh.tar.gz )
-	!zsh? ( ${HOMEPAGE}/tarball/${PVR}_bash -> ${PN}-${PVR}_bash.tar.gz )
-"
-LICENSE="GPL-2"
+SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${PN}-${PVR}.tar.gz"
+LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="aufs fbsplash luks lvm raid squash symlink zsh"
+IUSE="aufs bash fbsplash luks lvm raid squash symlink zsh"
 
-DEPEND="
-		sys-apps/busybox
-		luks? ( sys-fs/cryptsetup[nls,static] )
-		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
-		lvm? ( sys-fs/lvm2[static] )
-		raid? ( sys-fs/mdadm )
+DEPEND=" aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
 		fbsplash? ( 
 				media-gfx/splashutils[fbcondecor,png,truetype] 
 				sys-apps/v86d 
 		)
+		luks? ( sys-fs/cryptsetup[nls,static] )
+		lvm? ( sys-fs/lvm2[static] )
+		raid? ( sys-fs/mdadm )
+		sys-apps/busybox
 "
 
 RDEPEND="zsh? ( app-shells/zsh[unicode] )
-		!zsh? ( sys-apps/util-linux[nls,unicode] app-shells/bash[nls] )
+		bash? ( sys-apps/util-linux[nls,unicode] app-shells/bash[nls] )
 "
 src_compile(){ :; }
 src_install() {
 	cd "${WORKDIR}"/*-${PN}-*
-	emake DESTDIR="${D}" install || die "eek!"
+	emake DESTDIR="${D}" install_init
 	bzip2 ChangeLog
 	bzip2 KnownIssue
 	bzip2 README
 	if use squash; then
-		emake DESTDIR="${D}" install_sqfsd || die "eek!"
+		emake DESTDIR="${D}" install_svcsquash
 		mv sqfsd/README README-sqfsd || die "eek!"
 		bzip2 README-sqfsd
 	fi
 	insinto /usr/local/share/${PN}/doc
 	doins *.bz2 || die "eek!"
-	local use zsh && shell=zsh || shell=bash
+	if use zsh; then shell=zsh
+		emake DESTDIR="${D}" install_scripts_zsh
+	elif use bash; then shell=bash
+		emake DESTDIR="${D}" install_scripts_bash
+	fi
 	if use symlink; then
 		cd "${D}"/usr/local/sbin
 		ln -sf mkifs{-ll.${shell},}
@@ -53,7 +54,6 @@ src_install() {
 	fi
 }
 pkg_postinst() {
-	local use zsh && shell=zsh || shell=bash
 	einfo "with a static binaries of gnupg-1.4*, busybox and its applets, the easiest"
 	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
 	einfo " \`mkifs-ll.${shell} -a -k$(uname -r)' without forgeting to copy those binaries"
@@ -69,3 +69,4 @@ pkg_postinst() {
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
 }
+unset shell
