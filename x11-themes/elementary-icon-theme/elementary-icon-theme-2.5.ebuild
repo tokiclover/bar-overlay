@@ -1,10 +1,10 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/elementary-icon-theme-2.5,v 1.1 2011/08/18 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/elementary-icon-theme-2.5,v 1.1 2012/05/04 -tclover Exp $
 
 inherit eutils
 
-DESCRIPTION="The infamous elementary icon theme by DanRabbit"
+DESCRIPTION="The infamous elementary[OS] icon theme"
 HOMEPAGE="http://danrabbit.deviantart.com/art/"
 SRC_URI="http://www.deviantart.com/download/65437279/elementary_icons_by_danrabbit-d12yjq7.zip -> ${P}.zip"
 
