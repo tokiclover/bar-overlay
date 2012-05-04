@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/efenniht-9999.ebuild,v 1.1 2011/11/02 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/efenniht-9999.ebuild,v 1.1 2012/05/05 -tclover Exp $
 
 ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/THEMES/efenniht"
 inherit subversion
@@ -37,8 +37,8 @@ src_install() {
 		-e "s:\$(shell:\$(DESTDIR)/\$(shell:g" -i Makefile || die "eek!"
 	emake DESTDIR="${D}" install-system || die "eek!"
 	if use gtk; then
-		mv ../{E,e}fenniht-gtk2 || die "eek!"
+		mv ../{Efenniht-gtk2,efenniht} || die "eek!"
 		insinto /usr/share/themes
-		doins -r ../efenniht-gtk2 || die "eek!"
+		doins -r ../efenniht || die "eek!"
 	fi
 }
