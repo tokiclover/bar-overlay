@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/media-sound/oss-4.2.2005,v 1.1 2011/10/30 -tclover Exp $
+# $Header: $BAR-overlay/media-sound/oss-4.2.2005,v 1.1 2012/02/30 -tclover Exp $
 
 EAPI=2
 
@@ -10,7 +10,7 @@ MY_PV=$(get_version_component_range 1-2)
 MY_BUILD=$(get_version_component_range 3)
 MY_P="oss-v${MY_PV}-build${MY_BUILD}-src-gpl"
 
-DESCRIPTION="OSS-${PV} stable build - portable, mixing-capable, high quality sound system for Unix."
+DESCRIPTION="OSS-$PV%.9999} stable build - portable, mixing-capable, high quality sound system for Unix"
 HOMEPAGE="http://developer.opensound.com/"
 SRC_URI="http://www.4front-tech.com/developer/sources/stable/gpl/${MY_P}.tar.bz2"
 

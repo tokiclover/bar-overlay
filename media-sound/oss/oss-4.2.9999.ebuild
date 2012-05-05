@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/media-sound/oss-4.2.9999,v 1.1 2011/10/30 -tclover Exp $
+# $Header: $BAR-overlay/media-sound/oss-4.2.9999,v 1.1 2012/05/05 -tclover Exp $
 
 inherit mercurial flag-o-matic
 
@@ -8,7 +8,7 @@ filter-ldflags "-Wl,-O1"
 
 EHG_REPO_URI="http://opensound.hg.sourceforge.net:8000/hgroot/opensound/opensound"
 
-DESCRIPTION="OSS-${PV} live build - portable, mixing-capable, high quality sound system for Unix."
+DESCRIPTION="OSS-${PV%*.9999} live build - portable, mixing-capable, high quality sound system for Unix"
 HOMEPAGE="http://developer.opensound.com/"
 
 LICENSE="GPL-2"
@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="sys-apps/gawk
-	>=x11-libs/gtk+-2
+	x11-libs/gtk+:2
 	>=sys-kernel/linux-headers-2.6.11
 	!media-sound/oss-devel"
 
