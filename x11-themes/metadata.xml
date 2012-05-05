@@ -12,7 +12,7 @@
 		<flag name="openbox">Adds support for OpenBox theme/port</flag>
 		<flag name="gtk">Adds support for gtk[2] theme/port</flag>
 		<flag name="gtk3">Adds support for gtk3|gnme-shell theme/port</flag>
-		<flag name="mac-menu">Adds support for mac-menu like gtk[2] theme/port</flag>
+		<flag name="macmenu">Adds support for mac-menu like gtk[2] theme/port</flag>
 		<flag name="pekwm">Adds support for PekWM theme/port</flag>
 	</use>
 </pkgmetadata>
