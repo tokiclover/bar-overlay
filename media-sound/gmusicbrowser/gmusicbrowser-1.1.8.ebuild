@@ -4,14 +4,16 @@
 
 EAPI=2
 
-inherit fdo-mime git-2
+if [ ${PV} = 9999 ]; then egit=git-2
+	EGIT_REPO_URI="git://github.com/squentin/gmusicbrowser.git"
+	EGIT_PROJECT=${PN}
+else SRC_URI="https://github.com/squentin/${PN}/tarball/v${PV} -> ${P}.tar.gz"
+fi
+unset egit
+inherit fdo-mime ${egit}
 
-DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac files"
+DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac/mpc/ape files, written in perl"
 HOMEPAGE="http://squentin.free.fr/gmusicbrowser/gmusicbrowser.html"
-EGIT_REPO_URI="git://github.com/squentin/gmusicbrowser.git"
-EGIT_PROJECT=${PN}
-[ ${PV} != 9999 ] && EGIT_TAG=v${PV}
-
 LICENSE="GPL-2"
 SLOT="0"
 
