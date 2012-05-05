@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/dusk-pekwm-theme-0_p20080526.ebuild,v 1.1 2011/11/10 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/dusk-pekwm-theme-0_p20080526.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -13,22 +15,21 @@ SRC_URI="
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="bmpanel gtk minimal"
-EAPI=2
+IUSE="bmpanel gtk -minimal"
 
-RDEPEND="minimal? ( !x11-themes/gnome-theme )
-	x11-wm/pekwm
+RDEPEND="x11-wm/pekwm
 	bmpanel? ( x11-misc/bmpanel )
 	media-fonts/artwiz-latin1
 "
-DEPEND=""
+DEPEND="minimal? ( !x11-themes/gnome-theme )
+"
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}
+S="${WORKDIR}"
 
 src_prepare() {
-	tar xf ${P}
+	tar xf ./${P} || die
 }
 
 src_install() {

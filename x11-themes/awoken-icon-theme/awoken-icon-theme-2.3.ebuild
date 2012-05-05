@@ -1,8 +1,9 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/awoken-icon-theme-2.3.ebuild,v 1.1 2011/11/02 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/awoken-icon-theme-2.3.ebuild,v 1.1 2012/05/05 -tclover Exp $
 
-EAPI=4
+EAPI=2
+
 inherit gnome2-utils
 
 DESCRIPTION="A great monochrome-ish scalable icon theme with 100³ colors and more"
@@ -11,9 +12,8 @@ SRC_URI="http://www.deviantart.com/download/163570862/awoken_by_alecive-d2pdw32.
 
 LICENSE="CC BY-NC-SA-3.0 - CC BY-NC-ND-3.0"
 SLOT="0"
-KEYWORDS="amd64 x86"
-IUSE="colorization minimal"
-EAPI=2
+KEYWORDS="~amd64 ~x86"
+IUSE="colorization -minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
 	colorization? ( media-gfx/imagemagick )

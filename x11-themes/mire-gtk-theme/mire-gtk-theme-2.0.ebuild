@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/mire-gtk-theme-2.0.ebuild,v 1.1 2011/11/10 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/mire-gtk-theme-2.0.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -24,8 +26,7 @@ SRC_URI="http://gnome-look.org/CONTENT/content-files/51023-Mire%20v2.tar.gz -> $
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="axonkolor conky emerald fluxbox minimal openbox pekwm xfwm"
-EAPI=2
+IUSE="axonkolor conky emerald fluxbox -minimal openbox pekwm xfwm"
 
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
 		x11-themes/gtk-engines-murrine
@@ -38,10 +39,10 @@ DEPEND="app-arch/unzip"
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}
+S="${WORKDIR}"
 
 src_install() {
-	use conky && {
+	if use conky; then
 		mv conky mire; mv mire/{ReadMe,README}
 		mv mire/{arch-updates/,}conky-updates.pl; rm -r mire/arch-updates; mv mire/{.,}conkyrc
 		mv mire/{.conkyrc_gmail,conkygmailrc}; mv mire/{.conkyweatherrc,mire-weather}
@@ -50,21 +51,21 @@ src_install() {
 		sed -e 's:| \${color} Arch-pkg*conky-updates.pl}  |::g' -i mire/conkyrc || die "eek!"
 		insinto /usr/share/conky/themes
 		doins -r mire
-	}
-	use pekwm && {
+	fi
+	if use pekwm; then
 		for theme in Mirev2-{blue,grey,lime,orange,pink}
 		do mv ${theme} ${theme/Mirev2-/mire-}; done
 		insinto /usr/share/pekwm/themes
 		doins -r mire-* || die "eek!"
 		rm -r mire-*
-		use axonkolor && {
+		if use axonkolor; then
 			insinto /usr/share/fonts/TTF
 			doins stan0755.ttf || die "eek!"
 			insinto /usr/share/pekwm/themes
 			mv AXONKOLOR axonkolor
 			doins -r axonkolor || die "eek!"
-		}
-	}
+		fi
+	fi
 	mv Mire\ v2/Mire{v2_,\ v2\ }Grey.emerald
 	for theme in Blue Grey Lime Orange Pink; do
 		tar xf Mire\ v2/Mire\ v2_${theme}-gtk2.tar.gz || die "eek!"
@@ -72,16 +73,16 @@ src_install() {
 		use emerald && mv Mire\ v2/Mire\ v2\ ${theme}.emerald \
 			mire-${theme,}/mire-${theme,}.emerald
 		mv Mire\ v2/start_${theme,}.png mire-${theme,}/start-here_mire-${theme,}.png
-		use fluxbox && {
+		if use fluxbox; then
 			mkdir -p styles/mire-${theme,}
 			mv Mire\ v2/Mirev2_${theme}/* styles/mire-${theme,}/
-		}
+		fi
 		use openbox && mv Mire\ v2/Mire\ v2_${theme,}/* mire-${theme,}/
 	done
 	insinto /usr/share/themes
 	doins -r mire-* || die "eek!"
-	use fluxbox && {
+	if use fluxbox; then
 		insinto /usr/share/fluxbox
 		doins -r styles || die "eek!"
-	}
+	fi
 }

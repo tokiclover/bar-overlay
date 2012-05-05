@@ -1,6 +1,8 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/blingbling-9999.ebuild,v 1.1 2011/11/02 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/blingbling-9999.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
@@ -9,20 +11,11 @@ DESCRIPTION="An EFL theme to make it bling: used with a golden Rolex(TM)."
 
 DEPEND="x11-wm/enlightenment"
 
-src_unpack() {
-	subversion_src_unpack
-}
-
+src_configure() { :; }
 src_prepare() {
-	sed -e 's:~/.e/e:/usr/share/enlightenment/data:g' -i Makefile || die
-}
-
-src_configure() {
-	echo "no configure darn it!"
-}
-
-src_compile() {
-	make all || die
+	sed	-e 's:/$$f::g' -e 's:rm -f:mkdir -p:' \
+		-e 's:~/.e/e:\$(DESTDIR)/\$(prefix)/share/enlightenment/data:g' \
+		-e 's:EDJE_FLAGS =.*$:prefix = /usr:' -i Makefile || die
 }
 
 src_install() {

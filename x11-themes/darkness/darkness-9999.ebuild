@@ -1,19 +1,18 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/darkness-9999.ebuild,v 1.1 2011/11/02 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/darkness-9999.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
 DESCRIPTION="An EFL theme based on detour"
-RDEPEND="x11-wm/enlightenment
-	"
 IUSE="gtk themes"
 
-src_unpack() {
-	subversion_src_unpack
-}
-
+RDEPEND="x11-wm/enlightenment
+	media-libs/edje
+"
 src_compile() {
 	 edje_cc -v -id images/ -fd . darkness.edc -o darkness.edj || die "eek!"
 }

@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/insignificant-gtk-theme-0_p20101012,v 1.1 2011/09/08 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/insignificant-gtk-theme-0_p20101012,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -11,21 +13,16 @@ SRC_URI="http://www.deviantart.com/download/182490780/insignificant_by_jurialmun
 LICENSE="CC BY-NC-SA-3.0"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="minimal"
-EAPI=2
+IUSE="-minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
 		x11-themes/gtk-engines-murrine"
 DEPEND="app-arch/unzip"
 
-#RESTRICT="binchecks strip"
+RESTRICT="binchecks strip"
 
-S=${WORKDIR}
+S="${WORKDIR}"
 MY_PN=${PN/-gtk-theme}
-
-src_unpack() {
-	unpack ${A}
-}
 
 src_install() {
 	mv Insignificant ${MY_PN} || die "eek!"

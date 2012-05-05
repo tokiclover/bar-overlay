@@ -1,8 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/faenza-icon-theme-lo-9999,v 1.1 2011/07/25 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/faenza-icon-theme-lo-9999,v 1.1 2012/05/05 -tclover Exp $
 
-EAPI=3
+EAPI=2
 
 inherit git
 
@@ -18,7 +18,7 @@ IUSE="mod"
 DEPEND=""
 RDEPEND="|| ( >=app-office/libreoffice-3.3.0 >=app-office/libreoffice-bin-3.3.0 )"
 
-S=${WORKDIR}
+S="${WORKDIR}"
 
 src_install() {
 	if use mod; then ./build.sh all || die "eek!"

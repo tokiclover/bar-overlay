@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/gt3-colors-theme-0_p20091124,v 1.1 2011/08/18 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/gt3-colors-theme-0_p20091124,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit gnome2-utils
 
@@ -11,19 +13,14 @@ SRC_URI="http://kde-look.org/CONTENT/content-files/106536-GT3-colors-pack.rar ->
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="minimal"
-EAPI=2
+IUSE="-minimal"
 
-RDEPEND="!minimal? ( x11-themes/xcursor-themes )"
+RDEPEND="minimal? ( !x11-themes/xcursor-themes )"
 DEPEND="app-arch/unrar"
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}
-
-src_unpack() {
-	unpack ${A}
-}
+S="${WORKDIR}"
 
 src_install() {
 	for pkg in GT3{,-azure,-bronze,-light,-red}

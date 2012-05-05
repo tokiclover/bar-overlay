@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/faenza-smplayer-theme-1.0-r2,v 1.1 2011/11/07 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/faenza-smplayer-theme-1.0-r2,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -12,7 +14,6 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="-minimal"
-EAPI=2
 
 DEPEND="app-arch/unzip"
 RDEPEND="minimal? ( !x11-themes/smplayer-themes )
@@ -20,11 +21,7 @@ RDEPEND="minimal? ( !x11-themes/smplayer-themes )
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}
-
-src_unpack() {
-	unpack ${A}
-}
+S="${WORKDIR}"
 
 src_install() {
 	tar xf ${PF}.tar.xz || die "eek!"

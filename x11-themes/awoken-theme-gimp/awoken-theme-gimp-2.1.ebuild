@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/portage/x11-themes/awoken-theme-gimp/awoken-theme-gimp-2.1-r2.ebuild,v1.1 2011/08/26 Exp $
+# $Header: $BAR-overlay/portage/x11-themes/awoken-theme-gimp/awoken-theme-gimp-2.1-r2.ebuild,v1.1 2012/05/05 Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -10,20 +12,15 @@ SRC_URI="http://www.deviantart.com/download/203262100/awoken_dark_for_the_gimp_b
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
-EAPI=2
 
 RDEPEND="media-gfx/gimp"
 DEPEND="app-arch/unzip"
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}
-
-src_unpack() {
-	unpack ${A}
-}
+S="${WORKDIR}"
 
 src_install() {
 	insinto /usr/share/gimp/2.0/themes

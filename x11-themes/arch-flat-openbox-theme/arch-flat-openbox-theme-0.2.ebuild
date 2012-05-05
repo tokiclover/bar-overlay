@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/arch-flat-openbox-theme-0.2.ebuild,v 1.1 2011/09/10 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/arch-flat-openbox-theme-0.2.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -11,8 +13,7 @@ SRC_URI="http://box-look.org/CONTENT/content-files/143137-arch.flat-0.2.tar.gz -
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="minimal"
-EAPI=2
+IUSE="-minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
 		x11-wm/openbox"
@@ -21,10 +22,6 @@ DEPEND="app-arch/unzip"
 RESTRICT="binchecks strip"
 
 S=${WORKDIR}
-
-src_unpack() {
-	unpack ${A}
-}
 
 src_install() {
 	insinto /usr/share/themes

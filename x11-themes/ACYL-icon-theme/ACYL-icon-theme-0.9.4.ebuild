@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/ACYL-icon-theme-0.9.4.ebuild,v 1.1 2011/03/10 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/ACYL-icon-theme-0.9.4.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit gnome2-utils
 
@@ -10,9 +12,8 @@ SRC_URI="http://www.deviantart.com/download/175624910/any_color_you_like_by_pobt
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86"
-IUSE="minimal"
-EAPI=2
+KEYWORDS="~amd64 ~x86"
+IUSE="-minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
 		dev-lang/perl
@@ -22,11 +23,7 @@ DEPEND="app-arch/unzip"
 RESTRICT="binchecks strip"
 
 MY_P=${P/-*-/_Icon_Theme_}
-S=${WORKDIR}
-
-src_unpack() {
-	unpack ${A}
-}
+S="${WORKDIR}"
 
 src_install() {
 	unpack ./${MY_P}.tar.bz2

@@ -2,16 +2,19 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $BAR-overlay/x11-themes/efenniht-9999.ebuild,v 1.1 2012/05/05 -tclover Exp $
 
+EAPI=2
+
 ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/THEMES/efenniht"
 inherit subversion
 
 DESCRIPTION="An EFL theme derived from equinox..."
 RDEPEND="x11-wm/enlightenment"
-DEPEND="dev-util/pkgconfig"
+DEPEND="dev-util/pkgconfig
+	media-libs/edje
+"
 IUSE="gtk"
 EGTK=efenniht-gtk2-0.1.tar.gz
 SRC_URI=" gtk? ( http://gnome-look.org/CONTENT/content-files/142710-Efenniht-gtk2.tar.gz -> ${EGTK} )"
-EAPI=2
 WANT_AUTOTOOLS=no
 ESVN_PROJECT=enlightenment/THEMES
 SLOT=0

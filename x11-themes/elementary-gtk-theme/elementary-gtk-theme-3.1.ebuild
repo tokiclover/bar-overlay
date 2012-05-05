@@ -16,7 +16,7 @@ shell? ( http://www.deviantart.com/download/251536124/gnome_shell___elementary_b
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="gnome gtk gtk3 minimal openbox shell xfwm4"
+IUSE="gnome gtk gtk3 -minimal openbox shell xfwm4"
 
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
 	x11-themes/gtk-engines-murrine

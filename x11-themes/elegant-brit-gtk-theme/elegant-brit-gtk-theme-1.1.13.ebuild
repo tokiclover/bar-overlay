@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2011/11/10 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -21,7 +23,7 @@ SRC_URI="
 			  -> ${PN/gtk/openbox}-0.1.3.obt )
 	pekwm?   ( http://box-look.org/CONTENT/content-files/76808-Elegant-Brit-pekwm.tar.gz 
 			   -> ${P/gtk/pekwm}.tar.gz )
-	mac-menu? ( http://gnome-look.org/CONTENT/content-files/76235-ElegantBritMacMenu.tar.gz 
+	macmenu? ( http://gnome-look.org/CONTENT/content-files/76235-ElegantBritMacMenu.tar.gz 
 				-> ${PN/gtk-theme/mac-menu}-1.1.1.tar.gz )
 	wallpaper? ( http://gnome-look.org/CONTENT/content-files/76847-FreeAsInBeauty.tar.gz 
 				 -> ${PN/gtk-theme/freeasinbeauty}-1.0.2.tar.gz )
@@ -31,14 +33,13 @@ SRC_URI="
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="amd64 x86"
-IUSE="emerald gdm gtk3 mac-menu minimal openbox pekwm xfwm wallpaper"
-EAPI=2
+KEYWORDS="~amd64 ~x86"
+IUSE="emerald gdm gtk3 macmenu -minimal openbox pekwm xfwm wallpaper"
 
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
 	emerald?  ( x11-wm/emerald )
 	gdm?      ( gnome-base/gdm )
-	mac-menu? ( gnome-base/gnome-panel )
+	macmenu? ( gnome-base/gnome-panel )
 	openbox?  ( x11-wm/openbox )
 	pekwm?    ( x11-wm/pekwm )
 	xfwm?     ( xfce-base/xfwm4 )
@@ -47,45 +48,45 @@ DEPEND="gtk3? ( app-arch/p7zip )"
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}
+S="${WORKDIR}"
 
 src_install() {
 	mv Elegant\ Brit ${PN%-gtk*}
-	use mac-menu && {
+	if use macmenu; then
 		rm -r ${PN%-gtk*}/{gtk-2.0,metacity-1}
 		mv Elegant\ Brit\ MacMenu ElegantBritMacMenu
 		mv ElegantBritMacMenu/{gtk-2.0,metacity-1} ${PN%-gtk*}/
-	}
-	use gtk3 && {
+	fi
+	if use gtk3; then
 		mv Elegant_Brit/gnome-shell ${PN%-gtk*}/ || die "eek!"
 		mv Elegant_Brit/gtk-3.0 ${PN%-gtk*}/ || die "eek!"
-	}
+	fi
 	tar xf ${P/gtk/dark-gtk}
 	mv Dark\ Brit ${PN%-gtk*}-dark
 	mv  Elegant-Matrix ${PN%-gtk*}-dark-green
 	insinto /usr/share/themes
 	doins -r ${PN%-gtk*}{,-dark{,-green}} || die "eek!"
-	use emerald && {
+	if use emerald; then
 		cp {"${DISTDIR}"/${PN%-gtk*}-1.0.2,${PN%-gtk*}}.emerald
 		doins ${PN%-gtk*}.emerald || die "eek!"
-	}
-	use openbox && {
+	fi
+	if use openbox; then
 		cp "${DISTDIR}"/${PN/gtk/openbox}-0.1.3.obt ${PN%-gtk*}.obt
 		doins ${PN%-gtk*}.obt || die "eek!"
-	}
-	use pekwm && {
+	fi
+	if use pekwm; then
 		mv Elegant-Brit ${PN%-gtk*}
 		insinto /usr/share/pekwm/themes
 		doins -r ${PN%-gtk*} || die "eek!"
 		insinto /usr/share/font/TTF
 		doins slkscr.ttf || die "eek!"
-	}
-	use gdm && {
+	fi
+	if use gdm; then
 		insinto /usr/share/gdm/autostart
 		doins -r brit-waves || die "eek!"
-	}
-	use wallpaper && {
+	fi
+	if use wallpaper; then
 		insinto /usr/share/gdm/freeasinbeauty
 		doins *.svg || die "eek!"
-	}
+	fi
 }

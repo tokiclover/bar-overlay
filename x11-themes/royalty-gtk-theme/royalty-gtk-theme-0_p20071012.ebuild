@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/royalty-gtk-theme-0_p20071012.ebuild,v 1.1 2011/11/16 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/royalty-gtk-theme-0_p20071012.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -31,10 +33,10 @@ DEPEND="app-arch/unzip"
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}
+S="${WORKDIR}"
 
 src_install() {
-	use conky && {
+	if use conky; then
 		mv conky/{ReadMe,README}
 		mv conky/{arch-updates/,}conky-updates.pl; rm -r conky/arch-updates; mv conky/{.,}conkyrc
 		mv conky/{.conkyrc_gmail,conkygmailrc}; mv conky/{.conkyweatherrc,royalty-weather}
@@ -44,15 +46,15 @@ src_install() {
 		insinto /usr/share/conky/themes
 		doins -r conky
 		mv "${D}"/usr/share/conky/themes/{conky,royalty} || die "eek!"
-	}
-	use emerald && {
+	fi
+	if use emerald; then
 		cp "${DISTDIR}"/${PN/gtk/emerald}-0_p20071023.emerald \
 			royalty/royalty.emerald || die "eek!"
-	}
-	use fluxbox && {
+	fi
+	if use fluxbox; then
 		insinto /usr/share/fluxbox/royalty
 		doins -r royalty/{pixmaps,theme.cfg} || die "eek!"
-	}
+	fi
 	rm -rf royalty/{pixmaps,theme.cfg}
 	insinto /usr/share/themes
 	doins -r royalty || die "eek!"

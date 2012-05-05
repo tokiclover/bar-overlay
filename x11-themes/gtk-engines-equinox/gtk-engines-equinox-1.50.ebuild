@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/gtk-engines-equinox-1.50,v 1.1 2011/08/26 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/gtk-engines-equinox-1.50,v 1.1 2012/05/05 -tclover Exp $
 
 EAPI="2"
 
@@ -22,7 +22,7 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	dev-util/pkgconfig"
 
-S="${WORKDIR}"/equinox-${PV}
+S="${WORKDIR}"/${P##*-}
 
 src_configure() {
 	econf --prefix=/usr --libdir=/usr/$(get_libdir) --enable-animation

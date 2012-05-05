@@ -1,19 +1,17 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/detour-elm-9999.ebuild,v 1.1 2011/11/02 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/detour-elm-9999.ebuild,v 1.1 2012/05/05 -tclover Exp $
 
-EAPI=0
+EAPI=2
 
 ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
 DESCRIPTION="An elm theme based/derived from detour e17 theme"
 
-DEPEND="x11-wm/enlightenment"
-
-src_unpack() {
-	subversion_src_unpack
-}
+DEPEND="x11-wm/enlightenment
+	media-libs/edje
+"
 
 src_compile() {
 	emake all || die "eek!"

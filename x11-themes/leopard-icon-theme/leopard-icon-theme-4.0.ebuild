@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $BAR-overlay/x11-themes/leopard-icon-theme-4.0.ebuild,v 1.0 2012/05/05 -tclover Exp $
 
+EAPI=2
+
 inherit gnome2-utils
 
 DESCRIPTION="A very good lepard gtk port theme"
@@ -11,8 +13,7 @@ SRC_URI="http://www.deviantart.com/download/274872640/gnome_leopard_icons_by_bad
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="theme minimal"
-EAPI=2
+IUSE="theme -minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
 	theme? ( x11-themes/${PN/icon/gtk} )

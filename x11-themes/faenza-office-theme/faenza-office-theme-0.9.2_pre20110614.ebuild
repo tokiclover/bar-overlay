@@ -1,8 +1,10 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/faenza-icon-theme-lo-0.9.2_pre20110614,v 1.1 2011/07/25 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/faenza-icon-theme-lo-0.9.2_pre20110614,v 1.1 2012/05/05 -tclover Exp $
 
-EAPI=3
+EAPI=2
+
+inherit eutils
 
 DESCRIPTION="An unfinished port of the pretty Faenza icon theme to LibreOffice 3.4."
 HOMEPAGE="http://kadu20es.deviantart.com/art/Faenza-4-LibreOffice-3-4-213121128"

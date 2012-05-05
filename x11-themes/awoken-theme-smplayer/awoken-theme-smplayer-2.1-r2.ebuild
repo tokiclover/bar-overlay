@@ -1,6 +1,8 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/awoken-theme-smplayer-2.1-r2.ebuild,v 1.1 2011/11/07 -tclover Exp $
+# $Header: $BAR-overlay/x11-themes/awoken-theme-smplayer-2.1-r2.ebuild,v 1.1 2012/05/05 -tclover Exp $
+
+EAPI=2
 
 inherit eutils
 
@@ -11,19 +13,14 @@ SRC_URI="http://www.deviantart.com/download/205536297/awoken_1_9_for_smplayer_by
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="minimal"
-EAPI=2
+IUSE="-minimal"
 
 RDEPEND="minimal? ( !x11-themes/smplayer-themes )
 		|| ( media-video/smplayer media-video/smplayer2 )"
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}
-
-src_unpack() {
-	unpack ${A}
-}
+S="${WORKDIR}"
 
 src_install() {
 	for pkg in AwOken{,Dark}-SMplayer
