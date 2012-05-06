@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit autotools games subversion
+inherit autotools flag-o-matic games subversion
 
 DESCRIPTION="C++ libraries for developing software for the game of Go"
 HOMEPAGE="http://fuego.sourceforge.net/"
@@ -27,8 +27,15 @@ src_prepare() {
 
 src_configure() {
 	econf \
-		--enable-max-size=19
-		--enable-uct-value-type=float
+		--prefix="${GAMES_PREFIX}" \
+		--libdir="$(games_get_libdir)" \
+		--datadir="${GAMES_DATADIR}" \
+		--sysconfdir="${GAMES_SYSCONFDIR}" \
+		--localstatedir="${GAMES_STATEDIR}" \
+		--enable-max-size=19 \
+		--enable-uct-value-type=float \
 		$(use_enable cache-sync)
-	use optimization && export CXXFLAGS="-O3 -ffast-math -g -pipe"
+	if use optimization; then
+		append-cxxflags "-O3 -ffast-math -g -pipe"
+	fi
 }
