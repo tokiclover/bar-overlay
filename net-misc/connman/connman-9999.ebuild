@@ -1,10 +1,10 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/net-misc/connman-9999.ebuild,v 1.1 2011/11/24 -tclover Exp $
+# $Header: $BAR-overlay/net-misc/connman-9999.ebuild,v 1.1 2012/05/6 -tclover Exp $
 
 EAPI="2"
 
-inherit eutils git-2 systemd
+inherit autotools git-2 systemd
 
 DESCRIPTION="Provides a daemon for managing internet connections"
 HOMEPAGE="http://connman.net"

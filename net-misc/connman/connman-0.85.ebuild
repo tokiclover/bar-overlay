@@ -1,10 +1,10 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/net-misc/connman-0.77.ebuild,v 1.1 2011/11/24 -tclover Exp $
+# $Header: $BAR-overlay/net-misc/connman-0.85.ebuild,v 1.1 2012/05/06 -tclover Exp $
 
 EAPI="2"
 
-inherit multilib git-2 eutils
+inherit multilib git-2 autotools
 
 DESCRIPTION="Provides a daemon for managing internet connections"
 HOMEPAGE="http://connman.net"
@@ -15,7 +15,6 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
 IUSE="bluetooth +caps debug doc examples +ethernet google ofono ntpd openvpn policykit threads tools vpnc +wifi wimax"
-# gps meego ospm openconnect
 
 RDEPEND=">=dev-libs/glib-2.16
 	>=sys-apps/dbus-1.2.24
@@ -37,6 +36,7 @@ DEPEND="${RDEPEND}
 	doc? ( dev-util/gtk-doc )"
 
 src_configure() {
+	./bootstrap
 	econf \
 		--localstatedir=/var \
 		--enable-client \
