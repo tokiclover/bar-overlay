@@ -4,11 +4,11 @@
 
 EAPI=3
 
-inherit autotools games subversion
+inherit autotools games
 
 DESCRIPTION="C++ libraries for developing software for the game of Go"
 HOMEPAGE="http://fuego.sourceforge.net/"
-ESVN_REPO_URI="https://fuego.svn.sourceforge.net/svnroot/fuego/trunk"
+SRC_URI="http://heanet.dl.sourceforge.net/project/fuego/fuego/1.1/${P}.tar.gz"
 
 LICENSE="GPL-3 LGPL-3"
 SLOT="0"
