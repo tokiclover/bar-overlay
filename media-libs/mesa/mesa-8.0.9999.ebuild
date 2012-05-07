@@ -1,12 +1,11 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/media-libs/mesa-8.0.9999.ebuild,v 1.2 2012/03/16 -tclover Exp $
+# $Header: $BAR-overlay/media-libs/mesa-8.0.9999.ebuild,v 1.2 2012/05/07 -tclover Exp $
 
 EAPI=4
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 EGIT_BRANCH=${PV%.9999}
-EXPERIMENTAL="true"
 
 inherit base autotools multilib flag-o-matic toolchain-funcs git-2
 
@@ -37,9 +36,9 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic d3d debug +egl g3dvl +gallium gbm gles1 gles2 +llvm +nptl 
-	openvg osmesa pax_kernel pic selinux shared-dricore +shared-glapi vdpau wayland xa xvmc 
-	kernel_FreeBSD"
+	bindist +classic d3d debug +egl g3dvl +gallium gbm gles1 gles2 +llvm +nptl
+	openvg osmesa pax_kernel pic r600-llvm-compiler selinux +shared-glapi vdpau
+	wayland xvmc xa xorg kernel_FreeBSD"
 
 REQUIRED_USE="
 	d3d?    ( gallium )
@@ -49,7 +48,9 @@ REQUIRED_USE="
 	gbm?    ( shared-glapi )
 	g3dvl? ( || ( vdpau xvmc ) )
 	vdpau? ( g3dvl )
-	xa?    ( gallium )
+	r600-llvm-compiler? ( gallium llvm || ( video_cards_r600 video_cards_radeon ) )
+	xa?  ( gallium )
+	xorg?  ( gallium )
 	xvmc?  ( g3dvl )
 	video_cards_intel?  ( || ( classic gallium ) )
 	video_cards_i915?   ( || ( classic gallium ) )
@@ -63,7 +64,7 @@ REQUIRED_USE="
 	video_cards_vmware? ( gallium )
 "
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.31"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.34"
 # not a runtime dependency of this package, but dependency of packages which
 # depend on this package, bug #342393
 EXTERNAL_DEPEND="
@@ -72,12 +73,13 @@ EXTERNAL_DEPEND="
 "
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
+# gtest file collision bug #411825
 RDEPEND="${EXTERNAL_DEPEND}
 	!<x11-base/xorg-server-1.7
 	!<=x11-proto/xf86driproto-2.0.3
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
-	>=app-admin/eselect-opengl-1.2.5
+	>=app-admin/eselect-opengl-1.2.2
 	dev-libs/expat
 	gbm? ( sys-fs/udev )
 	>=x11-libs/libX11-1.3.99.901
@@ -88,7 +90,11 @@ RDEPEND="${EXTERNAL_DEPEND}
 	d3d? ( app-emulation/wine )
 	vdpau? ( >=x11-libs/libvdpau-0.4.1 )
 	wayland? ( dev-libs/wayland )
-	xvmc? ( x11-libs/libXvMC )
+	xorg? (
+		x11-base/xorg-server
+		x11-libs/libdrm[libkms]
+	)
+	xvmc? ( >=x11-libs/libXvMC-1.0.6 )
 	${LIBDRM_DEPSTRING}[video_cards_nouveau?,video_cards_vmware?]
 "
 for card in ${INTEL_CARDS}; do
@@ -104,7 +110,10 @@ for card in ${RADEON_CARDS}; do
 done
 
 DEPEND="${RDEPEND}
-	llvm? ( >=sys-devel/llvm-2.9 )
+	llvm? (
+		>=sys-devel/llvm-2.9
+		r600-llvm-compiler? ( >=sys-devel/llvm-3.1 )
+	)
 	=dev-lang/python-2*
 	dev-libs/libxml2[python]
 	dev-util/pkgconfig
@@ -140,9 +149,7 @@ src_prepare() {
 	fi
 
 	# relax the requirement that r300 must have llvm, bug 380303
-	epatch "${FILESDIR}"/${P%.9999}-dont-require-llvm-for-r300.patch
-	# fix for hardened pax_kernel, bug 240956
-	epatch "${FILESDIR}"/glx_ro_text_segm.patch
+	epatch "${FILESDIR}"/${P/.9999/}-dont-require-llvm-for-r300.patch
 
 	# fix for hardened pax_kernel, bug 240956
 	[[ ${PV} != 9999* ]] && epatch "${FILESDIR}"/glx_ro_text_segm.patch
@@ -151,6 +158,9 @@ src_prepare() {
 	if [[ ${CHOST} == *-solaris* ]] ; then
 		sed -i -e "s/-DSVR4/-D_POSIX_C_SOURCE=200112L/" configure.ac || die
 	fi
+
+	# Tests fail against python-3, bug #407887
+	sed -i 's|/usr/bin/env python|/usr/bin/env python2|' src/glsl/tests/compare_ir || die
 
 	base_src_prepare
 
@@ -197,8 +207,8 @@ src_configure() {
 			$(use_enable g3dvl gallium-g3dvl)
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openvg)
+			$(use_enable r600-llvm-compiler)
 			$(use_enable vdpau)
-			$(use_enable xa)
 			$(use_enable xvmc)
 		"
 		gallium_enable swrast
@@ -236,8 +246,9 @@ src_configure() {
 		$(use_enable nptl glx-tls) \
 		$(use_enable osmesa) \
 		$(use_enable !pic asm) \
-		$(use_enable shared-dricore) \
 		$(use_enable shared-glapi) \
+		$(use_enable xa) \
+		$(use_enable xorg) \
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
 		${myconf}
@@ -247,7 +258,7 @@ src_install() {
 	base_src_install
 
 	find "${ED}" -name '*.la' -exec rm -f {} + || die
-	
+
 	if use !bindist; then
 		dodoc docs/patents.txt
 	fi
@@ -259,14 +270,14 @@ src_install() {
 
 	# Install config file for eselect mesa
 	insinto /usr/share/mesa
-	newins "${FILESDIR}/eselect-mesa.conf.8.0.1" eselect-mesa.conf
+	newins "${FILESDIR}/eselect-mesa.conf.8.1" eselect-mesa.conf
 
 	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib
 	# because user can eselect desired GL provider.
 	ebegin "Moving libGL and friends for dynamic switching"
 		dodir /usr/$(get_libdir)/opengl/${OPENGL_DIR}/{lib,extensions,include}
 		local x
-		for x in "${ED}"/usr/$(get_libdir)/lib{EGL,GL*,OpenVG}.{la,a,so*}; do
+		for x in "${ED}"/usr/$(get_libdir)/lib{EGL,GL,OpenVG}.{la,a,so*}; do
 			if [ -f ${x} -o -L ${x} ]; then
 				mv -f "${x}" "${ED}"/usr/$(get_libdir)/opengl/${OPENGL_DIR}/lib \
 					|| die "Failed to move ${x}"
