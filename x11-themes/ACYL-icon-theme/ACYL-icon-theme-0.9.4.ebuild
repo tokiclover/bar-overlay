@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/x11-themes/ACYL-icon-theme/ACYL-icon-theme-0.9.4.ebuild,v 1.1 2012/05/08 -tclover Exp $
 
