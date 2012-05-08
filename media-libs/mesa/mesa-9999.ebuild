@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/media-libs/mesa-8.0.9999.ebuild,v 1.2 2012/05/07 -tclover Exp $
+# $Header: bar-overlay/media-libs/mesa-8.0.9999.ebuild,v 1.2 2012/05/07 -tclover Exp $
 
 EAPI=4
 
