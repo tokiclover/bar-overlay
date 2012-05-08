@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/media-fonts/ttf-mph-2b-damase-001.000,v 1.1 2011/12/17 -Peter Alfredsen Exp $
+# $Header: bar-overlay/media-fonts/ttf-mph-2b-damase-001.000,v 1.1 2011/12/17 -Peter Alfredsen Exp $
 
 inherit font
 # see bgo #216528
