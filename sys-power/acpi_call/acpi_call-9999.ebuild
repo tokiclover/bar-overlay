@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/sys-power/acpi_call/acpi_call-9999.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
