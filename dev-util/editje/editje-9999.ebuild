@@ -1,6 +1,6 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/dev-util/editje-9999,v 1.1 2011/11/05 -tclover Exp $
+# $Header: bar-overlay/dev-util/editje/editje-9999.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
 inherit enlightenment
 
