@@ -1,6 +1,6 @@
 # ChangeLog for media-sound/gmorgan
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $BAR-overlay/portage/sys-kernel/git-sources/ChangeLog, v1.0 2011/06/16 Exp $
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: sys-kernel/git-sources/ChangeLog, 2012/05/08 -tclover Exp $
 
 *2012-05-08:
 	+git-sources-3.{3.5,0.31} -git-sources-3.{3.3,0.29}
