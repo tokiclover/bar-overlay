@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/gmusicbrowser/gmusicbrowser-1.1.9.ebuild,v 1.2 2012/05/08 -tclover Exp $
 
