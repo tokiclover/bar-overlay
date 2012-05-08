@@ -1,7 +1,7 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header:
-# bar-overlay/x11-plugins/e_modules-everything-aspell-9999.ebuild,v 1.1 2012/03/18 -tclover Exp $
+# bar-overlay/x11-plugins/e_modules-everything-aspell/e_modules-everything-aspell-9999.ebuild,v 1.1 2012/05/08 -tclover Exp $
 
 EAPI="2"
 ESVN_SUB_PROJECT="E-MODULES-EXTRA"
