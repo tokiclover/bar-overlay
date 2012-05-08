@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/www-client/midori/midori-0.4.2-r200.ebuild,v 1.1 2011/12/06 03:50:25 ssuominen Exp $
 
