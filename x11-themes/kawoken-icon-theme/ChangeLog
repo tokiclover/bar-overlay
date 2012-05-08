@@ -1,6 +1,6 @@
 # ChangeLog for media-sound/gmorgan
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $BAR-overlay/x11-themes/kawoken-icon-theme/ChangeLog Exp $
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: x11-themes/kawoken-icon-theme/ChangeLog, 2012/05/08 -tclover Exp $
 
 *2011-11-02:
 	+v1.1 ebuild -v0.9 ebuild
