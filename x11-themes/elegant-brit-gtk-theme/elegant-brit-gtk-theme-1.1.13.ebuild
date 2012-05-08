@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/05/05 -tclover Exp $
+# $Header: bar-overlay/x11-themes/elegant-brit-gtk-theme/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/05/08 -tclover Exp $
 
 EAPI=2
 
