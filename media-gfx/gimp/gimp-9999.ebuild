@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-gfx/gimp/gimp-9999.ebuild,v 1.42 2012/04/12 00:33:57 sping Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-gfx/gimp/gimp-9999.ebuild,v 1.42 2012/05/08 -tclover Exp $
 
 EAPI="3"
 PYTHON_DEPEND="python? 2:2.5"
