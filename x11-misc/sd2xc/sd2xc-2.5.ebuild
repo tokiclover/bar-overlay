@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-misc/sd2xc-2.5,v 1.1 2011/11/11 -tclover Exp $
+# $Header: bar-overlay/x11-misc/sd2xc-2.5,v 1.1 2011/11/11 -tclover Exp $
 
 EAPI=3
 

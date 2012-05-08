@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/x11-themes/faenza-cupertino-icon-theme-0.7.ebuild,v 1.1 2012/05/05 -tclover Exp $
+# $Header: bar-overlay/x11-themes/faenza-cupertino-icon-theme-0.7.ebuild,v 1.1 2012/05/05 -tclover Exp $
 
 EAPI=2
 

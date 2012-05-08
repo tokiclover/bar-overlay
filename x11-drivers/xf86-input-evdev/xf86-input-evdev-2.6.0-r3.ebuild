@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header $BAR-overlay/x11-drivers/xf86-input-evdev-2.6.3.ebuild,v 1.1 2011/11/12 -tclover Exp $
+# $Header bar-overlay/x11-drivers/xf86-input-evdev-2.6.3.ebuild,v 1.1 2011/11/12 -tclover Exp $
 
 EAPI=3
 

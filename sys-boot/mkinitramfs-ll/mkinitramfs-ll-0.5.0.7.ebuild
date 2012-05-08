@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/sys-boot/mkinitramfs-ll-0.5.0.6.ebuild, v1.2 2012/04/22 -tclover Exp $
+# $Header: bar-overlay/sys-boot/mkinitramfs-ll-0.5.0.6.ebuild, v1.2 2012/04/22 -tclover Exp $
 
 EAPI=2
 inherit eutils
