@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/elementary-gtk-theme-2.1.ebuild,v 1.2 2012/05/04 -tclover Exp $
+# $Header: bar-overlay/x11-themes/elementary-gtk-theme/elementary-gtk-theme-3.1.ebuild,v 1.2 2012/05/08 -tclover Exp $
 
 EAPI=2
 
