@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources-3.2.13.ebuild, v1.2 2012/03/26 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.2.15.ebuild v1.2 2012/05/08 -tclover Exp $
 
 EAPI=2
 UNIPATCH_STRICTORDER="yes"
