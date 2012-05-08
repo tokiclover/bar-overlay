@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/app-emulation/emul-linux-x86-bjdeps-0.1-r2.ebuild, v1.2 2011/11/05 -tclover Exp $
+# $Header: app-emulation/emul-linux-x86-bjdeps/emul-linux-x86-bjdeps-0.1-r2.ebuild v1.2 2011/11/05 -tclover Exp $
 
 inherit libtool eutils flag-o-matic autotools multilib
 
