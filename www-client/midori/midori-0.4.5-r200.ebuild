@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/midori/midori-0.4.4.ebuild,v 1.1 2012/03/09 14:33:47 ssuominen Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/midori/midori-0.4.4.ebuild,v 1.1 2012/05/08 -tclover Exp $
 
 EAPI=4
 inherit eutils fdo-mime gnome2-utils python waf-utils
