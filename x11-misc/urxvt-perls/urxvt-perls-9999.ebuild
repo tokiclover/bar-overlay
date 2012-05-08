@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: x11-misc/urxvt-perls/urxvt-perls-9999.ebuild v1.1 2011/09/10 -tclover Exp $
 
