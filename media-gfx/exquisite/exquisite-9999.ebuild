@@ -6,7 +6,7 @@ EAPI=4
 
 inherit enlightenment
 
-DESCRIPTION="[p]splash based on EFL libraries with no need for platform specific themes or modules"
+DESCRIPTION="tool to create a graphical bootsplash with animation, status feedback, and more"
 
 IUSE="+cache examples +evas directfb +fbcon opengl +nls +X"
 
