@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/detourious-9999.ebuild,v 1.1 2012/05/05 -tclover Exp $
+# $Header: bar-overlay/x11-themes/detourious/detourious-9999.ebuild,v 1.1 2012/05/08 -tclover Exp $
 
 EAPI=2
 
