@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/dev-perl/Gtk2-WebKit/Gtk2-WebKit-0.90.0.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
