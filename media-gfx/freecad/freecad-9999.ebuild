@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-gfx/freecad/freecad-0.12.5284-r2.ebuild,v 1.2 2012/01/07 16:23:50 dilfridge Exp $
+# $Header: bar-overlay/media-gfx/freecad/freecad-9999.ebuild,v 1.2 2012/05/08 -tclover Exp $
 
 EAPI=4
 PYTHON_DEPEND=2
