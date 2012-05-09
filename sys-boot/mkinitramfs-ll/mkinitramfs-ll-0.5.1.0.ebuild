@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.0.7.ebuild v1.2 2012/05/08 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/05/09 23:51:43 -tclover Exp $
 
 EAPI=2
 inherit eutils
@@ -34,14 +34,14 @@ src_install() {
 	emake DESTDIR="${D}" install_init
 	bzip2 ChangeLog
 	bzip2 KnownIssue
-	bzip2 README
+	bzip2 README.textile
 	if use squash; then
-		emake DESTDIR="${D}" install_svcsquash
-		mv sqfsd/README README-sqfsd || die "eek!"
-		bzip2 README-sqfsd
+		emake DESTDIR="${D}" install_sqfsd_svc
+		mv sqfsd_svc{/,-}README.textile || die
+		bzip2 sqfsd_svc-README.textile
 	fi
 	insinto /usr/local/share/${PN}/doc
-	doins *.bz2 || die "eek!"
+	doins *.bz2 || die
 	if use zsh; then shell=zsh
 		emake DESTDIR="${D}" install_scripts_zsh
 	elif use bash; then shell=bash
