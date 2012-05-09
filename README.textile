@@ -6,8 +6,8 @@ bq. "bar overlay"
 
 h3. to use this overlay execute as root
 
-@% USE=git emerge -av layman
-@% layman -o https://raw.github.com/tokiclover/bar-overlay/master/bar-overlay.xml -f -a bar
+@% USE=git emerge -av layman@
+@% layman -o https://raw.github.com/tokiclover/bar-overlay/master/bar-overlay.xml -f -a bar@
 
 h3. or alternatively... and do not forget to uncomment 
 
@@ -22,4 +22,4 @@ h3. once done, merge all the goodies with
 
 @% emerge -aNDuv @world@
 
-@# vim:fenc=utf-8:@
+@vim:fenc=utf-8:@
