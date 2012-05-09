@@ -38,12 +38,12 @@ src_install() {
 	bzip2 KnownIssue
 	bzip2 README.textile
 	if use squash; then
-		emake DESTDIR="${D}" install_svcsquash
-		mv sqfsd_svc/README sqfsd_svc-README || die "eek!"
+		emake DESTDIR="${D}" install_sqfsd_svc
+		mv sqfsd_svc{/,-}README.textile || die
 		bzip2 sqfsd_svc-README.textile
 	fi
 	insinto /usr/local/share/${PN}/doc
-	doins *.bz2 || die "eek!"
+	doins *.bz2 || die
 	if use zsh; then shell=zsh
 		emake DESTDIR="${D}" install_scripts_zsh
 	elif use bash; then shell=bash
