@@ -1,4 +1,4 @@
-@$Id: bar-overlay/README.textfile, 2012/05/12 -tclover Exp $@
+@$Id: bar-overlay/README.textfile, 2012/05/09 12:39:50 -tclover Exp $@
 
 another foo (portage) overlay with a few package I'd rather emerge than merge manually
 
