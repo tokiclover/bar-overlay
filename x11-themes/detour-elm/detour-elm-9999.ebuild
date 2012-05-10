@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/detour-elm/detour-elm-9999.ebuild,v 1.1 2012/05/08 -tclover Exp $
+# $Header: bar-overlay/x11-themes/detour-elm/detour-elm-9999.ebuild,v 1.1 2012/05/10 13:08:05 -tclover Exp $
 
 EAPI=2
 
@@ -13,6 +13,8 @@ DEPEND="x11-wm/enlightenment
 	media-libs/edje
 "
 
+src_prepare() { :; }
+src_configure() { :; }
 src_compile() {
 	emake all || die "eek!"
 }
