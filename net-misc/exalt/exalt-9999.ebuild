@@ -1,19 +1,16 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-terms/enterminus/enterminus-9999.ebuild,v 1.1 2005/09/07 03:52:46 vapier Exp $
+# $Header: net-misc/exalt/exalt-9999.ebuild,v 1.1 2012/05/11 02:15:15 -tclover Exp $
 
 ESVN_SUB_PROJECT="exalt"
 inherit enlightenment
 
-DESCRIPTION="ConMan based onn EFL and... HAL. Period."
+DESCRIPTION="efl based front end network manager"
+IUSE="dhclient wifi"
 
 RDEPEND="x11-wm/enlightenment
-	sys-apps/dbus"
-DEPEND="net-misc/wpa_supplicant
-	|| ( net-misc/dhcpcd net-misc/dhcp )
-    sys-apps/hal
-	dev-libs/ecore
-	dev-libs/eina
-    dev-libs/eet
-    dev-libs/e_dbus
-	"
+	dev-libs/e_dbus
+"
+DEPEND="wifi? ( net-misc/wpa_supplicant )
+	dhclient? ( net-misc/dhclient )
+"
