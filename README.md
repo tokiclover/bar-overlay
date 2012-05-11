@@ -1,4 +1,4 @@
-$Id: bar-overlay/README.textile, 2012/05/11 19:51:22 -tclover Exp $
+$Id: bar-overlay/README.textile, 2012/05/11 19:52:20 -tclover Exp $
 
 ---
 
@@ -18,9 +18,7 @@ or alternatively... and do not forget to uncomment
 `% wget https://raw.github.com/tokiclover/bar-overlay/master/bar-overlay.xml`
 `% layman -a bar`
 
-once done, merge all the goodies with
-
-`% emerge -aNDuv @world`
+once done, merge all the goodies with: `% emerge -aNDuv @world`
 
 ---
 
