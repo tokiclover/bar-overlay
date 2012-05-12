@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/05/12 04:32:45 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/05/12 18:46:59 -tclover Exp $
 
 EAPI=4
 inherit eutils
@@ -20,12 +20,12 @@ REQUIRED_USE="|| ( bash zsh )
 
 DEPEND="sys-apps/coreutils
 	sys-devel/make
+	sys-apps/sed[nls]
+	sys-apps/grep[nls]
 "
 
 RDEPEND="sys-apps/busybox
 	app-arch/cpio[nls] 
-	sys-apps/sed[nls]
-	sys-apps/grep[nls]
 	sys-apps/findutils[nls]
 	sqfsd? ( sys-apps/util-linux
 		sys-apps/kmod
