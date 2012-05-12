@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.2 2012/05/12 18:46:56 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.2 2012/05/12 23:36:42 -tclover Exp $
 
 EAPI=4
 inherit eutils git-2
@@ -14,7 +14,7 @@ LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="aufs bash -bzip2 fbsplash -gzip luks -lzip -lzma -lzop lvm raid sqfsd symlink +xz zsh"
+IUSE="aufs bash -bzip2 fbsplash -gzip luks -lzip -lzma -lzop lvm raid static sqfsd symlink +xz zsh"
 
 REQUIRED_USE="|| ( bash zsh )
 	|| ( bzip2 gzip lzip lzma lzop xz )
@@ -26,7 +26,7 @@ DEPEND="sys-apps/coreutils
 	sys-apps/grep[nls]
 "
 
-RDEPEND="sys-apps/busybox
+RDEPEND="sys-apps/busybox[mdev,static?]
 	app-arch/cpio[nls] 
 	sys-apps/findutils[nls]
 	sqfsd? ( sys-apps/util-linux
