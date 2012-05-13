@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.2 2012/05/13 11:55:32 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.2 2012/05/13 14:51:06 -tclover Exp $
 
 EAPI=4
 inherit eutils git-2
@@ -55,21 +55,22 @@ RDEPEND="sys-apps/busybox[mdev,static?]
 src_compile(){ :; }
 src_install() {
 	cd "${WORKDIR}"/*-${PN}-*
-	emake DESTDIR="${D}" install_init
+	emake DESTDIR="${D}" install
 	bzip2 ChangeLog
 	bzip2 KnownIssue
 	bzip2 README.textile
 	if use sqfsd; then
-		emake DESTDIR="${D}" install_sqfsd_svc
+		emake DESTDIR="${D}" install_svc
 		mv sqfsd_svc{/,-}README.textile || die
 		bzip2 sqfsd_svc-README.textile
 	fi
 	insinto /usr/local/share/${PN}/doc
 	doins *.bz2 || die
+	if use bash; then shell=bash
+		emake DESTDIR="${D}" install_bash
+	fi
 	if use zsh; then shell=zsh
-		emake DESTDIR="${D}" install_scripts_zsh
-	elif use bash; then shell=bash
-		emake DESTDIR="${D}" install_scripts_bash
+		emake DESTDIR="${D}" install_zsh
 	fi
 	if use symlink; then
 		cd "${D}"/usr/local/sbin
