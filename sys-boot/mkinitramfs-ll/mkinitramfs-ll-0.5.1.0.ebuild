@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/05/12 23:36:45 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/05/13 11:55:35 -tclover Exp $
 
 EAPI=4
 inherit eutils
@@ -12,7 +12,7 @@ LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bash -bzip2 fbsplash gzip luks -lzip -lzma -lzop lvm raid static sqfsd symlink +xz zsh"
+IUSE="aufs bash -bzip2 fbsplash gzip luks -lzip -lzma -lzop lvm raid static sqfsd symlink +xz zsh"
 
 REQUIRED_USE="|| ( bash zsh )
 	|| ( bzip2 gzip lzip lzma lzop xz )
@@ -46,7 +46,7 @@ RDEPEND="sys-apps/busybox[mdev,static?]
 	bzip2? ( || ( app-arch/bzip2 app-arch/lbzip2 app-arch/pbzip2 ) )
 	gzip? ( app-arch/gzip )
 	lzip? ( app-arch/lzip )
-	lzma? ( app-arch/lzma )
+	lzma? ( app-arch/xz-utils )
 	lzop? ( app-arch/lzop )
 	xz? ( app-arch/xz-utils )
 "
