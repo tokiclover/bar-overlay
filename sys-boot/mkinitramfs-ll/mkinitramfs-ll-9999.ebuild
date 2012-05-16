@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.2 2012/05/13 14:51:06 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.2 2012/05/14 02:13:12 -tclover Exp $
 
 EAPI=4
 inherit eutils git-2
@@ -14,14 +14,15 @@ LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="aufs bash -bzip2 fbsplash -gzip luks -lzip -lzma -lzop lvm raid static sqfsd symlink +xz zsh"
+IUSE="aufs bash -bzip2 fbsplash -gzip luks -lzip -lzma -lzo lvm raid static sqfsd symlink +xz zsh"
 
 REQUIRED_USE="|| ( bash zsh )
-	|| ( bzip2 gzip lzip lzma lzop xz )
+	|| ( bzip2 gzip lzip lzma lzo xz )
+	lzma? ( xz )
 "
 
-DEPEND="sys-apps/coreutils
-	sys-devel/make
+DEPEND="sys-apps/coreutils[nls,unicode]
+	sys-devel/make[nls]
 	sys-apps/sed[nls]
 	sys-apps/grep[nls]
 "
@@ -29,9 +30,11 @@ DEPEND="sys-apps/coreutils
 RDEPEND="sys-apps/busybox[mdev,static?]
 	app-arch/cpio[nls] 
 	sys-apps/findutils[nls]
-	sqfsd? ( sys-apps/util-linux
-		sys-apps/kmod
-		sys-fs/squashfs-tools
+	sys-apps/kbd[nls]
+	media-fonts/terminus-font[psf]
+	sqfsd? ( sys-apps/util-linux[nls,unicode]
+		sys-apps/kmod[tools]
+		sys-fs/squashfs-tools[lzma?,lzo?,xz?]
 		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
 	)
 	bash? ( sys-apps/util-linux[nls,unicode] 
@@ -46,11 +49,10 @@ RDEPEND="sys-apps/busybox[mdev,static?]
 	lvm? ( sys-fs/lvm2[static] )
 	raid? ( sys-fs/mdadm )
 	bzip2? ( || ( app-arch/bzip2 app-arch/lbzip2 app-arch/pbzip2 ) )
-	gzip? ( app-arch/gzip )
+	gzip? ( app-arch/gzip[nls] )
 	lzip? ( app-arch/lzip )
-	lzma? ( app-arch/xz-utils )
-	lzop? ( app-arch/lzop )
-	xz? ( app-arch/xz-utils )
+	lzo? ( app-arch/lzop )
+	xz? ( app-arch/xz-utils[nls] )
 "
 src_compile(){ :; }
 src_install() {
