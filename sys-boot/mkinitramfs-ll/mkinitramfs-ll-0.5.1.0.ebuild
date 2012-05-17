@@ -12,7 +12,7 @@ LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="aufs bash -bzip2 fbsplash gzip luks -lzip -lzma -lzo lvm raid static sqfsd symlink +xz zsh"
+IUSE="aufs bash -bzip2 fbsplash gzip luks -lzip -lzma -lzo lvm raid sqfsd symlink +xz zsh"
 
 REQUIRED_USE="|| ( bash zsh )
 	|| ( bzip2 gzip lzip lzma lzo xz )
@@ -25,7 +25,7 @@ DEPEND="sys-apps/coreutils[nls,unicode]
 	sys-apps/grep[nls]
 "
 
-RDEPEND="sys-apps/busybox[mdev,static?]
+RDEPEND="sys-apps/busybox[mdev]
 	app-arch/cpio[nls] 
 	sys-apps/findutils[nls]
 	sys-apps/kbd[nls]
