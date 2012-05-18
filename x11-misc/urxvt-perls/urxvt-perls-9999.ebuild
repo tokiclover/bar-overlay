@@ -1,10 +1,10 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-misc/urxvt-perls/urxvt-perls-9999.ebuild v1.1 2011/09/10 -tclover Exp $
-
-inherit git
+# $Header: x11-misc/urxvt-perls/urxvt-perls-9999.ebuild v1.1 2012/05/18 22:55:40 -tclover Exp $
 
 EAPI=2
+
+inherit git
 
 DESCRIPTION="Perl extensions for the rxvt-unicode terminal emulator"
 HOMEPAGE="https://github.com/muennich/urxvt-perls"
