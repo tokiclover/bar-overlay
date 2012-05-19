@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/05/14 02:13:17 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/05/19 02:39:18 -tclover Exp $
 
 EAPI=4
 inherit eutils
@@ -83,7 +83,7 @@ pkg_postinst() {
 	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
 	einfo " \`mkifs-ll.${shell} -a -k$(uname -r)' without forgeting to copy those binaries"
 	einfo "before to \`\${PWD}/bin' along with options.skel to \`\${PWD}/misc/share/gnupg/'."
-	einfo "Else, run \`mkifs-ll.gen.${shell} -D -s -l -g' and that script will take care of"
+	einfo "Else, run \`mkifs-ll-autogen.${shell} -D -s -l -g' and that script will take care of"
 	einfo "everything for kernel $(uname -r), you can add gpg.conf by appending \`-C~'"
 	einfo "for example. User scripts can be added to \`\${PWD}/misc' directory."
 	if use sqfsd; then
