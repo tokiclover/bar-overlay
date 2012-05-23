@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>no-herd</herd>
+	<maintainer><email>tclover@bar-overlay</email>
+	</maintainer>
+	<use>
+		<flag name="kernel-builtin">Build against kernel-builtin instead of sys-fs/aufs-standlone header</flag>
+	</use>
+</pkgmetadata>
