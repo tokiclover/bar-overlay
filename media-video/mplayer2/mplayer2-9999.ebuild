@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer2/mplayer2-9999.ebuild,v 1.24 2012/05/08 -tclover Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer2/mplayer2-9999.ebuild,v 1.24 2012/05/24 10:31:41 -tclover Exp $
 
 EAPI=4
 
@@ -33,7 +33,7 @@ else
 	KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux"
 fi
 IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl
-bluray bs2b +bzip2 cddb +cdio cdparanoia cpudetection custom-cpuopts
+bluray bs2b +bzip2 cddb +cdio cpudetection custom-cpuopts
 custom-cflags debug +dirac directfb doc +dts +dv dvb +dvd +dvdnav
 dxr3 +enca +faad fbcon ftp gif ggi gsm +iconv ipv6 jack joystick
 jpeg jpeg2k kernel_linux ladspa libcaca lirc mad md5sum +mmx
@@ -52,8 +52,7 @@ done
 
 # bindist does not cope with win32codecs, which are nonfree
 REQUIRED_USE="bindist? ( !win32codecs )
-	cdio? ( !cdparanoia )
-	cddb? ( || ( cdio cdparanoia ) network )
+	cddb? ( cdio network )
 	dvdnav? ( dvd )
 	radio? ( || ( dvb v4l ) )
 	dxr3? ( X )
@@ -105,7 +104,6 @@ RDEPEND+="
 	bluray? ( media-libs/libbluray )
 	bs2b? ( media-libs/libbs2b )
 	cdio? ( dev-libs/libcdio )
-	cdparanoia? ( !cdio? ( media-sound/cdparanoia ) )
 	directfb? ( dev-libs/DirectFB )
 	dts? ( media-libs/libdca )
 	dv? ( media-libs/libdv )
@@ -153,7 +151,7 @@ RDEPEND+="
 "
 ASM_DEP="dev-lang/yasm"
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 	dev-lang/python
 	sys-devel/gettext
 	X? (
@@ -221,7 +219,7 @@ src_prepare() {
 		${bash_scripts} || die
 
 	if [[ -n ${NAMESUF} ]]; then
-		sed -e "/elif linux ; then/a\  _exesuf=\"${NAMESUF}\"" \
+		sed -e "/^EXESUF/s,= \$_exesuf$,= ${NAMESUF}\$_exesuf," \
 			-i configure || die
 		sed -e "\, -m 644 DOCS/man/en/mplayer,i\	mv DOCS/man/en/mplayer.1 DOCS/man/en/${PN}.1" \
 			-e "\, -m 644 DOCS/man/\$(lang)/mplayer,i\	mv DOCS/man/\$(lang)/mplayer.1 DOCS/man/\$(lang)/${PN}.1" \
@@ -250,11 +248,9 @@ src_configure() {
 	#Optional features#
 	###################
 	# disable svga since we don't want it
-	# disable arts since we don't have kde3
 	# disable tremor, it needs libvorbisidec and is for FPU-less systems only
 	myconf+="
 		--disable-svga
-		--disable-arts
 		--disable-tremor
 		$(use_enable network networking)
 		$(use_enable joystick)
@@ -283,7 +279,6 @@ src_configure() {
 	########
 	use cddb || myconf+=" --disable-cddb"
 	use cdio || myconf+=" --disable-libcdio"
-	use cdparanoia || myconf+=" --disable-cdparanoia"
 
 	################################
 	# DVD read, navigation support #
@@ -434,7 +429,6 @@ src_configure() {
 	# Audio Output #
 	################
 	myconf+=" --disable-rsound" # media-sound/rsound is in pro-audio overlay only
-	myconf+=" --disable-esd"
 	uses="alsa jack ladspa nas"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
@@ -515,8 +509,9 @@ src_configure() {
 	fi
 
 	./configure \
-		--cc=$(tc-getCC) \
-		--host-cc=$(tc-getBUILD_CC) \
+		--cc="$(tc-getCC)" \
+		--host-cc="$(tc-getBUILD_CC)" \
+		--pkg-config="$(tc-getPKG_CONFIG)" \
 		--prefix="${EPREFIX}"/usr \
 		--bindir="${EPREFIX}"/usr/bin \
 		--libdir="${EPREFIX}"/usr/$(get_libdir) \
