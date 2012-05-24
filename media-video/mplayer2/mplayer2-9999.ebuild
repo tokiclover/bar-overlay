@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer2/mplayer2-9999.ebuild,v 1.24 2012/05/24 10:31:41 -tclover Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer2/mplayer2-9999.ebuild,v 1.24 2012/05/25 01:25:58 -tclover Exp $
 
 EAPI=4
 
@@ -34,15 +34,14 @@ else
 fi
 IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl
 bluray bs2b +bzip2 cddb +cdio cpudetection custom-cpuopts
-custom-cflags debug +dirac directfb doc +dts +dv dvb +dvd +dvdnav
+custom-cflags debug directfb doc +dts +dv dvb +dvd +dvdnav
 dxr3 +enca +faad fbcon ftp gif ggi gsm +iconv ipv6 jack joystick
 jpeg jpeg2k kernel_linux ladspa libcaca lirc mad md5sum +mmx
-mmxext mng +mp3 nas +network nut amr +opengl oss png pnm pulseaudio
-pvr +quicktime radio +rar +real +rtc rtmp samba +shm +schroedinger
-sdl +speex sse sse2 ssse3 tga +theora threads +truetype +unicode
-v4l vdpau +vorbis vpx win32codecs +X xanim xinerama +xscreensaver
-+xv xvid
-"
+mmxext mng +mp3 nas +network nut amr +opengl oss png pnm portaudio
++postproc pulseaudio pvr +quicktime radio +rar +real +rtc rtmp samba
++shm +schroedinger sdl +speex sse sse2 ssse3 tga +theora threads
++truetype +unicode v4l vdpau +vorbis vpx win32codecs +X xanim xinerama
++xscreensaver +xv xvid"
 IUSE+=" symlink"
 
 VIDEO_CARDS="s3virge mga tdfx vesa"
@@ -72,7 +71,7 @@ FONT_RDEPS="
 # Rar: althrought -gpl version is nice, it cant do most functions normal rars can
 #	nemesi? ( net-libs/libnemesi )
 # virtual/ffmpeg does not have all USE
-LIBAV_USE="[amr?,bzip2?,dirac?,gsm?,jpeg2k?,rtmp?,schroedinger?,threads?,vpx?]"
+LIBAV_USE="[amr?,bzip2?,gsm?,jpeg2k?,rtmp?,schroedinger?,threads?,vpx?]"
 RDEPEND+="
 	sys-libs/ncurses
 	sys-libs/zlib
@@ -128,6 +127,8 @@ RDEPEND+="
 	nut? ( >=media-libs/libnut-661 )
 	png? ( media-libs/libpng )
 	pnm? ( media-libs/netpbm )
+	portaudio? ( >=media-libs/portaudio-19_pre20111121 )
+	postproc? ( || ( media-libs/libpostproc <media-video/libav-0.8.2-r1 media-video/ffmpeg ) )
 	pulseaudio? ( media-sound/pulseaudio )
 	rar? (
 		|| (
@@ -404,6 +405,7 @@ src_configure() {
 	use fbcon || myconf+=" --disable-fbdev"
 	use fbcon && use video_cards_s3virge && myconf+=" --enable-s3fb"
 	use libcaca || myconf+=" --disable-caca"
+	use postproc || myconf+=" --disable-libpostproc"
 
 	if ! use kernel_linux || ! use video_cards_mga; then
 		 myconf+=" --disable-mga --disable-xmga"
@@ -429,7 +431,7 @@ src_configure() {
 	# Audio Output #
 	################
 	myconf+=" --disable-rsound" # media-sound/rsound is in pro-audio overlay only
-	uses="alsa jack ladspa nas"
+	uses="alsa jack ladspa nas portaudio"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
