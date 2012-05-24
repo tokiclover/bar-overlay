@@ -1,4 +1,4 @@
-$Id: bar-overlay/README.textile, 2012/05/11 19:52:20 -tclover Exp $
+`$Id: bar-overlay/README.textile, 2012/05/11 19:52:20 -tclover Exp $`
 
 ---
 
@@ -22,4 +22,4 @@ once done, merge all the goodies with: `% emerge -aNDuv @world`
 
 ---
 
-vim:fenc=utf-8:
+`vim:fenc=utf-8:`
