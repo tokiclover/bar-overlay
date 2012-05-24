@@ -6,20 +6,20 @@
 #
 # initial version
 #
+# by mitch harder, see #130645
 
 inherit eutils rpm flag-o-matic multilib
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
-SRC_URI="${DISTDIR}/${PN}-common-${PV}-2.src.rpm"
+SRC_URI="${PN}-common-${PV}-2.src.rpm"
 RESTRICT="fetch nomirror confcache"
 
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
-SLOT="2"
+SLOT="2.70"
 KEYWORDS="~x86 ~amd64"
 IUSE="amd64
-	servicetools
 	nocupsdetection
 	mp160
 	mp510
@@ -28,7 +28,9 @@ IUSE="amd64
 	ip1800
 	ip2500
 	ip3300
-	ip4300"
+	ip4300
+	servicetools"
+
 DEPEND="app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
 	!amd64? ( sys-libs/glibc
@@ -43,6 +45,7 @@ DEPEND="app-text/ghostscript-gpl
 			=x11-libs/gtk+-1.2* )
 		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
 			app-emulation/emul-linux-x86-gtklibs ) )"
+
 # >=automake-1.6.3
 
 # Arrays of supported Printers, there IDs and compatible models
@@ -78,7 +81,7 @@ pkg_setup() {
 		die "servicetools not yet available on amd64"
 	fi
 
-	use amd64 && export ABI=x86
+	use amd64 && multilib_toolchain_setup x86
 	use amd64 && append-flags -L/emul/linux/x86/lib -L/emul/linux/x86/usr/lib -L/usr/lib32 
 	
 	_prefix="/usr/local"
@@ -124,6 +127,9 @@ pkg_setup() {
 src_unpack() {
 	rpm_src_unpack || die
 	mv ${PN}-common-${PV} ${P} || die # Correcting directory-structure
+	einfo "Patching"
+	epatch ${FILESDIR}/cnijfilter-common-2.70-1.patch || die
+	epatch ${FILESDIR}/cnijfilter-2.70-png_jmpbuf-fix.patch || die
 }
 
 src_compile() {

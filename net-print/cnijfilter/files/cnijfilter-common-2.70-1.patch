@@ -1,0 +1,35 @@
+diff -r -u cnijfilter-common-2.70/cngpijmon/src/Makefile.am cnijfilter-common-2.70-1/cngpijmon/src/Makefile.am
+--- cnijfilter-2.70/cngpijmon/src/Makefile.am	2006-09-29 06:30:39.000000000 +0000
++++ cnijfilter-2.70-1/cngpijmon/src/Makefile.am	2010-08-06 12:45:36.000000000 +0000
+@@ -19,5 +19,5 @@
+ 	interface.c interface.h support.c support.h 
+ 
+ 
+-cngpijmon_LDADD = @GTK_LIBS@ $(INTLLIBS) -lxml -lcups 
++cngpijmon_LDADD = @GTK_LIBS@ $(INTLLIBS) -lxml2 -lcups 
+ 
+diff -r -u cnijfilter-2.70/printui/src/keytext.c cnijfilter-common-2.70-1/printui/src/keytext.c
+--- cnijfilter-2.70/printui/src/keytext.c	2006-11-14 02:43:17.000000000 +0000
++++ cnijfilter-2.70-1/printui/src/keytext.c	2010-08-06 12:59:00.000000000 +0000
+@@ -37,7 +37,7 @@
+ #ifdef	USE_LIB_GLADE
+ #	include <glade/glade.h>
+ #endif
+-#include <gnome-xml/parser.h>
++#include <libxml2/libxml/parser.h>
+ #include <string.h>
+ 
+ #ifndef	USE_LIB_GLADE
+diff -r -u cnijfilter-2.70/printui/src/Makefile.am cnijfilter-common-2.70-1/printui/src/Makefile.am
+--- cnijfilter-2.70/printui/src/Makefile.am	2006-10-24 00:57:08.000000000 +0000
++++ cnijfilter-2.70-1/printui/src/Makefile.am	2010-08-06 12:45:07.000000000 +0000
+@@ -41,7 +41,7 @@
+ #printui_CFLAGS = -O2 -Wall
+ printui_CFLAGS = -O2 -Wall @UI_DFLAGS@
+ 
+-printui_LDADD = @GTK_LIBS@ -lxml -lpopt \
++printui_LDADD = @GTK_LIBS@ -lxml2 -lpopt \
+   -lcnbpcnclui@CNCL_LIB_ID@ -lcnbpcmcm@CNCL_LIB_ID@
+ 
+ printui_LDFLAGS = -L../../@CNCL_LIB_ID@/libs_bin
+
