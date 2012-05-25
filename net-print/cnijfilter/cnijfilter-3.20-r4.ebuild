@@ -1,6 +1,6 @@
-# Copyright 1999-2006 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.1 2012/05/25 14:59:59 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.1 2012/05/25 14:46:03 -tclover Exp $
 
 # see bgo #130645
 
@@ -9,25 +9,24 @@ EAPI=4
 inherit eutils rpm flag-o-matic multilib
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
-DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
-SRC_URI="${PN}-common-${PV}-2.src.rpm"
-RESTRICT="fetch nomirror confcache"
+HOMEPAGE="http://support-asia.canon-asia.com/content/EN/0100084101.html"
+RESTRICT="nomirror confcache"
 
+SRC_URI="http://gdlp01.c-wss.com/gds/7/0100002367/01/cnijfilter-source-3.20-1.tar.gz"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
-SLOT="2.70"
+SLOT="3.20"
 KEYWORDS="~x86 ~amd64"
 IUSE="amd64
-	nocupsdetection
-	mp160
-	mp510
-	mp600
-	ip90
-	ip1800
-	ip2500
-	ip3300
-	ip4300
 	servicetools
+	nocupsdetection
+	mp250
+	mp270
+	mp490
+	mp550
+	mp560
+	ip4700
+	mp640
 "
 REQUIRED_USE="amd64? ( !servicetools )"
 DEPEND="app-text/ghostscript-gpl
@@ -41,53 +40,36 @@ DEPEND="app-text/ghostscript-gpl
 		app-emulation/emul-linux-x86-baselibs )
 	servicetools? ( 
 		!amd64? ( >=gnome-base/libglade-0.6
-			>=dev-libs/libxml-1.8
+			>=dev-libs/libxml2-2.7.3-r2
 			=x11-libs/gtk+-1.2* )
 		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
 			app-emulation/emul-linux-x86-gtklibs )
 	)
 "
 
-# >=automake-1.6.3
+S="${WORKDIR}"/${PN}-source-${PV}-1
 
 # Arrays of supported Printers, there IDs and compatible models
-_pruse=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90")
+_pruse=("mp250" "mp270" "mp490" "mp550" "mp560" "ip4700" "mp640")
 _prname=(${_pruse[@]})
-_prid=("291" "292" "293" "294" "295" "311" "312" "253")
-_prcomp=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500series" "ip1800series" "ip90")
+_prid=("356" "357" "358" "359" "360" "361" "362")
+_prcomp=("mp250series" "mp270series" "mp490series" "mp550series" "mp560series" "ip4700series" "mp640series")
 _max=$((${#_pruse[@]}-1)) # used for iterating through these arrays
 
-###
-#   Standard Ebuild-functions
-###
-
-pkg_nofetch() {
-	einfo "Please download ${SRC_URI} manually from"
-	einfo ${DOWNLOAD_URL}
-	einfo "and move it to ${DISTDIR}"
-}
-
 pkg_setup() {
+
 	if [ -z "$LINGUAS" ]; then
 		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
 		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
 		LINGUAS="en"
 	fi
-	if (use amd64 && use servicetools); then
-		eerror "You can't build this package with 'servicetools' on amd64,"
-		eerror "because you would need to compile '>=gnome-base/libglade-0.6'"
-		eerror "and '>=dev-libs/libxml-1.8' with 'export ABI=x86' first."
-		eerror "That's exactly what 'emul-linux-x86-bjdeps-0.1' does with"
-		eerror "'dev-libs/popt-1.6'. I encourage you to adapt this ebuild"
-		eerror "to build 32bit versions of 'libxml' and 'libglade' too!"
-		die "servicetools not yet available on amd64"
-	fi
 
+#	use amd64 && append-flags -L/emul/linux/x86/lib -L/emul/linux/x86/usr/lib -L/usr/lib32 
 	use amd64 && multilib_toolchain_setup x86
-	use amd64 && append-flags -L/emul/linux/x86/lib -L/emul/linux/x86/usr/lib -L/usr/lib32 
+
 	
 	_bindir="/usr/bin"
-	_libdir="/usr/$(get_libdir)" # either lib or lib32
+	_libdir="/usr/$(get_libdir)"
 	_cupsdir1="/usr/lib/cups"
 	_cupsdir2="/usr/libexec/cups"
 	_ppddir="/usr/share/cups/model"
@@ -103,8 +85,8 @@ pkg_setup() {
 	if (${_autochoose}); then
 		ewarn "You didn't specify any driver model (set it's USE-flag)."
 		einfo ""
-		einfo "As example:\tbasic MP160 support without maintenance tools"
-		einfo "\t\t -> USE=\"mp160\""
+		einfo "As example:\tbasic MP140 support without maintenance tools"
+		einfo "\t\t -> USE=\"mp140\""
 		einfo ""
 		einfo "Press Ctrl+C to abort"
 		echo
@@ -119,20 +101,21 @@ pkg_setup() {
 	fi
 }
 
-src_unpack() {
-	rpm_src_unpack || die
-	mv ${PN}-common-${PV} ${P} || die
-}
-
 src_prepare() {
-	epatch ${FILESDIR}/cnijfilter-common-2.70-1.patch || die
-	epatch ${FILESDIR}/cnijfilter-2.70-png_jmpbuf-fix.patch || die
+#	epatch ${FILESDIR}/${P%*-r}-3-libxml2.patch || die
+	epatch ${FILESDIR}/${P%*-r}-4-cups_ppd.patch || die
+	epatch ${FILESDIR}/${P%*-r}-4-ldl.patch || die
+	epatch ${FILESDIR}/${P%*-r}-4-libpng15.patch || die
 }
 
 src_configure() {
 	cd libs || die
 	./autogen.sh --prefix=/usr || die "Error: libs/autoconf.sh failed"
 	make || die "Couldn't make libs"
+
+	cd ../backend || die
+	./autogen.sh --prefix=/usr --enable-progpath=${_bindir} || die "Error: backend/autoconf.sh failed"
+	make || die "Couldn't make backend"
 
 	cd ../pstocanonij || die
 	./autogen.sh --prefix=/usr --enable-progpath=${_bindir} || die "Error: pstocanonij/autoconf.sh failed"
@@ -153,7 +136,7 @@ src_compile() {
 	for i in `seq 0 ${_max}`; do
 		if use ${_pruse[$i]} || ${_autochoose}; then
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
-			src_compile_pr;
+			src_compile_pr
 		fi
 	done
 }
@@ -167,12 +150,15 @@ src_install() {
 	cd libs || die
 	make DESTDIR="${D}" install || die "Couldn't make install libs"
 
+	cd ../backend || die
+	make DESTDIR="${D}" install || die "Couldn't make install backend"
+
 	cd ../pstocanonij || die
 	make DESTDIR="${D}" install || die "Couldn't make install pstocanoncnij"
 
 	if use servicetools; then
 		cd ../cngpij || die
-		make DESTDIR=${D} install || die "Couldn't make install cngpij"
+		make DESTDIR="${D}" install || die "Couldn't make install cngpij"
 
 		cd ../cngpijmon || die
 		make DESTDIR="${D}" install || die "Couldn't make install cngpijmon"
@@ -205,9 +191,7 @@ pkg_postinst() {
 	einfo ""
 }
 
-###
-#	Custom Helper Functions
-###
+# Custom Helper Functions
 
 src_compile_pr()
 {
@@ -215,6 +199,7 @@ src_compile_pr()
 	cp -a ${_prid} ${_pr} || die
 	cp -a cnijfilter ${_pr} || die
 	cp -a printui ${_pr} || die
+	cp -a lgmon ${_pr} || die
 #	cp -a stsmon ${_pr} || die
 
 	sleep 10
@@ -226,6 +211,10 @@ src_compile_pr()
 		cd ../printui || die
 		./autogen.sh --prefix=/usr --program-suffix=${_pr} || die
 		make || die "Couldn't make ${_pr}/printui"
+
+		cd ../lgmon || die
+		./autogen.sh --program-suffix=${_pr} || die
+		make || die "Couldn't make ${_pr}/lgmon"
 
 #		cd ../stsmon || die
 #		./autogen.sh --prefix=/usr --program-suffix=${_pr} --enable-progpath=${_bindir} || die
@@ -243,6 +232,9 @@ src_install_pr()
 	if use servicetools; then
 		cd ../printui || die
 		make DESTDIR="${D}" install || die "Couldn't make install ${_pr}/printui"
+
+		cd ../lgmon || die
+		make DESTDIR="${D}" install || die "Couldn't make install ${_pr}/lgmon"
 
 #		cd ../stsmon || die
 #		make DESTDIR=${D} install || die "Couldn't make install ${_pr}/stsmon"

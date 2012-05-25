@@ -1,0 +1,21 @@
+diff -crb old/cnijfilter-source-3.20-1/cngpijmon/cnijnpr/cnijnpr/Makefile.am new/cnijfilter-source-3.20-1/cngpijmon/cnijnpr/cnijnpr/Makefile.am
+*** old/cnijfilter-source-3.20-1/cngpijmon/cnijnpr/cnijnpr/Makefile.am	2009-04-24 07:12:49.000000000 +0100
+--- new/cnijfilter-source-3.20-1/cngpijmon/cnijnpr/cnijnpr/Makefile.am	2012-05-07 19:05:32.308016869 +0100
+***************
+*** 5,11 ****
+  cnijnpr_SOURCES=\
+  	cnijnpr.c
+  
+! cnijnpr_LDADD = -lcnnet -lbscc2sts
+  cnijnpr_LDFLAGS = -L../../../com/libs_bin -L../../../lgmon/src
+  
+  #AM_CFLAGS= -O2 -Wall
+--- 5,11 ----
+  cnijnpr_SOURCES=\
+  	cnijnpr.c
+  
+! cnijnpr_LDADD = -lcnnet -lbscc2sts -ldl
+  cnijnpr_LDFLAGS = -L../../../com/libs_bin -L../../../lgmon/src
+  
+  #AM_CFLAGS= -O2 -Wall
+

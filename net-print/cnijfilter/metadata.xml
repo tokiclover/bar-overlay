@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<longdescription lang="en"></longdescription>
+<herd>no-herd</herd>
+<maintainer>
+ <email></email>
+</maintainer>
+	<use>
+		<flag name="amd64">basic support for this architecture - currently without servicetools</flag>
+		<flag name="nocpudetection">additional monitoring and maintenance software</flag>
+		<flag name="servicetools">this is only useful to create binary packages</flag>
+	</use>
+</pkgmetadata>
