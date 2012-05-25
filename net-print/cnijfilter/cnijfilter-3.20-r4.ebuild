@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.1 2012/05/25 14:46:03 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.1 2012/05/25 15:10:50 -tclover Exp $
 
 # see bgo #130645
 
@@ -102,7 +102,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-#	epatch ${FILESDIR}/${P%*-r}-3-libxml2.patch || die
 	epatch ${FILESDIR}/${P%*-r}-4-cups_ppd.patch || die
 	epatch ${FILESDIR}/${P%*-r}-4-ldl.patch || die
 	epatch ${FILESDIR}/${P%*-r}-4-libpng15.patch || die
