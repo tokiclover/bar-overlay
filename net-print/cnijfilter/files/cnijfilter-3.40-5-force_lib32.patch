@@ -1,0 +1,8 @@
+--- backendnet/lmonitor/Makefile.am.orig	2011-08-22 14:10:17.000000000 -0700
++++ backendnet/lmonitor/Makefile.am	2011-08-22 14:10:34.000000000 -0700
+@@ -9,5 +9,5 @@
+ CFLAGS = -O2 -Wall -I. -I./common 
+ 
+ cnijnetprn_LDADD = -lcnnet -lc -ldl 
+-cnijnetprn_LDFLAGS = -L../../com/libs_bin@ARC@
++cnijnetprn_LDFLAGS = -L../../com/libs_bin32
