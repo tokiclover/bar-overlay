@@ -1,12 +1,12 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.1 2012/05/25 14:59:59 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.1 2012/05/26 11:37:22 -tclover Exp $
 
 # see bgo #130645
 
 EAPI=4
 
-inherit eutils rpm flag-o-matic multilib
+inherit eutils autotools rpm flag-o-matic
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
@@ -14,6 +14,9 @@ SRC_URI="${PN}-common-${PV}-2.src.rpm"
 RESTRICT="fetch nomirror confcache"
 
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
+
+WANT_AUTOCONF=2.59
+WANT_AUTOMAKE=1.9.5
 
 SLOT="2.70"
 KEYWORDS="~x86 ~amd64"
@@ -47,19 +50,12 @@ DEPEND="app-text/ghostscript-gpl
 			app-emulation/emul-linux-x86-gtklibs )
 	)
 "
-
-# >=automake-1.6.3
-
 # Arrays of supported Printers, there IDs and compatible models
 _pruse=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90")
 _prname=(${_pruse[@]})
 _prid=("291" "292" "293" "294" "295" "311" "312" "253")
 _prcomp=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500series" "ip1800series" "ip90")
 _max=$((${#_pruse[@]}-1)) # used for iterating through these arrays
-
-###
-#   Standard Ebuild-functions
-###
 
 pkg_nofetch() {
 	einfo "Please download ${SRC_URI} manually from"
@@ -84,16 +80,9 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	use amd64 && append-flags -L/emul/linux/x86/lib -L/emul/linux/x86/usr/lib -L/usr/lib32 
 	
-	_bindir="/usr/bin"
-	_libdir="/usr/$(get_libdir)" # either lib or lib32
-	_cupsdir1="/usr/lib/cups"
-	_cupsdir2="/usr/libexec/cups"
-	_ppddir="/usr/share/cups/model"
-
 	_autochoose="true"
-	for i in `seq 0 ${_max}`; do
+	for i in $(seq 0 ${_max}); do
 		einfo " ${_pruse[$i]}\t${_prcomp[$i]}"
 		if (use ${_pruse[$i]}); then
 			_autochoose="false"
@@ -127,70 +116,103 @@ src_unpack() {
 src_prepare() {
 	epatch ${FILESDIR}/cnijfilter-common-2.70-1.patch || die
 	epatch ${FILESDIR}/cnijfilter-2.70-png_jmpbuf-fix.patch || die
+
+	for dir in libs pstocanonij; do
+		cd ${dir} || die
+		libtoolize --force || die
+		local amflags="$(eaclocal_amflags)"
+		eaclocal ${amflags}
+		eautoheader
+		eautomake
+		eautoreconf
+		cd ..
+	done
+
+	for i in $(seq 0 ${_max}); do
+		if use ${_pruse[$i]} || ${_autochoose}; then
+			_pr=${_prname[$i]} _prid=${_prid[$i]}
+			src_prepare_pr
+		fi
+	done
 }
 
 src_configure() {
-	cd libs || die
-	./autogen.sh --prefix=/usr || die "Error: libs/autoconf.sh failed"
-	make || die "Couldn't make libs"
-
-	cd ../pstocanonij || die
-	./autogen.sh --prefix=/usr --enable-progpath=${_bindir} || die "Error: pstocanonij/autoconf.sh failed"
-	make || die "Couldn't make pstocanonij"
+	for dir in libs pstocanonij; do
+		cd ${dir} || die
+		econf
+		cd ..
+	done
 
 	if use servicetools; then
-		cd ../cngpij || die
-		./autogen.sh --prefix=/usr --enable-progpath=${_bindir} || die "Error: cngpij/autoconf.sh failed"
-		make || die "Couldn't make cngpij"
-
-		cd ../cngpijmon || die
-		./autogen.sh --prefix=/usr || die "Error: cngpijmon/autoconf.sh failed"
-		make || die "Couldn't make cngpijmon"
+		for dir in cngpij{,mon}; do
+			cd ${dir} || die
+			econf
+			cd ..
+		done
 	fi
+
+	for i in $(seq 0 ${_max}); do
+		if use ${_pruse[$i]} || ${_autochoose}; then
+			_pr=${_prname[$i]} _prid=${_prid[$i]}
+			src_configure_pr
+		fi
+	done
 }
 
 src_compile() {
-	for i in `seq 0 ${_max}`; do
+	for dir in libs pstocanonij; do
+		cd ${dir} || die
+		emake
+		cd ..
+	done
+
+	if use servicetools; then
+		for dir in cngpij{,mon}; do
+			cd ${dir} || die
+			emake
+			cd ..
+		done
+	fi
+
+	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
-			src_compile_pr;
+			src_compile_pr
 		fi
 	done
 }
 
 src_install() {
-	mkdir -p "${D}${_bindir}" || die
+	local _cupsdir=/usr/libexec/cups/filter _ppddir=/usr/share/cups/model
+	local _libdir=/usr/$(get_libdir)
+	mkdir -p "${D}$(get_bindir)" || die
 	mkdir -p "${D}${_libdir}"/cups/filter || die
-	mkdir -p "${D}${_ppddir}" || die
 	mkdir -p "${D}${_libdir}"/cnijlib || die
-
-	cd libs || die
-	make DESTDIR="${D}" install || die "Couldn't make install libs"
-
-	cd ../pstocanonij || die
-	make DESTDIR="${D}" install || die "Couldn't make install pstocanoncnij"
+	mkdir -p "${D}${_cupsdir}" || die
+	mkdir -p "${D}${_ppddir}"
+	for dir in libs pstocanonij; do
+		cd ${dir} || die
+		emake DESTDIR="${D}" install || die
+		cd ..
+	done
 
 	if use servicetools; then
-		cd ../cngpij || die
-		make DESTDIR=${D} install || die "Couldn't make install cngpij"
-
-		cd ../cngpijmon || die
-		make DESTDIR="${D}" install || die "Couldn't make install cngpijmon"
+		for dir in cngpij{,mon}; do
+			cd ${dir} || die
+			emake DESTDIR="${D}" || die
+			cd ..
+		done
 	fi
 
-	cd ..
-
-	for i in `seq 0 ${_max}`; do
+	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
-			src_install_pr;
+			src_install_pr
 		fi
 	done
 
-	# fix directory structure
-	mkdir -p "${D}${_cupsdir2}"/filter || die
-	mv "${D}${_cupsdir1}"/filter/pstocanonij \
-		"${D}${_cupsdir2}/filter/pstocanonij${SLOT}" || die
+	# fix directory structure and slot
+	mv "${D}${_libdir}"/cups/filter/pstocanonij "${D}${_cupsdir}${SLOT}" || die
 }
 
 pkg_postinst() {
@@ -205,50 +227,82 @@ pkg_postinst() {
 	einfo ""
 }
 
-###
-#	Custom Helper Functions
-###
-
-src_compile_pr()
-{
+src_prepare_pr() {
 	mkdir ${_pr}
 	cp -a ${_prid} ${_pr} || die
 	cp -a cnijfilter ${_pr} || die
 	cp -a printui ${_pr} || die
+	cp -a lgmon ${_pr} || die
 #	cp -a stsmon ${_pr} || die
 
-	sleep 10
 	cd ${_pr}/cnijfilter || die
-	./autogen.sh --prefix=/usr --program-suffix=${_pr} --enable-libpath=${_libdir}/cnijlib --enable-binpath=${_bindir} || die
-	make || die "Couldn't make ${_pr}/cnijfilter"
+	libtoolize --force
+	amflags="$(eaclocal_amflags)"
+	eaclocal ${amflags}
+	eautoheader
+	eautomake
+	eautoreconf
+	cd ..
 
 	if use servicetools; then
-		cd ../printui || die
-		./autogen.sh --prefix=/usr --program-suffix=${_pr} || die
-		make || die "Couldn't make ${_pr}/printui"
-
-#		cd ../stsmon || die
-#		./autogen.sh --prefix=/usr --program-suffix=${_pr} --enable-progpath=${_bindir} || die
-#		make || die "Couldn't make ${_pr}/stsmon"
+		for dir in printui logmon; do
+			cd ${dir} || die
+			libtoolize --force --copy
+			amflags="$(eaclocal_amflags)"
+			eaclocal ${amflags}
+			eautoheader
+			eautomake
+			eautoreconf
+			cd ..
+		done
 	fi
-
-	cd ../..
+	cd ..
 }
 
-src_install_pr()
-{
+src_configure_pr() {
 	cd ${_pr}/cnijfilter || die
-	make DESTDIR="${D}" install || die "Couldn't make install ${_pr}/cnijfilter"
+	econf --program-suffix=${_pr}
+	cd ..
 
 	if use servicetools; then
-		cd ../printui || die
-		make DESTDIR="${D}" install || die "Couldn't make install ${_pr}/printui"
-
-#		cd ../stsmon || die
-#		make DESTDIR=${D} install || die "Couldn't make install ${_pr}/stsmon"
+		for dir in printui logmon; do
+			cd ${dir} || die
+			econf --program-suffix=${_pr}
+			cd ..
+		done
 	fi
+	cd ..
+}
 
-	cd ../..
+src_compile_pr() {
+	cd ${_pr}/cnijfilter || die
+	emake || die "couldn't make ${_pr}/cnijfilter"
+	cd ..
+
+	if use servicetools; then
+		for dir in printui logmon; do
+			cd ${dir} || die
+			emake || die "couldn't make ${_pr}/${dir}"
+			cd ..
+		done
+	fi
+	cd ..
+}
+
+src_install_pr() {
+	cd ${_pr}/cnijfilter || die
+	emake DESTDIR="${D}" install || die "couldn't make install ${_pr}/cnijfilter"
+	cd ..
+
+	if use servicetools; then
+		for dir in printui logmon; do
+			cd ${dir} || die
+			emake DESTDIR="${D}" install || die "couldn't make install ${_pr}/${dir}"
+			cd ..
+		done
+	fi
+	cd ..
+
 	cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
