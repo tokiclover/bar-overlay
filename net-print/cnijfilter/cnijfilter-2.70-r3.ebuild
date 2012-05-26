@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.1 2012/05/26 11:37:22 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.1 2012/05/26 15:17:11 -tclover Exp $
 
 EAPI=4
 
@@ -181,8 +181,8 @@ src_compile() {
 }
 
 src_install() {
-	local _cupsdir=/usr/libexec/cups/filter _ppddir=/usr/share/cups/model
-	local _libdir=/usr/$(get_libdir)
+	local _libdir=/usr/$(get_libdir) _ppddir=/usr/share/cups/model
+	local _cupsdir=${_libdir}/cups/filter
 	mkdir -p "${D}$(get_bindir)" || die
 	mkdir -p "${D}${_libdir}"/cups/filter || die
 	mkdir -p "${D}${_libdir}"/cnijlib || die
@@ -210,7 +210,7 @@ src_install() {
 	done
 
 	# fix directory structure and slot
-	mv "${D}${_libdir}"/cups/filter/pstocanonij "${D}${_cupsdir}${SLOT}" || die
+	mv "${D}${_cupsdir}"/pstocanonij "${D}${_cupsdir}/pstocanonij${SLOT}" || die
 }
 
 pkg_postinst() {
