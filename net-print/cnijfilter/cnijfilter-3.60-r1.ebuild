@@ -23,7 +23,7 @@ KEYWORDS="~x86 ~amd64"
 IUSE="amd64
 	servicetools
 	nocupsdetection
-	net
+	cnijnet
 	mg2100
 	mg3100
 	mg4100
@@ -70,7 +70,7 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	use net && _backend+=" backendnet"
+	use cnijnet && _backend+=" backendnet"
 	
 	_autochoose="true"
 	for i in `seq 0 ${_max}`; do
