@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.1 2012/05/26 15:17:12 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.1 2012/05/26 16:07:04 -tclover Exp $
 
 EAPI=4
 
@@ -18,19 +18,9 @@ WANT_AUTOMAKE=1.9.5
 
 SLOT="3.60"
 KEYWORDS="~x86 ~amd64"
-IUSE="amd64
-	servicetools
-	cnijnet
-	mg2100
-	mg3100
-	mg4100
-	mg5300
-	mg6200
-	mg8200
-	ip4900
-	e500
-"
+IUSE="amd64 servicetools cnijnet mg2100 mg3100 mg4100 mg5300 mg6200 mg8200 ip4900 e500"
 REQUIRED_USE="amd64? ( !servicetools )"
+
 DEPEND="app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
 	!amd64? ( sys-libs/glibc

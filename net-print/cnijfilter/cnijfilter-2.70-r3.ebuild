@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.1 2012/05/26 15:17:11 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.1 2012/05/26 16:03:17 -tclover Exp $
 
 EAPI=4
 
@@ -18,19 +18,9 @@ WANT_AUTOMAKE=1.9.5
 
 SLOT="2.70"
 KEYWORDS="~x86 ~amd64"
-IUSE="amd64
-	nocupsdetection
-	mp160
-	mp510
-	mp600
-	ip90
-	ip1800
-	ip2500
-	ip3300
-	ip4300
-	servicetools
-"
+IUSE="amd64 mp160 mp510 mp600 ip90 ip1800 ip2500 ip3300 ip4300 servicetools"
 REQUIRED_USE="amd64? ( !servicetools )"
+
 DEPEND="app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
 	!amd64? ( sys-libs/glibc
@@ -305,4 +295,3 @@ src_install_pr() {
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }
-
