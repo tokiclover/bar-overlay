@@ -2,8 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.1 2012/05/26 12:07:33 -tclover Exp $
 
-# see bgo #130645
-
 EAPI=4
 
 inherit eutils autotools rpm flag-o-matic
@@ -22,7 +20,6 @@ SLOT="3.40"
 KEYWORDS="~x86 ~amd64"
 IUSE="amd64
 	servicetools
-	nocupsdetection
 	cnijnet
 	mp250
 	mp280
@@ -210,7 +207,7 @@ pkg_postinst() {
 	einfo ""
 	einfo "If you experience any problems, please visit:"
 	einfo " http://forums.gentoo.org/viewtopic-p-3217721.html"
-	einfo ""
+	einfo "https://bugs.gentoo.org/show_bug.cgi?id=258244"
 }
 
 src_prepare_pr() {
