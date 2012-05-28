@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.50.ebuild,v 1.1 2012/05/26 16:06:24 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.50.ebuild,v 1.1 2012/05/28 05:22:55 -tclover Exp $
 
 EAPI=4
 
@@ -10,7 +10,7 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 HOMEPAGE="http://software.canon-europe.com/software/0040869.asp"
 RESTRICT="nomirror confcache"
 
-SRC_URI="http://files.canon-europe.com/files/soft40869/software/cnijfilter-source-3.50-1.tar.gz"
+SRC_URI="http://files.canon-europe.com/files/soft40869/software/${PN}-source-${PV}-1.tar.gz"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
@@ -41,12 +41,11 @@ DEPEND="app-text/ghostscript-gpl
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
-# Arrays of supported Printers, there IDs and compatible models
 _pruse=("mx360" "mx410" "mx420" "mx880" "ix6550")
 _prname=(${_pruse[@]})
 _prid=("380" "381" "382" "383" "384")
 _prcomp=("mx360series" "mx410series" "mx420series" "mx880series" "ix6500series")
-_max=$((${#_pruse[@]}-1)) # used for iterating through these arrays
+_max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
 

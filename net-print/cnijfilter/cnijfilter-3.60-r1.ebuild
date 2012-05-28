@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.1 2012/05/26 16:07:04 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.1 2012/05/28 05:23:00 -tclover Exp $
 
 EAPI=4
 
@@ -10,7 +10,7 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 HOMEPAGE="http://support-sg.canon-asia.com/contents/SG/EN/0100392802.html"
 RESTRICT="nomirror confcache"
 
-SRC_URI="http://gdlp01.c-wss.com/gds/8/0100003928/01/cnijfilter-source-3.60-1.tar.gz"
+SRC_URI="http://gdlp01.c-wss.com/gds/8/0100003928/01/${PN}-source-${PV}-1.tar.gz"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
@@ -41,12 +41,11 @@ DEPEND="app-text/ghostscript-gpl
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
-# Arrays of supported Printers, there IDs and compatible models
 _pruse=("mg2100" "mg3100" "mg4100" "mg5300" "mg6200" "mg8200" "ip4900" "e500")
 _prname=(${_pruse[@]})
 _prid=("386" "387" "388" "389" "390" "391" "392" "393")
 _prcomp=("mg2100series" "mg3100series" "mg4100series" "mg5300series" "mg6200series" "mg8200series" "ip400series" "e500series")
-_max=$((${#_pruse[@]}-1)) # used for iterating through these arrays
+_max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
 

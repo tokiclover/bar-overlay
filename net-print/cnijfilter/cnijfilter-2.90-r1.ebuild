@@ -1,24 +1,24 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.1 2012/05/28 05:22:40 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.1 2012/05/28 04:58:42 -tclover Exp $
 
 EAPI=4
 
 inherit eutils autotools rpm flag-o-matic
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
-DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
-SRC_URI="${PN}-common-${PV}-2.src.rpm"
-RESTRICT="fetch nomirror confcache"
+DOWNLOAD_URL="http://support-ph.canon-asia.com/contents/PH/EN/0100119202.html"
+RESTRICT="nomirror confcache"
 
+SRC_URI="http://gdlp01.c-wss.com/gds/2/0100001192/01/${PN}-common-${PV}-1.tar.gz"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
 WANT_AUTOMAKE=1.9.5
 
-SLOT="2.70"
+SLOT="2.90"
 KEYWORDS="~x86 ~amd64"
-IUSE="amd64 mp160 mp510 mp600 ip90 ip1800 ip2500 ip3300 ip4300 servicetools"
+IUSE="amd64 servicetools ip100 ip2600"
 REQUIRED_USE="amd64? ( !servicetools )"
 
 DEPEND="app-text/ghostscript-gpl
@@ -38,17 +38,12 @@ DEPEND="app-text/ghostscript-gpl
 			app-emulation/emul-linux-x86-gtklibs )
 	)
 "
-_pruse=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90")
-_prname=(${_pruse[@]})
-_prid=("291" "292" "293" "294" "295" "311" "312" "253")
-_prcomp=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500series" "ip1800series" "ip90")
-_max=$((${#_pruse[@]}-1))
+S="${WORKDIR}"/${PN}-common-${PV}
 
-pkg_nofetch() {
-	einfo "Please download ${SRC_URI} manually from"
-	einfo ${DOWNLOAD_URL}
-	einfo "and move it to ${DISTDIR}"
-}
+_pruse=("ip100" "ip2600")
+_prname=(${_pruse[@]})
+_prid=("303" "331")
+_max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
 	if [ -z "$LINGUAS" ]; then
@@ -67,10 +62,10 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	
+
 	_autochoose="true"
-	for i in $(seq 0 ${_max}); do
-		einfo " ${_pruse[$i]}\t${_prcomp[$i]}"
+	for i in `seq 0 ${_max}`; do
+		einfo " ${_pruse[$i]}"
 		if (use ${_pruse[$i]}); then
 			_autochoose="false"
 		fi
@@ -79,8 +74,8 @@ pkg_setup() {
 	if (${_autochoose}); then
 		ewarn "You didn't specify any driver model (set it's USE-flag)."
 		einfo ""
-		einfo "As example:\tbasic MP160 support without maintenance tools"
-		einfo "\t\t -> USE=\"mp160\""
+		einfo "As example:\tbasic MP520 support without maintenance tools"
+		einfo "\t\t -> USE=\"ip100\""
 		einfo ""
 		einfo "Press Ctrl+C to abort"
 		echo
@@ -95,14 +90,9 @@ pkg_setup() {
 	fi
 }
 
-src_unpack() {
-	rpm_src_unpack || die
-	mv ${PN}-common-${PV} ${P} || die
-}
-
 src_prepare() {
 	epatch ${FILESDIR}/${P%-r*}-1-common.patch || die
-	epatch ${FILESDIR}/${P%-r*}-1-png_jmpbuf-fix.patch || die
+	sed -e 's/png_p->jmpbuf/png_jmpbuf(png_p)/' -i cnijfilter/src/bjfimage.c || die
 
 	for dir in libs pstocanonij; do
 		cd ${dir} || die

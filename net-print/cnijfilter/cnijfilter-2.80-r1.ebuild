@@ -10,7 +10,7 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 DOWNLOAD_URL="http://support-asia.canon-asia.com/content/EN/0100084101.html"
 RESTRICT="nomirror confcache"
 
-SRC_URI="http://gdlp01.c-wss.com/gds/0100000841/cnijfilter-common-2.80-1.tar.gz"
+SRC_URI="http://gdlp01.c-wss.com/gds/0100000841/${PN}-common-${PV}-1.tar.gz"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
@@ -38,18 +38,13 @@ DEPEND="app-text/ghostscript-gpl
 			app-emulation/emul-linux-x86-gtklibs )
 	)
 "
-# Arrays of supported Printers, there IDs and compatible models
+S=${PN}-common-${PV}
+
 _pruse=("mp140" "mp210" "ip3500" "mp520" "ip4500" "mp610")
 _prname=(${_pruse[@]})
 _prid=("315" "316" "319" "328" "326" "327")
 _prcomp=("mp140series" "mp210series" "ip3500series" "mp520series" "ip4500series" "mp610series")
-_max=$((${#_pruse[@]}-1)) # used for iterating through these arrays
-
-pkg_nofetch() {
-	einfo "Please download ${SRC_URI} manually from"
-	einfo ${DOWNLOAD_URL}
-	einfo "and move it to ${DISTDIR}"
-}
+_max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
 	if [ -z "$LINGUAS" ]; then
@@ -96,14 +91,9 @@ pkg_setup() {
 	fi
 }
 
-src_unpack() {
-	unpack ${A}
-	mv ${PN}-common-${PV} ${P} || die
-	cd "${P}"
-	sed -i -e 's/png_p->jmpbuf/png_jmpbuf(png_p)/' cnijfilter/src/bjfimage.c
-}
-
 src_prepare() {
+	sed -e 's/png_p->jmpbuf/png_jmpbuf(png_p)/' -i cnijfilter/src/bjfimage.c || die
+
 	for dir in libs pstocanonij; do
 		cd ${dir} || die
 		libtoolize --force || die

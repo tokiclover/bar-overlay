@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.1 2012/05/26 16:05:35 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.1 2012/05/28 05:22:51 -tclover Exp $
 
 EAPI=4
 
@@ -10,7 +10,7 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 HOMEPAGE="http://software.canon-europe.com/software/0040245.asp"
 RESTRICT="nomirror confcache"
 
-SRC_URI="http://files.canon-europe.com/files/soft40245/software/cnijfilter-source-3.40-1.tar.gz"
+SRC_URI="http://files.canon-europe.com/files/soft40245/software/${PN}-source-${PV}-1.tar.gz"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
