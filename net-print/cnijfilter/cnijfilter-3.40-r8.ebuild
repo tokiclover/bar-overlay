@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.3 2012/05/28 06:45:32 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.3 2012/05/29 00:04:17 -tclover Exp $
 
 EAPI=4
 
@@ -126,6 +126,10 @@ src_configure() {
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
 			src_configure_pr
 		fi
+	done
+
+	for mkfile in $(find . -name Makefile); do
+		sed -e 's/^ARC = 64/ARC = 32/g' -e 's/libs_bin64/libs_bin32/g' -i $mkfile
 	done
 }
 
@@ -259,7 +263,7 @@ src_install_pr() {
 	fi
 
 	cd ..
-	cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
+	cp -a ${_prid}/libs_bin32/* "${D}${_libdir}" || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }
