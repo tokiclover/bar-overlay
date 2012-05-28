@@ -8,7 +8,8 @@
 </maintainer>
 	<use>
 		<flag name="amd64">basic support for this architecture - currently without servicetools</flag>
-		<flag name="servicetools">servicetools utility for monitoring, cleaning and more...</flag>
-		<flag name="cnijnet">network backend for CUPS, a fork of the cnijnetprn printing proccess</flag>
+		<flag name="servicetools">service tools utility for monitoring, cleaning and more...</flag>
+		<flag name="net">add network backend for CUPS</flag>
+		<flag name="usb">add usb backend for CUPS</flag>
 	</use>
 </pkgmetadata>

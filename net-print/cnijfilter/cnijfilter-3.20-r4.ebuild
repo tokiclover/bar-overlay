@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.1 2012/05/28 05:22:47 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.3 2012/05/28 06:45:32 -tclover Exp $
 
 EAPI=4
 
@@ -14,14 +14,16 @@ SRC_URI="http://gdlp01.c-wss.com/gds/7/0100002367/01/${PN}-source-${PV}-1.tar.gz
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
-WANT_AUTOMAKE=1.9.5
+WANT_AUTOMAKE=1.9.6
 
 SLOT="3.20"
 KEYWORDS="~x86 ~amd64"
-IUSE="amd64 servicetools cnijnet mp250 mp270 mp490 mp550 mp560 ip4700 mp640"
-REQUIRED_USE="amd64? ( !servicetools )"
-
-DEPEND="app-text/ghostscript-gpl
+IUSE="+debug amd64 servicetools net gtk +usb mp250 mp270 mp490 mp550 mp560 ip4700 mp640"
+REQUIRED_USE="amd64? ( !servicetools )
+	servicetools? ( gtk )
+"
+DEPEND="gtk? ( x11-libs/gtk+:2 )
+	app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
 	!amd64? ( sys-libs/glibc
 		>=dev-libs/popt-1.6
@@ -41,12 +43,11 @@ DEPEND="app-text/ghostscript-gpl
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
-# Arrays of supported Printers, there IDs and compatible models
 _pruse=("mp250" "mp270" "mp490" "mp550" "mp560" "ip4700" "mp640")
 _prname=(${_pruse[@]})
 _prid=("356" "357" "358" "359" "360" "361" "362")
 _prcomp=("mp250series" "mp270series" "mp490series" "mp550series" "mp560series" "ip4700series" "mp640series")
-_max=$((${#_pruse[@]}-1)) # used for iterating through these arrays
+_max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
 
@@ -55,9 +56,12 @@ pkg_setup() {
 		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
 		LINGUAS="en"
 	fi
-
+	
 	use amd64 && multilib_toolchain_setup x86
-	use cnijnet && _backend+=" backendnet"
+	use usb && _backend+=" backend"
+	use net && _backend+=" backendnet"
+	_cngpij+=" cngpij"
+	use gtk && _cngpij+=" cngpijmon"
 
 	_autochoose="true"
 	for i in `seq 0 ${_max}`; do
@@ -91,16 +95,29 @@ src_prepare() {
 	epatch ${FILESDIR}/${P%*-r}-4-ldl.patch || die
 	epatch ${FILESDIR}/${P%*-r}-4-libpng15.patch || die
 
-	for dir in libs backend ${_backend} pstocanonij; do
+	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
 		cd ${dir} || die
-		libtoolize --force || die
+		autotools_run_tool libtoolize --copy --force --automake
 		local amflags="$(eaclocal_amflags)"
 		eaclocal ${amflags}
 		eautoheader
-		eautomake
+		eautomake --gnu
 		eautoreconf
 		cd ..
 	done
+
+	if use servicetools; then
+		for dir in printui lgmon; do
+		cd ${dir} || die
+		autotools_run_tool libtoolize --copy --force --automake
+		local amflags="$(eaclocal_amflags)"
+		eaclocal ${amflags}
+		eautoheader
+		eautomake --gnu
+		eautoreconf
+		cd ..
+		done
+	fi
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
@@ -111,19 +128,11 @@ src_prepare() {
 }
 
 src_configure() {
-	for dir in libs backend ${_backend} pstocanonij; do
+	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
 		cd ${dir} || die
-		econf
+		econf 
 		cd ..
 	done
-
-	if use servicetools; then
-		for dir in cngpij{,mon}; do
-			cd ${dir} || die
-			econf
-			cd ..
-		done
-	fi
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
@@ -134,19 +143,11 @@ src_configure() {
 }
 
 src_compile() {
-	for dir in libs backend ${_backend} pstocanonij; do
+	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
 		cd ${dir} || die
 		emake
 		cd ..
 	done
-
-	if use servicetools; then
-		for dir in cngpij{,mon}; do
-			cd ${dir} || die
-			emake
-			cd ..
-		done
-	fi
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
@@ -158,25 +159,16 @@ src_compile() {
 
 src_install() {
 	local _libdir=/usr/$(get_libdir) _ppddir=/usr/share/cups/model
-	local _cupsdir=${_libdir}/cups/filter
-	mkdir -p "${D}$(get_bindir)" || die
+	local _cupsdir=/usr/libexec/cups/filter
 	mkdir -p "${D}${_libdir}"/cups/filter || die
 	mkdir -p "${D}${_libdir}"/cnijlib || die
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
-	for dir in libs backend ${_backend} pstocanonij; do
+	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
 		cd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		cd ..
 	done
-
-	if use servicetools; then
-		for dir in cngpij{,mon}; do
-			cd ${dir} || die
-			emake DESTDIR="${D}" || die
-			cd ..
-		done
-	fi
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
@@ -185,8 +177,9 @@ src_install() {
 		fi
 	done
 
-	# fix directory structure and slot
-	mv "${D}${_cupsdir}"/pstocanonij "${D}${_cupsdir}/pstocanonij${SLOT}" || die
+	mv "${D}${_libdir}"/cups/filter/pstocanonij \
+		"${D}${_cupsdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
+	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
 }
 
 pkg_postinst() {
@@ -207,30 +200,28 @@ src_prepare_pr() {
 	cp -a cnijfilter ${_pr} || die
 	cp -a printui ${_pr} || die
 	cp -a lgmon ${_pr} || die
-#	cp -a stsmon ${_pr} || die
 
 	cd ${_pr}/cnijfilter || die
-	libtoolize --force
+	autotools_run_tool libtoolize --copy --force --automake
 	amflags="$(eaclocal_amflags)"
 	eaclocal ${amflags}
 	eautoheader
-	eautomake
+	eautomake --gnu
 	eautoreconf
 	cd ..
 
 	if use servicetools; then
-		for dir in printui logmon; do
+		for dir in printui lgmon; do
 			cd ${dir} || die
-			libtoolize --force --copy
+			autotools_run_tool libtoolize --copy --force --automake
 			amflags="$(eaclocal_amflags)"
 			eaclocal ${amflags}
 			eautoheader
-			eautomake
+			eautomake --gnu
 			eautoreconf
 			cd ..
 		done
 	fi
-	cd ..
 }
 
 src_configure_pr() {
@@ -239,13 +230,12 @@ src_configure_pr() {
 	cd ..
 
 	if use servicetools; then
-		for dir in printui logmon; do
+		for dir in printui lgmon; do
 			cd ${dir} || die
 			econf --program-suffix=${_pr}
 			cd ..
 		done
 	fi
-	cd ..
 }
 
 src_compile_pr() {
@@ -254,13 +244,12 @@ src_compile_pr() {
 	cd ..
 
 	if use servicetools; then
-		for dir in printui logmon; do
+		for dir in printui lgmon; do
 			cd ${dir} || die
 			emake || die "couldn't make ${_pr}/${dir}"
 			cd ..
 		done
 	fi
-	cd ..
 }
 
 src_install_pr() {
@@ -269,14 +258,14 @@ src_install_pr() {
 	cd ..
 
 	if use servicetools; then
-		for dir in printui logmon; do
+		for dir in printui lgmon; do
 			cd ${dir} || die
 			emake DESTDIR="${D}" install || die "couldn't make install ${_pr}/${dir}"
 			cd ..
 		done
 	fi
-	cd ..
 
+	cd ..
 	cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
