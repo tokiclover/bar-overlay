@@ -21,6 +21,7 @@ KEYWORDS="~x86 ~amd64"
 IUSE="+debug amd64 servicetools gtk net usb mp250 mp280 mp495 mg5100 mg5200 ip4800 mg6100 mg8100"
 REQUIRED_USE="amd64? ( !servicetools )
 	servicetools? ( gtk )
+	|| ( net usb )
 "
 DEPEND="gtk? ( x11-libs/gtk+:2 )
 	app-text/ghostscript-gpl
@@ -145,7 +146,7 @@ src_compile() {
 
 src_install() {
 	local _libdir=/usr/$(get_libdir) _ppddir=/usr/share/cups/model
-	local _cupsdir=/usr/libexec/cups/filter
+	local _cupsdir=/usr/libexec/cups/filter _cupsodir=/usr/lib/cups/backend
 	mkdir -p "${D}${_libdir}"/cups/filter || die
 	mkdir -p "${D}${_libdir}"/cnijlib || die
 	mkdir -p "${D}${_cupsdir}" || die
@@ -166,6 +167,12 @@ src_install() {
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
+	use usb && mv "${D}${_cupsodir}"/cnijusb "${D}${_cupsdir}"/cnijusb${SLOT} || die
+	if use net; then
+		mv "${D}"/usr/bin/cnijnetprn{,${SLOT}} || die
+		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsdir}"/cnijnet${SLOT} || die
+	fi
+	rm -fr "${D}"/usr/lib/cups/backend
 }
 
 pkg_postinst() {
