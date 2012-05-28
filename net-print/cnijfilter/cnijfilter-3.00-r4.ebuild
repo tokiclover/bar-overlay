@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.3 2012/05/29 00:04:21 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.3 2012/05/29 00:41:49 -tclover Exp $
 
 EAPI=4
 
@@ -21,7 +21,6 @@ KEYWORDS="~x86 ~amd64"
 IUSE="+debug amd64 servicetools gtk ip1900 ip3600 ip4600 mp190 mp240 mp540 mp630"
 REQUIRED_USE="amd64? ( !servicetools )
 	servicetools? ( gtk )
-	|| ( net usb )
 "
 DEPEND="gtk? ( x11-libs/gtk+:2 )
 	app-text/ghostscript-gpl
@@ -58,8 +57,6 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	use usb && _backend+=" backend"
-	use net && _backend+=" backendnet"
 	_cngpij+=" cngpij"
 	use gtk && _cngpij+=" cngpijmon"
 
@@ -126,10 +123,6 @@ src_configure() {
 			src_configure_pr
 		fi
 	done
-
-	for mkfile in $(find . -name Makefile); do
-		sed -e 's/^ARC = 64/ARC = 32/g' -e 's/libs_bin64/libs_bin32/g' -i $mkfile
-	done
 }
 
 src_compile() {
@@ -170,11 +163,6 @@ src_install() {
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
-	use usb && mv "${D}${_cupsodir}"/cnijusb "${D}${_cupsdir}"/cnijusb${SLOT} || die
-	if use net; then
-		mv "${D}"/usr/bin/cnijnetprn{,${SLOT}} || die
-		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsdir}"/cnijnet${SLOT} || die
-	fi
 	rm -fr "${D}"/usr/lib/cups/backend
 }
 
@@ -262,7 +250,7 @@ src_install_pr() {
 	fi
 
 	cd ..
-	cp -a ${_prid}/libs_bin32/* "${D}${_libdir}" || die
+	cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }
