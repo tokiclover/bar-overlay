@@ -93,6 +93,7 @@ src_prepare() {
 
 	for dir in libs ${_cngpij} pstocanonij; do
 		pushd ${dir} || die
+		[ -d configures ] && mv -f configures/configure.in.new configure.in
 		if [ -d po ]; then mv configures/configure.in.new configure.in
 			intltoolize --copy --force --automake
 		fi

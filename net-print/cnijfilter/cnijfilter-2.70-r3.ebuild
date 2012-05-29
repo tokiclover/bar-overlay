@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.4 2012/05/29 13:11:11 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.4 2012/05/29 13:45:00 -tclover Exp $
 
 EAPI=4
 
@@ -204,6 +204,7 @@ src_prepare_pr() {
 	if use servicetools; then
 		for dir in printui lgmon; do
 			cd ${dir} || die
+			[ -d configures ] && mv -f configures/configure.in.new configure.in
 			if [ -d po ]; then mv configures/configure-new.in configure.in
 				intltoolize --copy --force --automake
 			fi

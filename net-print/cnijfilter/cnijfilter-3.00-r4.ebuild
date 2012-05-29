@@ -95,7 +95,9 @@ src_prepare() {
 
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
 		pushd ${dir} || die
-		[ -d po ] && intltoolize --copy --force --automake
+		if [ -d po ]; then mv configures/configure.in.new configure.in
+			intltoolize --copy --force --automake
+		fi
 		autotools_run_tool libtoolize --copy --force --automake
 		eaclocal
 		eautoheader
@@ -199,6 +201,7 @@ src_prepare_pr() {
 	if use servicetools; then
 		for dir in printui lgmon; do
 			cd ${dir} || die
+			[ -d configures ] && mv -f configures/configure.in.new configure.in
 			[ -d po ] && intltoolize --copy --force --automake
 			autotools_run_tool libtoolize --copy --force --automake
 			amflags="$(eaclocal_amflags)"
