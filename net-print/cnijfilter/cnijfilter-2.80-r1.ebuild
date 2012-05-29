@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.3 2012/05/28 17:55:27 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.4 2012/05/29 13:29:13 -tclover Exp $
 
 EAPI=4
 
@@ -19,9 +19,9 @@ WANT_AUTOMAKE=1.9.6
 SLOT="2.80"
 KEYWORDS="~x86 ~amd64"
 IUSE="+debug amd64 servicetools gtk mp140 mp210 ip3500 mp520 ip4500 mp610"
-REQUIRED_USE="amd64? ( !servicetools )
-	servicetools? ( gtk )
-"
+REQUIRED_USE="servicetools? ( gtk )"
+[ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
+
 DEPEND="gtk? ( x11-libs/gtk+:2 )
 	app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
@@ -39,6 +39,8 @@ DEPEND="gtk? ( x11-libs/gtk+:2 )
 		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
 			app-emulation/emul-linux-x86-gtklibs )
 	)
+	>=sys-devel/gettext-0.10.38
+	dev-util/intltool
 "
 S="${WORKDIR}"/${PN}-common-${PV}
 
@@ -53,15 +55,6 @@ pkg_setup() {
 		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
 		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
 		LINGUAS="en"
-	fi
-	if (use amd64 && use servicetools); then
-		eerror "You can't build this package with 'servicetools' on amd64,"
-		eerror "because you would need to compile '>=gnome-base/libglade-0.6'"
-		eerror "and '>=dev-libs/libxml-1.8' with 'export ABI=x86' first."
-		eerror "That's exactly what 'emul-linux-x86-bjdeps-0.1' does with"
-		eerror "'dev-libs/popt-1.6'. I encourage you to adapt this ebuild"
-		eerror "to build 32bit versions of 'libxml' and 'libglade' too!"
-		die "servicetools not yet available on amd64"
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
@@ -99,13 +92,16 @@ src_prepare() {
 	sed -e 's/png_p->jmpbuf/png_jmpbuf(png_p)/' -i cnijfilter/src/bjfimage.c || die
 
 	for dir in libs ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
+		if [ -d po ]; then mv configures/configure.in.new configure.in
+			intltoolize --copy --force --automake
+		fi
 		autotools_run_tool libtoolize --copy --force --automake
 		eaclocal
 		eautoheader
 		eautomake --gnu
 		eautoreconf
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -118,9 +114,9 @@ src_prepare() {
 
 src_configure() {
 	for dir in libs ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		econf 
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -133,9 +129,9 @@ src_configure() {
 
 src_compile() {
 	for dir in libs ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		emake
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -154,9 +150,9 @@ src_install() {
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
 	for dir in libs ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -192,7 +188,6 @@ src_prepare_pr() {
 
 	cd ${_pr}/cnijfilter || die
 	autotools_run_tool libtoolize --copy --force --automake
-	amflags="$(eaclocal_amflags)"
 	eaclocal
 	eautoheader
 	eautomake --gnu
@@ -202,8 +197,8 @@ src_prepare_pr() {
 	if use servicetools; then
 		for dir in printui lgmon; do
 			cd ${dir} || die
+			[ -d po ] && intltoolize --copy --force --automake
 			autotools_run_tool libtoolize --copy --force --automake
-			amflags="$(eaclocal_amflags)"
 			eaclocal
 			eautoheader
 			eautomake --gnu

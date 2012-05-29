@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.3 2012/05/28 20:26:07 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.3 2012/05/29 13:19:10 -tclover Exp $
 
 EAPI=4
 
@@ -19,10 +19,9 @@ WANT_AUTOMAKE=1.9.6
 SLOT="3.20"
 KEYWORDS="~x86 ~amd64"
 IUSE="+debug amd64 servicetools net gtk +usb mp250 mp270 mp490 mp550 mp560 ip4700 mp640"
-REQUIRED_USE="amd64? ( !servicetools )
-	servicetools? ( gtk )
-	|| ( net usb )
-"
+REQUIRED_USE="servicetools? ( gtk )"
+[ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
+
 DEPEND="gtk? ( x11-libs/gtk+:2 )
 	app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
@@ -40,6 +39,8 @@ DEPEND="gtk? ( x11-libs/gtk+:2 )
 		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
 			app-emulation/emul-linux-x86-gtklibs )
 	)
+	>=sys-devel/gettext-0.10.38
+	dev-util/intltool
 "
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
@@ -97,26 +98,15 @@ src_prepare() {
 	epatch ${FILESDIR}/${P%*-r}-4-libpng15.patch || die
 
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
+		[ -d po ] && intltoolize --copy --force --automake
 		autotools_run_tool libtoolize --copy --force --automake
 		eaclocal
 		eautoheader
 		eautomake --gnu
 		eautoreconf
-		cd ..
+		pushd
 	done
-
-	if use servicetools; then
-		for dir in printui lgmon; do
-		cd ${dir} || die
-		autotools_run_tool libtoolize --copy --force --automake
-		eaclocal
-		eautoheader
-		eautomake --gnu
-		eautoreconf
-		cd ..
-		done
-	fi
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
@@ -128,9 +118,9 @@ src_prepare() {
 
 src_configure() {
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		econf 
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -143,9 +133,9 @@ src_configure() {
 
 src_compile() {
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		emake
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -164,9 +154,9 @@ src_install() {
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -208,7 +198,6 @@ src_prepare_pr() {
 
 	cd ${_pr}/cnijfilter || die
 	autotools_run_tool libtoolize --copy --force --automake
-	amflags="$(eaclocal_amflags)"
 	eaclocal
 	eautoheader
 	eautomake --gnu
@@ -218,8 +207,8 @@ src_prepare_pr() {
 	if use servicetools; then
 		for dir in printui lgmon; do
 			cd ${dir} || die
+			[ -d po ] && intltoolize --copy --force --automake
 			autotools_run_tool libtoolize --copy --force --automake
-			amflags="$(eaclocal_amflags)"
 			eaclocal
 			eautoheader
 			eautomake --gnu
