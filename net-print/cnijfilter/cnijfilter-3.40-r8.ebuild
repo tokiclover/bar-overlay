@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.3 2012/05/29 00:04:17 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.4 2012/05/29 12:25:50 -tclover Exp $
 
 EAPI=4
 
@@ -53,7 +53,6 @@ pkg_setup() {
 	fi
 
 	[ -n "$(uname -m | grep 64)" ] && _arch=64 || _arch=32
-
 	use usb && _backend+=" backend"
 	use net && _backend+=" backendnet"
 	_cngpij+=" cngpij"

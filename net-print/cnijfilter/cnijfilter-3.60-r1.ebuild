@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.3 2012/05/29 00:04:33 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.4 2012/05/29 12:36:23 -tclover Exp $
 
 EAPI=4
 
@@ -18,28 +18,23 @@ WANT_AUTOMAKE=1.9.6
 
 SLOT="3.60"
 KEYWORDS="~x86 ~amd64"
-IUSE="+debug amd64 servicetools gtk net usb mg2100 mg3100 mg4100 mg5300 mg6200 mg8200 ip4900 e500"
-REQUIRED_USE="amd64? ( !servicetools )
-	servicetools? ( gtk )
+IUSE="+debug servicetools gtk net usb mg2100 mg3100 mg4100 mg5300 mg6200 mg8200 ip4900 e500"
+REQUIRED_USE="servicetools? ( gtk )
 	|| ( net usb )
 "
-DEPEND="gtk? ( x11-libs/gtk+:2 )
+DEPEND="gtk? ( >=x11-libs/gtk+-2.6.0:2 )
 	app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
-	!amd64? ( sys-libs/glibc
-		>=dev-libs/popt-1.6
-		>=media-libs/tiff-3.4
-		>=media-libs/libpng-1.0.9 )
-	amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
-		app-emulation/emul-linux-x86-compat
-		app-emulation/emul-linux-x86-baselibs )
+	sys-libs/glibc
+	>=dev-libs/popt-1.6
+	>=media-libs/tiff-3.4
+	>=media-libs/libpng-1.0.9
 	servicetools? ( 
-		!amd64? ( >=gnome-base/libglade-0.6
-			>=dev-libs/libxml2-2.7.3-r2
-			=x11-libs/gtk+-1.2* )
-		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
-			app-emulation/emul-linux-x86-gtklibs )
+		>=gnome-base/libglade-0.6
+		>=dev-libs/libxml2-2.7.3-r2
 	)
+	>=sys-devel/gettext-0.10.38
+	dev-util/intltool
 "
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
@@ -51,18 +46,18 @@ _prcomp=("mg2100series" "mg3100series" "mg4100series" "mg5300series" "mg6200seri
 _max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
-
 	if [ -z "$LINGUAS" ]; then
 		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
 		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
 		LINGUAS="en"
 	fi
 
-	use amd64 && multilib_toolchain_setup x86
+	[ -n "$(uname -m | grep 64)" ] && _arch=64 || _arch=32
 	use usb && _backend+=" backend"
 	use net && _backend+=" backendnet"
 	_cngpij+=" cngpij"
 	use gtk && _cngpij+=" cngpijmon"
+	use gtk && use net && _cngpij+=" cngpijmon/cnijnpr"
 	
 	_autochoose="true"
 	for i in `seq 0 ${_max}`; do
@@ -82,7 +77,7 @@ pkg_setup() {
 		echo
 		ebeep
 
-		n=15
+		n=10
 		while [[ $n -gt 0 ]]; do
 			echo -en "  Waiting $n seconds...\r"
 			sleep 1
@@ -97,13 +92,14 @@ src_prepare() {
 	epatch ${FILESDIR}/${P%*-r}-4-libpng15.patch || die
 
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
+		[ -d po ] && intltoolize --copy --force --automake
 		autotools_run_tool libtoolize --copy --force --automake
 		eaclocal
 		eautoheader
 		eautomake --gnu
 		eautoreconf
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -116,9 +112,9 @@ src_prepare() {
 
 src_configure() {
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		econf 
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -127,17 +123,13 @@ src_configure() {
 			src_configure_pr
 		fi
 	done
-
-	for mkfile in $(find . -name Makefile); do
-		sed -e 's/^ARC = 64/ARC = 32/g' -e 's/libs_bin64/libs_bin32/g' -i $mkfile
-	done
 }
 
 src_compile() {
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		emake
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -156,9 +148,9 @@ src_install() {
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -175,6 +167,7 @@ src_install() {
 	if use net; then
 		mv "${D}"/usr/bin/cnijnetprn{,${SLOT}} || die
 		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsdir}"/cnijnet${SLOT} || die
+		use gtk && cp -a com/libs_bin${_arch}/* "${D}${_libdir}" || die
 	fi
 	rm -fr "${D}"/usr/lib/cups/backend
 }
@@ -197,10 +190,10 @@ src_prepare_pr() {
 	cp -a cnijfilter ${_pr} || die
 	cp -a printui ${_pr} || die
 	cp -a lgmon ${_pr} || die
+	use gtk && use net && cp -a com ${_pr} || die
 
 	cd ${_pr}/cnijfilter || die
 	autotools_run_tool libtoolize --copy --force --automake
-	amflags="$(eaclocal_amflags)"
 	eaclocal
 	eautoheader
 	eautomake --gnu
@@ -210,8 +203,8 @@ src_prepare_pr() {
 	if use servicetools; then
 		for dir in printui lgmon; do
 			cd ${dir} || die
+			[ -d po ] && intltoolize --copy --force --automake
 			autotools_run_tool libtoolize --copy --force --automake
-			amflags="$(eaclocal_amflags)"
 			eaclocal
 			eautoheader
 			eautomake --gnu
@@ -263,7 +256,7 @@ src_install_pr() {
 	fi
 
 	cd ..
-	cp -a ${_prid}/libs_bin32/* "${D}${_libdir}" || die
+	cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }
