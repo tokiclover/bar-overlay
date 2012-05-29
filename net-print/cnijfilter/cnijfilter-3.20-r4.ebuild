@@ -99,8 +99,7 @@ src_prepare() {
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
 		cd ${dir} || die
 		autotools_run_tool libtoolize --copy --force --automake
-		local amflags="$(eaclocal_amflags)"
-		eaclocal ${amflags}
+		eaclocal
 		eautoheader
 		eautomake --gnu
 		eautoreconf
@@ -111,8 +110,7 @@ src_prepare() {
 		for dir in printui lgmon; do
 		cd ${dir} || die
 		autotools_run_tool libtoolize --copy --force --automake
-		local amflags="$(eaclocal_amflags)"
-		eaclocal ${amflags}
+		eaclocal
 		eautoheader
 		eautomake --gnu
 		eautoreconf
@@ -211,7 +209,7 @@ src_prepare_pr() {
 	cd ${_pr}/cnijfilter || die
 	autotools_run_tool libtoolize --copy --force --automake
 	amflags="$(eaclocal_amflags)"
-	eaclocal ${amflags}
+	eaclocal
 	eautoheader
 	eautomake --gnu
 	eautoreconf
@@ -222,7 +220,7 @@ src_prepare_pr() {
 			cd ${dir} || die
 			autotools_run_tool libtoolize --copy --force --automake
 			amflags="$(eaclocal_amflags)"
-			eaclocal ${amflags}
+			eaclocal
 			eautoheader
 			eautomake --gnu
 			eautoreconf

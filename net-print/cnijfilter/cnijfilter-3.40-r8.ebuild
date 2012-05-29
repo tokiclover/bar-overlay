@@ -18,28 +18,23 @@ WANT_AUTOMAKE=1.9.6
 
 SLOT="3.40"
 KEYWORDS="~x86 ~amd64"
-IUSE="+debug amd64 servicetools gtk net usb mp250 mp280 mp495 mg5100 mg5200 ip4800 mg6100 mg8100"
-REQUIRED_USE="amd64? ( !servicetools )
-	servicetools? ( gtk )
+IUSE="+debug servicetools gtk net usb mp250 mp280 mp495 mg5100 mg5200 ip4800 mg6100 mg8100"
+REQUIRED_USE="servicetools? ( gtk )
 	|| ( net usb )
 "
-DEPEND="gtk? ( x11-libs/gtk+:2 )
+DEPEND="gtk? ( >=x11-libs/gtk+-2.6.0:2 )
 	app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
-	!amd64? ( sys-libs/glibc
-		>=dev-libs/popt-1.6
-		>=media-libs/tiff-3.4
-		>=media-libs/libpng-1.0.9 )
-	amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
-		app-emulation/emul-linux-x86-compat
-		app-emulation/emul-linux-x86-baselibs )
+	sys-libs/glibc
+	>=dev-libs/popt-1.6
+	>=media-libs/tiff-3.4
+	>=media-libs/libpng-1.0.9
 	servicetools? ( 
-		!amd64? ( >=gnome-base/libglade-0.6
-			>=dev-libs/libxml2-2.7.3-r2
-			=x11-libs/gtk+-1.2* )
-		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
-			app-emulation/emul-linux-x86-gtklibs )
+		>=gnome-base/libglade-0.6
+		>=dev-libs/libxml2-2.7.3-r2
 	)
+	>=sys-devel/gettext-0.10.38
+	dev-util/intltool
 "
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
@@ -57,11 +52,13 @@ pkg_setup() {
 		LINGUAS="en"
 	fi
 
-	use amd64 && multilib_toolchain_setup x86
+	[ -n "$(uname -m | grep 64)" ] && _arch=64 || _arch=32
+
 	use usb && _backend+=" backend"
 	use net && _backend+=" backendnet"
 	_cngpij+=" cngpij"
 	use gtk && _cngpij+=" cngpijmon"
+	use gtk && use net && _cngpij+=" cngpijmon/cnijnpr"
 	
 	_autochoose="true"
 	for i in `seq 0 ${_max}`; do
@@ -93,17 +90,16 @@ src_prepare() {
 	epatch ${FILESDIR}/${PN}-${PV/40/20}-4-cups_ppd.patch || die
 	epatch ${FILESDIR}/${P%-r*}-8-ldl.patch || die
 	epatch ${FILESDIR}/${PN}-${PV/40/20}-4-libpng15.patch || die
-	epatch ${FILESDIR}/${P%*-r}-5-force_lib32.patch || die
 
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
+		[ -d po ] && intltoolize --copy --force --automake
 		autotools_run_tool libtoolize --copy --force --automake
-		local amflags="$(eaclocal_amflags)"
-		eaclocal ${amflags}
+		eaclocal
 		eautoheader
 		eautomake --gnu
 		eautoreconf
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -116,9 +112,9 @@ src_prepare() {
 
 src_configure() {
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		econf 
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -127,17 +123,13 @@ src_configure() {
 			src_configure_pr
 		fi
 	done
-
-	for mkfile in $(find . -name Makefile); do
-		sed -e 's/^ARC = 64/ARC = 32/g' -e 's/libs_bin64/libs_bin32/g' -i $mkfile
-	done
 }
 
 src_compile() {
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		emake
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -156,9 +148,9 @@ src_install() {
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
 	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
-		cd ${dir} || die
+		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
-		cd ..
+		pushd
 	done
 
 	for i in $(seq 0 ${_max}); do
@@ -175,6 +167,7 @@ src_install() {
 	if use net; then
 		mv "${D}"/usr/bin/cnijnetprn{,${SLOT}} || die
 		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsdir}"/cnijnet${SLOT} || die
+		use gtk && cp -a com/libs_bin${_arch}/* "${D}${_libdir}" || die
 	fi
 	rm -fr "${D}"/usr/lib/cups/backend
 }
@@ -197,11 +190,11 @@ src_prepare_pr() {
 	cp -a cnijfilter ${_pr} || die
 	cp -a printui ${_pr} || die
 	cp -a lgmon ${_pr} || die
+	use gtk && use net && cp -a com ${_pr} || die
 
 	cd ${_pr}/cnijfilter || die
 	autotools_run_tool libtoolize --copy --force --automake
-	amflags="$(eaclocal_amflags)"
-	eaclocal ${amflags}
+	eaclocal
 	eautoheader
 	eautomake --gnu
 	eautoreconf
@@ -210,9 +203,9 @@ src_prepare_pr() {
 	if use servicetools; then
 		for dir in printui lgmon; do
 			cd ${dir} || die
+			[ -d po ] && intltoolize --copy --force --automake
 			autotools_run_tool libtoolize --copy --force --automake
-			amflags="$(eaclocal_amflags)"
-			eaclocal ${amflags}
+			eaclocal
 			eautoheader
 			eautomake --gnu
 			eautoreconf
@@ -263,7 +256,7 @@ src_install_pr() {
 	fi
 
 	cd ..
-	cp -a ${_prid}/libs_bin32/* "${D}${_libdir}" || die
+	cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }
