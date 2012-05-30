@@ -24,7 +24,6 @@ REQUIRED_USE="servicetools? ( gtk )"
 
 DEPEND="app-text/ghostscript-gpl
 	gtk? ( >=sys-devel/gettext-0.10.38
-		dev-util/intltool
 		app-emulation/emul-linux-x86-gtklibs )
 	>=net-print/cups-1.1.14
 	!amd64? ( sys-libs/glibc
@@ -38,7 +37,6 @@ DEPEND="app-text/ghostscript-gpl
 		!amd64? ( >=gnome-base/libglade-0.6
 			>=dev-libs/libxml-1.8
 			x11-libs/gtk+:2 )
-		amd64? ( app-emulation/emul-linux-x86-popt )
 	)
 "
 S="${WORKDIR}"/${PN}-common-${PV}
@@ -56,13 +54,11 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	_src=cngpij
-	_prsrc=cnijfilter
 	use gtk && _src+=" cngpijmon"
 	use servicetools && _prsrc+=" printui lgmon"
 
 	_autochoose="true"
-	for i in `seq 0 ${_max}`; do
+	for i in $(seq 0 ${_max}); do
 		einfo " ${_pruse[$i]}"
 		if (use ${_pruse[$i]}); then
 			_autochoose="false"
@@ -77,9 +73,8 @@ pkg_setup() {
 		einfo ""
 		einfo "Press Ctrl+C to abort"
 		echo
-		ebeep
 
-		n=15
+		n=10
 		while [[ $n -gt 0 ]]; do
 			echo -en "  Waiting $n seconds...\r"
 			sleep 1
@@ -89,55 +84,65 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch ${FILESDIR}/${P%-r*}-1-common.patch || die
+	epatch "${FILESDIR}"/${PN}-3.20-4-cups_ppd.patch
 	sed -e 's/png_p->jmpbuf/png_jmpbuf(png_p)/' -i cnijfilter/src/bjfimage.c || die
 
-	for dir in libs ${_src} pstocanonij; do
+	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
 		[ -d configures ] && mv -f configures/configure.in.new configure.in
-		[ -d po ] && intltoolize --copy --force --automake
+		[ -d po ] && echo "no" | glib-gettextize --force --copy
 		autotools_run_tool libtoolize --copy --force --automake
 		eaclocal
 		eautoheader
 		eautomake --gnu
 		eautoreconf
-		pushd
+		popd
 	done
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
+			mkdir ${_pr}
+			for dir in ${_prid} cnijfilter ${_prsrc}; do
+				cp -a ${dir} ${_pr} || die
+			done
+			pushd ${_pr} || die
 			src_prepare_pr
+			popd
 		fi
 	done
 }
 
 src_configure() {
-	for dir in libs ${_src} pstocanonij; do
+	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
 		econf 
-		pushd
+		popd
 	done
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
+			pushd ${_pr} || die
 			src_configure_pr
+			popd
 		fi
 	done
 }
 
 src_compile() {
-	for dir in libs ${_src} pstocanonij; do
+	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake
-		pushd
+		popd
 	done
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
+			pushd ${_pr} || die
 			src_compile_pr
+			popd
 		fi
 	done
 }
@@ -149,18 +154,24 @@ src_install() {
 	mkdir -p "${D}${_libdir}"/cnijlib || die
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
-	for dir in libs ${_src} pstocanonij; do
+	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
-		pushd
+		popd
 	done
 
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
+			pushd ${_pr} || die
 			src_install_pr
+			popd
 		fi
 	done
+
+	dolib.so ${_prid}/libs_bin/* || die
+	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
+	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
@@ -180,48 +191,39 @@ pkg_postinst() {
 }
 
 src_prepare_pr() {
-	mkdir ${_pr}
-	for dir in ${_prid} ${_prsrc}; do
-		cp -a ${dir} ${_pr} || die
-	done
-
-	for dir in ${_prsrc}; do
-		cd ${dir} || die
+	for dir in cnijfilter ${_prsrc}; do
+		pushd ${dir} || die
 		[ -d configures ] && mv -f configures/configure.in.new configure.in
-		[ -d po ] && intltoolize --copy --force --automake
+		[ -d po ] && echo "no" | glib-gettextize --force --copy
 		autotools_run_tool libtoolize --copy --force --automake
 		eaclocal
 		eautoheader
 		eautomake --gnu
 		eautoreconf
-		cd ..
+		popd
 	done
 }
 
 src_configure_pr() {
-	for dir in ${_prsrc}; do
-		cd ${dir} || die
+	for dir in cnijfilter ${_prsrc}; do
+		pushd ${dir} || die
 		econf --program-suffix=${_pr}
-		cd ..
+		popd
 	done
 }
 
 src_compile_pr() {
-	for dir in ${_prsrc}; do
-		cd ${dir} || die
+	for dir in cnijfilter ${_prsrc}; do
+		pushd ${dir} || die
 		emake || die "${dir}: emake failed"
-		cd ..
+		popd
 	done
 }
 
 src_install_pr() {
-	for dir in ${_prsrc}; do
-		cd ${dir} || die
+	for dir in cnijfilter ${_prsrc}; do
+		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
-		cd ..
+		popd
 	done
-
-	cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
-	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
-	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }
