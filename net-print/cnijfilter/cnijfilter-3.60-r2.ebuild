@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.5 2012/05/30 17:34:12 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.5 2012/05/30 22:52:03 -tclover Exp $
 
 EAPI=4
 
@@ -50,11 +50,11 @@ pkg_setup() {
 	fi
 
 	[ -n "$(uname -m | grep 64)" ] && _arch=64 || _arch=32
-	use usb && _src+=" backend"
+	use usb && _src=backend
 	use net && _src+=" backendnet"
-	use gtk && _src+=" cngpijmon"
+	use gtk && _src+=" cngpijmon" _prsrc=lgmon
 	use gtk && use net && _src+=" cngpijmon/cnijnpr"
-	use servicetools && _prsrc+=" printui lgmon"
+	use servicetools && _prsrc+=" printui"
 	
 	_autochoose="true"
 	for i in $(seq 0 ${_max}); do

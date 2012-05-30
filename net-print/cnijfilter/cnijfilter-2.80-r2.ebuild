@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.5 2012/05/30 20:54:33 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.5 2012/05/30 22:52:03 -tclover Exp $
 
 EAPI=4
 
@@ -56,8 +56,8 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	use gtk && _src+=" cngpijmon"
-	use servicetools && _prsrc+=" printui lgmon"
+	use gtk && _src=cngpijmon _prsrc=lgmon
+	use servicetools && _prsrc+=" printui"
 
 	_autochoose="true"
 	for i in `seq 0 ${_max}`; do

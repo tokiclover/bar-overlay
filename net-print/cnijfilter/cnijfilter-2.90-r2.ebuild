@@ -54,8 +54,8 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	use gtk && _src+=" cngpijmon"
-	use servicetools && _prsrc+=" printui lgmon"
+	use gtk && _src=cngpijmon _prsrc=lgmon
+	use servicetools && _prsrc+=" printui"
 
 	_autochoose="true"
 	for i in $(seq 0 ${_max}); do

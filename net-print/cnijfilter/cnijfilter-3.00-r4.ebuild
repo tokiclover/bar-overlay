@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.5 2012/05/30 21:05:59 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.5 2012/05/30 22:52:03 -tclover Exp $
 
 EAPI=4
 
@@ -48,7 +48,6 @@ _prid=("346" "333" "334" "342" "341" "338" "336")
 _max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
-
 	if [ -z "$LINGUAS" ]; then
 		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
 		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
@@ -56,8 +55,8 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	use gtk && _src+=" cngpijmon"
-	use servicetools && _prsrc+=" printui lgmon"
+	use gtk && _src=cngpijmon _prsrc=lgmon
+	use servicetools && _prsrc+=" printui"
 
 	_autochoose="true"
 	for i in $(seq 0 ${_max}); do
