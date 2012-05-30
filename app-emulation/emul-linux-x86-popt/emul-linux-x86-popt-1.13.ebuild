@@ -1,13 +1,12 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: app-emulation/emul-linux-x86-bjdeps/emul-linux-x86-bjdeps-0.1-r2.ebuild v1.2 2011/11/05 -tclover Exp $
+# $Header: app-emulation/emul-linux-x86-bjdeps/emul-linux-x86-popt-1.13.ebuild v1.1 2012/05/30 -tclover Exp $
 
 inherit libtool eutils flag-o-matic autotools multilib
 
-DESCRIPTION="32bit nls-disabled dev-libs/popt-1.13"
+DESCRIPTION="32bit nls-disabled dev-libs/${P#*-x86-}"
 HOMEPAGE="http://rpm5.org/"
-# see bgo #129352
-SRC_URI="http://rpm5.org/files/popt/popt-1.13.tar.gz"
+SRC_URI="http://rpm5.org/files/popt/${P#*-x86-}.tar.gz"
 RESTRICT="confcache"
 
 WANT_AUTOMAKE="1.6"
@@ -15,9 +14,11 @@ WANT_AUTOMAKE="1.6"
 LICENSE="as-is"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
+IUSE="static-libs"
 DEPEND=""
 RDEPEND=""
-S="${WORKDIR}"/popt-1.13
+
+S="${WORKDIR}"/${P#*-x86-}
 
 pkg_setup() {
 	multilib_toolchain_setup x86
@@ -31,10 +32,15 @@ src_prepare() {
 	epatch "${FILESDIR}"/popt-1.12-scrub-lame-gettext.patch
 }
 
+src_configure() {
+	econf \
+		--disable-dependency-tracking \
+		$(use_enable static-libs static)
+}
+
 src_install() {
 	emake DESTDIR="${D}" install || die
 	# Don't install anything except the library itself
 	rm -Rv "${D}"/usr/share || die
 	rm -Rv "${D}"/usr/include || die
 }
-
