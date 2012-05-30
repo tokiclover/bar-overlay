@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.5 2012/05/30 17:34:12 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.5 2012/05/30 20:54:28 -tclover Exp $
 
 EAPI=4
 
@@ -37,7 +37,7 @@ DEPEND="app-text/ghostscript-gpl
 	servicetools? ( 
 		!amd64? ( >=gnome-base/libglade-0.6
 			>=dev-libs/libxml2-2.7.3-r2
-			x11-libs/gtk+-:2 )
+			x11-libs/gtk+:1 )
 	)
 "
 S="${WORKDIR}"/${PN}-common-${PV}
@@ -92,8 +92,8 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-3.20-4-cups_ppd.patch
-	epatch "${FILESDIR}"/${P%-r*}-1-common.patch || die
+	sed -e 's/-lxml/-lxml2/g' -i cngpijmon/src/Makefile.am -i printui/src/Makefile.am
+	epatch "${FILESDIR}"/${P%-r*}-4-cups_ppd.patch
 	epatch "${FILESDIR}"/${P%-r*}-1-png_jmpbuf-fix.patch || die
 
 	for dir in libs cngpij ${_src} pstocanonij; do
@@ -158,7 +158,7 @@ src_compile() {
 
 src_install() {
 	local _libdir=/usr/$(get_libdir) _ppddir=/usr/share/cups/model
-	local _cupsdir=/usr/libexec/cups/filter
+	local _cupsdir=/usr/libexec/cups/filter _cupsodir=/usr/lib/cups/backend
 	mkdir -p "${D}${_libdir}"/cups/filter || die
 	mkdir -p "${D}${_libdir}"/cnijlib || die
 	mkdir -p "${D}${_cupsdir}" || die
@@ -182,9 +182,11 @@ src_install() {
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 
+#	mv "${D}${_cupsodir}"/cnij_usb "${D}${_cupsdir}"/cnijusb${SLOT} || die
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
+#	rm -fr "${D}"/usr/lib/cups/backend
 }
 
 pkg_postinst() {

@@ -87,7 +87,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-3.20-4-cups_ppd.patch
 	sed -e 's/png_p->jmpbuf/png_jmpbuf(png_p)/' -i cnijfilter/src/bjfimage.c || die
 
-	for dir in libs cngpij ${_src} pstocanonij; do
+	for dir in libs cngpij backend ${_src} pstocanonij; do
 		pushd ${dir} || die
 		[ -d configures ] && mv -f configures/configure.in.new configure.in
 		[ -d po ] && echo "no" | glib-gettextize --force --copy
@@ -114,7 +114,7 @@ src_prepare() {
 }
 
 src_configure() {
-	for dir in libs cngpij ${_src} pstocanonij; do
+	for dir in libs cngpij backend ${_src} pstocanonij; do
 		pushd ${dir} || die
 		econf 
 		popd
@@ -131,7 +131,7 @@ src_configure() {
 }
 
 src_compile() {
-	for dir in libs cngpij ${_src} pstocanonij; do
+	for dir in libs cngpij backend ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake
 		popd
@@ -149,12 +149,12 @@ src_compile() {
 
 src_install() {
 	local _libdir=/usr/$(get_libdir) _ppddir=/usr/share/cups/model
-	local _cupsdir=/usr/libexec/cups/filter
+	local _cupsdir=/usr/libexec/cups/filter _cupsodir=/usr/lib/cups/backend
 	mkdir -p "${D}${_libdir}"/cups/filter || die
 	mkdir -p "${D}${_libdir}"/cnijlib || die
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
-	for dir in libs cngpij ${_src} pstocanonij; do
+	for dir in libs cngpij backend ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		popd
@@ -173,9 +173,11 @@ src_install() {
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 
+	mv "${D}${_cupsodir}"/cnij_usb "${D}${_cupsdir}"/cnijusb${SLOT} || die
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
+	rm -fr "${D}"/usr/lib/cups/backend
 }
 
 pkg_postinst() {
