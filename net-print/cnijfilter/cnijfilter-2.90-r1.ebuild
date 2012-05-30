@@ -22,8 +22,10 @@ IUSE="+debug amd64 servicetools gtk ip100 ip2600"
 REQUIRED_USE="servicetools? ( gtk )"
 [ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
 
-DEPEND="gtk? ( app-emulation/emul-linux-x86-gtklibs )
-	app-text/ghostscript-gpl
+DEPEND="app-text/ghostscript-gpl
+	gtk? ( >=sys-devel/gettext-0.10.38
+		dev-util/intltool
+		app-emulation/emul-linux-x86-gtklibs )
 	>=net-print/cups-1.1.14
 	!amd64? ( sys-libs/glibc
 		>=dev-libs/popt-1.6
@@ -35,12 +37,9 @@ DEPEND="gtk? ( app-emulation/emul-linux-x86-gtklibs )
 	servicetools? ( 
 		!amd64? ( >=gnome-base/libglade-0.6
 			>=dev-libs/libxml-1.8
-			x11-libs/gtk+:2 
-		)
+			x11-libs/gtk+:2 )
 		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1 )
 	)
-	>=sys-devel/gettext-0.10.38
-	dev-util/intltool
 "
 S="${WORKDIR}"/${PN}-common-${PV}
 

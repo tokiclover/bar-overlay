@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.5 2012/05/30 10:27:11 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.5 2012/05/30 11:38:03 -tclover Exp $
 
 EAPI=4
 
@@ -22,7 +22,10 @@ IUSE="+debug amd64 servicetools gtk mp140 mp210 ip3500 mp520 ip4500 mp610"
 REQUIRED_USE="servicetools? ( gtk )"
 [ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
 
-DEPEND="gtk? ( app-emulation/emul-linux-x86-gtklibs )
+DEPEND="app-text/ghostscript-gpl
+	gtk? ( >=sys-devel/gettext-0.10.38
+		dev-util/intltool
+		app-emulation/emul-linux-x86-gtklibs )
 	app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
 	!amd64? ( sys-libs/glibc
@@ -35,12 +38,9 @@ DEPEND="gtk? ( app-emulation/emul-linux-x86-gtklibs )
 	servicetools? ( 
 		!amd64? ( >=gnome-base/libglade-0.6
 			>=dev-libs/libxml-1.8
-			x11-libs/gtk+-:2 
-		)
+			x11-libs/gtk+-:2 )
 		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1 )
 	)
-	>=sys-devel/gettext-0.10.38
-	dev-util/intltool
 "
 S="${WORKDIR}"/${PN}-common-${PV}
 

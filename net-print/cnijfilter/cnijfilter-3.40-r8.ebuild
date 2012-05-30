@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.5 2012/05/30 10:27:11 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.5 2012/05/30 11:38:03 -tclover Exp $
 
 EAPI=4
 
@@ -22,19 +22,17 @@ IUSE="+debug servicetools gtk net usb mp250 mp280 mp495 mg5100 mg5200 ip4800 mg6
 REQUIRED_USE="servicetools? ( gtk )
 	|| ( net usb )
 "
-DEPEND="gtk? ( >=x11-libs/gtk+-2.6.0:2 )
-	app-text/ghostscript-gpl
+DEPEND="app-text/ghostscript-gpl
+	gtk? ( >=sys-devel/gettext-0.10.38
+		dev-util/intltool
+		>=x11-libs/gtk+-2.6.0:2 )
 	>=net-print/cups-1.1.14
 	sys-libs/glibc
 	>=dev-libs/popt-1.6
 	>=media-libs/tiff-3.4
 	>=media-libs/libpng-1.0.9
-	servicetools? ( 
-		>=gnome-base/libglade-0.6
-		>=dev-libs/libxml2-2.7.3-r2
-	)
-	>=sys-devel/gettext-0.10.38
-	dev-util/intltool
+	servicetools? ( >=gnome-base/libglade-0.6
+		>=dev-libs/libxml2-2.7.3-r2 )
 "
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
