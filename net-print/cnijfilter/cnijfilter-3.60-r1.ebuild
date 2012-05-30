@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.4 2012/05/29 12:36:23 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.5 2012/05/30 10:27:11 -tclover Exp $
 
 EAPI=4
 
@@ -53,14 +53,16 @@ pkg_setup() {
 	fi
 
 	[ -n "$(uname -m | grep 64)" ] && _arch=64 || _arch=32
-	use usb && _backend+=" backend"
-	use net && _backend+=" backendnet"
-	_cngpij+=" cngpij"
-	use gtk && _cngpij+=" cngpijmon"
-	use gtk && use net && _cngpij+=" cngpijmon/cnijnpr"
+	_src=cngpij
+	_src=cnijfilter
+	use usb && _src+=" backend"
+	use net && _src+=" backendnet"
+	use gtk && _src+=" cngpijmon"
+	use gtk && use net && _src+=" cngpijmon/cnijnpr"
+	use servicetools && _src+=" printui lgmon"
 	
 	_autochoose="true"
-	for i in `seq 0 ${_max}`; do
+	for i in $(seq 0 ${_max}); do
 		einfo " ${_pruse[$i]}\t${_prcomp[$i]}"
 		if (use ${_pruse[$i]}); then
 			_autochoose="false"
@@ -91,7 +93,7 @@ src_prepare() {
 	epatch ${FILESDIR}/${PN}-${PV/60/50}-1-ldl.patch || die
 	epatch ${FILESDIR}/${P%*-r}-4-libpng15.patch || die
 
-	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
+	for dir in libs ${_src} pstocanonij; do
 		pushd ${dir} || die
 		[ -d po ] && intltoolize --copy --force --automake
 		autotools_run_tool libtoolize --copy --force --automake
@@ -111,7 +113,7 @@ src_prepare() {
 }
 
 src_configure() {
-	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
+	for dir in libs ${_src} pstocanonij; do
 		pushd ${dir} || die
 		econf 
 		pushd
@@ -126,7 +128,7 @@ src_configure() {
 }
 
 src_compile() {
-	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
+	for dir in libs ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake
 		pushd
@@ -147,7 +149,7 @@ src_install() {
 	mkdir -p "${D}${_libdir}"/cnijlib || die
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
-	for dir in libs ${_backend} ${_cngpij} pstocanonij; do
+	for dir in libs ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		pushd
@@ -186,77 +188,46 @@ pkg_postinst() {
 
 src_prepare_pr() {
 	mkdir ${_pr}
-	cp -a ${_prid} ${_pr} || die
-	cp -a cnijfilter ${_pr} || die
-	cp -a printui ${_pr} || die
-	cp -a lgmon ${_pr} || die
-	use gtk && use net && cp -a com ${_pr} || die
+	for dir in ${_prid} ${_prsrc}; do
+		cp -a ${dir} ${_pr} || die
+	done
 
-	cd ${_pr}/cnijfilter || die
-	autotools_run_tool libtoolize --copy --force --automake
-	eaclocal
-	eautoheader
-	eautomake --gnu
-	eautoreconf
-	cd ..
-
-	if use servicetools; then
-		for dir in printui lgmon; do
-			cd ${dir} || die
-			[ -d po ] && intltoolize --copy --force --automake
-			autotools_run_tool libtoolize --copy --force --automake
-			eaclocal
-			eautoheader
-			eautomake --gnu
-			eautoreconf
-			cd ..
-		done
-	fi
+	for dir in ${_prsrc}; do
+		cd ${dir} || die
+		[ -d po ] && intltoolize --copy --force --automake
+		autotools_run_tool libtoolize --copy --force --automake
+		eaclocal
+		eautoheader
+		eautomake --gnu
+		eautoreconf
+		cd ..
+	done
 }
 
 src_configure_pr() {
-	cd ${_pr}/cnijfilter || die
-	econf --program-suffix=${_pr}
-	cd ..
-
-	if use servicetools; then
-		for dir in printui lgmon; do
-			cd ${dir} || die
-			econf --program-suffix=${_pr}
-			cd ..
-		done
-	fi
+	for dir in ${_prsrc}; do
+		cd ${dir} || die
+		econf --program-suffix=${_pr}
+		cd ..
+	done
 }
 
 src_compile_pr() {
-	cd ${_pr}/cnijfilter || die
-	emake || die "couldn't make ${_pr}/cnijfilter"
-	cd ..
-
-	if use servicetools; then
-		for dir in printui lgmon; do
-			cd ${dir} || die
-			emake || die "couldn't make ${_pr}/${dir}"
-			cd ..
-		done
-	fi
+	for dir in ${_prsrc}; do
+		cd ${dir} || die
+		emake || die "${dir}: emake failed"
+		cd ..
+	done
 }
 
 src_install_pr() {
-	cd ${_pr}/cnijfilter || die
-	emake DESTDIR="${D}" install || die "couldn't make install ${_pr}/cnijfilter"
-	cd ..
+	for dir in ${_prsrc}; do
+		cd ${dir} || die
+		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
+		cd ..
+	done
 
-	if use servicetools; then
-		for dir in printui lgmon; do
-			cd ${dir} || die
-			emake DESTDIR="${D}" install || die "couldn't make install ${_pr}/${dir}"
-			cd ..
-		done
-	fi
-
-	cd ..
-	cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
+	cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }

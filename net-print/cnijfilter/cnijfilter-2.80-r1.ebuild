@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.4 2012/05/29 18:12:32 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.5 2012/05/30 10:27:11 -tclover Exp $
 
 EAPI=4
 
@@ -58,8 +58,10 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	_cngpij+=" cngpij"
-	use gtk && _cngpij+=" cngpijmon"
+	_src=cngpij
+	_prsrc=cnijfilter
+	use gtk && _src+=" cngpijmon"
+	use servicetools && _prsrc+=" printui lgmon"
 
 	_autochoose="true"
 	for i in `seq 0 ${_max}`; do
@@ -91,11 +93,10 @@ pkg_setup() {
 src_prepare() {
 	sed -e 's/png_p->jmpbuf/png_jmpbuf(png_p)/' -i cnijfilter/src/bjfimage.c || die
 
-	for dir in libs ${_cngpij} pstocanonij; do
+	for dir in libs ${_src} pstocanonij; do
 		pushd ${dir} || die
-		if [ -d po ]; then mv configures/configure.in.new configure.in
-			intltoolize --copy --force --automake
-		fi
+		[ -d configures ] && mv -f configures/configure.in.new configure.in
+		[ -d po ] && intltoolize --copy --force --automake
 		autotools_run_tool libtoolize --copy --force --automake
 		eaclocal
 		eautoheader
@@ -113,7 +114,7 @@ src_prepare() {
 }
 
 src_configure() {
-	for dir in libs ${_cngpij} pstocanonij; do
+	for dir in libs ${_src} pstocanonij; do
 		pushd ${dir} || die
 		econf 
 		pushd
@@ -128,7 +129,7 @@ src_configure() {
 }
 
 src_compile() {
-	for dir in libs ${_cngpij} pstocanonij; do
+	for dir in libs ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake
 		pushd
@@ -149,7 +150,7 @@ src_install() {
 	mkdir -p "${D}${_libdir}"/cnijlib || die
 	mkdir -p "${D}${_cupsdir}" || die
 	mkdir -p "${D}${_ppddir}"
-	for dir in libs ${_cngpij} pstocanonij; do
+	for dir in libs ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		pushd
@@ -181,76 +182,46 @@ pkg_postinst() {
 
 src_prepare_pr() {
 	mkdir ${_pr}
-	cp -a ${_prid} ${_pr} || die
-	cp -a cnijfilter ${_pr} || die
-	cp -a printui ${_pr} || die
-	cp -a lgmon ${_pr} || die
+	for dir in ${_prid} ${_prsrc}; do
+		cp -a ${dir} ${_pr} || die
+	done
 
-	cd ${_pr}/cnijfilter || die
-	autotools_run_tool libtoolize --copy --force --automake
-	eaclocal
-	eautoheader
-	eautomake --gnu
-	eautoreconf
-	cd ..
-
-	if use servicetools; then
-		for dir in printui lgmon; do
-			cd ${dir} || die
-			[ -d configures ] && mv -f configures/configure.in.new configure.in
-			[ -d po ] && intltoolize --copy --force --automake
-			autotools_run_tool libtoolize --copy --force --automake
-			eaclocal
-			eautoheader
-			eautomake --gnu
-			eautoreconf
-			cd ..
-		done
-	fi
+	for dir in ${_prsrc}; do
+		cd ${dir} || die
+		[ -d configures ] && mv -f configures/configure.in.new configure.in
+		[ -d po ] && intltoolize --copy --force --automake
+		autotools_run_tool libtoolize --copy --force --automake
+		eaclocal
+		eautoheader
+		eautomake --gnu
+		eautoreconf
+		cd ..
+	done
 }
 
 src_configure_pr() {
-	cd ${_pr}/cnijfilter || die
-	econf --program-suffix=${_pr}
-	cd ..
-
-	if use servicetools; then
-		for dir in printui lgmon; do
-			cd ${dir} || die
-			econf --program-suffix=${_pr}
-			cd ..
-		done
-	fi
+	for dir in ${_prsrc}; do
+		cd ${dir} || die
+		econf --program-suffix=${_pr}
+		cd ..
+	done
 }
 
 src_compile_pr() {
-	cd ${_pr}/cnijfilter || die
-	emake || die "couldn't make ${_pr}/cnijfilter"
-	cd ..
-
-	if use servicetools; then
-		for dir in printui lgmon; do
-			cd ${dir} || die
-			emake || die "couldn't make ${_pr}/${dir}"
-			cd ..
-		done
-	fi
+	for dir in ${_src}; do
+		cd ${dir} || die
+		emake || die "${dir}: emake failed"
+		cd ..
+	done
 }
 
 src_install_pr() {
-	cd ${_pr}/cnijfilter || die
-	emake DESTDIR="${D}" install || die "couldn't make install ${_pr}/cnijfilter"
-	cd ..
+	for dir in ${_prsrc}; do
+		cd ${dir} || die
+		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
+		cd ..
+	done
 
-	if use servicetools; then
-		for dir in printui lgmon; do
-			cd ${dir} || die
-			emake DESTDIR="${D}" install || die "couldn't make install ${_pr}/${dir}"
-			cd ..
-		done
-	fi
-
-	cd ..
 	cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
