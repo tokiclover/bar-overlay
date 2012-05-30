@@ -169,10 +169,6 @@ src_install() {
 		fi
 	done
 
-	dolib.so ${_prid}/libs_bin/* || die
-	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
-	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
-
 	mv "${D}${_cupsodir}"/cnij_usb "${D}${_cupsdir}"/cnijusb${SLOT} || die
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
@@ -228,4 +224,9 @@ src_install_pr() {
 		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
 		popd
 	done
+
+	dolib.so ${_prid}/libs_bin/* || die
+	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
+	sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
+	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }
