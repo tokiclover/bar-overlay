@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.5 2012/05/30 11:38:03 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.5 2012/05/30 12:05:58 -tclover Exp $
 
 EAPI=4
 
@@ -31,14 +31,14 @@ DEPEND="app-text/ghostscript-gpl
 		>=media-libs/tiff-3.4
 		dev-util/intltool
 		>=media-libs/libpng-1.0.9 )
-	amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1
+	amd64? ( app-emulation/emul-linux-x86-popt
 		app-emulation/emul-linux-x86-compat
 		app-emulation/emul-linux-x86-baselibs )
 	servicetools? ( 
 		!amd64? ( >=gnome-base/libglade-0.6
 			>=dev-libs/libxml2-2.7.3-r2
 			x11-libs/gtk+:2 )
-		amd64? ( >=app-emulation/emul-linux-x86-bjdeps-0.1 )
+		amd64? ( app-emulation/emul-linux-x86-popt )
 	)
 "
 
