@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.5 2012/05/30 23:56:07 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.5 2012/05/31 00:49:56 -tclover Exp $
 
 EAPI=4
 
@@ -18,7 +18,7 @@ WANT_AUTOMAKE=1.9.6
 
 SLOT="3.00"
 KEYWORDS="~x86 ~amd64"
-IUSE="+debug amd64 servicetools gtk ip1900 ip3600 ip4600 mp190 mp240 mp540 mp630"
+IUSE="+debug amd64 servicetools gtk +usb ip1900 ip3600 ip4600 mp190 mp240 mp540 mp630"
 REQUIRED_USE="servicetools? ( gtk )"
 [ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
 
@@ -55,7 +55,8 @@ pkg_setup() {
 	fi
 
 	use amd64 && multilib_toolchain_setup x86
-	use gtk && _src=cngpijmon _prsrc=lgmon
+	use usb && _src=backend
+	use gtk && _src+=" cngpijmon" _prsrc=lgmon
 	use servicetools && _prsrc+=" printui"
 
 	_autochoose="true"
@@ -149,11 +150,11 @@ src_compile() {
 }
 
 src_install() {
-	local _libdir=/usr/$(get_libdir) _ppddir=/usr/share/cups/model
-	local _cupsdir=/usr/libexec/cups/filter _cupsodir=/usr/lib/cups/backend
-	mkdir -p "${D}${_libdir}"/cups/filter || die
-	mkdir -p "${D}${_libdir}"/cnijlib || die
-	mkdir -p "${D}${_cupsdir}" || die
+	local _libdir=/usr/$(get_libdir) _ppddir=/usr/share/cups/model \
+		_cupsodir=/usr/lib/cups/backend
+	local _cupsbdir=/usr/libexec/cups/backend _cupsfdir=/usr/libexec/cups/filter
+	mkdir -p "${D}${_libdir}"/{cups/filter,cnijlib} || die
+	mkdir -p "${D}"{${_cupsfdir},${_cupsbdir}} || die
 	mkdir -p "${D}${_ppddir}"
 	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
@@ -166,14 +167,14 @@ src_install() {
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
 			pushd ${_pr} || die
 			src_install_pr
-			popd
 		fi
 	done
 
+	use usb && mv "${D}${_cupsodir}"/cnijusb \
+		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}"/usr/lib/cups/backend || die
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
-		"${D}${_cupsdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
+		"${D}${_cupsfdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
-	rm -fr "${D}"/usr/lib/cups/backend
 }
 
 pkg_postinst() {
@@ -225,6 +226,7 @@ src_install_pr() {
 		popd
 	done
 
+	popd
 	dolib.so ${_prid}/libs_bin/* || die
 	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 	sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
