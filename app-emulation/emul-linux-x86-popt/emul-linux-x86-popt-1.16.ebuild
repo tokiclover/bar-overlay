@@ -1,6 +1,6 @@
 # Copyright 1999-2006 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: app-emulation/emul-linux-x86-bjdeps/emul-linux-x86-popt-1.13.ebuild v1.1 2012/05/30 -tclover Exp $
+# $Header: app-emulation/emul-linux-x86-bjdeps/emul-linux-x86-popt-1.16.ebuild v1.1 2012/05/31 18:48:09 -tclover Exp $
 
 inherit libtool eutils flag-o-matic autotools multilib
 
@@ -25,11 +25,8 @@ pkg_setup() {
 }
 
 src_prepare() {
-	cd ${WORKDIR}
-	mkdir ${P} # this way portage won't complain about missing directories
-
-	cd "${S}" || die
-	epatch "${FILESDIR}"/popt-1.12-scrub-lame-gettext.patch
+	epatch "${FILESDIR}"/fix-popt-pkgconfig-libdir.patch #349558
+	sed -i -e 's:lt-test1:test1:' testit.sh || die
 }
 
 src_configure() {
@@ -40,7 +37,10 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" install || die
-	# Don't install anything except the library itself
+
+	rm -Rv "${D}"//usr/lib/pkgconfig
 	rm -Rv "${D}"/usr/share || die
 	rm -Rv "${D}"/usr/include || die
+
+	find "${ED}" -name '*.la' -exec rm -f {} +
 }
