@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.5 2012/05/31 00:49:56 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.5 2012/05/31 15:59:45 -tclover Exp $
 
 EAPI=4
 
@@ -173,6 +173,13 @@ src_install() {
 			pushd ${_pr} || die
 			src_install_pr
 			popd
+
+			dolib.so ${_prid}/libs_bin/* || die
+			insinto "${D}${_libdir}"/cnijlib
+			doins ${_prid}/database/* || die
+			
+			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
+			cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 		fi
 	done
 
@@ -180,10 +187,14 @@ src_install() {
 		"${D}${_cupsfdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
 	use usb && mv "${D}${_cupsodir}"/cnijusb "${D}${_cupsbdir}"/cnijusb${SLOT} || die
+	use gtk && mv "${D}"/usr/bin/cnijnpr{,${SLOT}} || die
 	if use net; then
 		mv "${D}"/usr/bin/cnijnetprn{,${SLOT}} || die
 		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsbdir}"/cnijnet${SLOT} || die
-		use gtk && mv "${D}"/usr/bin/cnijnpr{,${SLOT}} || die
+		dolib.so com/libs_bin/* || die
+		insinto /usr/lib/cnijlib
+		insopts -m 644 -g lp -o lp
+		doins com/ini/cnnet.ini || die
 	fi
 	rm -fr "${D}"/usr/lib/cups/backend
 }

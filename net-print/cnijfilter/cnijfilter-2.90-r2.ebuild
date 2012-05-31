@@ -166,6 +166,14 @@ src_install() {
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
 			pushd ${_pr} || die
 			src_install_pr
+			popd
+
+			dolib.so ${_prid}/libs_bin/* || die
+			insinto "${D}${_libdir}"/cnijlib
+			doins ${_prid}/database/* || die
+			
+			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
+			cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 		fi
 	done
 
@@ -224,10 +232,4 @@ src_install_pr() {
 		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
 		popd
 	done
-
-	popd
-	dolib.so ${_prid}/libs_bin/* || die
-	cp -a ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
-	sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
-	cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
 }
