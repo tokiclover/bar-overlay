@@ -172,15 +172,15 @@ src_install() {
 			pushd ${_pr} || die
 			src_install_pr
 			popd
-			if use scanner; then
-				install -m644 ${_scansrc}/${_prid}/*.tbl "${D}${_libdir}"/cnijlib || die
-				dolib.so ${_scansrc}/${_prid}/libs_bin${_arch}/* || die
-			fi
 			cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
 			install -d "${D}${_libdir}"/cnijlib
 			install -m644 ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
 			install -Dm644 ppd/canon${_pr}.ppd "${D}${_ppddir}"/${_pr}.ppd || die
+			if use scanner; then
+				install -m644 ${_scansrc}/${_prid}/*.tbl "${D}${_libdir}"/cnijlib || die
+				dolib.so ${_scansrc}/${_prid}/libs_bin${_arch}/* || die
+			fi
 		fi
 	done
 
