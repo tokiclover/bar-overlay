@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.5 2012/05/31 15:59:45 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r7.ebuild,v 1.5 2012/05/31 22:47:14 -tclover Exp $
 
 EAPI=4
 
@@ -152,7 +152,6 @@ src_install() {
 	local _cupsbdir=/usr/libexec/cups/backend _cupsfdir=/usr/libexec/cups/filter
 	mkdir -p "${D}${_libdir}"/{cups/filter,cnijlib} || die
 	mkdir -p "${D}"{${_cupsfdir},${_cupsbdir}} || die
-	mkdir -p "${D}${_ppddir}"
 	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
@@ -167,11 +166,10 @@ src_install() {
 			popd
 
 			cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
-			insinto "${_libdir}"/cnijlib
-			doins ${_prid}/database/* || die
-			
+			install -pd "${D}${_libdir}"/cnijlib
+			install -m644 ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
-			cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
+			install -Dm644 ppd/canon${_pr}.ppd "${D}${_ppddir}"/${_pr}.ppd || die
 		fi
 	done
 
@@ -184,9 +182,7 @@ src_install() {
 		mv "${D}"/usr/bin/cnijnetprn{,${SLOT}} || die
 		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsbdir}"/cnijnet${SLOT} || die
 		dolib.so com/libs_bin${_arch}/* || die
-		insinto /usr/lib/cnijlib
-		insopts -m 644 -g lp -o lp
-		doins com/ini/cnnet.ini || die
+		install -m644 -glp -olp com/ini/cnnet.ini "${D}${_libdir}"/cnijlib || die
 	fi
 	rm -fr "${D}"/usr/lib/cups/backend
 }

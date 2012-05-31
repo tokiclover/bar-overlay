@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.5 2012/05/31 15:59:45 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.5 2012/05/31 22:47:14 -tclover Exp $
 
 EAPI=4
 
@@ -178,11 +178,10 @@ src_install() {
 			popd
 
 			cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
-			insinto "${_libdir}"/cnijlib
-			doins ${_prid}/database/* || die
-			
+			install -pd "${D}${_libdir}"/cnijlib
+			install -m644 ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
-			cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
+			install -Dm644 ppd/canon${_pr}.ppd "${D}${_ppddir}"/${_pr}.ppd || die
 		fi
 	done
 

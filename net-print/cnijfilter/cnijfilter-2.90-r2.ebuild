@@ -169,11 +169,10 @@ src_install() {
 			popd
 
 			cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
-			insinto "${_libdir}"/cnijlib
-			doins ${_prid}/database/* || die
-			
+			install -pd "${D}${_libdir}"/cnijlib
+			install -m644 ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
-			cp -a ppd/canon${_pr}.ppd "${D}${_ppddir}" || die
+			install -Dm644 ppd/canon${_pr}.ppd "${D}${_ppddir}"/${_pr}.ppd || die
 		fi
 	done
 
