@@ -173,7 +173,7 @@ src_install() {
 			src_install_pr
 			popd
 			if use scanner; then
-				doins ${_scansrc}/${_prid}/database/* || die
+				install -m644 ${_scansrc}/${_prid}/*.tbl "${D}${_libdir}"/cnijlib || die
 				dolib.so ${_scansrc}/${_prid}/libs_bin${_arch}/* || die
 			fi
 			cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
@@ -195,14 +195,14 @@ src_install() {
 		dolib.so com/libs_bin${_arch}/* || die
 		install -m644 -glp -olp com/ini/cnnet.ini "${D}${_libdir}"/cnijlib || die
 
-   		if use scanner; then
-			doins ${_scansrc}/com/init/canon_mfp_net.ini || die
+   		if use scanner; then local _gimpdir=${_libdir}/gimp/2.0/plug-ins
 			dolib.so ${_scansrc}/com/libs_bin${_arch}/* || die
-			local _gimpdir=${_libdir}/gimp/2.0/plug-ins
-			mkdir -p "${D}${_gimpdir}" || die
+			install -m644 -glp -olp ${_scansrc}/com/ini/canon_mfp_net.ini \
+				"${D}${_libdir}"/cnijlib || die
 			dosym ${_bindir}/scangearmp ${_gimpdir}/scangearmp || die
-			if use usb; then local _udevdir=/etc/udev/rules.d
-				install -Dm644 scangearmp/etc/80-canon_mfp.rules "${D}${_udevdir}" || die
+			if use usb; then 
+				install -Dm644 ${_scansrc}/scangearmp/etc/80-canon_mfp.rules \
+					"${D}"/etc/udev/rules.d/80-canon_mfp.rules || die
 			fi
 		fi
 	fi
