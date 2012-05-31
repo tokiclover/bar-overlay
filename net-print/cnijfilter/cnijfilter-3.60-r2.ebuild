@@ -166,8 +166,8 @@ src_install() {
 			src_install_pr
 			popd
 
-			dolib.so ${_prid}/libs_bin${_arch}/* || die
-			insinto "${D}${_libdir}"/cnijlib
+			cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
+			insinto "${_libdir}"/cnijlib
 			doins ${_prid}/database/* || die
 			
 			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
