@@ -199,10 +199,10 @@ src_install() {
 			dolib.so ${_scansrc}/com/libs_bin${_arch}/* || die
 			install -m644 -glp -olp ${_scansrc}/com/ini/canon_mfp_net.ini \
 				"${D}${_libdir}"/cnijlib || die
-			dosym ${_bindir}/scangearmp ${_gimpdir}/scangearmp || die
+			dosym ${_bindir}/scangearmp ${_gimpdir}/scangearmp${SLOT} || die
 			if use usb; then 
 				install -Dm644 ${_scansrc}/scangearmp/etc/80-canon_mfp.rules \
-					"${D}"/etc/udev/rules.d/80-canon_mfp.rules || die
+					"${D}"/etc/udev/rules.d/80-${PN}-${SLOT}.rules || die
 			fi
 		fi
 	fi
