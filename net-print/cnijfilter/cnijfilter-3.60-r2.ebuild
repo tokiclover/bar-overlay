@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.5 2012/05/31 22:47:14 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.60-r1.ebuild,v 1.5 2012/06/01 00:11:34 -tclover Exp $
 
 EAPI=4
 
@@ -10,7 +10,9 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 HOMEPAGE="http://support-sg.canon-asia.com/contents/SG/EN/0100392802.html"
 RESTRICT="nomirror confcache"
 
-SRC_URI="http://gdlp01.c-wss.com/gds/8/0100003928/01/${PN}-source-${PV}-1.tar.gz"
+SRC_URI="http://gdlp01.c-wss.com/gds/8/0100003928/01/${PN}-source-${PV}-1.tar.gz
+	scanner? ( http://gdlp01.c-wss.com/gds/1/0100003931/01/scangearmp-source-1.80-1.tar.gz )
+"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
@@ -18,8 +20,8 @@ WANT_AUTOMAKE=1.9.6
 
 SLOT="3.60"
 KEYWORDS="~x86 ~amd64"
-IUSE="+debug servicetools gtk net usb mg2100 mg3100 mg4100 mg5300 mg6200 mg8200 ip4900 e500"
-REQUIRED_USE="servicetools? ( gtk )"
+IUSE="+debug scanner servicetools gtk net usb mg2100 mg3100 mg4100 mg5300 mg6200 mg8200 ip4900 e500"
+REQUIRED_USE="servicetools? ( gtk ) scanner? ( gtk net )"
 DEPEND="app-text/ghostscript-gpl
 	gtk? ( >=sys-devel/gettext-0.10.38
 		>=x11-libs/gtk+-2.6.0:2 )
@@ -30,8 +32,10 @@ DEPEND="app-text/ghostscript-gpl
 	>=media-libs/libpng-1.0.9
 	servicetools? ( >=gnome-base/libglade-0.6
 		>=dev-libs/libxml2-2.7.3-r2 )
+	scanner? ( >=media-gfx/gimp-2.0.0 
+		media-gfx/sane-backends
+		dev-libs/libusb:0 )
 "
-
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
 _pruse=("mg2100" "mg3100" "mg4100" "mg5300" "mg6200" "mg8200" "ip4900" "e500")
@@ -53,6 +57,7 @@ pkg_setup() {
 	use gtk && _src+=" cngpijmon" _prsrc=lgmon
 	use gtk && use net && _src+=" cngpijmon/cnijnpr"
 	use servicetools && _prsrc+=" printui"
+	use scanner && _scansrc="../scangearmp-source-1.80-1" _src+=" ${_scansrc}/scangearmp"
 	
 	_autochoose="true"
 	for i in $(seq 0 ${_max}); do
@@ -84,7 +89,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-${PV/60/50}-1-ldl.patch || die
 	epatch "${FILESDIR}"/${PN}-${PV/60/20}-4-cups_ppd.patch || die
 	epatch "${FILESDIR}"/${PN}-${PV/60/20}-4-libpng15.patch || die
-
+	use scanner && sed -i ${_scansrc}/scangearmp/backend/Makefile.am \
+		-e "s:BACKEND_V_REV):BACKEND_V_REV) -L../../com/libs_bin${_arch}:" || die
+	pushd ${_scansrc} && epatch "${FILESDIR}"/scangearmp-1.70-libpng15.patch && popd
+	
 	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
 		[ -d po ] && echo "no" | glib-gettextize --force --copy
@@ -164,7 +172,10 @@ src_install() {
 			pushd ${_pr} || die
 			src_install_pr
 			popd
-
+			if use scanner; then
+				doins ${_scansrc}/${_prid}/database/* || die
+				dolib.so ${_scansrc}/${_prid}/libs_bin${_arch}/* || die
+			fi
 			cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
 			install -d "${D}${_libdir}"/cnijlib
 			install -m644 ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
@@ -183,20 +194,19 @@ src_install() {
 		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsbdir}"/cnijnet${SLOT} || die
 		dolib.so com/libs_bin${_arch}/* || die
 		install -m644 -glp -olp com/ini/cnnet.ini "${D}${_libdir}"/cnijlib || die
+
+   		if use scanner; then
+			doins ${_scansrc}/com/init/canon_mfp_net.ini || die
+			dolib.so ${_scansrc}/com/libs_bin${_arch}/* || die
+			local _gimpdir=${_libdir}/gimp/2.0/plug-ins
+			mkdir -p "${D}${_gimpdir}" || die
+			dosym ${_bindir}/scangearmp ${_gimpdir}/scangearmp || die
+			if use usb; then local _udevdir=/etc/udev/rules.d
+				install -Dm644 scangearmp/etc/80-canon_mfp.rules "${D}${_udevdir}" || die
+			fi
+		fi
 	fi
 	rm -fr "${D}"/usr/lib/cups/backend
-}
-
-pkg_postinst() {
-	einfo ""
-	einfo "For installing a printer:"
-	einfo " * Restart CUPS: /etc/init.d/cupsd restart"
-	einfo " * Go to http://127.0.0.1:631/"
-	einfo "   -> Printers -> Add Printer"
-	einfo ""
-	einfo "If you experience any problems, please visit:"
-	einfo " http://forums.gentoo.org/viewtopic-p-3217721.html"
-	einfo "https://bugs.gentoo.org/show_bug.cgi?id=258244"
 }
 
 src_prepare_pr() {
@@ -234,4 +244,27 @@ src_install_pr() {
 		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
 		popd
 	done
+}
+
+pkg_postinst() {
+	if use usb; then
+		if [ -x "$(which udevadm)" ]; then
+			einfo ""
+			einfo "Reloading usb rules..."
+			udevadm control --reload-rules 2> /dev/null
+			udevadm trigger --action=add --subsystem-match=usb 2> /dev/null
+		else
+			einfo ""
+			einfo "Please, reload usb rules manually."
+		fi
+	fi	
+	einfo ""
+	einfo "For installing a printer:"
+	einfo " * Restart CUPS: /etc/init.d/cupsd restart"
+	einfo " * Go to http://127.0.0.1:631/"
+	einfo "   -> Printers -> Add Printer"
+	einfo ""
+	einfo "If you experience any problems, please visit:"
+	einfo "http://forums.gentoo.org/viewtopic-p-3217721.html"
+	einfo "https://bugs.gentoo.org/show_bug.cgi?id=258244"
 }
