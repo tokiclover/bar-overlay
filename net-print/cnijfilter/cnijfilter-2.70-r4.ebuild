@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.5 2012/05/31 22:47:14 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.5 2012/05/31 23:06:45 -tclover Exp $
 
 EAPI=4
 
@@ -64,7 +64,7 @@ pkg_setup() {
 	use amd64 && multilib_toolchain_setup x86
 	use usb && _src=backend
 	use gtk && _src+=" cngpijmon" _prsrc=lgmon
-	use servicetools && _prsrc+=" printui lgmon"
+	use servicetools && _prsrc+=" printui"
 	
 	_autochoose="true"
 	for i in $(seq 0 ${_max}); do
@@ -185,8 +185,9 @@ src_install() {
 		fi
 	done
 
-	use usb && mv "${D}${_cupsodir}"/cnij_usb \
+	if use usb && use gtk; then mv "${D}${_cupsodir}"/cnij_usb \
 		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}"/usr/lib/cups/backend || die
+	fi
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsfdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
