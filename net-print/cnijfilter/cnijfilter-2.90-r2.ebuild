@@ -47,12 +47,6 @@ _prid=("303" "331")
 _max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
-	if [ -z "$LINGUAS" ]; then
-		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
-		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
-		LINGUAS="en"
-	fi
-
 	use amd64 && multilib_toolchain_setup x86
 	use usb && _src=backend
 	use gtk && _src+=" cngpijmon" _prsrc=lgmon

@@ -53,12 +53,6 @@ _prid=("346" "333" "334" "342" "341" "338" "336")
 _max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
-	if [ -z "$LINGUAS" ]; then
-		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
-		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
-		LINGUAS="en"
-	fi
-	
 	use amd64 && multilib_toolchain_setup x86
 	use usb && _src=backend
 	use net && _src+=" backendnet"

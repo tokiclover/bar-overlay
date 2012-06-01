@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.5 2012/05/31 22:47:14 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.5 2012/06/01 13:22:55 -tclover Exp $
 
 EAPI=4
 
@@ -49,12 +49,6 @@ _prcomp=("mp140series" "mp210series" "ip3500series" "mp520series" "ip4500series"
 _max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
-	if [ -z "$LINGUAS" ]; then
-		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
-		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
-		LINGUAS="en"
-	fi
-
 	use amd64 && multilib_toolchain_setup x86
 	use usb && _src=backend
 	use gtk && _src+=" cngpijmon" _prsrc=lgmon

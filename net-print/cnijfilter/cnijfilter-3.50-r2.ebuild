@@ -46,12 +46,6 @@ _prcomp=("mx360series" "mx410series" "mx420series" "mx880series" "ix6500series")
 _max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
-	if [ -z "$LINGUAS" ]; then
-		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
-		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
-		LINGUAS="en"
-	fi
-
 	[ -n "$(uname -m | grep 64)" ] && _arch=64 || _arch=32
 	use usb && _src=backend
 	use net && _src+=" backendnet"

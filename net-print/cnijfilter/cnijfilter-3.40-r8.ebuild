@@ -46,12 +46,6 @@ _prcomp=("mp250series" "mp495series" "mp280series" "mg5100series" "mg5200series"
 _max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
-	if [ -z "$LINGUAS" ]; then
-		ewarn "You didn't specify 'LINGUAS' in your make.conf. Assuming"
-		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
-		LINGUAS="en"
-	fi
-
 	[ -n "$(uname -m | grep 64)" ] && _arch=64 || _arch=32
 	use usb && _src=backend
 	use net && _src+=" backendnet"
