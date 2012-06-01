@@ -180,7 +180,7 @@ src_install() {
 	done
 
 	if use usb && use gtk; then mv "${D}${_cupsodir}"/cnij_usb \
-		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}"/usr/lib/cups/backend || die
+		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}${_cupsodir}" || die
 	fi
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsfdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die

@@ -150,7 +150,6 @@ src_install() {
 	local _cupsbdir=/usr/libexec/cups/backend _cupsfdir=/usr/libexec/cups/filter
 	mkdir -p "${D}${_libdir}"/{cups/filter,cnijlib} || die
 	mkdir -p "${D}"{${_cupsfdir},${_cupsbdir}} || die
-	mkdir -p "${D}${_ppddir}"
 	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
@@ -173,7 +172,7 @@ src_install() {
 	done
 
 	use usb && mv "${D}${_cupsodir}"/cnij_usb \
-		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}"/usr/lib/cups/backend || die
+		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}${_cupsodir}" || die
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsfdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die

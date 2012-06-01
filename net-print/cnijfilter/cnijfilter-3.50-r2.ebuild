@@ -82,7 +82,7 @@ pkg_setup() {
 
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-${PV/50/20}-4-cups_ppd.patch || die
-	epatch "${FILESDIR}"/${P%-r*}-1-ldl.patch || die
+	sed -e 's/-lcnnet/-lcnnet -ldl/g' -i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
 	epatch "${FILESDIR}"/${PN}-${PV/50/20}-4-libpng15.patch || die
 	if use scanner; then
 		sed -i ${_scansrc}/scangearmp/backend/Makefile.am \

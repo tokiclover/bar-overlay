@@ -1,59 +1,67 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.40-r8.ebuild,v 1.6 2012/06/01 01:27:04 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.6 2012/06/01 01:27:08 -tclover Exp $
 
 EAPI=4
 
 inherit eutils autotools rpm flag-o-matic
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
-HOMEPAGE="http://software.canon-europe.com/software/0040245.asp"
+HOMEPAGE="http://software.canon-europe.com/software/0033571.asp"
 RESTRICT="nomirror confcache"
 
-SRC_URI="http://files.canon-europe.com/files/soft40245/software/${PN}-source-${PV}-1.tar.gz
-	scanner? ( http://gdlp01.c-wss.com/gds/3/0100003033/01/scangearmp-source-1.60-1.tar.gz )
+SRC_URI="http://files.canon-europe.com/files/soft33571/software/${PN}-source-${PV}-1.tar.gz
+	scanner? ( http://gdlp01.c-wss.com/gds/0/0100002380/01/scangearmp-source-1.40-1.tar.gz )
 "
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
 WANT_AUTOMAKE=1.9.6
 
-SLOT="3.40"
+SLOT="3.10"
 KEYWORDS="~x86 ~amd64"
-IUSE="+debug scanner servicetools gtk net usb mp250 mp280 mp495 mg5100 mg5200 ip4800 mg6100 mg8100"
+IUSE="+debug amd64 scanner servicetools net gtk +usb mx860 mx320 mx330"
 REQUIRED_USE="servicetools? ( gtk ) scanner? ( gtk net )"
+[ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
+
 DEPEND="app-text/ghostscript-gpl
 	gtk? ( >=sys-devel/gettext-0.10.38
-		>=x11-libs/gtk+-2.6.0:2 )
+		app-emulation/emul-linux-x86-gtklibs )
 	>=net-print/cups-1.1.14
-	sys-libs/glibc
-	>=dev-libs/popt-1.6
-	>=media-libs/tiff-3.4
-	>=media-libs/libpng-1.0.9
-	servicetools? ( >=gnome-base/libglade-0.6
-		>=dev-libs/libxml2-2.7.3-r2 )
+	!amd64? ( sys-libs/glibc
+		>=dev-libs/popt-1.6
+		>=media-libs/tiff-3.4
+		>=media-libs/libpng-1.0.9 )
+	amd64? ( app-emulation/emul-linux-x86-popt
+		app-emulation/emul-linux-x86-compat
+		app-emulation/emul-linux-x86-baselibs )
+	servicetools? ( 
+		!amd64? ( >=gnome-base/libglade-0.6
+			>=dev-libs/libxml2-2.7.3-r2
+			x11-libs/gtk+:2 )
+	)
 	scanner? ( >=media-gfx/gimp-2.0.0 
 		media-gfx/sane-backends
 		dev-libs/libusb:0 )
 "
 
-S="${WORKDIR}"/${PN}-source-${PV}-1
+S="${WORKDIR}"/${PN}-source-${PV}
 
-_pruse=("mp250" "mp495" "mp280" "mg5100" "mg5200" "ip4800" "mg6100" "mg8100")
+_pruse=("mx860" "mx320" "mx330")
 _prname=(${_pruse[@]})
-_prid=("356" "369" "370" "373" "374" "375" "376" "377")
-_prcomp=("mp250series" "mp495series" "mp280series" "mg5100series" "mg5200series" "ip4800series" "mg6100series" "mg8100series")
+_prid=("347" "348" "349")
+_prcomp=("mx860series" "mx320series" "mx330series")
 _max=$((${#_pruse[@]}-1))
 
 pkg_setup() {
-	[ -n "$(uname -m | grep 64)" ] && _arch=64 || _arch=32
+	use amd64 && multilib_toolchain_setup x86
 	use usb && _src=backend
 	use net && _src+=" backendnet"
 	use gtk && _src+=" cngpijmon" _prsrc=lgmon
 	use gtk && use net && _src+=" cngpijmon/cnijnpr"
 	use servicetools && _prsrc+=" printui"
-	use scanner && _scansrc="../scangearmp-source-1.60-1" _src+=" ${_scansrc}/scangearmp"
-	
+	use scanner && _scansrc="../scangearmp-source-1.40-1" _src+=" ${_scansrc}/scangearmp"
+
 	_autochoose="true"
 	for i in $(seq 0 ${_max}); do
 		einfo " ${_pruse[$i]}\t${_prcomp[$i]}"
@@ -65,8 +73,8 @@ pkg_setup() {
 	if (${_autochoose}); then
 		ewarn "You didn't specify any driver model (set it's USE-flag)."
 		einfo ""
-		einfo "As example:\tbasic MP280 support without maintenance tools"
-		einfo "\t\t -> USE=\"mp280\""
+		einfo "As example:\tbasic MP140 support without maintenance tools"
+		einfo "\t\t -> USE=\"mp140\""
 		einfo ""
 		einfo "Press Ctrl+C to abort"
 		echo
@@ -81,9 +89,9 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-${PV/40/20}-4-cups_ppd.patch || die
+	epatch "${FILESDIR}"/${PN}-${PV/10/20}-4-cups_ppd.patch || die
 	sed -e 's/-lcnnet/-lcnnet -ldl/g' -i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
-	epatch "${FILESDIR}"/${PN}-${PV/40/20}-4-libpng15.patch || die
+	epatch "${FILESDIR}"/${PN}-${PV/10/20}-4-libpng15.patch || die
 	if use scanner; then
 		sed -i ${_scansrc}/scangearmp/backend/Makefile.am \
 			-e "s:BACKEND_V_REV):BACKEND_V_REV) -L../../com/libs_bin${_arch}:" || die
@@ -121,7 +129,7 @@ src_configure() {
 		econf
 		popd
 	done
-	
+
 	mv {,_}lgmon || die
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
@@ -169,6 +177,7 @@ src_install() {
 			pushd ${_pr} || die
 			src_install_pr
 			popd
+
 			cp -a ${_prid}/libs_bin${_arch}/* "${D}${_libdir}" || die
 			install -d "${D}${_libdir}"/cnijlib
 			install -m644 ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
@@ -176,7 +185,7 @@ src_install() {
 			install -Dm644 ppd/canon${_pr}.ppd "${D}${_ppddir}"/${_pr}.ppd || die
 			if use scanner; then
 				install -m644 ${_scansrc}/${_prid}/*.tbl "${D}${_libdir}"/cnijlib || die
-				dolib.so ${_scansrc}/${_prid}/libs_bin${_arch}/* || die
+				dolib.so ${_scansrc}/${_prid}/libs_bin/* || die
 			fi
 		fi
 	done
@@ -189,7 +198,7 @@ src_install() {
 	if use net; then
 		mv "${D}"/usr/bin/cnijnetprn{,${SLOT}} || die
 		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsbdir}"/cnijnet${SLOT} || die
-		dolib.so com/libs_bin${_arch}/* || die
+		dolib.so com/libs_bin/* || die
 		install -m644 -glp -olp com/ini/cnnet.ini "${D}${_libdir}"/cnijlib || die
 	fi
 	if use scanner; then local _gimpdir=${_libdir}/gimp/2.0/plug-ins
