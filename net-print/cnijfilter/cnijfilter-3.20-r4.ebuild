@@ -98,9 +98,11 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P%*-r}-4-cups_ppd.patch || die
 	epatch "${FILESDIR}"/${P%*-r}-4-ldl.patch || die
 	epatch "${FILESDIR}"/${P%*-r}-4-libpng15.patch || die
-	use scanner && sed -i ${_scansrc}/scangearmp/backend/Makefile.am \
-		-e "s:BACKEND_V_REV):BACKEND_V_REV) -L../../com/libs_bin${_arch}:" || die
-	pushd ${_scansrc} && epatch "${FILESDIR}"/scangearmp-1.70-libpng15.patch && popd
+	if use scanner; then
+		sed -i ${_scansrc}/scangearmp/backend/Makefile.am \
+			-e "s:BACKEND_V_REV):BACKEND_V_REV) -L../../com/libs_bin${_arch}:" || die
+		pushd ${_scansrc} && epatch "${FILESDIR}"/scangearmp-1.70-libpng15.patch && popd
+	fi
 
 	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
@@ -130,7 +132,7 @@ src_prepare() {
 src_configure() {
 	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
-		econf 
+		econf
 		popd
 	done
 
@@ -204,16 +206,15 @@ src_install() {
 		mv "${D}${_cupsodir}"/cnijnet "${D}${_cupsbdir}"/cnijnet${SLOT} || die
 		dolib.so com/libs_bin/* || die
 		install -m644 -glp -olp com/ini/cnnet.ini "${D}${_libdir}"/cnijlib || die
-
-   		if use scanner; then local _gimpdir=${_libdir}/gimp/2.0/plug-ins
-			dolib.so ${_scansrc}/com/libs_bin${_arch}/* || die
-			install -m644 -glp -olp ${_scansrc}/com/ini/canon_mfp_net.ini \
-				"${D}${_libdir}"/cnijlib || die
-			dosym ${_bindir}/scangearmp ${_gimpdir}/scangearmp${SLOT} || die
-			if use usb; then 
-				install -Dm644 ${_scansrc}/scangearmp/etc/80-canon_mfp.rules \
-					"${D}"/etc/udev/rules.d/80-${PN}-${SLOT}.rules || die
-			fi
+	fi
+	if use scanner; then local _gimpdir=${_libdir}/gimp/2.0/plug-ins
+		dolib.so ${_scansrc}/com/libs_bin${_arch}/* || die
+		install -m644 -glp -olp ${_scansrc}/com/ini/canon_mfp_net.ini \
+			"${D}${_libdir}"/cnijlib || die
+		dosym ${_bindir}/scangearmp ${_gimpdir}/scangearmp${SLOT} || die
+		if use usb; then 
+			install -Dm644 ${_scansrc}/scangearmp/etc/80-canon_mfp.rules \
+				"${D}"/etc/udev/rules.d/80-${PN}-${SLOT}.rules || die
 		fi
 	fi
 	rm -fr "${D}"/usr/lib/cups/backend

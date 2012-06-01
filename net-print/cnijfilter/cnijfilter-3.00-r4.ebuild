@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.5 2012/05/31 22:47:14 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.6 2012/06/01 12:52:58 -tclover Exp $
 
 EAPI=4
 
@@ -10,7 +10,9 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 HOMEPAGE="http://support-sg.canon-asia.com/contents/SG/EN/0100160603.html"
 RESTRICT="nomirror confcache"
 
-SRC_URI="http://gdlp01.c-wss.com/gds/6/0100001606/01/${PN}-common-${PV}-1.tar.gz"
+SRC_URI="http://gdlp01.c-wss.com/gds/6/0100001606/01/${PN}-common-${PV}-1.tar.gz
+	scanner? ( http://gdlp01.c-wss.com/gds/7/0100001617/01/scangearmp-common-1.20-1.tar.gz )
+"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 WANT_AUTOCONF=2.59
@@ -18,8 +20,8 @@ WANT_AUTOMAKE=1.9.6
 
 SLOT="3.00"
 KEYWORDS="~x86 ~amd64"
-IUSE="+debug amd64 servicetools gtk +usb ip1900 ip3600 ip4600 mp190 mp240 mp540 mp630"
-REQUIRED_USE="servicetools? ( gtk )"
+IUSE="+debug amd64 scanner servicetools gtk +usb ip1900 ip3600 ip4600 mp190 mp240 mp540 mp630"
+REQUIRED_USE="servicetools? ( gtk ) scanner? ( gtk !ip1900 !ip3600 !ip4600 )"
 [ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
 
 DEPEND="app-text/ghostscript-gpl
@@ -38,6 +40,9 @@ DEPEND="app-text/ghostscript-gpl
 			>=dev-libs/libxml2-2.7.3-r2
 			x11-libs/gtk+:2 )
 	)
+	scanner? ( >=media-gfx/gimp-2.0.0 
+		media-gfx/sane-backends
+		dev-libs/libusb:0 )
 "
 
 S="${WORKDIR}"/${PN}-common-${PV}
@@ -53,11 +58,14 @@ pkg_setup() {
 		ewarn "english localisation, i.e. 'LINGUAS=\"en\"'."
 		LINGUAS="en"
 	fi
-
+	
 	use amd64 && multilib_toolchain_setup x86
 	use usb && _src=backend
+	use net && _src+=" backendnet"
 	use gtk && _src+=" cngpijmon" _prsrc=lgmon
+	use gtk && use net && _src+=" cngpijmon/cnijnpr"
 	use servicetools && _prsrc+=" printui"
+	use scanner && _scansrc="../scangearmp-common-1.20" _src+=" ${_scansrc}/scangearmp"
 
 	_autochoose="true"
 	for i in $(seq 0 ${_max}); do
@@ -88,6 +96,11 @@ pkg_setup() {
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-${PV/00/20}-4-cups_ppd.patch || die
 	epatch "${FILESDIR}"/${PN}-${PV/00/20}-4-libpng15.patch || die
+	if use scanner; then
+		sed -i ${_scansrc}/scangearmp/backend/Makefile.am \
+			-e "s:BACKEND_V_REV):BACKEND_V_REV) -L../../com/libs_bin${_arch}:" || die
+		pushd ${_scansrc} && epatch "${FILESDIR}"/scangearmp-1.70-libpng15.patch && popd
+	fi
 
 	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
@@ -122,9 +135,11 @@ src_configure() {
 		popd
 	done
 
+	mv {,_}lgmon || die
 	for i in $(seq 0 ${_max}); do
 		if use ${_pruse[$i]} || ${_autochoose}; then
 			_pr=${_prname[$i]} _prid=${_prid[$i]}
+			ln -sf ${_pr}/lgmon lgmon
 			pushd ${_pr} || die
 			src_configure_pr
 			popd
@@ -155,7 +170,6 @@ src_install() {
 	local _cupsbdir=/usr/libexec/cups/backend _cupsfdir=/usr/libexec/cups/filter
 	mkdir -p "${D}${_libdir}"/{cups/filter,cnijlib} || die
 	mkdir -p "${D}"{${_cupsfdir},${_cupsbdir}} || die
-	mkdir -p "${D}${_ppddir}"
 	for dir in libs cngpij ${_src} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
@@ -174,26 +188,28 @@ src_install() {
 			install -m644 ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
 			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
 			install -Dm644 ppd/canon${_pr}.ppd "${D}${_ppddir}"/${_pr}.ppd || die
+			if use scanner; then
+				install -m644 ${_scansrc}/${_prid}/*.tbl "${D}${_libdir}"/cnijlib || die
+				dolib.so ${_scansrc}/${_prid}/libs_bin/* || die
+			fi
 		fi
 	done
 
 	use usb && mv "${D}${_cupsodir}"/cnijusb \
-		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}"/usr/lib/cups/backend || die
+		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}${_cupsodir}" || die
 	mv "${D}${_libdir}"/cups/filter/pstocanonij \
 		"${D}${_cupsfdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
 	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
-}
-
-pkg_postinst() {
-	einfo ""
-	einfo "For installing a printer:"
-	einfo " * Restart CUPS: /etc/init.d/cupsd restart"
-	einfo " * Go to http://127.0.0.1:631/"
-	einfo "   -> Printers -> Add Printer"
-	einfo ""
-	einfo "If you experience any problems, please visit:"
-	einfo " http://forums.gentoo.org/viewtopic-p-3217721.html"
-	einfo "https://bugs.gentoo.org/show_bug.cgi?id=258244"
+	if use scanner; then local _gimpdir=${_libdir}/gimp/2.0/plug-ins
+		dolib.so ${_scansrc}/com/libs_bin${_arch}/* || die
+		install -m644 -glp -olp ${_scansrc}/com/ini/canon_mfp_net.ini \
+			"${D}${_libdir}"/cnijlib || die
+		dosym ${_bindir}/scangearmp ${_gimpdir}/scangearmp${SLOT} || die
+		if use usb; then 
+			install -Dm644 ${_scansrc}/scangearmp/etc/80-canon_mfp.rules \
+				"${D}"/etc/udev/rules.d/80-${PN}-${SLOT}.rules || die
+		fi
+	fi
 }
 
 src_prepare_pr() {
@@ -232,4 +248,27 @@ src_install_pr() {
 		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
 		popd
 	done
+}
+
+pkg_postinst() {
+	if use usb; then
+		if [ -x "$(which udevadm)" ]; then
+			einfo ""
+			einfo "Reloading usb rules..."
+			udevadm control --reload-rules 2> /dev/null
+			udevadm trigger --action=add --subsystem-match=usb 2> /dev/null
+		else
+			einfo ""
+			einfo "Please, reload usb rules manually."
+		fi
+	fi	
+	einfo ""
+	einfo "For installing a printer:"
+	einfo " * Restart CUPS: /etc/init.d/cupsd restart"
+	einfo " * Go to http://127.0.0.1:631/"
+	einfo "   -> Printers -> Add Printer"
+	einfo ""
+	einfo "If you experience any problems, please visit:"
+	einfo "http://forums.gentoo.org/viewtopic-p-3217721.html"
+	einfo "https://bugs.gentoo.org/show_bug.cgi?id=258244"
 }
