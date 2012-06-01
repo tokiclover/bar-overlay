@@ -55,9 +55,7 @@ _max=$((${#_pruse[@]}-1))
 pkg_setup() {
 	use amd64 && multilib_toolchain_setup x86
 	use usb && _src=backend
-	use net && _src+=" backendnet"
 	use gtk && _src+=" cngpijmon" _prsrc=lgmon
-	use gtk && use net && _src+=" cngpijmon/cnijnpr"
 	use servicetools && _prsrc+=" printui"
 	use scanner && _scansrc="../scangearmp-common-1.20" _src+=" ${_scansrc}/scangearmp"
 
