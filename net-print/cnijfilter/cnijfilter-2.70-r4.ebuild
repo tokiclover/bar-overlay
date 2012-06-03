@@ -83,6 +83,7 @@ src_prepare() {
 
 	for dir in libs cngpij ${SRC} pstocanonij; do
 		pushd ${dir} || die
+		[ -d configures ] && mv -f configures/configure.in.new configure.in
 		use nls && [ -d po ] && echo "no" | glib-gettextize --copy --force
 		autotools_run_tool libtoolize --automake --copy --force
 		eaclocal
