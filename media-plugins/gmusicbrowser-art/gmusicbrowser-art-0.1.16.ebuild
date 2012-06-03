@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-plugins/gmusicbrowser-art/gmusicbrowser-art-0.1.16.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
-inherit git-2
-
 EAPI=4
+
+inherit git-2
 
 DESCRIPTION="A collection of gmb-art_layouts, more info on #gmusicbrowser@DA"
 HOMEPAGE="http://gmusicbrowser.deviantart.com/"
