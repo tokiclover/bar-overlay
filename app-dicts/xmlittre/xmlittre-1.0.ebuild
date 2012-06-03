@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/app-dicts/xmlittre/xmlittre-1.0.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
-inherit stardict
+EAPI=2
 
-EAPI="2"
+inherit stardict
 
 DESCRIPTION="XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 Littre's dictionary"
 HOMEPAGE="http://francois.gannaz.free.fr/Littre/accueil.php"
