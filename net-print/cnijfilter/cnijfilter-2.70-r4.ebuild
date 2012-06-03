@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r3.ebuild,v 1.5 2012/06/01 13:22:55 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r4.ebuild,v 1.6 2012/06/01 13:22:55 -tclover Exp $
 
 EAPI=4
 
@@ -13,40 +13,34 @@ RESTRICT="fetch nomirror confcache"
 
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
-WANT_AUTOCONF=2.59
-WANT_AUTOMAKE=1.9.6
-
 SLOT="2.70"
 KEYWORDS="~x86 ~amd64"
-IUSE="+debug amd64 servicetools gtk +usb mp160 ip3300 mp510 ip4300 mp600 ip2500 ip1800 ip90"
-REQUIRED_USE="servicetools? ( gtk )"
+IUSE="amd64 +debug gtk nls servicetools usb"
+REQUIRED_USE="servicetools? ( gtk ) nls? ( gtk ) usb? ( gtk )"
 [ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
+PRUSE=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90")
+PRID=("291" "292" "293" "294" "295" "311" "312" "253")
+IUSE+=" ${PRUSE[@]}"
+S="${WORKDIR}"/${PN}-common-${PV}
 
 DEPEND="app-text/ghostscript-gpl
-	gtk? ( >=sys-devel/gettext-0.10.38
-		app-emulation/emul-linux-x86-gtklibs )
-	app-text/ghostscript-gpl
 	>=net-print/cups-1.1.14
-	!amd64? ( sys-libs/glibc
+	sys-libs/glibc
+	nls? ( >=sys-devel/gettext-0.10.38 )
+	servicetools? ( 
+		>=gnome-base/libglade-0.6
+		>=dev-libs/libxml-1.8 )
+	amd64? (
+		gtk? ( app-emulation/emul-linux-x86-gtklibs )
+		app-emulation/emul-linux-x86-popt
+		app-emulation/emul-linux-x86-compat
+		app-emulation/emul-linux-x86-baselibs )
+	!amd64? (
+		gtk? ( x11-libs/gtk+:2 )
 		>=dev-libs/popt-1.6
 		>=media-libs/tiff-3.4
 		>=media-libs/libpng-1.0.9 )
-	amd64? ( app-emulation/emul-linux-x86-popt
-		app-emulation/emul-linux-x86-compat
-		app-emulation/emul-linux-x86-baselibs )
-	servicetools? ( 
-		!amd64? ( >=gnome-base/libglade-0.6
-			>=dev-libs/libxml2-2.7.3-r2
-			x11-libs/gtk+:1 )
-	)
 "
-S="${WORKDIR}"/${PN}-common-${PV}
-
-_pruse=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90")
-_prname=(${_pruse[@]})
-_prid=("291" "292" "293" "294" "295" "311" "312" "253")
-_prcomp=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500series" "ip1800series" "ip90")
-_max=$((${#_pruse[@]}-1))
 
 pkg_nofetch() {
 	einfo "Please download ${SRC_URI} manually from"
@@ -56,33 +50,29 @@ pkg_nofetch() {
 
 pkg_setup() {
 	use amd64 && multilib_toolchain_setup x86
-	use usb && _src=backend
-	use gtk && _src+=" cngpijmon" _prsrc=lgmon
-	use servicetools && _prsrc+=" printui"
-	
-	_autochoose="true"
-	for i in $(seq 0 ${_max}); do
-		einfo " ${_pruse[$i]}\t${_prcomp[$i]}"
-		if (use ${_pruse[$i]}); then
-			_autochoose="false"
+	use gtk && SRC+=" cngpijmon" PRSRC+=" lgmon"
+	use servicetools && PRSRC+=" printui"
+
+	PRN="$(seq 0 $((${#PRUSE[@]}-1)))"
+	if [[ -z "${PRCOM}" ]]; then declare -a PRCOM
+		for p in ${PRN}; do
+			PRCOM[p]="${PRUSE[$p]}series"
+		done
+	fi
+
+	local ac="true"
+	for p in ${PRN}; do
+		einfo " ${PRUSE[$p]}\t${PRCOM[$p]}"
+		if (use ${PRUSE[$p]}); then
+			ac="false"
 		fi
 	done
-	einfo ""
-	if (${_autochoose}); then
-		ewarn "You didn't specify any driver model (set it's USE-flag)."
+	if ${ac}; then
 		einfo ""
-		einfo "As example:\tbasic MP160 support without maintenance tools"
-		einfo "\t\t -> USE=\"mp160\""
+		ewarn "You didn't specify any printer model (USE flag)"
+		einfo "to get ${PRUSE[1]} support, for example, USE=\"${PRUSE[1]}\""
 		einfo ""
-		einfo "Press Ctrl+C to abort"
-		echo
-
-		n=10
-		while [[ $n -gt 0 ]]; do
-			echo -en "  Waiting $n seconds...\r"
-			sleep 1
-			(( n-- ))
-		done
+		die
 	fi
 }
 
@@ -91,11 +81,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P%-r*}-4-cups_ppd.patch
 	epatch "${FILESDIR}"/${P%-r*}-1-png_jmpbuf-fix.patch || die
 
-	for dir in libs cngpij ${_src} pstocanonij; do
+	for dir in libs cngpij ${SRC} pstocanonij; do
 		pushd ${dir} || die
-		[ -d configures ] && mv -f configures/configure.in.new configure.in
-		[ -d po ] && echo "no" | glib-gettextize --force --copy
-		autotools_run_tool libtoolize --copy --force --automake
+		use nls && [ -d po ] && echo "no" | glib-gettextize --copy --force
+		autotools_run_tool libtoolize --automake --copy --force
 		eaclocal
 		eautoheader
 		eautomake --gnu
@@ -103,14 +92,15 @@ src_prepare() {
 		popd
 	done
 
-	for i in $(seq 0 ${_max}); do
-		if use ${_pruse[$i]} || ${_autochoose}; then
-			_pr=${_prname[$i]} _prid=${_prid[$i]}
-			mkdir ${_pr}
-			for dir in ${_prid} cnijfilter ${_prsrc}; do
-				cp -a ${dir} ${_pr} || die
+	local p pr prid
+	for p in ${PRN}; do
+		pr=${PRUSE[$p]} prid=${PRID[$p]}
+		if use ${pr}; then
+			mkdir ${pr} || die
+			for dir in ${prid} cnijfilter ${PRSRC}; do
+				cp -a ${dir} ${pr} || die
 			done
-			pushd ${_pr} || die
+			pushd ${pr} || die
 			src_prepare_pr
 			popd
 		fi
@@ -118,16 +108,19 @@ src_prepare() {
 }
 
 src_configure() {
-	for dir in libs cngpij ${_src} pstocanonij; do
+	for dir in libs cngpij ${SRC} pstocanonij; do
 		pushd ${dir} || die
-		econf 
+		econf
 		popd
 	done
 
-	for i in $(seq 0 ${_max}); do
-		if use ${_pruse[$i]} || ${_autochoose}; then
-			_pr=${_prname[$i]} _prid=${_prid[$i]}
-			pushd ${_pr} || die
+	local p pr prid
+	mv {,_}lgmon || die
+	for p in ${PRN}; do
+		pr=${PRUSE[$p]} prid=${PRID[$p]}
+		if use ${pr}; then
+			ln -sf ${pr}/lgmon lgmon
+			pushd ${pr} || die
 			src_configure_pr
 			popd
 		fi
@@ -135,56 +128,91 @@ src_configure() {
 }
 
 src_compile() {
-	for dir in libs cngpij ${_src} pstocanonij; do
-		pushd ${dir} || die
-		emake
-		popd
-	done
-
-	for i in $(seq 0 ${_max}); do
-		if use ${_pruse[$i]} || ${_autochoose}; then
-			_pr=${_prname[$i]} _prid=${_prid[$i]}
-			pushd ${_pr} || die
+	local p pr prid
+	for p in ${PRN}; do
+		pr=${PRUSE[$p]} prid=${PRID[$p]}
+		if use ${pr}; then
+			pushd ${pr} || die
 			src_compile_pr
 			popd
 		fi
 	done
+
+	for dir in libs cngpij ${SRC} pstocanonij; do
+		pushd ${dir} || die
+		emake || die
+		popd
+	done
 }
 
 src_install() {
-	local _libdir=/usr/$(get_libdir) _ppddir=/usr/share/cups/model \
-		_cupsodir=/usr/lib/cups/backend
-	local _cupsbdir=/usr/libexec/cups/backend _cupsfdir=/usr/libexec/cups/filter
-	mkdir -p "${D}${_libdir}"/{cups/filter,cnijlib} || die
-	mkdir -p "${D}"{${_cupsfdir},${_cupsbdir}} || die
-	mkdir -p "${D}${_ppddir}"
-	for dir in libs cngpij ${_src} pstocanonij; do
+	local p pr prid ldir=/usr/$(get_libdir) le=/usr/libexec/cups/
+	local bindir=/usr/bin bdir=${le}backend fdir=${le}filter odir=${ldir}/cups/filter
+	mkdir -p "${D}"{${ldir}/bjlib,${bdir},${fdir}}
+
+	for dir in libs cngpij ${SRC} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		popd
 	done
 
-	for i in $(seq 0 ${_max}); do
-		if use ${_pruse[$i]} || ${_autochoose}; then
-			_pr=${_prname[$i]} _prid=${_prid[$i]}
-			pushd ${_pr} || die
+	for p in ${PRN}; do
+		pr=${PRUSE[$p]} prid=${PRID[$p]}
+		if use ${pr}; then
+			pushd ${pr} || die
 			src_install_pr
 			popd
 
-			cp -a ${_prid}/libs_bin/* "${D}${_libdir}" || die
-			install -pd "${D}${_libdir}"/cnijlib
-			install -m644 ${_prid}/database/* "${D}${_libdir}"/cnijlib || die
-			sed -e "s/pstocanonij/pstocanonij${SLOT}/g" -i ppd/canon${_pr}.ppd || die
-			install -Dm644 ppd/canon${_pr}.ppd "${D}${_ppddir}"/${_pr}.ppd || die
+			cp -a ${prid}/libs_bin/* "${D}${ldir}" || die
+			install -m644 ${prid}/database/* "${D}${ldir}"/bjlib || die
+			install -Dm644 ppd/canon${pr}.ppd "${D}${pdir}"/${pr}.ppd || die
 		fi
 	done
 
-	if use usb && use gtk; then mv "${D}${_cupsodir}"/cnij_usb \
-		"${D}${_cupsbdir}"/cnijusb${SLOT} && rm -fr "${D}${_cupsodir}" || die
+	if use usb; then
+		mv "${D}${odir}"/cnij*usb "${D}${bdir}"/cnijusb${SLOT} || die
 	fi
-	mv "${D}${_libdir}"/cups/filter/pstocanonij \
-		"${D}${_cupsfdir}/pstocanonij${SLOT}" && rm -fr "${D}${_libdir}"/cups || die
-	mv "${D}"/usr/bin/cngpij{,${SLOT}} || die
+	mv "${D}${odir}"/pstocanonij "${D}${fdir}/pstocanonij${SLOT}" || die
+	mv "${D}${bindir}"/cngpij{,${SLOT}} || die
+	rm -fr "${D}${ldir}"/cups
+}
+
+src_prepare_pr() {
+	for dir in cnijfilter ${PRSRC}; do
+		pushd ${dir} || die
+		[ -d configures ] && mv -f configures/configure.in.new configure.in
+		use nls && [ -d po ] && echo "no" | glib-gettextize --copy --force
+		autotools_run_tool libtoolize --automake --copy --force
+		eaclocal
+		eautoheader
+		eautomake --gnu
+		eautoreconf
+		popd
+	done
+}
+
+src_configure_pr() {
+	for dir in cnijfilter ${PRSRC}; do
+		pushd ${dir} || die
+		econf --program-suffix=${pr}
+		popd
+	done
+}
+
+src_compile_pr() {
+	for dir in cnijfilter ${PRSRC}; do
+		pushd ${dir} || die
+		emake || die "${dir}: emake failed"
+		popd
+	done
+}
+
+src_install_pr() {
+	for dir in cnijfilter ${PRSRC}; do
+		pushd ${dir} || die
+		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
+		popd
+	done
 }
 
 pkg_postinst() {
@@ -195,44 +223,6 @@ pkg_postinst() {
 	einfo "   -> Printers -> Add Printer"
 	einfo ""
 	einfo "If you experience any problems, please visit:"
-	einfo " http://forums.gentoo.org/viewtopic-p-3217721.html"
+	einfo "http://forums.gentoo.org/viewtopic-p-3217721.html"
 	einfo "https://bugs.gentoo.org/show_bug.cgi?id=258244"
-}
-
-src_prepare_pr() {
-	for dir in cnijfilter ${_prsrc}; do
-		pushd ${dir} || die
-		[ -d configures ] && mv -f configures/configure.in.new configure.in
-		[ -d po ] && echo "no" | glib-gettextize --force --copy
-		autotools_run_tool libtoolize --copy --force --automake
-		eaclocal
-		eautoheader
-		eautomake --gnu
-		eautoreconf
-		popd
-	done
-}
-
-src_configure_pr() {
-	for dir in cnijfilter ${_prsrc}; do
-		pushd ${dir} || die
-		econf --program-suffix=${_pr}
-		popd
-	done
-}
-
-src_compile_pr() {
-	for dir in cnijfilter ${_prsrc}; do
-		pushd ${dir} || die
-		emake || die "${dir}: emake failed"
-		popd
-	done
-}
-
-src_install_pr() {
-	for dir in cnijfilter ${_prsrc}; do
-		pushd ${dir} || die
-		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
-		popd
-	done
 }
