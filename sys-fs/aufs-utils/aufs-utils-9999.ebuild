@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-util/aufs-util-9999.ebuild v1.3 2012/05/24 00:29:33 -tclover Exp $
+# $Header: sys-fs/aufs-util/aufs-util-9999.ebuild v1.3 2012/06/03 03:20:48 -tclover Exp $
 
 EAPI="4"
 
@@ -22,7 +22,7 @@ IUSE="kernel-builtin"
 
 pkg_setup() {
 	get_version
-	if use kernel; then
+	if use kernel-builtin; then
 		CONFIG_CHECK="AUFS_FS"
 		ERROR_AUSFS_FS="aufs have to be enabled [y|m]."
 		linux-info_pkg_setup
