@@ -14,7 +14,7 @@ inherit autotools eutils flag-o-matic
 WANT_AUTOCONF=${E_WANT_AUTOCONF:-latest}
 WANT_AUTOMAKE=${E_WANT_AUTOMAKE:-latest}
 
-IUSE="+debug gtk nls servicetools usb"
+IUSE="+debug gtk multislot nls servicetools usb"
 KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="servicetools? ( gtk ) nls? ( gtk )"
@@ -192,8 +192,10 @@ ecnij_src_compile() {
 # @FUNCTION: ecnij_src_install
 # @DESCRIPTION:
 ecnij_src_install() {
-	local ldir=/usr/$(get_libdir) le=/usr/libexec/cups/ pdir=/usr/share/cups/model 
-	local arc p pr prid odir=${ldir}/cups/filter bdir=${le}backend fdir=${le}filter
+	local ldir=/usr/$(get_libdir) le=/usr/libexec/cups/ pdir=/usr/share/cups/model
+	local bindir=/usr/bin odir=${ldir}/cups/filter bdir=${le}backend fdir=${le}filter
+	local arc p pr prid slot _dir=/usr/lib/cups/backend
+	use multislot && slot=${SLOT} || slot=${SLOT:0:1}
 	mkdir -p "${D}"{${ldir}/bjlib,${bdir},${fdir}}
 
 	if [[ "${SLOT:0:1}" -eq "3" ]] && [[ "${SLOT:2:2}" -ge "40" ]]; then
@@ -215,21 +217,28 @@ ecnij_src_install() {
 
 			cp -a ${prid}/libs_bin${arc}/* "${D}${ldir}" || die
 			install -m644 ${prid}/database/* "${D}${ldir}"/bjlib || die
+			sed -e "s/pstocanonij/pstocanonij${slot}/g" -i ppd/canon${pr}.ppd || die
 			install -Dm644 ppd/canon${pr}.ppd "${D}${pdir}"/${pr}.ppd || die
 		fi
 	done
 
-	mv "${D}"{${odir},${fdir}}/pstocanonij || die
-	odir=/usr/lib/cups/backend
+	mv "${D}${odir}"/pstocanonij "${D}${fdir}"/pstocanonij${slot} || die
+	mv "${D}${bindir}"/cngpij{,${slot}} || die
+	if [[ "${SLOT:0:1}" -eq "3" ]] && use multislot && use gtk; then
+		mv "${D}${bindir}"/cnijnpr{,${slot}} || die
+	fi
 	if use usb; then
-		mv "${D}${odir}"/cnij*usb "${D}${bdir}"/cnijusb || die
+		mv "${D}${_dir}"/cnij*usb "${D}${bdir}"/cnijusb${slot} || die
 	fi
 	if has net ${IUSE} && use net; then
-		mv "${D}"{${odir},${bdir}}/cnijnet || die
+		if use multislot; then
+			mv "${D}${_dir}"/cnijnet "${D}${bdir}"/cnijnet${slot} || die
+			mv "${D}${bindir}"/cnijnetprn{,${slot}} || die
+		fi
 		dolib.so com/libs_bin${arc}/* || die
 		install -Dm644 -glp -olp com/ini/cnnet.ini "${D}${ldir}"/bjlib || die
 	fi
-	rm -fr "${D}${odir}"
+	rm -fr "${D}{${odir},${_dir}"
 }
 # @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
 # @DESCRIPTION: internal functions
