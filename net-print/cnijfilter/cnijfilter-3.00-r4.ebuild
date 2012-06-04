@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.8 2012/06/01 12:52:58 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.8 2012/06/04 11:19:14 -tclover Exp $
 
 EAPI=4
 
@@ -74,4 +74,18 @@ src_install() {
 				"${D}"/etc/udev/rules.d/80-${PN}-${slot}.rules || die
 		fi
 	fi
+}
+
+pkg_postinst() {
+	if use scanner && use usb; then
+		if [ -x "$(which udevadm)" ]; then
+			einfo ""
+			einfo "Reloading usb rules..."
+			udevadm control --reload-rules 2> /dev/null
+			udevadm trigger --action=add --subsystem-match=usb 2> /dev/null
+		else einfo ""
+			einfo "Please, reload usb rules manually."
+		fi
+	fi      
+	ecnij_pkg_postinst
 }
