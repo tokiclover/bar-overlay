@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.60-r4.ebuild,v 1.7 2012/06/04 11:19:14 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.60-r4.ebuild,v 1.7 2012/06/05 00:45:11 -tclover Exp $
 
 EAPI=4
 
@@ -143,8 +143,9 @@ src_compile() {
 }
 
 src_install() {
-	local p pr prid ldir=/usr/$(get_libdir) le=/usr/libexec/cups/ bindir=/usr/bin 
-	local bdir=${le}backend fdir=${le}filter odir=${ldir}/cups/filter slot
+	local ldir=/usr/$(get_libdir) le=/usr/libexec/cups/ bindir=/usr/bin 
+	local bdir=${le}backend fdir=${le}filter odir=${ldir}/cups/filter
+	local pdir=/usr/share/cups/model p pr prid slot
 	use multislot && slot=${SLOT} || slot=${SLOT:0:1}
 	mkdir -p "${D}"{${ldir}/bjlib,${bdir},${fdir}}
 
