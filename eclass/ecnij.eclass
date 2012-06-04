@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/eclass/ecnij.eclass,v 1.0 2012/06/01 08:23:14 -tclover Exp $
+# $Header: bar-overlay/eclass/ecnij.eclass,v 1.0 2012/06/04 11:35:58 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
@@ -140,6 +140,7 @@ ecnij_src_prepare() {
 			for dir in ${prid} cnijfilter ${ECNIJ_PRSRC}; do
 				cp -a ${dir} ${pr} || die
 			done
+			[[ "${SLOT:0:1}" -eq "3" ]] && [[ "${SLOT:2:2}" -ge "10" ]] && ln -s {,${pr}/}com
 			pushd ${pr} || die
 			ecnij_src_prepare_pr
 			popd
@@ -280,17 +281,6 @@ ecnij_src_install_pr() {
 # @FUNCTION: ecnij_pkg_postinst
 # @DESCRIPTION: output some usefull info
 ecnij_pkg_postinst() {
-	if has scanner && use scanner && use usb; then
-		if [ -x "$(which udevadm)" ]; then
-			einfo ""
-			einfo "Reloading usb rules..."
-			udevadm control --reload-rules 2> /dev/null
-			udevadm trigger --action=add --subsystem-match=usb 2> /dev/null
-		else
-			einfo ""
-			einfo "Please, reload usb rules manually."
-		fi
-	fi	
 	einfo ""
 	einfo "For installing a printer:"
 	einfo " * Restart CUPS: /etc/init.d/cupsd restart"
