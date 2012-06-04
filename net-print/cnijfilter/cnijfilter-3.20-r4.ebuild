@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.7 2012/06/01 01:27:08 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.8 2012/06/01 01:27:08 -tclover Exp $
 
 EAPI=4
 
@@ -15,10 +15,10 @@ SRC_URI="http://gdlp01.c-wss.com/gds/7/0100002367/01/${PN}-source-${PV}-1.tar.gz
 "
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
-SLOT="3.20"
 ECNIJ_PRUSE=("mp250" "mp270" "mp490" "mp550" "mp560" "ip4700" "mp640")
 ECNIJ_PRID=("356" "357" "358" "359" "360" "361" "362")
-IUSE="amd64 net scanner ${ECNIJ_PRUSE[@]}"
+IUSE="amd64 net scanner symlink ${ECNIJ_PRUSE[@]}"
+SLOT=${PV}
 
 if has scanner ${IUSE}; then
 	if use scanner; then
@@ -53,29 +53,26 @@ src_prepare() {
 
 src_install() {
 	ecnij_src_install
-	local bindir=/usr/bin le=/usr/libexec/cups/
-	local bdir=${le}backend fdir=${le}filter gdirp pr prid 
+	local bindir=/usr/bin ldir=/usr/$(get_libdir) gdir p pr prid slot
+	use multislot && slot=${SLOT} || slot=${SLOT:0:1}
 
-	mv "${D}${fdir}"/pstocanonij{,${SLOT}} || die
-	mv "${D}${bindir}"/cngpij{,${SLOT}} || die
-	if use usb; then
-		mv "${D}${bdir}"/cnijusb{,${SLOT}} || die
-	fi
-	if use gtk; then
-		mv "${D}${bindir}"/cnijnpr{,${SLOT}} || die
-	fi
-	if use net; then
-		mv "${D}${bdir}"/cnijnet{,${SLOT}} || die
-		mv "${D}${bindir}"/cnijnetprn{,${SLOT}} || die
-	fi
 	if use scanner; then gdir=${ldir}/gimp/2.0/plug-ins
+		for p in ${ECNIJ_PRN}; do
+			pr=${ECNIJ_PRUSE[$p]} prid=${ECNIJ_PRID[$p]}
+			if use ${pr}; then
+				install -m644 ${SCANSRC}/${prid}/*.tbl "${D}${ldir}"/cnijlib || die
+				dolib.so ${SCANSRC}/${prid}/libs_bin${ARC}/* || die
+			fi
+		done
 		dolib.so ${SCANSRC}/com/libs_bin${ARC}/* || die
 		install -m644 -glp -olp ${SCANSRC}/com/ini/canon_mfp_net.ini "${D}${ldir}"/bjlib || die
-		mv "${D}${bindir}"/scangearmp{,${SLOT}} || die
-		dosym {${bindir}/scangearmp${SLOT},${gdir}/scangearmp${SLOT}} || die
+		mv "${D}${bindir}"/scangearmp{,${slot}} || die
+		if use symlink; then
+			dosym ${bindir}/scangearmp${slot} ${gdir}/scangearmp${slot} || die
+		fi
 		if use usb; then 
 			install -Dm644 ${SCANSRC}/scangearmp/etc/80-canon_mfp.rules \
-				"${D}"/etc/udev/rules.d/80-${PN}-${SLOT}.rules || die
+				"${D}"/etc/udev/rules.d/80-${PN}-${slot}.rules || die
 		fi
 	fi
 }

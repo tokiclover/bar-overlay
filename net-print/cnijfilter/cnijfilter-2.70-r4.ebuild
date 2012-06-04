@@ -9,13 +9,13 @@ inherit eutils autotools rpm flag-o-matic
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
 SRC_URI="${PN}-common-${PV}-2.src.rpm"
-RESTRICT="fetch nomirror confcache"
+RESTRICT="fetch"
 
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
-SLOT="2.70"
 KEYWORDS="~x86 ~amd64"
-IUSE="amd64 +debug gtk nls servicetools usb"
+IUSE="amd64 +debug gtk multislot nls servicetools usb"
+SLOT=${PV}
 REQUIRED_USE="servicetools? ( gtk ) nls? ( gtk ) usb? ( gtk )"
 [ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
 PRUSE=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90")
@@ -147,8 +147,9 @@ src_compile() {
 }
 
 src_install() {
-	local p pr prid ldir=/usr/$(get_libdir) le=/usr/libexec/cups/
-	local bindir=/usr/bin bdir=${le}backend fdir=${le}filter odir=${ldir}/cups/filter
+	local p pr prid ldir=/usr/$(get_libdir) le=/usr/libexec/cups/ bindir=/usr/bin 
+	local bdir=${le}backend fdir=${le}filter odir=${ldir}/cups/filter slot
+	use multislot && slot=${SLOT} || slot=${SLOT:0:1}
 	mkdir -p "${D}"{${ldir}/bjlib,${bdir},${fdir}}
 
 	for dir in libs cngpij ${SRC} pstocanonij; do
@@ -166,15 +167,16 @@ src_install() {
 
 			cp -a ${prid}/libs_bin/* "${D}${ldir}" || die
 			install -m644 ${prid}/database/* "${D}${ldir}"/bjlib || die
+			sed -e "s/pstocanonij/pstocanonij${slot}/g" -i ppd/canon${pr}.ppd || die
 			install -Dm644 ppd/canon${pr}.ppd "${D}${pdir}"/${pr}.ppd || die
 		fi
 	done
 
 	if use usb; then
-		mv "${D}${odir}"/cnij*usb "${D}${bdir}"/cnijusb${SLOT} || die
+		mv "${D}${odir}"/cnij*usb "${D}${bdir}"/cnijusb${slot} || die
 	fi
-	mv "${D}${odir}"/pstocanonij "${D}${fdir}/pstocanonij${SLOT}" || die
-	mv "${D}${bindir}"/cngpij{,${SLOT}} || die
+	mv "${D}${odir}"/pstocanonij "${D}${fdir}/pstocanonij${slot}" || die
+	mv "${D}${bindir}"/cngpij{,${slot}} || die
 	rm -fr "${D}${ldir}"/cups
 }
 
