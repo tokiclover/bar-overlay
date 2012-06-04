@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/eclass/ecnij.eclass,v 1.1 2012/06/04 12:27:24 -tclover Exp $
+# $Header: bar-overlay/eclass/ecnij.eclass,v 1.1 2012/06/04 12:34:42 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
@@ -239,7 +239,7 @@ ecnij_src_install() {
 		dolib.so com/libs_bin${arc}/* || die
 		install -Dm644 -glp -olp com/ini/cnnet.ini "${D}${ldir}"/bjlib || die
 	fi
-	rm -fr "${D}{${odir},${_dir}"
+	rm -fr "${D}{${odir},${_dir}}"
 }
 # @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
 # @DESCRIPTION: internal functions
