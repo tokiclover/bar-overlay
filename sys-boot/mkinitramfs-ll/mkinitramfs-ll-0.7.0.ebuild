@@ -8,6 +8,7 @@ inherit eutils
 DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${PN}-${PVR}.tar.gz"
+RESTRICT="nomirror confcache"
 LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
