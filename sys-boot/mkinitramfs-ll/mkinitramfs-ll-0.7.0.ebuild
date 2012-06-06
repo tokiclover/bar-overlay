@@ -1,11 +1,12 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/05/23 11:25:34 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/06/06 13:27:22 -tclover Exp $
 
 EAPI=4
+
 inherit eutils
 
-DESCRIPTION="An initramfs with full LUKS, LVM2, crypted key-file, AUFS2+SQUASHFS support"
+DESCRIPTION="initramfs building tool with full LUKS, LVM2, RAID, crypted keyfile and AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${PN}-${PVR}.tar.gz"
 RESTRICT="nomirror confcache"
@@ -37,13 +38,10 @@ RDEPEND="sys-apps/busybox[mdev]
 		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
 	)
 	bash? ( sys-apps/util-linux[nls,unicode] 
-		app-shells/bash[nls]
-	)
+		app-shells/bash[nls] )
 	zsh? ( app-shells/zsh[unicode] )
-	fbsplash? ( 
-			media-gfx/splashutils[fbcondecor,png,truetype] 
-			sys-apps/v86d 
-	)
+	fbsplash? ( sys-apps/v86d 
+		media-gfx/splashutils[fbcondecor,png,truetype] )
 	luks? ( sys-fs/cryptsetup[nls,static] )
 	lvm? ( sys-fs/lvm2[static] )
 	raid? ( sys-fs/mdadm )
