@@ -3,10 +3,10 @@
 <pkgmetadata>
 <herd>no-herd</herd>
 <maintainer>
- <email></email>
+ <email>tclover@bar-overlay</email>
 </maintainer>
 	<use>
-		<flag name="squash">Adds squashed directory-ies script and init service to the stack</flag>
-		<flag name="symlink">Force kernel ebuilds to automatically update the mkifs[,sdr] symlink</flag>
+		<flag name="squashfs">Adds squashfs-tools support, +aufs adds squashed directory support</flag>
+		<flag name="symlink">Force the ebuild to automatically update the mkifs[,sdr] symlink</flag>
 	</use>
 </pkgmetadata>

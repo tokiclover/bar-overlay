@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.5.1.0.ebuild v1.2 2012/06/06 13:27:22 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.7.0.ebuild v1.2 2012/06/07 11:04:28 -tclover Exp $
 
 EAPI=4
 
@@ -14,11 +14,12 @@ LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="aufs bash -bzip2 fbsplash gzip luks -lzip -lzma -lzo lvm raid sqfsd symlink +xz zsh"
-
-REQUIRED_USE="|| ( bash zsh )
-	|| ( bzip2 gzip lzip lzma lzo xz )
-	lzma? ( xz )
+IUSE="aufs bash fbsplash luks lvm raid squashfs symlink zsh"
+IUSE_COMP="bzip2 gzip -lzip -lzma -lzo +xz"
+IUSE_FS="btrfs e2fs jfs reiserfs xfs"
+IUSE+=" ${IUSE_FS} ${IUSE_COMP}"
+REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
+	|| ( bash zsh ) lzma? ( xz )
 "
 
 DEPEND="sys-apps/coreutils[nls,unicode]
@@ -32,12 +33,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	sys-apps/findutils[nls]
 	sys-apps/kbd[nls]
 	media-fonts/terminus-font[psf]
-	sqfsd? ( sys-apps/util-linux[nls,unicode]
-		sys-apps/kmod[tools]
-		sys-fs/squashfs-tools[lzma?,lzo?,xz?]
-		aufs? ( || ( =sys-fs/aufs-standalone-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
-	)
-	bash? ( sys-apps/util-linux[nls,unicode] 
+	bash? ( sys-apps/findutils[nls] 
 		app-shells/bash[nls] )
 	zsh? ( app-shells/zsh[unicode] )
 	fbsplash? ( sys-apps/v86d 
@@ -50,7 +46,37 @@ RDEPEND="sys-apps/busybox[mdev]
 	lzip? ( app-arch/lzip )
 	lzo? ( app-arch/lzop )
 	xz? ( app-arch/xz-utils[nls] )
+	aufs? ( || ( =sys-fs/aufs-utils-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
+	e2fs? ( sys-fs/e2fsprogs )
+	btrfs? ( sys-fs/btrfs-progs )
+	jfs? ( sys-fs/jfsutils )
+	reiserfs? ( sys-fs/reiserfsprogs )
+	squashfs? ( sys-fs/squashfs-tools[lzma?,lzo?,xz?] )
+	xfs? ( sys-fs/xfsprogs )
 "
+src_unpack() {
+	unpack "${A}"
+	mv "${WORKDIR}"/{*${PN}*,${P}} || die
+}
+src_prepare() {
+	local bin b e fs u
+	for fs in ${IUSE_FS}; do
+		use ${fs} && bin+=:fsck.${fs}
+	done
+	bin=${bin/fsck.btrfs/btrfsck} bin=${bin/e2fs/ext3:fsck.ext4}
+	use luks && bin+=:cryptsetup
+	sed -e "s,bin]+=:.*$,bin]+=:${bin}," -i mkifs-ll.conf.{ba,z}sh || die
+
+	if ! use xz; then
+		for u in ${IUSE_COMP}; do
+			if use ${u}; then
+				[[ "${u}" == "bzip2" ]] && e=c
+				sed -e "s,xz -9 --check=crc32,${u} -${e}9," -i mkifs-ll.{ba,z}sh || die
+				break
+			fi
+		done
+	fi
+}
 src_compile(){ :; }
 src_install() {
 	cd "${WORKDIR}"/*-${PN}-*
@@ -58,39 +84,39 @@ src_install() {
 	bzip2 ChangeLog
 	bzip2 KnownIssue
 	bzip2 README.textile
-	if use sqfsd; then
+	if use aufs && use squashfs; then
 		emake DESTDIR="${D}" install_svc
-		mv sqfsdsvc/README.sqfsdsvc.textile || die
+		mv sqfsdsvc/README.textile README.sqfsdsvc.textile || die
 		bzip2 README.sqfsdsvc.textile
 	fi
 	insinto /usr/local/share/${PN}/doc
 	doins *.bz2 || die
-	if use bash; then shell=bash
+	if use bash; then sh=bash
 		emake DESTDIR="${D}" install_bash
 	fi
-	if use zsh; then shell=zsh
+	if use zsh; then sh=zsh
 		emake DESTDIR="${D}" install_zsh
 	fi
 	if use symlink; then
 		cd "${D}"/usr/local/sbin
-		ln -sf mkifs{-ll.${shell},}
-		use sqfsd && ln -sf sdr{.${shell},}
+		ln -sf mkifs{-ll.${sh},}
+		use aufs && use squashfs && ln -sf sdr{.${sh},}
 	fi
 }
 pkg_postinst() {
 	einfo "with a static binaries of gnupg-1.4*, busybox and its applets, the easiest"
 	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
-	einfo " \`mkifs-ll.${shell} -a -k$(uname -r)' without forgeting to copy those binaries"
+	einfo " \`mkifs-ll.${sh} -a -k$(uname -r)' without forgeting to copy those binaries"
 	einfo "before to \`\${PWD}/bin' along with options.skel to \`\${PWD}/misc/share/gnupg/'."
-	einfo "Else, run \`mkifs-ll-autogen.${shell} -D -s -l -g' and that script will take care of"
+	einfo "Else, run \`mkifs-ll-autogen.${sh} -D -s -l -g' and that script will take care of"
 	einfo "everything for kernel $(uname -r), you can add gpg.conf by appending \`-C~'"
 	einfo "for example. User scripts can be added to \`\${PWD}/misc' directory."
-	if use sqfsd; then
+	if use aufs && use squashfs; then
 		einfo
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
 		einfo "you have to add that list to /etc/conf.d/sqfsdmount sqfsd_local and then"
-		einfo "run \`sdr.${shell} -U -d \${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
+		einfo "run \`sdr.${sh} -U -d \${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
+	unset sh
 }
-unset shell
