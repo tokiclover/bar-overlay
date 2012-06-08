@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.8 2012/06/04 11:19:14 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.00-r4.ebuild,v 1.8 2012/06/08 19:59:14 -tclover Exp $
 
 EAPI=4
 
@@ -42,7 +42,7 @@ pkg_setup() {
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-${PV/00/20}-4-cups_ppd.patch || die
 	epatch "${FILESDIR}"/${PN}-${PV/00/20}-4-libpng15.patch || die
-	if use scanner; then
+	if has scanner ${IUSE} && use scanner; then
 		sed -i ${_scansrc}/scangearmp/backend/Makefile.am \
 			-e "s:BACKEND_V_REV):BACKEND_V_REV) -L../../com/libs_bin${ARC}:" || die
 		pushd ${_scansrc} && epatch "${FILESDIR}"/scangearmp-1.70-libpng15.patch && popd
@@ -55,7 +55,7 @@ src_install() {
 	local bindir=/usr/bin ldir=/usr/$(get_libdir) gdir p pr prid slot
 	use multislot && slot=${SLOT} || slot=${SLOT:0:1}
 
-	if use scanner; then gdir=${ldir}/gimp/2.0/plug-ins
+	if has scanner ${IUSE} && use scanner; then gdir=${ldir}/gimp/2.0/plug-ins
 		for p in ${ECNIJ_PRN}; do
 			pr=${ECNIJ_PRUSE[$p]} prid=${ECNIJ_PRID[$p]}
 			if use ${pr}; then
