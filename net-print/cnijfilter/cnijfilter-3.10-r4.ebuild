@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.8 2012/06/08 20:04:09 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.8 2012/06/08 20:19:00 -tclover Exp $
 
 EAPI=4
 
@@ -44,9 +44,9 @@ src_prepare() {
 	sed -e 's/-lcnnet/-lcnnet -ldl/g' -i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
 	epatch "${FILESDIR}"/${PN}-${PV/10/20}-4-libpng15.patch || die
 	if has scanner ${IUSE} && use scanner; then
-		sed -i ${_scansrc}/scangearmp/backend/Makefile.am \
+		sed -i ${SCANSRC}/scangearmp/backend/Makefile.am \
 			-e "s:BACKEND_V_REV):BACKEND_V_REV) -L../../com/libs_bin${ARC}:" || die
-		pushd ${_scansrc} && epatch "${FILESDIR}"/scangearmp-1.70-libpng15.patch && popd
+		pushd ${SCANSRC} && epatch "${FILESDIR}"/scangearmp-1.70-libpng15.patch && popd
 	fi
 	ecnij_src_prepare
 }
