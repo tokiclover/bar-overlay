@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.7.0.ebuild v1.3 2012/06/08 22:10:48 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.7.0.ebuild v1.3 2012/06/12 15:24:36 -tclover Exp $
 
 EAPI=4
 
@@ -14,10 +14,9 @@ LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="aufs bash fbsplash luks lvm raid squashfs symlink zsh"
 IUSE_COMP="bzip2 gzip lzip lzma lzo +xz"
 IUSE_FS="btrfs +e2fs jfs reiserfs xfs"
-IUSE+=" ${IUSE_FS} ${IUSE_COMP}"
+IUSE="aufs bash fbsplash luks lvm raid squashfs symlink zsh ${IUSE_FS} ${IUSE_COMP}"
 REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )
 "
@@ -79,7 +78,6 @@ src_prepare() {
 }
 src_compile(){ :; }
 src_install() {
-	cd "${WORKDIR}"/*-${PN}-*
 	emake DESTDIR="${D}" install
 	bzip2 ChangeLog
 	bzip2 KnownIssue
@@ -98,9 +96,9 @@ src_install() {
 		emake DESTDIR="${D}" install_zsh
 	fi
 	if use symlink; then
-		cd "${D}"/usr/local/sbin
-		ln -sf mkifs{-ll.${sh},}
-		use aufs && use squashfs && ln -sf sdr{.${sh},}
+		local prefix=/usr/local/sbin
+		ln -sf ${prefix}/mkifs{-ll.${sh},}
+		use aufs && use squashfs && dosym ${prefix}/sdr{.${sh},}
 	fi
 }
 pkg_postinst() {
