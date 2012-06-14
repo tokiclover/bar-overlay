@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.3.8.ebuild,v 1.2 2012/06/13 22:22:25 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.3.8.ebuild,v 1.2 2012/06/14 11:53:38 -tclover Exp $
 
 EAPI=4
 
@@ -33,17 +33,17 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="aufs bfs fbcondecor ck hz"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
-bv=420
-bfs_src=${KV_MAJOR}.${KV_MINOR}-sched-bfs-${bv}.patch
-bfs_uri=http://ck.kolivas.org/patches/bfs/${KV_MAJOR}.${KV_MINOR}/
-cv=${KV_MAJOR}.${KV_MINOR}-ck1
-ck_src=${cv}-broken-out.tar.bz2
-ck_uri="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${KV_MAJOR}.${KV_MINOR}/${cv}/"
-gen_src=genpatches-${KV_MAJOR}.${KV_MINOR}-${K_GENPATCHES_VER}.extras.tar.bz2
+okv=${KV_MAJOR}.${KV_MINOR}
+bfs_vrs=420
+bfs_src=${okv}-sched-bfs-${bfs_vrs}.patch
+bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
+ck_src=${okv}-ck1-broken-out.tar.bz2
+ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
+gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
 "
-unset bfs_uri bv ck_uri cv
+unset okv bfs_uri bfs_vrs ck_uri
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
