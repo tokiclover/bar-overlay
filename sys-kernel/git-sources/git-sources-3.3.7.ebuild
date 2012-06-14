@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.3.8.ebuild,v 1.2 2012/06/14 11:53:38 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.3.8.ebuild,v 1.3 2012/06/14 12:53:49 -tclover Exp $
 
 EAPI=4
 
@@ -30,20 +30,23 @@ EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfs fbcondecor ck hz"
+IUSE="aufs bfq bfs fbcondecor ck hz"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
+bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v3r4"
+bfq_src=${okv}-r4-bfq.patch.bz2
 bfs_vrs=420
 bfs_src=${okv}-sched-bfs-${bfs_vrs}.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
+RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
 "
-unset okv bfs_uri bfs_vrs ck_uri
+unset okv bfq_uri bfs_uri bfs_vrs ck_uri
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -82,14 +85,16 @@ src_prepare() {
 		for pch in $(< ../patches/series); do
 			epatch ../patches/$pch || die
 		done
+ 	else
+ 		use bfs && epatch ../patches/${bfs_src}
+		if use hz; then
+			for pch in $(grep hz ../patches/series); do 
+				epatch ../patches/$pch || die
+			done
+			epatch ../patches/preempt-desktop-tune.patch || die
+		fi
 	fi
-	use bfs && epatch ../patches/${bfs_src}
-	if use hz; then
-		for pch in $(grep hz ../patches/series); do 
-			epatch ../patches/$pch || die
-		done
-		epatch ../patches/preempt-desktop-tune.patch || die
-	fi
+	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
 }

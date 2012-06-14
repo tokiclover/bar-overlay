@@ -6,10 +6,11 @@
 		<email></email>
 	</maintainer>
 	<use>
-		<flag name="bfs">Add the Brain Fuck Scheduler, already included in ck USE flag, to the patch stack</flag>
-		<flag name="fbcondecor">Add genpatch extras to the patch stack</flag>
-		<flag name="ck">Add the whole -ck patchset to the patch stack</flag>
-		<flag name="hz">Add hz-preempt related patches, already included in ck USE flag, to the patch stack</flag>
-		<flag name="tuxonice">Add TuxOnIce hibernation implemention to the patch stack</flag>
+		<flag name="bfq">Adds Budget Fair Queueing Budget I/O Scheduler to the patch stack</flag>
+		<flag name="bfs">Adds Brain Fuck CPU Scheduler to the stack</flag>
+		<flag name="fbcondecor">Add genpatch-extras to the patch stack</flag>
+		<flag name="ck">Adds the whole -ck patchset to the patch stack</flag>
+		<flag name="hz">Adds hz-preempt related patches to the patch stack</flag>
+		<flag name="rt">Adds -rt Real Time kernel patchset to the patch stack</flag>
 	</use>
 </pkgmetadata>
