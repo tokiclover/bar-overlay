@@ -6,7 +6,7 @@
 		<email></email>
 	</maintainer>
 	<use>
-		<flag name="bfq">Adds Budget Fair Queueing Budget I/O Scheduler to the patch stack</flag>
+		<flag name="bfq">Adds Budget Fair Queueing I/O Scheduler to the patch stack</flag>
 		<flag name="bfs">Adds Brain Fuck CPU Scheduler to the stack</flag>
 		<flag name="fbcondecor">Add genpatch-extras to the patch stack</flag>
 		<flag name="ck">Adds the whole -ck patchset to the patch stack</flag>
