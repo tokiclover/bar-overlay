@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.7.0.ebuild v1.3 2012/06/12 15:24:36 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.8.2.ebuild v1.4 2012/06/16 12:39:51 -tclover Exp $
 
 EAPI=4
 
@@ -8,7 +8,7 @@ inherit eutils
 
 DESCRIPTION="initramfs building tool with full LUKS, LVM2, RAID, crypted keyfile and AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
-SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${PN}-${PVR}.tar.gz"
+SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"
 RESTRICT="nomirror confcache"
 LICENSE="2-clause BSD GPL-2 GPL-3"
 
@@ -64,13 +64,13 @@ src_prepare() {
 	done
 	bin=${bin/fsck.btrfs/btrfsck} bin=${bin/e2fs/ext3:fsck.ext4}
 	use luks && bin+=:cryptsetup
-	sed -e "s,bin]+=:.*$,bin]+=:${bin}," -i mkifs-ll.conf.{ba,z}sh || die
+	sed -e "s,bin]+=:.*$,bin]+=:${bin}," -i ${PN}.conf || die
 
 	if ! use xz; then
 		for u in ${IUSE_COMP}; do
 			if use ${u}; then
 				[[ "${u}" == "bzip2" ]] && e=c
-				sed -e "s,xz -9 --check=crc32,${u} -${e}9," -i mkifs-ll.{ba,z}sh || die
+				sed -e "s,xz -9 --check=crc32,${u} -${e}9," -i ${PN}.{ba,z}sh || die
 				break
 			fi
 		done
@@ -97,14 +97,14 @@ src_install() {
 	fi
 	if use symlink; then
 		local prefix=/usr/local/sbin
-		ln -sf ${prefix}/mkifs{-ll.${sh},}
+		dosym ${prefix}/{${PN}.${sh},${PN/nitram/}}
 		use aufs && use squashfs && dosym ${prefix}/sdr{.${sh},}
 	fi
 }
 pkg_postinst() {
 	einfo "with a static binaries of gnupg-1.4*, busybox and its applets, the easiest"
 	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
-	einfo " \`mkifs-ll.${sh} -a -k$(uname -r)' without forgeting to copy those binaries"
+	einfo " \`${PN}.${sh} -a -k$(uname -r)' without forgeting to copy those binaries"
 	einfo "before to \`\${PWD}/bin' along with options.skel to \`\${PWD}/misc/share/gnupg/'."
 	einfo "Else, run \`mkifs-ll-autogen.${sh} -D -s -l -g' and that script will take care of"
 	einfo "everything for kernel $(uname -r), you can add gpg.conf by appending \`-C~'"
