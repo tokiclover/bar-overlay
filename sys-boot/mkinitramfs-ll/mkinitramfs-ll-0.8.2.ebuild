@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.8.2.ebuild v1.4 2012/06/16 12:39:51 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.8.2.ebuild v1.4 2012/06/16 12:46:07 -tclover Exp $
 
 EAPI=4
 
@@ -106,7 +106,7 @@ pkg_postinst() {
 	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
 	einfo " \`${PN}.${sh} -a -k$(uname -r)' without forgeting to copy those binaries"
 	einfo "before to \`\${PWD}/bin' along with options.skel to \`\${PWD}/misc/share/gnupg/'."
-	einfo "Else, run \`mkifs-ll-autogen.${sh} -D -s -l -g' and that script will take care of"
+	einfo "Else, run \`mkinitramfs-ll-autogen.${sh} -D -s -l -g' and that script will take care of"
 	einfo "everything for kernel $(uname -r), you can add gpg.conf by appending \`-C~'"
 	einfo "for example. User scripts can be added to \`\${PWD}/misc' directory."
 	if use aufs && use squashfs; then
