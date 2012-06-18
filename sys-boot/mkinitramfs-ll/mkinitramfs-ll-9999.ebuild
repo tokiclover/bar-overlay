@@ -15,10 +15,10 @@ LICENSE="2-clause BSD GPL-2 GPL-3"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE_COMP="bzip2 gzip lzip lzma lzop +xz"
+IUSE_COMP="bzip2 gzip lzip lzma lzo +xz"
 IUSE_FS="btrfs +e2fs jfs reiserfs xfs"
 IUSE="aufs bash fbsplash luks lvm raid squashfs symlink zsh ${IUSE_FS} ${IUSE_COMP}"
-REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzop xz )
+REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )
 "
 
@@ -44,14 +44,14 @@ RDEPEND="sys-apps/busybox[mdev]
 	bzip2? ( || ( app-arch/bzip2 app-arch/lbzip2 app-arch/pbzip2 ) )
 	gzip? ( app-arch/gzip[nls] )
 	lzip? ( app-arch/lzip )
-	lzop? ( app-arch/lzopp )
+	lzo? ( app-arch/lzop )
 	xz? ( app-arch/xz-utils[nls] )
 	aufs? ( || ( =sys-fs/aufs-utils-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
 	e2fs? ( sys-fs/e2fsprogs )
 	btrfs? ( sys-fs/btrfs-progs )
 	jfs? ( sys-fs/jfsutils )
 	reiserfs? ( sys-fs/reiserfsprogs )
-	squashfs? ( sys-fs/squashfs-tools[lzma?,lzop?,xz?] )
+	squashfs? ( sys-fs/squashfs-tools[lzma?,lzo?,xz?] )
 	xfs? ( sys-fs/xfsprogs )
 "
 src_prepare() {
