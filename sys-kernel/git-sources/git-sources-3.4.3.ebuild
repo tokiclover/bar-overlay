@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.2.ebuild,v 1.3 2012/06/14 12:35:47 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.2.ebuild,v 1.3 2012/06/19 00:50:13 -tclover Exp $
 
 EAPI=4
 
@@ -36,11 +36,11 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) ) rt? ( !bfs !ck )"
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v3r4"
 bfq_src=${okv}-r4-bfq.patch.bz2
-bfs_vrs=422
+bfs_vrs=423
 bfs_src=${okv}-sched-bfs-${bfs_vrs}.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
-ck_src=${okv}-ck1-broken-out.tar.bz2
-ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
+ck_src=${okv}-ck2-broken-out.tar.bz2
+ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck2/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
 rt_src=patch-${okv}.2-rt10.patch.bz2
 rt_uri="https://www.kernel.org/pub/linux/kernel/projects/rt/${okv}/"
