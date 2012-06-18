@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.0.34.ebuild,v 1.3 2012/06/14 12:53:49 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.0.35.ebuild,v 1.3 2012/06/18 13:31:59 -tclover Exp $
 
 EAPI=4
 
@@ -30,8 +30,8 @@ EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfq bfs fbcondecor ck hz"
-REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
+IUSE="aufs bfq bfs fbcondecor ck hz rt"
+REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) ) rt? ( !bfs !ck )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v3r4"
@@ -42,11 +42,14 @@ bfs_uri=http://ck.kolivas.org/patches/bfs/${okv}.0
 ck_src=${okv}.0-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv}/${okv}/${okv}.0-ck1/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
+rt_src=patch-${okv}.33-rt54.patch.bz2
+rt_uri="https://www.kernel.org/pub/linux/kernel/projects/rt/${okv}/"
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${bfs_uri}/${bfs_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
+	rt? ( ${rt_uri}/${rt_src} )
 "
-unset okv bfq_uri bfs_uri bfs_vrs ck_uri
+unset okv bfq_uri bfs_uri bfs_vrs ck_uri rt_uri
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -91,7 +94,7 @@ src_prepare() {
 		for pch in $(< ../patches/series); do
 			epatch ../patches/$pch || die
 		done
-  	else
+ 	else
  		use bfs && epatch ../patches/${bfs_src/bfs-*413/sched-bfs-406}
 		if use hz; then
 			for pch in $(grep hz ../patches/series); do 
@@ -102,6 +105,7 @@ src_prepare() {
 	fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	use bfs || use ck && epatch "${DISTDIR}"/${bfs_src}
+	use rt && epatch "${DISTDIR}"/${rt_src}
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
 }
