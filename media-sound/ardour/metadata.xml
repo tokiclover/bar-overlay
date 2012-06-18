@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>no-herd</herd>
+	<maintainer>
+		<email>proaudio@tuxfamily.org</email>
+		<name>pro-audio overlay team</name>
+	</maintainer>
+	<use>
+	  <flag name="aubio">Use Paul Brossier's aubio library for feature detection</flag>
+	  <flag name="austate">Build with support for AU settings and presets</flag>
+	  <flag name="sys-libs">Use system libs instead of provided. No upstream support!!!</flag>
+	  <flag name="tranzport">Compile with support for Frontier Designs</flag>
+	  <flag name="oldfonts">Old school font sizes</flag>
+	  <flag name="dmalloc">Compile and link using the dmalloc library</flag>
+	  <flag name="fft_analysis">Include FFT analysis window</flag>
+	  <flag name="fpu_optimization">Build runtime checked assembler code (sse, 3dnow, altivec, mmx)</flag>
+	  <flag name="liblo">Compile with support for liblo library</flag>
+	  <flag name="surfaces">Build support for control surfaces</flag>
+	  <flag name="lv2">Use slv2 effect"</flag>
+	  <flag name="wiimote">Use Nintendo Wiimote</flag>
+	</use>
+</pkgmetadata>

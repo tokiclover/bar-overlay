@@ -1,5 +1,0 @@
-*2011-08-21:
-	update faenza-icon-theme-9.2_p1.ebuild to make this theme mergeable
-	without editing
-*2011-07-xx:
-	added faenza-icon-theme-smplayer ebuild for this port to smplayer
