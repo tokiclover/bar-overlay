@@ -100,7 +100,7 @@ src_install() {
 }
 pkg_postinst() {
 	einfo "easiest way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
-	einfo " \`${PN}.${sh} -a -k$(uname -r)', do copy [usr/bin]gpg binary with its"
+	einfo " \`${PN}.${sh} -a -k$(uname -r)', do copy [usr/bin/]gpg binary with"
 	einfo "its [usr/share/gnupg/]options.skel before for GnuPG support."
 	einfo "Else \`mkinitramfs-ll-autogen.${sh} -a -s -l -g' will build everything"
 	einfo "for kernel \$(uname -r), a [usr/root/.gnupg/]gpg.conf can be added."
