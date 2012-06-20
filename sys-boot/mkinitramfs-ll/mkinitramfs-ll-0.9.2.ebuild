@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.1.ebuild v1.4 2012/06/19 15:11:48 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.1.ebuild v1.4 2012/06/20 16:28:39 -tclover Exp $
 
 EAPI=4
 
@@ -102,13 +102,12 @@ src_install() {
 	fi
 }
 pkg_postinst() {
-	einfo "with a static binaries of gnupg-1.4*, busybox and its applets, the easiest"
-	einfo "way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
-	einfo " \`${PN}.${sh} -a -k$(uname -r)' without forgeting to copy those binaries"
-	einfo "before to \`\${PWD}/bin' along with options.skel to \`\${PWD}/misc/share/gnupg/'."
-	einfo "Else, run \`mkinitramfs-ll-autogen.${sh} -a -s -l -g' and that script will take care of"
-	einfo "everything for kernel $(uname -r), you can add gpg.conf by appending \`-C~'"
-	einfo "for example. User scripts can be added to \`\${PWD}/misc' directory."
+	einfo "easiest way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
+	einfo " \`${PN}.${sh} -a -k$(uname -r)', do copy [usr/bin]gpg binary with its"
+	einfo "its [usr/share/gnupg/]options.skel before for GnuPG support."
+	einfo "Else \`mkinitramfs-ll-autogen.${sh} -a -s -l -g' will build everything"
+	einfo "for kernel \$(uname -r), a [usr/root/.gnupg/]gpg.conf can be added."
+	einfo "user scripts can be added to usr/etc/local.d"
 	if use aufs && use squashfs; then
 		einfo
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
