@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.1.ebuild v1.4 2012/06/21 10:11:25 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.2.ebuild v1.4 2012/06/21 10:24:51 -tclover Exp $
 
 EAPI=4
 
