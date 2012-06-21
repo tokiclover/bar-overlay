@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.3 2012/06/20 16:28:44 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.3 2012/06/21 10:11:29 -tclover Exp $
 
 EAPI=4
 
@@ -99,7 +99,7 @@ src_install() {
 	fi
 }
 pkg_postinst() {
-	einfo "easiest way to build an intramfs is running in \${DISTDIR}/egit-src/${PN}"
+	einfo "easiest way to build an intramfs is running in /usr/local/share/${PN}"
 	einfo " \`${PN}.${sh} -a -f -y -k$(uname -r)', do copy [usr/bin/]gpg binary with"
 	einfo "its [usr/share/gnupg/]options.skel before for GnuPG support."
 	einfo "Else \`mkinitramfs-ll-autogen.${sh} -af -y -s -l -g' will build everything"
