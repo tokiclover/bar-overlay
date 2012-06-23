@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-3.9999.ebuild v1.5 2012/05/24 00:39:49 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-3.9999.ebuild v1.5 2012/06/23 11:05:13 -tclover Exp $
 
 EAPI="4"
 
@@ -71,7 +71,7 @@ pkg_setup() {
 
 set_config() {
 	for option in $*; do
-		grep -q "^CONFIG_AUFS_${option} =" config.mk || \
+		grep -q "^CONFIG_AUFS_${option} =" config.mk ||
 			die "${option} is not a valid config option"
 		sed -e "/^CONFIG_AUFS_${option}/s:=:= y:g" -i config.mk || die
 	done
@@ -106,7 +106,7 @@ src_compile() {
 src_install() {
 	export KV_OBJ=ko
 	linux-mod_src_install
-	use header && emake DESTDIR="${D}" install_header || die
+	use header && emake DESTDIR="${D}" install_header
 	dodoc README
 	docinto design
 	dodoc design/*.txt
