@@ -1,8 +1,8 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-3.9999.ebuild v1.5 2012/06/23 11:05:13 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-3.9999.ebuild v1.5 2012/06/23 11:45:21 -tclover Exp $
 
-EAPI="4"
+EAPI=4
 
 inherit linux-mod multilib toolchain-funcs git-2
 
@@ -32,37 +32,39 @@ pkg_setup() {
 	use fuse && CONFIG_CHECK="${CONFIG_CHECK} ~FUSE_FS"
 	use hfs && CONFIG_CHECK="${CONFIG_CHECK} ~HFSPLUS_FS"
 
-	# this is needed so merging a binpkg aufs2 is possible
+	# this is needed so merging a binpkg aufs-standalone is possible
 	# w/out a kernel unpacked on the system
 	[ -n "$PKG_SETUP_HAS_BEEN_RAN" ] && return
 
 	get_version
 
 	kernel_is lt 3 0 0 && die "kernel too old"
-	if [[ "${CKV}" != "${OKV}" ]]; then local version=${KV_MAJOR}.x-rcN
-	else local version=${KV_MAJOR}.${KV_MINOR}; fi
+	[[ "${CKV}" != "${OKV}" ]] && local version=${KV_MAJOR}.x-rcN ||
+		local version=${KV_MAJOR}.${KV_MINOR}
 	EGIT_BRANCH=aufs${version}	
 
 	linux-mod_pkg_setup
-	if ! ( patch -p1 --dry-run --force -R -d ${KV_DIR} \
-		   < "${FILESDIR}"/aufs-standalone-${version}.patch >/dev/null && \
-		patch -p1 --dry-run --force -R -d ${KV_DIR} \
-			< "${FILESDIR}"/aufs-base-${version}.patch >/dev/null ); then
+	if ! ( pushd ${KV_DIR}
+		for patch in proc_map standalone base; do
+			bzip2 -dc "${FILESDIR}"/aufs-${patch}-${version}.patch.bz2 | \
+			patch -p1 --dry-run --force -R >/dev/null || { break && return 1; }
+		done ); then
 		if use kernel-patch; then
-			cd ${KV_DIR}
 			ewarn "Patching your kernel..."
-			patch --no-backup-if-mismatch --force -p1 -R -d ${KV_DIR} \
-				< "${FILESDIR}"/aufs-standalone-${version}.patch >/dev/null
-			patch --no-backup-if-mismatch --force -p1 -R -d ${KV_DIR} \
-				< "${FILESDIR}"/aufs-base-${version}.patch >/dev/null
-			epatch "${FILESDIR}"/aufs-{base,standalone,proc_map}-${version}.patch
+			for patch in proc_map standalone base; do
+				bzip2 -dc "${FILESDIR}"/aufs-proc_map-${version}.patch.bz2 | \
+				patch --no-backup-if-mismatch --force -p1 -R >/dev/null
+			done
+			popd
+			epatch "${FILESDIR}"/aufs-{base,standalone,proc_map}-${version}.patch.bz2
 			ewarn "You need to compile your kernel with the applied patch"
 			ewarn "to be able to load and use the aufs kernel module"
 		else
 			eerror "Apply patches to your kernel to compile and run the aufs${KV_MAJOR} module"
 			eerror "Either enable the kernel-patch useflag to do it with this ebuild"
-			eerror "or apply 'patch -p1 < ${FILESDIR}/aufs-base-${version}.patch' and"
-			eerror "'patch -p1 < ${FILESDIR}/aufs-standalone-${version}.patch' by hand"
+			eerror "or apply 'bzip2 -dc ${FILESDIR}/aufs-base-${version}.patch.bz2 | patch -p1'"
+			eerror "and 'bzip2 -dc ${FILESDIR}/aufs-standalone-${version}.patch.bz2 | patch -p1'"
+			eerror "and 'bzip2 -dc ${FILESDIR}/aufs-proc_map-${version}.patch.bz2 | patch -p1'"
 			die "missing kernel patch, please apply it first"
 		fi
 	fi
@@ -91,7 +93,7 @@ src_prepare() {
 	use nfs && use amd64 && set_config INO_T_64
 	use ramfs && set_config BR_RAMFS
 
-	use pax_kernel && epatch "${FILESDIR}"/pax.patch
+	use pax_kernel && epatch "${FILESDIR}"/pax.patch.bz2
 
 	sed -e 's:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g' -i Makefile || die
 	sed -e 's:__user::g' -i include/linux/aufs_type.h || die
