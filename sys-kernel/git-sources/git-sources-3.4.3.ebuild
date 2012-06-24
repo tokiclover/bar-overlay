@@ -42,12 +42,12 @@ bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 ck_src=${okv}-ck2-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck2/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
-rt_src=patch-${okv}.2-rt10.patch.bz2
+rt_src=patch-${OKV}-rt11.patch.bz2
 rt_uri="https://www.kernel.org/pub/linux/kernel/projects/rt/${okv}/"
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
-	rt? ( ${rt_uri}/older/${rt_src} )
+	rt? ( ${rt_uri}/${rt_src} )
 "
 unset okv bfq_uri bfs_uri bfs_vrs ck_uri rt_uri
 
