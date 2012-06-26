@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.2.ebuild v1.4 2012/06/21 10:24:51 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.2.ebuild v1.4 2012/06/25 12:24:59 -tclover Exp $
 
 EAPI=4
 
@@ -79,13 +79,12 @@ src_prepare() {
 src_compile(){ :; }
 src_install() {
 	emake DESTDIR="${D}" install
-	bzip2 ChangeLog
-	bzip2 KnownIssue
-	bzip2 README.textile
+	bzip2 -9 KnownIssue
+	bzip2 -9 README.textile
 	if use aufs && use squashfs; then
 		emake DESTDIR="${D}" install_svc
 		mv svc/README.textile README.svc.textile || die
-		bzip2 README.svc.textile
+		bzip2 -9 README.svc.textile
 	fi
 	insinto /usr/local/share/${PN}/doc
 	doins *.bz2 || die
