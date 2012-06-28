@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-util/aufs-util-9999.ebuild v1.3 2012/06/03 03:20:48 -tclover Exp $
+# $Header: sys-fs/aufs-util/aufs-util-9999.ebuild v1.3 2012/06/28 18:04:41 -tclover Exp $
 
 EAPI="4"
 
@@ -12,7 +12,7 @@ EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs-util.git"
 
 RDEPEND="${DEPEND}
 		!sys-fs/aufs3"
-DEPEND="!kernel-builtin? ( =sys-fs/${P/utils/standalone}[header] )"
+DEPEND="!kernel-builtin? ( =sys-fs/${P/utils/standalone} )"
 
 LICENSE="GPL-2"
 SLOT="0"
