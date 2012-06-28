@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-3.9999.ebuild v1.5 2012/06/23 11:45:21 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-3.9999.ebuild v1.6 2012/06/23 11:45:21 -tclover Exp $
 
 EAPI=4
 
@@ -19,14 +19,14 @@ RDEPEND="!sys-fs/aufs3
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug doc fuse pax_kernel header hfs inotify kernel-patch nfs ramfs"
+IUSE="debug doc fuse pax_kernel hfs inotify kernel-patch nfs ramfs"
 
 S="${WORKDIR}"/${PN}
 
 MODULE_NAMES="aufs(misc:${S})"
 
 pkg_setup() {
-	CONFIG_CHECK="${CONFIG_CHECK} ~EXPERIMENTAL"
+	CONFIG_CHECK="${CONFIG_CHECK} ~EXPERIMENTAL ~PROC_FS"
 	use inotify && CONFIG_CHECK="${CONFIG_CHECK} ~FSNOTIFY"
 	use nfs && CONFIG_CHECK="${CONFIG_CHECK} ~EXPORTFS"
 	use fuse && CONFIG_CHECK="${CONFIG_CHECK} ~FUSE_FS"
@@ -71,45 +71,46 @@ pkg_setup() {
 	export PKG_SETUP_HAS_BEEN_RAN=1
 }
 
-set_config() {
-	for option in $*; do
+src_prepare() {
+	use pax_kernel && epatch "${FILESDIR}"/pax.patch.bz2
+
+	sed -e 's:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g' -i Makefile || die
+	sed -e 's:__user::g' -i include/linux/aufs_type.h || die
+	sed -e "s:/lib/modules/${KV_FULL}/build:${KV_OUT_DIR}:g" -i Makefile || die
+}
+
+src_configure() {
+	sed -e 's:AUFS_BRANCH_MAX_127.*$:AUFS_BRANCH_MAX_127 = 127:' \
+		-e 's:AUFS_BRANCH_MAX_511.*$:AUFS_BRANCH_MAX_511 = 511:' \
+		-e 's:AUFS_BRANCH_MAX_1023.*$:AUFS_BRANCH_MAX_1023 = 1023:' \
+		-e 's:CONFIG_AUFS_BRANCH_MAX_32767.*$:CONFIG_AUFS_BRANCH_MAX_32767 = 32767:' \
+		-e 's:= y:=:g' -i config.mk || die
+
+	local config="\
+		$(use debug && echo DEBUG MAGIC_SYSRQ) \
+		$(use fuse && echo BR_FUSE POLL) \
+		$(use hfs && echo BR_HFSPLUS) \
+		$(use inotify && echo HNOTIFY HFSNOTIFY) \
+		$(use nfs && echo EXPORT) \
+		$(use nfs && [[ "$ABI" = "amd64" ]] && echo INO_T_64) \
+		$(use ramfs && echo BR_RAMFS)"
+
+	for option in $config PROC_MAP RDU SBILIST SP_IATTR; do
 		grep -q "^CONFIG_AUFS_${option} =" config.mk ||
 			die "${option} is not a valid config option"
 		sed -e "/^CONFIG_AUFS_${option}/s:=:= y:g" -i config.mk || die
 	done
 }
 
-src_prepare() {
-	# All config options to off
-	sed -e 's:= y:=:g' -i config.mk || die
-
-	set_config RDU BRANCH_MAX_127 SBILIST
-
-	use debug && set_config DEBUG
-	use fuse && set_config BR_FUSE POLL
-	use hfs && set_config BR_HFSPLUS
-	use inotify && set_config HNOTIFY HFSNOTIFY
-	use nfs && set_config EXPORT
-	use nfs && use amd64 && set_config INO_T_64
-	use ramfs && set_config BR_RAMFS
-
-	use pax_kernel && epatch "${FILESDIR}"/pax.patch.bz2
-
-	sed -e 's:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g' -i Makefile || die
-	sed -e 's:__user::g' -i include/linux/aufs_type.h || die
-	sed -e "s:/lib/modules/\$(shell uname -r)/build:${KV_OUT_DIR}:g" -i Makefile || die
-}
-
 src_compile() {
-	local ARCH=x86
-	emake CC=$(tc-getCC) CONFIG_AUFS_FS=m KDIR=${KV_DIR}
+	export ARCH=x86
+	emake CC=$(tc-getCC) CONFIG_AUFS_FS=m KDIR="${KV_DIR}"
 }
 
 src_install() {
-	export KV_OBJ=ko
 	linux-mod_src_install
-	use header && emake DESTDIR="${D}" install_header
-	dodoc README
-	docinto design
-	dodoc design/*.txt
+	epatch "${FILESDIR}"/aufs_type.h.patch
+	install -Dpm 644 include/linux/aufs_type.h \
+		"${D}"/usr/include/linux/aufs_type.h || die
+	dodoc Documentation/filesystems/aufs/README
 }
