@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-3.9999.ebuild v1.6 2012/06/23 11:45:21 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.6 2012/06/29 17:33:41 -tclover Exp $
 
 EAPI=4
 
@@ -8,13 +8,10 @@ inherit linux-mod multilib toolchain-funcs git-2
 
 DESCRIPTION="An entirely re-designed and re-implemented Unionfs"
 HOMEPAGE="http://aufs.sourceforge.net/"
-EGIT_PROJECT=${PN/-/3-}.git
-EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs3-standalone.git"
+EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs-standalone.git"
 EGIT_NONBARE=yes
 
-RDEPEND="!sys-fs/aufs3
-	=sys-fs/${P/standalone/utils}
-"
+RDEPEND="!sys-fs/aufs3 !sys-fs/aufs2 =sys-fs/${P/standalone/utils}"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -41,7 +38,9 @@ pkg_setup() {
 	kernel_is lt 3 0 0 && die "kernel too old"
 	[[ "${CKV}" != "${OKV}" ]] && local version=${KV_MAJOR}.x-rcN ||
 		local version=${KV_MAJOR}.${KV_MINOR}
-	EGIT_BRANCH=aufs${version}	
+	EGIT_BRANCH=aufs${version}
+	export EGIT_PROJECT=${PN/aufs/aufs${KV_MAJOR}}.git
+	export EGIT_REPO_URI=${EGIT_REPO_URI/aufs-/aufs${KV_MAJOR}-}
 
 	linux-mod_pkg_setup
 	if ! ( pushd ${KV_DIR}
