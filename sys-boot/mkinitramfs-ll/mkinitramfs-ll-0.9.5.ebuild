@@ -109,7 +109,7 @@ pkg_postinst() {
 	einfo "easiest way to build an intramfs is running in /usr/local/share/${PN}"
 	einfo " \`${PN}.${sh} -a -f -y -k$(uname -r)', do copy [usr/bin/]gpg binary with"
 	einfo "its [usr/share/gnupg/]options.skel before for GnuPG support."
-	einfo "Else \`mkinitramfs-ll-autogen.${sh} -af -y -s -l -g' will build everything"
+	einfo "Else \`autogen.${sh} -af -y -s -l -g' will build everything in that dir"
 	einfo "for kernel \$(uname -r), a [usr/root/.gnupg/]gpg.conf can be added."
 	einfo "user scripts can be added to usr/etc/local.d"
 	if use aufs && use squashfs; then
