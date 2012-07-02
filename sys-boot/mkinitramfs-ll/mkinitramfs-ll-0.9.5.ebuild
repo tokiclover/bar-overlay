@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.2.ebuild v1.4 2012/06/25 12:24:59 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.2.ebuild v1.4 2012/07/02 13:50:59 -tclover Exp $
 
 EAPI=4
 
@@ -53,10 +53,12 @@ RDEPEND="sys-apps/busybox[mdev]
 	squashfs? ( sys-fs/squashfs-tools[lzma?,lzo?,xz?] )
 	xfs? ( sys-fs/xfsprogs )
 "
+
 src_unpack() {
 	unpack "${A}"
 	mv "${WORKDIR}"/{*${PN}*,${P}} || die
 }
+
 src_prepare() {
 	local bin b e fs u
 	for fs in ${IUSE_FS}; do
@@ -76,7 +78,9 @@ src_prepare() {
 		done
 	fi
 }
+
 src_compile(){ :; }
+
 src_install() {
 	emake DESTDIR="${D}" install
 	bzip2 -9 KnownIssue
@@ -100,6 +104,7 @@ src_install() {
 		use aufs && use squashfs && dosym ${prefix}/sdr{.${sh},}
 	fi
 }
+
 pkg_postinst() {
 	einfo "easiest way to build an intramfs is running in /usr/local/share/${PN}"
 	einfo " \`${PN}.${sh} -a -f -y -k$(uname -r)', do copy [usr/bin/]gpg binary with"
