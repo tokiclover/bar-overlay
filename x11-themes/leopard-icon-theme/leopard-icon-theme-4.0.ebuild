@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/leopard-icon-theme/leopard-icon-theme-4.0.ebuild,v 1.0 2012/05/08 -tclover Exp $
+# $Header: bar-overlay/x11-themes/leopard-icon-theme/leopard-icon-theme-4.0.ebuild,v 1.0 2012/07/04 00:22:10 -tclover Exp $
 
 EAPI=2
 

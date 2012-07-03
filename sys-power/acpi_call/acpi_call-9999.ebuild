@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/sys-power/acpi_call/acpi_call-9999.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
-inherit linux-mod git-2 
-
 EAPI=2
+
+inherit linux-mod git-2 
 
 DESCRIPTION="A module for Linux Hybrid Switchable graphics based on ACPI call as its name imply."
 HOMEPAGE="http://linux-hybrid-graphics.blogspot.com/"

@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-gfx/exquisite/exquisite-9999.ebuild,v 1.1 2012/05/08 -tclover Exp $
+# $Header: bar-overlay/media-gfx/exquisite/exquisite-9999.ebuild,v 1.1 2012/07/04 00:20:36 -tclover Exp $
 
 EAPI=4
 

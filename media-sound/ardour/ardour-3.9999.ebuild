@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/media-sound/ardour-3.9999.ebuild,v 1.1 2012/03/16 -tclover Exp $
+# $Header: $BAR-overlay/media-sound/ardour-3.9999.ebuild,v 1.1 2012/07/04 00:20:49 -tclover Exp $
 
 EAPI="2"
 

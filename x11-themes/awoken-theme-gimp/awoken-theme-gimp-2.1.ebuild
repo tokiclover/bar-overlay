@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/awoken-theme-gimp/awoken-theme-gimp-2.1.ebuild,v1.1 2012/05/08 -tclover Exp $
+# $Header: bar-overlay/x11-themes/awoken-theme-gimp/awoken-theme-gimp-2.1.ebuild,v1.1 2012/07/04 00:21:47 -tclover Exp $
 
 EAPI=2
 

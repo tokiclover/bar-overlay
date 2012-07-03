@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-video/gnome-mplayer/gnome-mplayer-1.0.3-r2.ebuild,v 1.1 2012/06/18 19:58:58 -tclover Exp $
+# $Header: bar-overlay/media-video/gnome-mplayer/gnome-mplayer-1.0.3-r2.ebuild,v 1.1 2012/07/04 00:20:59 -tclover Exp $
 
 EAPI=4
 inherit fdo-mime gnome2-utils

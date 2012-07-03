@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.2005.ebuild,v 1.1 2012/05/08 -tclover Exp $
+# $Header: bar-overlay/media-sound/oss/oss-4.2.2005.ebuild,v 1.1 2012/07/04 00:20:54 -tclover Exp $
 
 EAPI=2
 

@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.70-r2.ebuild,v 1.9 2012/06/04 12:28:46 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.70-r2.ebuild,v 1.9 2012/07/04 00:21:17 -tclover Exp $
 
 EAPI=4
 
