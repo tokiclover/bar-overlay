@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.3.8.ebuild,v 1.3 2012/07/04 00:21:31 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.3.8.ebuild,v 1.3 2012/07/04 15:37:15 -tclover Exp $
 
 EAPI=4
 
@@ -24,7 +24,6 @@ detect_arch
 DESCRIPTION="The very latest linux-stable.git, -git as pulled by git of the stable tree"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
-EGIT_PROJECT=${PN}
 EGIT_TAG=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
