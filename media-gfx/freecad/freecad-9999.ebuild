@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-gfx/freecad/freecad-9999.ebuild,v 1.2 2012/07/04 00:20:37 -tclover Exp $
+# $Header: bar-overlay/media-gfx/freecad/freecad-9999.ebuild,v 1.2 2012/07/04 16:04:10 -tclover Exp $
 
 EAPI=4
 PYTHON_DEPEND=2
@@ -15,6 +15,7 @@ MY_PDIR="/usr/share/${P}"
 DESCRIPTION="QT based Computer Aided Design application"
 HOMEPAGE="http://sourceforge.net/apps/mediawiki/free-cad/"
 EGIT_REPO_URI="git://free-cad.git.sourceforge.net/gitroot/free-cad/free-cad"
+EGIT_PROJECT=${PN}.git
 
 LICENSE="GPL-2"
 SLOT="0"
