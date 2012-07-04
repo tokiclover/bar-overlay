@@ -1,12 +1,11 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/gmusicbrowser/gmusicbrowser-1.1.8.ebuild,v 1.1 2012/07/04 13:08:38 -tclover Exp $
+# $Header: bar-overlay/media-sound/gmusicbrowser/gmusicbrowser-1.1.8.ebuild,v 1.1 2012/07/04 15:29:48 -tclover Exp $
 
 EAPI=2
 
 if [ ${PV} = 9999 ]; then egit=git-2
 	EGIT_REPO_URI="git://github.com/squentin/gmusicbrowser.git"
-	EGIT_PROJECT=${PN}
 else SRC_URI="https://github.com/squentin/${PN}/tarball/v${PV} -> ${P}.tar.gz"
 fi
 inherit fdo-mime ${egit}
