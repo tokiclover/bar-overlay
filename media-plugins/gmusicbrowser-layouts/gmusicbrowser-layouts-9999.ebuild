@@ -16,7 +16,7 @@ RESTRICT="nomirror confcache"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="+themes"
 
 RDEPEND=">=media-sound/gmusicbrowser-1.1.6"
