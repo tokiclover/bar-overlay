@@ -1,13 +1,13 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-gfx/gimp/gimp-9999.ebuild,v 1.42 2012/07/04 00:20:39 -tclover Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-gfx/gimp/gimp-9999.ebuild,v 1.42 2012/07/04 15:42:45 -tclover Exp $
 
 EAPI="3"
 PYTHON_DEPEND="python? 2:2.5"
 
 inherit eutils gnome2 fdo-mime multilib python git-2
 
-EGIT_REPO_URI="git://git.gnome.org/gimp"
+EGIT_REPO_URI="git://git.gnome.org/gimp.git"
 
 DESCRIPTION="GNU Image Manipulation Program"
 HOMEPAGE="http://www.gimp.org/"
