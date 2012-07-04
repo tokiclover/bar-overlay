@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.2.ebuild v1.4 2012/07/04 00:21:20 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-0.9.2.ebuild v1.4 2012/07/04 17:31:06 -tclover Exp $
 
 EAPI=4
 
@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE_COMP="bzip2 gzip lzip lzma lzo +xz"
 IUSE_FS="btrfs +e2fs jfs reiserfs xfs"
-IUSE="aufs bash fbsplash luks lvm raid squashfs symlink zsh ${IUSE_FS} ${IUSE_COMP}"
+IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink zsh ${IUSE_FS} ${IUSE_COMP}"
 REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )
 "
@@ -37,9 +37,10 @@ RDEPEND="sys-apps/busybox[mdev]
 	zsh? ( app-shells/zsh[unicode] )
 	fbsplash? ( sys-apps/v86d 
 		media-gfx/splashutils[fbcondecor,png,truetype] )
-	luks? ( sys-fs/cryptsetup[nls,static] )
-	lvm? ( sys-fs/lvm2[static] )
-	raid? ( sys-fs/mdadm )
+	cryptsetup? ( sys-fs/cryptsetup[nls,static] )
+	device-mapper? ( sys-fs/lvm2[static] )
+	dmraid? ( sys-fs/dmraid[static] )
+	mdadm? ( sys-fs/mdadm[static] )
 	bzip2? ( || ( app-arch/bzip2 app-arch/lbzip2 app-arch/pbzip2 ) )
 	gzip? ( app-arch/gzip[nls] )
 	lzip? ( app-arch/lzip )
@@ -65,7 +66,7 @@ src_prepare() {
 		use ${fs} && bin+=:fsck.${fs}
 	done
 	bin=${bin/fsck.btrfs/btrfsck} bin=${bin/e2fs/ext3:fsck.ext4}
-	use luks && bin+=:cryptsetup
+	use cryptsetup && bin+=:cryptsetup
 	sed -e "s,bin]+=:.*$,bin]+=:${bin}," -i ${PN}.conf || die
 
 	if ! use xz; then
