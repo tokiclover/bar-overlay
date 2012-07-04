@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/04 17:31:02 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/04 17:51:04 -tclover Exp $
 
 EAPI=4
 
@@ -39,8 +39,8 @@ RDEPEND="sys-apps/busybox[mdev]
 		media-gfx/splashutils[fbcondecor,png,truetype] )
 	cryptsetup? ( sys-fs/cryptsetup[nls,static] )
 	device-mapper? ( sys-fs/lvm2[static] )
-	dmraid? ( sys-fs/dmraid )
-	mdadm? ( sys-fs/mdadm )
+	dmraid? ( sys-fs/dmraid[static] )
+	mdadm? ( sys-fs/mdadm[static] )
 	bzip2? ( || ( app-arch/bzip2 app-arch/lbzip2 app-arch/pbzip2 ) )
 	gzip? ( app-arch/gzip[nls] )
 	lzip? ( app-arch/lzip )
