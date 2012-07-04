@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/04 00:21:21 -tclover Exp $
+# $Header: sys-boot/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/04 15:32:45 -tclover Exp $
 
 EAPI=4
 
@@ -9,7 +9,6 @@ inherit eutils git-2
 DESCRIPTION="initramfs building tool with full LUKS, LVM2, RAID, crypted keyfile and AUFS2+SQUASHFS support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
-EGIT_PROJECT=${PN}
 
 LICENSE="2-clause BSD GPL-2 GPL-3"
 
