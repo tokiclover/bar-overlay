@@ -39,8 +39,8 @@ RDEPEND="sys-apps/busybox[mdev]
 		media-gfx/splashutils[fbcondecor,png,truetype] )
 	cryptsetup? ( sys-fs/cryptsetup[nls,static] )
 	device-mapper? ( sys-fs/lvm2[static] )
-	dmraid? ( sys-fs/dmraid[static] )
-	mdadm? ( sys-fs/mdadm[static] )
+	dmraid? ( sys-fs/dmraid )
+	mdadm? ( sys-fs/mdadm )
 	bzip2? ( || ( app-arch/bzip2 app-arch/lbzip2 app-arch/pbzip2 ) )
 	gzip? ( app-arch/gzip[nls] )
 	lzip? ( app-arch/lzip )
@@ -61,6 +61,9 @@ src_prepare() {
 	done
 	bin=${bin/fsck.btrfs/btrfsck} bin=${bin/e2fs/ext3:fsck.ext4}
 	use cryptsetup && bin+=:cryptsetup
+	use device-mapper && bin+=:lvm.static
+	use mdadm && bin+=:mdadm
+	use dmraid && bin+=:dmraid
 	sed -e "s,bin]+=:.*$,bin]+=:${bin}," -i ${PN}.conf || die
 
 	if ! use xz; then
