@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/gmusicbrowser/gmusicbrowser-1.1.9.ebuild,v 1.2 2012/07/04 00:20:51 -tclover Exp $
+# $Header: bar-overlay/media-sound/gmusicbrowser/gmusicbrowser-1.1.9.ebuild,v 1.2 2012/07/04 13:08:43 -tclover Exp $
 
 EAPI=2
 
@@ -9,8 +9,8 @@ if [ ${PV} = 9999 ]; then egit=git-2
 	EGIT_PROJECT=${PN}
 else SRC_URI="https://github.com/squentin/${PN}/tarball/v${PV} -> ${P}.tar.gz"
 fi
-unset egit
 inherit fdo-mime ${egit}
+unset egit
 
 DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac/mpc/ape files, written in perl"
 HOMEPAGE="http://squentin.free.fr/gmusicbrowser/gmusicbrowser.html"
