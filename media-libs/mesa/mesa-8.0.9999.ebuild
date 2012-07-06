@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/07/04 15:55:15 -tclover Exp $
+# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/07/04 17:19:52 -tclover Exp $
 
 EAPI=4
 
@@ -64,7 +64,7 @@ REQUIRED_USE="
 	video_cards_vmware? ( gallium )
 "
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.34"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.33"
 # not a runtime dependency of this package, but dependency of packages which
 # depend on this package, bug #342393
 EXTERNAL_DEPEND="
@@ -80,7 +80,7 @@ RDEPEND="${EXTERNAL_DEPEND}
 	!<=x11-proto/xf86driproto-2.0.3
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
-	>=app-admin/eselect-opengl-1.2.6
+	>=app-admin/eselect-opengl-1.2.5
 	dev-libs/expat
 	gbm? ( sys-fs/udev )
 	>=x11-libs/libX11-1.3.99.901
@@ -141,14 +141,9 @@ pkg_setup() {
 	use ppc64 && append-flags -mminimal-toc
 }
 
-src_unpack() {
-	default
-	[[ $PV = 9999* ]] && git-2_src_unpack
-}
-
 src_prepare() {
 	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
+	if [[ -n ${SRC_PATCHES} ]]; then
 		EPATCH_FORCE="yes" \
 		EPATCH_SOURCE="${WORKDIR}/patches" \
 		EPATCH_SUFFIX="patch" \
@@ -156,7 +151,7 @@ src_prepare() {
 	fi
 
 	# relax the requirement that r300 must have llvm, bug 380303
-	epatch "${FILESDIR}"/${P}-dont-require-llvm-for-r300.patch
+	epatch "${FILESDIR}"/${P%.9999}-dont-require-llvm-for-r300.patch
 
 	# fix for hardened pax_kernel, bug 240956
 	[[ ${PV} != 9999* ]] && epatch "${FILESDIR}"/glx_ro_text_segm.patch

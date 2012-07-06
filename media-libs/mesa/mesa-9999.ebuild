@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/07/04 15:55:19 -tclover Exp $
+# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/07/04 17:19:55 -tclover Exp $
 
 EAPI=4
 
@@ -140,14 +140,9 @@ pkg_setup() {
 	use ppc64 && append-flags -mminimal-toc
 }
 
-src_unpack() {
-	default
-	[[ $PV = 9999* ]] && git-2_src_unpack
-}
-
 src_prepare() {
 	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
+	if [[ -n ${SRC_PATCHES} ]]; then
 		EPATCH_FORCE="yes" \
 		EPATCH_SOURCE="${WORKDIR}/patches" \
 		EPATCH_SUFFIX="patch" \
