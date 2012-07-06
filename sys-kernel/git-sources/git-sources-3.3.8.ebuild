@@ -26,6 +26,7 @@ HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_TAG=v${PV/%.0}
 EGIT_NOUNPACK="yes"
+EGIT_PROJECT=${PN}.git
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
@@ -63,7 +64,7 @@ src_unpack() {
 		export EGIT_NONBARE=yes
 		export EGIT_REPO_URI=${EGIT_REPO_AUFS}
 		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
-		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone
+		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
 	fi
 	if use bfs || use hz || use ck; then

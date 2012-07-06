@@ -26,6 +26,7 @@ HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_TAG=v${PV/%.0}
 EGIT_NOUNPACK="yes"
+EGIT_PROJECT=${PN}.git
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
@@ -41,7 +42,7 @@ bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 ck_src=${okv}-ck3-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck3/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
-rt_src=patch-${okv}.3-rt11.patch.bz2
+rt_src=patch-${OKV}-rt13.patch.bz2
 rt_uri="https://www.kernel.org/pub/linux/kernel/projects/rt/${okv}/"
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
@@ -64,7 +65,7 @@ src_unpack() {
 		export EGIT_NONBARE=yes
 		export EGIT_REPO_URI=${EGIT_REPO_AUFS}
 		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
-		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone
+		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
 	fi
 	if use bfs || use hz || use ck; then
