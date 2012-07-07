@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-video/cinelerra-cv/cinelerra-cv-9999.ebuild,v 1.1 2011/11/16 -tclover Exp $
+# $Header: bar-overlay/media-video/cinelerra/cinelerra-9999.ebuild,v 1.1 2012/07/07 21:36:00 -tclover Exp $
 
 EAPI=4
 
