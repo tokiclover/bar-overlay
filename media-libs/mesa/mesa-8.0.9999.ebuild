@@ -69,7 +69,7 @@ LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.33"
 # depend on this package, bug #342393
 EXTERNAL_DEPEND="
 	>=x11-proto/dri2proto-2.6
-	>=x11-proto/glproto-1.4.15-r1
+	>=x11-proto/glproto-1.4.15
 "
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
