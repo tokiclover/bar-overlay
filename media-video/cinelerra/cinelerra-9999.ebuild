@@ -9,6 +9,7 @@ inherit autotools eutils git-2 multilib flag-o-matic
 DESCRIPTION="The most advanced non-linear video editor and compositor"
 HOMEPAGE="http://www.cinelerra.org/"
 EGIT_REPO_URI="git://git.cinelerra.org/CinelerraCV.git"
+EGIT_PROJECT=${PN}.git
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
