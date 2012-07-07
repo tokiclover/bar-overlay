@@ -6,7 +6,7 @@ EAPI=4
 
 inherit eutils
 
-DESCRIPTION="initramfs building tool with full LUKS, LVM2, RAID, crypted keyfile and AUFS2+SQUASHFS support"
+DESCRIPTION="flexible initramfs genrating tool with full LUKS[crypted key-file], LVM, RAID and {au+squash}fs support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"
 RESTRICT="nomirror confcache"
