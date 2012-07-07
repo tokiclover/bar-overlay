@@ -1,9 +1,10 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-video/cinelerra-cv/cinelerra-cv-9999.ebuild,v 1.1 2011/11/16 -tclover Exp $
- 
+
 EAPI=4
-inherit autotools eutils multilib flag-o-matic
+
+inherit autotools eutils git-2 multilib flag-o-matic
 
 DESCRIPTION="The most advanced non-linear video editor and compositor"
 HOMEPAGE="http://www.cinelerra.org/"
