@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/06 09:13:55 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/08 16:13:04 -tclover Exp $
 
 EAPI=4
 
@@ -109,7 +109,7 @@ pkg_postinst() {
 	einfo "its [usr/share/gnupg/]options.skel before for GnuPG support."
 	einfo "Else \`autogen.${sh} -af -y -s -l -g' will build everything in that dir"
 	einfo "for kernel \$(uname -r), a [usr/root/.gnupg/]gpg.conf can be added."
-	einfo "user scripts can be added to usr/etc/local.d"
+	einfo "user scripts can be added to usr/etc/${PN}.d"
 	if use aufs && use squashfs; then
 		einfo
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
