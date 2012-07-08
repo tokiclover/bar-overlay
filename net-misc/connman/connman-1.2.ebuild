@@ -36,6 +36,10 @@ DEPEND="${RDEPEND}
 	>=sys-kernel/linux-headers-2.6.39
 	doc? ( dev-util/gtk-doc )"
 
+src_prepare() {
+	eautoreconf
+}
+
 src_configure() {
 	econf \
 		--localstatedir=/var \
