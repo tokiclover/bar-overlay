@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.2.ebuild,v 1.3 2012/07/04 15:37:15 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.2.ebuild,v 1.3 2012/07/10 11:59:59 -tclover Exp $
 
 EAPI=4
 
@@ -26,7 +26,6 @@ HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_TAG=v${PV/%.0}
 EGIT_NOUNPACK="yes"
-EGIT_PROJECT=${PN}.git
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
