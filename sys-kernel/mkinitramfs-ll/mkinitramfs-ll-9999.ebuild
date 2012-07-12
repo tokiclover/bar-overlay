@@ -6,7 +6,8 @@ EAPI=4
 
 inherit eutils git-2
 
-DESCRIPTION="flexible initramfs genrating tool with full LUKS[crypted key-file], LVM, RAID and {au+squash}fs support"
+DESCRIPTION="flexible initramfs genrating tool with full LUKS[crypted key-file],
+LVM, RAID and {au+squash}fs support"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 
@@ -16,7 +17,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE_COMP="bzip2 gzip lzip lzma lzo +xz"
 IUSE_FS="btrfs +e2fs jfs reiserfs xfs"
-IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink zsh ${IUSE_FS} ${IUSE_COMP}"
+IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
+	zfs zsh ${IUSE_FS} ${IUSE_COMP}"
 REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )
 "
@@ -53,12 +55,19 @@ RDEPEND="sys-apps/busybox[mdev]
 	reiserfs? ( sys-fs/reiserfsprogs )
 	squashfs? ( sys-fs/squashfs-tools[lzma?,lzo?,xz?] )
 	xfs? ( sys-fs/xfsprogs )
+	zfs? ( sys-fs/zfs )
 "
 src_prepare() {
 	local bin b e fs u
 	for fs in ${IUSE_FS}; do
 		use ${fs} && bin+=:fsck.${fs}
 	done
+	if use zfs; then bin+=:zfs:zpool
+		cat <${PN}.conf | head -n-2  >conf
+		echo opts[-module]+=:zfs    >>conf
+		cat <${PN}.conf | tail -n2  >>conf
+		mv -f {,${PN}.}conf
+	fi
 	bin=${bin/fsck.btrfs/btrfsck} bin=${bin/e2fs/ext3:fsck.ext4}
 	use cryptsetup && bin+=:cryptsetup
 	use device-mapper && bin+=:lvm.static
