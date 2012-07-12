@@ -65,6 +65,7 @@ src_prepare() {
 	if use zfs; then bin+=:zfs:zpool
 		cat <${PN}.conf | head -n-2  >conf
 		echo opts[-module]+=:zfs    >>conf
+		echo opts[-mdep]+=:spl:znvpair:zcommon:zavl:zunicode:zfs >>conf
 		cat <${PN}.conf | tail -n2  >>conf
 		mv -f {,${PN}.}conf
 	fi
