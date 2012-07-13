@@ -4,6 +4,8 @@
 
 EAPI=4
 
+HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
+
 [ "${PV}" = "9999" ] && egit=git-2 &&
 	EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git" ||
 	SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"
@@ -12,7 +14,6 @@ inherit eutils ${egit}
 
 DESCRIPTION="flexible initramfs genrating tool with full LUKS[crypted key-file],
 LVM, RAID and {au+squash}fs support"
-HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 RESTRICT="nomirror confcache"
 LICENSE="2-clause BSD GPL-2 GPL-3"
 
