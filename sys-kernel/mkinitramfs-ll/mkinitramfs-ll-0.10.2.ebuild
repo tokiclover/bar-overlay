@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/13 14:05:33 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/13 19:47:39 -tclover Exp $
 
 EAPI=4
 
@@ -68,12 +68,16 @@ src_unpack() {
 }
 
 src_prepare() {
-	local bin b e fs u
+	local bin b conf e fs u
+	cat <${PN}.conf | head -n10                >>conf
+	echo opts[-workdir]=/usr/local/share/${PN} >>conf
+	cat <${PN}.conf | tail -n+10               >>conf
+	mv -f {,${PN}.}conf
 	for fs in ${IUSE_FS}; do
 		use ${fs} && bin+=:fsck.${fs}
 	done
 	if use zfs; then bin+=:zfs:zpool
-		cat <${PN}.conf | head -n-2  >conf
+		cat <${PN}.conf | head -n-2 >>conf
 		echo opts[-module]+=:zfs    >>conf
 		echo opts[-mdep]+=:spl:znvpair:zcommon:zavl:zunicode:zfs >>conf
 		cat <${PN}.conf | tail -n2  >>conf
@@ -84,13 +88,13 @@ src_prepare() {
 	use device-mapper && bin+=:lvm.static
 	use mdadm && bin+=:mdadm
 	use dmraid && bin+=:dmraid
-	sed -e "s,bin]+=:.*$,bin]+=:${bin}," -i ${PN}.conf || die
+	sed -e "s,bin]+=:.*$,bin]+=:${bin}," -i ${PN}.conf
 
 	if ! use xz; then
 		for u in ${IUSE_COMP}; do
 			if use ${u}; then
 				[[ "${u}" == "bzip2" ]] && e=c
-				sed -e "s,xz -9 --check=crc32,${u} -${e}9," -i ${PN}.{ba,z}sh || die
+				sed -e "s,xz -9 --check=crc32,${u} -${e}9," -i ${PN}.{ba,z}sh
 				break
 			fi
 		done
@@ -105,7 +109,7 @@ src_install() {
 	bzip2 -9 README.textile
 	if use aufs && use squashfs; then
 		emake DESTDIR="${D}" install_svc
-		mv svc/README.textile README.svc.textile || die
+		mv svc/README.textile README.svc.textile
 		bzip2 -9 README.svc.textile
 	fi
 	insinto /usr/local/share/${PN}/doc
