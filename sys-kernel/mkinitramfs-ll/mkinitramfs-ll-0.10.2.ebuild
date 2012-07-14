@@ -69,10 +69,6 @@ src_unpack() {
 
 src_prepare() {
 	local bin b conf e fs u
-	cat <${PN}.conf | head -n10                >>conf
-	echo opts[-workdir]=/usr/local/share/${PN} >>conf
-	cat <${PN}.conf | tail -n+10               >>conf
-	mv -f {,${PN}.}conf
 	for fs in ${IUSE_FS}; do
 		use ${fs} && bin+=:fsck.${fs}
 	done
