@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/13 19:47:39 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/15 20:17:37 -tclover Exp $
 
 EAPI=4
 
@@ -12,8 +12,7 @@ HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 
 inherit eutils ${egit}
 
-DESCRIPTION="flexible initramfs genrating tool with full LUKS[crypted key-file],
-LVM, RAID and {au+squash}fs support"
+DESCRIPTION="a flexible/efficient initramfs genrating tool with full LUKS, {au+squash}fs support and more"
 RESTRICT="nomirror confcache"
 LICENSE="2-clause BSD GPL-2 GPL-3"
 
@@ -63,14 +62,14 @@ RDEPEND="sys-apps/busybox[mdev]
 "
 
 src_unpack() {
-	unpack "${A}"
-	mv "${WORKDIR}"/{*${PN}*,${P}} || die
+	default
+	[ "${PV}" = "9999" ] && mv "${WORKDIR}"/{*${PN}*,${P}} || die
 }
 
 src_prepare() {
-	local bin b e fs u
+	local bin b conf e fs mod u
 	for fs in ${IUSE_FS}; do
-		use ${fs} && bin+=:fsck.${fs}
+		use ${fs} && bin+=:fsck.${fs} && mod+=:${fs}
 	done
 	bin=${bin/fsck.btrfs/btrfsck} bin=${bin/e2fs/ext3:fsck.ext4}
 	mod=${mod/e2fs/ext2:ext3:ext4}

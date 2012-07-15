@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/15 14:14:22 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/15 20:17:37 -tclover Exp $
 
 EAPI=4
 
@@ -12,8 +12,7 @@ HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 
 inherit eutils ${egit}
 
-DESCRIPTION="flexible initramfs genrating tool with full LUKS[crypted key-file],
-LVM, RAID and {au+squash}fs support"
+DESCRIPTION="a flexible/efficient initramfs genrating tool with full LUKS, {au+squash}fs support and more"
 RESTRICT="nomirror confcache"
 LICENSE="2-clause BSD GPL-2 GPL-3"
 
@@ -61,6 +60,12 @@ RDEPEND="sys-apps/busybox[mdev]
 	xfs? ( sys-fs/xfsprogs )
 	zfs? ( sys-fs/zfs )
 "
+
+src_unpack() {
+	default
+	[ "${PV}" = "9999" ] && mv "${WORKDIR}"/{*${PN}*,${P}} || die
+}
+
 src_prepare() {
 	local bin b conf e fs mod u
 	for fs in ${IUSE_FS}; do
