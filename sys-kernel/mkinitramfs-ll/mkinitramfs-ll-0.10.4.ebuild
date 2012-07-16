@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/15 20:17:37 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/16 09:50:20 -tclover Exp $
 
 EAPI=4
 
@@ -63,7 +63,7 @@ RDEPEND="sys-apps/busybox[mdev]
 
 src_unpack() {
 	default
-	[ "${PV}" = "9999" ] && mv "${WORKDIR}"/{*${PN}*,${P}} || die
+	[ "${PV}" = "9999" ] || mv "${WORKDIR}"/{*${PN}*,${P}} || die
 }
 
 src_prepare() {
