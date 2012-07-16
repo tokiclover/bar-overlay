@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 00:52:08 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 00:57:00 -tclover Exp $
 
 EAPI=4
 
@@ -11,6 +11,7 @@ HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 	SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"
 
 inherit eutils ${egit}
+unset egit
 
 DESCRIPTION="a flexible/efficient initramfs genrating tool with full LUKS, {au+squash}fs support and more"
 LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
@@ -66,7 +67,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	local bin b conf e fs mod u
+	local bin b e fs mod u
 	for fs in ${IUSE_FS}; do
 		use ${fs} && bin+=:fsck.${fs} && mod+=:${fs}
 	done
