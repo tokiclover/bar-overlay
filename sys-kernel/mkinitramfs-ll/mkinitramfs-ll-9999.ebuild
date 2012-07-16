@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 00:57:00 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 01:56:03 -tclover Exp $
 
 EAPI=4
 
@@ -26,31 +26,31 @@ REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )
 "
 
-DEPEND="sys-apps/coreutils[nls,unicode]
-	sys-devel/make[nls]
-	sys-apps/sed[nls]
-	sys-apps/grep[nls]
+DEPEND="sys-apps/coreutils[unicode]
+	sys-devel/make
+	sys-apps/sed
+	sys-apps/grep
 "
 
 RDEPEND="sys-apps/busybox[mdev]
-	app-arch/cpio[nls] 
-	sys-apps/findutils[nls]
-	sys-apps/kbd[nls]
+	app-arch/cpio 
+	sys-apps/findutils
+	sys-apps/kbd
 	media-fonts/terminus-font[psf]
-	bash? ( sys-apps/findutils[nls] 
-		app-shells/bash[nls] )
+	bash? ( sys-apps/findutils 
+		app-shells/bash )
 	zsh? ( app-shells/zsh[unicode] )
 	fbsplash? ( sys-apps/v86d 
 		media-gfx/splashutils[fbcondecor,png,truetype] )
-	cryptsetup? ( sys-fs/cryptsetup[nls] )
+	cryptsetup? ( sys-fs/cryptsetup )
 	device-mapper? ( sys-fs/lvm2 )
 	dmraid? ( sys-fs/dmraid )
 	mdadm? ( sys-fs/mdadm )
 	bzip2? ( || ( app-arch/bzip2 app-arch/lbzip2 app-arch/pbzip2 ) )
-	gzip? ( app-arch/gzip[nls] )
+	gzip? ( app-arch/gzip )
 	lzip? ( app-arch/lzip )
 	lzo? ( app-arch/lzop )
-	xz? ( app-arch/xz-utils[nls] )
+	xz? ( app-arch/xz-utils )
 	aufs? ( || ( =sys-fs/aufs-utils-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
 	e2fs? ( sys-fs/e2fsprogs )
 	btrfs? ( sys-fs/btrfs-progs )
