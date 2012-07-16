@@ -8,7 +8,7 @@ inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 HOMEPAGE="http://support-sg.canon-asia.com/contents/SG/EN/0100160603.html"
-RESTRICT="nomirror confcache"
+RESTRICT="mirror"
 
 SRC_URI="http://gdlp01.c-wss.com/gds/6/0100001606/01/${PN}-common-${PV}-1.tar.gz
 	scanner? ( http://gdlp01.c-wss.com/gds/7/0100001617/01/scangearmp-common-1.20-1.tar.gz )

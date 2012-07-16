@@ -9,7 +9,7 @@ inherit eutils autotools rpm flag-o-matic
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 DOWNLOAD_URL="http://support-au.canon.com.au/contents/AU/EN/0900718301.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/3/0900007183/02/${PN}-common-${PV}-4.src.rpm"
-RESTRICT="nomirror confcache"
+RESTRICT="mirror"
 
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
