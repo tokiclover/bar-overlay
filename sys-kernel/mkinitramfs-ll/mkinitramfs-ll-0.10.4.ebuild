@@ -56,7 +56,7 @@ DOCS="KnownIssue README.textile"
 
 src_unpack() {
 	unpack "${A}"
-	mv "${WORKDIR}"/{*${PN}*,${P}} || die
+	mv *${PN}* ${P} || die
 }
 
 src_prepare() {
@@ -90,37 +90,35 @@ src_compile(){ :; }
 src_install() {
 	emake DESTDIR="${D}" prefix=/usr install
 	if use aufs && use squashfs; then
-		emake DESTDIR="${D}" install_svc
+		emake DESTDIR="${D}" prefix=/usr install_svc
 		mv svc/README.textile README.svc.textile
 		DOCS+=" README.svc.textile"
 	fi
-	if use bash; then sh=bash
+	if use bash; then shell=bash
 		emake DESTDIR="${D}" prefix=/usr install_bash
 	fi
-	if use zsh; then sh=zsh
+	if use zsh; then shell=zsh
 		emake DESTDIR="${D}" prefix=/usr install_zsh
 	fi
 	if use symlink; then
 		local bindir=/usr/sbin
-		dosym ${bindir}/{${PN}.${sh},${PN/nitram/}}
-		use aufs && use squashfs && dosym ${bindir}/sdr{.${sh},}
+		dosym ${bindir}/{${PN}.${shell},${PN/nitram/}}
+		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
 	fi
 	dodoc ${DOCS}
 }
 
 pkg_postinst() {
 	einfo "easiest way to build an intramfs is running in /usr/share/${PN}"
-	einfo " \`${PN}.${sh} -a -f -y -k$(uname -r)', do copy [usr/bin/]gpg binary with"
+	einfo " \`${PN}.${shell} -a -f -y -k$(uname -r)', do copy [usr/bin/]gpg binary with"
 	einfo "its [usr/share/gnupg/]options.skel before for GnuPG support."
-	einfo "Else \`autogen.${sh} -af -y -s -l -g' will build everything in that dir"
-	einfo "for kernel \$(uname -r), a [usr/root/.gnupg/]gpg.conf can be added."
-	einfo "user scripts can be added to usr/etc/${PN}.d"
+	einfo "Else \`autogen.${shell} -af -y -s -l -g' will build everything in that dir."
 	if use aufs && use squashfs; then
 		einfo
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
 		einfo "you have to add that list to /etc/conf.d/sqfsdmount sqfsd_local and then"
-		einfo "run \`sdr.${sh} -U -d \${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
+		einfo "run \`sdr.${shell} -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
-	unset sh
+	unset shell
 }
