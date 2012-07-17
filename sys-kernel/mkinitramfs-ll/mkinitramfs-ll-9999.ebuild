@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 14:24:26 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 19:28:07 -tclover Exp $
 
 EAPI=4
 
@@ -13,7 +13,7 @@ else SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"; fi
 inherit eutils ${egit}
 unset egit
 
-DESCRIPTION="a flexible/efficient initramfs genrating tool with full LUKS, {au+squash}fs support and more"
+DESCRIPTION="a flexible initramfs genrating tool with full LUKS support and more"
 LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 
 SLOT="0"
@@ -27,7 +27,6 @@ REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 "
 
 DEPEND="sys-apps/coreutils[unicode]
-	sys-devel/make
 	sys-apps/sed
 	sys-apps/grep
 "
