@@ -1,35 +1,29 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 19:28:07 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/07/17 19:42:36 -tclover Exp $
 
 EAPI=4
 
-HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
-
-if [ "${PV}" = "9999" ]; then egit=git-2
-	EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
-else SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"; fi
-
-inherit eutils ${egit}
-unset egit
+inherit eutils
 
 DESCRIPTION="a flexible initramfs genrating tool with full LUKS support and more"
-LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
+HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
+SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"
 
+LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE_COMP="bzip2 gzip lzip lzma lzo +xz"
 IUSE_FS="btrfs +e2fs jfs reiserfs xfs"
 IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
 	zfs zsh ${IUSE_FS} ${IUSE_COMP}"
+
 REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
-	|| ( bash zsh ) lzma? ( xz )
-"
+	|| ( bash zsh ) lzma? ( xz )"
 
 DEPEND="sys-apps/coreutils[unicode]
 	sys-apps/sed
-	sys-apps/grep
-"
+	sys-apps/grep"
 
 RDEPEND="sys-apps/busybox[mdev]
 	app-arch/cpio 
@@ -56,14 +50,11 @@ RDEPEND="sys-apps/busybox[mdev]
 	reiserfs? ( sys-fs/reiserfsprogs )
 	squashfs? ( sys-fs/squashfs-tools[lzma?,lzo?,xz?] )
 	xfs? ( sys-fs/xfsprogs )
-	zfs? ( sys-fs/zfs )
-"
+	zfs? ( sys-fs/zfs )"
 
 src_unpack() {
-	if [ "${PV}" = "9999" ]; then git-2_src_unpack
-	else unpack "${A}"
-		mv "${WORKDIR}"/{*${PN}*,${P}} || die
-	fi
+	unpack "${A}"
+	mv "${WORKDIR}"/{*${PN}*,${P}} || die
 }
 
 src_prepare() {
