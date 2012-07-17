@@ -1,14 +1,14 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 13:30:37 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 14:24:26 -tclover Exp $
 
 EAPI=4
 
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 
-[ "${PV}" = "9999" ] && egit=git-2 &&
-	EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git" ||
-	SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"
+if [ "${PV}" = "9999" ]; then egit=git-2
+	EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
+else SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"; fi
 
 inherit eutils ${egit}
 unset egit
@@ -61,24 +61,27 @@ RDEPEND="sys-apps/busybox[mdev]
 "
 
 src_unpack() {
-	default
-	[ "${PV}" = "9999" ] || mv "${WORKDIR}"/{*${PN}*,${P}} || die
+	if [ "${PV}" = "9999" ]; then git-2_src_unpack
+	else unpack "${A}"
+		mv "${WORKDIR}"/{*${PN}*,${P}} || die
+	fi
 }
 
 src_prepare() {
-	local bin b e fs mod u
+	local bin b e fs kmod mod u
 	for fs in ${IUSE_FS}; do
 		use ${fs} && bin+=:fsck.${fs} && mod+=:${fs}
 	done
-	bin=${bin/fsck.btrfs/btrfsck} bin=${bin/e2fs/ext3:fsck.ext4}
+	bin=${bin/fsck.btrfs/btrfsck} && bin=${bin/e2fs/ext3:fsck.ext4}
 	mod=${mod/e2fs/ext2:ext3:ext4}
-	use zfs && bin+=:zfs:zpool
-	use cryptsetup && bin+=:cryptsetup
-	use device-mapper && bin+=:lvm.static
-	use mdadm && bin+=:mdadm
-	use dmraid && bin+=:dmraid
-	sed -e "s,bin]+=:.*$,bin]+=:${bin}," -e "s,mdep]+=:,mdep]+=:${mod}:," -i ${PN}.conf
-
+	use zfs && bin+=:zfs:zpool && kmod+=:zfs
+	use cryptsetup && bin+=:cryptsetup && kmod+=:dm-crypt
+	use device-mapper && bin+=:lvm.static && kmod+=:device-mapper
+	use mdadm && bin+=:mdadm && kmod+=:raid
+	use dmraid && bin+=:dmraid && kmod+=:dm-raid
+	sed -e "s,bin]+=:.*$,bin]+=${bin}," \
+		-e "s,mdep]+=:,mdep]+=${mod}\nopts\[-mdep\]+=:," \
+		-e "s,kmodule]+=:,kmodule]+=${kmod}:," -i ${PN}.conf
 	if ! use xz; then
 		for u in ${IUSE_COMP}; do
 			if use ${u}; then
