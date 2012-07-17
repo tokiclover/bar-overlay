@@ -52,6 +52,8 @@ RDEPEND="sys-apps/busybox[mdev]
 	xfs? ( sys-fs/xfsprogs )
 	zfs? ( sys-fs/zfs )"
 
+DOCS="KnownIssue README.textile"
+
 src_unpack() {
 	unpack "${A}"
 	mv "${WORKDIR}"/{*${PN}*,${P}} || die
