@@ -42,10 +42,10 @@ pkg_setup() {
 }
 
 src_prepare() {
-	sed -e '/LDFLAGS += -static -s/d' \
-		-i Makefile || die
+	sed -e '/LDFLAGS += -static -s/d' -i Makefile || die
 	sed -e 's:m 644 -s:m 644:g' -e 's:/usr/lib:/usr/$(get_libdir):g' \
 		-i libau/Makefile || die
+	sed 's/get_libdir/libdir/g' -i libau/Makefile || die
 	mv ../../include . || die
 }
 
@@ -54,7 +54,7 @@ src_compile() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	emake DESTDIR="${D}" libdir=$(get_libdir) install
 	docinto
 	newdoc README README-utils
 }
