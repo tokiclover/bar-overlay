@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 01:56:03 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 02:37:05 -tclover Exp $
 
 EAPI=4
 
@@ -37,8 +37,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	sys-apps/findutils
 	sys-apps/kbd
 	media-fonts/terminus-font[psf]
-	bash? ( sys-apps/findutils 
-		app-shells/bash )
+	bash? ( app-shells/bash )
 	zsh? ( app-shells/zsh[unicode] )
 	fbsplash? ( sys-apps/v86d 
 		media-gfx/splashutils[fbcondecor,png,truetype] )
