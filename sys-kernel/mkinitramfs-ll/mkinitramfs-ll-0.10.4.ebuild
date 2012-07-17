@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/07/17 19:42:36 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/07/17 20:05:19 -tclover Exp $
 
 EAPI=4
 
@@ -86,31 +86,28 @@ src_prepare() {
 src_compile(){ :; }
 
 src_install() {
-	emake DESTDIR="${D}" install
-	bzip2 -9 KnownIssue
-	bzip2 -9 README.textile
+	emake DESTDIR="${D}" prefix=/usr install
 	if use aufs && use squashfs; then
 		emake DESTDIR="${D}" install_svc
 		mv svc/README.textile README.svc.textile
-		bzip2 -9 README.svc.textile
+		DOCS+=" README.svc.textile"
 	fi
-	insinto /usr/local/share/${PN}/doc
-	doins *.bz2 || die
 	if use bash; then sh=bash
-		emake DESTDIR="${D}" install_bash
+		emake DESTDIR="${D}" prefix=/usr install_bash
 	fi
 	if use zsh; then sh=zsh
-		emake DESTDIR="${D}" install_zsh
+		emake DESTDIR="${D}" prefix=/usr install_zsh
 	fi
 	if use symlink; then
-		local prefix=/usr/local/sbin
-		dosym ${prefix}/{${PN}.${sh},${PN/nitram/}}
-		use aufs && use squashfs && dosym ${prefix}/sdr{.${sh},}
+		local bindir=/usr/sbin
+		dosym ${bindir}/{${PN}.${sh},${PN/nitram/}}
+		use aufs && use squashfs && dosym ${bindir}/sdr{.${sh},}
 	fi
+	dodoc ${DOCS}
 }
 
 pkg_postinst() {
-	einfo "easiest way to build an intramfs is running in /usr/local/share/${PN}"
+	einfo "easiest way to build an intramfs is running in /usr/share/${PN}"
 	einfo " \`${PN}.${sh} -a -f -y -k$(uname -r)', do copy [usr/bin/]gpg binary with"
 	einfo "its [usr/share/gnupg/]options.skel before for GnuPG support."
 	einfo "Else \`autogen.${sh} -af -y -s -l -g' will build everything in that dir"
