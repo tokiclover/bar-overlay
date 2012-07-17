@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 02:37:05 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.4 2012/07/17 13:30:37 -tclover Exp $
 
 EAPI=4
 
@@ -45,7 +45,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	device-mapper? ( sys-fs/lvm2 )
 	dmraid? ( sys-fs/dmraid )
 	mdadm? ( sys-fs/mdadm )
-	bzip2? ( || ( app-arch/bzip2 app-arch/lbzip2 app-arch/pbzip2 ) )
+	bzip2? ( app-arch/bzip2 )
 	gzip? ( app-arch/gzip )
 	lzip? ( app-arch/lzip )
 	lzo? ( app-arch/lzop )
