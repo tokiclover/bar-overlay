@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/17 20:04:11 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/20 17:48:07 -tclover Exp $
 
 EAPI=4
 
@@ -52,7 +52,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	xfs? ( sys-fs/xfsprogs )
 	zfs? ( sys-fs/zfs )"
 
-DOCS="KnownIssue README.textile"
+DOCS="BUGS README.textile"
 
 src_prepare() {
 	local bin b e fs kmod mod u
