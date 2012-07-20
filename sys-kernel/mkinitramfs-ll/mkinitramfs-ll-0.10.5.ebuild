@@ -52,7 +52,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	xfs? ( sys-fs/xfsprogs )
 	zfs? ( sys-fs/zfs )"
 
-DOCS="KnownIssue README.textile"
+DOCS=(BUGS README.textile)
 
 src_unpack() {
 	unpack "${A}"
@@ -105,7 +105,7 @@ src_install() {
 		dosym ${bindir}/{${PN}.${shell},${PN/nitram/}}
 		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
 	fi
-	dodoc ${DOCS}
+	dodoc ${DOCS[*]}
 }
 
 pkg_postinst() {

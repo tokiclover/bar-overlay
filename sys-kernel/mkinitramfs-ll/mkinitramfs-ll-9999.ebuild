@@ -97,7 +97,7 @@ src_install() {
 	fi
 	if use symlink; then
 		local bindir=/usr/sbin
-		dosym ${bindir}/{${PN}.${sh},${PN/nitram/}}
+		dosym ${bindir}/{${PN}.${shell},${PN/nitram/}}
 		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
 	fi
 	dodoc ${DOCS[*]}
