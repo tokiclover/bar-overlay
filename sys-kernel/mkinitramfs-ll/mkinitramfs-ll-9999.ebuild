@@ -14,9 +14,9 @@ LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE_COMP="bzip2 gzip lzip lzma lzo +xz"
-IUSE_FS="btrfs +e2fs jfs reiserfs xfs"
+IUSE_FS="btrfs e2fs jfs reiserfs xfs"
 IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
-	zfs zsh ${IUSE_FS} ${IUSE_COMP}"
+	zfs zsh ${IUSE_FS/e2fs/+e2fs} ${IUSE_COMP}"
 
 REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )"
@@ -55,18 +55,18 @@ RDEPEND="sys-apps/busybox[mdev]
 DOCS=(BUGS README.textile)
 
 src_prepare() {
-	local bin b e fs kmod mod u
+	local bin fsck b e fs kmod mod u
 	for fs in ${IUSE_FS}; do
-		use ${fs} && bin+=:fsck.${fs} && mod+=:${fs}
+		use ${fs} && fsck+=:fsck.${fs} && mod+=:${fs}
 	done
-	bin=${bin/fsck.btrfs/btrfsck} && bin=${bin/e2fs/ext3:fsck.ext4}
+	fsck=${fsck/fsck.btrfs/btrfsck} fsck=${fsck/e2fs/ext2:fsck.ext3:fsck.ext4}
 	mod=${mod/e2fs/ext2:ext3:ext4}
 	use zfs && bin+=:zfs:zpool && kmod+=:zfs
 	use cryptsetup && bin+=:cryptsetup && kmod+=:dm-crypt
 	use device-mapper && bin+=:lvm.static && kmod+=:device-mapper
 	use mdadm && bin+=:mdadm && kmod+=:raid
 	use dmraid && bin+=:dmraid && kmod+=:dm-raid
-	sed -e "s,bin]+=:.*$,bin]+=${bin}," \
+	sed -e "s,bin]+=:.*$,bin]+=${bin}\nopts[-bin]+=${fsck}," \
 		-e "s,mdep]+=:,mdep]+=${mod}\nopts\[-mdep\]+=:," \
 		-e "s,kmodule]+=:,kmodule]+=${kmod}:," -i ${PN}.conf
 	if ! use xz; then
