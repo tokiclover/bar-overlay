@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.2006.ebuild,v 1.2 2012/07/25 22:00:37 -tclover Exp $
+# $Header: bar-overlay/media-sound/oss/oss-4.2.2006.ebuild,v 1.2 2012/07/25 22:34:14 -tclover Exp $
 
 EAPI=2
 
@@ -18,7 +18,7 @@ unset build p pv
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="midi"
+IUSE="+midi"
 
 DEPEND="sys-apps/gawk
 	x11-libs/gtk+:2
@@ -38,21 +38,21 @@ src_prepare() {
 }
 
 src_configure() {
-	local conf="----enable-timings \
-		$(use midi && echo --config-midi=YES)"
-	cd "${WORKDIR}"/build
-	"${S}"/configure ${config} || die "configure failed"
+	local conf="--enable-timings \
+		$(use midi && echo '--config-midi=YES' || echo '--config-midi=NO')"
+	cd ../build
+	"${S}"/configure ${conf} || die "configure failed"
 	sed -i -e 's/-D_KERNEL//' -i Makefile
 }
 
 src_compile() {
-	cd "${WORKDIR}"/build
+	cd ../build
 	emake build || die "emake build failed"
 }
 
 src_install() {
 	newinitd "${FILESDIR}"/oss oss
-	cd "${WORKDIR}"/build
+	cd ../build
 	cp -R prototype/* "${D}"
 }
 
