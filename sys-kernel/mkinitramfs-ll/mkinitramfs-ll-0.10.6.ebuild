@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/07/17 20:05:19 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/07/25 10:44:20 -tclover Exp $
 
 EAPI=4
 
@@ -68,7 +68,7 @@ src_prepare() {
 	mod=${mod/e2fs/ext2:ext3:ext4}
 	use zfs && bin+=:zfs:zpool && kmod+=:zfs
 	use cryptsetup && bin+=:cryptsetup && kmod+=:dm-crypt
-	use device-mapper && bin+=:lvm.static && kmod+=:device-mapper
+	use device-mapper && bin+=:lvm:lvm.static && kmod+=:device-mapper
 	use mdadm && bin+=:mdadm && kmod+=:raid
 	use dmraid && bin+=:dmraid && kmod+=:dm-raid
 	sed -e "s,bin]+=:.*$,bin]+=${bin}\nopts[-bin]+=${fsck}," \
