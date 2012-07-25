@@ -1,23 +1,24 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.2006.ebuild,v 1.1 2012/07/04 00:20:55 -tclover Exp $
+# $Header: bar-overlay/media-sound/oss/oss-4.2.2006.ebuild,v 1.2 2012/07/25 22:00:37 -tclover Exp $
 
 EAPI=2
 
-inherit mercurial flag-o-matic
+inherit eutils flag-o-matic versionator
 
-filter-ldflags "-Wl,-O1"
+pv=$(get_version_component_range 1-2)
+build=$(get_version_component_range 3)
+p="oss-v${pv}-build${build}-src-gpl"
 
-EHG_REPO_URI="http://opensound.hg.sourceforge.net:8000/hgroot/opensound/opensound"
-EHG_REVISION=v${PV}
-
-DESCRIPTION="OSS-${PV%.9999} live build - portable, mixing-capable, high quality sound system for Unix"
+DESCRIPTION="OSSv4 portable, mixing-capable, high quality sound system for Unix"
 HOMEPAGE="http://developer.opensound.com/"
+SRC_URI="http://www.4front-tech.com/developer/sources/stable/gpl/${p}.tar.bz2"
+unset build p pv
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="midi"
 
 DEPEND="sys-apps/gawk
 	x11-libs/gtk+:2
@@ -26,25 +27,26 @@ DEPEND="sys-apps/gawk
 
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/${PN}"
-
 src_unpack() {
-	mercurial_src_unpack
-	mkdir "${WORKDIR}/build"
+	unpack "${A}"
+	mv oss-* ${P} && mkdir build
+}
 
-	einfo "Replacing init script with gentoo friendly one..."
+src_prepare() {
 	cp "${FILESDIR}"/oss "${S}"/setup/Linux/oss/etc/S89oss
+	epatch "${FILESDIR}"/${PN}-${PV}-{afmt-float,freebsd-fix,hdaudio-dev}.patch
+}
+
+src_configure() {
+	local conf="----enable-timings \
+		$(use midi && echo --config-midi=YES)"
+	cd "${WORKDIR}"/build
+	"${S}"/configure ${config} || die "configure failed"
+	sed -i -e 's/-D_KERNEL//' -i Makefile
 }
 
 src_compile() {
-	einfo "Running configure..."
 	cd "${WORKDIR}"/build
-	"${S}"/configure || die "configure failed"
-
-	einfo "Stripping compiler flags..."
-	sed -i -e 's/-D_KERNEL//' \
-		"${WORKDIR}"/build/Makefile
-
 	emake build || die "emake build failed"
 }
 
@@ -61,5 +63,5 @@ pkg_postinst() {
 	elog "If you are upgrading, run"
 	elog "# /etc/init.d/oss restart "
 	elog ""
-	elog "Enjoy OSSv${PV} !"
+	elog "Enjoy OSSv4!"
 }

@@ -1,0 +1,62 @@
+# HG changeset patch
+# User Hannu Savolainen <hannu@opensound.com>
+# Date 1330628756 -7200
+# Node ID 233e1cedf15a6077d7d8736c037af708f57e769c
+# Parent  1a5c5373b72a7a197819d6da0f220f49be350577
+Fixes for FreeBSD
+
+diff -r 1a5c5373b72a -r 233e1cedf15a kernel/OS/FreeBSD/os_freebsd.c
+--- a/kernel/OS/FreeBSD/os_freebsd.c	Fri Feb 17 00:25:21 2012 +0200
++++ b/kernel/OS/FreeBSD/os_freebsd.c	Thu Mar 01 21:05:56 2012 +0200
+@@ -7,6 +7,7 @@
+ #include "midi_core.h"
+ #include <oss_pci.h>
+ #include <sys/conf.h>
++#include <sys/module.h>
+ #include <sys/proc.h>
+ #include <sys/sx.h>
+ #include <sys/mman.h>
+@@ -306,7 +307,7 @@
+ 
+   if (cards[cardnum]->name != NULL)
+     strncpy (ci->longname, cards[cardnum]->name, 128);
+-  ci->shortname[127] = 0;
++  ci->longname[127] = 0;
+ 
+   if (cards[cardnum]->nick != NULL)
+     strncpy (ci->shortname, cards[cardnum]->nick, 16);
+@@ -404,8 +405,19 @@
+ 
+   if (!(flags & CHDEV_VIRTUAL) && (name != NULL))
+     {
++#if __FreeBSD_version >= 900023
++      bsd_cdev =
++	make_dev_credf (MAKEDEV_CHECKNAME, &oss_cdevsw, num, NULL,
++			UID_ROOT, GID_WHEEL, 0666, name, 0);
++      if (bsd_cdev == NULL)
++	{
++	  cmn_err (CE_WARN, "Cannot allocate device node /dev/%s\n", name);
++	  return;
++	}
++#else
+       bsd_cdev =
+ 	make_dev (&oss_cdevsw, num, UID_ROOT, GID_WHEEL, 0666, name, 0);
++#endif
+       cdev->info = bsd_cdev;
+     }
+ }
+@@ -595,6 +607,12 @@
+ {
+   oss_device_t *osdev;
+ 
++  if (module_lookupbyname("sound") != NULL)
++    {
++      cmn_err (CE_WARN, "Open Sound System conflicts with FreeBSD driver\n");
++      cmn_err (CE_CONT, "Please remove sound(4) from kernel or unload it\n");
++      return EBUSY;
++    }
+   if ((osdev = PMALLOC (NULL, sizeof (*osdev))) == NULL)
+     {
+       return ENOSPC;
+
+

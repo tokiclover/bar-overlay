@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.1 2012/07/04 00:20:56 -tclover Exp $
+# $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.E 2012/07/25 22:00:33 -tclover Exp $
 
 EAPI=2
 
@@ -10,13 +10,13 @@ filter-ldflags "-Wl,-O1"
 
 EHG_REPO_URI="http://opensound.hg.sourceforge.net:8000/hgroot/opensound/opensound"
 
-DESCRIPTION="OSS-${PV%*.9999} live build - portable, mixing-capable, high quality sound system for Unix"
+DESCRIPTION="OSSv4 portable, mixing-capable, high quality sound system for Unix"
 HOMEPAGE="http://developer.opensound.com/"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="midi"
 
 DEPEND="sys-apps/gawk
 	x11-libs/gtk+:2
@@ -31,19 +31,19 @@ src_unpack() {
 	mercurial_src_unpack
 	mkdir "${WORKDIR}/build"
 
-	einfo "Replacing init script with gentoo friendly one..."
 	cp "${FILESDIR}"/oss "${S}"/setup/Linux/oss/etc/S89oss
 }
 
-src_compile() {
-	einfo "Running configure..."
+src_configure() {
+	local conf="----enable-timings \
+		$(use midi && echo --config-midi=YES)"
 	cd "${WORKDIR}"/build
 	"${S}"/configure || die "configure failed"
+	sed -i -e 's/-D_KERNEL//' -i Makefile
+}
 
-	einfo "Stripping compiler flags..."
-	sed -i -e 's/-D_KERNEL//' \
-		"${WORKDIR}"/build/Makefile
-
+src_compile() {
+	cd "${WORKDIR}"/build
 	emake build || die "emake build failed"
 }
 
@@ -60,5 +60,5 @@ pkg_postinst() {
 	elog "If you are upgrading, run"
 	elog "# /etc/init.d/oss restart "
 	elog ""
-	elog "Enjoy OSSv${PV} !"
+	elog "Enjoy OSSv4!"
 }
