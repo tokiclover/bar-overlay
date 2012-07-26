@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.2006.ebuild,v 1.3 2012/07/25 22:34:14 -tclover Exp $
+# $Header: bar-overlay/media-sound/oss/oss-4.2.2006.ebuild,v 1.3 2012/07/27 00:42:48 -tclover Exp $
 
 EAPI=4
 
@@ -19,11 +19,12 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-SOUND_CARDS="ali4555 atiaudio audigyls audioloop audiopci cmi878x cmpci cs4281
+SOUND_CARDS="ali5455 atiaudio audigyls audioloop audiopci cmi878x cmpci cs4281
 cs461x digi96 emu10k1x envy24 envy24ht fmedia geode hdaudio ich imux madi
 midiloop midimix sblive sbpci sbxfi solo trident usb userdev via823x via97 ymf7xx"
 for card in ${SOUND_CARDS}; do
-	IUSE_OSS_CARDS+=" oss_cards_${card}"
+	has ${card} ${OSS_CARDS} && IUSE_OSS_CARDS+=" +" || IUSE_OSS_CARDS+=" "
+	IUSE_OSS_CARDS+=oss_cards_${card}
 done
 
 IUSE="${IUSE_OSS_CARDS} +midi"
@@ -52,8 +53,7 @@ src_configure() {
 		$(use midi && echo '--config-midi=YES' || echo '--config-midi=NO') \
 		--only-drv=osscore"
 	for card in ${SOUND_CARDS}; do
-		use oss_cards_${card} || has ${card} ${OSS_CARDS:-hdaudio} &&
-			conf+=,oss_${card}
+		use oss_cards_${card} && conf+=,oss_${card}
 	done
 	cd ../build
 	"${S}"/configure ${conf} || die "configure failed"
