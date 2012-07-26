@@ -33,8 +33,8 @@ IUSE="aufs bfq bfs fbcondecor ck hz"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
-bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v3r4"
-bfq_src=${okv}-r4-bfq.patch.bz2
+bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
+bfq_src=bfq-${okv}-v4.patch.bz2
 bfs_vrs=415
 bfs_src=${okv}-sched-bfs-${bfs_vrs}.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
