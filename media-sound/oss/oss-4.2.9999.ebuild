@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.3 2012/07/27 00:43:44 -tclover Exp $
+# $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.3 2012/07/27 23:13:45 -tclover Exp $
 
 EAPI=4
 
@@ -25,7 +25,7 @@ for card in ${SOUND_CARDS}; do
 	IUSE_OSS_CARDS+=oss_cards_${card}
 done
 
-IUSE="${IUSE_OSS_CARDS} +midi"
+IUSE="${IUSE_OSS_CARDS} +libsalsa +midi"
 REQUIRED_USE="oss_cards_midiloop? ( midi ) oss_cards_midimix? ( midi )"
 
 DEPEND="sys-apps/gawk
@@ -51,12 +51,11 @@ src_prepare() {
 src_configure() {
 	local conf="--enable-timings \
 		$(use midi && echo '--config-midi=YES' || echo '--config-midi=NO') \
-		--only-drv=osscore"
+		$(use libsalsa || echo '--enable-libsalsa=NO') --only-drv=osscore"
 	for card in ${SOUND_CARDS}; do
 		use oss_cards_${card} && conf+=,oss_${card}
 	done
 	"${S}"/configure ${conf} || die "configure failed"
-	sed -i -e 's/-D_KERNEL//' -i Makefile
 }
 
 src_compile() {
