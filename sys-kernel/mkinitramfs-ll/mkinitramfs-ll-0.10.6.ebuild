@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/07/25 10:44:20 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/07/28 22:32:20 -tclover Exp $
 
 EAPI=4
 
@@ -8,7 +8,7 @@ inherit eutils
 
 DESCRIPTION="a flexible initramfs genrating tool with full LUKS support and more"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
-SRC_URI="${HOMEPAGE}/tarball/${PVR} -> ${P}.tar.gz"
+SRC_URI="https://github.com/tokiclover/mkinitramfs-ll/tarball/${PVR} -> ${P}.tar.gz"
 
 LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
@@ -54,11 +54,12 @@ RDEPEND="sys-apps/busybox[mdev]
 DOCS=(BUGS README.textile)
 
 src_unpack() {
-	unpack "${A}"
+	unpack ${A}
 	mv *${PN}* ${P} || die
 }
 
 src_prepare() {
+	# append binaries and krnel module group depending on USE
 	local bin b e fs fsck kmod mod u
 	for fs in ${IUSE_FS}; do
 		use ${fs} && fsck+=:fsck.${fs} && mod+=:${fs}
@@ -73,6 +74,7 @@ src_prepare() {
 	sed -e "s,bin]+=:.*$,bin]+=${bin}\nopts[-bin]+=${fsck}," \
 		-e "s,mdep]+=:,mdep]+=${mod}\nopts\[-mdep\]+=:," \
 		-e "s,kmodule]+=:,kmodule]+=${kmod}:," -i ${PN}.conf
+	# set up the default compressor if xz USE flag is unset
 	if ! use xz; then
 		for u in ${IUSE_COMP}; do
 			if use ${u}; then
@@ -89,7 +91,7 @@ src_install() {
 	if use aufs && use squashfs; then
 		emake DESTDIR="${D}" prefix=/usr install_svc
 		mv svc/README.textile README.svc.textile
-		DOCS+=" README.svc.textile"
+		DOCS+=( README.svc.textile)
 	fi
 	if use bash; then shell=bash
 		emake DESTDIR="${D}" prefix=/usr install_bash
@@ -102,7 +104,7 @@ src_install() {
 		dosym ${bindir}/{${PN}.${shell},${PN/nitram/}}
 		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
 	fi
-	dodoc ${DOCS[*]}
+	dodoc "${DOCS[@]}"
 }
 
 pkg_postinst() {

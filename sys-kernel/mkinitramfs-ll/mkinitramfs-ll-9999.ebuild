@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/25 10:44:13 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/28 22:32:14 -tclover Exp $
 
 EAPI=4
 
@@ -55,6 +55,7 @@ RDEPEND="sys-apps/busybox[mdev]
 DOCS=(BUGS README.textile)
 
 src_prepare() {
+	# append binaries and krnel module group depending on USE
 	local bin fsck b e fs kmod mod u
 	for fs in ${IUSE_FS}; do
 		use ${fs} && fsck+=:fsck.${fs} && mod+=:${fs}
@@ -69,6 +70,7 @@ src_prepare() {
 	sed -e "s,bin]+=:.*$,bin]+=${bin}\nopts[-bin]+=${fsck}," \
 		-e "s,mdep]+=:,mdep]+=${mod}\nopts\[-mdep\]+=:," \
 		-e "s,kmodule]+=:,kmodule]+=${kmod}:," -i ${PN}.conf
+	# set up the default compressor if xz USE flag is unset
 	if ! use xz; then
 		for u in ${IUSE_COMP}; do
 			if use ${u}; then
@@ -87,7 +89,7 @@ src_install() {
 	if use aufs && use squashfs; then
 		emake DESTDIR="${D}" prefix=/usr install_svc
 		mv svc/README.textile README.svc.textile
-		DOCS+=" README.svc.textile"
+		DOCS+=( README.svc.textile)
 	fi
 	if use bash; then shell=bash
 		emake DESTDIR="${D}" prefix=/usr install_bash
@@ -100,7 +102,7 @@ src_install() {
 		dosym ${bindir}/{${PN}.${shell},${PN/nitram/}}
 		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
 	fi
-	dodoc ${DOCS[*]}
+	dodoc "${DOCS[@]}"
 }
 
 pkg_postinst() {
