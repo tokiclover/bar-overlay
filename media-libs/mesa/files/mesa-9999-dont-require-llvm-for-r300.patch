@@ -1,6 +1,6 @@
---- a/configure.ac	2012-03-15 20:50:51.871484426 +0000
-+++ b/configure.ac	2012-03-15 20:51:33.645962171 +0000
-@@ -1855,14 +1855,6 @@
+--- configure.ac	2012-07-28 02:46:16.000895798 +0200
++++ configure.ac	2012-07-28 02:47:01.379328491 +0200
+@@ -1952,14 +1952,6 @@
      fi
  }
  
@@ -12,10 +12,10 @@
 -    fi
 -}
 -
- dnl Gallium drivers
- dnl Duplicates in GALLIUM_DRIVERS_DIRS are removed by sorting it after this block
- if test "x$with_gallium_drivers" != x; then
-@@ -1884,7 +1876,6 @@
+ gallium_require_drm_loader() {
+     if test "x$enable_gallium_loader" = xyes; then
+         PKG_CHECK_MODULES([LIBUDEV], [libudev], [],
+@@ -1992,7 +1984,6 @@
              ;;
          xr300)
              PKG_CHECK_MODULES([RADEON], [libdrm_radeon >= $LIBDRM_RADEON_REQUIRED])
