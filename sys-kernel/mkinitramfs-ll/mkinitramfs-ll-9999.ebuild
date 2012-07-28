@@ -22,6 +22,7 @@ REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )"
 
 DEPEND="sys-apps/coreutils[unicode]
+	sys-apps/findutils
 	sys-apps/sed
 	sys-apps/grep"
 
@@ -32,8 +33,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	media-fonts/terminus-font[psf]
 	bash? ( app-shells/bash )
 	zsh? ( app-shells/zsh[unicode] )
-	fbsplash? ( sys-apps/v86d 
-		media-gfx/splashutils[fbcondecor,png,truetype] )
+	fbsplash? ( sys-apps/v86d media-gfx/splashutils[fbcondecor,png,truetype] )
 	cryptsetup? ( sys-fs/cryptsetup )
 	device-mapper? ( sys-fs/lvm2 )
 	dmraid? ( sys-fs/dmraid )
