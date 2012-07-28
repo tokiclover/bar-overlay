@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/28 22:32:14 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/28 23:00:57 -tclover Exp $
 
 EAPI=4
 
@@ -28,7 +28,6 @@ DEPEND="sys-apps/coreutils[unicode]
 
 RDEPEND="sys-apps/busybox[mdev]
 	app-arch/cpio 
-	sys-apps/findutils
 	sys-apps/kbd
 	media-fonts/terminus-font[psf]
 	bash? ( app-shells/bash )
