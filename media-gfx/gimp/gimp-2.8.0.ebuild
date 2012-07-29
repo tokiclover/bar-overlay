@@ -1,29 +1,29 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-gfx/gimp/gimp-2.7.5.ebuild,v 1.1 2012/07/04 00:20:38 -tclover Exp $
+# $Header: bar-overlay/media-gfx/gimp/gimp-9999.ebuild,v 1.46 2012/06/16 16:28:39 -tclover Exp $
 
 EAPI="3"
 PYTHON_DEPEND="python? 2:2.5"
 
-inherit eutils gnome2 fdo-mime multilib python git-2
+inherit git-2 eutils gnome2 fdo-mime multilib python
 
-EGIT_REPO_URI="git://git.gnome.org/gimp"
+EGIT_REPO_URI="git://git.gnome.org/gimp.git"
 EGIT_COMMIT=GIMP_${PVR//./_}
-SRC_URI=""
 
 DESCRIPTION="GNU Image Manipulation Program"
 HOMEPAGE="http://www.gimp.org/"
+SRC_URI=""
 
 LICENSE="GPL-3 LGPL-3"
 SLOT="2"
 KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 
-IUSE="alsa aalib altivec bzip2 curl dbus debug doc exif gnome gs jpeg jpeg2k lcms mmx mng pdf png python smp sse svg tiff udev webkit wmf xpm"
+IUSE="alsa aalib altivec bzip2 curl dbus debug doc exif gnome postscript jpeg jpeg2k lcms mmx mng pdf png python smp sse svg tiff udev webkit wmf xpm"
 
 RDEPEND=">=dev-libs/glib-2.30.2:2
-	>=dev-libs/atk-2.0.1
-	>=x11-libs/gtk+-2.24.7:2
-	>=x11-libs/gdk-pixbuf-2.24:2
+	>=dev-libs/atk-2.2.0
+	>=x11-libs/gtk+-2.24.10:2
+	>=x11-libs/gdk-pixbuf-2.24.1:2
 	>=x11-libs/cairo-1.10.2
 	>=x11-libs/pango-1.29.4
 	xpm? ( x11-libs/libXpm )
@@ -32,10 +32,9 @@ RDEPEND=">=dev-libs/glib-2.30.2:2
 	sys-libs/zlib
 	dev-libs/libxml2
 	dev-libs/libxslt
-	x11-misc/xdg-utils
 	x11-themes/hicolor-icon-theme
-	>=media-libs/babl-0.1.6
-	>=media-libs/gegl-0.1.8 <media-libs/gegl-0.2
+	>=media-libs/babl-0.1.10
+	>=media-libs/gegl-0.2.0
 	aalib? ( media-libs/aalib )
 	alsa? ( media-libs/alsa-lib )
 	curl? ( net-misc/curl )
@@ -56,14 +55,16 @@ RDEPEND=">=dev-libs/glib-2.30.2:2
 	x11-libs/libXcursor
 	sys-libs/zlib
 	bzip2? ( app-arch/bzip2 )
-	gs? ( app-text/ghostscript-gpl )
+	postscript? ( app-text/ghostscript-gpl )
 	udev? ( sys-fs/udev[gudev] )"
 DEPEND="${RDEPEND}
-	>=dev-util/pkgconfig-0.22
+	sys-apps/findutils
+	virtual/pkgconfig
 	>=dev-util/intltool-0.40.1
 	>=sys-devel/gettext-0.17
 	doc? ( >=dev-util/gtk-doc-1 )
 	>=sys-devel/libtool-2.2
+	>=sys-devel/autoconf-2.54
 	>=sys-devel/automake-1.11
 	dev-util/gtk-doc-am"  # due to our call to eautoreconf below (bug #386453)
 
@@ -84,7 +85,7 @@ pkg_setup() {
 		$(use_with jpeg2k libjasper) \
 		$(use_with exif libexif) \
 		$(use_with lcms) \
-		$(use_with gs) \
+		$(use_with postscript gs) \
 		$(use_enable mmx) \
 		$(use_with mng libmng) \
 		$(use_with pdf poppler) \
@@ -106,9 +107,13 @@ pkg_setup() {
 	fi
 }
 
+src_unpack() {
+	git-2_src_unpack
+}
+
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.7.4-no-deprecation.patch  # bug 395695, comment 9 and 16
-	epatch "${FILESDIR}"/${P}-configure-gs-bzip2.patch
+	epatch "${FILESDIR}"/${P}-bzip2.patch
 	eautoreconf  # If you remove this: remove dev-util/gtk-doc-am from DEPEND, too
 
 	echo '#!/bin/sh' > py-compile
@@ -133,6 +138,8 @@ src_install() {
 	# Workaround for bug #321111 to give GIMP the least
 	# precedence on PDF documents by default
 	mv "${D}"/usr/share/applications/{,zzz-}gimp.desktop || die
+
+	find "${D}" -name '*.la' -delete || die
 }
 
 pkg_postinst() {
