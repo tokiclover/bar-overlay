@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/28 23:00:57 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/30 14:24:00 -tclover Exp $
 
 EAPI=4
 
@@ -54,7 +54,7 @@ RDEPEND="sys-apps/busybox[mdev]
 DOCS=(BUGS README.textile)
 
 src_prepare() {
-	# append binaries and krnel module group depending on USE
+	# append binaries and kernel module group depending on USE
 	local bin fsck b e fs kmod mod u
 	for fs in ${IUSE_FS}; do
 		use ${fs} && fsck+=:fsck.${fs} && mod+=:${fs}
