@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-misc/connman/connman-9999.ebuild,v 1.2 2012/07/04 00:21:01 -tclover Exp $
+# $Header: bar-overlay/net-misc/connman/connman-9999.ebuild,v 1.2 2012/07/31 23:23:37 -tclover Exp $
 
 EAPI=4
 
@@ -16,7 +16,6 @@ HOMEPAGE="http://connman.net"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 ~arm ~ppc ~ppc64 x86"
 IUSE="bluetooth debug doc examples +ethernet ofono openvpn policykit threads tools vpnc +wifi wimax"
 
 RDEPEND=">=dev-libs/glib-2.16
