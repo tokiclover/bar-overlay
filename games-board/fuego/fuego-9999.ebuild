@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/games-board/fuego/fuego-9999.ebuild,v 1.1 2012/07/04 00:20:32 -tclover Exp $
+# $Header: bar-overlay/games-board/fuego/fuego-9999.ebuild,v 1.1 2012/07/31 23:23:04 -tclover Exp $
 
 EAPI=3
 
@@ -12,7 +12,6 @@ ESVN_REPO_URI="https://fuego.svn.sourceforge.net/svnroot/fuego/trunk"
 
 LICENSE="GPL-3 LGPL-3"
 SLOT="0"
-KEYWORDS="~amd64"
 IUSE="cache-sync optimization"
 
 DEPEND=">=sys-devel/autoconf-2.59
