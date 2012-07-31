@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/eclass/ecnij.eclass,v 1.1 2012/06/04 12:34:42 -tclover Exp $
+# $Header: bar-overlay/eclass/ecnij.eclass,v 1.1 2012/07/31 23:30:23 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
@@ -15,7 +15,7 @@ WANT_AUTOCONF=${E_WANT_AUTOCONF:-latest}
 WANT_AUTOMAKE=${E_WANT_AUTOMAKE:-latest}
 
 IUSE="+debug gtk multislot nls servicetools usb"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="-* ~x86 ~amd64"
 
 REQUIRED_USE="servicetools? ( gtk ) nls? ( gtk )"
 
