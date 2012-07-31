@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-video/cinelerra/cinelerra-9999.ebuild,v 1.1 2012/07/07 21:36:00 -tclover Exp $
+# $Header: bar-overlay/media-video/cinelerra/cinelerra-9999.ebuild,v 1.1 2012/07/31 23:23:34 -tclover Exp $
 
 EAPI=4
 
@@ -12,7 +12,6 @@ EGIT_REPO_URI="git://git.cinelerra.org/CinelerraCV.git"
 EGIT_PROJECT=${PN}.git
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="3dnow alsa altivec css ieee1394 mmx opengl oss"
 
 RDEPEND="media-libs/a52dec
