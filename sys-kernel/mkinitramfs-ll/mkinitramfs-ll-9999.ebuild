@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/30 14:24:00 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/31 23:23:50 -tclover Exp $
 
 EAPI=4
 
@@ -12,7 +12,6 @@ EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 
 LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE_COMP="bzip2 gzip lzip lzma lzo +xz"
 IUSE_FS="btrfs e2fs jfs reiserfs xfs"
 IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
@@ -80,8 +79,6 @@ src_prepare() {
 		done
 	fi
 }
-
-src_compile(){ :; }
 
 src_install() {
 	emake DESTDIR="${D}" prefix=/usr install
