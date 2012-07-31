@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-gfx/gimp/gimp-9999.ebuild,v 1.46 2012/06/16 16:28:39 -tclover Exp $
+# $Header: bar-overlay/media-gfx/gimp/gimp-9999.ebuild,v 1.46 2012/07/31 23:23:18 -tclover Exp $
 
 EAPI="3"
 PYTHON_DEPEND="python? 2:2.5"
@@ -15,7 +15,6 @@ SRC_URI=""
 
 LICENSE="GPL-3 LGPL-3"
 SLOT="2"
-KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 
 IUSE="alsa aalib altivec bzip2 curl dbus debug doc exif gnome postscript jpeg jpeg2k lcms mmx mng pdf png python smp sse svg tiff udev webkit wmf xpm"
 
