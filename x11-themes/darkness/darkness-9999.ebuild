@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/darkness/darkness-9999.ebuild,v 1.1 2012/07/04 00:21:51 -tclover Exp $
+# $Header: bar-overlay/x11-themes/darkness/darkness-9999.ebuild,v 1.1 2012/07/31 23:24:22 -tclover Exp $
 
 EAPI=2
 
