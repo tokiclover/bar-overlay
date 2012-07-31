@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.3 2012/07/04 00:21:24 -tclover Exp $
+# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.3 2012/07/31 23:23:47 -tclover Exp $
 
 EAPI="4"
 
@@ -15,7 +15,6 @@ DEPEND="!kernel-builtin? ( =sys-fs/${P/utils/standalone} )"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 
 IUSE="kernel-builtin"
 
