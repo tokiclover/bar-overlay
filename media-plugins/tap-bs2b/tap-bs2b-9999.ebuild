@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/media-plugins/tap-plugins-9999,v 1.1 2012/07/04 00:20:47 -tclover [topic #719273] Exp $
+# $Header: $BAR-overlay/media-plugins/tap-plugins-9999,v 1.1 2012/07/31 23:23:28 -tclover [topic #719273] Exp $
 
 inherit cvs
 
@@ -9,7 +9,6 @@ HOMEPAGE="http://tap-plugins.sourceforge.net/"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="media-libs/ladspa-sdk"
