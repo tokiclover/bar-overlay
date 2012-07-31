@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.6 2012/07/04 00:21:23 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.6 2012/07/31 23:23:44 -tclover Exp $
 
 EAPI=4
 
@@ -15,7 +15,6 @@ RDEPEND="!sys-fs/aufs3 !sys-fs/aufs2 =sys-fs/${P/standalone/utils}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE="debug doc fuse pax_kernel hfs inotify kernel-patch nfs ramfs"
 
 S="${WORKDIR}"/${PN}
