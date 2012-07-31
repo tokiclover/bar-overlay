@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-gfx/freecad/freecad-9999.ebuild,v 1.2 2012/07/04 16:04:10 -tclover Exp $
+# $Header: bar-overlay/media-gfx/freecad/freecad-9999.ebuild,v 1.2 2012/07/31 23:23:14 -tclover Exp $
 
 EAPI=4
 PYTHON_DEPEND=2
@@ -19,7 +19,6 @@ EGIT_PROJECT=${PN}.git
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND="
