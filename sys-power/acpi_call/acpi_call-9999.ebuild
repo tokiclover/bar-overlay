@@ -13,7 +13,6 @@ EGIT_PROJECT=${PN}
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
 IUSE="examples nvidia-hybrid-windump"
 
 DEPEND=""
