@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.3 2012/07/31 06:55:08 -tclover Exp $
+# $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.3 2012/08/01 02:49:39 -tclover Exp $
 
 EAPI=4
 
@@ -15,7 +15,7 @@ HOMEPAGE="http://developer.opensound.com/"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 
 SOUND_CARDS="ali5455 atiaudio audigyls audioloop audiopci cmi878x cmpci cs4281
 cs461x digi96 emu10k1x envy24 envy24ht fmedia geode hdaudio ich imux madi
