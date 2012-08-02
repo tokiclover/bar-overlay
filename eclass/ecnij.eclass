@@ -196,10 +196,9 @@ ecnij_src_install() {
 	local ldir=/usr/$(get_libdir) le=/usr/libexec/cups/ pdir=/usr/share/cups/model
 	local bindir=/usr/bin odir=${ldir}/cups/filter bdir=${le}backend fdir=${le}filter
 	local arc p pr prid slot _dir=/usr/lib/cups/backend
-	use multislot && slot=${SLOT} || slot=${SLOT:0:1}
 	mkdir -p "${D}"{${ldir}/bjlib,${bdir},${fdir}}
 
-	if [[ "${SLOT:0:1}" -eq "3" ]] && [[ "${SLOT:2:2}" -ge "40" ]]; then
+	if [[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "40" ]]; then
 		[ -n "$(uname -m | grep 64)" ] && arc=64 || arc=32
 	fi
 
