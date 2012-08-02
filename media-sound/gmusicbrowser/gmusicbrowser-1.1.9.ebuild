@@ -1,57 +1,100 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/gmusicbrowser/gmusicbrowser-1.1.9.ebuild,v 1.2 2012/07/04 15:29:52 -tclover Exp $
+# $Header: bar-overlay/media-sound/gmusicbrowser/gmusicbrowser-1.1.9.ebuild,v 1.3 2012/08/02 16:33:00 -tclover Exp $
 
-EAPI=2
+EAPI=4
 
-if [ ${PV} = 9999 ]; then egit=git-2
-	EGIT_REPO_URI="git://github.com/squentin/gmusicbrowser.git"
-else SRC_URI="https://github.com/squentin/${PN}/tarball/v${PV} -> ${P}.tar.gz"
-fi
-inherit fdo-mime ${egit}
-unset egit
+inherit fdo-mime
 
-DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac/mpc/ape files, written in perl"
+DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac files"
 HOMEPAGE="http://squentin.free.fr/gmusicbrowser/gmusicbrowser.html"
+SRC_URI="http://${PN}.org/download/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
+KEYWORDS="amd64 ~x86"
+IUSE="+a52 aac +alsa +cdio cdparanoia +dbus doc +dts faac +faad +flac +gstreamer jack
+lame mac mad modplug +mp3 mpc musepack +nls notify +ogg oss oss4 pulseaudio titlebar
+trayicon twolame vorbis wavpack webkit"
 
-KEYWORDS="amd64 x86"
-IUSE="dbus gstreamer mplayer mozilla webkit"
+LANGS="cs de es fr hu it ko nl pl pt pt_BR ru sv zh_CN"
+for l in ${LANGS}; do
+	IUSE+=" linguas_${l}"
+done
 
-DEPEND="dev-vcs/git"
+DEPEND=">=dev-lang/perl-5.8
+	dev-vcs/git
+	nls? ( sys-devel/gettext )"
 
-RDEPEND=">=dev-lang/perl-5.8
-	dev-perl/gtk2-perl
-	dev-perl/gtk2-trayicon
-	dev-perl/gnome2-wnck
+DEPEND_GST="dev-perl/GStreamer
+	dev-perl/GStreamer-Interfaces
+	media-libs/gst-plugins-base
+	alsa? ( media-plugins/gst-plugins-alsa )
+	jack? ( media-plugins/gst-plugins-jack )
+	oss? ( media-plugins/gst-plugins-oss )
+	oss4? ( media-plugins/gst-plugins-oss4 )
+	pulseaudio? ( media-plugins/gst-plugins-pulse )
+	a52? ( media-plugins/gst-plugins-a52dec )
+	mac? ( media-plugins/gst-plugins-good )
+	cdio? ( media-plugins/gst-plugins-cdio )
+	cdparanoia? ( media-plugins/gst-plugins-cdparanoia )
+	dts? ( media-plugins/gst-plugins-dts )
+	faac? ( media-plugins/gst-plugins-faac )
+	faad? ( media-plugins/gst-plugins-faad )
+	flac? ( media-plugins/gst-plugins-flac media-libs/gst-plugins-good )
+	lame? ( media-plugins/gst-plugins-lame )
+	mad? ( media-plugins/gst-plugins-mad )
+	modplug? ( media-plugins/gst-plugins-modplug )
+	mpc? ( media-libs/gst-plugins-bad )
+	mp3? ( media-libs/gst-plugins-ugly )
+	musepack? ( media-plugins/gst-plugins-musepack )
+	ogg? ( media-plugins/gst-plugins-ogg )
+	vorbis? ( media-plugins/gst-plugins-vorbis )
+	wavpack? ( media-plugins/gst-plugins-wavpack )"
+
+DEPEND_MPLAYER="|| (
+	   media-video/mplayer[a52?,alsa?,cdio?,dts?,faac?,faad?,jack?,mad?,oss?,pulseaudio?,twolame?,vorbis?]
+	   media-video/mplayer2[a52?,alsa?,cdio?,dts?,faad?,jack?,mad?,oss?,pulseaudio?,vorbis?] )"
+
+DEPEND_OTHER="mp3? ( || ( media-sound/mpg321 media-sound/mpg123 ) )
+	ogg? ( media-sound/vorbis-tools )
+	flac? ( media-sound/flac123 )
+	vorbis? ( media-sound/vorbis-tools )"
+
+RDEPEND="dev-perl/gtk2-perl
 	dbus? ( dev-perl/Net-DBus )
-	gstreamer? (
-		dev-perl/GStreamer
-		dev-perl/GStreamer-Interfaces
-		media-libs/gst-plugins-good
+	notify? ( dev-perl/Gtk2-Notify )
+	titlebar? ( dev-perl/gnome2-wnck )
+	trayicon? ( dev-perl/gtk2-trayicon )
+	gstreamer? ( ${DEPEND_GST} )
+	|| (
+		( ${DEPEND_GST} )
+		( ${DEPEND_MPLAYER} )
+		( ${DEPEND_OTHER} )
 	)
-	mplayer? ( || ( media-video/mplayer media-video/mplayer2 ) )
-	!gstreamer? ( 
-		!mplayer? (
-			media-sound/mpg123
-			media-sound/mpg321
-			media-sound/vorbis-tools
-			media-sound/flac123
-			media-sound/alsa-utils
-		) 
-	)
-	mozilla? ( dev-perl/Gtk2-MozEmbed )
 	webkit? ( dev-perl/Gtk2-WebKit )"
 
+src_prepare() {
+	sed -e '/menudir/d' -e '/^LINGUAS.*$/d' -i Makefile || die
+}
+
 src_install() {
-	sed -e 's:mpg321:mpg123:g' -i gmusicbrowser* || die "sed failed."
-	emake DOCS="AUTHORS NEWS README" DESTDIR="${D}" \
-		iconsdir="${D}/usr/share/pixmaps" install || die "emake install failed."
-	rm -rf "${D}"/usr/lib/menu/${PN}
-	dohtml layout_doc.html
-	prepalldocs
+	local l LINGUAS
+	for l in ${LANGS}; do
+		if use linguas_${l}; then
+			LINGUAS+=" ${l}"
+		fi
+	done
+	use nls || LINGUAS=""
+
+	emake \
+		DOCS="AUTHORS NEWS README" \
+		DESTDIR="${D}" \
+		LINGUAS="${linguas}" \
+		iconsdir="${D}/usr/share/pixmaps" \
+		install
+
+	use doc && dohtml layout_doc.html
 }
 
 pkg_postinst() {
