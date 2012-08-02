@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.6.ebuild,v 1.4 2012/07/20 13:55:05 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.6.ebuild,v 1.4 2012/08/02 04:27:34 -tclover Exp $
 
 EAPI=4
 
@@ -93,8 +93,14 @@ src_prepare() {
 			epatch ../patches/preempt-desktop-tune.patch || die
 		fi
 	fi
+	use bfs || use ck &&
+		if [ "${KV_MAJOR}" = "3" ]; then
+				if [ "${KV_MINOR}" = "4" ]; then
+					[ "${KV_PATCH}" -ge 6 ] && epatch "${FILESDIR}"/bfs-3.4.6.patch
+				fi
+		fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
-	rm -r .git
+	rm -r .git*
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
 }
 

@@ -1,0 +1,11 @@
+--- a/include/linux/sched.h 2012-07-23 19:40:10.000000000 -0300
++++ b/include/linux/sched.h 2012-07-23 19:56:51.000000000 -0300
+@@ -2028,7 +2028,7 @@ static inline int set_cpus_allowed_ptr(s
+ }
+ #endif
+
+-#ifdef CONFIG_NO_HZ
++#if defined(CONFIG_NO_HZ) && !defined(CONFIG_SCHED_BFS)
+ void calc_load_enter_idle(void);
+ void calc_load_exit_idle(void);
+ #else
