@@ -35,7 +35,7 @@ DEPEND_GST="dev-perl/GStreamer
 	oss4? ( media-plugins/gst-plugins-oss4 )
 	pulseaudio? ( media-plugins/gst-plugins-pulse )
 	a52? ( media-plugins/gst-plugins-a52dec )
-	mac? ( media-plugins/gst-plugins-good )
+	mac? ( media-libs/gst-plugins-good )
 	cdio? ( media-plugins/gst-plugins-cdio )
 	cdparanoia? ( media-plugins/gst-plugins-cdparanoia )
 	dts? ( media-plugins/gst-plugins-dts )
