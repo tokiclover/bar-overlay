@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/eclass/ecnij.eclass,v 1.1 2012/07/31 23:30:23 -tclover Exp $
+# $Header: bar-overlay/eclass/ecnij.eclass,v 1.1 2012/08/02 20:01:55 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
@@ -153,7 +153,7 @@ ecnij_src_prepare() {
 ecnij_src_configure() {
 	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
 		pushd ${dir} || die
-		econf ${MY_ECONF}
+		econf --prefix=/usr ${MY_ECONF}
 		popd
 	done
 
@@ -246,7 +246,7 @@ ecnij_src_prepare_pr() {
 ecnij_src_configure_pr() {
 	for dir in cnijfilter ${ECNIJ_PRSRC}; do
 		pushd ${dir} || die
-		econf --program-suffix=${pr}
+		econf --program-suffix=${pr} --prefix=/usr
 		popd
 	done
 }
