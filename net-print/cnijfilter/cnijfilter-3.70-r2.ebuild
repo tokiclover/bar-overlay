@@ -17,7 +17,7 @@ LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 ECNIJ_PRUSE=("ip100" "mx710" "mx890" "mx370" "mx430" "mx510" "e600")
 ECNIJ_PRID=("303" "394" "395" "396" "397" "398" "399")
 IUSE="net ${ECNIJ_PRUSE[@]}"
-SLOT=${PV}
+SLOT="0"
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
@@ -30,9 +30,7 @@ src_prepare() {
 
 src_install() {
 	ecnij_src_install
-	if use usb; then install -Dm644 etc/81-canonij_prn.rules \
-		"${D}"/etc/udev/rules.d/81-${PN}_prn-${SLOT}.rules || die
-	fi
+	use usb && install -Dm644 {,"${D}"/}etc/81-canonij_prn.rules || die
 }
 
 pkg_postinst() {

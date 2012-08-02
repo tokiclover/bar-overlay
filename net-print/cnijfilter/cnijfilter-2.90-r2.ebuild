@@ -17,7 +17,7 @@ KEYWORDS="~x86 ~amd64"
 ECNIJ_PRUSE=("ip100" "ip2600")
 ECNIJ_PRID=("303" "331")
 IUSE="amd64 ${ECNIJ_PRUSE[@]}"
-SLOT=${PV}
+SLOT="0"
 S="${WORKDIR}"/${PN}-common-${PV}
 
 src_prepare() {

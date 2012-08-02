@@ -18,7 +18,7 @@ LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 ECNIJ_PRUSE=("ip1900" "ip3600" "ip4600" "mp190" "mp240" "mp540" "mp630")
 ECNIJ_PRID=("346" "333" "334" "342" "341" "338" "336")
 IUSE="amd64 scanner symlink ${ECNIJ_PRUSE[@]}"
-SLOT=${PV}
+SLOT="0"
 
 if has scanner ${IUSE}; then
 	if use scanner; then
@@ -33,7 +33,7 @@ fi
 S="${WORKDIR}"/${PN}-common-${PV}
 
 pkg_setup() {
-	if [[ "${SLOT:0:1}" -eq "3" ]] && [[ "${SLOT:2:2}" -ge "40" ]]; then
+	if [[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "40" ]]; then
 		[[ -n "$(uname -m | grep 64)" ]] && ARC=64 || ARC=32
 	fi
 	ecnij_pkg_setup
@@ -53,7 +53,6 @@ src_prepare() {
 src_install() {
 	ecnij_src_install
 	local bindir=/usr/bin ldir=/usr/$(get_libdir) gdir p pr prid slot
-	use multislot && slot=${SLOT} || slot=${SLOT:0:1}
 
 	if has scanner ${IUSE} && use scanner; then gdir=${ldir}/gimp/2.0/plug-ins
 		for p in ${ECNIJ_PRN}; do
@@ -65,14 +64,9 @@ src_install() {
 		done
 		dolib.so ${SCANSRC}/com/libs_bin${ARC}/* || die
 		install -m644 -glp -olp ${SCANSRC}/com/ini/canon_mfp_net.ini "${D}${ldir}"/bjlib || die
-		mv "${D}${bindir}"/scangearmp{,${slot}} || die
-		if use symlink; then
-			dosym ${bindir}/scangearmp${slot} ${gdir}/scangearmp${slot} || die
-		fi
-		if use usb; then 
-			install -Dm644 ${SCANSRC}/scangearmp/etc/80-canon_mfp.rules \
-				"${D}"/etc/udev/rules.d/80-${PN}-${slot}.rules || die
-		fi
+		use symlink && dosym {${bindir},${gdir}}/scangearmp || die
+		use usb && install -Dm644 \
+			{${SCANSRC}/scangearmp,"${D}"}/etc/80-canon_mfp.rules || die
 	fi
 }
 

@@ -15,7 +15,7 @@ LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 KEYWORDS="~x86 ~amd64"
 IUSE="amd64 +debug gtk multislot nls servicetools usb"
-SLOT=${PV}
+SLOT="0"
 REQUIRED_USE="servicetools? ( gtk ) nls? ( gtk ) usb? ( gtk )"
 [ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
 PRUSE=("mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90")
@@ -150,7 +150,6 @@ src_install() {
 	local ldir=/usr/$(get_libdir) le=/usr/libexec/cups/ bindir=/usr/bin 
 	local bdir=${le}backend fdir=${le}filter odir=${ldir}/cups/filter
 	local pdir=/usr/share/cups/model p pr prid slot
-	use multislot && slot=${SLOT} || slot=${SLOT:0:1}
 	mkdir -p "${D}"{${ldir}/bjlib,${bdir},${fdir}}
 
 	for dir in libs cngpij ${SRC} pstocanonij; do
@@ -168,16 +167,10 @@ src_install() {
 
 			cp -a ${prid}/libs_bin/* "${D}${ldir}" || die
 			install -m644 ${prid}/database/* "${D}${ldir}"/bjlib || die
-			sed -e "s/pstocanonij/pstocanonij${slot}/g" -i ppd/canon${pr}.ppd || die
-			install -Dm644 ppd/canon${pr}.ppd "${D}${pdir}"/${pr}.ppd || die
+			install -Dm644 ppd/canon${pr}.ppd "${D}${pdir}"/canon${pr}.ppd || die
 		fi
 	done
 
-	if use usb; then
-		mv "${D}${odir}"/cnij*usb "${D}${bdir}"/cnijusb${slot} || die
-	fi
-	mv "${D}${odir}"/pstocanonij "${D}${fdir}/pstocanonij${slot}" || die
-	mv "${D}${bindir}"/cngpij{,${slot}} || die
 	rm -fr "${D}${ldir}"/cups
 }
 

@@ -16,7 +16,7 @@ LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 ECNIJ_PRUSE=("mp140" "mp210" "ip3500" "mp520" "ip4500" "mp610")
 ECNIJ_PRID=("315" "316" "319" "328" "326" "327")
 IUSE="amd64 ${ECNIJ_PRUSE[@]}"
-SLOT=${PV}
+SLOT="0"
 S="${WORKDIR}"/${PN}-common-${PV}
 
 src_prepare() {
