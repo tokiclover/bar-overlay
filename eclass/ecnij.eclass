@@ -14,7 +14,7 @@ inherit autotools eutils flag-o-matic
 WANT_AUTOCONF=${E_WANT_AUTOCONF:-latest}
 WANT_AUTOMAKE=${E_WANT_AUTOMAKE:-latest}
 
-IUSE="+debug gtk multislot nls servicetools usb"
+IUSE="+debug gtk nls servicetools usb"
 KEYWORDS="-* ~x86 ~amd64"
 
 REQUIRED_USE="servicetools? ( gtk ) nls? ( gtk )"
@@ -218,24 +218,11 @@ ecnij_src_install() {
 
 			cp -a ${prid}/libs_bin${arc}/* "${D}${ldir}" || die
 			install -m644 ${prid}/database/* "${D}${ldir}"/bjlib || die
-			sed -e "s/pstocanonij/pstocanonij${slot}/g" -i ppd/canon${pr}.ppd || die
-			install -Dm644 ppd/canon${pr}.ppd "${D}${pdir}"/${pr}.ppd || die
+			install -Dm644 ppd/canon${pr}.ppd "${D}${pdir}"/canon${pr}.ppd || die
 		fi
 	done
 
-	mv "${D}${odir}"/pstocanonij "${D}${fdir}"/pstocanonij${slot} || die
-	mv "${D}${bindir}"/cngpij{,${slot}} || die
-	if [[ "${SLOT:0:1}" -eq "3" ]] && use multislot && use gtk; then
-		mv "${D}${bindir}"/cnijnpr{,${slot}} || die
-	fi
-	if use usb; then
-		mv "${D}${_dir}"/cnij*usb "${D}${bdir}"/cnijusb${slot} || die
-	fi
 	if has net ${IUSE} && use net; then
-		if use multislot; then
-			mv "${D}${_dir}"/cnijnet "${D}${bdir}"/cnijnet${slot} || die
-			mv "${D}${bindir}"/cnijnetprn{,${slot}} || die
-		fi
 		dolib.so com/libs_bin${arc}/* || die
 		install -Dm644 -glp -olp com/ini/cnnet.ini "${D}${ldir}"/bjlib || die
 	fi
