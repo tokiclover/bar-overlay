@@ -14,8 +14,8 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE="+a52 aac +alsa +cdio cdparanoia +dbus doc +dts faac +faad +flac +gstreamer jack
-lame mac mad modplug +mp3 mpc musepack +nls notify +ogg oss oss4 pulseaudio titlebar
-trayicon twolame vorbis wavpack webkit"
+lame mac mad modplug +mp3 mpc mplayer musepack +nls notify +ogg oss oss4 pulseaudio
+titlebar trayicon twolame vorbis wavpack webkit"
 
 LANGS="cs de es fr hu it ko nl pl pt pt_BR ru sv zh_CN"
 for l in ${LANGS}; do
@@ -56,20 +56,19 @@ DEPEND_MPLAYER="|| (
 	   media-video/mplayer[a52?,alsa?,cdio?,dts?,faac?,faad?,jack?,mad?,oss?,pulseaudio?,twolame?,vorbis?]
 	   media-video/mplayer2[a52?,alsa?,cdio?,dts?,faad?,jack?,mad?,oss?,pulseaudio?,vorbis?] )"
 
-DEPEND_OTHER="mp3? ( || ( media-sound/mpg321 media-sound/mpg123 ) )
-	ogg? ( media-sound/vorbis-tools )
+DEPEND_OTHER="mp3? ( || ( media-sound/mpg321[alsa?] media-sound/mpg123[alsa?,jack?,oss?,pulseaudio?] ) )
+	ogg? ( media-sound/vorbis-tools[flac?,nls?,ogg123] )
 	flac? ( media-sound/flac123 )
-	vorbis? ( media-sound/vorbis-tools )"
+	vorbis? ( media-sound/vorbis-tools[flac?,nls?,ogg123] )"
 
 RDEPEND="dev-perl/gtk2-perl
 	dbus? ( dev-perl/Net-DBus )
 	notify? ( dev-perl/Gtk2-Notify )
 	titlebar? ( dev-perl/gnome2-wnck )
 	trayicon? ( dev-perl/gtk2-trayicon )
-	gstreamer? ( ${DEPEND_GST} )
 	|| (
-		( ${DEPEND_GST} )
-		( ${DEPEND_MPLAYER} )
+		gstreamer? ( ${DEPEND_GST} )
+		mplayer? ( ${DEPEND_MPLAYER} )
 		( ${DEPEND_OTHER} )
 	)
 	webkit? ( dev-perl/Gtk2-WebKit )"
