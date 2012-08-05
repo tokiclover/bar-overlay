@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/app-dicts/xmlittre/xmlittre-1.0.ebuild,v 1.1 2011/11/05 -tclover Exp $
+# $Header: bar-overlay/app-dicts/xmlittre/xmlittre-1.0.ebuild,v 1.1 2012/08/05 10:20:35 -tclover Exp $
 
 EAPI=2
 
@@ -10,7 +10,7 @@ DESCRIPTION="XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 L
 HOMEPAGE="http://francois.gannaz.free.fr/Littre/accueil.php"
 SRC_URI="http://francois.gannaz.free.fr/Littre/dlds/XMLittre_stardict_1.0.zip -> ${P}.zip"
 
-LICENSE="CC BY-NC-SA-3.0"
+LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="x86 amd64"
 IUSE=""
