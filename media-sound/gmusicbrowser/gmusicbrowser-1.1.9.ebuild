@@ -71,7 +71,7 @@ RDEPEND="dev-perl/gtk2-perl
 		mplayer? ( ${DEPEND_MPLAYER} )
 		( ${DEPEND_OTHER} )
 	)
-	webkit? ( dev-perl/Gtk2-WebKit )"
+	webkit? ( dev-perl/perl-WebKit-GTk )"
 
 src_prepare() {
 	sed -e '/menudir/d' -e '/^LINGUAS.*$/d' -i Makefile || die
