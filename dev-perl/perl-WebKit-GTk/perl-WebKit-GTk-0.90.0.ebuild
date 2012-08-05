@@ -1,14 +1,15 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/dev-perl/Gtk2-WebKit/Gtk2-WebKit-0.90.0.ebuild,v 1.1 2011/11/05 -tclover Exp $
+# $Header: bar-overlay/dev-perl/perl-WebKit-GTk/perl-WebKit-GTk-0.90.0.ebuild,v 1.1 2012/08/05 09:49:25 -tclover Exp $
 
 EAPI=4
 
 MODULE_AUTHOR=FLORA
 MODULE_VERSION=0.09
+MY_PN=Gtk2-WebKit
 inherit perl-module
 
-DESCRIPTION="Web content engine library for Gtk2"
+DESCRIPTION="perl WebKit module for the GIMP Toolkit"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -23,9 +24,6 @@ DEPEND="${RDEPEND}
 	dev-perl/extutils-depends"
 
 src_configure() {
-	addpredict "/usr/local/share/webkit"
+	addpredict /usr/share/webkit
 	perl-module_src_configure
-	ewarn "copy over /usr/local/share/webkit to ~/.local/share/webkit"
 }
-
-#SRC_TEST=do
