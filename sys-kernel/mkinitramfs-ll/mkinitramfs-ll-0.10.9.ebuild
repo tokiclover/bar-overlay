@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/07/30 14:23:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/08/05 03:03:07 -tclover Exp $
 
 EAPI=4
 
@@ -8,7 +8,7 @@ inherit eutils
 
 DESCRIPTION="a flexible initramfs genrating tool with full LUKS support and more"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
-SRC_URI="https://github.com/tokiclover/mkinitramfs-ll/tarball/${PVR} -> ${P}.tar.gz"
+SRC_URI="https://github.com/tokiclover/${PN}/tarball/${PVR} -> ${P}.tar.gz"
 
 LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"

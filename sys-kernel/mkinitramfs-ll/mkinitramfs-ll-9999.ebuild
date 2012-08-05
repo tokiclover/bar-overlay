@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/07/31 23:23:50 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/08/05 03:02:41 -tclover Exp $
 
 EAPI=4
 
@@ -54,7 +54,7 @@ DOCS=(BUGS README.textile)
 
 src_prepare() {
 	# append binaries and kernel module group depending on USE
-	local bin fsck b e fs kmod mod u
+	local bin b e fs fsck kmod mod u
 	for fs in ${IUSE_FS}; do
 		use ${fs} && fsck+=:fsck.${fs} && mod+=:${fs}
 	done
