@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-plugins/entrance/entrance-9999.ebuild,v 1.1 2011/11/05 -tclover Exp $
+# $Header: bar-overlay/x11-plugins/entrance/entrance-9999.ebuild,v 1.1 2012/08/19 02:07:16 -tclover Exp $
 
 EAPI="2"
 
