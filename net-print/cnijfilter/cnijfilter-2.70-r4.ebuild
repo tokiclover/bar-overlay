@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r4.ebuild,v 1.7 2012/07/04 00:21:05 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.70-r4.ebuild,v 1.7 2012/08/20 23:01:33 -tclover Exp $
 
 EAPI=4
 
@@ -14,7 +14,7 @@ RESTRICT="fetch"
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
 KEYWORDS="~x86 ~amd64"
-IUSE="amd64 +debug gtk multislot nls servicetools usb"
+IUSE="amd64 +debug gtk nls servicetools usb"
 SLOT="0"
 REQUIRED_USE="servicetools? ( gtk ) nls? ( gtk ) usb? ( gtk )"
 [ "${ARCH}" == "amd64" ] && REQUIRED_USE+=" servicetools? ( amd64 )"
