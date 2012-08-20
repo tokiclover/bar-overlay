@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/eclass/ecnij.eclass,v 1.1 2012/08/02 20:01:55 -tclover Exp $
+# $Header: bar-overlay/eclass/ecnij.eclass,v 1.1 2012/08/20 23:32:05 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
@@ -30,7 +30,7 @@ DEPEND="app-text/ghostscript-gpl
 		>=dev-libs/libxml-1.8
 	)
 "
-if [[ "${SLOT:0:1}" -eq "3" ]] && [[ "${SLOT:2:2}" -ge "40" ]]; then
+if [[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "40" ]]; then
 	DEPEND="${DEPEND}
 		>=dev-libs/popt-1.6
 		>=media-libs/tiff-3.4
@@ -141,7 +141,7 @@ ecnij_src_prepare() {
 				cp -a ${dir} ${pr} || die
 			done
 			pushd ${pr} || die
-			[[ "${SLOT:0:1}" -eq "3" ]] && [[ "${SLOT:2:2}" -ge "10" ]] && ln -s {../,}com
+			[[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "10" ]] && ln -s {../,}com
 			ecnij_src_prepare_pr
 			popd
 		fi
