@@ -1,10 +1,11 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/09/10 09:10:11 -tclover Exp $
+# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/09/10 09:10:03 -tclover Exp $
 
 EAPI=4
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa.git"
+EGIT_BRANCH=${PV%.9999}
 
 inherit base autotools multilib flag-o-matic toolchain-funcs git-2
 
@@ -150,7 +151,7 @@ src_prepare() {
 	fi
 
 	# relax the requirement that r300 must have llvm, bug 380303
-	epatch "${FILESDIR}"/${P}-dont-require-llvm-for-r300.patch
+	epatch "${FILESDIR}"/${P/9.0.}-dont-require-llvm-for-r300.patch
 
 	# fix for hardened pax_kernel, bug 240956
 	[[ ${PV} != 9999* ]] && epatch "${FILESDIR}"/glx_ro_text_segm.patch
