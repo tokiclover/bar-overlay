@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-misc/connman/connman-9999.ebuild,v 1.2 2012/09/21 20:22:22 -tclover Exp $
+# $Header: bar-overlay/net-misc/connman/connman-9999.ebuild,v 1.2 2012/09/21 20:54:56 -tclover Exp $
 
 EAPI=4
 
@@ -59,9 +59,11 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die "emake install failed"
+	emake DESTDIR="${D}" install
+	dobin client/connmanctl
+	doman doc/{connman.8,connman.conf.5,connmanctl.1}
 
-	keepdir /var/lib/${PN} || die
-	newinitd "${FILESDIR}"/${PN}.initd ${PN} || die
-	newconfd "${FILESDIR}"/${PN}.confd ${PN} || die
+	keepdir /var/lib/${PN}
+	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 }
