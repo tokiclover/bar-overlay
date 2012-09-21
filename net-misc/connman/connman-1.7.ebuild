@@ -1,18 +1,14 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-misc/connman/connman-9999.ebuild,v 1.2 2012/07/04 00:21:01 -tclover Exp $
+# $Header: bar-overlay/net-misc/connman/connman-9999.ebuild,v 1.2 2012/09/21 20:22:18 -tclover Exp $
 
 EAPI=4
 
-if [ "${PV}" = "9999" ]; then egit=git-2
-	EGIT_REPO_URI="git://git.kernel.org/pub/scm/network/connman/connman.git"
-else SRC_URI=mirror://kernel/linux/network/${PN}/${P}.tar.gz; fi
-
-inherit multilib ${egit} autotools
-unset egit
+inherit multilib autotools
 
 DESCRIPTION="Provides a daemon for managing internet connections"
 HOMEPAGE="http://connman.net"
+SRC_URI=mirror://kernel/linux/network/${PN}/${P}.tar.gz
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -66,7 +62,6 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" install || die "emake install failed"
-	dobin client/cm || die "client installation failed"
 
 	keepdir /var/lib/${PN} || die
 	newinitd "${FILESDIR}"/${PN}.initd ${PN} || die
