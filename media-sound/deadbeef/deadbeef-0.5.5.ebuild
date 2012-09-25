@@ -17,7 +17,7 @@ EGIT_COMMIT="${PV}"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="alsa oss pulseaudio gtk network sid mad mac adplug vorbis ffmpeg flac sndfile
-wavpack cdda gme libnotify musepack midi tta dts aac mms libsamplerate X cover
+wavpack cdda gme sm ice libnotify musepack midi tta dts aac mms libsamplerate X cover
 zip nls threads pth gnome"
 
 RDEPEND="adplug? ( media-libs/adplug )
@@ -27,9 +27,8 @@ RDEPEND="adplug? ( media-libs/adplug )
 	mms? ( media-libs/libmms )
 	sid? ( media-sound/sidplay )
 	tta? ( media-sound/ttaenc )
-	midi? ( media-sound/wildmidi )"
-
-RDEPEND="alsa? ( media-libs/alsa-lib )
+	midi? ( media-sound/wildmidi )
+	alsa? ( media-libs/alsa-lib )
 	ffmpeg? ( virtual/ffmpeg )
 	mad? ( media-libs/libmad )
 	vorbis? ( media-libs/libvorbis )
@@ -49,9 +48,12 @@ RDEPEND="alsa? ( media-libs/alsa-lib )
 	zip? ( sys-libs/zlib dev-libs/libzip )
 	pth? ( dev-libs/pth )
 	gme? ( sys-libs/zlib )
-	midi? ( media-sound/timidity-freepats )"
+	midi? ( media-sound/timidity-freepats )
+	sm? ( x11-libs/libSM )
+	ice? ( x11-libs/libICE )"
 
-DEPEND="${RDEPEND} oss? ( virtual/libc )"
+DEPEND="oss? ( virtual/libc )
+		nls? ( dev-util/intltool )"
 
 src_prepare() {
 	sed -i "${S}"/plugins/wildmidi/wildmidiplug.c \
@@ -93,6 +95,8 @@ src_configure() {
 		$(use_enable mms)
 		$(use_enable libsamplerate src)
 		$(use_enable zip vfs-zip)
+		$(use_with sm libsm)
+		$(use_withe ice libice)
 		--docdir="/usr/share/doc/${PF}"
 		--disable-dependency-tracking
 		--disable-static

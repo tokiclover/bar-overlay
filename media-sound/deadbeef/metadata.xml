@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>no-herd</herd>
+	<maintainer>
+		<email></email>
+	</maintainer>
+	<use>
+		<flag name="ice">adds libice for gtkui session client support</flag>
+		<flag name="sm">adds libsm for gtkui session client support</flag>
+	</use>
+</pkgmetadata>
