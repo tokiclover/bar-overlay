@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/08/05 03:03:07 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/09/25 08:41:42 -tclover Exp $
 
 EAPI=4
 
@@ -21,7 +21,7 @@ IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
 REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )"
 
-DEPEND="sys-apps/coreutils[unicode]
+DEPEND="sys-apps/coreutils
 	sys-apps/findutils
 	sys-apps/sed
 	sys-apps/grep"
