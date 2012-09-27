@@ -35,7 +35,7 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
 bfq_src=bfq-${okv}-v4.patch.bz2
-bfs_vrs=415
+bfs_vrs=416
 bfs_src=${okv}-sched-bfs-${bfs_vrs}.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 ck_src=${okv}-ck1-broken-out.tar.bz2
@@ -79,6 +79,9 @@ src_prepare() {
 		epatch "${WORKDIR}"/${ap}-{kbuild,base,standalone,loopback,proc_map}.patch
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
+	if use bfs || use ck; then
+		pushd ../patches && epatch "${FILESDIR}"/3.2-sched-bfs-416.patch.patch && popd
+	fi
 	if use ck; then
 		sed -i -e "s:ck1-version.patch::g" ../patches/series || die
 		for pch in $(< ../patches/series); do

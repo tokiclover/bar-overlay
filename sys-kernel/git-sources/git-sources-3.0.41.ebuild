@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.0.38.ebuild,v 1.4 2012/07/20 13:55:04 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.0.38.ebuild,v 1.4 2012/09/27 13:50:56 -tclover Exp $
 
 EAPI=4
 
@@ -29,7 +29,7 @@ EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfq bfs fbcondecor ck hz"
+IUSE="aufs bfq bfs fbcondecor ck hz uksm"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
@@ -41,11 +41,15 @@ bfs_uri=http://ck.kolivas.org/patches/bfs/${okv}.0
 ck_src=${okv}.0-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv}/${okv}/${okv}.0-ck1/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
+uksm_uri=http://kerneldedup.org/download/uksm/0.1.2
+uksm_src=uksm-0.1.2-for-v${okv}.ge.38.patch
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
-	bfs? ( ${bfs_uri}/${bfs_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
+	bfs? ( ${ck_uri}/${ck_src} ${bfs_uri}/${bfs_src} )
+	ck? ( ${ck_uri}/${ck_src} ${bfs_uri}/${bfs_src} ) hz? ( ${ck_uri}/${ck_src} )
+	uksm? ( ${uksm_uri}/${uksm_src} )
 "
-unset okv bfq_uri bfs_uri bfs_vrs ck_uri
+unset okv bfq_uri bfs_uri bfs_vrs ck_uri uksm_uri
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -83,7 +87,7 @@ src_prepare() {
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
-		pushd ../patches && epatch "${FILESDIR}"/bfs-406-413.patch && popd
+		pushd ../patches && epatch "${FILESDIR}"/3.0-sched-bfs-406-16.patch.patch && popd
 	fi
 	if use ck; then
 		sed -i -e "s:ck1-version.patch::g" ../patches/series || die
@@ -101,6 +105,7 @@ src_prepare() {
 	fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	use bfs || use ck && epatch "${DISTDIR}"/${bfs_src}
+	use uksm && epatch "${DISTDIR}"/${uksm_src}
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
 }

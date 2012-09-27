@@ -1,0 +1,56 @@
+--- /var/tmp/portage/sys-kernel/git-sources-3.2.30/work/patches/3.2-sched-bfs-416.patch	2012-01-16 00:07:31.000000000 +0100
++++ /root/3.2-sched-bfs-416.patch	2012-09-27 15:03:28.228991977 +0200
+@@ -617,22 +617,24 @@
+  #if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ)
+  extern void select_nohz_load_balancer(int stop_tick);
+  extern int get_nohz_timer_target(void);
+-@@ -1226,15 +1231,31 @@ struct task_struct {
++@@ -1232,15 +1232,34 @@
+  
+  #ifdef CONFIG_SMP
+  	struct llist_node wake_entry;
+ -	int on_cpu;
+  #endif
+ -	int on_rq;
++-
++-	int prio, static_prio, normal_prio;
+ +#if defined(CONFIG_SMP) || defined(CONFIG_SCHED_BFS)
+ +	bool on_cpu;
+ +#endif
+ +#ifndef CONFIG_SCHED_BFS
+ +	bool on_rq;
+ +#endif
+- 
+- 	int prio, static_prio, normal_prio;
+- 	unsigned int rt_priority;
+++ 
+++ 	int prio, static_prio, normal_prio;
+++ 	unsigned int rt_priority;
+ +#ifdef CONFIG_SCHED_BFS
+ +	int time_slice;
+ +	u64 deadline;
+@@ -644,14 +646,18 @@
+ +#endif
+ +	unsigned long rt_timeout;
+ +#else /* CONFIG_SCHED_BFS */
+++ 	int prio, static_prio, normal_prio;
++ 	unsigned int rt_priority;
+  	const struct sched_class *sched_class;
+- 	struct sched_entity se;
+- 	struct sched_rt_entity rt;
++-	struct sched_entity se;
++-	struct sched_rt_entity rt;
+++ 	struct sched_entity se;
+++ 	struct sched_rt_entity rt;
+ +#endif
+- 
+- #ifdef CONFIG_PREEMPT_NOTIFIERS
+- 	/* list of struct preempt_notifier: */
+-@@ -1341,6 +1362,9 @@ struct task_struct {
+++
++ #ifdef CONFIG_CGROUP_SCHED
++ 	struct task_group *sched_task_group;
++ #endif@@ -1341,6 +1362,9 @@ struct task_struct {
+  	int __user *clear_child_tid;		/* CLONE_CHILD_CLEARTID */
+  
+  	cputime_t utime, stime, utimescaled, stimescaled;
