@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.5.4.ebuild,v 1.4 2012/09/27 13:11:54 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.5.4.ebuild,v 1.4 2012/09/27 23:15:08 -tclover Exp $
 
 EAPI=4
 
@@ -88,25 +88,19 @@ src_prepare() {
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use ck; then
-		sed -i -e "s:ck1-version.patch::g" ../patches/series || die
-		for pch in $(< ../patches/series); do
-			epatch ../patches/$pch || die
+		sed -i -e "s:ck1-version.patch::g" "${WORKDIR}"/patches/series || die
+		for pch in $(< "${WORKDIR}"/patches/series); do
+			epatch "${WORKDIR}"/patches/$pch
 		done
  	else
- 		use bfs && epatch ../patches/${bfs_src}
+ 		use bfs && epatch "${WORKDIR}"/patches/${bfs_src}
 		if use hz; then
-			for pch in $(grep hz ../patches/series); do 
-				epatch ../patches/$pch || die
+			for pch in $(grep hz "${WORKDIR}"/patches/series); do 
+				epatch "${WORKDIR}"/patches/$pch
 			done
-			epatch ../patches/preempt-desktop-tune.patch || die
+			epatch "${WORKDIR}"/patches/preempt-desktop-tune.patch
 		fi
 	fi
-	use bfs || use ck &&
-		if [ "${KV_MAJOR}" = "3" ]; then
-				if [ "${KV_MINOR}" = "4" ]; then
-					[ "${KV_PATCH}" -ge 6 ] && epatch "${FILESDIR}"/bfs-3.4.6.patch
-				fi
-		fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	use bld && epatch "${DISTDIR}"/${bld_src}
 	use reiser4 && epatch "${DISTDIR}"/${r4_src}

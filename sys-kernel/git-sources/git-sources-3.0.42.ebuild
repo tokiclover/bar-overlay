@@ -75,7 +75,7 @@ src_unpack() {
 
 src_prepare() {
 	if use aufs; then
-		pushd ../aufs${KV_MAJOR}-standalone && epatch \
+		pushd "${WORKDIR}"/aufs${KV_MAJOR}-standalone && epatch \
 			"${FILESDIR}"/aufs-${KV_MAJOR}.${KV_MINOR}.6-loopback_fix.patch && popd
 		for file in Documentation fs include/linux/aufs_type.h; do
 			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$file . || die
@@ -87,20 +87,21 @@ src_prepare() {
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
-		pushd ../patches && epatch "${FILESDIR}"/bfs-406-413.patch && popd
+		pushd "${WORKDIR}"/patches &&
+			epatch "${FILESDIR}"/3.0-sched-bfs-406-16.patch.patch && popd
 	fi
 	if use ck; then
-		sed -i -e "s:ck1-version.patch::g" ../patches/series || die
-		for pch in $(< ../patches/series); do
-			epatch ../patches/$pch || die
+		sed -i -e "s:ck1-version.patch::g" "${WORKDIR}"/patches/series || die
+		for pch in $(< "${WORKDIR}"/patches/series); do
+			epatch "${WORKDIR}"/patches/$pch
 		done
  	else
- 		use bfs && epatch ../patches/${bfs_src/bfs-*413/sched-bfs-406}
+ 		use bfs && epatch "${WORKDIR}"/patches/${bfs_src/bfs-*413/sched-bfs-406}
 		if use hz; then
-			for pch in $(grep hz ../patches/series); do 
-				epatch ../patches/$pch || die
+			for pch in $(grep hz "${WORKDIR}"/patches/series); do 
+				epatch "${WORKDIR}"/patches/$pch
 			done
-			epatch ../patches/preempt-desktop-tune.patch || die
+			epatch "${WORKDIR}"/patches/preempt-desktop-tune.patch
 		fi
 	fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}

@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2012/07/20 13:55:05 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2012/09/27 23:17:45 -tclover Exp $
 
 EAPI=4
 
@@ -41,11 +41,14 @@ bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
+uksm_uri=http://kerneldedup.org/download/uksm/0.1.2
+uksm_src=uksm-0.1.2-for-v${okv}.ge.24.patch
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
+	uksm? ( ${uksm_uri}/${uksm_src} )
 "
-unset okv bfq_uri bfs_uri bfs_vrs ck_uri
+unset okv bfq_uri bfs_uri bfs_vrs ck_uri uksm_uri
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -80,20 +83,21 @@ src_prepare() {
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
-		pushd ../patches && epatch "${FILESDIR}"/3.2-sched-bfs-416.patch.patch && popd
+		pushd "${WORKDIR}"/patches &&
+		epatch "${FILESDIR}"/3.2-sched-bfs-416.patch.patch && popd
 	fi
 	if use ck; then
-		sed -i -e "s:ck1-version.patch::g" ../patches/series || die
-		for pch in $(< ../patches/series); do
-			epatch ../patches/$pch || die
+		sed -i -e "s:ck1-version.patch::g" "${WORKDIR}"/patches/series || die
+		for pch in $(< "${WORKDIR}"/patches/series); do
+			epatch "${WORKDIR}"/patches/$pch
 		done
  	else
- 		use bfs && epatch ../patches/${bfs_src}
+ 		use bfs && epatch "${WORKDIR}"/patches/${bfs_src}
 		if use hz; then
-			for pch in $(grep hz ../patches/series); do 
-				epatch ../patches/$pch || die
+			for pch in $(grep hz "${WORKDIR}"/patches/series); do 
+				epatch "${WORKDIR}"/patches/$pch
 			done
-			epatch ../patches/preempt-desktop-tune.patch || die
+			epatch "${WORKDIR}"/patches/preempt-desktop-tune.patch
 		fi
 	fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
