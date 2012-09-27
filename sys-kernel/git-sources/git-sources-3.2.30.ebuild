@@ -68,7 +68,7 @@ src_unpack() {
 		git-2_src_unpack
 	fi
 	if use bfs || use hz || use ck; then
-		unpack ${ck_src} || die
+		unpack ${ck_src}
 	fi
 }
 

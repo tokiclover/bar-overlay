@@ -29,7 +29,7 @@ EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfq bfs fbcondecor ck hz"
+IUSE="aufs bfq bfs fbcondecor ck hz uksm"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
@@ -65,7 +65,7 @@ src_unpack() {
 		git-2_src_unpack
 	fi
 	if use bfs || use hz || use ck; then
-		unpack ${ck_src} || die
+		unpack ${ck_src}
 	fi
 }
 
@@ -97,7 +97,7 @@ src_prepare() {
 		fi
 	fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
-	use rt && epatch "${DISTDIR}"/${rt_src}
+	use uksm && epatch "${DISTDIR}"/${uksm_src}
 	rm -r .git
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
 }

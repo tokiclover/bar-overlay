@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.11.ebuild,v 1.4 2012/09/27 13:17:03 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.11.ebuild,v 1.4 2012/09/27 18:38:06 -tclover Exp $
 
 EAPI=4
 
@@ -38,6 +38,8 @@ bfq_src=bfq-${okv}-v4.patch.bz2
 bfs_vrs=424
 bfs_src=${okv}-sched-bfs-${bfs_vrs}.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
+bld_uri=https://bld.googlecode.com/files
+bld_src=bld-${KV_MAJOR}.5.0.tar.bz2
 ck_src=${okv}-ck3-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck3/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
@@ -46,9 +48,9 @@ uksm_src=uksm-0.1.2-for-v${okv}.ge.6.patch
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
-	uksm? ( ${uksm_uri}/${uksm_src} )
+	bld? ( ${bld_uri}/${bld_src} ) uksm? ( ${uksm_uri}/${uksm_src} )
 "
-unset okv bfq_uri bfs_uri bfs_vrs ck_uri uksm_uri
+unset okv bfq_uri bfs_uri bfs_vrs bld_uri ck_uri uksm_uri
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -68,8 +70,9 @@ src_unpack() {
 		git-2_src_unpack
 	fi
 	if use bfs || use hz || use ck; then
-		unpack ${ck_src} || die
+		unpack ${ck_src}
 	fi
+	use bld && unpack ${bld_src}
 }
 
 src_prepare() {
@@ -103,6 +106,7 @@ src_prepare() {
 				fi
 		fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
+	use bld && epatch "${FILESDIR}"/bld-3.5-4.patch && epatch ../bld-3.5.0/BLD-3.5.patch
 	use uksm && epatch "${DISTDIR}"/${uksm_src}
 	rm -r .git*
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
