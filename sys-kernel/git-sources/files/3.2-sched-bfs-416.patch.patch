@@ -1,5 +1,5 @@
---- /var/tmp/portage/sys-kernel/git-sources-3.2.30/work/patches/3.2-sched-bfs-416.patch	2012-01-16 00:07:31.000000000 +0100
-+++ /root/3.2-sched-bfs-416.patch	2012-09-27 15:03:28.228991977 +0200
+--- patches/3.2-sched-bfs-416.patch	2012-01-16 00:07:31.000000000 +0100
++++ patches/3.2-sched-bfs-416.patch	2012-09-27 15:03:28.228991977 +0200
 @@ -617,22 +617,24 @@
   #if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ)
   extern void select_nohz_load_balancer(int stop_tick);

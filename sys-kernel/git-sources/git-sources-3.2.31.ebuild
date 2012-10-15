@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2012/09/28 00:03:04 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2012/10/15 15:49:09 -tclover Exp $
 
 EAPI=4
 
@@ -34,15 +34,14 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
-bfs_vrs=416
-bfq_src=bfq-${okv}-v4.patch.bz2
-bfs_src=${okv}-sched-bfs-${bfs_vrs}.patch
+bfq_src=${okv}-bfq-v5.patch.bz2
+bfs_src=${okv}-sched-bfs-416.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
-uksm_uri=http://kerneldedup.org/download/uksm/0.1.2
-uksm_src=uksm-0.1.2-for-v${okv}.ge.24.patch
+uksm_uri=http://kerneldedup.org/download/0uksm/.1.2.1
+uksm_src=uksm-0.1.2.1-for-v${okv}.ge.31.patch
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
@@ -83,8 +82,8 @@ src_prepare() {
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
-		pushd "${WORKDIR}"/patches &&
-		epatch "${FILESDIR}"/3.2-sched-bfs-416.patch.patch && popd
+		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src}.patch && popd
+		sed -e "s,${okv}-ck[0-9],${CKV},g" -i "${WORKDIR}"/patches/${bfs_src} || die
 	fi
 	if use ck; then
 		sed -i -e "s:ck1-version.patch::g" "${WORKDIR}"/patches/series || die
