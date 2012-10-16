@@ -45,6 +45,7 @@ uksm_src=uksm-0.1.2.1-for-v${okv}.ge.46.patch
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
+	uksm? ( ${uksm_uri}/${uksm_src} )
 "
 unset bfq_uri bfs_uri ck_uri uksm_uri
 
@@ -54,6 +55,9 @@ that you may suspect being the source of your issues because this ebuild is
 based on the latest mainline (stable) tree."
 
 src_unpack() {
+	if use bfs || use hz || use ck; then
+		unpack ${ck_src}
+	fi
 	git-2_src_unpack
 	if use aufs; then
 		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
@@ -64,9 +68,6 @@ src_unpack() {
 		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
 		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
-	fi
-	if use bfs || use hz || use ck; then
-		unpack ${ck_src}
 	fi
 }
 

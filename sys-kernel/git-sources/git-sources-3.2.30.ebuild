@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2012/10/15 15:49:09 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2012/10/16 10:39:19 -tclover Exp $
 
 EAPI=4
 
@@ -55,6 +55,9 @@ that you may suspect being the source of your issues because this ebuild is
 based on the latest mainline (stable) tree."
 
 src_unpack() {
+	if use bfs || use hz || use ck; then
+		unpack ${ck_src}
+	fi
 	git-2_src_unpack
 	if use aufs; then
 		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
@@ -65,9 +68,6 @@ src_unpack() {
 		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
 		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
-	fi
-	if use bfs || use hz || use ck; then
-		unpack ${ck_src}
 	fi
 }
 

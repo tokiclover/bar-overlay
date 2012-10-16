@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.11.ebuild,v 1.4 2012/10/15 15:49:09 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.11.ebuild,v 1.4 2012/10/16 11:01:58 -tclover Exp $
 
 EAPI=4
 
@@ -57,6 +57,10 @@ that you may suspect being the source of your issues because this ebuild is
 based on the latest mainline (stable) tree."
 
 src_unpack() {
+	if use bfs || use hz || use ck; then
+		unpack ${ck_src}
+	fi
+	use bld && unpack ${bld_src}
 	git-2_src_unpack
 	if use aufs; then
 		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
@@ -68,10 +72,6 @@ src_unpack() {
 		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
 	fi
-	if use bfs || use hz || use ck; then
-		unpack ${ck_src}
-	fi
-	use bld && unpack ${bld_src}
 }
 
 src_prepare() {
@@ -105,12 +105,12 @@ src_prepare() {
 	if use bfs || use ck; then
 		epatch "${FILESDIR}"/3.4-sched-bfs-424-no_hz.patch
 	fi
-	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	if use bld; then
 		pushd "${WORKDIR}" &&
 		epatch "${FILESDIR}"/3.4-bld-3.5.patch && popd &&
 		epatch "${WORKDIR}"/bld-3.5.0/BLD-3.5.patch
 	fi
+	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	use uksm && epatch "${DISTDIR}"/${uksm_src}
 	rm -r .git*
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die

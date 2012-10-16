@@ -57,6 +57,9 @@ that you may suspect being the source of your issues because this ebuild is
 based on the latest mainline (stable) tree."
 
 src_unpack() {
+	if use bfs || use hz || use ck; then
+		unpack ${ck_src}
+	fi
 	git-2_src_unpack
 	if use aufs; then
 		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
@@ -67,9 +70,6 @@ src_unpack() {
 		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
 		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
-	fi
-	if use bfs || use hz || use ck; then
-		unpack ${ck_src}
 	fi
 }
 

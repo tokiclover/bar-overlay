@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.6.0.ebuild,v 1.4 2012/10/15 15:49:09 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.6.2.ebuild,v 1.4 2012/10/16 09:55:40 -tclover Exp $
 
 EAPI=4
 
@@ -35,7 +35,7 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
 bfq_src=${okv}-bfq-v5.patch.bz2
-bfs_src=${okv/6/5}-sched-bfs-425.patch
+bfs_src=${okv/6/5}-sched-bfs-424.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/${okv/6/0}/${okv}
 bld_uri=https://bld.googlecode.com/files
 bld_src=bld-${okv/6/5}.0.tar.bz2
@@ -46,9 +46,8 @@ uksm_uri=http://kerneldedup.org/download/uksm/0.1.2.1
 uksm_src=uksm-0.1.2.1-for-v${okv}.ge.2.patch
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
-	bfs? ( ${bfs_uri}/${bfs_src} ${bfs_uri}/bfs425-grq_urwlocks.patch -> ${bfs_src/sched/grq_urwlocks} )
-	ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} ) bld? ( ${bld_uri}/${bld_src} )
-	uksm? ( ${uksm_uri}/${uksm_src} )
+	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
+	bld? ( ${bld_uri}/${bld_src} ) uksm? ( ${uksm_uri}/${uksm_src} )
 "
 unset okv bfq_uri bfs_uri ck_uri bld_uri uksm_uri
 
@@ -58,6 +57,9 @@ that you may suspect being the source of your issues because this ebuild is
 based on the latest mainline (stable) tree."
 
 src_unpack() {
+	if use bfs || use hz || use ck; then
+		unpack ${ck_src}
+	fi
 	git-2_src_unpack
 	if use aufs; then
 		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
@@ -68,9 +70,6 @@ src_unpack() {
 		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
 		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
-	fi
-	if use bfs || use hz || use ck; then
-		unpack ${ck_src}
 	fi
 }
 
@@ -85,12 +84,11 @@ src_prepare() {
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
-		epatch "${DISTDIR}"/{${bfs_src},${bfs_src/sched/grq_urwlocks}}
-#		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src}.patch && popd
-#		sed -e "s,${okv}-ck[0-9],${CKV},g" -i "${WORKDIR}"/patches/${bfs_src} || die
+		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src}.patch && popd
+		sed -e "s,${okv}-ck[0-9],${CKV},g" -i "${WORKDIR}"/patches/${bfs_src} || die
 	fi
 	if use ck; then
-		sed -e "d/ck1-version.patch/" "d/3.5-sched-bfs-424.patch/" \
+		sed -e "d/ck1-version.patch/" \
 			-i "${WORKDIR}"/patches/series || die
 		for pch in $(< "${WORKDIR}"/patches/series); do
 			epatch "${WORKDIR}"/patches/$pch
