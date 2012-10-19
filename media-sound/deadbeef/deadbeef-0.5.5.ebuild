@@ -1,6 +1,6 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-0.5.5.ebuild,v 1.1 2012/09/22 14:35:02 -tclover Exp $
+# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/10/19 21:33:00 -tclover Exp $
 
 EAPI="4"
 
@@ -9,16 +9,15 @@ inherit fdo-mime gnome2-utils flag-o-matic git-2 autotools-utils
 DESCRIPTION="DeaDBeeF - Ultimate Music Player For GNU/Linux"
 HOMEPAGE="http://deadbeef.sourceforge.net/"
 LICENSE="GPL-2 LGPL-2.1"
-EGIT_BRANCH="devel"
 EGIT_REPO_URI="git://deadbeef.git.sourceforge.net/gitroot/deadbeef/deadbeef"
 EGIT_COMMIT="${PV}"
 
-
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE="alsa oss pulseaudio gtk network sid mad mac adplug vorbis ffmpeg flac sndfile
-wavpack cdda gme sm ice libnotify musepack midi tta dts aac mms libsamplerate X cover
-zip nls threads pth gnome"
+KEYWORDS=""
+IUSE="+alsa oss pulseaudio gtk2 gtk3 network sid +mad +mac adplug +vorbis ffmpeg +flac sndfile
++wavpack +cdda gme session lastfm libnotify +musepack midi tta dts +aac mms libsamplerate +X
++artwork zip +nls threads pth gnome +alac dumb static +psf shn +tta vtx"
+REQUIRED_USE="lastfm? ( network ) session? ( || ( gtk2 gtk3 ) )"
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )
@@ -29,7 +28,6 @@ RDEPEND="adplug? ( media-libs/adplug )
 	tta? ( media-sound/ttaenc )
 	midi? ( media-sound/wildmidi )
 	alsa? ( media-libs/alsa-lib )
-	ffmpeg? ( virtual/ffmpeg )
 	mad? ( media-libs/libmad )
 	vorbis? ( media-libs/libvorbis )
 	flac? ( media-libs/flac )
@@ -37,10 +35,15 @@ RDEPEND="adplug? ( media-libs/adplug )
 	sndfile? ( media-libs/libsndfile )
 	network? ( net-misc/curl )
 	cdda? ( dev-libs/libcdio media-libs/libcddb )
-	gtk? ( x11-libs/gtkglext )
+	gtk2? ( x11-libs/gtk+:2
+		   x11-libs/gtkglext
+	)
+	gtk3? ( x11-libs/gtk+:3
+		   x11-libs/gtkglext
+	)
 	X? ( x11-libs/libX11 )
 	pulseaudio? ( media-sound/pulseaudio )
-	cover? ( media-libs/imlib2 )
+	artwork? ( media-libs/imlib2 )
 	libsamplerate? ( media-libs/libsamplerate )
 	musepack? ( media-sound/musepack-tools )
 	aac? ( media-libs/faad2 )
@@ -49,11 +52,16 @@ RDEPEND="adplug? ( media-libs/adplug )
 	pth? ( dev-libs/pth )
 	gme? ( sys-libs/zlib )
 	midi? ( media-sound/timidity-freepats )
-	sm? ( x11-libs/libSM )
-	ice? ( x11-libs/libICE )"
+	lastfm? ( net-misc/curl )
+	dumb? ( media-libs/dumb )"
 
-DEPEND="oss? ( virtual/libc )
-		nls? ( dev-util/intltool )"
+DEPEND="ffmpeg? ( virtual/ffmpeg )
+	nls? ( dev-util/intltool )
+	oss? ( virtual/libc )
+	session? ( || ( x11-libs/libSM x11-libs/libICE ) )"
+
+AUTOTOOLS_AUTORECONF=yes
+AUTOTOOLS_IN_SOURCE_BUILD=1
 
 src_prepare() {
 	sed -i "${S}"/plugins/wildmidi/wildmidiplug.c \
@@ -70,12 +78,14 @@ src_configure() {
 		$(use_enable alsa)
 		$(use_enable oss)
 		$(use_enable pulseaudio pulse)
-		$(use_enable gtk gtkui)
+		$(use_enable gtk2 gtk2)
+		$(use_enable gtk3 gtk3)
 		$(use_enable network vfs-curl)
-		$(use_enable network lfm)
-		$(use_enable cover artwork)
+		$(use_enable lastfm lfm)
+		$(use_enable artwork artwork)
+		$(use_enable artwork artwork_imlib2)
 		$(use_enable sid)
-		$(use_enable mad)
+		$(use_enable mad mad)
 		$(use_enable mac ffap)
 		$(use_enable adplug)
 		$(use_enable X hotkeys)
@@ -94,12 +104,15 @@ src_configure() {
 		$(use_enable aac)
 		$(use_enable mms)
 		$(use_enable libsamplerate src)
-		$(use_enable zip vfs-zip)
-		$(use_with sm libsm)
-		$(use_withe ice libice)
+		$(use_enable zip vfs_zip)
+		$(use_enable alac)
+		$(use_enable dumb dumb)
+		$(use_enable psf)
+		$(use_enable shn)
+		$(use_enable static staticlink)
+		$(use_enable tta)
+		$(use_enable vtx)
 		--docdir="/usr/share/doc/${PF}"
-		--disable-dependency-tracking
-		--disable-static
 	)
 	autotools-utils_src_configure
 }
@@ -113,12 +126,16 @@ src_install() {
 pkg_postinst() {
 	fdo-mime_desktop_database_update
 	fdo-mime_mime_database_update
-	use gtk && gnome2_icon_cache_update
+	if use gtk2 || use gtk3; then
+		gnome2_icon_cache_update
+	fi
 }
 
 pkg_postrm() {
 	fdo-mime_desktop_database_update
 	fdo-mime_mime_database_update
-	use gtk && gnome2_icon_cache_update
+	if use gtk2 || use gtk3; then
+		gnome2_icon_cache_update
+	fi
 }
 

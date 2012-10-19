@@ -6,7 +6,18 @@
 		<email></email>
 	</maintainer>
 	<use>
-		<flag name="ice">adds libice for gtkui session client support</flag>
-		<flag name="sm">adds libsm for gtkui session client support</flag>
+		<flag name="gme">adds chiptune music player based on GME plugin</flag>
+		<flag name="sid">adds SID player based on libsidplay2 plugin</flag>
+		<flag name="mac">adds Monkey's audio (APE) decoder plugin</flag>
+		<flag name="lastfm">adds last.fm scrobbler plugin</flag>
+		<flag name="vtx">adds file player (ay8910/12 emulation) plugin</flag>
+		<flag name="adplug">adds adplug player (OPL2/OPL3 emulation) plugin</flag>
+		<flag name="artwork">adds Cover art plugin plugin</flag>
+		<flag name="shellexec">adds shell commands plugin plugin</flag>
+		<flag name="tta">adds TTA player plugin plugin</flag>
+		<flag name="psf">adds PSF format plugin, using AOSDK plugin</flag>
+		<flag name="dumb">adds DUMB module plugin, for MOD, S3M, etc plugin</flag>
+		<flag name="ice">adds libice gtkui session client support</flag>
+		<flag name="sm">adds libsm gtkui session client support</flag>
 	</use>
 </pkgmetadata>
