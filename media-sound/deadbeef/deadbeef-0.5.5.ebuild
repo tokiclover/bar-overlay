@@ -1,6 +1,6 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/10/19 21:33:00 -tclover Exp $
+# $Header: bar-overlay/media-sound/deadbeef/deadbeef-0.5.5.ebuild,v 1.2 2012/10/20 00:09:41 -tclover Exp $
 
 EAPI="4"
 
@@ -13,11 +13,11 @@ EGIT_REPO_URI="git://deadbeef.git.sourceforge.net/gitroot/deadbeef/deadbeef"
 EGIT_COMMIT="${PV}"
 
 SLOT="0"
-KEYWORDS=""
-IUSE="+alsa oss pulseaudio gtk2 gtk3 network sid +mad +mac adplug +vorbis ffmpeg +flac sndfile
-+wavpack +cdda gme session lastfm libnotify +musepack midi tta dts +aac mms libsamplerate +X
-+artwork zip +nls threads pth gnome +alac dumb static +psf shn +tta vtx"
-REQUIRED_USE="lastfm? ( network ) session? ( || ( gtk2 gtk3 ) )"
+KEYWORDS="~amd64 ~x86"
+IUSE="+aac adplug +alac +alsa +artwork +cdda curl dts dumb ffmpeg +flac gme gnome gtk
+gtk3 lastfm libnotify libsamplerate +mad +mac sid ndfile +wavpack +musepack midi mms
++nls oss pulseaudio threads sndfile static +psf pth shn +tta +vorbis vtx +X zip"
+REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) )"
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )
@@ -33,9 +33,9 @@ RDEPEND="adplug? ( media-libs/adplug )
 	flac? ( media-libs/flac )
 	wavpack? ( media-sound/wavpack )
 	sndfile? ( media-libs/libsndfile )
-	network? ( net-misc/curl )
+	curl? ( net-misc/curl )
 	cdda? ( dev-libs/libcdio media-libs/libcddb )
-	gtk2? ( x11-libs/gtk+:2
+	gtk? ( x11-libs/gtk+:2
 		   x11-libs/gtkglext
 	)
 	gtk3? ( x11-libs/gtk+:3
@@ -55,10 +55,13 @@ RDEPEND="adplug? ( media-libs/adplug )
 	lastfm? ( net-misc/curl )
 	dumb? ( media-libs/dumb )"
 
-DEPEND="ffmpeg? ( virtual/ffmpeg )
-	nls? ( dev-util/intltool )
+DEPEND=">=dev-lang/perl-5.8.1
+	dev-perl/XML-Parser
+	dev-lang/yasm
+	ffmpeg? ( virtual/ffmpeg )
+	nls? ( >=dev-util/intltool-0.40.0 )
 	oss? ( virtual/libc )
-	session? ( || ( x11-libs/libSM x11-libs/libICE ) )"
+	gnome? ( || ( x11-libs/libSM x11-libs/libICE ) )"
 
 AUTOTOOLS_AUTORECONF=yes
 AUTOTOOLS_IN_SOURCE_BUILD=1
@@ -70,17 +73,17 @@ src_prepare() {
 }
 
 src_configure() {
-	local _thr_impl="posix"
-	use pth && _thr_impl="pth"
+	local thd=posix
+	use pth && thd=pth
 	local myeconfargs=(
 		$(use_enable nls)
-		$(use_enable threads threads ${_thr_impl})
+		$(use_enable threads threads ${thd})
 		$(use_enable alsa)
 		$(use_enable oss)
 		$(use_enable pulseaudio pulse)
-		$(use_enable gtk2 gtk2)
+		$(use_enable gtk gtk2)
 		$(use_enable gtk3 gtk3)
-		$(use_enable network vfs-curl)
+		$(use_enable curl vfs-curl)
 		$(use_enable lastfm lfm)
 		$(use_enable artwork artwork)
 		$(use_enable artwork artwork_imlib2)
@@ -110,7 +113,6 @@ src_configure() {
 		$(use_enable psf)
 		$(use_enable shn)
 		$(use_enable static staticlink)
-		$(use_enable tta)
 		$(use_enable vtx)
 		--docdir="/usr/share/doc/${PF}"
 	)
@@ -126,7 +128,7 @@ src_install() {
 pkg_postinst() {
 	fdo-mime_desktop_database_update
 	fdo-mime_mime_database_update
-	if use gtk2 || use gtk3; then
+	if use gtk || use gtk3; then
 		gnome2_icon_cache_update
 	fi
 }
@@ -134,7 +136,7 @@ pkg_postinst() {
 pkg_postrm() {
 	fdo-mime_desktop_database_update
 	fdo-mime_mime_database_update
-	if use gtk2 || use gtk3; then
+	if use gtk || use gtk3; then
 		gnome2_icon_cache_update
 	fi
 }

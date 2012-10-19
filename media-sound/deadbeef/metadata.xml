@@ -14,10 +14,11 @@
 		<flag name="adplug">adds adplug player (OPL2/OPL3 emulation) plugin</flag>
 		<flag name="artwork">adds Cover art plugin plugin</flag>
 		<flag name="shellexec">adds shell commands plugin plugin</flag>
-		<flag name="tta">adds TTA player plugin plugin</flag>
 		<flag name="psf">adds PSF format plugin, using AOSDK plugin</flag>
 		<flag name="dumb">adds DUMB module plugin, for MOD, S3M, etc plugin</flag>
-		<flag name="ice">adds libice gtkui session client support</flag>
-		<flag name="sm">adds libsm gtkui session client support</flag>
+		<flag name="shn">adds SHN plugin based on xmms-shn plugin</flag>
+		<flag name="tta">adds TTA player plugin</flag>
+		<flag name="midi">adds WildMidi player plugin</flag>
+		<flag name="zip">adds zip archive support</flag>
 	</use>
 </pkgmetadata>
