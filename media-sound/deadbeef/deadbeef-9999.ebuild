@@ -1,6 +1,6 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/10/20 09:08:09 -tclover Exp $
+# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/10/20 09:36:39 -tclover Exp $
 
 EAPI="4"
 
@@ -15,8 +15,9 @@ SLOT="0"
 KEYWORDS=""
 IUSE="+aac adplug +alac +alsa +artwork +cdda curl dts dumb ffmpeg +flac gme gnome gtk
 gtk3 lastfm libnotify libsamplerate +mad +mac sid ndfile +wavpack +musepack midi mms
-+nls oss pulseaudio threads sndfile static +psf pth shn +tta +vorbis vtx +X zip"
-REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) )"
++nls oss pulseaudio threads sndfile static +psf pth shn +tta +vorbis vtx +X zip
+artwork-imlib2"
+REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) ) static? ( !dumb !psf !shn )"
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )
@@ -34,18 +35,15 @@ RDEPEND="adplug? ( media-libs/adplug )
 	sndfile? ( media-libs/libsndfile )
 	curl? ( net-misc/curl )
 	cdda? ( dev-libs/libcdio media-libs/libcddb )
-	gtk? ( x11-libs/gtk+:2
-		   x11-libs/gtkglext
-	)
-	gtk3? ( x11-libs/gtk+:3
-		   x11-libs/gtkglext
-	)
+	gtk? ( x11-libs/gtk+:2 x11-libs/gtkglext )
+	gtk3? ( x11-libs/gtk+:3 x11-libs/gtkglext )
 	X? ( x11-libs/libX11 )
 	pulseaudio? ( media-sound/pulseaudio )
-	artwork? ( media-libs/imlib2 )
+	artwork-imlib2? ( media-libs/imlib2 )
 	libsamplerate? ( media-libs/libsamplerate )
 	musepack? ( media-sound/musepack-tools )
 	aac? ( media-libs/faad2 )
+	alac? ( media-libs/faad2 )
 	libnotify? ( x11-libs/libnotify sys-apps/dbus )
 	zip? ( sys-libs/zlib dev-libs/libzip )
 	pth? ( dev-libs/pth )
@@ -62,13 +60,13 @@ DEPEND=">=dev-lang/perl-5.8.1
 	oss? ( virtual/libc )
 	gnome? ( || ( x11-libs/libSM x11-libs/libICE ) )"
 
-AUTOTOOLS_AUTORECONF=yes
+AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
 src_prepare() {
 	sed -i "${S}"/plugins/wildmidi/wildmidiplug.c \
 		-e 's,#define DEFAULT_TIMIDITY_CONFIG ",&/usr/share/timidity/freepats/timidity.cfg:,'
-	autotools-utils_src_prepare
+	autotools-utils_autoreconf
 }
 
 src_configure() {
@@ -85,7 +83,7 @@ src_configure() {
 		$(use_enable curl vfs-curl)
 		$(use_enable lastfm lfm)
 		$(use_enable artwork artwork)
-		$(use_enable artwork artwork_imlib2)
+		$(use_enable artwork-imlib2 artwork_imlib2)
 		$(use_enable sid)
 		$(use_enable mad mad)
 		$(use_enable mac ffap)
