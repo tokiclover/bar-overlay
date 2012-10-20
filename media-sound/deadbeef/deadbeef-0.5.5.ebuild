@@ -1,16 +1,15 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-0.5.5.ebuild,v 1.2 2012/10/20 00:09:41 -tclover Exp $
+# $Header: bar-overlay/media-sound/deadbeef/deadbeef-0.5.5.ebuild,v 1.2 2012/10/20 09:08:05 -tclover Exp $
 
 EAPI="4"
 
-inherit fdo-mime gnome2-utils flag-o-matic git-2 autotools-utils
+inherit fdo-mime gnome2-utils flag-o-matic autotools-utils
 
 DESCRIPTION="DeaDBeeF - Ultimate Music Player For GNU/Linux"
 HOMEPAGE="http://deadbeef.sourceforge.net/"
 LICENSE="GPL-2 LGPL-2.1"
-EGIT_REPO_URI="git://deadbeef.git.sourceforge.net/gitroot/deadbeef/deadbeef"
-EGIT_COMMIT="${PV}"
+SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -69,7 +68,7 @@ AUTOTOOLS_IN_SOURCE_BUILD=1
 src_prepare() {
 	sed -i "${S}"/plugins/wildmidi/wildmidiplug.c \
 		-e 's,#define DEFAULT_TIMIDITY_CONFIG ",&/usr/share/timidity/freepats/timidity.cfg:,'
-	autotools-utils_autoreconf
+	autotools-utils_src_prepare
 }
 
 src_configure() {

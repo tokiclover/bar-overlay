@@ -1,6 +1,6 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/10/20 00:08:52 -tclover Exp $
+# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/10/20 09:08:09 -tclover Exp $
 
 EAPI="4"
 
@@ -68,7 +68,7 @@ AUTOTOOLS_IN_SOURCE_BUILD=1
 src_prepare() {
 	sed -i "${S}"/plugins/wildmidi/wildmidiplug.c \
 		-e 's,#define DEFAULT_TIMIDITY_CONFIG ",&/usr/share/timidity/freepats/timidity.cfg:,'
-	autotools-utils_autoreconf
+	autotools-utils_src_prepare
 }
 
 src_configure() {
