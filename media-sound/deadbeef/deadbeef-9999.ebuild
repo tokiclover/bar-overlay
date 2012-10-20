@@ -8,16 +8,25 @@ inherit fdo-mime gnome2-utils flag-o-matic git-2 autotools-utils
 
 DESCRIPTION="DeaDBeeF - Ultimate Music Player For GNU/Linux"
 HOMEPAGE="http://deadbeef.sourceforge.net/"
-LICENSE="GPL-2 LGPL-2.1"
+LICENSE="|| ( GPL-2 LGPL-2.1 )"
 EGIT_REPO_URI="git://deadbeef.git.sourceforge.net/gitroot/deadbeef/deadbeef"
 
 SLOT="0"
 KEYWORDS=""
 IUSE="+aac adplug +alac +alsa +artwork +cdda curl dts dumb ffmpeg +flac gme gnome gtk
-gtk3 lastfm libnotify libsamplerate +mad +mac sid ndfile +wavpack +musepack midi mms
+gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack +musepack midi mms
 +nls oss pulseaudio threads sndfile static +psf pth shn +tta +vorbis vtx +X zip
 artwork-imlib2"
-REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) ) static? ( !dumb !psf !shn )"
+
+
+LANGS="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
+lg lt nb nl pl pt pt_BR ro ru si sk sl sr sr@latin sv te tr ug uk vi zh_CN zh_TW"
+for l in ${LANGS}; do
+	IUSE+=" linguas_${l}"
+done
+
+REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) ) static? ( !dumb !psf !shn )
+	artwork? ( curl ) artwork-imlib2? ( curl )"
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )
