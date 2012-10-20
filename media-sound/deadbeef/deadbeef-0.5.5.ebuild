@@ -13,9 +13,9 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+aac adplug +alac +alsa +artwork +cdda curl dts dumb ffmpeg +flac gme gnome gtk
+IUSE="+aac adplug +alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gnome gtk
 gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack +musepack midi mms
-+nls oss pulseaudio threads sndfile static +psf pth shn +tta +vorbis vtx +X zip
++nls oss pulseaudio threads sndfile static psf pth shn tta +vorbis vtx +X zip
 artwork-imlib2"
 
 LANGS="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km

@@ -13,9 +13,9 @@ EGIT_REPO_URI="git://deadbeef.git.sourceforge.net/gitroot/deadbeef/deadbeef"
 
 SLOT="0"
 KEYWORDS=""
-IUSE="+aac adplug +alac +alsa +artwork +cdda curl dts dumb ffmpeg +flac gme gnome gtk
+IUSE="+aac adplug +alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gnome gtk
 gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack +musepack midi mms
-+nls oss pulseaudio threads sndfile static +psf pth shn +tta +vorbis vtx +X zip
++nls oss pulseaudio threads sndfile static psf pth shn tta +vorbis vtx +X zip
 artwork-imlib2"
 
 
