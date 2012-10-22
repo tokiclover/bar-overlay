@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="+aac adplug +alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gnome gtk
 gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack +musepack midi mms
-+nls oss pulseaudio threads sndfile static psf pth shn tta +vorbis vtx +X zip
++nls oss pulseaudio threads sndfile static +twolame psf pth shn tta +vorbis vtx +X zip
 artwork-imlib2"
 
 LANGS="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
@@ -41,6 +41,7 @@ RDEPEND="adplug? ( media-libs/adplug )
 	flac? ( media-libs/flac )
 	wavpack? ( media-sound/wavpack )
 	sndfile? ( media-libs/libsndfile )
+	twolame? ( media-sound/twolame )
 	curl? ( net-misc/curl )
 	cdda? ( dev-libs/libcdio media-libs/libcddb )
 	gtk? ( x11-libs/gtk+:2 x11-libs/gtkglext )

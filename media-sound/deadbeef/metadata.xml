@@ -6,19 +6,20 @@
 		<email></email>
 	</maintainer>
 	<use>
-		<flag name="gme">adds chiptune music player based on GME plugin</flag>
-		<flag name="sid">adds SID player based on libsidplay2 plugin</flag>
-		<flag name="mac">adds Monkey's audio (APE) decoder plugin</flag>
-		<flag name="lastfm">adds last.fm scrobbler plugin</flag>
-		<flag name="vtx">adds file player (ay8910/12 emulation) plugin</flag>
-		<flag name="adplug">adds adplug player (OPL2/OPL3 emulation) plugin</flag>
-		<flag name="artwork">adds Cover art plugin plugin</flag>
-		<flag name="shellexec">adds shell commands plugin plugin</flag>
-		<flag name="psf">adds PSF format plugin, using AOSDK plugin</flag>
-		<flag name="dumb">adds DUMB module plugin, for MOD, S3M, etc plugin</flag>
-		<flag name="shn">adds SHN plugin based on xmms-shn plugin</flag>
-		<flag name="tta">adds TTA player plugin</flag>
-		<flag name="midi">adds WildMidi player plugin</flag>
-		<flag name="zip">adds zip archive support</flag>
+		<flag name="gme">Support chiptune music player based on GME plugin</flag>
+		<flag name="sid">Support SID player based on libsidplay2 plugin</flag>
+		<flag name="mac">Support Monkey's audio (APE) plugin</flag>
+		<flag name="lastfm">Support last.fm scrobbler plugin</flag>
+		<flag name="vtx">Support (ay8910/12 emulation) file plugin</flag>
+		<flag name="adplug">Support Adplug (OPL2/OPL3 emulation) plugin</flag>
+		<flag name="artwork">Support cover art plugin</flag>
+		<flag name="shellexec">Support shell commands plugin</flag>
+		<flag name="psf">Support PSF decoding, using AOSDK plugin</flag>
+		<flag name="dumb">Support DUMB module plugin, for MOD, S3M, etc plugin</flag>
+		<flag name="shn">Support SHN based on xmms-shn plugin</flag>
+		<flag name="tta">Support TTA plugin</flag>
+		<flag name="midi">Support WildMidi plugin</flag>
+		<flag name="zip">Support zip archive files plugin</flag>
+		<flag name="twolame">Support twolame MPEG-2 plugin</flag>
 	</use>
 </pkgmetadata>
