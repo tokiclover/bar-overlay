@@ -13,9 +13,9 @@ EGIT_REPO_URI="git://github.com/squentin/${PN}.git"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="+a52 aac +alsa +cdio cdparanoia +dbus doc +dts faac +faad +flac +gstreamer jack
-lame mac mad modplug +mp3 mpc mplayer musepack +nls notify +ogg oss oss4 pulseaudio
-titlebar trayicon twolame vorbis wavpack webkit"
+IUSE="a52 aac +alsa cdparanoia +dbus doc dts +faad +flac +gstreamer jack +lame
++mac mad modplug +musepack mplayer +nls libnotify +ogg oss oss4 pulseaudio gsm 
+sid titlebar trayicon +twolame vorbis +wavpack webkit"
 
 LANGS="cs de es fr hu it ko nl pl pt pt_BR ru sv zh_CN"
 for l in ${LANGS}; do
@@ -28,7 +28,7 @@ DEPEND=">=dev-lang/perl-5.8
 
 RDEPEND="dev-perl/gtk2-perl
 	dbus? ( dev-perl/Net-DBus )
-	notify? ( dev-perl/Gtk2-Notify )
+	libnotify? ( dev-perl/Gtk2-Notify )
 	titlebar? ( dev-perl/gnome2-wnck )
 	trayicon? ( dev-perl/gtk2-trayicon )
 	gstreamer? (
@@ -42,30 +42,28 @@ RDEPEND="dev-perl/gtk2-perl
 		pulseaudio? ( media-plugins/gst-plugins-pulse )
 		a52? ( media-plugins/gst-plugins-a52dec )
 		mac? ( media-libs/gst-plugins-good )
-		cdio? ( media-plugins/gst-plugins-cdio )
 		cdparanoia? ( media-plugins/gst-plugins-cdparanoia )
 		dts? ( media-plugins/gst-plugins-dts )
-		faac? ( media-plugins/gst-plugins-faac )
 		faad? ( media-plugins/gst-plugins-faad )
 		flac? ( media-plugins/gst-plugins-flac media-libs/gst-plugins-good )
 		lame? ( media-plugins/gst-plugins-lame )
+		gsm? ( media-plugins/gst-plugins-gsm )
 		mad? ( media-plugins/gst-plugins-mad )
 		modplug? ( media-plugins/gst-plugins-modplug )
-		mpc? ( media-libs/gst-plugins-bad )
-		mp3? ( media-libs/gst-plugins-ugly )
 		musepack? ( media-plugins/gst-plugins-musepack )
 		ogg? ( media-plugins/gst-plugins-ogg )
+		sid? ( media-plugins/gst-plugins-sidplay )
 		vorbis? ( media-plugins/gst-plugins-vorbis )
 		wavpack? ( media-plugins/gst-plugins-wavpack )
 	)
 	mplayer? ( || (
-	   media-video/mplayer[a52?,alsa?,cdio?,dts?,faac?,faad?,jack?,mad?,oss?,pulseaudio?,twolame?,vorbis?]
-	   media-video/mplayer2[a52?,alsa?,cdio?,dts?,faad?,jack?,mad?,oss?,pulseaudio?,vorbis?] )
+	   media-video/mplayer[a52?,alsa?,dts?,faad?,jack?,mad?,oss?,pulseaudio?,twolame?,vorbis?]
+	   media-video/mplayer2[a52?,alsa?,dts?,faad?,jack?,mad?,oss?,pulseaudio?,vorbis?] )
 	)
 	!gstreamer? (
 		!mplayer? (
-			mp3? ( || ( 
-				media-sound/mpg321[alsa?] media-sound/mpg123[alsa?,jack?,oss?,pulseaudio?] )
+			|| ( 
+				media-sound/mpg321[alsa?] media-sound/mpg123[alsa?,jack?,oss?,pulseaudio?]
 			)
 			ogg? ( media-sound/vorbis-tools[flac?,nls?,ogg123] )
 			flac? ( media-sound/flac123 )

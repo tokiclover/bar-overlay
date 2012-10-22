@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>no-herd</herd>
+	<maintainer>
+		<email></email>
+	</maintainer>
+	<use>
+		<flag name="sid">Support SID player based on libsidplay2 plugin</flag>
+		<flag name="mac">Support Monkey's audio (APE) plugin</flag>
+		<flag name="twolame">Support twolame MPEG-2 plugin</flag>
+	</use>
+</pkgmetadata>
