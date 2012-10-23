@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.6.2.ebuild,v 1.4 2012/10/16 09:55:40 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.6.2.ebuild,v 1.4 2012/10/23 18:37:20 -tclover Exp $
 
 EAPI=4
 
@@ -24,7 +24,7 @@ detect_arch
 DESCRIPTION="The very latest linux-stable.git, -git as pulled by git of the stable tree"
 HOMEPAGE="http://www.kernel.org"
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
-EGIT_TAG=v${PV/%.0}
+EGIT_COMMIT=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
@@ -64,7 +64,7 @@ src_unpack() {
 	if use aufs; then
 		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
 		unset EGIT_COMMIT
-		unset EGIT_TAG
+		unset EGIT_COMMIT
 		export EGIT_NONBARE=yes
 		export EGIT_REPO_URI=${EGIT_REPO_AUFS}
 		export EGIT_SOURCEDIR="${WORKDIR}"/aufs${KV_MAJOR}-standalone
