@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="+aac adplug +alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gnome gtk
 gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack +musepack midi mms
-+nls oss pulseaudio threads sndfile static +twolame psf pth shn tta +vorbis vtx +X zip
++nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis vtx +X zip
 artwork-imlib2"
 
 
@@ -25,7 +25,7 @@ for l in ${LANGS}; do
 	IUSE+=" linguas_${l}"
 done
 
-REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) ) static? ( !dumb !psf !shn )
+REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) )
 	artwork? ( curl ) artwork-imlib2? ( curl )"
 
 RDEPEND="adplug? ( media-libs/adplug )
@@ -90,6 +90,8 @@ src_configure() {
 		$(use_enable pulseaudio pulse)
 		$(use_enable gtk gtk2)
 		$(use_enable gtk3 gtk3)
+		$(if use gtk || use gtk3; then echo '--enable-gtkui'
+		  else echo '--disable-gtkui'; fi)
 		$(use_enable curl vfs-curl)
 		$(use_enable lastfm lfm)
 		$(use_enable artwork artwork)
@@ -117,7 +119,7 @@ src_configure() {
 		$(use_enable zip vfs_zip)
 		$(use_enable alac)
 		$(use_enable dumb dumb)
-		$(use_enable psf)
+		$(use_enable aosdk psf)
 		$(use_enable shn)
 		$(use_enable static staticlink)
 		$(use_enable vtx)

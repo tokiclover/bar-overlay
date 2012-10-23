@@ -6,15 +6,15 @@
 		<email></email>
 	</maintainer>
 	<use>
-		<flag name="gme">Support chiptune music player based on GME plugin</flag>
-		<flag name="sid">Support SID player based on libsidplay2 plugin</flag>
+		<flag name="gme">Support Game Music Emu plugin for NSF, AY, etc plugin</flag>
+		<flag name="sid">Support commodore64 SID player based on libsidplay2 plugin</flag>
 		<flag name="mac">Support Monkey's audio (APE) plugin</flag>
 		<flag name="lastfm">Support last.fm scrobbler plugin</flag>
-		<flag name="vtx">Support (ay8910/12 emulation) file plugin</flag>
+		<flag name="vtx">Support libayemy VTX ZX-Spectrum music player plugin</flag>
 		<flag name="adplug">Support Adplug (OPL2/OPL3 emulation) plugin</flag>
 		<flag name="artwork">Support cover art plugin</flag>
 		<flag name="shellexec">Support shell commands plugin</flag>
-		<flag name="psf">Support PSF decoding, using AOSDK plugin</flag>
+		<flag name="aosdk">Support AOSDK plugin for for DSF,PSF,QSF,SSF formats</flag>
 		<flag name="dumb">Support DUMB module plugin, for MOD, S3M, etc plugin</flag>
 		<flag name="shn">Support SHN based on xmms-shn plugin</flag>
 		<flag name="tta">Support TTA plugin</flag>
