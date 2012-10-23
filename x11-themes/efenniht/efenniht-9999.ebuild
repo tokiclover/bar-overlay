@@ -1,47 +1,49 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/efenniht/efenniht-9999.ebuild,v 1.1 2012/07/31 23:24:35 -tclover Exp $
+# $Header: bar-overlay/x11-themes/efenniht/efenniht-9999.ebuild,v 1.1 2012/10/23 13:53:42 -tclover Exp $
 
 EAPI=2
 
-ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/THEMES/efenniht"
-inherit subversion
+ESVN_SUB_PROJECT="THEMES"
+inherit enlightenment
 
 DESCRIPTION="An EFL theme derived from equinox..."
 RDEPEND="x11-wm/enlightenment"
-DEPEND="dev-util/pkgconfig
-	media-libs/edje
-"
+DEPEND="dev-util/pkgconfig media-libs/edje"
+
 IUSE="gtk"
 EGTK=efenniht-gtk2-0.1.tar.gz
 SRC_URI=" gtk? ( http://gnome-look.org/CONTENT/content-files/142710-Efenniht-gtk2.tar.gz -> ${EGTK} )"
-WANT_AUTOTOOLS=no
-ESVN_PROJECT=enlightenment/THEMES
 SLOT=0
 
+WANT_AUTOTOOLS=no
+
 src_unpack() {
-	use gtk && unpack ${EGTK} || die "eek!"
+	use gtk && unpack ${EGTK} || die
 	subversion_src_unpack
 	export ESVN_REPO_URI=${ESVN_REPO_URI/THEMES\/${PN}/elementary}
 	export ESVN_PROJECT=${ESVN_PROJECT/THEMES}
-	mv ${WORKDIR}/efennih{t,}-${PV} || die "eek!"
+	mv ${WORKDIR}/efenniht{,-${PV}} || die
 	subversion_src_unpack
-	mv ${WORKDIR}/{efenniht,elementary}-${PV}
-	mv ${WORKDIR}/efennih{,t}-${PV}
+	mv ${WORKDIR}/{efenniht,elementary}
+	mv ${WORKDIR}/efenniht{-${PV},}
 }
 
+src_configure() { :; }
 src_compile() {
-	sed	-e "s:\.\./elementary:elementary-${PV}:g" -i Makefile || die "eek!"
-	emake all || die "eek!"
+	sed -e "s:\.\./elementary/data/themes/:elementary/data/themes/images:g" \
+		-i Makefile || die
+	emake all || die
 }
 
 src_install() {
-	sed -e "s:elementary/data:elementary:" \
-		-e "s:\$(shell:\$(DESTDIR)/\$(shell:g" -i Makefile || die "eek!"
-	emake DESTDIR="${D}" install-system || die "eek!"
+	insinto /usr/share/enlightenment/data/themes
+	doins efenniht.edj
+	insinto /usr/share/elementary/themes
+	doins elm-efenniht.edj
 	if use gtk; then
-		mv ../{Efenniht-gtk2,efenniht} || die "eek!"
+		mv {../Efenniht-gtk2,efenniht}
 		insinto /usr/share/themes
-		doins -r ../efenniht || die "eek!"
+		doins -r efenniht || die
 	fi
 }
