@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.11.ebuild,v 1.4 2012/10/23 18:37:20 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.11.ebuild,v 1.4 2012/10/25 09:58:04 -tclover Exp $
 
 EAPI=4
 
@@ -29,7 +29,7 @@ EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfq bfs bld fbcondecor ck hz reiser4 uksm"
+IUSE="aufs bfq bfs bld fbcondecor ck hz uksm"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
