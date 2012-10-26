@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.8 2012/07/04 00:21:10 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.20-r4.ebuild,v 1.8 2012/10/26 03:10:53 -tclover Exp $
 
 EAPI=4
 
@@ -67,7 +67,7 @@ src_install() {
 		install -m644 -glp -olp ${SCANSRC}/com/ini/canon_mfp_net.ini "${D}${ldir}"/bjlib || die
 		use symlink && dosym {${bindir},${gdir}}/scangearmp || die
 		use usb && install -Dm644 \
-			{${SCANSRC}/scangearmp,"${D}"}/etc/80-canon_mfp.rules || die
+			{${SCANSRC}/scangearmp,"${D}"}/etc/udev/rules.d/80-canon_mfp.rules || die
 	fi
 }
 

@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.70-r2.ebuild,v 1.9 2012/07/04 00:21:17 -tclover Exp $
+# $Header: bar-overlay/net-print/cnijfilter/cnijfilter-3.70-r2.ebuild,v 1.9 2012/10/26 03:10:53 -tclover Exp $
 
 EAPI=4
 
@@ -30,7 +30,8 @@ src_prepare() {
 
 src_install() {
 	ecnij_src_install
-	use usb && install -Dm644 {,"${D}"/}etc/81-canonij_prn.rules || die
+	use usb && install -Dm644 /etc/81-canonij_prn.rules \
+		"${D}"/etc/udev/rules.d/81-canonij_prn.rules || die
 }
 
 pkg_postinst() {
