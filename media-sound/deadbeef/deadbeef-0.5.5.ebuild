@@ -1,6 +1,6 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-0.5.5.ebuild,v 1.2 2012/10/20 09:38:59 -tclover Exp $
+# $Header: bar-overlay/media-sound/deadbeef/deadbeef-0.5.5.ebuild,v 1.2 2012/10/27 20:23:39 -tclover Exp $
 
 EAPI="4"
 
@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="+aac adplug +alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gnome gtk
 gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack +musepack midi mms
 +nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis vtx +X zip
-artwork-imlib2"
+imlib"
 
 LANGS="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
 lg lt nb nl pl pt pt_BR ro ru si sk sl sr sr@latin sv te tr ug uk vi zh_CN zh_TW"
@@ -25,7 +25,7 @@ for l in ${LANGS}; do
 done
 
 REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) )
-	artwork? ( curl ) artwork-imlib2? ( curl )"
+	artwork? ( curl ) imlib? ( curl )"
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )
@@ -48,7 +48,8 @@ RDEPEND="adplug? ( media-libs/adplug )
 	gtk3? ( x11-libs/gtk+:3 x11-libs/gtkglext )
 	X? ( x11-libs/libX11 )
 	pulseaudio? ( media-sound/pulseaudio )
-	artwork-imlib2? ( media-libs/imlib2 )
+	imlib? ( media-libs/imlib2 )
+	!imlib? ( virtual/jpeg media-libs/libpng )
 	libsamplerate? ( media-libs/libsamplerate )
 	musepack? ( media-sound/musepack-tools )
 	aac? ( media-libs/faad2 )
@@ -75,6 +76,7 @@ src_prepare() {
 	sed -i "${S}"/plugins/wildmidi/wildmidiplug.c \
 		-e 's,#define DEFAULT_TIMIDITY_CONFIG ",&/usr/share/timidity/freepats/timidity.cfg:,'
 	autotools-utils_src_prepare
+	autotools-utils_autoreconf
 }
 
 src_configure() {
@@ -93,7 +95,7 @@ src_configure() {
 		$(use_enable curl vfs-curl)
 		$(use_enable lastfm lfm)
 		$(use_enable artwork artwork)
-		$(use_enable artwork-imlib2 artwork_imlib2)
+		$(use_enable imlib artwork_imlib2)
 		$(use_enable sid)
 		$(use_enable mad mad)
 		$(use_enable mac ffap)
