@@ -1,6 +1,6 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/10/27 20:25:18 -tclover Exp $
+# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/11/01 11:53:47 -tclover Exp $
 
 EAPI="4"
 
@@ -91,8 +91,6 @@ src_configure() {
 		$(use_enable pulseaudio pulse)
 		$(use_enable gtk gtk2)
 		$(use_enable gtk3 gtk3)
-		$(if use gtk || use gtk3; then echo '--enable-gtkui'
-		  else echo '--disable-gtkui'; fi)
 		$(use_enable curl vfs-curl)
 		$(use_enable lastfm lfm)
 		$(use_enable artwork artwork)
@@ -133,6 +131,10 @@ src_install() {
 	autotools-utils_src_install
 	docompress -x /usr/share/doc/${PF}
 	remove_libtool_files all
+	for l in LGPLv2.1 GPLv2; do
+		rm -f "${D}"/usr/share/doc/${PF}/COPYING.${l}
+		dosym "${PORTDIR}"/licences/${l} /usr/share/doc/${PF}/COPYING.${l}
+	done
 }
 
 pkg_postinst() {
