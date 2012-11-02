@@ -1,6 +1,6 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/11/01 20:31:39 -tclover Exp $
+# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/11/02 19:57:55 -tclover Exp $
 
 EAPI="4"
 
@@ -133,7 +133,7 @@ src_install() {
 	remove_libtool_files all
 	for l in LGPLv2.1 GPLv2; do
 		rm -f "${D}"/usr/share/doc/${PF}/COPYING.${l}
-		dosym "${PORTDIR}"/licenses/${l} /usr/share/doc/${PF}/COPYING.${l}
+		dosym "${PORTDIR}"/licenses/${l/v/-} /usr/share/doc/${PF}/COPYING.${l}
 	done
 }
 
