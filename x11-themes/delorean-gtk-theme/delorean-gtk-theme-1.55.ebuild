@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/delorean-gtk-theme/delorean-gtk-theme-1.55.ebuild,v 1.2 2012/11/04 04:41:44 -tclover Exp $
+# $Header: bar-overlay/x11-themes/delorean-gtk-theme/delorean-gtk-theme-1.55.ebuild,v 1.2 2012/11/04 17:32:19 -tclover Exp $
 
 EAPI=2
 
@@ -49,9 +49,6 @@ src_install() {
 			delorean-dark/chromium/delorean-dark.crx || die
 		mv delorean-dark/chromium/varNaM-Chromium.crx \
 			delorean-dark/chromium/varnam.crx || die
-
-	else
-		rm -r delorean-dark/Software-Center || die
 	fi
 	if use thunderbird; then
 		mv DeLorean-Dark-Thunderbird_1.10 delorean-dark/thunderbird || die
