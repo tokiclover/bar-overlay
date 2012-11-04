@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/elegant-brit-gtk-theme/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/07/04 00:21:57 -tclover Exp $
+# $Header: bar-overlay/x11-themes/elegant-brit-gtk-theme/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/11/04 01:37:14 -tclover Exp $
 
 EAPI=2
 
@@ -10,14 +10,14 @@ DESCRIPTION="Great desktop suite by fmrbpensador and other contributors"
 HOMEPAGE="http://nosebleed.deviantart.com/"
 SRC_URI="
 	http://www.deviantart.com/download/90140521/Dark_Brit_by_nosebleed.gz  -> ${P/gtk/dark-gtk}.gz
-	gtk3? ( http://www.deviantart.com/download/208925032/elegant_brit_gnome3_by_grvrulz-d3gdzl4.7z 
+	gtk? ( http://www.deviantart.com/download/208925032/elegant_brit_gnome3_by_grvrulz-d3gdzl4.7z 
 			-> ${PN/gtk/gtk3}-0_p20111015.7z )
 	http://gnome-look.org/CONTENT/content-files/85661-Elegant-Matrix.tar.gz -> ${P/gtk/dark-green-gtk}.tar.gz
 	http://gnome-look.org/CONTENT/content-files/74553-ElegantBrit.tar.gz -> ${P}.tar.gz
 	emerald? ( http://gnome-look.org/CONTENT/content-files/75983-Elegant%20Brit.emerald 
 			   -> elegant-brit-1.0.2.emerald )
-	xfwm?    ( http://xfce-look.org/CONTENT/content-files/76017-Elegant%20Brit.tar.gz 
-			   -> ${P/gtk/xfwm}.tar.gz )
+	xfwm4?    ( http://xfce-look.org/CONTENT/content-files/76017-Elegant%20Brit.tar.gz 
+			   -> ${P/gtk/xfwm4}.tar.gz )
 	openbox? (
 			  http://box-look.org/CONTENT/content-files/76462-Elegant%20Brit.obt
 			  -> ${PN/gtk/openbox}-0.1.3.obt )
@@ -34,17 +34,17 @@ SRC_URI="
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="emerald gdm gtk3 macmenu -minimal openbox pekwm xfwm wallpaper"
+IUSE="emerald gdm gtk macmenu openbox pekwm xfwm4 wallpaper"
 
-RDEPEND="minimal? ( !x11-themes/gnome-theme )
-	emerald?  ( x11-wm/emerald )
+RDEPEND="emerald?  ( x11-wm/emerald )
 	gdm?      ( gnome-base/gdm )
+	gtk?      ( x11-themes/gnome-themes-standard )
 	macmenu? ( gnome-base/gnome-panel )
 	openbox?  ( x11-wm/openbox )
 	pekwm?    ( x11-wm/pekwm )
-	xfwm?     ( xfce-base/xfwm4 )
+	xfwm4?     ( xfce-base/xfwm4 )
 "
-DEPEND="gtk3? ( app-arch/p7zip )"
+DEPEND="gtk? ( app-arch/p7zip )"
 
 RESTRICT="binchecks strip"
 
@@ -57,7 +57,7 @@ src_install() {
 		mv Elegant\ Brit\ MacMenu ElegantBritMacMenu
 		mv ElegantBritMacMenu/{gtk-2.0,metacity-1} ${PN%-gtk*}/
 	fi
-	if use gtk3; then
+	if use gtk; then
 		mv Elegant_Brit/gnome-shell ${PN%-gtk*}/ || die "eek!"
 		mv Elegant_Brit/gtk-3.0 ${PN%-gtk*}/ || die "eek!"
 	fi
