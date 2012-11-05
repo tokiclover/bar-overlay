@@ -1,18 +1,18 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/games-board/fuego/fuego-9999.ebuild,v 1.1 2012/07/31 23:23:04 -tclover Exp $
+# $Header: bar-overlay/games-board/fuego/fuego-1.1.ebuild,v 1.1 2012/07/31 23:23:04 -tclover Exp $
 
 EAPI=3
 
-inherit autotools flag-o-matic games subversion
+inherit autotools flag-o-matic games
 
 DESCRIPTION="C++ libraries for developing software for the game of Go"
 HOMEPAGE="http://fuego.sourceforge.net/"
-ESVN_REPO_URI="https://${PN}.svn.sourceforge.net/svnroot/${PN}/trunk"
+SRC_URI="http://garr.dl.sourceforge.net/project/${PN}/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-3 LGPL-3"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE="cache-sync optimization"
 
 DEPEND=">=sys-devel/autoconf-2.59
