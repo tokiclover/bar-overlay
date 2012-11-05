@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.0.38.ebuild,v 1.4 2012/10/23 18:37:20 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.0.38.ebuild,v 1.4 2012/11/05 14:38:04 -tclover Exp $
 
 EAPI=4
 
@@ -86,7 +86,7 @@ src_prepare() {
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
 		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src/13/16}.patch && popd
-		sed -e "s,${okv}-ck[0-9],${CKV},g" -i "${WORKDIR}"/patches/${bfs_src/-13/} || die
+		sed -e "s,linux-${okv}-ck[0-9]/,,g" -i "${WORKDIR}"/patches/${bfs_src} || die
 	fi
 	if use ck; then
 		sed -i -e "s:ck1-version.patch::g" "${WORKDIR}"/patches/series || die

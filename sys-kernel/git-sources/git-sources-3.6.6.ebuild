@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.6.2.ebuild,v 1.4 2012/11/04 00:40:14 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.6.2.ebuild,v 1.4 2012/11/05 14:38:04 -tclover Exp $
 
 EAPI=4
 
@@ -49,7 +49,7 @@ SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
 	bld? ( ${bld_uri}/${bld_src} ) uksm? ( ${uksm_uri}/${uksm_src} )
 "
-unset okv bfq_uri bfs_uri ck_uri bld_uri uksm_uri
+unset bfq_uri bfs_uri ck_uri bld_uri uksm_uri
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -85,7 +85,7 @@ src_prepare() {
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
 		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src}.patch && popd
-		sed -e "s,${okv}-ck[0-9],${CKV},g" -i "${WORKDIR}"/patches/${bfs_src} || die
+		sed -e "s,linux-${okv}-ck[0-9]/,,g" -i "${WORKDIR}"/patches/${bfs_src} || die
 	fi
 	if use ck; then
 		sed -e "d/ck1-version.patch/" \
