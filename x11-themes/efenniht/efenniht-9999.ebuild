@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/efenniht/efenniht-9999.ebuild,v 1.1 2012/10/23 13:53:42 -tclover Exp $
+# $Header: bar-overlay/x11-themes/efenniht/efenniht-9999.ebuild,v 1.1 2012/11/06 00:19:45 -tclover Exp $
 
 EAPI=2
 
@@ -31,8 +31,7 @@ src_unpack() {
 
 src_configure() { :; }
 src_compile() {
-	sed -e "s:\.\./elementary/data/themes/:elementary/data/themes/images:g" \
-		-i Makefile || die
+	sed -e 's,\.\./\.\./elem,\.\./elem,g' -i Makefile || die
 	emake all || die
 }
 
