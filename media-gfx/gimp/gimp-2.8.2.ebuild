@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-gfx/gimp/gimp-9999.ebuild,v 1.46 2012/06/16 16:28:39 -tclover Exp $
+# $Header: bar-overlay/media-gfx/gimp/gimp-9999.ebuild,v 1.46 2012/11/06 14:30:54 -tclover Exp $
 
 EAPI="3"
 PYTHON_DEPEND="python? 2:2.5"
@@ -18,7 +18,13 @@ LICENSE="GPL-3 LGPL-3"
 SLOT="2"
 KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 
+LANGS="am ar ast az be bg br ca ca@valencia cs csb da de dz el en_CA en_GB eo es et eu fa fi fr ga gl gu he hi hr hu id is it ja ka kk km kn ko lt lv mk ml ms my nb nds ne nl nn oc pa pl pt pt_BR ro ru rw si sk sl sr sr@latin sv ta te th tr tt uk vi xh yi zh_CN zh_HK zh_TW"
+
 IUSE="alsa aalib altivec bzip2 curl dbus debug doc exif gnome postscript jpeg jpeg2k lcms mmx mng pdf png python smp sse svg tiff udev webkit wmf xpm"
+
+for lang in ${LANGS}; do
+	IUSE+=" linguas_${lang}"
+done
 
 RDEPEND=">=dev-libs/glib-2.30.2:2
 	>=dev-libs/atk-2.2.0
@@ -50,7 +56,7 @@ RDEPEND=">=dev-libs/glib-2.30.2:2
 	png? ( >=media-libs/libpng-1.2.37:0 )
 	python?	( >=dev-python/pygtk-2.10.4:2 )
 	tiff? ( >=media-libs/tiff-3.5.7:0 )
-	svg? ( >=gnome-base/librsvg-2.34.2:2 )
+	svg? ( >=gnome-base/librsvg-2.36.0:2 )
 	wmf? ( >=media-libs/libwmf-0.2.8 )
 	x11-libs/libXcursor
 	sys-libs/zlib
@@ -64,7 +70,6 @@ DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.17
 	doc? ( >=dev-util/gtk-doc-1 )
 	>=sys-devel/libtool-2.2
-	>=sys-devel/autoconf-2.54
 	>=sys-devel/automake-1.11
 	dev-util/gtk-doc-am"  # due to our call to eautoreconf below (bug #386453)
 
@@ -72,6 +77,7 @@ DOCS="AUTHORS ChangeLog* HACKING NEWS README*"
 
 pkg_setup() {
 	G2CONF="--enable-default-binary \
+		--disable-silent-rules \
 		--with-x \
 		$(use_with aalib aa) \
 		$(use_with alsa) \

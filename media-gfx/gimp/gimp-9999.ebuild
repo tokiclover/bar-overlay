@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-gfx/gimp/gimp-9999.ebuild,v 1.46 2012/07/31 23:23:18 -tclover Exp $
+# $Header: bar-overlay/media-gfx/gimp/gimp-9999.ebuild,v 1.46 2012/11/06 14:31:00 -tclover Exp $
 
 EAPI="3"
 PYTHON_DEPEND="python? 2:2.5"
@@ -15,8 +15,15 @@ SRC_URI=""
 
 LICENSE="GPL-3 LGPL-3"
 SLOT="2"
+KEYWORDS=""
+
+LANGS="am ar ast az be bg br ca ca@valencia cs csb da de dz el en_CA en_GB eo es et eu fa fi fr ga gl gu he hi hr hu id is it ja ka kk km kn ko lt lv mk ml ms my nb nds ne nl nn oc pa pl pt pt_BR ro ru rw si sk sl sr sr@latin sv ta te th tr tt uk vi xh yi zh_CN zh_HK zh_TW"
 
 IUSE="alsa aalib altivec bzip2 curl dbus debug doc exif gnome postscript jpeg jpeg2k lcms mmx mng pdf png python smp sse svg tiff udev webkit wmf xpm"
+
+for lang in ${LANGS}; do
+	IUSE+=" linguas_${lang}"
+done
 
 RDEPEND=">=dev-libs/glib-2.30.2:2
 	>=dev-libs/atk-2.2.0
@@ -31,8 +38,8 @@ RDEPEND=">=dev-libs/glib-2.30.2:2
 	dev-libs/libxml2
 	dev-libs/libxslt
 	x11-themes/hicolor-icon-theme
-	>=media-libs/babl-0.1.10
-	>=media-libs/gegl-0.2.0
+	>=media-libs/babl-0.1.11
+	>=media-libs/gegl-0.2.1
 	aalib? ( media-libs/aalib )
 	alsa? ( media-libs/alsa-lib )
 	curl? ( net-misc/curl )
@@ -110,9 +117,6 @@ src_unpack() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-2.7.4-no-deprecation.patch  # bug 395695, comment 9 and 16
-	eautoreconf  # If you remove this: remove dev-util/gtk-doc-am from DEPEND, too
-
 	echo '#!/bin/sh' > py-compile
 	chmod a+x py-compile || die
 	sed -i -e 's:\$srcdir/configure:#:g' autogen.sh
