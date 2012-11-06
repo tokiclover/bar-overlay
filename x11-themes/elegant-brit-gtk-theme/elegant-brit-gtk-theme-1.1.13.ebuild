@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/elegant-brit-gtk-theme/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/11/04 14:26:09 -tclover Exp $
+# $Header: bar-overlay/x11-themes/elegant-brit-gtk-theme/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/11/06 19:25:37 -tclover Exp $
 
 EAPI=2
 
@@ -10,44 +10,39 @@ DESCRIPTION="Great desktop suite by fmrbpensador and other contributors"
 HOMEPAGE="http://nosebleed.deviantart.com/"
 SRC_URI="
 	http://www.deviantart.com/download/90140521/Dark_Brit_by_nosebleed.gz  -> ${P/gtk/dark-gtk}.gz
-	gtk? ( http://www.deviantart.com/download/208925032/elegant_brit_gnome3_by_grvrulz-d3gdzl4.7z 
-			-> ${PN/gtk/gtk3}-0_p20111015.7z )
+	http://www.deviantart.com/download/208925032/elegant_brit_gnome3_by_grvrulz-d3gdzl4.7z -> ${PN}.7z
 	http://gnome-look.org/CONTENT/content-files/85661-Elegant-Matrix.tar.gz -> ${P/gtk/dark-green-gtk}.tar.gz
-	http://gnome-look.org/CONTENT/content-files/74553-ElegantBrit.tar.gz -> ${P}.tar.gz
-	emerald? ( http://gnome-look.org/CONTENT/content-files/75983-Elegant%20Brit.emerald 
-			   -> elegant-brit-1.0.2.emerald )
-	xfwm4?    ( http://xfce-look.org/CONTENT/content-files/76017-Elegant%20Brit.tar.gz 
-			   -> ${P/gtk/xfwm4}.tar.gz )
-	openbox? (
-			  http://box-look.org/CONTENT/content-files/76462-Elegant%20Brit.obt
-			  -> ${PN/gtk/openbox}-0.1.3.obt )
-	pekwm?   ( http://box-look.org/CONTENT/content-files/76808-Elegant-Brit-pekwm.tar.gz 
-			   -> ${P/gtk/pekwm}.tar.gz )
-	macmenu? ( http://gnome-look.org/CONTENT/content-files/76235-ElegantBritMacMenu.tar.gz 
-				-> ${PN/gtk-theme/mac-menu}-1.1.1.tar.gz )
+	emerald? ( http://gnome-look.org/CONTENT/content-files/75983-Elegant%20Brit.emerald -> elegant-brit-1.0.2.emerald )
+	xfwm4? ( http://xfce-look.org/CONTENT/content-files/76017-Elegant%20Brit.tar.gz -> ${P/gtk/xfwm4}.tar.gz )
+	openbox? ( http://box-look.org/CONTENT/content-files/76462-Elegant%20Brit.obt -> ${PN/gtk/openbox}-0.1.3.obt )
+	pekwm? ( http://box-look.org/CONTENT/content-files/76808-Elegant-Brit-pekwm.tar.gz -> ${P/gtk/pekwm}.tar.gz )
+	macmenu? ( http://gnome-look.org/CONTENT/content-files/76235-ElegantBritMacMenu.tar.gz -> ${PN/gtk-theme/mac-menu}-1.1.1.tar.gz )
 "
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="emerald gtk macmenu openbox pekwm xfwm4"
+IUSE="emerald gnome gtk macmenu metacity openbox pekwm xfwm4"
 
 RDEPEND="emerald? ( x11-wm/emerald )
 	gtk? ( x11-themes/gnome-themes-standard )
-	macmenu? ( gnome-base/gnome-panel )
+	macmenu? ( =gnome-base/gnome-panel-2.3* )
 	openbox? ( x11-wm/openbox )
 	pekwm? ( x11-wm/pekwm )
 	xfwm4? ( xfce-base/xfwm4 )
 "
-DEPEND="gtk? ( app-arch/p7zip )"
+DEPEND="app-arch/p7zip"
 
 RESTRICT="binchecks strip"
 
 S="${WORKDIR}"
 
 src_install() {
-	find . -type f -name '*~*' -exec rm -f {} \;
-	mv Elegant\ Brit ${PN%-gtk*}; rm ${PN%-gtk*}/userChrome.css
+	find . -type f -name '*~*' -name 'Elegant_Brit.desktop' -exec rm -f {} \;
+	mv Elegant_Brit ${PN%-gtk*}; mv ${PN%-gtk*}/{,firefox-}userChrome.css
+	use gtk || rm -r ${PN%-gtk*}/gtk-3.0
+	use gnome || rm -r ${PN%-gtk*}/gnome-shell
+	use metacity || rm -r ${PN%-gtk*}/metacity-1
 	if use openbox; then
 		cp "${DISTDIR}"/${PN/gtk/openbox}-0.1.3.obt ${PN%-gtk*}/${PN%-gtk*}.obt
 	fi
@@ -55,10 +50,6 @@ src_install() {
 		rm -r ${PN%-gtk*}/{gtk-2.0,metacity-1}
 		mv Elegant\ Brit\ MacMenu ElegantBritMacMenu
 		mv ElegantBritMacMenu/{gtk-2.0,metacity-1} ${PN%-gtk*}/
-	fi
-	if use gtk; then
-		mv Elegant_Brit/gnome-shell ${PN%-gtk*}/ || die
-		mv Elegant_Brit/gtk-3.0 ${PN%-gtk*}/ || die
 	fi
 	tar xf ${P/gtk/dark-gtk}
 	mv Dark\ Brit ${PN%-gtk*}-dark
