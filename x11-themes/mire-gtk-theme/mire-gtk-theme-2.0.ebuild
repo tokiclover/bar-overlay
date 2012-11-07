@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/mire-gtk-theme/mire-gtk-theme-2.0.ebuild,v 1.1 2012/11/03 21:58:57 -tclover Exp $
+# $Header: bar-overlay/x11-themes/mire-gtk-theme/mire-gtk-theme-2.0.ebuild,v 1.1 2012/11/07 11:32:48 -tclover Exp $
 
 EAPI=2
 
@@ -26,12 +26,13 @@ SRC_URI="http://gnome-look.org/CONTENT/content-files/51023-Mire%20v2.tar.gz -> $
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="axonkolor conky fluxbox gtk metacity openbox pekwm tint2 xfwm4"
+IUSE="axonkolor conky fluxbox gtk metacity minimal openbox pekwm tint2 xfwm4"
 
 RDEPEND=" x11-themes/gtk-engines-murrine
 	conky?    ( app-admin/conky )
 	fluxbox?  ( x11-wm/fluxbox )
 	openbox?  ( >=x11-wm/openbox-3.4 )
+	!minimal? ( x11-themes/gnome-themes )
 	pekwm?    ( x11-wm/pekwm )
 	gtk?      ( x11-themes/gnome-themes-standard )
 	tint2?    ( x11-misc/tint2 )
