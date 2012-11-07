@@ -1,10 +1,10 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/elementary-icon-theme/elementary-icon-theme-2.5.ebuild,v 1.1 2012/07/04 00:22:00 -tclover Exp $
+# $Header: bar-overlay/x11-themes/elementary-icon-theme/elementary-icon-theme-2.5.ebuild,v 1.1 2012/11/07 10:54:05 -tclover Exp $
 
 EAPI=2
 
-inherit eutils
+inherit eutils gnome2-utils
 
 DESCRIPTION="The infamous elementary[OS] icon theme"
 HOMEPAGE="http://danrabbit.deviantart.com/art/"
@@ -27,3 +27,7 @@ src_install() {
 	insinto /usr/share/icons
 	doins -r elementary{,-mono-dark} || die "eek!"
 }
+
+pkg_preinst() { gnome2_icon_savelist; }
+pkg_postinst() { gnome2_icon_cache_update; }
+pkg_postrm() { gnome2_icon_cache_update; }
