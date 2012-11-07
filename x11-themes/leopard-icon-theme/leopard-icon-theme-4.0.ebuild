@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/leopard-icon-theme/leopard-icon-theme-4.0.ebuild,v 1.0 2012/07/04 00:22:10 -tclover Exp $
+# $Header: bar-overlay/x11-themes/leopard-icon-theme/leopard-icon-theme-4.0.ebuild,v 1.0 2012/11/07 10:58:02 -tclover Exp $
 
 EAPI=2
 
@@ -28,11 +28,5 @@ src_install() {
 }
 
 pkg_preinst() { gnome2_icon_savelist; }
-pkg_postinst() {
-	gnome2_icon_cache_update
-	einfo
-	einfo "one should run the scripts to delete previous profile to create a"
-	einfo "new one or colorize the icon set"
-	einfo
-}
+pkg_postinst() { gnome2_icon_cache_update; }
 pkg_postrm() { gnome2_icon_cache_update; }
