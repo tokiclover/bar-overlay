@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/elegant-brit-gtk-theme/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/11/06 19:25:37 -tclover Exp $
+# $Header: bar-overlay/x11-themes/elegant-brit-gtk-theme/elegant-brit-gtk-theme-1.1.13.ebuild,v 1.1 2012/11/07 11:28:22 -tclover Exp $
 
 EAPI=2
 
@@ -22,11 +22,12 @@ SRC_URI="
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="emerald gnome gtk macmenu metacity openbox pekwm xfwm4"
+IUSE="emerald gnome gtk macmenu metacity minimal openbox pekwm xfwm4"
 
 RDEPEND="emerald? ( x11-wm/emerald )
 	gtk? ( x11-themes/gnome-themes-standard )
 	macmenu? ( =gnome-base/gnome-panel-2.3* )
+	!minimal? ( x11-themes/gnome-themes )
 	openbox? ( x11-wm/openbox )
 	pekwm? ( x11-wm/pekwm )
 	xfwm4? ( xfce-base/xfwm4 )
