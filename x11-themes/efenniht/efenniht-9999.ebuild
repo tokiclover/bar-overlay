@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/efenniht/efenniht-9999.ebuild,v 1.1 2012/11/06 00:19:45 -tclover Exp $
+# $Header: bar-overlay/x11-themes/efenniht/efenniht-9999.ebuild,v 1.1 2012/11/07 11:27:05 -tclover Exp $
 
 EAPI=2
 
@@ -8,10 +8,10 @@ ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
 DESCRIPTION="An EFL theme derived from equinox..."
-RDEPEND="x11-wm/enlightenment"
+RDEPEND="x11-wm/enlightenment !minimal? ( x11-themes/gnome-themes )"
 DEPEND="dev-util/pkgconfig media-libs/edje"
 
-IUSE="gtk"
+IUSE="gtk minimal"
 EGTK=efenniht-gtk2-0.1.tar.gz
 SRC_URI=" gtk? ( http://gnome-look.org/CONTENT/content-files/142710-Efenniht-gtk2.tar.gz -> ${EGTK} )"
 SLOT=0
