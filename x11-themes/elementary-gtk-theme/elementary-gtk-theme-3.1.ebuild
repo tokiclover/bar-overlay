@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/elementary-gtk-theme/elementary-gtk-theme-3.1.ebuild,v 1.2 2012/11/04 01:06:34 -tclover Exp $
+# $Header: bar-overlay/x11-themes/elementary-gtk-theme/elementary-gtk-theme-3.1.ebuild,v 1.2 2012/11/07 11:30:05 -tclover Exp $
 
 EAPI=2
 
@@ -16,10 +16,11 @@ openbox? ( http://www.deviantart.com/download/253002995/elementary_for_openbox_b
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="gtk metacity openbox xfwm4"
+IUSE="gtk metacity minimal openbox xfwm4"
 
 RDEPEND="x11-themes/gtk-engines-murrine
 	metacity? ( x11-wm/metacity )
+	!minimal? ( x11-themes/gnome-themes )
 	gtk? ( x11-themes/gnome-themes-standard )
 	openbox? ( x11-wm/openbox )
 "
