@@ -1,10 +1,10 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/elementary-extras-icon-theme/elementary-extras-icon-theme-0.31.ebuild,v 1.1 2012/07/04 00:21:58 -tclover Exp $
+# $Header: bar-overlay/x11-themes/elementary-extras-icon-theme/elementary-extras-icon-theme-0.31.ebuild,v 1.1 2012/11/07 10:52:39 -tclover Exp $
 
 EAPI=2
 
-inherit eutils
+inherit eutils gnome2-utils
 
 DESCRIPTION="elementary extras icon theme by spg76"
 HOMEPAGE="http://spg76.deviantart.com/"
@@ -16,7 +16,7 @@ KEYWORDS="amd64 x86"
 IUSE="-minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
-		x11-themes/elementary-icon-theme"
+	x11-themes/elementary-icon-theme"
 
 RESTRICT="binchecks strip"
 
@@ -26,3 +26,7 @@ src_install() {
 	insinto /usr/share/icons
 	doins -r elementary-extras || die "eek!"
 }
+
+pkg_preinst() { gnome2_icon_savelist; }
+pkg_postinst() { gnome2_icon_cache_update; }
+pkg_postrm() { gnome2_icon_cache_update; }
