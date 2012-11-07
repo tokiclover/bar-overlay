@@ -1,6 +1,6 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/darkness/darkness-9999.ebuild,v 1.1 2012/07/31 23:24:22 -tclover Exp $
+# $Header: bar-overlay/x11-themes/darkness/darkness-9999.ebuild,v 1.1 2012/11/07 11:24:09 -tclover Exp $
 
 EAPI=2
 
@@ -8,30 +8,30 @@ ESVN_SUB_PROJECT="THEMES"
 inherit enlightenment
 
 DESCRIPTION="An EFL theme based on detour"
-IUSE="gtk themes"
+IUSE="gtk themes minimal"
 
-RDEPEND="x11-wm/enlightenment
-	media-libs/edje
-"
+RDEPEND="x11-wm/enlightenment !minimal? ( x11-themes/gnome-themes )"
+DEPEND="media-libs/edje"
+
 src_prepare() { :; }
 src_configure() { :; }
 src_compile() {
-	 edje_cc -v -id images/ -fd . darkness.edc -o darkness.edj || die "eek!"
+	 edje_cc -v -id images/ -fd . darkness.edc -o darkness.edj || die
 }
 
 src_install() {
 	insinto /usr/share/enlightenment/data/themes
-	doins ./darkness.edj || die "eek!"
+	doins ./darkness.edj || die
 	if use gtk; then
 		unpack ./Tenebrific.tbz2
 		insinto /usr/share/themes
-		doins -r ./Tenebrific  || die "eek!"
+		doins -r ./Tenebrific  || die
 	fi
 	if use themes; then
 		unpack ./Ecliz_Full.bz2
 		mv ./Ecliz_Full{,.tar}
 		unpack ./Ecliz_Full.tar
 		insinto /usr/share/icons
-		doins -r ./Ecliz_Full || die "eek!"
+		doins -r ./Ecliz_Full || die
 	fi
 }
