@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/valium-gtk-theme/valium-gtk-theme-0_p20071012.ebuild,v 1.1 2012/11/07 12:21:23 -tclover Exp $
+# $Header: bar-overlay/x11-themes/valium-gtk-theme/valium-gtk-theme-0_p20071012.ebuild,v 1.1 2012/11/07 21:51:26 -tclover Exp $
 
 EAPI=2
 
@@ -26,16 +26,17 @@ RESTRICT="binchecks strip"
 S="${WORKDIR}"
 
 src_install() {
-	mv {V,v}alium || die; mv {${PN%-gtk*}/,}pekwm
+	for d in . ${PN%-gtk*}/{bmpanel,pekwm}; do
+		mv ${d}/{V,v}alium || die
+	done
 	if use bmpanel; then
 		insinto /usr/share/bmpanel/themes
-		doins -r ${PN%-gtk*}/bmpanel || die
+		doins -r ${PN%-gtk*}/bmpanel/valium || die
 	else rm -r ${PN-gtk*}/bmpanel; fi
+	if use pekwm; then
+		insinto /usr/share/pekwm/themes
+		doins -r ${P%-gtk*}/pekwm/valium || die
+	else rm -r pekwm; fi
 	insinto /usr/share/themes
 	doins -r ${PN%-gtk*} || die
-	if use pekwm; then
-		mv pekwm ${PN%-gtk*}
-		insinto /usr/share/pekwm/themes
-		doins -r ${P%-gtk*}/pekwm || die
-	else rm -r ${PN%-gtk*}; fi
 }
