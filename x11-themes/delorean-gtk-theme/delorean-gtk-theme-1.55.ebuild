@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/delorean-gtk-theme/delorean-gtk-theme-1.55.ebuild,v 1.2 2012/11/04 17:32:19 -tclover Exp $
+# $Header: bar-overlay/x11-themes/delorean-gtk-theme/delorean-gtk-theme-1.55.ebuild,v 1.2 2012/11/07 11:13:13 -tclover Exp $
 
 EAPI=2
 
@@ -19,12 +19,13 @@ SRC_URI="http://www.deviantart.com/download/318612217/delorean_dark_1_55_by_kill
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="chromium cinnamon firefox gnome gtk metacity openbox thunderbird xfwm4"
+IUSE="chromium cinnamon firefox gnome gtk metacity minimal openbox thunderbird xfwm4"
 
 RDEPEND="chromium? ( www-client/chromium )
 	cinnamon? ( gnome-extra/cinnamon )
 	firefox? ( || ( www-client/firefox www-client/firefox-bin ) )
 	metacity? ( x11-wm/metacity )
+	!minimal? ( x11-themes/gnome-themes )
 	gnome? ( gnome-base/gnome-shell )
 	gtk? ( x11-themes/gnome-themes-standard )
 	openbox? ( x11-wm/openbox )
