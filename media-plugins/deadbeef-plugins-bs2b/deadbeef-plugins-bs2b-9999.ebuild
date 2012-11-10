@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-plugins/deadbeef-plugins-jack/deadbeef-plugins-jack-9999.ebuild,v 1.1 2012/11/09 17:59:38 -tclover Exp $
+# $Header: bar-overlay/media-plugins/deadbeef-plugins-jack/deadbeef-plugins-jack-9999.ebuild,v 1.1 2012/11/10 14:43:14 -tclover Exp $
 
 EAPI=4
 
@@ -20,6 +20,10 @@ DEPEND="media-libs/libbs2b"
 RDEPEND="media-sound/deadbeef
 	${DEPEND}"
 
+src_prepare() {
+	epatch "${FILESDIR}"/Makefile.patch
+	export LDFLAGS="${LDFLAGS//--as-needed/--no-as-needed}"
+}
 src_install() {
 	insinto /usr/$(get_libdir)/deadbeef
 	doins bs2b.so
