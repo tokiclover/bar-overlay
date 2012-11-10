@@ -1,0 +1,25 @@
+Subject: [PATCH 1/4] fix ladspa path
+
+---
+ src/backend/settings.cpp |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+diff --git a/src/backend/settings.cpp b/src/backend/settings.cpp
+index 3399a2e..21591e1 100644
+--- a/src/backend/settings.cpp
++++ b/src/backend/settings.cpp
+@@ -89,7 +89,10 @@ string gJACKInputPortNames[64];
+ #endif
+ 
+ 
+-string gLADSPAPath="";
++// GG set the ladspa path to a reasonable default
++// this *only* works for Debian, because thats were
++// LADSPA plugins are put
++string gLADSPAPath="/usr/lib/ladspa";
+ 
+ 
+ string gFallbackWorkDir="/tmp"; // ??? would be something else on non-unix platforms
+-- 
+1.7.3.4
+

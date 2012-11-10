@@ -1,0 +1,28 @@
+Subject: [PATCH 4/4] pkg config and the audiofile library
+
+---
+ configure.ac |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8ed1ec0..8d99090 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -514,10 +514,10 @@ AC_ARG_ENABLE(
+ ### Audiofile ##############################################################
+ 
+ # used to conditionally activate code in ClibaudiofileSoundTranslator.*
+-AH_TEMPLATE(HAVE_LIBAUDIOFILE)
+-# this macro detects libaudiofile and does an AC_SUBST on AUDIOFILE_CFLAGS and AUDIOFILE_LIBS, so I put these variables in src/backend/Makefile.am for substitution (also audiofile comes with with a pkg-config file, I could use that)
+-AM_PATH_AUDIOFILE(0.2.2,AC_DEFINE(HAVE_LIBAUDIOFILE),AC_MSG_NOTICE([audiofile website: http://oss.sgi.com/projects/audiofile]))
+-
++PKG_CHECK_MODULES([AUDIOFILE], [audiofile >= 0.2.2],AC_DEFINE([HAVE_LIBAUDIOFILE], [1], [We have audiofile]))
++dnl PKG_CHECK_MODULES([AUDIOFILE], [AUDIOFILE >= 0.2.2])
++AC_SUBST(AUDIOFILE_CFLAGS)
++AC_SUBST(AUDIOFILE_LIBS)
+ 
+ 
+ ### Ogg Vorbis Libraries ##################################################
+-- 
+1.7.3.4
+

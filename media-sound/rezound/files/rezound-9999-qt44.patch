@@ -1,0 +1,11 @@
+--- ./src/frontend_qt4/ActionParam/CLFOParamValue.cpp.orig	2008-12-17 19:36:15.000000000 +0100
++++ ./src/frontend_qt4/ActionParam/CLFOParamValue.cpp	2008-12-17 19:38:26.000000000 +0100
+@@ -84,7 +84,7 @@
+ 
+ 	LFOTypeComboBox->setIconSize(QSize(45,25));
+ 	dynamic_cast<QListView *>(LFOTypeComboBox->view())->setSpacing(3);
+-	for(size_t t=0;t<gLFORegistry.getCount();t++)
++	for(unsigned int t=0;t<gLFORegistry.getCount();t++)
+ 	{
+ 		if(!hideBipolarLFOs || !gLFORegistry.isBipolar(t))
+ 		{

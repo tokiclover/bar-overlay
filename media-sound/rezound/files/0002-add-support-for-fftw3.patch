@@ -1,0 +1,433 @@
+Subject: [PATCH 2/4] add support for fftw3
+
+---
+ configure.ac                                       |   52 ++++++++++++++------
+ src/backend/ASoundPlayer.cpp                       |   26 +++++-----
+ src/backend/ASoundPlayer.h                         |   12 +++--
+ src/backend/DSP/Convolver.h                        |   40 ++++++++-------
+ src/backend/Effects/CTestEffect.cpp                |    2 +-
+ src/backend/Filters/CArbitraryFIRFilter.cpp        |    2 +-
+ src/backend/Filters/CConvolutionFilter.cpp         |    2 +-
+ .../Filters/CMorphingArbitraryFIRFilter.cpp        |    2 +-
+ src/backend/Makefile.am                            |    4 +-
+ src/frontend_fox/CMetersWindow.cpp                 |    2 +-
+ 10 files changed, 85 insertions(+), 59 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 4791622..f521d44 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -568,22 +568,43 @@ fi
+ # Handle the flags for the FFTW library                                    #
+ ############################################################################
+ 
+-# check for the rfftw library installed.  Eventually this macro call
+-# should define HAVE_FFTW and enable or disable the FFT based actions
+-# if it's not found, then I should print a noticable warning that FFT
+-# actions will be disabled and why
+-#  ??? email about an official way to test for fftw
+-		# ??? actually I don't think I need fftw, just rfftw.. remove fftw and see if that's so
+-AC_CHECK_HEADER(
+-	fftw.h,
+-	AC_CHECK_LIB(fftw, fftw_create_plan, , AC_MSG_WARN([***** libfftw.a (version 2) not found -- any FFT based actions will be disabled (http://www.fftw.org) *****]),-lfftw),
+-	AC_MSG_WARN([***** fftw.h (version 2) header file not found -- any FFT based actions will be disabled (http://www.fftw.org) *****])
+-	)
++# check for the rfftw library installed. 
+ 
+-AC_CHECK_HEADER(
+-	rfftw.h,
+-	AC_CHECK_LIB(rfftw, rfftw_create_plan, , AC_MSG_WARN([***** librfftw.a (version 2) not found -- any FFT based actions will be disabled (http://www.fftw.org) *****]),-lrfftw),
+-	AC_MSG_WARN([***** rfftw.h (version 2) header file not found -- any FFT based actions will be disabled (http://www.fftw.org) *****])
++AH_TEMPLATE(HAVE_FFTW)
++AC_ARG_ENABLE(
++	fftw,
++	AC_HELP_STRING([--enable/disable-fftw],[enable/disable ReZound to use FFTW library (version 3 and later)]),
++	[ # action if either enable or disable flag is given
++		if [[ "$enableval" = "yes" ]]
++		then 
++			PKG_CHECK_MODULES(
++				FFTW,
++				fftw3 >= 3.0.0,
++				[
++					AC_DEFINE(HAVE_FFTW)
++					AC_MSG_RESULT([*** enabling FFTW])
++				],
++				AC_MSG_ERROR([***** libfftw3.a or fftw3.h not found (http://www.fftw.org) *****])
++			)
++		else
++			AC_MSG_RESULT([*** disabling fftw3])
++		fi
++	],
++	[ # action if neither enable or disable flag was given
++		# if the jack lib is found, then enable it
++		PKG_CHECK_MODULES(
++			FFTW,
++			fftw3 >= 3.0.0,
++			[
++				AC_DEFINE(HAVE_FFTW)
++				AC_MSG_RESULT([*** enabling FFTW])
++			],
++			[
++				# disable default action of exiting if not found
++				AC_MSG_RESULT([*** FFTW not enabled])
++			]
++		)
++	]
+ )
+ 
+ 
+@@ -591,7 +612,6 @@ AC_CHECK_HEADER(
+ 
+ 
+ 
+-
+ ############################################################################
+ # detect if we should be able to compile the LADSPA code                   #
+ ############################################################################
+diff --git a/src/backend/ASoundPlayer.cpp b/src/backend/ASoundPlayer.cpp
+index 7210888..0ea4dff 100644
+--- a/src/backend/ASoundPlayer.cpp
++++ b/src/backend/ASoundPlayer.cpp
+@@ -34,14 +34,14 @@
+ 
+ ASoundPlayer::ASoundPlayer()
+ {
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	analyzerPlan=NULL;
+ #endif
+ }
+ 
+ ASoundPlayer::~ASoundPlayer()
+ {
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	for(map<size_t,TAutoBuffer<fftw_real> *>::iterator i=hammingWindows.begin();i!=hammingWindows.end();i++)
+ 		delete i->second;
+ #endif
+@@ -62,12 +62,13 @@ void ASoundPlayer::initialize()
+ 
+ 
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	frequencyAnalysisBufferPrepared=false;
+ 	for(size_t t=0;t<ASP_ANALYSIS_BUFFER_SIZE;t++)
+ 		frequencyAnalysisBuffer[t]=0.0;
+ 
+-	analyzerPlan=rfftw_create_plan(ASP_ANALYSIS_BUFFER_SIZE, FFTW_REAL_TO_COMPLEX, FFTW_ESTIMATE);
++  analyzerPlan = fftw_plan_r2r_1d(ASP_ANALYSIS_BUFFER_SIZE, frequencyAnalysisBuffer,
++      data, FFTW_HC2R, FFTW_ESTIMATE);
+ 
+ 	// this causes calculateAnalyzerBandIndexRanges() to be called later when getting the analysis
+ 	bandLowerIndexes.clear();
+@@ -79,10 +80,10 @@ void ASoundPlayer::deinitialize()
+ {
+ 	stopAll();
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	if(analyzerPlan!=NULL)
+ 	{
+-		rfftw_destroy_plan(analyzerPlan);
++		fftw_destroy_plan(analyzerPlan);
+ 		analyzerPlan=NULL;
+ 	}
+ #endif
+@@ -163,7 +164,7 @@ void ASoundPlayer::mixSoundPlayerChannels(const unsigned nChannels,sample_t * co
+ 	if(gStereoPhaseMetersEnabled)
+ 		samplingForStereoPhaseMeters.write(buffer,bufferSize*nChannels); // NOTE: nChannels is supposed to equal devices[0].channelCount
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	if(gFrequencyAnalyzerEnabled)
+ 	{
+ 		CMutexLocker l(frequencyAnalysisBufferMutex);
+@@ -229,7 +230,7 @@ const size_t ASoundPlayer::getSamplingForStereoPhaseMeters(sample_t *buffer,size
+ 	return samplingForStereoPhaseMeters.read(buffer,min(bufferSizeInSamples,(size_t)(gStereoPhaseMeterPointCount*devices[0].channelCount)))/devices[0].channelCount; // ??? only device zero
+ }
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 
+ // NOTE: when I say 'band', a band is expressed in terms of an 
+ // octave (where octave is a real number) and each band is a 
+@@ -337,7 +338,7 @@ const vector<float> ASoundPlayer::getFrequencyAnalysis() const
+ 	if(!isInitialized())
+ 		return v;
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	CMutexLocker l(frequencyAnalysisBufferMutex);
+ 
+ 	if(!frequencyAnalysisBufferPrepared)
+@@ -378,8 +379,7 @@ for(int t=0;t<ASP_ANALYSIS_BUFFER_SIZE;t++)
+ }
+ */
+ 
+-	fftw_real data[ASP_ANALYSIS_BUFFER_SIZE];
+-	rfftw_one(analyzerPlan,(fftw_real *)frequencyAnalysisBuffer,data);
++  fftw_execute(analyzerPlan);
+ 	
+ 	for(size_t t=0;t<bandLowerIndexes.size();t++)
+ 	{
+@@ -449,7 +449,7 @@ for(int t=0;t<ASP_ANALYSIS_BUFFER_SIZE;t++)
+ 
+ const size_t ASoundPlayer::getFrequency(size_t index) const
+ {
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	return (size_t)freqAtOctave((float)index/(float)octaveStride);
+ #else
+ 	return 0;
+@@ -458,7 +458,7 @@ const size_t ASoundPlayer::getFrequency(size_t index) const
+ 
+ const size_t ASoundPlayer::getFrequencyAnalysisOctaveStride() const
+ {
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	return octaveStride;
+ #else
+ 	return 1;
+diff --git a/src/backend/ASoundPlayer.h b/src/backend/ASoundPlayer.h
+index afd5152..6c1f48d 100644
+--- a/src/backend/ASoundPlayer.h
++++ b/src/backend/ASoundPlayer.h
+@@ -29,11 +29,14 @@ class ASoundPlayer;
+ 
+ #include <vector>
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ #include <map>
+-#include <rfftw.h>
++#include <fftw3.h>
+ #include <CMutex.h>
+ #include <TAutoBuffer.h>
++
++typedef double fftw_real;
++
+ #endif
+ 
+ 
+@@ -165,14 +168,15 @@ private:
+ 	mutable sample_t peakLevels[MAX_CHANNELS];
+ 	mutable bool resetPeakLevels[MAX_CHANNELS]; // a bool that is flagged if the next buffer processed should start with a new max or max with the current one (since it hasn't been obtained from the get method yet)
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	#define ASP_ANALYSIS_BUFFER_SIZE 8192
+ 	mutable CMutex frequencyAnalysisBufferMutex;
+ 	mutable bool frequencyAnalysisBufferPrepared;
+ 	mutable fftw_real frequencyAnalysisBuffer[ASP_ANALYSIS_BUFFER_SIZE];
+ 	size_t frequencyAnalysisBufferLength; // the amount of data that mixSoundPlayerChannels copied into the buffer
+ 	mutable map<size_t,TAutoBuffer<fftw_real> *> hammingWindows; // create and save Hamming windows for any length needed
+-	rfftw_plan analyzerPlan;
++	fftw_plan analyzerPlan;
++	fftw_real data[ASP_ANALYSIS_BUFFER_SIZE];
+ 	mutable vector<size_t> bandLowerIndexes; // mutable because calculateAnalyzerBandIndexRanges is called from getFrequencyAnalysis
+ 	mutable vector<size_t> bandUpperIndexes;
+ 
+diff --git a/src/backend/DSP/Convolver.h b/src/backend/DSP/Convolver.h
+index 816dc89..65dfc75 100644
+--- a/src/backend/DSP/Convolver.h
++++ b/src/backend/DSP/Convolver.h
+@@ -82,12 +82,14 @@ private:
+ 
+ 
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 
+-#include <rfftw.h>
++#include <fftw3.h>
+ 
+ #include <TAutoBuffer.h>
+ 
++typedef double fftw_real;
++
+ /*
+  *	Written partly from stuff I learned in "The Scientist and 
+  *	Engineer's Guide to Digital Signal Processing":
+@@ -138,8 +140,8 @@ public:
+ 		data(W),dataPos(0),
+ 		xform(W+1),
+ 
+-		p(rfftw_create_plan_specific(W, FFTW_REAL_TO_COMPLEX, FFTW_ESTIMATE, data,1,xform,1)),
+-		un_p(rfftw_create_plan_specific(W, FFTW_COMPLEX_TO_REAL, FFTW_ESTIMATE, xform,1,data,1)),
++		p   (fftw_plan_r2r_1d(W, data, xform, FFTW_R2HC, FFTW_ESTIMATE)),
++		un_p(fftw_plan_r2r_1d(W, xform, data, FFTW_HC2R, FFTW_ESTIMATE)),
+ 
+ 		kernel_real(W/2+1),
+ 		kernel_img(W/2+1),
+@@ -160,21 +162,21 @@ public:
+ 
+ 	virtual ~TFFTConvolverTimeDomainKernel()
+ 	{
+-		rfftw_destroy_plan(p);
+-		rfftw_destroy_plan(un_p);
++		fftw_destroy_plan(p);
++		fftw_destroy_plan(un_p);
+ 	}
+ 
+ 	// the NEW set of coefficients MUST be the same size as the original one at construction
+ 	void setNewFilterKernel(const coefficient_t filterKernel[])
+ 	{
+ 		TAutoBuffer<fftw_real> data(W),xform(W+1);
+-		rfftw_plan p=rfftw_create_plan_specific(W, FFTW_REAL_TO_COMPLEX, FFTW_ESTIMATE, data,1,xform,1);
+-		rfftw_plan un_p=rfftw_create_plan_specific(W, FFTW_COMPLEX_TO_REAL, FFTW_ESTIMATE, xform,1,data,1);
++		fftw_plan p    = fftw_plan_r2r_1d(W, data, xform, FFTW_R2HC, FFTW_ESTIMATE);
++		fftw_plan un_p = fftw_plan_r2r_1d(W, xform, data, FFTW_HC2R, FFTW_ESTIMATE);
+ 
+ 		prepareFilterKernel(filterKernel,data,xform,p,un_p);
+ 
+-		rfftw_destroy_plan(p);
+-		rfftw_destroy_plan(un_p);
++		fftw_destroy_plan(p);
++		fftw_destroy_plan(un_p);
+ 	}
+ 
+ 
+@@ -202,7 +204,7 @@ public:
+ 			data[dataPos++]=0;
+ 
+ 		// do the fft data --> xform
+-		rfftw_one(p, data, xform);
++		fftw_execute(p);
+ 		xform[W]=0; // to help out macros
+ 						
+ 
+@@ -220,7 +222,7 @@ public:
+ 		}
+ 
+ 		// do the inverse fft xfrorm --> data
+-		rfftw_one(un_p, xform, data);
++		fftw_execute(un_p);
+ 
+ 		// add the last segment's overlap to this segment
+ 		for(size_t t=0;t<M-1;t++)
+@@ -281,8 +283,8 @@ private:
+ 
+ 	TAutoBuffer<fftw_real> xform;
+ 
+-	rfftw_plan p;
+-	rfftw_plan un_p;
++	fftw_plan p;
++	fftw_plan un_p;
+ 
+ 	TAutoBuffer<fftw_real> kernel_real;
+ 	TAutoBuffer<fftw_real> kernel_img;
+@@ -308,7 +310,7 @@ private:
+ 		throw runtime_error(string(__func__)+" -- cannot handle a filter kernel of size "+istring(M)+" -- perhaps simply another element needs to be added to fftw_good_sizes");
+ 	}
+ 	
+-	void prepareFilterKernel(const coefficient_t filterKernel[],fftw_real data[],fftw_real xform[],rfftw_plan p,rfftw_plan un_p)
++	void prepareFilterKernel(const coefficient_t filterKernel[],fftw_real data[],fftw_real xform[],fftw_plan p,fftw_plan un_p)
+ 	{
+ 			// ??? perhaps a parameter could be passed that would indicate what the filterKernel is.. whether it's time-domain or freq domain already
+ 
+@@ -318,7 +320,7 @@ private:
+ 		for(size_t t=M;t<W;t++) // pad with zero
+ 			data[t]=0;
+ 
+-		rfftw_one(p, data, xform);
++		fftw_execute(p);
+ 		xform[W]=0; // to help out macros
+ 
+ 		// copy into kernel_real and kernel_img
+@@ -410,9 +412,9 @@ private:
+ 				xform[W-t]=imaginary[t];
+ 		}
+ 		TAutoBuffer<fftw_real> data(W);
+-		rfftw_plan un_p=rfftw_create_plan(W, FFTW_COMPLEX_TO_REAL, FFTW_ESTIMATE);
+-		rfftw_one(un_p, xform, data);	// xform -> data
+-		rfftw_destroy_plan(un_p);
++		fftw_plan un_p = fftw_plan_r2r_1d(W, xform, data, FFTW_HC2R, FFTW_ESTIMATE);
++		fftw_execute(un_p);	// xform -> data
++		fftw_destroy_plan(un_p);
+ 
+ 
+ 		// fftw scales the output of the complex->real transform by W (undo this)
+diff --git a/src/backend/Effects/CTestEffect.cpp b/src/backend/Effects/CTestEffect.cpp
+index e47b029..f14282f 100644
+--- a/src/backend/Effects/CTestEffect.cpp
++++ b/src/backend/Effects/CTestEffect.cpp
+@@ -112,7 +112,7 @@ bool CTestEffect::doActionSizeSafe(CActionSound *actionSound,bool prepareForUndo
+ 	filter_kernel[M/2]+=1.0;
+ #endif
+ 
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	TFFTConvolverTimeDomainKernel<sample_t,float> c(filter_kernel,M);
+ 
+ 	for(unsigned i=0;i<actionSound->sound->getChannelCount();i++)
+diff --git a/src/backend/Filters/CArbitraryFIRFilter.cpp b/src/backend/Filters/CArbitraryFIRFilter.cpp
+index de9b793..232b40c 100644
+--- a/src/backend/Filters/CArbitraryFIRFilter.cpp
++++ b/src/backend/Filters/CArbitraryFIRFilter.cpp
+@@ -46,7 +46,7 @@ CArbitraryFIRFilter::~CArbitraryFIRFilter()
+ 
+ bool CArbitraryFIRFilter::doActionSizeSafe(CActionSound *actionSound,bool prepareForUndo)
+ {
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	const sample_pos_t start=actionSound->start;
+ 	const sample_pos_t stop=actionSound->stop;
+ 	const sample_pos_t selectionLength=actionSound->selectionLength();
+diff --git a/src/backend/Filters/CConvolutionFilter.cpp b/src/backend/Filters/CConvolutionFilter.cpp
+index b8af95f..bc41b93 100644
+--- a/src/backend/Filters/CConvolutionFilter.cpp
++++ b/src/backend/Filters/CConvolutionFilter.cpp
+@@ -60,7 +60,7 @@ CConvolutionFilter::~CConvolutionFilter()
+ #include <unistd.h> // for symlink and unlink
+ bool CConvolutionFilter::doActionSizeSafe(CActionSound *actionSound,bool prepareForUndo)
+ {
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	const sample_pos_t start=actionSound->start;
+ 	const sample_pos_t stop=actionSound->stop;
+ 	const sample_pos_t selectionLength=actionSound->selectionLength();
+diff --git a/src/backend/Filters/CMorphingArbitraryFIRFilter.cpp b/src/backend/Filters/CMorphingArbitraryFIRFilter.cpp
+index 7dfe28f..8451b36 100644
+--- a/src/backend/Filters/CMorphingArbitraryFIRFilter.cpp
++++ b/src/backend/Filters/CMorphingArbitraryFIRFilter.cpp
+@@ -53,7 +53,7 @@ CMorphingArbitraryFIRFilter::~CMorphingArbitraryFIRFilter()
+ 
+ bool CMorphingArbitraryFIRFilter::doActionSizeSafe(CActionSound *actionSound,bool prepareForUndo)
+ {
+-#ifdef HAVE_LIBRFFTW
++#ifdef HAVE_FFTW
+ 	const sample_pos_t start=actionSound->start;
+ 	const sample_pos_t stop=actionSound->stop;
+ 	const sample_pos_t selectionLength=actionSound->selectionLength();
+diff --git a/src/backend/Makefile.am b/src/backend/Makefile.am
+index 00e8652..8870494 100644
+--- a/src/backend/Makefile.am
++++ b/src/backend/Makefile.am
+@@ -146,8 +146,8 @@ libbackend_la_SOURCES= \
+ 		        settings.cpp
+ 
+ # SOUNDTOUCH_CXXFLAGS is in Remaster/Makefile.am
+-AM_CXXFLAGS=@AUDIOFILE_CFLAGS@ @ALSA_CFLAGS@ @JACK_CFLAGS@ @OGG_CFLAGS@ @VORBIS_CFLAGS@ @LIBFLACPP_CFLAGS@ @LIBFLAC_CFLAGS@
++AM_CXXFLAGS=@AUDIOFILE_CFLAGS@ @ALSA_CFLAGS@ @JACK_CFLAGS@ @OGG_CFLAGS@ @VORBIS_CFLAGS@ @LIBFLACPP_CFLAGS@ @LIBFLAC_CFLAGS@ @FFTW_CFLAGS@
+ 
+ # SOUNDTOUCH_LIBS is in Remaster/Makefile.am
+-libbackend_la_LIBADD=@LTLIBINTL@ @AUDIOFILE_LIBS@ @ALSA_LIBS@ @JACK_LIBS@ @OGG_LIBS@ @VORBISFILE_LIBS@ @VORBISENC_LIBS@ @VORBIS_LIBS@ @LIBFLACPP_LIBS@ @LIBFLAC_LIBS@
++libbackend_la_LIBADD=@LTLIBINTL@ @AUDIOFILE_LIBS@ @ALSA_LIBS@ @JACK_LIBS@ @OGG_LIBS@ @VORBISFILE_LIBS@ @VORBISENC_LIBS@ @VORBIS_LIBS@ @LIBFLACPP_LIBS@ @LIBFLAC_LIBS@ @FFTW_LIBS@
+ 
+diff --git a/src/frontend_fox/CMetersWindow.cpp b/src/frontend_fox/CMetersWindow.cpp
+index 5b49098..d2dba82 100644
+--- a/src/frontend_fox/CMetersWindow.cpp
++++ b/src/frontend_fox/CMetersWindow.cpp
+@@ -829,7 +829,7 @@ public:
+ 				x+=barWidth;
+ 			}
+ 		}
+-#ifndef HAVE_LIBRFFTW
++#ifndef HAVE_FFTW
+ 		else
+ 		{
+ 			dc.compat_setFont(getApp()->getNormalFont());
+-- 
+1.7.3.4
+

@@ -1,0 +1,47 @@
+diff -urNp rezound.orig/src/backend/Remaster/CAdaptiveNormalizeAction.cpp rezound-9999/src/backend/Remaster/CAdaptiveNormalizeAction.cpp
+--- rezound.orig/src/backend/Remaster/CAdaptiveNormalizeAction.cpp	2011-01-23 11:51:40.515000093 +0200
++++ rezound-9999/src/backend/Remaster/CAdaptiveNormalizeAction.cpp	2011-01-23 11:07:41.000000000 +0200
+@@ -27,6 +27,8 @@
+ 
+ #include "../DSP/LevelDetector.h"
+ 
++#include <stdio.h>
++
+ //??? could use a state machine or some sort of fuzzy state machine that doesnt raise the gain unless there is going to be a rise again in some minimum amount of time (actually could probably just use a delay line to do this)
+ 
+ 
+diff -urNp rezound.orig/src/frontend_qt4/ActionParam/CGraphParamValue.cpp rezound-9999/src/frontend_qt4/ActionParam/CGraphParamValue.cpp
+--- rezound.orig/src/frontend_qt4/ActionParam/CGraphParamValue.cpp	2011-01-23 11:51:40.721000096 +0200
++++ rezound-9999/src/frontend_qt4/ActionParam/CGraphParamValue.cpp	2011-01-23 11:06:26.000000000 +0200
+@@ -40,6 +40,8 @@
+ #include <QResizeEvent>
+ #include <QMouseEvent>
+ 
++#include <stdio.h>
++
+ #define NODE_RADIUS 4
+ 
+ /* TODO:
+diff -urNp rezound.orig/src/frontend_qt4/drawPortion.cpp rezound-9999/src/frontend_qt4/drawPortion.cpp
+--- rezound.orig/src/frontend_qt4/drawPortion.cpp	2011-01-23 11:51:40.687000097 +0200
++++ rezound-9999/src/frontend_qt4/drawPortion.cpp	2011-01-23 11:03:30.000000000 +0200
+@@ -32,6 +32,8 @@
+ 
+ #include <QPainter>
+ 
++#include <stdio.h>
++
+ static QColor invertColor(QColor &col,bool darkened)
+ {
+ 	QColor c(255-col.red(),255-col.green(),255-col.blue());
+diff -urNp rezound.orig/src/frontend_qt4/QThumbWheel.cpp rezound-9999/src/frontend_qt4/QThumbWheel.cpp
+--- rezound.orig/src/frontend_qt4/QThumbWheel.cpp	2011-01-23 11:51:40.684000097 +0200
++++ rezound-9999/src/frontend_qt4/QThumbWheel.cpp	2011-01-23 11:08:56.000000000 +0200
+@@ -44,6 +44,7 @@
+ #include <QPainter>
+ #include <qdrawutil.h>
+ #include <math.h>
++#include <stdio.h>
+ 
+ static const double m_pi = 3.14159265358979323846;
+ static const double rad_factor = 180.0 / m_pi;

@@ -1,0 +1,19 @@
+Fix missing template instantiation for createPool<sample_t>.
+
+http://bugs.gentoo.org/334797
+https://sourceforge.net/tracker/?func=detail&aid=3155234&group_id=5056&atid=105056
+
+2011-01-11 Martin von Gagern <Martin.vGagern@gmx.net>
+
+Index: rezound-0.12.3beta/src/backend/CSound.cpp
+===================================================================
+--- rezound-0.12.3beta.orig/src/backend/CSound.cpp
++++ rezound-0.12.3beta/src/backend/CSound.cpp
+@@ -2314,3 +2314,7 @@ template TStaticPoolAccesser<uint8_t, TP
+ template TStaticPoolAccesser<uint8_t, TPoolFile<sample_pos_t,uint64_t> > const TPoolFile<sample_pos_t,uint64_t>::getPoolAccesser<uint8_t>(const string) const;
+ template TStaticPoolAccesser<uint8_t, TPoolFile<sample_pos_t,uint64_t> > TPoolFile<sample_pos_t,uint64_t>::createPool<uint8_t>(const string, const bool);
+ 
++template TStaticPoolAccesser<sample_t, TPoolFile<sample_pos_t,uint64_t> > TPoolFile<sample_pos_t,uint64_t>::getPoolAccesser<sample_t>(const string);
++template TStaticPoolAccesser<sample_t, TPoolFile<sample_pos_t,uint64_t> > const TPoolFile<sample_pos_t,uint64_t>::getPoolAccesser<sample_t>(const string) const;
++template TStaticPoolAccesser<sample_t, TPoolFile<sample_pos_t,uint64_t> > TPoolFile<sample_pos_t,uint64_t>::createPool<sample_t>(const string, const bool);
++
