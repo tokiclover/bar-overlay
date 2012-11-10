@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <herd>no-herd</herd>
+  <maintainer>
+    <email>nedko@arnadov.name</email>
+    <name>Nedko Arnaudov</name>
+  </maintainer>
+  <maintainer>
+    <email>marco@marcochapeau.org</email>
+    <name>Marc-Olivier Barre</name>
+  </maintainer>
+  <longdescription>
+LADI Session Handler or simply ladish is a session management system for JACK applications. Its aim is to allow you to have many different audio programs running at once, to save their setup, close them down and then easily reload the setup at some other time.
+  </longdescription>
+</pkgmetadata>
