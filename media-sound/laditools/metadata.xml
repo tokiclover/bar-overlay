@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer>
+    <email>tclover@bar-overaly</email>
+    <name>tclover</name>
+  </maintainer>
+  <longdescription>
+LADI Tools is a set of tools aiming to achieve the goals of the LADI project
+to improve desktop integration and user workflow of Linux audio system based
+on JACK and LADISH. Those tools take advantage of the DBus interfaces of JACK2
+and LADISH to ease the configuration and use of your software studio.
+
+The following tools are included:
+ * The laditools python module
+ * ladi-system-tray : a system tray icon that allows you to start, stop and
+   monitor JACK, as well as start some JACK related apps (log viewer,
+   connections...)
+ * wmladi : a controller as a Window Maker dockapp which uses a menu similar
+   to ladi-system-tray's
+ * ladi-system-log : a JACK, LADISH and a2jmidid log viewer
+ * ladi-control-center : a GUI to setup JACK's and laditools' configuration
+ * ladi-player: compact front-end to that allows users to start, stop and
+   monitor a LADI system.
+ * g15ladi : a JACK monitor for g15 keyboards
+  </longdescription>
+</pkgmetadata>

@@ -1,0 +1,12 @@
+--- setup.py.orig	2008-12-15 13:48:40.000000000 +0100
++++ setup.py	2008-12-15 13:49:08.000000000 +0100
+@@ -27,8 +27,7 @@
+     packages=['laditools'],
+     package_dir={'laditools': 'lib/laditools'},
+     scripts=['laditray', 'wmladi', 'g15ladi', 'ladilog', 'ladiconf'],
+-    data_files=[('share/doc/laditools', ['README', 'COPYING', 'INSTALL']),
+-        ('share/pixmaps', ['data/ladilog.svg', 'data/laditray.svg', 'data/ladiconf.svg']),
++    data_files=[('share/pixmaps', ['data/ladilog.svg', 'data/laditray.svg', 'data/ladiconf.svg']),
+ 	('share/applications', ['data/laditray.desktop']),
+ 	('share/applications', ['data/ladiconf.desktop']),
+         ('share/laditools/data', ['data/laditools_logo.svg',
