@@ -1,0 +1,24 @@
+--- a/Makefile	2012-11-10 16:59:39.494403051 +0100
++++ b/Makefile	2012-11-10 17:01:34.719962534 +0100
+@@ -1,2 +1,20 @@
++version        = 0.2.0
++prefix         = /usr
++libdir         = $(get_libdir)
++
++OUT            = jack.so
++OBJ            = $(OUT).$(version)
++SRC            = jack.c
++
++LIBJACK_CFLAGS = $(shell pkg-config --cflags jack)
++LIBJACK_LIBS   = $(shell pkg-config --libs jack)
++CC             = gcc
++CFLAGS        += -Wall -fPIC -std=c99 -shared
++
++define compile
++	$(CC) $(CFLAGS) $(LDFLAGS) -I/$(prefix)/include $1 $2 $3 -o $4
++endef
++
+ all:
+-	gcc -I/usr/local/include  -std=c99 -shared -O2 -o jack.so -ljack jack.c -fPIC -Wall -march=native
++	$(call compile, $(LIBJACK_CFLAGS), $(LIBJACK_LIBS), $(SRC), $(OUT))
++
