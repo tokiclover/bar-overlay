@@ -1,12 +1,10 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.3 2012/08/01 02:49:39 -tclover Exp $
+# $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.4 2012/11/11 21:09:57 -tclover Exp $
 
 EAPI=4
 
 inherit flag-o-matic libtool mercurial
-
-filter-ldflags "-Wl,-O1"
 
 EHG_REPO_URI="http://opensound.hg.sourceforge.net:8000/hgroot/opensound/opensound"
 
@@ -17,15 +15,16 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
 
-SOUND_CARDS="ali5455 atiaudio audigyls audioloop audiopci cmi878x cmpci cs4281
-cs461x digi96 emu10k1x envy24 envy24ht fmedia geode hdaudio ich imux madi
+CARDS="ali5455 atiaudio audigyls audioloop audiopci cmi878x cmpci cs4281 \
+cs461x digi96 emu10k1x envy24 envy24ht fmedia geode hdaudio ich imux madi \
 midiloop midimix sblive sbpci sbxfi solo trident usb userdev via823x via97 ymf7xx"
-for card in ${SOUND_CARDS}; do
-	has ${card} ${OSS_CARDS} && IUSE_OSS_CARDS+=" +" || IUSE_OSS_CARDS+=" "
-	IUSE_OSS_CARDS+=oss_cards_${card}
-done
 
-IUSE="${IUSE_OSS_CARDS} +salsa +midi pax_kernel"
+IUSE="alsa +midi pax_kernel"
+for card in ${CARDS}; do
+	if has ${card} ${DEFAULT_CARDS} ${OSS_CARDS}; then
+		IUSE+=" +oss_cards_${card}"
+	else IUSE+=" oss_cards_${card}"; fi
+done
 REQUIRED_USE="oss_cards_midiloop? ( midi ) oss_cards_midimix? ( midi )"
 
 DEPEND="sys-apps/gawk
@@ -38,7 +37,7 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${PN}"
 
 src_unpack() {
-	mercurial_src_unpack
+	default
 	mkdir build
 
 	cp "${FILESDIR}"/oss ${PN}/setup/Linux/oss/etc/S89oss
@@ -50,24 +49,36 @@ src_prepare() {
 }
 
 src_configure() {
-	local conf="--enable-timings \
+	local conf="$(use alsa || echo '--enable-libsalsa=NO') \
 		$(use midi && echo '--config-midi=YES' || echo '--config-midi=NO') \
-		$(use salsa || echo '--enable-libsalsa=NO') --only-drv=osscore"
-	for card in ${SOUND_CARDS}; do
-		use oss_cards_${card} && conf+=,oss_${card}
+		--only-drv=osscore"
+	for card in ${CARDS}; do
+		if use oss_cards_${card} || has ${card} ${OSS_CARDS};then
+			conf+=,oss_${card}
+		fi
 	done
-	"${S}"/configure ${conf} || die "configure failed"
+	cd ../build
+	"${S}"/configure ${conf} || die
 }
 
 src_compile() {
 	cd ../build
-	emake build || die "emake build failed"
+	emake build || die
 }
 
 src_install() {
 	newinitd "${FILESDIR}"/oss oss
 	cd ../build
 	cp -R prototype/* "${D}"
+
+	# install a pkgconfig file and make symlink to standard library dir
+	local libdir=$(get_libdir)
+	insinto /usr/${libdir}/pkgconfig
+	doins "${FILESDIR}"/OSSlib.pc
+	dosym /usr/${libdir}/{oss/lib/,}libOSSlib.so
+	dosym /usr/${libdir}/{oss/lib/,}libossmix.so
+	use alsa && dosym /usr/${libdir}/{oss/lib/,}libsalsa.so.2.0.0
+	dosym /usr/${libdir}/oss/include /usr/include/oss
 }
 
 pkg_postinst() {

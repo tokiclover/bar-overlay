@@ -6,7 +6,7 @@
  <email>tclover@bar-overlay</email>
 </maintainer>
 	<use>
-		<flag name="libsalsa">build ALSA emulation library</flag>
+		<flag name="alsa">build ALSA emulation library</flag>
 		<flag name="oss_cards_ali5455">ALIM5455 audio driver</flag>
 		<flag name="oss_cards_atiaudio">ATI IXP southbridge audio driver</flag>
 		<flag name="oss_cards_audigyls">Creative Labs CA106 (AudigyLS/SBLive 24bit) driver</flag>
