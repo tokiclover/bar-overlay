@@ -1,0 +1,22 @@
+>=dev-lang/perl-5.8.1 dev-perl/XML-Parser dev-lang/yasm ffmpeg? ( virtual/ffmpeg ) nls? ( >=dev-util/intltool-0.40.0 ) oss? ( virtual/libc ) gnome? ( || ( x11-libs/libSM x11-libs/libICE ) ) >=sys-apps/sed-4
+adplug? ( media-libs/adplug ) dts? ( media-libs/libdca ) mac? ( media-sound/mac ) gme? ( media-libs/game-music-emu ) mms? ( media-libs/libmms ) sid? ( media-sound/sidplay ) tta? ( media-sound/ttaenc ) midi? ( media-sound/wildmidi ) alsa? ( media-libs/alsa-lib ) mad? ( media-libs/libmad ) vorbis? ( media-libs/libvorbis ) flac? ( media-libs/flac ) wavpack? ( media-sound/wavpack ) sndfile? ( media-libs/libsndfile ) twolame? ( media-sound/twolame ) curl? ( net-misc/curl ) cdda? ( dev-libs/libcdio media-libs/libcddb ) gtk? ( x11-libs/gtk+:2 x11-libs/gtkglext ) gtk3? ( x11-libs/gtk+:3 x11-libs/gtkglext ) X? ( x11-libs/libX11 ) pulseaudio? ( media-sound/pulseaudio ) imlib? ( media-libs/imlib2 ) !imlib? ( virtual/jpeg media-libs/libpng ) libsamplerate? ( media-libs/libsamplerate ) musepack? ( media-sound/musepack-tools ) aac? ( media-libs/faad2 ) alac? ( media-libs/faad2 ) libnotify? ( x11-libs/libnotify sys-apps/dbus ) zip? ( sys-libs/zlib dev-libs/libzip ) pth? ( dev-libs/pth ) gme? ( sys-libs/zlib ) midi? ( media-sound/timidity-freepats ) lastfm? ( net-misc/curl ) dumb? ( media-libs/dumb )
+0
+mirror://sourceforge/deadbeef/deadbeef-0.5.6.tar.bz2
+
+http://deadbeef.sourceforge.net/
+|| ( GPL-2 LGPL-2.1 )
+DeaDBeeF - Ultimate Music Player For GNU/Linux
+~amd64 ~x86
+autotools autotools-utils eutils fdo-mime flag-o-matic gnome2-utils libtool multilib multiprocessing toolchain-funcs user
++aac adplug +alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gnome gtk gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack +musepack midi mms +nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis vtx +X zip imlib linguas_be linguas_bg linguas_bn linguas_ca linguas_cs linguas_da linguas_de linguas_el linguas_en_GB linguas_eo linguas_es linguas_et linguas_fa linguas_fi linguas_fr linguas_gl linguas_he linguas_hr linguas_hu linguas_id linguas_it linguas_ja linguas_kk linguas_km linguas_lg linguas_lt linguas_nb linguas_nl linguas_pl linguas_pt linguas_pt_BR linguas_ro linguas_ru linguas_si linguas_sk linguas_sl linguas_sr linguas_sr@latin linguas_sv linguas_te linguas_tr linguas_ug linguas_uk linguas_vi linguas_zh_CN linguas_zh_TW
+lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) ) artwork? ( curl ) imlib? ( curl )
+
+
+4
+
+compile configure install postinst postrm prepare test
+
+
+
+
+

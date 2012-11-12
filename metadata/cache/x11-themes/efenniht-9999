@@ -1,0 +1,22 @@
+dev-util/pkgconfig media-libs/edje || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
+x11-wm/enlightenment !minimal? ( x11-themes/gnome-themes ) nls? ( sys-devel/gettext )
+0
+gtk? ( http://gnome-look.org/CONTENT/content-files/142710-Efenniht-gtk2.tar.gz -> efenniht-gtk2-0.1.tar.gz )
+
+http://www.enlightenment.org/
+BSD
+An EFL theme derived from equinox...
+
+autotools enlightenment eutils libtool multilib multiprocessing subversion toolchain-funcs user
+gtk minimal nls doc
+
+
+
+2
+
+compile configure install preinst prepare unpack
+
+
+
+
+

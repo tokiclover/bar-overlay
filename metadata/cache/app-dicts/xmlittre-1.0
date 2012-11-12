@@ -1,0 +1,22 @@
+app-arch/unzip || ( >=app-text/stardict-2.4.2 app-text/sdcv app-text/goldendict ) gzip? ( app-arch/gzip app-text/dictd )
+>=app-text/stardict-2.0
+0
+http://francois.gannaz.free.fr/Littre/dlds/XMLittre_stardict_1.0.zip -> xmlittre-1.0.zip
+strip
+http://francois.gannaz.free.fr/Littre/accueil.php
+public-domain
+XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 Littre's dictionary
+x86 amd64
+stardict
+gzip
+
+
+
+2
+
+compile install
+
+
+
+
+

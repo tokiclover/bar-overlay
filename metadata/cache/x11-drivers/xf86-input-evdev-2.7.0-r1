@@ -1,0 +1,22 @@
+>=x11-base/xorg-server-1.6.3 >=sys-kernel/linux-headers-2.6 x11-proto/inputproto x11-proto/xproto || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool x86-interix? ( >=sys-devel/libtool-2.2.6a sys-devel/m4 >=x11-misc/util-macros-1.17 >=media-fonts/font-util-1.2.0 ) ppc-aix? ( >=sys-devel/libtool-2.2.6a sys-devel/m4 >=x11-misc/util-macros-1.17 >=media-fonts/font-util-1.2.0 ) x86-winnt? ( >=sys-devel/libtool-2.2.6a sys-devel/m4 >=x11-misc/util-macros-1.17 >=media-fonts/font-util-1.2.0 ) >=sys-devel/libtool-2.2.6a sys-devel/m4 >=x11-misc/util-macros-1.17 >=media-fonts/font-util-1.2.0 virtual/pkgconfig x11-proto/inputproto x11-proto/kbproto x11-proto/xproto x11-base/xorg-server[xorg]
+>=x11-base/xorg-server-1.6.3 x11-base/xorg-server[xorg]
+0
+http://xorg.freedesktop.org/releases/individual/driver/xf86-input-evdev-2.7.0.tar.bz2 https://gitorious.org/at-home-modifier/download/blobs/raw/master/patch/ahm-2.7.1.patch
+
+http://xorg.freedesktop.org/
+MIT
+Generic Linux input driver with at-home-modifier hack
+alpha amd64 arm hppa ia64 ~mips ppc ppc64 sh sparc x86
+autotools autotools-utils eutils flag-o-matic libtool multilib multiprocessing toolchain-funcs user xorg-2
+
+
+
+
+3
+
+compile configure install postinst postrm prepare test unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+!kernel-builtin? ( =sys-fs/aufs-standalone-9999 ) dev-vcs/git
+!sys-fs/aufs3 !sys-fs/aufs2
+0
+
+
+http://aufs.sourceforge.net/
+GPL-2
+AUFS2 filesystem utilities.
+
+eutils git-2 linux-info multilib toolchain-funcs user versionator
+kernel-builtin
+
+
+
+4
+
+compile install prepare setup unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+x11-libs/qt-gui:4 x11-libs/qt-core:4 archive? ( app-arch/libarchive ) !archive? ( >=dev-libs/libtar-1.2.11-r3 ) >=media-libs/libsndfile-1.0.18 alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) portaudio? ( >=media-libs/portaudio-19_pre ) virtual/pkgconfig dev-util/scons
+x11-libs/qt-gui:4 x11-libs/qt-core:4 archive? ( app-arch/libarchive ) !archive? ( >=dev-libs/libtar-1.2.11-r3 ) >=media-libs/libsndfile-1.0.18 alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) portaudio? ( >=media-libs/portaudio-19_pre )
+0
+mirror://sourceforge/hydrogen/hydrogen-0.9.5.1.tar.gz
+
+http://www.hydrogen-music.org
+GPL-2 ZLIB
+Advanced drum machine
+amd64 ppc ppc64 x86
+eutils flag-o-matic multilib toolchain-funcs user
+alsa +archive debug jack ladspa lash oss portaudio
+lash? ( alsa )
+
+
+4
+
+compile install prepare
+
+
+
+
+

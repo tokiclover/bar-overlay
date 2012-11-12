@@ -1,0 +1,22 @@
+>=x11-libs/gtk+-2.12 >=dev-util/intltool-0.37.1 sys-devel/gettext dev-util/pkgconfig
+>=x11-libs/gtk+-2.12
+0
+http://gnome-look.org/CONTENT/content-files/121881-equinox-1.50.tar.gz -> gtk-engines-equinox-1.50.tar.gz
+
+http://gnome-look.org/content/show.php/Equinox+GTK+Engine
+GPL-2
+A heavily modified version of the beautiful Aurora engine
+amd64 ppc x86 ~x86-fbsd ~x86-freebsd ~x86-interix ~amd64-linux ~x86-linux
+eutils gnome.org multilib toolchain-funcs user versionator
+
+
+
+
+2
+
+configure install
+
+
+
+
+

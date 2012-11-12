@@ -1,0 +1,22 @@
+X? ( x11-apps/mkfontdir media-fonts/encodings ) >=media-libs/fontconfig-2.4.0
+
+0
+mirror://debian/pool/main/t/ttf-mph-2b-damase/ttf-mph-2b-damase_001.000.dfsg.2.orig.tar.gz
+
+http://packages.qa.debian.org/t/ttf-mph-2b-damase.html
+public-domain
+Font with extensive Unicode 4.1 range coverage
+~x86
+eutils font multilib toolchain-funcs user
+X
+
+
+
+
+
+install postinst postrm setup
+
+
+
+
+

@@ -1,0 +1,22 @@
+x11-libs/qt-core:4 x11-libs/qt-gui:4 dev-libs/libxml2 media-libs/libsndfile media-libs/audiofile dev-libs/libtar portaudio? ( >=media-libs/portaudio-18.1 ) alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) flac? ( media-libs/flac ) || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
+x11-libs/qt-core:4 x11-libs/qt-gui:4 dev-libs/libxml2 media-libs/libsndfile media-libs/audiofile dev-libs/libtar portaudio? ( >=media-libs/portaudio-18.1 ) alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) flac? ( media-libs/flac )
+0
+
+
+http://hydrogen.sourceforge.net/
+GPL-2
+Linux Drum Machine
+
+eutils multilib subversion toolchain-funcs user
+alsa debug flac jack ladspa lash portaudio
+lash? ( alsa )
+
+
+4
+
+compile install preinst prepare unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+>=sys-apps/sed-4
+minimal? ( !x11-themes/gnome-icon-theme ) x11-themes/elementary-icon-theme
+0
+http://www.deviantart.com/download/215459969/elementary_extras_icons_by_spg76-d3ka1z5.zip -> elementary-extras-icon-theme-0.31.zip
+binchecks strip
+http://spg76.deviantart.com/
+GPL-3
+elementary extras icon theme by spg76
+amd64 x86
+eutils gnome2-utils multilib toolchain-funcs user
+-minimal
+
+
+
+2
+
+install postinst postrm preinst
+
+
+
+
+

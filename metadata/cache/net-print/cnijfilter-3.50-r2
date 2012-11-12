@@ -1,0 +1,22 @@
+scanner? ( >=media-gfx/gimp-2.0.0 media-gfx/sane-backends dev-libs/libusb:0 ) || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool app-text/ghostscript-gpl >=net-print/cups-1.1.14 sys-libs/glibc nls? ( >=sys-devel/gettext-0.10.38 ) servicetools? ( >=gnome-base/libglade-0.6 >=dev-libs/libxml-1.8 ) >=dev-libs/popt-1.6 >=media-libs/tiff-3.4 >=media-libs/libpng-1.0.9 gtk? ( x11-libs/gtk+:2 )
+
+0
+http://files.canon-europe.com/files/soft40869/software/cnijfilter-source-3.50-1.tar.gz scanner? ( http://gdlp01.c-wss.com/gds/3/0100003313/01/scangearmp-source-1.70-1.tar.gz )
+mirror
+http://software.canon-europe.com/software/0040869.asp
+UNKNOWN
+Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series).
+-* ~x86 ~amd64
+autotools ecnij eutils flag-o-matic libtool multilib multiprocessing toolchain-funcs user
+net scanner symlink mx360 mx410 mx420 mx880 ix6500 +debug gtk nls servicetools usb
+scanner? ( net ) servicetools? ( gtk ) nls? ( gtk )
+
+
+4
+
+compile configure install postinst prepare setup unpack
+
+
+
+
+

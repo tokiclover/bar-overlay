@@ -1,0 +1,22 @@
+net-libs/webkit-efl x11-libs/elementary[X] dev-libs/e_dbus || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
+net-libs/webkit-efl x11-libs/elementary[X] dev-libs/e_dbus nls? ( sys-devel/gettext )
+0
+
+
+http://www.enlightenment.org/
+BSD
+Web browser based EFL Webkit.
+
+autotools enlightenment eutils libtool multilib multiprocessing subversion toolchain-funcs user
+nls nls doc
+
+
+
+2
+
+compile configure install preinst prepare unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+
+minimal? ( !x11-themes/smplayer-themes ) || ( media-video/smplayer media-video/smplayer2 )
+0
+http://www.deviantart.com/download/205536297/awoken_1_9_for_smplayer_by_reikonya-d3edctl.zip -> awoken-theme-smplayer-2.1.zip
+binchecks strip
+http://reikonya.deviantart.com/
+GPL-3
+AwOken icon theme ported to SMPlyer.
+amd64 x86
+eutils multilib toolchain-funcs user
+-minimal
+
+
+
+2
+
+install
+
+
+
+
+

@@ -1,0 +1,22 @@
+dev-libs/expat dev-libs/libffi doc? ( app-doc/doxygen ) || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/git
+dev-libs/expat dev-libs/libffi
+0
+
+
+http://wayland.freedesktop.org/
+CCPL-Attribution-ShareAlike-3.0 MIT
+Wayland protocol libraries
+
+autotools git-2 libtool multilib multiprocessing toolchain-funcs
+doc +wayland-scanner static-libs
+
+
+
+4
+
+configure prepare unpack
+
+
+
+
+

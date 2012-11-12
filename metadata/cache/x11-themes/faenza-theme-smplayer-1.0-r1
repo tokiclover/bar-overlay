@@ -1,0 +1,22 @@
+app-arch/unzip
+minimal? ( !x11-themes/smplayer-themes ) || ( media-video/smplayer media-video/smplayer2 )
+0
+http://www.deviantart.com/download/244895655/faenza_smplayer_1_0_r1_by_reikonya-d41syp3.zip -> faenza-theme-smplayer-1.0.zip
+binchecks strip
+http://reikonya.deviantart.com/
+GPL-3
+Faenza icon theme ported to SMPlyer.
+amd64 x86
+eutils multilib toolchain-funcs user
+-minimal
+
+
+
+2
+
+install
+
+
+
+
+

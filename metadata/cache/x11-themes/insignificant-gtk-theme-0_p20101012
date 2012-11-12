@@ -1,0 +1,22 @@
+app-arch/unzip
+x11-themes/gtk-engines-murrine !minimal? ( x11-themes/gnome-themes )
+0
+http://www.deviantart.com/download/182490780/insignificant_by_jurialmunkey-d30nesc.zip -> insignificant-gtk-theme-0_p20101012.zip
+binchecks strip
+https://jurialmunkey.deviantart.com/art/Insignificant-182490780
+CC BY-NC-SA-3.0
+Nice gtk2 theme by jurialmunkey
+amd64 x86
+eutils multilib toolchain-funcs user
+minimal
+
+
+
+2
+
+install
+
+
+
+
+

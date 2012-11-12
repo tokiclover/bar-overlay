@@ -1,0 +1,22 @@
+>=dev-lang/perl-5.8 dev-vcs/git nls? ( sys-devel/gettext ) dev-vcs/git
+dev-perl/gtk2-perl dbus? ( dev-perl/Net-DBus ) libnotify? ( dev-perl/Gtk2-Notify ) titlebar? ( dev-perl/gnome2-wnck ) trayicon? ( dev-perl/gtk2-trayicon ) gstreamer? ( dev-perl/GStreamer dev-perl/GStreamer-Interfaces media-libs/gst-plugins-base alsa? ( media-plugins/gst-plugins-alsa ) jack? ( media-plugins/gst-plugins-jack ) oss? ( media-plugins/gst-plugins-oss ) oss4? ( media-plugins/gst-plugins-oss4 ) pulseaudio? ( media-plugins/gst-plugins-pulse ) a52? ( media-plugins/gst-plugins-a52dec ) mac? ( media-libs/gst-plugins-good ) cdparanoia? ( media-plugins/gst-plugins-cdparanoia ) dts? ( media-plugins/gst-plugins-dts ) faad? ( media-plugins/gst-plugins-faad ) flac? ( media-plugins/gst-plugins-flac media-libs/gst-plugins-good ) lame? ( media-plugins/gst-plugins-lame ) gsm? ( media-plugins/gst-plugins-gsm ) mad? ( media-plugins/gst-plugins-mad ) modplug? ( media-plugins/gst-plugins-modplug ) musepack? ( media-plugins/gst-plugins-musepack ) ogg? ( media-plugins/gst-plugins-ogg ) sid? ( media-plugins/gst-plugins-sidplay ) vorbis? ( media-plugins/gst-plugins-vorbis ) wavpack? ( media-plugins/gst-plugins-wavpack ) ) mplayer? ( || ( media-video/mplayer[a52?,alsa?,dts?,faad?,jack?,mad?,oss?,pulseaudio?,twolame?,vorbis?] media-video/mplayer2[a52?,alsa?,dts?,faad?,jack?,mad?,oss?,pulseaudio?,vorbis?] ) ) !gstreamer? ( !mplayer? ( || ( media-sound/mpg321[alsa?] media-sound/mpg123[alsa?,jack?,oss?,pulseaudio?] ) ogg? ( media-sound/vorbis-tools[flac?,nls?,ogg123] ) flac? ( media-sound/flac123 ) vorbis? ( media-sound/vorbis-tools[flac?,nls?,ogg123] ) ) ) webkit? ( dev-perl/perl-WebKit-GTk )
+0
+
+
+http://squentin.free.fr/gmusicbrowser/gmusicbrowser.html
+GPL-2
+An open-source jukebox for large collections of mp3/ogg/flac files
+
+fdo-mime git-2
+a52 aac +alsa cdparanoia +dbus doc dts +faad +flac +gstreamer jack +lame +mac mad modplug +musepack mplayer +nls libnotify +ogg oss oss4 pulseaudio gsm sid titlebar trayicon +twolame vorbis +wavpack webkit linguas_cs linguas_de linguas_es linguas_fr linguas_hu linguas_it linguas_ko linguas_nl linguas_pl linguas_pt linguas_pt_BR linguas_ru linguas_sv linguas_zh_CN
+
+
+
+4
+
+install postinst postrm prepare unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+app-arch/unzip
+minimal? ( !x11-themes/gnome-theme ) x11-themes/gtk-engines-murrine icon? ( x11-thems/leopard-icon-theme )
+0
+http://gnome-look.org/CONTENT/content-files/147309-gnome-leopard.zip -> leopard-gtk-theme-4.0.zip
+
+http://badimnk.deviantart.com/
+GPL-3
+A very good lepard gtk port theme
+amd64 x86
+eutils multilib toolchain-funcs user
+icon -minimal
+
+
+
+2
+
+install prepare
+
+
+
+
+

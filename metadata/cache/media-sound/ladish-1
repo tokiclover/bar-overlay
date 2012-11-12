@@ -1,0 +1,22 @@
+media-sound/jack-audio-connection-kit[alsa,dbus] gtk? ( dev-libs/boost dev-libs/expat >=x11-libs/gtk+-2.20.0:2 >=x11-libs/flowcanvas-0.6.4 >=dev-libs/glib-2.20.3 >=dev-libs/dbus-glib-0.74 ) >=gnome-base/libglade-2.6.2 dev-lang/python doc? ( app-doc/doxygen ) virtual/pkgconfig dev-util/intltool dev-libs/ossp-uuid
+media-sound/jack-audio-connection-kit[alsa,dbus] gtk? ( dev-libs/boost dev-libs/expat >=x11-libs/gtk+-2.20.0:2 >=x11-libs/flowcanvas-0.6.4 >=dev-libs/glib-2.20.3 >=dev-libs/dbus-glib-0.74 ) >=gnome-base/libglade-2.6.2 dev-lang/python
+0
+http://ladish.org/download/ladish-1.tar.bz2
+
+http://ladish.org/
+GPL-2
+LADI Session Handler - a session management system for JACK applications
+~amd64 ~x86
+eutils multilib toolchain-funcs user
+debug doc gtk lash nls python linguas_de linguas_fr linguas_ru
+python? ( lash )
+
+
+4
+
+compile configure install prepare
+
+
+
+
+

@@ -1,0 +1,22 @@
+>=x11-wm/enlightenment-9999[e_modules_everything] || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
+>=x11-wm/enlightenment-9999[e_modules_everything] nls? ( sys-devel/gettext )
+0
+
+
+http://www.enlightenment.org/
+BSD
+everything-aspell module for enlightenment - E17
+
+autotools enlightenment eutils libtool multilib multiprocessing subversion toolchain-funcs user
+static-libs nls doc
+
+
+
+2
+
+compile configure install preinst prepare unpack
+
+
+
+
+

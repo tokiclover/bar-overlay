@@ -1,0 +1,22 @@
+dev-python/python-distutils-extra =dev-lang/python-2.7* dev-vcs/git
+>=dev-python/enum-0.4.4 >=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus] >=x11-libs/vte-0.30.1[introspection] lash? ( media-sound/ladish ) =dev-lang/python-2.7*
+0
+
+
+https://launchpad.net/laditools
+GPL-3
+Control and monitor a LADI system the easy way
+
+distutils eutils git-2 multilib python toolchain-funcs user
+lash
+
+
+
+4
+
+compile install postinst postrm prepare setup unpack
+
+
+
+
+

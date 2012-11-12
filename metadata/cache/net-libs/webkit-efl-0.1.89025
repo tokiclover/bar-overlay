@@ -1,0 +1,22 @@
+>=sys-devel/flex-2.5.33 sys-devel/bison dev-util/gperf dev-lang/python dev-lang/perl >=dev-util/cmake-2.8.4 userland_GNU? ( >=sys-apps/findutils-4.4.0 )
+media-libs/edje media-libs/evas[fontconfig] dev-libs/ecore[X,glib?] dev-libs/libxslt virtual/jpeg:0 media-libs/libpng x11-libs/cairo gstreamer? ( media-libs/gstreamer:0.10 >=media-libs/gst-plugins-base-0.10.25:0.10 dev-libs/glib ) glib? ( dev-libs/glib net-libs/libsoup ) !glib? ( net-misc/curl ) >=dev-db/sqlite-3 !curl? ( net-libs/libsoup )
+0
+http://packages.profusion.mobi/webkit-efl/webkit-efl-svn-r89025.tar.bz2
+
+http://trac.webkit.org/wiki/EFLWebKit
+LGPL-2 LGPL-2.1 BSD
+Open source web browser engine--EFL port from gtk library
+
+base cmake-utils eutils flag-o-matic multilib toolchain-funcs user
+curl glib gstreamer plugins static-libs xhtml
+
+
+
+3
+
+compile configure install prepare test unpack
+
+
+
+
+

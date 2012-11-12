@@ -1,0 +1,22 @@
+kernel_linux? ( virtual/modutils ) sys-apps/sed kernel_linux? ( virtual/linux-sources ) dev-vcs/git
+kernel_linux? ( virtual/modutils )
+0
+
+
+http://linux-hybrid-graphics.blogspot.com/
+GPL-3
+A module for Linux Hybrid Switchable graphics based on ACPI call as its name imply.
+
+eutils git-2 linux-info linux-mod multilib toolchain-funcs user versionator
+examples nvidia-hybrid-windump kernel_linux
+
+
+
+2
+
+compile install postinst postrm preinst prepare setup unpack
+
+
+
+
+
