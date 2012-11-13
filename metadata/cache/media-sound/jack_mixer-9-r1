@@ -1,0 +1,22 @@
+dev-python/fpconst dev-python/pygtk >=dev-python/pyxml-0.8.4 media-sound/jack-audio-connection-kit >=sys-apps/sed-4 || ( =dev-lang/python-2.7* =dev-lang/python-2.6* =dev-lang/python-2.5* =dev-lang/python-2.4* )
+dev-python/fpconst dev-python/pygtk >=dev-python/pyxml-0.8.4 media-sound/jack-audio-connection-kit gconf? ( dev-python/gconf-python:2 ) lash? ( || ( media-sound/ladish[python] media-sound/lash[python] >=media-libs/pylash-3_pre ) ) phat? ( media-libs/pyphat ) || ( =dev-lang/python-2.7* =dev-lang/python-2.6* =dev-lang/python-2.5* =dev-lang/python-2.4* )
+0
+http://download.gna.org/jackmixer/jack_mixer-9.tar.gz
+mirror
+http://home.gna.org/jackmixer/
+GPL-2
+JACK audio mixer using GTK2 interface.
+~amd64 ~x86
+eutils fdo-mime gnome.org gnome2 gnome2-utils libtool multilib python toolchain-funcs user versionator
+gconf lash phat debug
+
+
+
+3
+
+compile configure install postinst postrm preinst prepare setup unpack
+
+
+
+
+

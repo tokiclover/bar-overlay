@@ -1,0 +1,22 @@
+dev-libs/expat dev-libs/glib:2 gnome-base/libglade:2.0 media-sound/fluidsynth >=media-sound/jack-audio-connection-kit-0.105.0 sci-libs/fftw:3.0 x11-libs/gtk+:2 lash? ( || ( media-sound/ladish media-sound/lash ) ) lv2? ( >=media-libs/lv2-1.0.0 ) virtual/pkgconfig
+dev-libs/expat dev-libs/glib:2 gnome-base/libglade:2.0 media-sound/fluidsynth >=media-sound/jack-audio-connection-kit-0.105.0 sci-libs/fftw:3.0 x11-libs/gtk+:2 lash? ( || ( media-sound/ladish media-sound/lash ) ) lv2? ( >=media-libs/lv2-1.0.0 )
+0
+mirror://sourceforge/calf/calf-0.0.19.tar.gz
+mirror
+http://calf.sf.net/
+LGPL-2.1
+A set of open source instruments and effects for digital audio workstations
+~amd64 ~x86
+autotools autotools-utils eutils libtool multilib multiprocessing toolchain-funcs user
+lash lv2 sse static-libs
+
+
+
+4
+
+compile configure install prepare test
+
+
+
+
+
