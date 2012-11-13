@@ -1,0 +1,25 @@
+diff -ru calf-0.0.18.2/src/osctlnet.cpp calf-0.0.18.2.patched/src/osctlnet.cpp
+--- calf-0.0.18.2/src/osctlnet.cpp	2009-01-21 20:37:37.000000000 +0100
++++ calf-0.0.18.2.patched/src/osctlnet.cpp	2009-12-30 09:40:34.000000000 +0100
+@@ -23,7 +23,8 @@
+ #include <assert.h>
+ #include <arpa/inet.h>
+ #include <sys/socket.h>
+-#include <stdlib.h>
++#include <cstdio>
++#include <cstdlib>
+ #include <sstream>
+ 
+ using namespace osctl;
+Only in calf-0.0.18.2/src: osctlnet.loT
+diff -ru calf-0.0.18.2/src/utils.cpp calf-0.0.18.2.patched/src/utils.cpp
+--- calf-0.0.18.2/src/utils.cpp	2009-01-21 00:12:21.000000000 +0100
++++ calf-0.0.18.2.patched/src/utils.cpp	2009-12-30 09:42:32.000000000 +0100
+@@ -23,6 +23,7 @@
+ #include <calf/osctl.h>
+ #include <calf/utils.h>
+ #include <sstream>
++#include <cstdio>
+ 
+ using namespace std;
+ using namespace osctl;
