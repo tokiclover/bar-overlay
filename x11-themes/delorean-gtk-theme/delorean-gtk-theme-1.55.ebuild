@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/delorean-gtk-theme/delorean-gtk-theme-1.55.ebuild,v 1.2 2012/11/07 11:13:13 -tclover Exp $
+# $Header: bar-overlay/x11-themes/delorean-gtk-theme/delorean-gtk-theme-1.55.ebuild,v 1.2 2012/11/15 01:40:40 -tclover Exp $
 
 EAPI=2
 
@@ -27,10 +27,13 @@ RDEPEND="chromium? ( www-client/chromium )
 	metacity? ( x11-wm/metacity )
 	!minimal? ( x11-themes/gnome-themes )
 	gnome? ( gnome-base/gnome-shell )
-	gtk? ( x11-themes/gnome-themes-standard )
+	gtk? ( >=x11-themes/gnome-themes-standard-3.4 )
 	openbox? ( x11-wm/openbox )
 	thunderbird? ( || ( mail-client/thunderbird mail-client/thunderbird-bin ) )
-	xfwm4? ( xfce-base/xfwm4 )"
+	xfwm4? ( xfce-base/xfwm4 )
+	x11-themes/gtk-engines
+	>=x11-themes/gtk-engines-murrine-0.98.1.1
+	>=x11-themes/gtk-engines-equinox-1.50"
 
 DEPEND="app-arch/unzip"
 
