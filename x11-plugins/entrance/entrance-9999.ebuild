@@ -1,6 +1,6 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-plugins/entrance/entrance-9999.ebuild,v 1.1 2012/08/19 02:07:16 -tclover Exp $
+# $Header: bar/x11-plugins/entrance/entrance-9999.ebuild,v 1.1 2012/11/21 19:35:27 -tclover Exp $
 
 EAPI="2"
 
@@ -16,10 +16,10 @@ DEPEND=">=dev-libs/ecore-1.0
 	>=dev-libs/eina-1.0
 	>=media-libs/edje-1.0
 	>=media-libs/evas-1.0
-	>=x11-libs/elementary-0.5"
+	|| ( media-libs/elementary >=x11-libs/elementary-0.5 )"
 RDEPEND="virtual/pam
 	consolekit? ( sys-auth/consolekit )
-		grub2? ( sys-boot/grub:2 )"
+	grub2? ( sys-boot/grub:2 )"
 
 IUSE="consolekit grub2"
 
