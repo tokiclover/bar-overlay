@@ -1,4 +1,4 @@
-|| ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool app-text/ghostscript-gpl >=net-print/cups-1.1.14 sys-libs/glibc nls? ( >=sys-devel/gettext-0.10.38 ) servicetools? ( >=gnome-base/libglade-0.6 >=dev-libs/libxml-1.8 ) app-emulation/emul-linux-x86-popt app-emulation/emul-linux-x86-compat app-emulation/emul-linux-x86-baselibs gtk? ( app-emulation/emul-linux-x86-gtklibs )
+|| ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool app-text/ghostscript-gpl >=net-print/cups-1.1.14 sys-libs/glibc servicetools? ( >=gnome-base/libglade-0.6 >=dev-libs/libxml-1.8 ) app-emulation/emul-linux-x86-popt app-emulation/emul-linux-x86-compat app-emulation/emul-linux-x86-baselibs gtk? ( app-emulation/emul-linux-x86-gtklibs )
 
 0
 http://gdlp01.c-wss.com/gds/2/0100001192/01/cnijfilter-common-2.90-1.tar.gz

@@ -1,4 +1,4 @@
-scanner? ( >=media-gfx/gimp-2.0.0 media-gfx/sane-backends dev-libs/libusb:0 ) || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool app-text/ghostscript-gpl >=net-print/cups-1.1.14 sys-libs/glibc nls? ( >=sys-devel/gettext-0.10.38 ) servicetools? ( >=gnome-base/libglade-0.6 >=dev-libs/libxml-1.8 ) >=dev-libs/popt-1.6 >=media-libs/tiff-3.4 >=media-libs/libpng-1.0.9 gtk? ( x11-libs/gtk+:2 )
+scanner? ( >=media-gfx/gimp-2.0.0 media-gfx/sane-backends dev-libs/libusb:0 ) || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool app-text/ghostscript-gpl >=net-print/cups-1.1.14 sys-libs/glibc servicetools? ( >=gnome-base/libglade-0.6 >=dev-libs/libxml-1.8 ) >=dev-libs/popt-1.6 >=media-libs/tiff-3.4 >=media-libs/libpng-1.0.9 gtk? ( x11-libs/gtk+:2 )
 
 0
 http://files.canon-europe.com/files/soft40245/software/cnijfilter-source-3.40-1.tar.gz scanner? ( http://gdlp01.c-wss.com/gds/3/0100003033/01/scangearmp-source-1.60-1.tar.gz )
