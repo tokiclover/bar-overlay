@@ -1,4 +1,4 @@
->=dev-libs/ecore-1.0 >=dev-libs/eet-1.4.0 >=dev-libs/eina-1.0 >=media-libs/edje-1.0 >=media-libs/evas-1.0 >=x11-libs/elementary-0.5 || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
+>=dev-libs/ecore-1.0 >=dev-libs/eet-1.4.0 >=dev-libs/eina-1.0 >=media-libs/edje-1.0 >=media-libs/evas-1.0 || ( media-libs/elementary >=x11-libs/elementary-0.5 ) || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
 virtual/pam consolekit? ( sys-auth/consolekit ) grub2? ( sys-boot/grub:2 ) nls? ( sys-devel/gettext )
 0
 

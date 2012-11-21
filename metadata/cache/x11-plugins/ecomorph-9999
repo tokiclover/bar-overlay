@@ -1,0 +1,22 @@
+>=media-libs/edje-0.5.0 >=x11-wm/enlightenment-0.17_alpha:0.17 dev-libs/libxml2 dev-libs/libxslt media-libs/mesa sys-apps/dbus dev-util/intltool virtual/pkgconfig sys-devel/libtool || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen ) >=dev-vcs/git-1.6
+>=media-libs/edje-0.5.0 >=x11-wm/enlightenment-0.17_alpha:0.17 dev-libs/libxml2 dev-libs/libxslt media-libs/mesa sys-apps/dbus x11-apps/mesa-progs x11-apps/xdpyinfo x11-wm/ecomp nls? ( sys-devel/gettext )
+0
+
+
+http://www.enlightenment.org/
+BSD
+Ecomorph is a compositing manager for e17
+
+autotools enlightenment eutils git libtool multilib multiprocessing subversion toolchain-funcs user
+static-libs nls doc
+
+
+
+2
+
+compile configure install postinst preinst prepare unpack
+
+
+
+
+
