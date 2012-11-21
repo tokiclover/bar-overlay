@@ -1,6 +1,6 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-plugins/ekbd/ekbd-9999.ebuild,v 1.1 2012/11/21 18:31:44 -tclover Exp $
+# $Header: bar/x11-plugins/ekbd/ekbd-9999.ebuild,v 1.1 2012/11/21 19:28:41 -tclover Exp $
 
 EAPI="2"
 
@@ -16,5 +16,5 @@ DEPEND=">=dev-libs/ecore-1.0
 	>=dev-libs/eina-1.0
 	>=media-libs/edje-1.0
 	>=media-libs/evas-1.0
-	>=x11-libs/elementary-0.5"
+	|| ( media-libs/elementary >=x11-libs/elementary-0.5 )"
 
