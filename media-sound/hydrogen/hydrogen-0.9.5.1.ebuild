@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/hydrogen/hydrogen-0.9.5.1.ebuild,v 2012/11/09 17:46:45 -tclover Exp $
+# $Header: bar/media-sound/hydrogen/hydrogen-0.9.5.1.ebuild,v 2012/11/23 09:53:01 -tclover Exp $
 
 EAPI=4
 
@@ -13,7 +13,8 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 LICENSE="GPL-2 ZLIB"
 SLOT="0"
 KEYWORDS="amd64 ppc ppc64 x86"
-IUSE="alsa +archive debug jack ladspa lash oss portaudio"
+IUSE="+alsa +archive debug +jack jacksession ladspa lash oss portaudio portmidi
+rubberband static"
 REQUIRED_USE="lash? ( alsa )"
 
 RDEPEND="x11-libs/qt-gui:4 x11-libs/qt-core:4
@@ -24,7 +25,10 @@ RDEPEND="x11-libs/qt-gui:4 x11-libs/qt-core:4
 	jack? ( media-sound/jack-audio-connection-kit )
 	ladspa? ( media-libs/liblrdf )
 	lash? ( || ( media-sound/ladish media-sound/lash ) )
-	portaudio? ( >=media-libs/portaudio-19_pre )"
+	portaudio? ( >=media-libs/portaudio-19_pre )
+	portmidi? ( media-libs/portmidi )
+	rubberband? ( media-libs/rubberband )"
+
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	dev-util/scons"
@@ -42,16 +46,20 @@ src_compile() {
 	use ladspa && append-flags $($(tc-getPKG_CONFIG) --cflags lrdf)
 
 	export QTDIR="/usr/$(get_libdir)"
-	local myconf='portmidi=0' #90614
 
+	local myconf
 	use alsa || myconf+=' alsa=0'
 	use archive && myconf+=' libarchive=1'
 	use debug || myconf+=' debug=0'
 	use jack || myconf+=' jack=0'
+	use jacksession && myconf+=' jackession=1'
 	use ladspa || myconf+=' lrdf=0'
 	use lash && myconf+=' lash=1'
 	use oss || myconf+=' oss=0'
 	use portaudio && myconf+=' portaudio=1'
+	use portmidi && myconf+=' portmidi=1'
+	use rubberband && myconf+=' rubberband=1'
+	use static && myconf+=' shared=0'
 
 	scons \
 		prefix=/usr \

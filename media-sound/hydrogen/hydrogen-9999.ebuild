@@ -1,73 +1,52 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/hydrogen/hydrogen-9999.ebuild,v 2012/11/09 17:46:51 -tclover Exp $
+# $Header: bar/media-sound/hydrogen/hydrogen-9999.ebuild,v 2012/11/24 01:08:24 -tclover Exp $
 
 EAPI=4
 
-inherit eutils multilib subversion
+inherit cmake-utils eutils multilib flag-o-matic toolchain-funcs subversion
 
-DESCRIPTION="Linux Drum Machine"
-HOMEPAGE="http://hydrogen.sourceforge.net/"
-
+DESCRIPTION="Advanced drum machine"
+HOMEPAGE="http://www.hydrogen-music.org"
 ESVN_REPO_URI="http://svn.assembla.com/svn/hydrogen/trunk"
 
-LICENSE="GPL-2"
+LICENSE="GPL-2 ZLIB"
 SLOT="0"
 KEYWORDS=""
-IUSE="alsa debug flac jack ladspa lash portaudio"
+IUSE="+alsa +archive debug doc +jack jacksession ladspa lash oss portaudio
+portmidi rubberband static"
 REQUIRED_USE="lash? ( alsa )"
 
-RDEPEND="x11-libs/qt-core:4 x11-libs/qt-gui:4
-	dev-libs/libxml2
-	media-libs/libsndfile
-	media-libs/audiofile
-	dev-libs/libtar
-	portaudio? ( >=media-libs/portaudio-18.1 )
+RDEPEND=">=x11-libs/qt-gui-4.3.0:4 >=x11-libs/qt-core-4.3.0:4
+	archive? ( app-arch/libarchive )
+	!archive? ( >=dev-libs/libtar-1.2.11-r3 )
+	doc? ( app-doc/doxygen )
+	>=media-libs/libsndfile-1.0.18
 	alsa? ( media-libs/alsa-lib )
 	jack? ( media-sound/jack-audio-connection-kit )
 	ladspa? ( media-libs/liblrdf )
 	lash? ( || ( media-sound/ladish media-sound/lash ) )
-	flac? ( media-libs/flac )"
+	portaudio? ( >=media-libs/portaudio-19_pre )
+	portmidi? ( media-libs/portmidi )
+	rubberband? ( media-libs/rubberband )"
 
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	virtual/pkgconfig"
 
-src_compile() {
-	# export qt4 related environ (copy 'n paste fromt qt4.eclass)
-	export QTDIR=/usr/$(get_libdir)
-	export QMAKE=/usr/bin/qmake
-	export QMAKE_CC=$(tc-getCC)
-	export QMAKE_CXX=$(tc-getCXX)
-	export QMAKE_LINK=$(tc-getCXX)
-	export QMAKE_CFLAGS_RELEASE="${CFLAGS}"
-	export QMAKE_CFLAGS_DEBUG="${CFLAGS}"
-	export QMAKE_CXXFLAGS_RELEASE="${CXXFLAGS}"
-	export QMAKE_CXXFLAGS_DEBUG="${CXXFLAGS}"
-	export QMAKE_LFLAGS_RELEASE="${LDFLAGS}"
-	export QMAKE_LFLAGS_DEBUG="${LDFLAGS}"
+DOCS=( AUTHORS ChangeLog DEVELOPERS README.txt )
 
-	local myconf="prefix=${ROOT}usr DESTDIR=${D}"
-	! use alsa; myconf="${myconf} alsa=$?"
-	! use debug; myconf="${myconf} debug=$?"
-	! use jack; myconf="${myconf} jack=$?"
-	! use ladspa; myconf="${myconf} lrdf=$?"
-	! use portaudio; myconf="${myconf} portaudio=$?"
-	! use lash; myconf="${myconf} lash=$?"
-	! use flac; myconf="${myconf} flac=$?"
-
-	tc-export CC CXX
-	myconf="${myconf} CC=${CC} CXX=${CXX}"
-	mkdir -p "${D}"
-	einfo "${myconf}"
-	scons CUSTOMCCFLAGS="${CFLAGS}" CUSTOMCXXFLAGS="${CXXFLAGS}" \
-		MAKEOPTS="${MAKEOPTS}" \
-		${myconf} || die "scons failed"
-}
-
-src_install() {
-	scons install prefix="${ROOT}usr" DESTDIR="${D}" || die "scons install failed"
-
-	# install tools
-	for i in hydrogenSynth hydrogenPlayer; do
-		dobin extra/$i/$i
-	done
+src_configure() {
+	local MYCMAKEARGS="\
+		$(cmake-utils_use_want alsa ALSA) \
+		$(cmake-utils_use_want debug DEBUG) \
+		$(cmake-utils_use_want jack JACK) \
+		$(cmake-utils_use_want jacksession JACKSESSION) \
+		$(cmake-utils_use_no ladspa LRDF) \
+		$(cmake-utils_use_want lash LASH) \
+		$(cmake-utils_use_want portaudio PORTAUDIO) \
+		$(cmake-utils_use_want portmidi PORTMIDI) \
+		$(cmake-utils_use_want rubberband RUBBERBAND)
+		$(cmake-utils_use_no static SHARED)"
+	
+	cmake-utils_src_configure
 }
