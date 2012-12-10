@@ -1,5 +1,5 @@
->=dev-libs/ecore-9999 || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
->=dev-libs/ecore-9999 nls? ( sys-devel/gettext )
+>=dev-libs/ecore-1.7.1 || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
+>=dev-libs/ecore-1.7.1 nls? ( sys-devel/gettext )
 0
 
 

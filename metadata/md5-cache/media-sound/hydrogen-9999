@@ -1,12 +1,12 @@
-DEFINED_PHASES=compile install preinst prepare unpack
-DEPEND=x11-libs/qt-core:4 x11-libs/qt-gui:4 dev-libs/libxml2 media-libs/libsndfile media-libs/audiofile dev-libs/libtar portaudio? ( >=media-libs/portaudio-18.1 ) alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) flac? ( media-libs/flac ) || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
-DESCRIPTION=Linux Drum Machine
+DEFINED_PHASES=compile configure install preinst prepare test unpack
+DEPEND=>=x11-libs/qt-gui-4.3.0:4 >=x11-libs/qt-core-4.3.0:4 archive? ( app-arch/libarchive ) !archive? ( >=dev-libs/libtar-1.2.11-r3 ) doc? ( app-doc/doxygen ) >=media-libs/libsndfile-1.0.18 alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) portaudio? ( >=media-libs/portaudio-19_pre ) portmidi? ( media-libs/portmidi ) rubberband? ( media-libs/rubberband ) virtual/pkgconfig >=dev-util/cmake-2.8.4 userland_GNU? ( >=sys-apps/findutils-4.4.0 ) || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
+DESCRIPTION=Advanced drum machine
 EAPI=4
-HOMEPAGE=http://hydrogen.sourceforge.net/
-IUSE=alsa debug flac jack ladspa lash portaudio
-LICENSE=GPL-2
-RDEPEND=x11-libs/qt-core:4 x11-libs/qt-gui:4 dev-libs/libxml2 media-libs/libsndfile media-libs/audiofile dev-libs/libtar portaudio? ( >=media-libs/portaudio-18.1 ) alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) flac? ( media-libs/flac )
+HOMEPAGE=http://www.hydrogen-music.org
+IUSE=+alsa +archive debug doc +jack jacksession ladspa lash oss portaudio portmidi rubberband static
+LICENSE=GPL-2 ZLIB
+RDEPEND=>=x11-libs/qt-gui-4.3.0:4 >=x11-libs/qt-core-4.3.0:4 archive? ( app-arch/libarchive ) !archive? ( >=dev-libs/libtar-1.2.11-r3 ) doc? ( app-doc/doxygen ) >=media-libs/libsndfile-1.0.18 alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) portaudio? ( >=media-libs/portaudio-19_pre ) portmidi? ( media-libs/portmidi ) rubberband? ( media-libs/rubberband )
 REQUIRED_USE=lash? ( alsa )
 SLOT=0
-_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	multilib	9aa8a023e062fca0ba79362d9d0cc488	subversion	877d251a42b69543c01f6a36b4707b3b	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=2f948e8db3407166bbe57e1cd365174b
+_eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cmake-utils	341ea44ed97a940b6ff74283ed5b94d7	eutils	d40dc948067bd3db1c8ebf7d51897313	flag-o-matic	1a0b9986e891584bbc9f18928d126299	multilib	9aa8a023e062fca0ba79362d9d0cc488	subversion	877d251a42b69543c01f6a36b4707b3b	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=d920abae408d961aafca44b6794c11b5

@@ -1,14 +1,14 @@
 DEFINED_PHASES=compile install prepare
-DEPEND=x11-libs/qt-gui:4 x11-libs/qt-core:4 archive? ( app-arch/libarchive ) !archive? ( >=dev-libs/libtar-1.2.11-r3 ) >=media-libs/libsndfile-1.0.18 alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) portaudio? ( >=media-libs/portaudio-19_pre ) virtual/pkgconfig dev-util/scons
+DEPEND=x11-libs/qt-gui:4 x11-libs/qt-core:4 archive? ( app-arch/libarchive ) !archive? ( >=dev-libs/libtar-1.2.11-r3 ) >=media-libs/libsndfile-1.0.18 alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) portaudio? ( >=media-libs/portaudio-19_pre ) portmidi? ( media-libs/portmidi ) rubberband? ( media-libs/rubberband ) virtual/pkgconfig dev-util/scons
 DESCRIPTION=Advanced drum machine
 EAPI=4
 HOMEPAGE=http://www.hydrogen-music.org
-IUSE=alsa +archive debug jack ladspa lash oss portaudio
+IUSE=+alsa +archive debug +jack jacksession ladspa lash oss portaudio portmidi rubberband static
 KEYWORDS=amd64 ppc ppc64 x86
 LICENSE=GPL-2 ZLIB
-RDEPEND=x11-libs/qt-gui:4 x11-libs/qt-core:4 archive? ( app-arch/libarchive ) !archive? ( >=dev-libs/libtar-1.2.11-r3 ) >=media-libs/libsndfile-1.0.18 alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) portaudio? ( >=media-libs/portaudio-19_pre )
+RDEPEND=x11-libs/qt-gui:4 x11-libs/qt-core:4 archive? ( app-arch/libarchive ) !archive? ( >=dev-libs/libtar-1.2.11-r3 ) >=media-libs/libsndfile-1.0.18 alsa? ( media-libs/alsa-lib ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( media-libs/liblrdf ) lash? ( || ( media-sound/ladish media-sound/lash ) ) portaudio? ( >=media-libs/portaudio-19_pre ) portmidi? ( media-libs/portmidi ) rubberband? ( media-libs/rubberband )
 REQUIRED_USE=lash? ( alsa )
 SLOT=0
 SRC_URI=mirror://sourceforge/hydrogen/hydrogen-0.9.5.1.tar.gz
-_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	flag-o-matic	e5bc4d49fb1a376c2ac3a203b3a4dc8a	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=7126467ed84db56873600ed64c03c67a
+_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	flag-o-matic	1a0b9986e891584bbc9f18928d126299	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=8552910292b60221d6bbf38cb82dc0f2

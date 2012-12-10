@@ -7,5 +7,5 @@ IUSE=alsa dbus debug examples jack ladspa lash portaudio pulseaudio readline snd
 LICENSE=LGPL-2
 RDEPEND=>=dev-libs/glib-2.6.5:2 alsa? ( media-libs/alsa-lib lash? ( || ( >=media-sound/ladish-1 >=media-sound/lash-0.5 ) ) ) dbus? ( >=sys-apps/dbus-1.0.0 ) jack? ( media-sound/jack-audio-connection-kit ) ladspa? ( >=media-libs/ladspa-sdk-1.12 >=media-libs/ladspa-cmt-1.15 ) pulseaudio? ( >=media-sound/pulseaudio-0.9.8 ) portaudio? ( >=media-libs/portaudio-19_pre ) readline? ( sys-libs/readline ) sndfile? ( >=media-libs/libsndfile-1.0.18 )
 SLOT=0
-_eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cmake-utils	d9d351169c1d554e8f47f1a19f17becd	eutils	d40dc948067bd3db1c8ebf7d51897313	flag-o-matic	e5bc4d49fb1a376c2ac3a203b3a4dc8a	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cmake-utils	341ea44ed97a940b6ff74283ed5b94d7	eutils	d40dc948067bd3db1c8ebf7d51897313	flag-o-matic	1a0b9986e891584bbc9f18928d126299	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=e16d0e167bec1e8b57492019d0a9bec8
