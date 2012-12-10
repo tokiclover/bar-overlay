@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/x11-plugins/e_modules/e_modules-9999.ebuild,v 1.6 2012/11/21 18:59:40 -tclover Exp $
+# $Header: bar/x11-plugins/e_modules/e_modules-9999.ebuild,v 1.6 2012/12/10 11:03:18 -tclover Exp $
 
 EAPI=2
 
@@ -14,7 +14,7 @@ DESCRIPTION="Ecomorph is a compositing manager for e17"
 IUSE="static-libs"
 
 CDEPEND=">=media-libs/edje-0.5.0
-	>=x11-wm/enlightenment-0.17_alpha:0.17
+	>=x11-wm/enlightenment-0.17_alpha1
 	dev-libs/libxml2
 	dev-libs/libxslt
 	media-libs/mesa
