@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-plugins/gst-plugins-oss/gst-plugins-oss-0.10.28.ebuild,v 1.7 2011/07/25 18:07:09 xarthisius Exp $
 
+EAPI=4
+
 inherit gst-plugins-good
 
 DESCRIPTION="GStreamer plugin for OSS (Open Sound System) support"
