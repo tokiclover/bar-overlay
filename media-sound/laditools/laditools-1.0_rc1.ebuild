@@ -1,12 +1,12 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/laditools/laditools-1.0_rc2.ebuild,v 1.0 2012/11/08 12:17:33 -tclover Exp $
+# $Header: bar-overlay/media-sound/laditools/laditools-1.0_rc2.ebuild,v 1.0 2012/12/10 14:40:05 -tclover Exp $
 
 EAPI="4"
 
-inherit eutils distutils
+PYTHON_COMPAT="python2_7"
 
-PYTHON_DEPEND="2:2.7"
+inherit eutils distutils
 
 DESCRIPTION="LADITools is a set of tools to improve desktop integration and user workflow of Linux audio systems"
 HOMEPAGE="http://www.marcochapeau.org/software/laditools"

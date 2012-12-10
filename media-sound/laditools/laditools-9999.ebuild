@@ -1,10 +1,10 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/laditools/laditools-9999.ebuild,v 1.0 2012/11/08 12:17:37 -tclover Exp $
+# $Header: bar-overlay/media-sound/laditools/laditools-9999.ebuild,v 1.0 2012/12/10 14:40:09 -tclover Exp $
 
 EAPI="4"
 
-PYTHON_DEPEND="2:2.7"
+PYTHON_COMPAT="python2_7"
 
 inherit eutils distutils git-2
 
