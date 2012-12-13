@@ -1,0 +1,22 @@
+dev-libs/libxslt dev-libs/libxml2 odf? ( app-text/docbook2odf ) optimization? ( || ( media-gfx/pngcrush media-gfx/pngnq ) ) pdf? ( virtual/latex-base )
+nls? ( sys-devel/gettext ) !standalone? ( >=media-gfx/gimp-2.6 )
+2
+mirror://gimp/help/gimp-help-2.8.0.tar.bz2
+
+http://docs.gimp.org/
+FDL-1.2
+GNU Image Manipulation Program help files
+~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd
+autotools autotools-utils eutils libtool multilib multiprocessing toolchain-funcs user
+odf optimization nls pdf standalone linguas_ca linguas_da linguas_de linguas_el linguas_en_GB linguas_es linguas_fi linguas_fr linguas_hr linguas_it linguas_ja linguas_ko linguas_lt linguas_nl linguas_nn linguas_pl linguas_ru linguas_sl linguas_sv linguas_zh_CN
+
+
+
+4
+
+compile configure install prepare test
+
+
+
+
+
