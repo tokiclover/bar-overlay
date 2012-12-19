@@ -34,7 +34,7 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
-bfq_src=${okv}-bfq-v5.patch.bz2
+bfq_src=${okv}-bfq-v5-r1.patch.bz2
 bfs_src=${okv}-sched-bfs-416.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 ck_src=${okv}-ck1-broken-out.tar.bz2
@@ -61,7 +61,6 @@ src_unpack() {
 	git-2_src_unpack
 	if use aufs; then
 		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
-		unset EGIT_COMMIT
 		unset EGIT_COMMIT
 		export EGIT_NONBARE=yes
 		export EGIT_REPO_URI=${EGIT_REPO_AUFS}

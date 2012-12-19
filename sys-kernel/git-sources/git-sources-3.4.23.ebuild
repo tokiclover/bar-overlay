@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.11.ebuild,v 1.4 2012/11/05 14:38:04 -tclover Exp $
+# $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.4.11.ebuild,v 1.4 2012/12/18 19:17:39 -tclover Exp $
 
 EAPI=4
 
@@ -34,7 +34,7 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
-bfq_src=${okv}-bfq-v5.patch.bz2
+bfq_src=${okv}-bfq-v5-r1.patch.bz2
 bfs_src=${okv}-sched-bfs-424.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 bld_uri=https://bld.googlecode.com/files
@@ -49,7 +49,7 @@ SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
 	bld? ( ${bld_uri}/${bld_src} ) uksm? ( ${uksm_uri}/${uksm_src} )
 "
-unset bfq_uri bfs_uri bfs_vrs bld_uri ck_uri uksm_uri
+unset bfq_uri bfs_uri bld_uri ck_uri uksm_uri
 
 K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
 experimental nature. If you have any issues, try disabling a few USE flags
@@ -64,7 +64,6 @@ src_unpack() {
 	git-2_src_unpack
 	if use aufs; then
 		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
-		unset EGIT_COMMIT
 		unset EGIT_COMMIT
 		export EGIT_NONBARE=yes
 		export EGIT_REPO_URI=${EGIT_REPO_AUFS}
