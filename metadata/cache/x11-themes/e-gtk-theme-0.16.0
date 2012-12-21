@@ -1,0 +1,22 @@
+
+x11-wm/enlightenment !gnome? ( x11-libs/gtk+:2 ) gnome? ( x11-wm/metacity ) gtk? ( x11-themes/gnome-themes-standard ) !minimal? ( x11-themes/gnome-themes ) openbox? ( x11-wm/openbox:3 )
+0
+https://github.com/tokiclover/e-gtk-theme/tarball/0.16.0 -> e-gtk-theme-0.16.0.tar.gz
+
+https://github.com/tokiclover/e-gtk-theme
+
+a gtk theme to match enlightenment DR17 default theme
+
+eutils multilib toolchain-funcs user
+gnome gtk minimal openbox
+gtk? ( gnome )
+
+
+4
+
+install unpack
+
+
+
+
+
