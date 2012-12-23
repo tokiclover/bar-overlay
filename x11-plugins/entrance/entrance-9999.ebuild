@@ -1,8 +1,8 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/x11-plugins/entrance/entrance-9999.ebuild,v 1.1 2012/11/21 19:35:27 -tclover Exp $
+# $Header: bar/x11-plugins/entrance/entrance-9999.ebuild,v 1.1 2012/12/23 12:02:10 -tclover Exp $
 
-EAPI="2"
+EAPI=4
 
 ESVN_SUB_PROJECT="PROTO"
 inherit enlightenment
