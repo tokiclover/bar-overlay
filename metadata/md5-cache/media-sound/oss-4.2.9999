@@ -8,5 +8,5 @@ LICENSE=GPL-2
 RDEPEND=sys-apps/gawk x11-libs/gtk+:2 >=sys-kernel/linux-headers-2.6.11 !media-sound/oss-devel
 REQUIRED_USE=oss_cards_midiloop? ( midi ) oss_cards_midimix? ( midi )
 SLOT=0
-_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	flag-o-matic	1a0b9986e891584bbc9f18928d126299	libtool	2b273eea1976cfaed3449345d94331ac	mercurial	add64e64d758a9618d46a08a95f77483	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	flag-o-matic	61ad55e732e494378165e7dcd4744b91	libtool	2b273eea1976cfaed3449345d94331ac	mercurial	add64e64d758a9618d46a08a95f77483	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=7e0a70fe74d44c4c516d1116edf26c65
