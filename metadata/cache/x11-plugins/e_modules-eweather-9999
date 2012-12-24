@@ -1,5 +1,5 @@
-x11-wm/enlightenment:0.17 >=net-libs/libeweather-9999 >=media-libs/edje-0.5.0 dev-vcs/subversion net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
-x11-wm/enlightenment:0.17 >=net-libs/libeweather-9999 >=media-libs/edje-0.5.0 nls? ( sys-devel/gettext )
+x11-wm/enlightenment:0.17 >=net-libs/libeweather-9999 >=media-libs/edje-0.5.0 || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool doc? ( app-doc/doxygen )
+nls? ( sys-devel/gettext )
 0
 
 
@@ -12,9 +12,9 @@ nls doc
 
 
 
-1
+4
 
-compile install preinst unpack
+compile configure install preinst prepare unpack
 
 
 
