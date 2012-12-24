@@ -12,7 +12,7 @@ consolekit grub2 nls doc
 
 
 
-2
+4
 
 compile configure install postinst preinst prepare unpack
 
