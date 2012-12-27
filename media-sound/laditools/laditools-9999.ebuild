@@ -20,7 +20,9 @@ IUSE="lash"
 DEPEND="dev-python/python-distutils-extra"
 RDEPEND=">=dev-python/enum-0.4.4
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]
-	>=x11-libs/vte-0.30.1[introspection]
+	dev-python/pygobject:3
+    x11-libs/gtk+:3[introspection]
+	x11-libs/vte:2.90[introspection]
 	lash? ( media-sound/ladish )"
 
 DOCS="README NEWS"
