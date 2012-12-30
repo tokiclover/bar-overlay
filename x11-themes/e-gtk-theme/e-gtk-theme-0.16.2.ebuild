@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/x11-themes/e-gtk-theme/e-gtk-theme-0.16.0.ebuild,v 1.1 2012/12/24 00:07:30 -tclover Exp $
+# $Header: bar/x11-themes/e-gtk-theme/e-gtk-theme-0.16.0.ebuild,v 1.1 2012/12/30 14:23:22 -tclover Exp $
 
 EAPI=4
 
@@ -10,32 +10,31 @@ DESCRIPTION="a gtk theme to match enlightenment DR17 default theme"
 HOMEPAGE="https://github.com/tokiclover/e-gtk-theme"
 SRC_URI="https://github.com/tokiclover/${PN}/tarball/${PVR} -> ${P}.tar.gz"
 
-LICENSE="GPL-2"
+LICENSE="BSD-2"
 KEYWORDS="~amd64 ~x86"
 SLOT=0
 IUSE="gnome gtk minimal openbox"
 REQUIRED_USE="gtk? ( gnome )"
 
-RDEPEND="x11-wm/enlightenment
-	!gnome? ( x11-libs/gtk+:2 )
-	gnome? ( x11-wm/metacity )
-	gtk? ( x11-themes/gnome-themes-standard )
+RDEPEND="gnome? ( x11-wm/metacity )
 	!minimal? ( x11-themes/gnome-themes )
 	openbox? ( x11-wm/openbox:3 )"
-DEPEND=""
 
-DOC=( README )
-S="${WORKDIR}"
+DEPEND="!gnome? ( x11-libs/gtk+:2 )
+	gtk? ( x11-themes/gnome-themes-standard )"
+
+DOC=( AUTHORS COPYING README.md )
 
 src_unpack() {
 	default
-	mv *${PN}* e || die
+	mv *${PN}* ${P}
 }
 
 src_install() {
-	use gnome   || rm -r e/metacity-1
-	use gtk     || rm -r e/gtk-3
-	use openbox || rm -r e/openbox-1
-	insinto /usr/share/themes
-	doins -r e || die
+	insinto /usr/share/themes/e
+	use gnome   && doins -r metacity-1
+	use gtk     && doins -r gtk-3.0
+	use openbox && doins -r openbox-3
+	               doins -r gtk-2.0
+	dodoc "${DOC[@]}"
 }
