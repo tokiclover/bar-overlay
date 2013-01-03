@@ -8,5 +8,5 @@ LICENSE=GPL-2
 RDEPEND=>=x11-libs/gtk+-2.12
 SLOT=0
 SRC_URI=http://gnome-look.org/CONTENT/content-files/121881-equinox-1.50.tar.gz -> gtk-engines-equinox-1.50.tar.gz
-_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	gnome.org	8fef8f967214f56e08fa92d61163d891	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28	versionator	6601b4c5b3f019a993db59a50e1854e4
+_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	gnome.org	8fef8f967214f56e08fa92d61163d891	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28	versionator	6601b4c5b3f019a993db59a50e1854e4
 _md5_=9646ce5dcf261bcc576e64470f18573c

@@ -1,10 +1,10 @@
-dev-vcs/git
-x11-wm/enlightenment !gnome? ( x11-libs/gtk+:2 ) gnome? ( x11-wm/metacity ) gtk? ( x11-themes/gnome-themes-standard ) !minimal? ( x11-themes/gnome-themes ) openbox? ( x11-wm/openbox:3 )
+!gnome? ( x11-libs/gtk+:2 ) gtk? ( x11-themes/gnome-themes-standard ) dev-vcs/git
+gnome? ( x11-wm/metacity ) !minimal? ( x11-themes/gnome-themes ) openbox? ( x11-wm/openbox:3 )
 0
 
 
 https://github.com/tokiclover/e-gtk-theme
-GPL-2
+BSD-2
 a gtk theme to match enlightenment DR17 default theme
 
 eutils git-2 multilib toolchain-funcs user

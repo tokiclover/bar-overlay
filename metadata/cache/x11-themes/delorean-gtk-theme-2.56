@@ -1,0 +1,22 @@
+app-arch/unzip
+chromium? ( www-client/chromium ) cinnamon? ( gnome-extra/cinnamon ) firefox? ( || ( www-client/firefox www-client/firefox-bin ) ) metacity? ( x11-wm/metacity ) !minimal? ( x11-themes/gnome-themes ) gnome? ( gnome-base/gnome-shell ) gtk? ( =x11-themes/gnome-themes-standard-3.6* ) openbox? ( x11-wm/openbox ) thunderbird? ( || ( mail-client/thunderbird mail-client/thunderbird-bin ) ) xfwm4? ( xfce-base/xfwm4 ) x11-themes/gtk-engines >=x11-themes/gtk-engines-murrine-0.98.1.1 >=x11-themes/gtk-engines-equinox-1.50
+0
+http://www.deviantart.com/download/318612217/delorean_dark_1_55_by_killhellokitty-d59oyrd.zip -> delorean-gtk-theme-2.56.zip green-theme? ( http://fc04.deviantart.net/fs70/f/2012/344/0/4/delorean_dark_theme_3_6_g__vs_2_56_by_killhellokitty-d5nnoxt.zip -> delorean-green-theme-2.56.zip ) light-theme? ( http://fc02.deviantart.net/fs70/f/2012/364/7/1/delorean_light_theme_3_6___vs_1_01_by_killhellokitty-d5pp1w3.zip -> delorean-light-theme-1.01.zip ) chromium? ( http://www.deviantart.com/download/337912877/delorean_dark_chromium_theme_by_killhellokitty-d5l6n8t.zip -> delorean-chromium-theme-1.11.zip ) firefox? ( http://www.deviantart.com/download/337912877/delorean_dark_chromium_theme_by_killhellokitty-d5l6n8t.zip -> delorean-firefox-theme-1.70.zip ) thunderbird? ( http://www.deviantart.com/download/328142149/delorean_dark_thunderbird_theme_1_10_by_killhellokitty-d5fd83p.zip -> delorean-thunderbird-theme-1.10.zip )
+
+http://killhellokitty.deviantart.com/
+GPL-3
+A nice dark metal brushed gtk theme
+amd64 x86
+eutils multilib toolchain-funcs user
+chromium cinnamon firefox gnome gtk green-theme light-theme metacity minimal openbox thunderbird xfwm4
+
+
+
+2
+
+install
+
+
+
+
+

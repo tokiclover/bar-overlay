@@ -6,5 +6,5 @@ HOMEPAGE=http://gitorious.org/deadbeef-sm-plugins/pages/Home
 LICENSE=AS-IS
 RDEPEND=media-sound/deadbeef media-libs/libbs2b
 SLOT=0
-_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	git-2	6c804ba2fba73c03c994105ac7d617b6	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	git-2	6c804ba2fba73c03c994105ac7d617b6	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=bca87873f619234e8ca2b0b819f7418f
