@@ -21,7 +21,8 @@ IUSE="gtk metacity minimal openbox xfwm4"
 RDEPEND="x11-themes/gtk-engines-murrine
 	metacity? ( x11-wm/metacity )
 	!minimal? ( x11-themes/gnome-themes )
-	gtk? ( x11-themes/gnome-themes-standard )
+	gtk? ( >=x11-themes/gnome-themes-standard-3.4 )
+	x11-themes/gtk-engines-unico
 	openbox? ( x11-wm/openbox )
 "
 DEPEND="app-arch/unzip"
