@@ -21,7 +21,7 @@ RDEPEND="gnome? ( x11-wm/metacity )
 	openbox? ( x11-wm/openbox:3 )"
 
 DEPEND="!gnome? ( x11-libs/gtk+:2 )
-	gtk? ( x11-themes/gnome-themes-standard )"
+	gtk? ( =x11-libs/gtk-3.6*:3 )"
 
 DOC=( AUTHORS COPYING README.md )
 

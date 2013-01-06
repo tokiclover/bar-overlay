@@ -1,5 +1,5 @@
 DEFINED_PHASES=install unpack
-DEPEND=!gnome? ( x11-libs/gtk+:2 ) gtk? ( x11-themes/gnome-themes-standard )
+DEPEND=!gnome? ( x11-libs/gtk+:2 ) gtk? ( =x11-libs/gtk-3.6*:3 )
 DESCRIPTION=a gtk theme to match enlightenment DR17 default theme
 EAPI=4
 HOMEPAGE=https://github.com/tokiclover/e-gtk-theme
@@ -9,6 +9,6 @@ LICENSE=BSD-2
 RDEPEND=gnome? ( x11-wm/metacity ) !minimal? ( x11-themes/gnome-themes ) openbox? ( x11-wm/openbox:3 )
 REQUIRED_USE=gtk? ( gnome )
 SLOT=0
-SRC_URI=https://github.com/tokiclover/e-gtk-theme/tarball/0.16.4 -> e-gtk-theme-0.16.4.tar.gz
+SRC_URI=https://github.com/tokiclover/e-gtk-theme/tarball/0.16.6 -> e-gtk-theme-0.16.6.tar.gz
 _eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=9461d50934671fcb023af00a38d2e85c
+_md5_=00cbba053a9e80bde9d5b67a3b8399ed
