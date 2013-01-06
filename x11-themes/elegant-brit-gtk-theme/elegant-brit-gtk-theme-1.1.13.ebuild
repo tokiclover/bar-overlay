@@ -25,7 +25,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="emerald gnome gtk macmenu metacity minimal openbox pekwm xfwm4"
 
 RDEPEND="emerald? ( x11-wm/emerald )
-	gtk? ( x11-themes/gnome-themes-standard )
+	gtk? ( >=x11-themes/gnome-themes-standard-3.2 )
 	macmenu? ( =gnome-base/gnome-panel-2.3* )
 	!minimal? ( x11-themes/gnome-themes )
 	openbox? ( x11-wm/openbox )

@@ -6,9 +6,9 @@ HOMEPAGE=http://nosebleed.deviantart.com/
 IUSE=emerald gnome gtk macmenu metacity minimal openbox pekwm xfwm4
 KEYWORDS=~amd64 ~x86
 LICENSE=GPL-3
-RDEPEND=emerald? ( x11-wm/emerald ) gtk? ( x11-themes/gnome-themes-standard ) macmenu? ( =gnome-base/gnome-panel-2.3* ) !minimal? ( x11-themes/gnome-themes ) openbox? ( x11-wm/openbox ) pekwm? ( x11-wm/pekwm ) xfwm4? ( xfce-base/xfwm4 )
+RDEPEND=emerald? ( x11-wm/emerald ) gtk? ( >=x11-themes/gnome-themes-standard-3.2 ) macmenu? ( =gnome-base/gnome-panel-2.3* ) !minimal? ( x11-themes/gnome-themes ) openbox? ( x11-wm/openbox ) pekwm? ( x11-wm/pekwm ) xfwm4? ( xfce-base/xfwm4 )
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=http://www.deviantart.com/download/90140521/Dark_Brit_by_nosebleed.gz -> elegant-brit-dark-gtk-theme-1.1.13.gz http://www.deviantart.com/download/208925032/elegant_brit_gnome3_by_grvrulz-d3gdzl4.7z -> elegant-brit-gtk-theme.7z http://gnome-look.org/CONTENT/content-files/85661-Elegant-Matrix.tar.gz -> elegant-brit-dark-green-gtk-theme-1.1.13.tar.gz emerald? ( http://gnome-look.org/CONTENT/content-files/75983-Elegant%20Brit.emerald -> elegant-brit-1.0.2.emerald ) xfwm4? ( http://xfce-look.org/CONTENT/content-files/76017-Elegant%20Brit.tar.gz -> elegant-brit-xfwm4-theme-1.1.13.tar.gz ) openbox? ( http://box-look.org/CONTENT/content-files/76462-Elegant%20Brit.obt -> elegant-brit-openbox-theme-0.1.3.obt ) pekwm? ( http://box-look.org/CONTENT/content-files/76808-Elegant-Brit-pekwm.tar.gz -> elegant-brit-pekwm-theme-1.1.13.tar.gz ) macmenu? ( http://gnome-look.org/CONTENT/content-files/76235-ElegantBritMacMenu.tar.gz -> elegant-brit-mac-menu-1.1.1.tar.gz )
 _eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=2ba31d19c4e07dbd5adcdee60bea7195
+_md5_=ca45d976fa894659b0840b4d46575509
