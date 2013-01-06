@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/x11-themes/delorean-gtk-theme/delorean-gtk-theme-2.56.ebuild,v 1.2 2013/01/02 10:27:12 -tclover Exp $
+# $Header: bar/x11-themes/delorean-gtk-theme/delorean-gtk-theme-2.56.ebuild,v 1.2 2013/01/06 11:14:44 -tclover Exp $
 
 EAPI=2
 
@@ -31,6 +31,7 @@ RDEPEND="chromium? ( www-client/chromium )
 	openbox? ( x11-wm/openbox )
 	thunderbird? ( || ( mail-client/thunderbird mail-client/thunderbird-bin ) )
 	xfwm4? ( xfce-base/xfwm4 )
+	x11-themes/gtk-engines-unico
 	x11-themes/gtk-engines
 	>=x11-themes/gtk-engines-murrine-0.98.1.1
 	>=x11-themes/gtk-engines-equinox-1.50"
