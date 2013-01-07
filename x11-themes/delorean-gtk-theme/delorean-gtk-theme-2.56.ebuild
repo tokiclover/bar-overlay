@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/x11-themes/delorean-gtk-theme/delorean-gtk-theme-2.56.ebuild,v 1.2 2013/01/07 10:16:15 -tclover Exp $
+# $Header: bar/x11-themes/delorean-gtk-theme/delorean-gtk-theme-2.56.ebuild,v 1.2 2013/01/07 10:41:59 -tclover Exp $
 
 EAPI=5
 
@@ -34,8 +34,7 @@ RDEPEND="chromium? ( www-client/chromium )
 	xfwm4? ( xfce-base/xfwm4 )
 	x11-themes/gtk-engines-unico
 	x11-themes/gtk-engines
-	>=x11-themes/gtk-engines-murrine-0.98.1.1
-	>=x11-themes/gtk-engines-equinox-1.50"
+	>=x11-themes/gtk-engines-murrine-0.98.1.1"
 
 DEPEND="app-arch/unzip"
 
