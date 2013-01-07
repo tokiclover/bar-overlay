@@ -1,5 +1,5 @@
-!gnome? ( x11-libs/gtk+:2 ) gtk? ( =x11-libs/gtk-3.6*:3 ) dev-vcs/git
-gnome? ( x11-wm/metacity ) !minimal? ( x11-themes/gnome-themes ) openbox? ( x11-wm/openbox:3 )
+!gnome? ( x11-libs/gtk+:2 ) gtk? ( >=x11-libs/gtk+-3.6:3 ) dev-vcs/git
+gnome? ( x11-wm/metacity ) !minimal? ( || ( >=x11-themes/gnome-themes-standard-3.6 x11-themes/gnome-themes ) ) openbox? ( x11-wm/openbox:3 )
 0
 
 

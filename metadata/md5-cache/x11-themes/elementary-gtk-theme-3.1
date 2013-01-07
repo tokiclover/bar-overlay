@@ -1,13 +1,14 @@
 DEFINED_PHASES=install
 DEPEND=app-arch/unzip
 DESCRIPTION=elemenatry gtk theme by danrabbit
-EAPI=2
+EAPI=5
 HOMEPAGE=http://danrabbit.deviantart.com/art/elementary-gtk-theme-83104033
-IUSE=gtk metacity minimal openbox xfwm4
+IUSE=gtk gnome minimal openbox xfwm4
 KEYWORDS=amd64 x86
 LICENSE=GPL-3
-RDEPEND=x11-themes/gtk-engines-murrine metacity? ( x11-wm/metacity ) !minimal? ( x11-themes/gnome-themes ) gtk? ( >=x11-themes/gnome-themes-standard-3.4 ) x11-themes/gtk-engines-unico openbox? ( x11-wm/openbox )
+RDEPEND=x11-themes/gtk-engines-murrine gnome? ( x11-wm/metacity ) !minimal? ( || ( >=x11-themes/gnome-themes-standard-3.4 x11-themes/gnome-themes ) ) gtk? ( >=x11-themes/gnome-themes-standard-3.4 ) x11-themes/gtk-engines-unico openbox? ( x11-wm/openbox:3 )
+REQUIRED_USE=gnome? ( gtk )
 SLOT=0
 SRC_URI=http://www.deviantart.com/download/83104033/elementary_gtk-theme_by_danrabbit-d1dh7hd.zip -> elementary-gtk-theme-3.1.zip openbox? ( http://www.deviantart.com/download/253002995/elementary_for_openbox_by_grvrulz-d46mqcz.zip -> elementary-openbox-theme-3.1.zip )
 _eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=f219b4e837457b6d9645f82c91402708
+_md5_=7828e8eaed02a21c4bd58f06529de91b
