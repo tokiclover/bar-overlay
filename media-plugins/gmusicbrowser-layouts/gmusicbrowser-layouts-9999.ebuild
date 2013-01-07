@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-plugins/gmusicbrowser-layout/gmusicbrowser-layout-9999.ebuild,v 1.2 2012/07/31 23:23:25 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 if [ ${PV} = 9999 ]; then egit=git-2
 	EGIT_REPO_URI="git://github.com/aboettger/${PN}.git"

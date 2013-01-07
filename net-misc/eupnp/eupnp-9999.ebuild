@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/x11-plugins/elsa/eupnp-9999.ebuild,v 1.1 2011/11/05 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 ESVN_SUB_PROJECT="PROTO"
 inherit enlightenment

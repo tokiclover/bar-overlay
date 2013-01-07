@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/seq24/seq24-0.9.2-r1.ebuild,v 1.4 2012/11/09 17:54:33 -tclover Exp $
 
-EAPI=4
+EAPI=5
 inherit eutils
 
 DESCRIPTION="Seq24 is a loop based MIDI sequencer with focus on live performances."

@@ -12,7 +12,7 @@ autotools autotools-utils eutils fdo-mime flag-o-matic git-2 gnome2-utils libtoo
 lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) ) artwork? ( curl ) imlib? ( curl )
 
 
-4
+5
 
 compile configure install postinst postrm prepare test unpack
 

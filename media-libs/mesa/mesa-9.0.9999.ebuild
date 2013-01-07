@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/11/08 09:30:40 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa.git"
 EGIT_BRANCH=${PV%.9999}

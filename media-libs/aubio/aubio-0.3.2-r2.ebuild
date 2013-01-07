@@ -67,7 +67,7 @@ src_compile() {
 }
 
 src_install() {
-	# `default` would be enough here if python.eclass supported EAPI=4
+	# `default` would be enough here if python.eclass supported EAPI=5
 	emake DESTDIR="${D}" install || die
 	dodoc "${DOCS[@]}"
 

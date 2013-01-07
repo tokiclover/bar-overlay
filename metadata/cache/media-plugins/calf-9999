@@ -12,7 +12,7 @@ lash lv2 sse static-libs
 
 
 
-4
+5
 
 compile configure install prepare test unpack
 

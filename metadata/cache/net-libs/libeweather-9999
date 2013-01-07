@@ -12,7 +12,7 @@ static-libs nls doc
 
 
 
-4
+5
 
 compile configure install preinst prepare unpack
 

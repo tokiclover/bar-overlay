@@ -12,7 +12,7 @@ debug doc gtk lash nls python linguas_de linguas_fr linguas_ru
 python? ( lash )
 
 
-4
+5
 
 compile configure install prepare unpack
 

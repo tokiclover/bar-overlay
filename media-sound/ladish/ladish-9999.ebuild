@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/ladish/ladish-9999.ebuild,v 1.0 2012/11/12 12:14:23 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit eutils git-2
 

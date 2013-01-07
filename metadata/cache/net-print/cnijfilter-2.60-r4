@@ -12,7 +12,7 @@ amd64 +debug gtk nls servicetools usb ip2200 ip4200 ip6600d ip7700 mp500
 servicetools? ( gtk ) nls? ( gtk ) usb? ( gtk ) servicetools? ( amd64 )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

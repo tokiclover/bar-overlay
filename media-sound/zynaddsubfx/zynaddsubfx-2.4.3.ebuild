@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/zynaddsubfx/zynaddsubfx-2.4.3.ebuild,v 1.1 2012/11/09 17:56:16 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit eutils cmake-utils
 

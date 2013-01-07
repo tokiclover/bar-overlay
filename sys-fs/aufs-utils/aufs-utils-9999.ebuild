@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.3 2012/07/31 23:23:47 -tclover Exp $
 
-EAPI="4"
+EAPI=5
 
 inherit multilib toolchain-funcs git-2 linux-info
 

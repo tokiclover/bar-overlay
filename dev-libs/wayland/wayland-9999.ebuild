@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/dev-libs/wayland/wayland-9999.ebuild,v 1.0 2012/11/04 15:30:05 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit autotools toolchain-funcs git-2
 

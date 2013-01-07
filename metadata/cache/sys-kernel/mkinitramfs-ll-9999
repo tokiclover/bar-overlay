@@ -12,7 +12,7 @@ aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink zfs zs
 || ( bzip2 gzip lzip lzma lzo xz ) || ( bash zsh ) lzma? ( xz )
 
 
-4
+5
 
 install postinst prepare unpack
 

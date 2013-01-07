@@ -12,7 +12,7 @@ doc coverage examples test tools static-libs nls doc
 coverage? ( test )
 
 
-4
+5
 
 compile configure install preinst prepare unpack
 

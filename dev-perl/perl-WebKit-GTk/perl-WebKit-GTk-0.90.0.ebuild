@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/dev-perl/perl-WebKit-GTk/perl-WebKit-GTk-0.90.0.ebuild,v 1.1 2012/08/05 09:49:25 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 MODULE_AUTHOR=FLORA
 MODULE_VERSION=0.09

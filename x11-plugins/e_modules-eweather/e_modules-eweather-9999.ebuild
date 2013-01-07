@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/x11-plugins/e_modules-eweather/e_modules-eweather-9999.ebuild,v 1.1 2012/12/23 11:42:01 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 ESVN_SUB_PROJECT="E-MODULES-EXTRA"
 ESVN_URI_APPEND="${PN#e_modules-}"

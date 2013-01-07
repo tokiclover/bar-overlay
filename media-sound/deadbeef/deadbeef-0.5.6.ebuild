@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/deadbeef/deadbeef-0.5.5.ebuild,v 1.2 2012/11/02 19:58:00 -tclover Exp $
 
-EAPI="4"
+EAPI=5
 
 inherit fdo-mime gnome2-utils flag-o-matic autotools-utils
 

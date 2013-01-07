@@ -12,7 +12,7 @@ amd64 scanner symlink ip1900 ip3600 ip4600 mp190 mp240 mp540 mp630 +debug gtk nl
 servicetools? ( gtk ) nls? ( gtk )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.6 2012/07/31 23:23:44 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit linux-mod multilib toolchain-funcs git-2
 

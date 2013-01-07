@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/net-misc/connman/connman-9999.ebuild,v 1.2 2012/09/21 20:54:56 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit multilib git-2 autotools
 

@@ -48,7 +48,7 @@ fi
 
 case "${EAPI:-4}" in
 	0|1) EXPORT_FUNCTIONS pkg_setup src_unpack src_compile src_install pkg_postinst;;
-	2|3|4) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst;;
+	2|3|4|5) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst;;
 	*) die "EAPI=\"${EAPI}\" is not supported";;
 esac
 

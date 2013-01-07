@@ -12,7 +12,7 @@ net scanner symlink mx360 mx410 mx420 mx880 ix6500 +debug gtk nls servicetools u
 scanner? ( net ) servicetools? ( gtk ) nls? ( gtk )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

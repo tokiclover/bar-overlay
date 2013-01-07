@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-plugins/calf/calf-0.0.19.ebuild,v 1.0 2012/11/13 00:38:33 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit autotools-utils
 

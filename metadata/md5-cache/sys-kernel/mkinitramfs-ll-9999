@@ -1,7 +1,7 @@
 DEFINED_PHASES=install postinst prepare unpack
 DEPEND=sys-apps/coreutils sys-apps/findutils sys-apps/sed sys-apps/grep dev-vcs/git
 DESCRIPTION=a flexible initramfs genrating tool with full LUKS support and more
-EAPI=4
+EAPI=5
 HOMEPAGE=https://github.com/tokiclover/mkinitramfs-ll
 IUSE=aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink zfs zsh btrfs +e2fs jfs reiserfs xfs bzip2 gzip lzip lzma lzo +xz
 LICENSE=|| ( BSD-2 GPL-2 GPL-3 )
@@ -9,4 +9,4 @@ RDEPEND=sys-apps/busybox[mdev] app-arch/cpio sys-apps/kbd media-fonts/terminus-f
 REQUIRED_USE=|| ( bzip2 gzip lzip lzma lzo xz ) || ( bash zsh ) lzma? ( xz )
 SLOT=0
 _eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	git-2	6c804ba2fba73c03c994105ac7d617b6	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=c4f48e746870df2e926ca8b6acefd98b
+_md5_=3a3f8ac7bd7991f291b59e7642ae278c

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/jack-rack/jack-rack-1.4.8_rc1.ebuild,v 1.2 2012/11/09 17:48:37 -tclover Exp $
 
-EAPI=4
+EAPI=5
 inherit autotools eutils flag-o-matic toolchain-funcs
 
 MY_P=${PN}_${PV/_/\~}

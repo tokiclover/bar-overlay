@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/x11-themes/e-gtk-theme/e-gtk-theme-0.16.0.ebuild,v 1.1 2012/12/30 14:23:22 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit eutils
 

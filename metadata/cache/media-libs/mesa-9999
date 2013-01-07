@@ -12,7 +12,7 @@ video_cards_i915 video_cards_i965 video_cards_intel video_cards_r100 video_cards
 g3dvl? ( gallium ) llvm? ( gallium ) openvg? ( egl gallium ) gbm? ( shared-glapi ) g3dvl? ( || ( vdpau xvmc ) ) vdpau? ( g3dvl ) r600-llvm-compiler? ( gallium llvm || ( video_cards_r600 video_cards_radeon ) ) xa? ( gallium ) xorg? ( gallium ) xvmc? ( g3dvl ) video_cards_intel? ( || ( classic gallium ) ) video_cards_i915? ( || ( classic gallium ) ) video_cards_i965? ( classic ) video_cards_nouveau? ( || ( classic gallium ) ) video_cards_radeon? ( || ( classic gallium ) ) video_cards_r100? ( classic ) video_cards_r200? ( classic ) video_cards_r300? ( gallium ) video_cards_r600? ( gallium ) video_cards_radeonsi? ( gallium llvm ) video_cards_vmware? ( gallium )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

@@ -12,7 +12,7 @@ amd64 +debug gtk nls servicetools usb mp160 ip3300 mp510 ip4300 mp600 ip2500 ip1
 servicetools? ( gtk ) nls? ( gtk ) usb? ( gtk ) servicetools? ( amd64 )
 
 
-4
+5
 
 compile configure install nofetch postinst prepare setup unpack
 

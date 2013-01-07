@@ -12,7 +12,7 @@ amd64 net scanner symlink ip2700 mx340 mx350 mx870 +debug gtk nls servicetools u
 scanner? ( net ) servicetools? ( gtk ) nls? ( gtk )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

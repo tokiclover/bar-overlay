@@ -2,8 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-gfx/freecad/freecad-9999.ebuild,v 1.2 2012/07/31 23:23:14 -tclover Exp $
 
-EAPI=4
-PYTHON_DEPEND=2
+EAPI=5
+
+PYTHON_COMPAT=( python2_7 )
 
 inherit base multilib fortran-2 flag-o-matic python cmake-utils git-2
 

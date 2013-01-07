@@ -1,7 +1,7 @@
 DEFINED_PHASES=install postinst prepare unpack
 DEPEND=sys-apps/coreutils sys-apps/findutils sys-apps/sed sys-apps/grep
 DESCRIPTION=a flexible initramfs genrating tool with full LUKS support and more
-EAPI=4
+EAPI=5
 HOMEPAGE=https://github.com/tokiclover/mkinitramfs-ll
 IUSE=aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink zfs zsh btrfs +e2fs jfs reiserfs xfs bzip2 gzip lzip lzma lzo +xz
 KEYWORDS=~amd64 ~x86
@@ -11,4 +11,4 @@ REQUIRED_USE=|| ( bzip2 gzip lzip lzma lzo xz ) || ( bash zsh ) lzma? ( xz )
 SLOT=0
 SRC_URI=https://github.com/tokiclover/mkinitramfs-ll/tarball/0.11.6 -> mkinitramfs-ll-0.11.6.tar.gz
 _eclasses_=eutils	d40dc948067bd3db1c8ebf7d51897313	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=6f5a8c1e568a36ffc6f9e735d233be77
+_md5_=3f53752dc40ad1adabe401f9088ca773

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/sys-kernel/git-sources/git-sources-3.6.2.ebuild,v 1.4 2012/12/18 19:17:14 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 UNIPATCH_STRICTORDER="yes"
 K_NOUSENAME="yes"

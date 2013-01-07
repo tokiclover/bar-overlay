@@ -12,7 +12,7 @@ net ip100 mx710 mx890 mx370 mx430 mx510 e600 +debug gtk nls servicetools usb
 servicetools? ( gtk ) nls? ( gtk )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/net-print/cnijfilter/cnijfilter-2.80-r1.ebuild,v 1.7 3012/05/28 06:45:32 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit ecnij
 

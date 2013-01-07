@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/oss/oss-4.2.9999.ebuild,v 1.4 2012/11/11 21:09:57 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit flag-o-matic libtool mercurial
 

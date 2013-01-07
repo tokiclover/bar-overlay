@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/media-sound/hydrogen/hydrogen-0.9.5.1.ebuild,v 2012/11/23 09:53:01 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit eutils multilib flag-o-matic toolchain-funcs
 

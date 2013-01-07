@@ -12,7 +12,7 @@ amd64 net scanner symlink mx860 mx320 mx330 +debug gtk nls servicetools usb
 scanner? ( net ) servicetools? ( gtk ) nls? ( gtk )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

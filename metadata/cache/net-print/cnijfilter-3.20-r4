@@ -12,7 +12,7 @@ amd64 net scanner symlink mp250 mp270 mp490 mp550 mp560 ip4700 mp640 +debug gtk 
 scanner? ( net ) servicetools? ( gtk ) nls? ( gtk )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

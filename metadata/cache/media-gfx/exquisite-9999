@@ -12,7 +12,7 @@ autotools enlightenment eutils libtool multilib multiprocessing subversion toolc
 
 
 
-4
+5
 
 compile configure install preinst prepare unpack
 

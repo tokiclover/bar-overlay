@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.4.ebuild v1.5 2012/09/25 08:41:42 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit eutils
 

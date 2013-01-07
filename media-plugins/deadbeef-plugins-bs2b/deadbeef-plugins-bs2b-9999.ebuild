@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-plugins/deadbeef-plugins-jack/deadbeef-plugins-jack-9999.ebuild,v 1.1 2012/11/10 14:43:14 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit eutils git-2
 

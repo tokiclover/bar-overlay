@@ -12,7 +12,7 @@ amd64 mp140 mp210 ip3500 mp520 ip4500 mp610 +debug gtk nls servicetools usb
 servicetools? ( gtk ) nls? ( gtk )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 

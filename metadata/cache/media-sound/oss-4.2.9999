@@ -12,7 +12,7 @@ alsa +midi pax_kernel oss_cards_ali5455 oss_cards_atiaudio oss_cards_audigyls os
 oss_cards_midiloop? ( midi ) oss_cards_midimix? ( midi )
 
 
-4
+5
 
 compile configure install postinst prepare unpack
 

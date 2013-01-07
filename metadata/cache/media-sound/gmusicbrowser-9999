@@ -12,7 +12,7 @@ a52 aac +alsa cdparanoia +dbus doc dts +faad +flac +gstreamer jack +lame +mac ma
 
 
 
-4
+5
 
 install postinst postrm prepare unpack
 

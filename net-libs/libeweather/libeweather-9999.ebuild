@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/net-libs/libeweather/libeweather-9999.ebuild,v 1.1 2012/12/23 11:42:11 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 ESVN_SUB_PROJECT="PROTO"
 

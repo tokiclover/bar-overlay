@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/oss/oss-4.2.2006.ebuild,v 1.4 2012/11/11 20:31:48 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit eutils flag-o-matic libtool versionator
 

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/media-sound/hydrogen/hydrogen-9999.ebuild,v 2012/11/24 01:08:24 -tclover Exp $
 
-EAPI=4
+EAPI=5
 
 inherit cmake-utils eutils multilib flag-o-matic toolchain-funcs subversion
 

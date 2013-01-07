@@ -12,7 +12,7 @@ net scanner symlink mp250 mp495 mp280 mg5100 mg5200 ip4800 mg6100 mg8100 +debug 
 scanner? ( net ) servicetools? ( gtk ) nls? ( gtk )
 
 
-4
+5
 
 compile configure install postinst prepare setup unpack
 
