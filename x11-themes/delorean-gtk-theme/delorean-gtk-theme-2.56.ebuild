@@ -1,8 +1,8 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/x11-themes/delorean-gtk-theme/delorean-gtk-theme-2.56.ebuild,v 1.2 2013/01/07 02:24:14 -tclover Exp $
+# $Header: bar/x11-themes/delorean-gtk-theme/delorean-gtk-theme-2.56.ebuild,v 1.2 2013/01/07 10:16:15 -tclover Exp $
 
-EAPI=2
+EAPI=5
 
 inherit eutils
 
@@ -18,16 +18,17 @@ SRC_URI="http://www.deviantart.com/download/318612217/delorean_dark_1_55_by_kill
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="chromium cinnamon firefox gnome gtk green-theme light-theme metacity
-minimal openbox thunderbird xfwm4"
+IUSE="chromium cinnamon firefox gnome gtk green-theme light-theme 
+openbox thunderbird xfwm4"
+
+REQUIRE_USE="gnome? ( gtk ) cinnamon? ( gtk )"
+GTK_VERSION="3.6"
 
 RDEPEND="chromium? ( www-client/chromium )
 	cinnamon? ( gnome-extra/cinnamon )
 	firefox? ( || ( www-client/firefox www-client/firefox-bin ) )
-	metacity? ( x11-wm/metacity )
-	!minimal? ( x11-themes/gnome-themes )
-	gnome? ( gnome-base/gnome-shell )
-	gtk? ( =x11-themes/gnome-themes-standard-3.6* )
+	gnome? ( x11-wm/metacity gnome-base/gnome-shell )
+	gtk? ( =x11-themes/gnome-themes-standard-${GTK_VERSION}* )
 	openbox? ( x11-wm/openbox )
 	thunderbird? ( || ( mail-client/thunderbird mail-client/thunderbird-bin ) )
 	xfwm4? ( xfce-base/xfwm4 )
@@ -65,9 +66,8 @@ src_install() {
 	use light-theme && mv delorean-light{-theme-3.6,}
 	use green-theme && mv delorean-dark-{theme-3.6-G,green}
 	use cinnamon || rm -r delorean-*/cinnamon
-	use gnome || rm -r delorean-*/gnome-shell
+	use gnome || rm -r delorean-*/{gnome-shell,metacity-1}
 	use openbox || rm -r delorean-*/openbox-3
-	use metacity || rm -r delorean-*/metacity-1
 	use xfwm4 || rm -r delorean-*/xfwm4
 	insinto /usr/share/themes
 	doins -r delorean-*
