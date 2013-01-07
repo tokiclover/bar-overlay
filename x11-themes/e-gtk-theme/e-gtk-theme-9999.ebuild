@@ -14,14 +14,15 @@ LICENSE="BSD-2"
 KEYWORDS=""
 SLOT=0
 IUSE="gnome gtk minimal openbox"
+
 REQUIRED_USE="gtk? ( gnome )"
+GTK_VERSION="3.6"
 
 RDEPEND="gnome? ( x11-wm/metacity )
-	!minimal? ( x11-themes/gnome-themes )
+	!minimal? ( || ( >=x11-themes/gnome-themes-standard-${GTK_VERSION} x11-themes/gnome-themes ) )
 	openbox? ( x11-wm/openbox:3 )"
 
-DEPEND="!gnome? ( x11-libs/gtk+:2 )
-	gtk? ( =x11-libs/gtk-3.6*:3 )"
+DEPEND="!gnome? ( x11-libs/gtk+:2 ) gtk? ( >=x11-libs/gtk+-${GTK_VERSION}:3 )"
 
 DOC=( AUTHORS COPYING README.md )
 
