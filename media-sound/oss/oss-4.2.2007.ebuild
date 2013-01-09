@@ -46,7 +46,6 @@ src_unpack() {
 
 src_prepare() {
 	cp "${FILESDIR}"/oss "${S}"/setup/Linux/oss/etc/S89oss
-	epatch "${FILESDIR}"/${PN}-${PV}-{afmt-float,freebsd-fix,hdaudio-dev}.patch
 	use pax_kernel && epatch "${FILESDIR}"/pax_kernel.patch
 	elibtoolize
 }

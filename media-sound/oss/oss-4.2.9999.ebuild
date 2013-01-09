@@ -37,7 +37,7 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${PN}"
 
 src_unpack() {
-	default
+	mercurial_src_unpack
 	mkdir build
 
 	cp "${FILESDIR}"/oss ${PN}/setup/Linux/oss/etc/S89oss
