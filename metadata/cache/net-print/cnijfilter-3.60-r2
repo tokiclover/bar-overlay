@@ -1,15 +1,15 @@
-scanner? ( >=media-gfx/gimp-2.0.0 media-gfx/sane-backends dev-libs/libusb:0 ) || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool app-text/ghostscript-gpl >=net-print/cups-1.1.14 sys-libs/glibc servicetools? ( >=gnome-base/libglade-0.6 >=dev-libs/libxml-1.8 ) >=dev-libs/popt-1.6 >=media-libs/tiff-3.4 >=media-libs/libpng-1.0.9 gtk? ( x11-libs/gtk+:2 )
+|| ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool app-text/ghostscript-gpl >=net-print/cups-1.1.14 sys-libs/glibc servicetools? ( >=gnome-base/libglade-0.6 >=dev-libs/libxml-1.8 ) >=dev-libs/popt-1.6 >=media-libs/tiff-3.4 >=media-libs/libpng-1.0.9 gtk? ( x11-libs/gtk+:2 )
 
 0
-http://gdlp01.c-wss.com/gds/8/0100003928/01/cnijfilter-source-3.60-1.tar.gz scanner? ( http://gdlp01.c-wss.com/gds/1/0100003931/01/scangearmp-source-1.80-1.tar.gz )
+http://gdlp01.c-wss.com/gds/8/0100003928/01/cnijfilter-source-3.60-1.tar.gz
 mirror
 http://support-sg.canon-asia.com/contents/SG/EN/0100392802.html
 UNKNOWN
 Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series).
 -* ~x86 ~amd64
 autotools ecnij eutils flag-o-matic libtool multilib multiprocessing toolchain-funcs user
-net scanner symlink mg2100 mg3100 mg4100 mg5300 mg6200 mg8200 ip4900 e500 +debug gtk nls servicetools usb
-scanner? ( net ) servicetools? ( gtk ) nls? ( gtk )
+net symlink mg2100 mg3100 mg4100 mg5300 mg6200 mg8200 ip4900 e500 +debug gtk nls servicetools usb
+servicetools? ( gtk ) nls? ( gtk )
 
 
 5
