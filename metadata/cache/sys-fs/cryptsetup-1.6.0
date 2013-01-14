@@ -1,7 +1,7 @@
 static-libs? ( dev-libs/libgpg-error[static-libs(+)] >=dev-libs/popt-1.7[static-libs(+)] >=sys-apps/util-linux-2.17.2[static-libs(+)] >=dev-libs/libgcrypt-1.1.42[static-libs(+)] >=sys-fs/lvm2-2.02.64[static-libs(+)] >=sys-libs/e2fsprogs-libs-1.41[static-libs(+)] ) dev-libs/libgpg-error >=dev-libs/popt-1.7 >=sys-apps/util-linux-2.17.2 >=dev-libs/libgcrypt-1.1.42 >=sys-fs/lvm2-2.02.64 >=sys-libs/e2fsprogs-libs-1.41 !<sys-apps/baselayout-2 !sys-fs/cryptsetup-luks selinux? ( sys-libs/libselinux ) static? ( dev-libs/libgpg-error[static-libs(+)] >=dev-libs/popt-1.7[static-libs(+)] >=sys-apps/util-linux-2.17.2[static-libs(+)] >=dev-libs/libgcrypt-1.1.42[static-libs(+)] >=sys-fs/lvm2-2.02.64[static-libs(+)] >=sys-libs/e2fsprogs-libs-1.41[static-libs(+)] )
 static-libs? ( dev-libs/libgpg-error[static-libs(+)] >=dev-libs/popt-1.7[static-libs(+)] >=sys-apps/util-linux-2.17.2[static-libs(+)] >=dev-libs/libgcrypt-1.1.42[static-libs(+)] >=sys-fs/lvm2-2.02.64[static-libs(+)] >=sys-libs/e2fsprogs-libs-1.41[static-libs(+)] ) dev-libs/libgpg-error >=dev-libs/popt-1.7 >=sys-apps/util-linux-2.17.2 >=dev-libs/libgcrypt-1.1.42 >=sys-fs/lvm2-2.02.64 >=sys-libs/e2fsprogs-libs-1.41 !<sys-apps/baselayout-2 !sys-fs/cryptsetup-luks selinux? ( sys-libs/libselinux )
 0
-http://cryptsetup.googlecode.com/files/cryptsetup-1.6.0-rc1.tar.bz2
+http://cryptsetup.googlecode.com/files/cryptsetup-1.6.0.tar.bz2
 
 http://code.google.com/p/cryptsetup/
 GPL-2
