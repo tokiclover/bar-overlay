@@ -56,7 +56,7 @@ based on the latest mainline (stable) tree."
 src_unpack() {
 	git-2_src_unpack
 	if use aufs; then
-		EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN
+		EGIT_BRANCH=aufs${KV_MAJOR}.${KV_MINOR}
 		unset EGIT_COMMIT
 		export EGIT_NONBARE=yes
 		export EGIT_REPO_URI=${EGIT_REPO_AUFS}
