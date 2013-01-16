@@ -2,7 +2,7 @@ dev-vcs/git
 >=media-sound/gmusicbrowser-1.1.6
 0
 
-nomirror confcache
+
 https://github.com/aboettger/gmusicbrowser-layouts
 GPL-2
 A collection of nice gmusicbrowser layouts and themes
