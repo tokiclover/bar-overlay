@@ -17,8 +17,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="lash"
 
-RDEPEND="dev-lang/python:2.7
-	dev-python/pygtk
+RDEPEND="dev-python/pygtk
 	dev-python/pyxml
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]
 	>=media-sound/lash-0.6.0_rc2

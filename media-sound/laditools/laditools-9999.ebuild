@@ -19,6 +19,8 @@ IUSE="lash"
 
 DEPEND="dev-python/python-distutils-extra"
 RDEPEND=">=dev-python/enum-0.4.4
+	dev-python/pygtk
+	dev-python/pyxml
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]
 	dev-python/pygobject:3
     x11-libs/gtk+:3[introspection]
