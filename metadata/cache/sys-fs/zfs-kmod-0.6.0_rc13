@@ -1,0 +1,22 @@
+=sys-kernel/spl-0.6.0_rc13* dev-vcs/git kernel_linux? ( virtual/modutils ) sys-apps/sed kernel_linux? ( virtual/linux-sources ) || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool
+=sys-kernel/spl-0.6.0_rc13* !sys-fs/zfs-fuse kernel_linux? ( virtual/modutils )
+0
+
+test
+http://zfsonlinux.org/
+BSD-2 CDDL MIT
+Linux ZFS kernel module for sys-fs/zfs
+~alpha ~amd64-fbsd ~amd64 ~arm ~hppa ~ia64 ~m68k ~mips ~powerpc ~s390 ~sh ~sparc-fbsd ~sparc ~x86-fbsd ~x86
+autotools autotools-utils bash-completion-r1 eutils flag-o-matic git-2 libtool linux-info linux-mod multilib multiprocessing toolchain-funcs user versionator
+custom-cflags debug +rootfs kernel_linux
+
+
+
+5
+
+compile configure install postinst postrm preinst prepare setup test unpack
+
+
+
+
+
