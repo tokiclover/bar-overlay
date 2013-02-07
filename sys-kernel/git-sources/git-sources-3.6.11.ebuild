@@ -35,11 +35,11 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
 bfq_src=${okv}-bfq-v5-r1.patch.bz2
-bfs_src=${KV_MAJOR}.7-sched-bfs-426.patch
-bfs_uri=http://ck.kolivas.org/patches/bfs/${okv/6/0}/${okv}
+bfs_src=${okv/6/5}-sched-bfs-425.patch
+bfs_uri=http://ck.kolivas.org/patches/bfs/${okv}/${okv}
 bld_uri=https://bld.googlecode.com/files
 bld_src=bld-${KV_MAJOR}.5.0.tar.bz2
-ck_src=${KV_MAJOR}.7-ck1-broken-out.tar.bz2
+ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
 uksm_uri=http://kerneldedup.org/download/uksm/0.1.2.2
@@ -83,7 +83,7 @@ src_prepare() {
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
-		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src}.patch && popd
+#		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src}.patch && popd
 		sed -e "s,linux-${okv}-ck[0-9]/,,g" -i "${WORKDIR}"/patches/${bfs_src} || die
 	fi
 	if use ck; then
