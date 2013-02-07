@@ -93,6 +93,7 @@ src_prepare() {
 			epatch "${WORKDIR}"/patches/$pch
 		done
  	else
+		use bfs && epatch "${WORKDIR}"/patches/${bfs_src}
 		if use hz; then
 			for pch in $(grep hz "${WORKDIR}"/patches/series); do 
 				epatch "${WORKDIR}"/patches/$pch

@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.7.0.ebuild,v 1.4 2013/02/07 16:32:59 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.7.0.ebuild,v 1.4 2013/02/07 16:42:54 -tclover Exp $
 
 EAPI=5
 
@@ -90,12 +90,16 @@ src_prepare() {
 			epatch "${WORKDIR}"/patches/$pch
 		done
  	else
+		use bfs && epatch "${WORKDIR}"/patches/${bfs_src}
 		if use hz; then
 			for pch in $(grep hz "${WORKDIR}"/patches/series); do 
 				epatch "${WORKDIR}"/patches/$pch
 			done
 			epatch "${WORKDIR}"/patches/preempt-desktop-tune.patch
 		fi
+	fi
+	if use bfs || use ck; then
+		epatch "${FILESDIR}"/${okv}-bfs-426-427.patch
 	fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	if use bld; then
