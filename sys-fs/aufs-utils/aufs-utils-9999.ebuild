@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.3 2012/07/31 23:23:47 -tclover Exp $
 

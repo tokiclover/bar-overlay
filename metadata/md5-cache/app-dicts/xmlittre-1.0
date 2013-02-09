@@ -11,4 +11,4 @@ RESTRICT=strip
 SLOT=0
 SRC_URI=http://francois.gannaz.free.fr/Littre/dlds/XMLittre_stardict_1.0.zip -> xmlittre-1.0.zip
 _eclasses_=stardict	0377e6bf21060f0d18a39ea68f54a162
-_md5_=cde7788e741b7e998d0390399f3ea6df
+_md5_=6118ce18b9d1e98943af91551ee4bfed

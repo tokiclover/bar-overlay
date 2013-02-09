@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/x11-themes/delorean-gtk-theme/delorean-gtk-theme-1.55.ebuild,v 1.2 2013/01/07 10:41:55 -tclover Exp $
 

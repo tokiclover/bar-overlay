@@ -10,4 +10,4 @@ RDEPEND=minimal? ( !x11-themes/gnome-icon-theme ) theme? ( x11-themes/leopard-gt
 SLOT=0
 SRC_URI=http://www.deviantart.com/download/274872640/gnome_leopard_icons_by_badimnk-d4jnh34.zip -> leopard-icon-theme-4.0.zip
 _eclasses_=gnome2-utils	794d2847b4af390a1e020924876c8297
-_md5_=004c607594f5d01b6301a724beead6b2
+_md5_=9e153ebd6c33b397b00ef564b6775795

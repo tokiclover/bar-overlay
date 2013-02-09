@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-libs/aubio/aubio-0.3.2-r2.ebuild,v 1.5 2012/11/09 18:03:32 -tclover Exp $
 

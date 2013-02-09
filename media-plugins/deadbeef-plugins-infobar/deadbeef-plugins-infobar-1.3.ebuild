@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-plugins/deadbeef-plugins-infobar/deadbeef-plugins-infobar-1.3.ebuild,v 1.0 2012/11/08 07:56:50 -tclover Exp $
 

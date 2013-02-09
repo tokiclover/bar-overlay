@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/x11-themes/gt3-colors-theme/gt3-colors-theme-0_p20091124.ebuild,v 1.1 2012/07/04 00:22:05 -tclover Exp $
 

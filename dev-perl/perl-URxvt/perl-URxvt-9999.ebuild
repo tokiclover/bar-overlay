@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/dev-perl/perl-URxvt/perl-URxvt-9999.ebuild v1.1 2012/08/05 09:39:34 -tclover Exp $
 

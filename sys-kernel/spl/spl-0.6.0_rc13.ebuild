@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/sys-kernel/spl/spl-9999.ebuild,v 1.13 2013/02/07 13:55:48 -tclover Exp $
 

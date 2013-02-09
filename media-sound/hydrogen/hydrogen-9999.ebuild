@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/media-sound/hydrogen/hydrogen-9999.ebuild,v 2012/11/24 01:08:24 -tclover Exp $
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/laditools/laditools-1.0.ebuild,v 1.0 2012/12/10 14:40:00 -tclover Exp $
 

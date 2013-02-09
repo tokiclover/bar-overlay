@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/x11-plugins/e_modules/e_modules-9999.ebuild,v 1.6 2012/12/10 11:03:18 -tclover Exp $
 

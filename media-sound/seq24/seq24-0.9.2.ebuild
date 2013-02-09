@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-sound/seq24/seq24-0.9.2.ebuild,v 1.5 2012/11/09 17:54:29 -tclover Exp $
 

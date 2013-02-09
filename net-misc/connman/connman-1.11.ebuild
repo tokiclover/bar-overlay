@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/net-misc/connman/connman-9999.ebuild,v 1.2 2012/09/21 20:54:50 -tclover Exp $
 

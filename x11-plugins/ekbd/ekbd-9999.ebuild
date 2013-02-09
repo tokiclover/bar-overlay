@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/x11-plugins/ekbd/ekbd-9999.ebuild,v 1.1 2012/12/23 11:59:02 -tclover Exp $
 

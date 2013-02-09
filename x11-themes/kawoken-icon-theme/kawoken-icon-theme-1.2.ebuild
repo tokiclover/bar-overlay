@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/x11-themes/kawoken-icon-theme/kawoken-icon-theme-1.2.ebuild,v 1.1 2012/07/04 00:22:08 -tclover Exp $
 

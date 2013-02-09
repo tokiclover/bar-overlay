@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/x11-themes/awoken-icon-theme/awoken-icon-theme-2.3.ebuild,v 1.1 2012/07/04 00:21:45 -tclover Exp $
 

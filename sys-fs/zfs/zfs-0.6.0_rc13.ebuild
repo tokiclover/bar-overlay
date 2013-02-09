@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar/sys-fs/zfs/zfs-9999.ebuild,v 1.37 2013/02/07 13:55:13 -tclover Exp $
 

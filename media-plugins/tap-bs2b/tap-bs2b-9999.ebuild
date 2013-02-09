@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $BAR-overlay/media-plugins/tap-plugins-9999,v 1.1 2012/07/31 23:23:28 -tclover [topic #719273] Exp $
 

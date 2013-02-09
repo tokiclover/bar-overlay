@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: bar-overlay/media-plugins/deadbeef-plugins-jack/deadbeef-plugins-jack-9999.ebuild,v 1.1 2012/11/10 14:30:08 -tclover Exp $
 
