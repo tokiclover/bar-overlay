@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2013/02/07 16:32:59 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2013/02/10 00:26:44 -tclover Exp $
 
 EAPI=5
 
@@ -100,7 +100,7 @@ src_prepare() {
 	fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	use uksm && epatch "${DISTDIR}"/${uksm_src}
-	rm -r .git
+	rm -fr .git* b
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
 }
 

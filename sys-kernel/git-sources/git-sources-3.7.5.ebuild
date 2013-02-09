@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.7.0.ebuild,v 1.4 2013/02/07 16:42:54 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.7.0.ebuild,v 1.4 2013/02/10 00:26:44 -tclover Exp $
 
 EAPI=5
 
@@ -75,7 +75,8 @@ src_prepare() {
 		for file in Documentation fs include/linux/aufs_type.h; do
 			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$file . || die
 		done
-		mv aufs_type.h include/linux/ || die
+		cp {"${WORKDIR}"/aufs${KV_MAJOR}-standalone/,}include/linux/aufs_type.h || die
+		cp {"${WORKDIR}"/aufs${KV_MAJOR}-standalone/,}include/uapi/linux/aufs_type.h || die
 		local ap=aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}
 		epatch "${WORKDIR}"/${ap}-{kbuild,base,standalone,loopback,proc_map}.patch
 	fi
@@ -107,7 +108,7 @@ src_prepare() {
 		epatch "${WORKDIR}"/bld-3.5.0/BLD-3.5.patch
 	fi
 	use uksm && epatch "${DISTDIR}"/${uksm_src}
-	rm -r .git*
+	rm -fr .git* b
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
 }
 

@@ -7,5 +7,5 @@ IUSE=bluetooth debug doc examples +ethernet ofono openvpn policykit threads tool
 LICENSE=GPL-2
 RDEPEND=>=dev-libs/glib-2.16 >=sys-apps/dbus-1.2.24 >=dev-libs/libnl-1.1 >=net-firewall/iptables-1.4.8 net-libs/gnutls bluetooth? ( net-wireless/bluez ) ofono? ( net-misc/ofono ) policykit? ( sys-auth/polkit ) openvpn? ( net-misc/openvpn ) vpnc? ( net-misc/vpnc ) wifi? ( >=net-wireless/wpa_supplicant-0.7[dbus] ) wimax? ( net-wireless/wimax )
 SLOT=0
-_eclasses_=autotools	cf83655b19ed98f9ea3b44f4572b51a3	git-2	6c804ba2fba73c03c994105ac7d617b6	libtool	2b273eea1976cfaed3449345d94331ac	multilib	ded93e450747134a079e647d888aa80b	multiprocessing	a2130e6fc4aa4c6a24b265ca0cbcc2b6	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e
+_eclasses_=autotools	cf83655b19ed98f9ea3b44f4572b51a3	git-2	e92e09651292b1bef5656592364550f7	libtool	2b273eea1976cfaed3449345d94331ac	multilib	ded93e450747134a079e647d888aa80b	multiprocessing	a2130e6fc4aa4c6a24b265ca0cbcc2b6	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e
 _md5_=e1f887a783e0ef6fc62598b14c936e19
