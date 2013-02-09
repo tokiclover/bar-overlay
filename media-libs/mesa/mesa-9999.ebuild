@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/11/08 09:30:44 -tclover Exp $
+# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2013/02/09 08:48:10 -tclover Exp $
 
 EAPI=5
 
@@ -34,21 +34,19 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic debug +egl g3dvl +gallium gbm gles1 gles2 +llvm +nptl
+	bindist +classic debug +egl +gallium gbm gles1 gles2 +llvm +nptl
 	openvg osmesa pax_kernel pic r600-llvm-compiler selinux +shared-glapi vdpau
 	wayland xvmc xa xorg kernel_FreeBSD"
 
 REQUIRED_USE="
-	g3dvl?  ( gallium )
 	llvm?   ( gallium )
 	openvg? ( egl gallium )
 	gbm?    ( shared-glapi )
-	g3dvl? ( || ( vdpau xvmc ) )
-	vdpau? ( g3dvl )
+	gles1?  ( egl )
+	gles2?  ( egl )
 	r600-llvm-compiler? ( gallium llvm || ( video_cards_r600 video_cards_radeon ) )
 	xa?  ( gallium )
 	xorg?  ( gallium )
-	xvmc?  ( g3dvl )
 	video_cards_intel?  ( || ( classic gallium ) )
 	video_cards_i915?   ( || ( classic gallium ) )
 	video_cards_i965?   ( classic )
@@ -70,16 +68,16 @@ RDEPEND="
 	!<=x11-proto/xf86driproto-2.0.3
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
-	>=app-admin/eselect-opengl-1.2.6
+	>=app-admin/eselect-opengl-1.2.7
 	dev-libs/expat
-	gbm? ( sys-fs/udev )
+	gbm? ( virtual/udev )
 	>=x11-libs/libX11-1.3.99.901
 	x11-libs/libXdamage
 	x11-libs/libXext
 	x11-libs/libXxf86vm
 	>=x11-libs/libxcb-1.8.1
 	vdpau? ( >=x11-libs/libvdpau-0.4.1 )
-	wayland? ( dev-libs/wayland )
+	wayland? ( >=dev-libs/wayland-1.0.3 )
 	xorg? (
 		x11-base/xorg-server
 		x11-libs/libdrm[libkms]
@@ -110,7 +108,6 @@ DEPEND="${RDEPEND}
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
-	x11-misc/makedepend
 	>=x11-proto/dri2proto-2.6
 	>=x11-proto/glproto-1.4.15-r1
 	>=x11-proto/xextproto-7.0.99.1
@@ -196,7 +193,6 @@ src_configure() {
 
 	if use gallium; then
 		myconf+="
-			$(use_enable g3dvl gallium-g3dvl)
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openvg)
 			$(use_enable r600-llvm-compiler)
@@ -227,6 +223,9 @@ src_configure() {
 		"
 	fi
 
+	# build fails with BSD indent, bug #428112
+	use userland_GNU || export INDENT=cat
+
 	econf \
 		--enable-dri \
 		--enable-glx \
@@ -254,11 +253,6 @@ src_install() {
 
 	if use !bindist; then
 		dodoc docs/patents.txt
-	fi
-
-	# Save the glsl-compiler for later use
-	if ! tc-is-cross-compiler; then
-		dobin "${S}"/src/glsl/glsl_compiler
 	fi
 
 	# Install config file for eselect mesa

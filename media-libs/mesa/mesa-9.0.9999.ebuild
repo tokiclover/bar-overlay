@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2012/11/08 09:30:40 -tclover Exp $
+# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2013/02/09 08:48:05 -tclover Exp $
 
 EAPI=5
 
@@ -63,24 +63,27 @@ REQUIRED_USE="
 	video_cards_vmware? ( gallium )
 "
 
-LIBDRM_DEPSTRING="<=x11-libs/libdrm-2.4.40"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.40"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
-RDEPEND="
-	!<x11-base/xorg-server-1.7
+# gtest file collision bug #411825
+RDEPEND="!<x11-base/xorg-server-1.7
 	!<=x11-proto/xf86driproto-2.0.3
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
 	>=app-admin/eselect-opengl-1.2.6
 	dev-libs/expat
-	gbm? ( sys-fs/udev )
+	gbm? (
+		virtual/udev
+		x11-libs/libdrm[libkms]
+	)
 	>=x11-libs/libX11-1.3.99.901
 	x11-libs/libXdamage
 	x11-libs/libXext
 	x11-libs/libXxf86vm
 	>=x11-libs/libxcb-1.8.1
 	vdpau? ( >=x11-libs/libvdpau-0.4.1 )
-	wayland? ( dev-libs/wayland )
+	wayland? ( >=dev-libs/wayland-1.0.3 )
 	xorg? (
 		x11-base/xorg-server
 		x11-libs/libdrm[libkms]
@@ -103,8 +106,8 @@ done
 DEPEND="${RDEPEND}
 	llvm? (
 		>=sys-devel/llvm-2.9
-		r600-llvm-compiler? ( >=sys-devel/llvm-3.1 )
-		video_cards_radeonsi? ( >=sys-devel/llvm-3.1 )
+		r600-llvm-compiler? ( =sys-devel/llvm-3.1* )
+		video_cards_radeonsi? ( =sys-devel/llvm-3.1* )
 	)
 	=dev-lang/python-2*
 	dev-libs/libxml2[python]
@@ -227,6 +230,8 @@ src_configure() {
 			$(use_enable x86 glx-rts)
 		"
 	fi
+
+	use userland_GNU || export INDENT=cat
 
 	econf \
 		--enable-dri \
