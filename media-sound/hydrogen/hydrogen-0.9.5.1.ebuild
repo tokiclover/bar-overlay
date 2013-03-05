@@ -17,7 +17,7 @@ IUSE="+alsa +archive debug +jack jacksession ladspa lash oss portaudio portmidi
 rubberband static"
 REQUIRED_USE="lash? ( alsa )"
 
-RDEPEND="x11-libs/qtgui:4 x11-libs/qtcore:4
+RDEPEND="dev-qt/qtgui:4 dev-qt/qtcore:4
 	archive? ( app-arch/libarchive )
 	!archive? ( >=dev-libs/libtar-1.2.11-r3 )
 	>=media-libs/libsndfile-1.0.18
