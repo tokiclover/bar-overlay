@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.2.22.ebuild,v 1.4 2013/02/10 00:26:44 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.2.39.ebuild,v 1.5 2013/03/05 14:24:03 -tclover Exp $
 
 EAPI=5
 
@@ -34,7 +34,7 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
-bfq_src=${okv}-bfq-v5-r1.patch.bz2
+bfq_src=${okv}-bfq-v6.patch.bz2
 bfs_src=${okv}-sched-bfs-416.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/$okv/
 ck_src=${okv}-ck1-broken-out.tar.bz2

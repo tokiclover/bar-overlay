@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.7.0.ebuild,v 1.4 2013/02/10 00:26:44 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.8.2.ebuild,v 1.5 2013/03/05 14:24:38 -tclover Exp $
 
 EAPI=5
 
@@ -33,15 +33,15 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
-bfq_src=${okv}-bfq-v5-r1.patch.bz2
-bfs_src=${okv}-sched-bfs-426.patch
-bfs_uri=http://ck.kolivas.org/patches/bfs/${okv/6/0}/${okv}
+bfq_src=${okv}-bfq-v6.patch.bz2
+bfs_src=${okv}-sched-bfs-428.patch
+bfs_uri=http://ck.kolivas.org/patches/bfs/${okv}/${okv}
 bld_uri=https://bld.googlecode.com/files
 bld_src=bld-${KV_MAJOR}.5.0.tar.bz2
 ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
 uksm_uri=http://kerneldedup.org/download/uksm/0.1.2.2
-uksm_src=uksm-0.1.2.2-for-v${okv}.ge.1.patch
+uksm_src=uksm-0.1.2.2-for-v${KV_MAJOR}.7.ge.1.patch
 RESTRICT="nomirror confcache"
 SRC_URI="bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
 	bld? ( ${bld_uri}/${bld_src} ) uksm? ( ${uksm_uri}/${uksm_src} )
