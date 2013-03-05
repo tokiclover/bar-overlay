@@ -1,4 +1,4 @@
->=sys-devel/flex-2.5.33 sys-devel/bison dev-util/gperf dev-lang/python dev-lang/perl >=dev-util/cmake-2.8.8 userland_GNU? ( >=sys-apps/findutils-4.4.0 )
+>=sys-devel/flex-2.5.33 sys-devel/bison dev-util/gperf dev-lang/python dev-lang/perl sys-devel/make >=dev-util/cmake-2.8.9 userland_GNU? ( >=sys-apps/findutils-4.4.0 )
 media-libs/edje media-libs/evas[fontconfig] dev-libs/ecore[X,glib?] dev-libs/libxslt virtual/jpeg:0 media-libs/libpng x11-libs/cairo gstreamer? ( media-libs/gstreamer:0.10 >=media-libs/gst-plugins-base-0.10.25:0.10 dev-libs/glib ) glib? ( dev-libs/glib net-libs/libsoup ) !glib? ( net-misc/curl ) >=dev-db/sqlite-3 !curl? ( net-libs/libsoup )
 0
 http://packages.profusion.mobi/webkit-efl/webkit-efl-svn-r89025.tar.bz2
