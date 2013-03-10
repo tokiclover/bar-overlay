@@ -6,5 +6,5 @@ HOMEPAGE=http://ll-plugins.nongnu.org
 LICENSE=GPL-2
 RDEPEND=>=media-sound/jack-audio-connection-kit-0.109.0 >=dev-cpp/gtkmm-2.8.8 >=dev-cpp/cairomm-0.6.0 || ( >=media-sound/ladish-1 >=media-sound/lash-0.5.1 ) >=media-libs/liblo-0.22 >=sci-libs/gsl-1.8 >=media-libs/libsndfile-1.0.16 dev-util/lv2-c++-tools
 SLOT=0
-_eclasses_=eutils	2824df7f5dc9f47aee293af8a6b517ed	git	4f17701592b15e7abf06e101478e2636	multilib	ded93e450747134a079e647d888aa80b	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	816444638a8668da9da22466b302db84	git	4f17701592b15e7abf06e101478e2636	multilib	ded93e450747134a079e647d888aa80b	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=a5e411bc88f13e2cdb946e4521b7e858
