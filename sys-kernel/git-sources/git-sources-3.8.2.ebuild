@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.8.2.ebuild,v 1.5 2013/03/05 18:09:03 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.8.2.ebuild,v 1.5 2013/03/10 23:04:20 -tclover Exp $
 
 EAPI=5
 
@@ -101,7 +101,7 @@ src_prepare() {
 	fi
 	use bfq && epatch "${FILESDIR}"/${bfq_src}
 	if use bld; then
-		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${okv}-bld.patch.patch && popd
+		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${okv/8/7}-bld.patch.patch && popd
 		epatch "${WORKDIR}"/bld-3.5.0/BLD-3.5.patch
 	fi
 	use uksm && epatch "${DISTDIR}"/${uksm_src}
