@@ -1,13 +1,15 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-libs/mesa/mesa-9.0.9999.ebuild,v 1.2 2013/03/12 12:15:22 -tclover Exp $
+# $Header: bar-overlay/media-libs/mesa/mesa-9.1.9999.ebuild,v 1.3 2013/03/12 12:17:22 -tclover Exp $
 
 EAPI=5
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa.git"
 EGIT_BRANCH=${PV%.9999}
 
-inherit base autotools multilib flag-o-matic toolchain-funcs git-2
+PYTHON_COMPAT=( python{2_6,2_7} )
+
+inherit base autotools multilib flag-o-matic python-single-r1 toolchain-funcs git-2
 
 OPENGL_DIR="xorg-x11"
 
@@ -25,7 +27,7 @@ SRC_URI="${SRC_PATCHES}"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~ia64-linux ~x86-linux ~sparc-solaris ~x64-solaris ~x86-solaris"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~arm-linux ~ia64-linux ~x86-linux ~sparc-solaris ~x64-solaris ~x86-solaris"
 
 INTEL_CARDS="i915 i965 intel"
 RADEON_CARDS="r100 r200 r300 r600 radeon radeonsi"
@@ -35,21 +37,19 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic debug +egl g3dvl +gallium gbm gles1 gles2 +llvm +nptl
+	bindist +classic debug +egl +gallium gbm gles1 gles2 +llvm +nptl
 	openvg osmesa pax_kernel pic r600-llvm-compiler selinux +shared-glapi vdpau
 	wayland xvmc xa xorg kernel_FreeBSD"
 
 REQUIRED_USE="
-	g3dvl?  ( gallium )
 	llvm?   ( gallium )
 	openvg? ( egl gallium )
 	gbm?    ( shared-glapi )
-	g3dvl? ( || ( vdpau xvmc ) )
-	vdpau? ( g3dvl )
+	gles1?  ( egl )
+	gles2?  ( egl )
 	r600-llvm-compiler? ( gallium llvm || ( video_cards_r600 video_cards_radeon ) )
 	xa?  ( gallium )
 	xorg?  ( gallium )
-	xvmc?  ( g3dvl )
 	video_cards_intel?  ( || ( classic gallium ) )
 	video_cards_i915?   ( || ( classic gallium ) )
 	video_cards_i965?   ( classic )
@@ -66,17 +66,14 @@ REQUIRED_USE="
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.40"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
-# gtest file collision bug #411825
-RDEPEND="!<x11-base/xorg-server-1.7
+RDEPEND="
+	!<x11-base/xorg-server-1.7
 	!<=x11-proto/xf86driproto-2.0.3
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
-	>=app-admin/eselect-opengl-1.2.6
+	>=app-admin/eselect-opengl-1.2.7
 	dev-libs/expat
-	gbm? (
-		virtual/udev
-		x11-libs/libdrm[libkms]
-	)
+	gbm? ( virtual/udev )
 	>=x11-libs/libX11-1.3.99.901
 	x11-libs/libXdamage
 	x11-libs/libXext
@@ -106,15 +103,14 @@ done
 DEPEND="${RDEPEND}
 	llvm? (
 		>=sys-devel/llvm-2.9
-		r600-llvm-compiler? ( =sys-devel/llvm-3.1* )
-		video_cards_radeonsi? ( =sys-devel/llvm-3.1* )
+		r600-llvm-compiler? ( >=sys-devel/llvm-3.1 )
+		video_cards_radeonsi? ( >=sys-devel/llvm-3.1 )
 	)
-	=dev-lang/python-2*
-	dev-libs/libxml2[python]
+	${PYTHON_DEPS}
+	dev-libs/libxml2[python,${PYTHON_USEDEP}]
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
-	x11-misc/makedepend
 	>=x11-proto/dri2proto-2.6
 	>=x11-proto/glproto-1.4.15-r1
 	>=x11-proto/xextproto-7.0.99.1
@@ -134,6 +130,8 @@ QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 pkg_setup() {
 	# workaround toc-issue wrt #386545
 	use ppc64 && append-flags -mminimal-toc
+
+	python-single-r1_pkg_setup
 }
 
 src_prepare() {
@@ -200,7 +198,6 @@ src_configure() {
 
 	if use gallium; then
 		myconf+="
-			$(use_enable g3dvl gallium-g3dvl)
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openvg)
 			$(use_enable r600-llvm-compiler)
@@ -231,6 +228,7 @@ src_configure() {
 		"
 	fi
 
+	# build fails with BSD indent, bug #428112
 	use userland_GNU || export INDENT=cat
 
 	econf \
@@ -250,6 +248,7 @@ src_configure() {
 		$(use_enable xorg) \
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
+		PYTHON2="${PYTHON}" \
 		${myconf}
 }
 
@@ -260,11 +259,6 @@ src_install() {
 
 	if use !bindist; then
 		dodoc docs/patents.txt
-	fi
-
-	# Save the glsl-compiler for later use
-	if ! tc-is-cross-compiler; then
-		dobin "${S}"/src/glsl/glsl_compiler
 	fi
 
 	# Install config file for eselect mesa
