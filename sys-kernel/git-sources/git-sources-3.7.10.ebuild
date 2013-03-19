@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.7.10.ebuild,v 1.5 2013/03/05 14:24:29 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.7.10.ebuild,v 1.5 2013/03/19 21:20:35 -tclover Exp $
 
 EAPI=5
 
@@ -41,7 +41,7 @@ bld_src=bld-${KV_MAJOR}.5.0.tar.bz2
 ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
 uksm_uri=http://kerneldedup.org/download/uksm/0.1.2.2
-uksm_src=uksm-0.1.2.2-for-v${okv}.ge.1.patch
+uksm_src=uksm-0.1.2.2-for-v${okv}.ge.10.patch
 RESTRICT="nomirror confcache"
 SRC_URI="bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
 	bld? ( ${bld_uri}/${bld_src} ) uksm? ( ${uksm_uri}/${uksm_src} )

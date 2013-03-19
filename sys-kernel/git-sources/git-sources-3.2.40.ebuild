@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.2.39.ebuild,v 1.5 2013/03/05 14:24:03 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.2.40.ebuild,v 1.5 2013/03/19 21:20:57 -tclover Exp $
 
 EAPI=5
 
@@ -41,7 +41,7 @@ ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
 gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
 uksm_uri=http://kerneldedup.org/download/uksm/0.1.2.2
-uksm_src=uksm-0.1.2.2-for-v${okv}.ge.35.patch
+uksm_src=uksm-0.1.2.2-for-v${okv}.ge.40.patch
 RESTRICT="nomirror confcache"
 SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
 	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
