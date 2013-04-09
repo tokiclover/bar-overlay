@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-fs/cryptsetup/cryptsetup-1.5.1.ebuild,v 1.8 2013/01/07 02:33:49 -tclover Exp $
+# $Header: bar/sys-fs/cryptsetup/cryptsetup-1.6.0.ebuild,v 1.8 2013/01/07 02:33:53 -tclover Exp $
 
 EAPI=5
 
