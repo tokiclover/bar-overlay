@@ -9,5 +9,5 @@ LICENSE=GPL-3
 RDEPEND=dev-python/pygtk dev-python/pyxml >=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus] >=media-sound/lash-0.6.0_rc2 x11-libs/vte dev-lang/python
 SLOT=0
 SRC_URI=http://www.marcochapeau.org/files/laditools/laditools-1.0-rc1.tar.bz2
-_eclasses_=distutils	77fc6005d2dfcc7bdb5ec363a49d9912	eutils	816444638a8668da9da22466b302db84	multilib	ded93e450747134a079e647d888aa80b	python	dd56675d8e9f7e85d815a28c87383141	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=distutils	77fc6005d2dfcc7bdb5ec363a49d9912	eutils	36e6377b0e31856b6d62af831661c4f3	multilib	ded93e450747134a079e647d888aa80b	python	dd56675d8e9f7e85d815a28c87383141	toolchain-funcs	69a2016af67775a812f4c03ba4b0e03e	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=642f60934f5050e9935e7a153ac85807
