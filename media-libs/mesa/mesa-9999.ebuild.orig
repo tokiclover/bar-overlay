@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2013/04/14 12:18:59 -tclover Exp $
+# $Header: bar-overlay/media-libs/mesa/mesa-9999.ebuild,v 1.2 2013/02/09 08:48:10 -tclover Exp $
 
 EAPI=5
 
@@ -81,7 +81,7 @@ RDEPEND="
 	vdpau? ( >=x11-libs/libvdpau-0.4.1 )
 	wayland? ( >=dev-libs/wayland-1.0.3 )
 	xorg? (
-		x11-base/xorg-server:=
+		x11-base/xorg-server
 		x11-libs/libdrm[libkms]
 	)
 	xvmc? ( >=x11-libs/libXvMC-1.0.6 )
@@ -102,11 +102,11 @@ done
 DEPEND="${RDEPEND}
 	llvm? (
 		>=sys-devel/llvm-2.9
-		r600-llvm-compiler? ( sys-devel/llvm[video_cards_radeon] )
-		video_cards_radeonsi? ( sys-devel/llvm[video_cards_radeon] )
+		r600-llvm-compiler? ( >=sys-devel/llvm-3.1 )
+		video_cards_radeonsi? ( >=sys-devel/llvm-3.1 )
 	)
-	${PYTHON_DEPS}
-	dev-libs/libxml2[python,${PYTHON_USEDEP}]
+	=dev-lang/python-2*
+	dev-libs/libxml2[python]
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
@@ -247,7 +247,6 @@ src_configure() {
 		$(use_enable xorg) \
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
-		PYTHON2="${PYTHON}" \
 		${myconf}
 }
 
