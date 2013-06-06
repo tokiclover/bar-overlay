@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.4.44.ebuild,v 1.5 2013/03/19 21:20:50 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.4.44.ebuild,v 1.5 2013/06/06 16:32:42 -tclover Exp $
 
 EAPI=5
 
@@ -109,7 +109,9 @@ src_prepare() {
 		epatch "${FILESDIR}"/3.4-bld-3.5.patch && popd &&
 		epatch "${WORKDIR}"/bld-3.5.0/BLD-3.5.patch
 	fi
-	use bfq && epatch "${FILESDIR}"/${bfq_src}
+	if use bfq; then
+		bzip2 -cd "${FILESDIR}"/${bfq_src} | patch -p1 || die
+	fi
 	use uksm && epatch "${DISTDIR}"/${uksm_src}
 	rm -fr .git* b
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die

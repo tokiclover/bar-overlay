@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.8.2.ebuild,v 1.5 2013/03/19 21:16:47 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.8.2.ebuild,v 1.5 2013/06/06 16:32:42 -tclover Exp $
 
 EAPI=5
 
@@ -99,7 +99,9 @@ src_prepare() {
 			epatch "${WORKDIR}"/patches/preempt-desktop-tune.patch
 		fi
 	fi
-	use bfq && epatch "${FILESDIR}"/${bfq_src}
+	if use bfq; then
+		bzip2 -cd "${FILESDIR}"/${bfq_src} | patch -p1 || die
+	fi
 	if use bld; then
 		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${okv/8/7}-bld.patch.patch && popd
 		epatch "${WORKDIR}"/bld-3.5.0/BLD-3.5.patch
