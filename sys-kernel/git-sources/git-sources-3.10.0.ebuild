@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.6.11.ebuild,v 1.5 2013/06/06 16:32:42 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.10.0.ebuild,v 1.5 2013/07/11 11:18:58 -tclover Exp $
 
 EAPI=5
 
@@ -11,7 +11,6 @@ K_NOUSEPR="yes"
 K_SECURITY_UNSUPPORTED="yes"
 K_DEBLOB_AVAILABLE=0
 K_WANT_GENPATCHES="extras"
-K_GENPATCHES_VER="3"
 ETYPE="sources"
 CKV=${PV}-git
 
@@ -29,24 +28,22 @@ EGIT_NOUNPACK="yes"
 
 EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfq bfs bld fbcondecor ck hz uksm"
+IUSE="aufs bfq bfs bld ck hz uksm"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
 bfq_src=${okv}-bfq-v6-r1.patch.bz2
-bfs_src=${okv/6/5}-sched-bfs-425.patch
+bfs_src=${okv}-sched-bfs-428.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/${okv}/${okv}
 bld_uri=https://bld.googlecode.com/files
 bld_src=bld-${KV_MAJOR}.5.0.tar.bz2
 ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
-gen_src=genpatches-$okv-${K_GENPATCHES_VER}.extras.tar.bz2
 uksm_uri=http://kerneldedup.org/download/uksm/0.1.2.2
-uksm_src=uksm-0.1.2.2-for-v${okv}.ge.11.patch
+uksm_src=uksm-0.1.2.2-for-v${okv/10/9}.ge.1.patch
 RESTRICT="nomirror confcache"
-SRC_URI="fbcondecor? ( http://dev.gentoo.org/~mpagano/genpatches/tarballs/${gen_src} )
-	bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
+SRC_URI="bfs? ( ${ck_uri}/${ck_src} ) ck? ( ${ck_uri}/${ck_src} ) hz? ( ${ck_uri}/${ck_src} )
 	bld? ( ${bld_uri}/${bld_src} ) uksm? ( ${uksm_uri}/${uksm_src} )
 "
 unset bfq_uri bfs_uri ck_uri bld_uri uksm_uri
@@ -70,6 +67,7 @@ src_unpack() {
 	if use bfs || use hz || use ck; then
 		unpack ${ck_src}
 	fi
+	use bld && unpack ${bld_src}
 }
 
 src_prepare() {
@@ -77,11 +75,11 @@ src_prepare() {
 		for file in Documentation fs include/linux/aufs_type.h; do
 			cp -pPR "${WORKDIR}"/aufs${KV_MAJOR}-standalone/$file . || die
 		done
-		mv aufs_type.h include/linux/ || die
+		cp {"${WORKDIR}"/aufs${KV_MAJOR}-standalone/,}include/linux/aufs_type.h || die
+		cp {"${WORKDIR}"/aufs${KV_MAJOR}-standalone/,}include/uapi/linux/aufs_type.h || die
 		local ap=aufs${KV_MAJOR}-standalone/aufs${KV_MAJOR}
 		epatch "${WORKDIR}"/${ap}-{kbuild,base,standalone,loopback,proc_map}.patch
 	fi
-	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
 #		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src}.patch && popd
 		sed -e "s,linux-${okv}-ck[0-9]/,,g" -i "${WORKDIR}"/patches/${bfs_src} || die
@@ -104,7 +102,10 @@ src_prepare() {
 	if use bfq; then
 		bzip2 -cd "${FILESDIR}"/${bfq_src} | patch -p1 || die
 	fi
-	use bld && epatch "${DISTDIR}"/${bld_src}
+	if use bld; then
+		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${okv/8/7}-bld.patch.patch && popd
+		epatch "${WORKDIR}"/bld-3.5.0/BLD-3.5.patch
+	fi
 	use uksm && epatch "${DISTDIR}"/${uksm_src}
 	rm -fr .git* b
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
