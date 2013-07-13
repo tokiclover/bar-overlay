@@ -34,7 +34,7 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
-bfq_src=${okv}-bfq-v6-r1.patch.bz2
+bfq_src=${okv}-bfq-v6-r2.patch.bz2
 bfs_src=${okv}-sched-bfs-406-13.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/${okv}.0
 ck_src=${okv}.0-ck1-broken-out.tar.bz2
