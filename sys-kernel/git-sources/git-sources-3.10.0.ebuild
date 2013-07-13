@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.10.0.ebuild,v 1.5 2013/07/11 11:18:58 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.10.0.ebuild,v 1.5 2013/07/13 19:55:27 -tclover Exp $
 
 EAPI=5
 
