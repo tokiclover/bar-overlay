@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.10.0.ebuild,v 1.5 2013/07/13 20:36:12 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.10.3.ebuild,v 1.6 2013/07/26 11:50:02 -tclover Exp $
 
 EAPI=5
 
@@ -26,7 +26,7 @@ EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable
 EGIT_COMMIT=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
-EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
+EGIT_REPO_AUFS="git://git.code.sf.net/p/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="aufs bfq bfs bld ck hz uksm"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
@@ -34,10 +34,10 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
 bfq_src=${okv}-bfq-v6-r2.patch.bz2
-bfs_src=${okv}-sched-bfs-428.patch
+bfs_src=${okv}-sched-bfs-440.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/${okv}/${okv}
 bld_uri=https://bld.googlecode.com/files
-bld_src=bld-${KV_MAJOR}.5.0.tar.bz2
+bld_src=bld-${okv}.0.patch
 ck_src=${okv}-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv:0:1}.0/${okv}/${okv}-ck1/"
 uksm_uri=http://kerneldedup.org/download/uksm/0.1.2.2
@@ -67,7 +67,6 @@ src_unpack() {
 	if use bfs || use hz || use ck; then
 		unpack ${ck_src}
 	fi
-	use bld && unpack ${bld_src}
 }
 
 src_prepare() {
@@ -102,10 +101,7 @@ src_prepare() {
 	if use bfq; then
 		bzip2 -cd "${FILESDIR}"/${bfq_src} | patch -p1 || die
 	fi
-	if use bld; then
-		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${okv/8/7}-bld.patch.patch && popd
-		epatch "${WORKDIR}"/bld-3.5.0/BLD-3.5.patch
-	fi
+	use bld && epatch "${DISTDIR}"/${bld_src}
 	use uksm && epatch "${DISTDIR}"/${uksm_src}
 	rm -fr .git* b
 	sed -e "s:EXTRAVERSION =:EXTRAVERSION = -git:" -i Makefile || die
