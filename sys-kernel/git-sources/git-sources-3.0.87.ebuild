@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.0.78.ebuild,v 1.5 2013/07/13 19:55:27 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.0.87.ebuild,v 1.6 2013/07/26 12:45:23 -tclover Exp $
 
 EAPI=5
 
@@ -27,7 +27,7 @@ EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable
 EGIT_COMMIT=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
-EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
+EGIT_REPO_AUFS="git://git.code.sf.net/p/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="aufs bfq bfs fbcondecor ck hz uksm"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
@@ -35,7 +35,7 @@ REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
 okv=${KV_MAJOR}.${KV_MINOR}
 bfq_uri="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/${okv}.0-v4"
 bfq_src=${okv}-bfq-v6-r2.patch.bz2
-bfs_src=${okv}-sched-bfs-406-13.patch
+bfs_src=${okv}-sched-bfs-406.patch
 bfs_uri=http://ck.kolivas.org/patches/bfs/${okv}.0
 ck_src=${okv}.0-ck1-broken-out.tar.bz2
 ck_uri="http://ck.kolivas.org/patches/${okv}/${okv}/${okv}.0-ck1/"
@@ -84,7 +84,7 @@ src_prepare() {
 	fi
 	use fbcondecor && epatch "${DISTDIR}"/${gen_src}
 	if use bfs || use ck; then
-		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src/13/16}.patch && popd
+		pushd "${WORKDIR}" && epatch "${FILESDIR}"/${bfs_src/.patch/-16.patch} && popd
 		sed -e "s,linux-${okv}-ck[0-9]/,,g" -i "${WORKDIR}"/patches/${bfs_src} || die
 	fi
 	if use ck; then
@@ -93,7 +93,7 @@ src_prepare() {
 			epatch "${WORKDIR}"/patches/$pch
 		done
  	else
- 		use bfs && epatch "${WORKDIR}"/patches/${bfs_src/bfs-*413/sched-bfs-406}
+ 		use bfs && epatch "${WORKDIR}"/patches/${bfs_src}
 		if use hz; then
 			for pch in $(grep hz "${WORKDIR}"/patches/series); do 
 				epatch "${WORKDIR}"/patches/$pch

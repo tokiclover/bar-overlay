@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-kernel/git-sources/git-sources-3.8.2.ebuild,v 1.5 2013/07/13 19:55:28 -tclover Exp $
+# $Header: bar/sys-kernel/git-sources/git-sources-3.8.13.ebuild,v 1.6 2013/07/26 12:45:55 -tclover Exp $
 
 EAPI=5
 
@@ -26,7 +26,7 @@ EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable
 EGIT_COMMIT=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
-EGIT_REPO_AUFS="git://aufs.git.sourceforge.net/gitroot/aufs/aufs${KV_MAJOR}-standalone.git"
+EGIT_REPO_AUFS="git://git.code.sf.net/p/aufs/aufs${KV_MAJOR}-standalone.git"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="aufs bfq bfs bld ck hz uksm"
 REQUIRED_USE="ck? ( bfs hz ) hz? ( || ( bfs ck ) )"
