@@ -1,0 +1,125 @@
+diff --git a/setup/Linux/oss/build/osscore.c b/setup/Linux/oss/build/osscore.c
+index 1a029b4..7e8335c 100644
+--- a/setup/Linux/oss/build/osscore.c
++++ b/setup/Linux/oss/build/osscore.c
+@@ -276,28 +276,59 @@ oss_read_devfiles (struct file *file, char __user * buf, size_t count,
+   return strlen (tmp);
+ }
+ 
++
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0)
+ static struct file_operations oss_proc_operations = {
+   .read = oss_read_devfiles,
+ };
++#else
++static struct file_operations fops = { 
++ .owner = THIS_MODULE,
++ .read = oss_read_devfiles,
++};
++#endif
++
+ 
+ static void
+ init_proc_fs (void)
+ {
++
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0)
++
+   if ((oss_proc_root =
+-       create_proc_entry ("opensound", 0700 | S_IFDIR, NULL)) == NULL)
++         create_proc_entry ("opensound", 0700 | S_IFDIR, NULL)) == NULL)
++     {
++         oss_cmn_err (CE_CONT, "Cannot create /proc/opensound\n");
++         return;
++     }
++
++  if ((oss_proc_devfiles =
++        create_proc_entry ("devfiles", 0600, oss_proc_root)) == NULL)
++     {
++      	oss_cmn_err (CE_CONT, "Cannot create /proc/opensound/devfiles\n");
++      	return;
++     }
++
++  oss_proc_devfiles->proc_fops = &oss_proc_operations;
++
++#else
++
++  if ((oss_proc_root = 
++         proc_mkdir ("opensound", NULL)) == NULL )
+     {
+-      oss_cmn_err (CE_CONT, "Cannot create /proc/opensound\n");
+-      return;
++	oss_cmn_err (CE_CONT, "Cannot create /proc/opensound\n");
++	return;
+     }
+ 
+   if ((oss_proc_devfiles =
+-       create_proc_entry ("devfiles", 0600, oss_proc_root)) == NULL)
++	proc_create ("devfiles", 0600, oss_proc_root, &fops)) == NULL)
+     {
+-      oss_cmn_err (CE_CONT, "Cannot create /proc/opensound/devfiles\n");
+-      return;
++	oss_cmn_err (CE_CONT, "Cannot create /proc/opensound/devfiles\n");
++      	return;
+     }
+ 
+-  oss_proc_devfiles->proc_fops = &oss_proc_operations;
++#endif
++ 
+ }
+ 
+ static void
+@@ -953,7 +984,11 @@ alloc_fop (oss_device_t * osdev, struct oss_file_operation_handle *op)
+   fop->llseek = oss_no_llseek;
+   fop->read = tmp_read;
+   fop->write = tmp_write;
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0)
+   fop->readdir = NULL;		/* tmp_readdir; */
++#else
++  fop->iterate = NULL;
++#endif
+   fop->poll = tmp_poll;
+ #if LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,35)
+   fop->ioctl = tmp_ioctl;
+diff --git a/setup/Linux/oss/build/pci_wrapper.inc b/setup/Linux/oss/build/pci_wrapper.inc
+index e08ec3a..6869959 100644
+--- a/setup/Linux/oss/build/pci_wrapper.inc
++++ b/setup/Linux/oss/build/pci_wrapper.inc
+@@ -17,7 +17,11 @@ typedef struct
+ static dev_map_t dev_map[MAX_INSTANCE];
+ static int n_devmap = 0;
+ 
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0)
+ static int __devinit
++#else
++static int
++#endif
+ osspci_probe (struct pci_dev *pcidev, const struct pci_device_id *pciid)
+ {
+   oss_device_t *osdev;
+@@ -65,7 +69,11 @@ osspci_probe (struct pci_dev *pcidev, const struct pci_device_id *pciid)
+   return 0;
+ }
+ 
+-static void __devexit
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0)
++static int __devexit
++#else
++static int
++#endif
+ osspci_remove (struct pci_dev *pcidev)
+ {
+   int i;
+@@ -80,10 +88,11 @@ osspci_remove (struct pci_dev *pcidev)
+ 	pci_disable_device (dev_map[i].pcidev);
+ 	osdev_delete (osdev);
+ 
+-	return;
++	return 0;
+       }
+ 
+   printk (KERN_ALERT DRIVER_NICK ": Can't find the PCI device to detach\n");
++  return -EIO;
+ }
+ 
+ void
