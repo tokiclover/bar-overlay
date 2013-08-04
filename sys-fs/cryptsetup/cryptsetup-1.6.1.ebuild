@@ -1,39 +1,45 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/sys-fs/cryptsetup/cryptsetup-1.6.0.ebuild,v 1.8 2013/01/07 02:33:53 -tclover Exp $
+# $Header: sys-fs/cryptsetup/cryptsetup-1.6.1.ebuild,v 1.8 2013/08/04 10:17:49 -tclover Exp $
 
 EAPI=5
+PYTHON_COMPAT=( python{2_5,2_6,2_7} )
 
-inherit linux-info libtool
+inherit python-single-r1 linux-info libtool eutils
 
-MY_P=${P/_rc/-rc}
 DESCRIPTION="Tool to setup encrypted devices with dm-crypt"
 HOMEPAGE="http://code.google.com/p/cryptsetup/"
-SRC_URI="http://cryptsetup.googlecode.com/files/${MY_P}.tar.bz2"
+SRC_URI="http://cryptsetup.googlecode.com/files/${P}.tar.bz2"
 
-LICENSE="GPL-2"
+LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ~mips ppc ppc64 s390 sh sparc x86"
-IUSE="nls selinux static static-libs"
-
-S=${WORKDIR}/${MY_P}
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
+CRYPTO_BACKENDS="+gcrypt kernel nettle openssl"
+# we don't support nss since it doesn't allow cryptsetup to be built statically
+# and it's missing ripemd160 support so it can't provide full backward compatibility
+IUSE="${CRYPTO_BACKENDS} nls python reencrypt selinux static static-libs udev urandom"
+REQUIRED_USE="^^ ( ${CRYPTO_BACKENDS//+/} )
+	python? ( ${PYTHON_REQUIRED_USE} )"
 
 LIB_DEPEND="dev-libs/libgpg-error[static-libs(+)]
-	>=dev-libs/popt-1.7[static-libs(+)]
-	>=sys-apps/util-linux-2.17.2[static-libs(+)]
-	>=dev-libs/libgcrypt-1.1.42[static-libs(+)]
-	>=sys-fs/lvm2-2.02.64[static-libs(+)]
-	>=sys-libs/e2fsprogs-libs-1.41[static-libs(+)]"
+	dev-libs/popt[static-libs(+)]
+	sys-apps/util-linux[static-libs(+)]
+	gcrypt? ( dev-libs/libgcrypt[static-libs(+)] )
+	nettle? ( >=dev-libs/nettle-2.4[static-libs(+)] )
+	openssl? ( dev-libs/openssl[static-libs(+)] )
+	sys-fs/lvm2[static-libs(+)]
+	sys-libs/e2fsprogs-libs[static-libs(+)]
+	udev? ( virtual/udev[static-libs(+)] )"
 # We have to always depend on ${LIB_DEPEND} rather than put behind
-# static? () because we provide a shared library which links against
+# !static? () because we provide a shared library which links against
 # these other packages. #414665
 RDEPEND="static-libs? ( ${LIB_DEPEND} )
-	${LIB_DEPEND//\[static-libs(+)]}
-	!<sys-apps/baselayout-2
-	!sys-fs/cryptsetup-luks
-	selinux? ( sys-libs/libselinux )"
-
-DEPEND="${RDEPEND} static? ( ${LIB_DEPEND} )"
+	${LIB_DEPEND//\[static-libs\(+\)\]}
+	selinux? ( sys-libs/libselinux )
+	python? ( ${PYTHON_DEPS} )"
+DEPEND="${RDEPEND}
+	virtual/pkgconfig
+	static? ( ${LIB_DEPEND} )"
 
 pkg_setup() {
 	local CONFIG_CHECK="~DM_CRYPT ~CRYPTO ~CRYPTO_CBC"
@@ -41,21 +47,34 @@ pkg_setup() {
 	local WARNING_CRYPTO_CBC="CONFIG_CRYPTO_CBC:\tis not set (required for kernel 2.6.19)\n"
 	local WARNING_CRYPTO="CONFIG_CRYPTO:\tis not set (required for cryptsetup)\n"
 	check_extra_config
+
+	use python && python-single-r1_pkg_setup
 }
 
 src_prepare() {
-	sed -i '/^LOOPDEV=/s:$: || exit 0:' tests/{compat,mode}-test
+	sed -i '/^LOOPDEV=/s:$: || exit 0:' tests/{compat,mode}-test || die
 	elibtoolize
 }
 
 src_configure() {
+	if use kernel ; then
+		ewarn "Note that kernel backend is very slow for this type of operation"
+		ewarn "and is provided mainly for embedded systems wanting to avoid"
+		ewarn "userspace crypto libraries."
+	fi
+
 	econf \
 		--sbindir=/sbin \
 		--enable-shared \
 		$(use_enable static static-cryptsetup) \
 		$(use_enable static-libs static) \
 		$(use_enable nls) \
-		$(use_enable selinux)
+		$(use_enable python) \
+		$(use_enable reencrypt cryptsetup-reencrypt) \
+		$(use_enable selinux) \
+		$(use_enable udev) \
+		$(use_enable !urandom dev-random) \
+		--with-crypto_backend=$(for x in ${CRYPTO_BACKENDS//+/}; do use ${x} && echo ${x} ; done)
 }
 
 src_test() {
@@ -72,32 +91,33 @@ src_test() {
 
 src_install() {
 	default
-	use static && { mv "${ED}"/sbin/cryptsetup{.static,} || die ; }
-	use static-libs || find "${ED}"/usr -name '*.la' -delete
+	if use static ; then
+		mv "${ED}"/sbin/cryptsetup{.static,} || die
+		mv "${ED}"/sbin/veritysetup{.static,} || die
+		use reencrypt && { mv "${ED}"/sbin/cryptsetup-reencrypt{.static,} || die ; }
+	fi
+	prune_libtool_files --modules
 
 	newconfd "${FILESDIR}"/1.0.6-dmcrypt.confd dmcrypt
-	newinitd "${FILESDIR}"/dmcrypt.rc dmcrypt
+	newinitd "${FILESDIR}"/1.5.1-dmcrypt.rc dmcrypt
 }
 
 pkg_postinst() {
-	ewarn "This ebuild introduces a new set of scripts and configuration"
-	ewarn "than the last version. If you are currently using /etc/conf.d/cryptfs"
-	ewarn "then you *MUST* copy your old file to:"
-	ewarn "/etc/conf.d/dmcrypt"
-	ewarn "Or your encrypted partitions will *NOT* work."
-	elog "Please see the example for configuring a LUKS mountpoint"
-	elog "in /etc/conf.d/dmcrypt"
-	elog
-	elog "If you are using baselayout-2 then please do:"
-	elog "rc-update add dmcrypt boot"
-	elog "This version introduces a command line arguement 'key_timeout'."
-	elog "If you want the search for the removable key device to timeout"
-	elog "after 10 seconds add the following to your bootloader config:"
-	elog "key_timeout=10"
-	elog "A timeout of 0 will mean it will wait indefinitely."
-	elog
-	elog "Users using cryptsetup-1.0.x (dm-crypt plain) volumes must use"
-	elog "a compatibility mode when using cryptsetup-1.1.x. This can be"
-	elog "done by specifying the cipher (-c), key size (-s) and hash (-h)."
-	elog "For more info, see http://code.google.com/p/cryptsetup/wiki/FrequentlyAskedQuestions#6._Issues_with_Specific_Versions_of_cryptsetup"
+	if [[ -z ${REPLACING_VERSIONS} ]] ; then
+		elog "Please see the example for configuring a LUKS mountpoint"
+		elog "in /etc/conf.d/dmcrypt"
+		elog
+		elog "If you are using baselayout-2 then please do:"
+		elog "rc-update add dmcrypt boot"
+		elog "This version introduces a command line arguement 'key_timeout'."
+		elog "If you want the search for the removable key device to timeout"
+		elog "after 10 seconds add the following to your bootloader config:"
+		elog "key_timeout=10"
+		elog "A timeout of 0 will mean it will wait indefinitely."
+		elog
+		elog "Users using cryptsetup-1.0.x (dm-crypt plain) volumes must use"
+		elog "a compatibility mode when using cryptsetup-1.1.x. This can be"
+		elog "done by specifying the cipher (-c), key size (-s) and hash (-h)."
+		elog "For more info, see http://code.google.com/p/cryptsetup/wiki/FrequentlyAskedQuestions#6._Issues_with_Specific_Versions_of_cryptsetup"
+	fi
 }
