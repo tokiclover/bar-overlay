@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/ladish/ladish-9999.ebuild,v 1.0 2012/11/12 12:14:23 -tclover Exp $
+# $Header: bar-overlay/media-sound/ladish/ladish-9999.ebuild,v 1.0 2014/04/12 12:14:23 -tclover Exp $
 
 EAPI=5
 
@@ -37,7 +37,7 @@ DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
 	virtual/pkgconfig
 	dev-util/intltool
-	dev-libs/ossp-uuid"
+"
 
 src_prepare() {
 	epatch "${FILESDIR}"/lash-1.0.pc.in.patch
@@ -57,9 +57,9 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf="--prefix=/usr --destdir=\"${D}\" \
+	local myconf="--prefix=/usr \
 		$(use debug && echo '--debug') \
-		$(use && doc echo '--doxygen') \
+		$(use doc && echo '--doxygen') \
 		$(use_enable lash liblash) \
 		$(use_enable python pylash)"
 
