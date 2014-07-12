@@ -1,14 +1,14 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/ladish/ladish-1.ebuild,v 1.1 2012/11/12 12:14:19 -tclover Exp $
+# $Header: bar-overlay/media-sound/ladish/ladish-1.ebuild,v 1.1 2014/07/12 12:14:19 -tclover Exp $
 
 EAPI=5
 
 inherit eutils
 
 DESCRIPTION="LADI Session Handler - a session management system for JACK applications"
-HOMEPAGE="http://ladish.org/"
-SRC_URI="http://ladish.org/download/ladish-${PV}.tar.bz2"
+HOMEPAGE="http://${PN}.org/"
+SRC_URI="http://${PN}.org/download/${PN}-${PV}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -57,9 +57,9 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf="--prefix=/usr --destdir=\"${D}\" \
+	local myconf="--prefix=/usr \
 		$(use debug && echo '--debug') \
-		$(use && doc echo '--doxygen') \
+		$(use doc && echo '--doxygen') \
 		$(use_enable lash liblash) \
 		$(use_enable python pylash)"
 
