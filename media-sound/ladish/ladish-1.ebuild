@@ -37,7 +37,7 @@ DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
 	virtual/pkgconfig
 	dev-util/intltool
-	dev-libs/ossp-uuid"
+"
 
 src_prepare() {
 	epatch "${FILESDIR}"/lash-1.0.pc.in.patch
