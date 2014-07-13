@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/hydrogen/hydrogen-9999.ebuild,v 2014/07/07 01:08:24 -tclover Exp $
+# $Header: media-sound/hydrogen/hydrogen-9999.ebuild,v 2014/07/07 02:08:24 -tclover Exp $
 
 EAPI=5
 
@@ -38,20 +38,20 @@ DEPEND="${RDEPEND}
 DOCS=( AUTHORS ChangeLog DEVELOPERS README.txt )
 
 src_configure() {
-	local MYCMAKEARGS="\
-		$(cmake-utils_use_want alsa ALSA) \
-		$(cmake-utils_use_want archive LIBARCHIVE) \
-		$(cmake-utils_use_want debug DEBUG) \
-		$(cmake-utils_use_want jack JACK) \
-		$(cmake-utils_use_want jacksession JACKSESSION) \
-		$(cmake-utils_use_want ladspa LRDF) \
-		$(cmake-utils_use_want lash LASH) \
-		$(cmake-utils_use_want oss OSS) \
-		$(cmake-utils_use_want portaudio PORTAUDIO) \
-		$(cmake-utils_use_want portmidi PORTMIDI) \
-		$(cmake-utils_use_want pulseaudio PULSEAUDIO) \
+	local mycmakeargs=(
+		$(cmake-utils_use_want alsa ALSA)
+		$(cmake-utils_use_want archive LIBARCHIVE)
+		$(cmake-utils_use_want debug DEBUG)
+		$(cmake-utils_use_want jack JACK)
+		$(cmake-utils_use_want jacksession JACKSESSION)
+		$(cmake-utils_use_want ladspa LRDF)
+		$(cmake-utils_use_want lash LASH)
+		$(cmake-utils_use_want oss OSS)
+		$(cmake-utils_use_want portaudio PORTAUDIO)
+		$(cmake-utils_use_want portmidi PORTMIDI)
+		$(cmake-utils_use_want pulseaudio PULSEAUDIO)
 		$(cmake-utils_use_want rubberband RUBBERBAND)
-		$(cmake-utils_use_no static SHARED)"
-	
+		$(cmake-utils_use_no static SHARED)
+	)
 	cmake-utils_src_configure
 }
