@@ -16,11 +16,11 @@ IUSE="bluetooth debug doc examples +ethernet gnutls networkmanager ofono
 openconnect openvpn policykit selinux threads tools vpnc +wifi wimax"
 REQUIRED_USE="selinux? ( openvpn )"
 
-RDEPEND=">=dev-libs/glib-2.16
-	>=sys-apps/dbus-1.2.24
+RDEPEND=">=dev-libs/glib-2.18
+	>=sys-apps/dbus-1.4
 	sys-libs/readline
 	>=dev-libs/libnl-1.1
-	>=net-firewall/iptables-1.4.8
+	>=net-firewall/iptables-1.4.11
 	gnutls? ( net-libs/gnutls )
 	bluetooth? ( net-wireless/bluez )
 	ofono? ( net-misc/ofono )
