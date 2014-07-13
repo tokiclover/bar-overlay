@@ -1,37 +1,36 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: media-sound/jack_mixer/jack_mixer-9999.ebuild, 2014/07/14 -tclover $
 
-EAPI=3
-PYTHON_DEPEND="2:2.4"
-RESTRICT_PYTHON_ABIS="3.*"
+EAPI=4
+
 inherit eutils gnome2 python git-2 autotools
+
+PYTHON_DEPEND="2"
 
 DESCRIPTION="JACK audio mixer using GTK2 interface."
 HOMEPAGE="http://home.gna.org/jackmixer/"
 EGIT_REPO_URI="git://repo.or.cz/jack_mixer.git"
-SRC_URI=""
-
-RESTRICT="mirror"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
 IUSE="gconf lash phat"
 
-DEPEND="dev-python/fpconst
+DEPEND=">=media-sound/jack-audio-connection-kit-0.102.0
 	dev-python/pygtk
-	>=dev-python/pyxml-0.8.4
-	media-sound/jack-audio-connection-kit"
+	dev-python/fpconst
+	>=dev-python/pyxml-0.8.4"
+
 RDEPEND="${DEPEND}
+	phat? ( media-libs/pyphat )
 	gconf? ( dev-python/gconf-python:2 )
-	lash? (	|| (
+	lash? ( || (
 		media-sound/ladish[python]
 		media-sound/lash[python]
 		>=media-libs/pylash-3_pre
 		)
-	)
-	phat? ( media-libs/pyphat )"
+	)"
 
 pkg_setup() {
 	python_set_active_version 2
