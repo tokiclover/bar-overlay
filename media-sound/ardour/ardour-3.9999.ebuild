@@ -1,120 +1,103 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $BAR-overlay/media-sound/ardour-3.9999.ebuild,v 1.1 2012/07/04 00:20:49 -tclover Exp $
+# $Header: media-sound/ardour/ardour-3.9999.ebuild,v 1.8 2014/05/17 18:21:28 -tclover Exp $
 
-EAPI="2"
+EAPI=4
 
-inherit eutils toolchain-funcs fdo-mime flag-o-matic subversion versionator
+inherit eutils toolchain-funcs flag-o-matic git-2 waf-utils
 
-DESCRIPTION="multi-track hard disk recording software"
+DESCRIPTION="Digital Audio Workstation"
 HOMEPAGE="http://ardour.org/"
 
-ESVN_REPO_URI="http://subversion.ardour.org/svn/ardour2/branches/3.0"
+KEYWORDS=""
+EGIT_REPO_URI="git://git.ardour.org/ardour/ardour.git"
 
 LICENSE="GPL-2"
 SLOT="3"
-KEYWORDS=""
-IUSE="altivec debug nls sse lv2 vst sys-libs tranzport wiimote"
+IUSE="altivec debug doc nls lv2 sse"
 
-RDEPEND="media-libs/liblo
-	>=media-libs/taglib-1.5
-	media-libs/aubio
-	>=media-libs/liblrdf-0.4.0
-	>=media-libs/raptor-1.4.2[curl]
-	>=media-sound/jack-audio-connection-kit-0.120.1
-	>=dev-libs/glib-2.2
-	x11-libs/pango
-	>=x11-libs/gtk+-2.8.8
+RDEPEND="media-libs/aubio
+	media-libs/liblo
+	sci-libs/fftw:3.0
+	media-libs/freetype:2
+	>=dev-libs/glib-2.10.1:2
+	dev-cpp/glibmm:2
+	>=x11-libs/gtk+-2.8.1:2
+	>=dev-libs/libxml2-2.6:2
+	>=media-libs/libsndfile-1.0.18
+	>=media-libs/libsamplerate-0.1
+	>=media-libs/rubberband-1.6.0
+	>=media-libs/libsoundtouch-1.6.0
 	media-libs/flac
-	>=media-libs/alsa-lib-1.0.14a-r1
-	>=media-libs/libsamplerate-0.1.1-r1
-	>=dev-libs/libxml2-2.6.0
+	media-libs/raptor:2
+	>=media-libs/liblrdf-0.4.0-r20
+	>=media-sound/jack-audio-connection-kit-0.120
+	>=gnome-base/libgnomecanvas-2
+	media-libs/vamp-plugin-sdk
 	dev-libs/libxslt
-	>=media-libs/libsndfile-1.0.18_pre24
-	gnome-base/libgnomecanvas
-	x11-themes/gtk-engines
-	>=dev-cpp/gtkmm-2.12.3
-	>=dev-cpp/glibmm-2.14.2
-	>=dev-cpp/libgnomecanvasmm-2.20.0
-	dev-cpp/cairomm
-	>=dev-libs/libsigc++-2.0
-	media-libs/libsoundtouch
-	dev-libs/libusb
-	=sci-libs/fftw-3*
-	lv2? ( >=media-libs/slv2-0.6.1 )"
+	dev-libs/libsigc++:2
+	>=dev-cpp/gtkmm-2.16:2.4
+	>=dev-cpp/libgnomecanvasmm-2.26:2.6
+	media-libs/alsa-lib
+	x11-libs/pango
+	x11-libs/cairo
+	media-libs/libart_lgpl
+	virtual/libusb:0
+	dev-libs/boost
+	>=media-libs/taglib-1.7
+	net-misc/curl
+	lv2? (
+		>=media-libs/slv2-0.6.1
+		media-libs/lilv
+		media-libs/sratom
+		dev-libs/sord
+		>=media-libs/suil-0.6.10
+		>=media-libs/lv2-1.4.0
+	)"
 
 DEPEND="${RDEPEND}
-	sys-devel/libtool
-	dev-libs/boost
-	dev-util/pkgconfig
-	>=dev-util/scons-0.98.5
-	nls? ( sys-devel/gettext )"
+	virtual/pkgconfig
+	nls? ( sys-devel/gettext )
+	doc? ( app-doc/doxygen[dot] )"
 
-src_unpack() {
-	subversion_src_unpack
-	cd "${S}"
-	# get the svn revision
-	subversion_wc_info
-	echo '#include "ardour/svn_revision.h"' > libs/ardour/svn_revision.cc
-	echo "namespace ARDOUR { const char* svn_revision=\"$ESVN_WC_REVISION\"; }" >> libs/ardour/svn_revision.cc
-	echo >> libs/ardour/svn_revision.cc
+src_prepare(){
+	sed -e '/cmd = "git describe HEAD/,/utf-8/{s:cmd = \"git describe HEAD\":rev = \"'${PV}-gentoo'\":p;d}' \
+	    -i "${S}"/wscript
+	sed -e 's/'os.getcwd\(\),\ \'.git'/'os.getcwd\(\),\ \'libs/'' \
+	    -i "${S}"/wscript
+	sed -e 's/'os.path.exists\(\'.git'/'os.path.exists\(\'wscript/'' \
+	    -i "${S}"/wscript
 
-##	# some temporary slotting fixes
-##	sed -i -e 's:ardour2:ardour3:' \
-##		libs/rubberband/SConscript \
-##		libs/clearlooks-older/SConscript \
-##		|| die
-##		# now it gets dirty... the locale files...
-##	sed -e "s:share/locale:share/ardour3/locale:" \
-##		-i SConstruct gtk2_ardour/SConscript || die
-##	sed -e "s:'share', 'locale':'share', 'ardour3', 'locale':" \
-##		-i libs/ardour/SConscript
+	epatch "${FILESDIR}"/${PN}-3.5.7-syslibs.patch
+	sed -e 's/python/python2/' -i waf
+#	sed -e 's/'FLAGS\'\,\ optimization_flags'/'FLAGS\'\,\ \'\''/g' -i "${S}"/wscript
+	sed -e 's/'FLAGS\'\,\ compiler_flags'/'FLAGS\'\,\ \'\''/g' \
+	    -i "${S}"/wscript
 }
 
-src_compile() {
-
-	local myconf="--freedesktop --noconfirm --prefix=/usr"
-		use debug     && myconf="$myconf --debug"
-		use nls       && myconf="$myconf --nls"
-		use lv2       && myconf="$myconf --lv2"
-		use sys-libs  && myconf="$myconf --syslibs"
-		use tranzport && myconf="$myconf --tranzport"
-		use freesound && myconf="$myconf --freesound"
-		use wiimote   && myconf="$myconf --wiimote"
-		use vst       && myconf="$myconf --vst"
-	if use sse || use altivec ;then
-		myconf="$myconf --fpu-optimization"
-	fi
-
-	einfo "./waf configure $myconf" # show configure options
-	./waf configure $myconf || die "failed to configure"
-	./waf build ${MAKEOPTS/-s/} || die "failed to build"
+src_configure() {
+	tc-export CC CXX
+	mkdir -p "${D}"
+	waf-utils_src_configure \
+		--destdir="${D}" \
+		--prefix=/usr \
+		--configdir=/etc \
+		$(use lv2 && echo "--lv2" || echo "--no-lv2") \
+		$(use nls && echo "--nls" || echo "--no-nls") \
+		$(use debug && echo "--stl-debug" || echo "--optimize") \
+		$((use altivec || use sse) && echo "--fpu-optimization" || echo "--no-fpu-optimization") \
+		$(use doc && echo "--docs")
 }
 
 src_install() {
-	./waf --destdir="${D}" install || die "install failed"
-	#if use vst;then
-	#	mv "${D}"/usr/bin/ardourvst "${D}"/usr/bin/ardour2
-	#fi
-
-	dodoc DOCUMENTATION/*
-
-	#newicon "icons/icon/ardour_icon_tango_48px_blue.png" "ardour3.png"
-	#make_desktop_entry "ardour3" "Ardour3" "ardour3" "AudioVideo;Audio"
-
-	# fix wrapper
-	#sed -i -e 's:ardour2:ardour3:g' ${D}/usr/bin/ardour3 || die
+	waf-utils_src_install
+	mv ${PN}.1 ${PN}${SLOT}.1
+	doman ${PN}${SLOT}.1
+	newicon icons/icon/ardour_icon_mac.png ${PN}${SLOT}.png
+	make_desktop_entry ardour3 ardour3 ardour3 AudioVideo
 }
 
 pkg_postinst() {
-	fdo-mime_mime_database_update
-	fdo-mime_desktop_database_update
-
-	ewarn "---------------- WARNING -------------------"
-	ewarn ""
-	ewarn "MAKE BACKUPS OF THE SESSION FILES BEFORE TRYING THIS VERSION."
-	ewarn ""
-	ewarn "The simplest way to address this is to make a copy of the session file itself"
-	ewarn "(e.g mysession/mysession.ardour) and make that file unreadable using chmod(1)."
-	ewarn ""
+	elog "If you are using Ardour and want to keep its development alive"
+	elog "then please consider to do a donation upstream at ardour.org. Thanks!"
 }
