@@ -6,7 +6,7 @@ EAPI=4
 
 inherit eutils gnome2 python
 
-IUSE="lash phat"
+PYTHON_DEPEND="2"
 
 DESCRIPTION="JACK audio mixer using GTK2 interface."
 HOMEPAGE="http://home.gna.org/jackmixer/"
@@ -15,6 +15,7 @@ SRC_URI="mirror://download.gna.org/jackmixer/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE="gconf lash phat"
 
 DEPEND=">=media-sound/jack-audio-connection-kit-0.102.0
 	dev-python/pygtk
@@ -23,6 +24,7 @@ DEPEND=">=media-sound/jack-audio-connection-kit-0.102.0
 
 RDEPEND="${DEPEND}
 	phat? ( media-libs/pyphat )
+	gconf? ( dev-python/gconf-python:2 )
 	lash? ( || (
 		media-sound/ladish[python]
 		media-sound/lash[python]
@@ -30,9 +32,24 @@ RDEPEND="${DEPEND}
 		)
 	)"
 
+pkg_setup() {
+	python_set_active_version 2
+	python_pkg_setup
+}
+
 src_install() {
 	gnome2_src_install
 	python_convert_shebangs -r 2 "${ED}"
 	dosym /usr/bin/jack_mixer.py /usr/bin/jack_mixer
 	dodoc AUTHORS NEWS README
+}
+
+pkg_postinst() {
+	python_mod_optimize "${EPREFIX}/usr/share/${PN}"
+	gnome2_pkg_postinst
+}
+
+pkg_postrm() {
+	python_mod_cleanup "${EPREFIX}/usr/share/${PN}"
+	gnome2_pkg_postrm
 }
