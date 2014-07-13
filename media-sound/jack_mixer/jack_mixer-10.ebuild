@@ -1,28 +1,26 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: media-sound/jack_mixer/jack_mixer-10.ebuild, 2014/07/14 -tclover $
 
-EAPI=3
+EAPI=4
 
 inherit eutils gnome2 python
 
 IUSE="lash phat"
-RESTRICT="mirror"
 
 DESCRIPTION="JACK audio mixer using GTK2 interface."
 HOMEPAGE="http://home.gna.org/jackmixer/"
-SRC_URI="http://download.gna.org/jackmixer/${P}.tar.gz"
+SRC_URI="mirror://download.gna.org/jackmixer/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-# Not sure about the required swig version, report if 1.3.25 doesn't work
-DEPEND="media-sound/jack-audio-connection-kit
+DEPEND=">=media-sound/jack-audio-connection-kit-0.102.0
 	dev-python/pygtk
 	dev-python/fpconst
 	>=dev-python/pyxml-0.8.4"
-	# 1. only needed for non tarballs aka svn checkouts >=dev-lang/swig-1.3.25
+
 RDEPEND="${DEPEND}
 	phat? ( media-libs/pyphat )
 	lash? ( || (
@@ -31,10 +29,6 @@ RDEPEND="${DEPEND}
 		>=media-libs/pylash-3_pre
 		)
 	)"
-
-src_prepare() {
-	epatch "${FILESDIR}/empty_name_on_rename.patch"
-}
 
 src_install() {
 	gnome2_src_install
