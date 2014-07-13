@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/hydrogen/hydrogen-0.9.6.ebuild,v 2014/07/07 09:53:01 -tclover Exp $
+# $Header: media-sound/hydrogen/hydrogen-0.9.6.ebuild,v 2014/07/07 10:53:01 -tclover Exp $
 
 EAPI=5
 
@@ -19,6 +19,8 @@ REQUIRED_USE="lash? ( alsa )"
 
 RDEPEND="archive? ( app-arch/libarchive )
 	!archive? ( >=dev-libs/libtar-1.2.11-r3 )
+	doc? ( app-doc/doxygen )
+	dev-qt/qtgui:4 dev-qt/qtcore:4
 	>=media-libs/libsndfile-1.0.18
 	alsa? ( media-libs/alsa-lib )
 	jack? ( >=media-sound/jack-audio-connection-kit-0.120.0 )
@@ -30,44 +32,27 @@ RDEPEND="archive? ( app-arch/libarchive )
 	pulseaudio? ( media-sound/pulseaudio )
 	rubberband? ( media-libs/rubberband )"
 
+
 DEPEND="${RDEPEND}
-	dev-qt/qtgui:4 dev-qt/qtcore:4
-	>=media-libs/libsndfile-1.0.18
 	virtual/pkgconfig"
 
+DOCS=( AUTHORS ChangeLog DEVELOPERS README.txt )
+
 src_configure() {
-	use ladspa && append-flags $($(tc-getPKG_CONFIG) --cflags lrdf)
-	export QTDIR="/usr/$(get_libdir)"
-
-	mycmakeargs=(
-		$(use alsa && echo "-DWANT_ALSA=1" || echo "-DWANT_ALSA=0")
-		$(use archive && echo "-DWANT_LIBARCHIVE=1" || echo "-DWANT_LIBARCHIVE=0"
-		$(use debug && echo "-DWANT_DEBUG=1" || echo "-DWANT_DEBUG=0")
-		$(use jack && echo "-DWANT_JACK=1" || echo "-DWANT_JACK=0")
-		$(use jacksession && echo "-DWANT_JACKSESSION" || echo "-DWANT_JACKSESSION=0")
-		$(use ladspa && echo "-DWANT_LRDF=1" || echo "-DWANT_LRDF=0")
-		$(use lash && echo "-DWANT_LASH=1" || echo "-DWANT_LASH=0")
-		$(use oss && echo "-DWANT_OSS=1" || echo "-DWANT_OSS=0")
-		$(use portaudio && echo "-DWANT_PORTAUDIO=1" || echo "-DWANT_PORTAUDIO=0")
-		$(use portmidi && echo "-DWANT_PORTMIDI=1" || echo "-DWANT_PORTMIDI=0")
-		$(use pulseaudio && echo "-DWANT_PULSEAUDIO=1" || echo "-DWANT_PULSEAUDIO=0")
-		$(use rubberband && echo "-DWANT_RUBBERBAND=1" || echo "-DWANT_RUBBERBAND=0")
-		$(use static && echo "-DWANT_SHARED=0" || echo "-DWANT_SHARED=1")
-	)
+	local MYCMAKEARGS="\
+		$(cmake-utils_use_want alsa ALSA) \
+		$(cmake-utils_use_want archive LIBARCHIVE) \
+		$(cmake-utils_use_want debug DEBUG) \
+		$(cmake-utils_use_want jack JACK) \
+		$(cmake-utils_use_want jacksession JACKSESSION) \
+		$(cmake-utils_use_want ladspa LRDF) \
+		$(cmake-utils_use_want lash LASH) \
+		$(cmake-utils_use_want oss OSS) \
+		$(cmake-utils_use_want portaudio PORTAUDIO) \
+		$(cmake-utils_use_want portmidi PORTMIDI) \
+		$(cmake-utils_use_want pulseaudio PULSEAUDIO) \
+		$(cmake-utils_use_want rubberband RUBBERBAND) \
+		$(cmake-utils_use_no static SHARED)"
+	
 	cmake-utils_src_configure
-}
-
-src_compile() {
-	cmake-utils_src_comple
-	use doc && emake doc
-}
-
-src_install() {
-	cmake-utils_src_install
-	insinto /usr/share/hydrogen
-	doins -r data
-	doicon data/img/gray/h2-icon.svg
-	domenu linux/hydrogen.desktop
-	dosym /usr/share/hydrogen/data/doc /usr/share/doc/${PF}/html
-	dodoc AUTHORS ChangeLog README.txt
 }
