@@ -146,7 +146,7 @@ esac
 # @DESCRIPTION: uksm extra version
 # @ECLASS-VARIABLE: UKSM_SRC
 # @DESCRIPTION: uksm src file
-:	${UKSM_SRC:=uksm-${UKSM_VER}-for-v${MKV}.ge.${UKSM_EXV}.patch}
+:	${UKSM_SRC:=uksm-${UKSM_VER}-for-v${UKSM_EXV}.patch}
 
 SRC_URI="
 	bfs? ( ${CK_URI}/${CK_SRC} )
