@@ -142,9 +142,11 @@ esac
 # @ECLASS-VARIABLE: UKSM_URI
 # @DESCRIPTION: uksm src URI
 :	${UKSM_URI:="http://kerneldedup.org/download/uksm/${UKSM_VER}"}
+# @ECLASS-VARIABLE: UKSM_EXV
+# @DESCRIPTION: uksm extra version
 # @ECLASS-VARIABLE: UKSM_SRC
 # @DESCRIPTION: uksm src file
-:	${UKSM_SRC:=uksm-${UKSM_VER}-for-v${MKV}.patch}
+:	${UKSM_SRC:=uksm-${UKSM_VER}-for-v${MKV}.ge.${UKSM_EXV}.patch}
 
 SRC_URI="
 	bfs? ( ${CK_URI}/${CK_SRC} )
