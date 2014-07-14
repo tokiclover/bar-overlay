@@ -145,7 +145,7 @@ esac
 SRC_URI="
 	bfs? ( ${CK_URI}/${CK_SRC} )
 	ck?  ( ${CK_URI}/${CK_SRC} )
-	bfk? ( ${GEN_URI}/${BFQ_SRC} )
+	bfq? ( ${GEN_URI}/${BFQ_SRC} )
 	gentoo? ( ${GEN_URI}§${GEN_SRC} )
 	fbcondecor? ( ${GEN_URI}/${FBC_SRC} )
 	hardened? ( ${GHP_URI}/${GHP_SRC} )
@@ -167,7 +167,7 @@ linux-git_src_unpack() {
 		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
 	fi
-	if use_if_iuse bfs || use_if_use ck; then
+	if use_if_iuse bfs || use_if_iuse ck; then
 		unpack ${CK_SRC}
 	fi
 }
@@ -192,7 +192,7 @@ kernel-git_src_prepare() {
 		while read line; do
 			epatch "${WORKDIR}"/patches/$line
 		done <"${WORKDIR}"/patches/series
- 	elif use_if_use bfs; then
+ 	elif use_if_iuse bfs; then
 		epatch "${WORKDIR}"/patches/${BFS_SRC}
 		epatch "${WORKDIR}"/patches/hz-{default_1000,no_default_250}.patch
 		[[ -n "${BFS_EXTRA_PATCH}" && epatch "${WORKDIR}"/patches/${BFS_EXTRA_PATCH}
