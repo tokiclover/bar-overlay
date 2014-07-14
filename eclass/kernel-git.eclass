@@ -138,7 +138,7 @@ esac
 
 # @ECLASS-VARIABLE: UKSM_VER
 # @DESCRIPTION: uksm version string
-:	${UKSM_VER:=0.1.2.2}
+:	${UKSM_VER:=0.1.2.3}
 # @ECLASS-VARIABLE: UKSM_URI
 # @DESCRIPTION: uksm src URI
 :	${UKSM_URI:="http://kerneldedup.org/download/uksm/${UKSM_VER}"}
