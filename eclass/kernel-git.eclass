@@ -12,6 +12,10 @@ inherit kernel-2 git-2
 CKV=${PV}-git
 OKV=${PV}
 
+EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
+EGIT_COMMIT=v${PV/%.0}
+EGIT_NOUNPACK="yes"
+
 #IUSE="aufs bfs bfq ck fbcondecor +gentoo hardened reiser4 rt toi uksm"
 
 REQUIRED_USE="ck? ( bfs )"
