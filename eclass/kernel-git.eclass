@@ -124,7 +124,7 @@ esac
 :	${RT_URI:="https://www.kernel.org/pub/linux/kernel/projects/rt/${MKV}/"}
 # @ECLASS-VARIABLE: RT_SRC
 # @DESCRIPTION: -rt src file
-:	${RT_SRC:=patches-${RT_VER}.tar.xz}
+:	${RT_SRC:=patch-${RT_VER}.patch.xz}
 
 # @ECLASS-VARIABLE: TOI_VER
 # @DESCRIPTION: tuxonice version string
