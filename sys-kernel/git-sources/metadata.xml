@@ -6,10 +6,16 @@
 		<email></email>
 	</maintainer>
 	<use>
-		<flag name="bfq">Adds Budget Fair Queueing I/O Scheduler to the patch stack</flag>
-		<flag name="bfs">Adds Brain Fuck CPU Scheduler to the stack</flag>
-		<flag name="fbcondecor">Adds genpatch-extras to the patch stack</flag>
-		<flag name="ck">Adds the whole -ck patchset to the patch stack</flag>
-		<flag name="uksm">Adds Ultra Kernel SamePage Merging for transparent full-system memory de-duplication</flag>
+		<flag name="aufs">Add Another Union FS support</flag>
+		<flag name="bfq">Add Budget Fair Queueing I/O Scheduler support</flag>
+		<flag name="bfs">Add Brain Fuck CPU Scheduler support</flag>
+		<flag name="fbcondecor">Add genpatch extras to the patch stack</flag>
+		<flag name="ck">Add the whole -ck patchset to the patch stack</flag>
+		<flag name="gentoo">Adds genpatch base to the patch stack</flag>
+		<flag name="hardened">Add hardened patchset or GRSecurity/PaX support</flag>
+		<flag name="reiser4">Add reiser4 FS support</flag>
+		<flag name="rt">Add Real Time patchset support</flag>
+		<flag name="toi">Add TuxOnIce patchset support</flag>
+		<flag name="uksm">Add Ultra Kernel SamePage Merging for transparent full-system memory de-duplication support</flag>
 	</use>
 </pkgmetadata>
