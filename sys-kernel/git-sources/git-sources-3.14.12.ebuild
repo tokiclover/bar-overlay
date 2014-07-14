@@ -15,7 +15,7 @@ DESCRIPTION="latest linux-stable.git pulled by git from the stable tree"
 HOMEPAGE="http://www.kernel.org"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfs bfq ck deblob fbcondecor +gentoo hardened rt toi uksm"
+IUSE="aufs bfs bfq ck deblob fbcondecor +gentoo hardened reiser4 rt toi uksm"
 
 BFS_VER="447"
 CK_VER="${MKV}-ck1"
