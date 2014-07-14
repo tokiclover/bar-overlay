@@ -1,25 +1,25 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/fluidsynth/fluidsynth-9999.ebuild,v 1.1 2012/11/10 09:57:24 -tclover Exp $
+# $Header: media-sound/fluidsynth/fluidsynth-9999.ebuild,v 1.2 2014/07/14 09:57:24 -tclover Exp $
 
 EAPI=5
 
-inherit cmake-utils
+inherit cmake-utils git-2
 
 DESCRIPTION="Fluidsynth is a software real-time synthesizer based on the Soundfont 2 specifications."
 HOMEPAGE="http://www.fluidsynth.org/"
-ESVN_REPO_URI="https://${PN}.svn.sourceforge.net/svnroot/${PN}/trunk/${PN}"
+EGIT_REPO_URI="git://sourceforge.net/p/${PN}/code-git.git"
+EGIT_PROJECT=${PN}.git
 
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="alsa dbus debug examples jack ladspa lash portaudio pulseaudio readline sndfile"
+IUSE="+alsa dbus debug doc ipv6 +jack ladspa +lash portaudio pulseaudio readline sndfile static"
 REQUIRE_USE="lash? ( alsa )"
 
 RDEPEND=">=dev-libs/glib-2.6.5:2
-	alsa? ( media-libs/alsa-lib
-		lash? ( || ( >=media-sound/ladish-1 >=media-sound/lash-0.5 ) )
-	)
+	alsa? ( >=media-libs/alsa-lib-0.9.1 )
+	lash? ( || ( >=media-sound/ladish-1 >=media-sound/lash-0.5 ) )
 	dbus? ( >=sys-apps/dbus-1.0.0 )
 	jack? ( media-sound/jack-audio-connection-kit )
 	ladspa? ( >=media-libs/ladspa-sdk-1.12
@@ -28,7 +28,9 @@ RDEPEND=">=dev-libs/glib-2.6.5:2
 	portaudio? ( >=media-libs/portaudio-19_pre )
 	readline? ( sys-libs/readline )
 	sndfile? ( >=media-libs/libsndfile-1.0.18 )"
+
 DEPEND="${RDEPEND}
+	app-doc/doxygen
 	virtual/pkgconfig"
 
 src_configure() {
@@ -36,34 +38,30 @@ src_configure() {
 		$(cmake-utils_use alsa enable-alsa)
 		$(cmake-utils_use dbus enable-dbus)
 		$(cmake-utils_use debug enable-debug)
+		$(cmake-utils_use ipv6 enable-ipv6)
 		$(cmake-utils_use jack enable-jack)
 		-Denable-ladcca=OFF
 		$(cmake-utils_use ladspa enable-ladspa)
+		$(cmake-utils_use lash enable-lash)
 		$(cmake-utils_use sndfile enable-libsndfile)
 		$(cmake-utils_use portaudio enable-portaudio)
 		$(cmake-utils_use pulseaudio enable-pulseaudio)
 		$(cmake-utils_use readline enable-readline)
-		)
-
-	if use alsa; then
-		mycmakeargs+=( $(cmake-utils_use lash enable-lash) )
-	else
-		mycmakeargs+=( -Denable-lash=OFF )
-	fi
-
+		$(cmake-utils_useno static BUILD_SHARED_LIBS)
+	)
 	cmake-utils_src_configure
 }
 
 src_install() {
 	cmake-utils_src_install
 
-	dodoc AUTHORS NEWS README THANKS TODO doc/*.txt
+	dodoc AUTHORS NEWS README THANKS TODO
 
-	insinto /usr/share/doc/${PF}/pdf
-	doins doc/*.pdf
-
-	if use examples; then
-		insinto /usr/share/doc/${PF}/examples
+	if use doc; then
+		insinto /usr/share/doc/${PF}/pdf
+		doins doc/FluidSynth-LADSPA.pdf
+		insinto /usr/share/doc/${PF}/src
 		doins doc/*.c
+		dodoc doc/{xtrafluid,fluidsynth-v11-devdoc}.txt
 	fi
 }
