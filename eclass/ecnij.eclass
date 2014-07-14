@@ -1,13 +1,12 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/eclass/ecnij.eclass,v 1.2 2012/11/20 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 1.2 2014/07/14 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
-# @MAINTAINER:
-# tclover@bar-overlay
+# @MAINTAINER: tclover@bar-overlay
 # @BLURB: 
-# @DESCRIPTION:
-# Exports portage base functions used by ebuilds written for net-print/cnijfilter packages
+# @DESCRIPTION: Exports portage base functions used by ebuilds 
+# written for net-print/cnijfilter packages
 
 inherit autotools eutils flag-o-matic
 
@@ -31,7 +30,9 @@ DEPEND="app-text/ghostscript-gpl
 		>=dev-libs/libxml-1.8
 	)"
 
-if [[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "40" ]]; then
+[[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "40" ]] & ECNIJ_PVN=true
+
+if ${ECNIJ_PVN}; then
 	DEPEND="${DEPEND}
 		>=dev-libs/popt-1.6
 		>=media-libs/tiff-3.4
@@ -64,6 +65,10 @@ esac
 # @ECLASS-VARIABLE: ECNIJ_PRCOM
 # @DESCRIPTION: An array with printer commercial names
 
+# @ECLASS-VARIABLE: ECNIJ_PVN
+# @DESCRIPTION: auto setted booleann variable if ${PV} >= 3.40
+:	${ECNIJ:=false}
+
 # @ECLASS-VARIABLE: ELTCONF
 # @DESCRIPTION: Extra options passed to elibtoolize
 ELTCONF=${ELTCONF:="--force --copy --automake"}
@@ -75,29 +80,30 @@ EGTCONF=${EGTCONF:="--force --copy"}
 # @FUNCTION: ecnij_pkg_setup
 # @DESCRIPTION:
 ecnij_pkg_setup() {
-	if [[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "40" ]]; then :;
-	else
-		has amd64 ${IUSE} && use amd64 && multilib_toolchain_setup x86
-	fi
+	${ECNIJ_PVN} ||
+	has amd64 ${IUSE} && use amd64 && multilib_toolchain_setup x86
+
 	use usb && ECNIJ_SRC+=" backend"
 	if use gtk; then
-		ECNIJ_SRC+=" cngpijmon"; ECNIJ_PRSRC+=" lgmon"
+		ECNIJ_SRC+=" cngpijmon"
+		ECNIJ_PRSRC+=" lgmon"
 		has net ${IUSE} && use net && ECNIJ_SRC+=" cngpijmon/cnijnpr"
 	fi
 	use servicetools && ECNIJ_PRSRC+=" printui"
 	has net ${IUSE} && use net && ECNIJ_SRC+=" backendnet"
 	ECNIJ_PRN="$(seq 0 $((${#ECNIJ_PRUSE[@]}-1)))"
-	if [[ -z "${ECNIJ_PRCOM}" ]]; then declare -a ECNIJ_PRCOM
+	if [[ -z "${ECNIJ_PRCOM}" ]]; then
+		declare -a ECNIJ_PRCOM
 		for p in ${ECNIJ_PRN}; do
 			ECNIJ_PRCOM[p]=${ECNIJ_PRUSE[$p]}-series
 		done
 	fi
 
-	local a=true
+	local b=true
 	for p in ${ECNIJ_PRN}; do
 		einfo " ${ECNIJ_PRUSE[$p]}\t${ECNIJ_PRCOM[$p]}"
 		if (use ${ECNIJ_PRUSE[$p]}); then
-			a="false"
+			a=false
 		fi
 	done
 	if ${a}; then
@@ -151,7 +157,7 @@ ecnij_src_prepare() {
 				cp -a ${dir} ${pr} || die
 			done
 			pushd ${pr} || die
-			[[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "10" ]] && ln -s {../,}com
+			${ECNIJ_PVN} && ln -s {../,}com
 			ecnij_src_pr-prepare
 			popd
 		fi
@@ -207,7 +213,7 @@ ecnij_src_install() {
 	local arc p pr prid bindir=/usr/bin odir=/usr/lib/cups
 	mkdir -p "${D}"{${ldir}/bjlib,${ndir}/{backend,filter}}
 
-	if [[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "40" ]]; then
+	if ${ECNIJ_PVN}; then
 		[ -n "$(uname -m | grep 64)" ] && arc=64 || arc=32
 	fi
 
@@ -274,14 +280,11 @@ ecnij_src_pr-install() {
 # @FUNCTION: ecnij_pkg_postinst
 # @DESCRIPTION: output some usefull info
 ecnij_pkg_postinst() {
-	einfo ""
-	einfo "For installing a printer:"
-	einfo " * Restart CUPS: /etc/init.d/cupsd restart"
-	einfo " * Go to http://127.0.0.1:631/"
-	einfo "   -> Printers -> Add Printer"
-	einfo ""
-	einfo "If you experience any problems, please visit:"
-	einfo "http://forums.gentoo.org/viewtopic-p-3217721.html"
-	einfo "https://bugs.gentoo.org/show_bug.cgi?id=258244"
-	einfo ""
+	elog "To install a printer:"
+	elog " * First, restart CUPS: /etc/init.d/cupsd restart"
+	elog " * Go to http://127.0.0.1:631/ with your favorite browser"
+	elog "   and then go to Printers/Add Printer"
+	elog "You can consult the following for any issue/bug:"
+	elog "https://forums.gentoo.org/viewtopic-p-3217721.html"
+	elog "https://bugs.gentoo.org/show_bug.cgi?id=258244"
 }
