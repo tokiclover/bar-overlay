@@ -1,0 +1,76 @@
+=== modified file 'ChangeLog'
+--- ChangeLog	2012-02-24 18:20:37 +0000
++++ ChangeLog	2012-02-25 15:11:48 +0000
+@@ -1,5 +1,9 @@
+ +++ Release 0.9.3 (2012-02-??) +++
+ 
++2012-02-25  Guido Scholz  <guido.scholz@bayernline.de>
++	* src/perform.*: Remove --file option from jack session
++	commandline, hint by Frank Kober
++
+ 2012-02-24  Guido Scholz  <guido.scholz@bayernline.de>
+ 	* src/perform.*: Register empty process callback for JACK, patch
+ 	provided by Lieven Moors
+
+=== modified file 'NEWS'
+--- NEWS	2012-02-24 18:20:37 +0000
++++ NEWS	2012-02-25 15:11:48 +0000
+@@ -4,6 +4,7 @@
+   * Fix LASH support (crash on 64 Bit systems)
+   * Fix broken JACK transport with newer jackd version
+   * Fix clock tick drift
++  * Fix jack session commandline (obsolete --file option removed)
+ 
+ 
+ seq24-0.9.2 (2010-11-27)
+
+=== modified file 'src/perform.cpp'
+--- src/perform.cpp	2012-02-24 18:06:57 +0000
++++ src/perform.cpp	2012-02-25 15:11:48 +0000
+@@ -1219,7 +1219,7 @@
+     Glib::ustring fname( m_jsession_ev->session_dir );
+     fname += "file.mid";
+ 
+-    Glib::ustring cmd( "seq24 --file \"${SESSION_DIR}file.mid\" --jack_session_uuid " );
++    Glib::ustring cmd( "seq24 \"${SESSION_DIR}file.mid\" --jack_session_uuid " );
+     cmd += m_jsession_ev->client_uuid;
+ 
+     midifile f(fname);
+
+
+=== modified file 'Makefile.am'
+--- Makefile.am	2014-04-08 18:59:44 +0000
++++ Makefile.am	2014-04-08 19:02:52 +0000
+@@ -1,8 +1,9 @@
+ # Makefile.am for seq24
+ 
+-SUBDIRS = man
++SUBDIRS = 
+ MOSTLYCLEANFILES = *~
+ 
+ EXTRA_DIST = README COPYING RTC AUTHORS INSTALL SEQ24 NEWS ChangeLog seq24usr.example
+ 
++include man/Module.am
+ include src/Module.am
+
+=== modified file 'configure.ac'
+--- configure.ac	2014-04-08 18:59:44 +0000
++++ configure.ac	2014-04-08 19:02:52 +0000
+@@ -139,5 +139,5 @@
+ fi
+ 
+ 
+-AC_OUTPUT(Makefile man/Makefile)
++AC_OUTPUT(Makefile)
+ 
+
+=== renamed file 'man/Makefile.am' => 'man/Module.am'
+--- man/Makefile.am	2008-08-30 08:11:38 +0000
++++ man/Module.am	2014-04-08 19:02:52 +0000
+@@ -1,4 +1,4 @@
+ # Makefile.am for seq24
+ 
+-dist_man_MANS = seq24.1
++dist_man_MANS = %D%/seq24.1
+ 
+
