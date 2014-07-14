@@ -84,14 +84,14 @@ esac
 
 # @ECLASS-VARIABLE: FBC_VER
 # @DESCRIPTION: fbcondecor version string: genpatches extras version
-:	${FBC_VER:=${MKV}-1}
+:	${FBC_VER:=${GEN_VER}}
 # @ECLASS-VARIABLE: FBC_SRC
 # @DESCRIPTION: gentoo extras src file
 :	${FBC_SRC:=genpatches-${FBC_VER}.extras.tar.xz}
 
 # @ECLASS-VARIABLE: BFQ_VER
 # @DESCRIPTION: BFQ version string: genpatches experimental version
-:	${BFQ_VER:=${MKV}-1}
+:	${BFQ_VER:=${GEN_VER}}
 # @ECLASS-VARIABLE: BFQ_SRC
 # @DESCRIPTION: gentoo experimental src file
 :	${BFQ_SRC:=genpatches-${BFQ_VER}.experimental.tar.xz}
