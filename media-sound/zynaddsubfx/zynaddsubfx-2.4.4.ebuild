@@ -37,11 +37,11 @@ DOCS="ChangeLog FAQ.txt HISTORY.txt README.txt bugs.txt"
 src_configure() {
 	local mycmakeargs=(
 		$(use fltk && echo "-DGuiModule=fltk" || echo "-DGuiModule=off")
-		$(use alsa && echo "-DAlsaEnable=true" || echo "-DAlsaEnable=false")
-		$(use jack && echo "-DJackEnable=true" || echo "-DJackEnable=false")
-		$(use lash && echo "-DLashEnable=true" || echo "-DLashEnable=false")
-		$(use oss && echo "-DOssEnable=true" || echo "-DOssEnable=false")
-		$(use portaudio && echo "-DPaEnable=true" || echo "-DPaEnable=true")
+		$(cmake-utils_use alsa AlsaEnable)
+		$(cmake-utils_use jack JackEnable)
+		$(cmake-utils_use lash LashEnable)
+		$(cmake-utils_use oss OssEnable)
+		$(cmake-utils_use portaudio PaEnable)
 	)
 	cmake-utils_src_configure
 }
