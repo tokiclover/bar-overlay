@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.7 2012/07/31 23:23:44 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.8 2014/07/14 23:23:44 -tclover Exp $
 
 EAPI=5
 
@@ -15,7 +15,7 @@ RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/utils}"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="debug doc fuse pax_kernel hfs inotify kernel-patch nfs ramfs"
+IUSE="debug doc fuse pax hfs inotify kernel-patch nfs ramfs"
 
 S="${WORKDIR}"/${PN}
 
@@ -35,9 +35,9 @@ pkg_setup() {
 
 	get_version
 
-	kernel_is lt 3 0 0 && die "kernel is too old"
-	kernel_is gt 3 11 0 && die "kernel is too new"
-	
+	kernel_is lt 3 2 0 && die "kernel is too old"
+	kernel_is gt 3 16 0 && die "kernel is too new"
+
 	local branch=${KV_MAJOR}.${KV_MINOR} p
 	EGIT_BRANCH=aufs${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
@@ -73,7 +73,7 @@ pkg_setup() {
 }
 
 src_prepare() {
-	use pax_kernel && epatch "${FILESDIR}"/pax.patch.bz2
+	use pax && epatch "${FILESDIR}"/pax.patch.bz2
 
 	sed -e 's:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g' \
 		-e "s:/lib/modules/${KV_FULL}/build:${KV_OUT_DIR}:g" \
