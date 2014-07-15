@@ -4,10 +4,7 @@
 
 EAPI="5"
 
-AUTOTOOLS_AUTORECONF="1"
-AUTOTOOLS_IN_SOURCE_BUILD="1"
-
-inherit autotools-utils exteutils subversion
+inherit autotools-utils exteutils multilib subversion
 
 DESCRIPTION="MIDI and audio sequencer and notation editor."
 HOMEPAGE="http://www.rosegardenmusic.com/"
@@ -65,11 +62,6 @@ pkg_setup(){
 		ewarn "lilypond preview won't work."
 		ewarn "If you want this feature please remerge USE=\"lilypond\""
 	fi
-}
-
-src_prepare() {
-	subversion_src_prepare
-	autotools-utils_src_prepare
 }
 
 src_configure() {
