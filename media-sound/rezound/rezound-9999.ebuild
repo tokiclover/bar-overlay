@@ -4,12 +4,15 @@
 
 EAPI=5
 
+AUTOTOOLS_AUTORECONF="1"
+AUTOTOOLS_IN_SOURCE_BUILD="1"
+
 inherit autotools-utils flag-o-matic subversion
 
 DESCRIPTION="Sound editor and recorder"
 HOMEPAGE="http://rezound.sourceforge.net"
 
-ESVN_REPO_URI="https://svn.code.sf.net/p/rezound/code/trunk/rezound/"
+ESVN_REPO_URI="svn://svn.code.sf.net/p/${PN}/code/trunk/${PN}"
 
 LICENSE="GPL-2"
 SLOT="0"
