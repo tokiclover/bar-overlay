@@ -8,7 +8,7 @@ inherit eutils cmake-utils multilib flag-o-matic toolchain-funcs
 
 DESCRIPTION="Advanced drum machine"
 HOMEPAGE="http://www.hydrogen-music.org"
-SRC_URI="mirror://github.com/${PN}-music/${PN}/archive/${PVR/rc/RC}.tar.gz"
+SRC_URI="https://github.com/${PN}-music/${PN}/tarball/${PVR} -> ${P}.tar.gz"
 
 LICENSE="GPL-2 ZLIB"
 SLOT="0"
