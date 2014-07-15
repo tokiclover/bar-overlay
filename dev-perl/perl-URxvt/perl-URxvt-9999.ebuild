@@ -1,12 +1,12 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/dev-perl/perl-URxvt/perl-URxvt-9999.ebuild v1.1 2012/08/05 09:39:34 -tclover Exp $
+# $Header: dev-perl/perl-URxvt/perl-URxvt-9999.ebuild,v 1.1 2014/07/15 09:39:34 -tclover Exp $
 
-EAPI=2
+EAPI="2"
 
-inherit git
+inherit git-2
 
-DESCRIPTION="Perl extensions for Rxvt-unicode terminal emulator"
+DESCRIPTION="A small collection of perl extensions for the rxvt-unicode terminal emulator"
 HOMEPAGE="https://github.com/muennich/urxvt-perls"
 EGIT_REPO_URI="git://github.com/muennich/urxvt-perls.git"
 EGIT_PROJECT=${PN}.git
@@ -16,7 +16,8 @@ SLOT="0"
 IUSE=""
 
 DEPEND="dev-lang/perl"
-RDEPEND="${DEPEND} x11-terms/rxvt-unicode
+RDEPEND="${DEPEND}
+	x11-terms/rxvt-unicode
 	|| ( x11-misc/xsel x11-misc/xclip )"
 
 src_install() {
