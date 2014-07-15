@@ -1,34 +1,27 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/sys-power/acpi_call/acpi_call-9999.ebuild,v 1.1 2011/11/05 -tclover Exp $
+# $Header: sys-power/acpi_call/acpi_call-9999.ebuild,v 1.2 2014/07/15 -tclover Exp $
 
-EAPI=2
+EAPI=5
 
-inherit linux-mod git-2 
+inherit eutils linux-mod linux-info git-2 
 
-DESCRIPTION="A module for Linux Hybrid Switchable graphics based on ACPI call as its name imply."
-HOMEPAGE="http://linux-hybrid-graphics.blogspot.com/"
+DESCRIPTION="A module for Linux Hybrid Switchable graphics based on ACPI call"
+HOMEPAGE="http://github.com/mkottman/acpi_call"
 EGIT_REPO_URI="git://github.com/mkottman/acpi_call.git"
-EGIT_PROJECT=${PN}
+EGIT_PROJECT=${PN}.git
 
-LICENSE="GPL-3"
+LICENSE="GPL-2"
 SLOT="0"
-IUSE="examples nvidia-hybrid-windump"
+IUSE=""
 
-DEPEND=""
-RDEPEND=""
-
-S="${WORKDIR}"/${PN}
-
+CONFIG_CHECK="ACPI"
 MODULE_NAMES="acpi_call(misc:${S})"
+BUILD_TARGETS="default"
 
-src_prepare() { sed -i -e "s:default:module:" Makefile || die "eek!"; }
+DOCS=( README.md )
 
-src_install() {
-	linux-mod_src_install
-	insinto /usr/share/acpi_call/
-	doins test_off.sh || die "eek!"
-	doins README || die "eek!"
-	use examples doins {asus1215n,m11xr2}.sh || die "eek!"
-	einfo "More info and scripts from http://linux-hybrid-graphics.blogspot.com"
+src_compile(){
+	BUILD_PARAMS="KDIR=${KV_OUT_DIR} M=${S}"
+	linux-mod_src_compile
 }
