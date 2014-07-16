@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-gfx/freecad/freecad-9999.ebuild,v 1.2 2012/07/31 23:23:14 -tclover Exp $
+# $Header: media-gfx/freecad/freecad-9999.ebuild,v 1.3 2014/07/15 23:23:14 -tclover Exp $
 
 EAPI=5
 
@@ -14,8 +14,8 @@ MY_PD="FreeCAD-${PV}"
 MY_PDIR="/usr/share/${P}"
 
 DESCRIPTION="QT based Computer Aided Design application"
-HOMEPAGE="http://sourceforge.net/apps/mediawiki/free-cad/"
-EGIT_REPO_URI="git://free-cad.git.sourceforge.net/gitroot/free-cad/free-cad"
+HOMEPAGE="http://sourceforge.net/projects/mediawiki/free-cad/"
+EGIT_REPO_URI="git://git.code.sf.net/p/free-cad/code.git"
 EGIT_PROJECT=${PN}.git
 
 LICENSE="GPL-2"
@@ -25,37 +25,33 @@ IUSE=""
 RDEPEND="
 	dev-cpp/eigen:3
 	dev-games/ode
-	dev-libs/boost
+	>=dev-libs/boost-1.33.1
 	dev-libs/libf2c
-	dev-libs/xerces-c
+	>=dev-libs/xerces-c-2.6.0
 	dev-python/pivy
 	dev-python/PyQt4[svg]
-	media-libs/coin
-	media-libs/SoQt
+	>=media-libs/coin-2.4.0
+	>=media-libs/SoQt-1.2.0
 	>=sci-libs/opencascade-6.3-r3
 	sci-libs/gts
 	sys-libs/zlib
 	virtual/fortran
-	x11-libs/qt-gui:4
-	x11-libs/qt-opengl:4
-	x11-libs/qt-svg:4
-	x11-libs/qt-webkit:4
-	x11-libs/qt-xmlpatterns:4
+	>=x11-libs/qt-gui-4.5:4
+	>=x11-libs/qt-opengl-4.5:4
+	>=x11-libs/qt-svg-4.5:4
+	>=x11-libs/qt-webkit-4.5:4
+	>=x11-libs/qt-xmlpatterns4.5:4
 "
 DEPEND="${RDEPEND}
-	>=dev-lang/swig-2.0.4-r1
+	>=dev-lang/swig-2.0.11
 "
 
-RESTRICT="bindist mirror"
-# http://bugs.gentoo.org/show_bug.cgi?id=352435
-# http://www.gentoo.org/foundation/en/minutes/2011/20110220_trustees.meeting_log.txt
+RESTRICT="bindist"
 
 S="${WORKDIR}/${MY_PD}"
 
 PATCHES=(
 	"${FILESDIR}/${MY_P}-gcc46.patch"
-	"${FILESDIR}/${MY_P}-glu.patch"
-	"${FILESDIR}/${MY_P}-nodir.patch"
 )
 
 pkg_setup() {
@@ -65,8 +61,10 @@ pkg_setup() {
 
 src_prepare() {
 	base_src_prepare
-	sed -i -e '/BUILD_DEBIAN/,/BUILD_DEBIAN/d' src/3rdParty/CMakeLists.txt || die
-	sed -i -e 's/qPixmapFromMimeSource//g' src/Mod/Arch/Resources/ui/archprefs-base.ui || die
+	sed -e '/BUILD_DEBIAN/,/BUILD_DEBIAN/d' \
+	    -i src/3rdParty/CMakeLists.txt || die
+	sed -e 's/qPixmapFromMimeSource//g' \
+	    -i src/Mod/Arch/Resources/ui/archprefs-base.ui || die
 	sed -i -e '/Swig_1_3_/d' src/Base/Interpreter.cpp || die
 	sed -i -e '/swigpyrun_1.3./d' src/Base/Makefile.am || die
 	append-cxxflags -fpermissive
