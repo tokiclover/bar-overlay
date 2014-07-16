@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/kernel-git.eclass,v 0.1 2014/07/14 20:33:34 -tclover Exp $
+# $Header: eclass/kernel-git.eclass,v 0.1 2014/07/15 20:33:34 -tclover Exp $
 
 # @ECLASS: kernel-git.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -161,19 +161,32 @@ esac
 # @DESCRIPTION: uksm src file
 :	${UKSM_SRC:=uksm-${UKSM_VER}-for-v${UKSM_EXV}.patch}
 
-SRC_URI="
-	bfs? ( ${CK_URI}/${CK_SRC} )
-	ck?  ( ${CK_URI}/${CK_SRC} )
-	bfq? ( ${GEN_URI}/${BFQ_SRC} )
-	gentoo? ( ${GEN_URI}/${GEN_SRC} )
-	fbcondecor? ( ${GEN_URI}/${FBC_SRC} )
-	optimization? ( ${OPT_URI}/${OPT_VER}/${OPT_FILE} -> ${OPT_SRC} )
-	hardened? ( ${GHP_URI}/${GHP_SRC} )
-	reiser4? ( ${RS4_URI}/${RS4_SRC} )
-	toi? ( ${TOI_URI}/${TOI_SRC} )
-	uksm? ( ${UKSM_URI}/${UKSM_SRC} )
-	rt? ( ${RT_URI}/${RT_SRC} )
-"
+for u in $IUSE do;
+	case $u in
+	bfs)
+		SRC_URI+=" bfs? ( ${CK_URI}/${CK_SRC} )";;
+	ck)
+		SRC_URI+=" ck?  ( ${CK_URI}/${CK_SRC} )";;
+	bfq)
+		SRC_URI+="bfq? ( ${GEN_URI}/${BFQ_SRC} )";;
+	gentoo)
+		SRC_URI+=" gentoo? ( ${GEN_URI}/${GEN_SRC} )";;
+	fbcondecor)
+		SRC_URI+=" fbcondecor? ( ${GEN_URI}/${FBC_SRC} )";;
+	optimization)
+		SRC_URI+=" optimization? ( ${OPT_URI}/${OPT_VER}/${OPT_FILE} -> ${OPT_SRC} )";;
+	hardened)
+		SRC_URI+=" hardened? ( ${GHP_URI}/${GHP_SRC} )";;
+	reiser4)
+		SRC_URI+=" reiser4? ( ${RS4_URI}/${RS4_SRC} )";;
+	toi)
+		SRC_URI+=" toi? ( ${TOI_URI}/${TOI_SRC} )";;
+	uksm)
+		SRC_URI+=" uksm? ( ${UKSM_URI}/${UKSM_SRC} )";;
+	rt)
+		SRC_URI+=" rt? ( ${RT_URI}/${RT_SRC} )";;
+	esac
+done
 
 # @FUNCTION: linux-git_src_unpack
 linux-git_src_unpack() {
