@@ -1,8 +1,8 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar/x11-themes/e-gtk-theme/e-gtk-theme-0.16.0.ebuild,v 1.1 2012/12/30 14:23:22 -tclover Exp $
+# $Header: x11-themes/e-gtk-theme/e-gtk-theme-0.16.0.ebuild,v 1.2 2014/07/15 14:23:22 -tclover Exp $
 
-EAPI=5
+EAPI="5"
 
 inherit eutils
 
@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~x86"
 SLOT=0
 IUSE="gnome gtk minimal openbox"
 
-REQUIRED_USE="gtk? ( gnome )"
+REQUIRED_USE="gnome? ( gtk )"
 GTK_VERSION="3.6"
 
 RDEPEND="gnome? ( x11-wm/metacity )
