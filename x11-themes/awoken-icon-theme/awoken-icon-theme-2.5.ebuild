@@ -1,16 +1,17 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/awoken-icon-theme/awoken-icon-theme-2.4.ebuild,v 1.1 2012/07/04 00:21:46 -tclover Exp $
+# $Header: x11-themes/awoken-icon-theme/awoken-icon-theme-2.5.ebuild,v 1.1 2012/07/04 00:21:46 -tclover Exp $
 
 EAPI=2
 
 inherit gnome2-utils
 
+MY_PN=AwOken
 DESCRIPTION="A great monochrome-ish scalable icon theme with 100³ colors and more"
-HOMEPAGE="http://alecive.deviantart.com/art/"
-SRC_URI="http://www.deviantart.com/download/163570862/awoken_by_alecive-d2pdw32.zip -> ${P}.zip"
+HOMEPAGE="http://alecive.deviantart.com/"
+SRC_URI="https://dl.dropbox.com/u/8029324/${MY_PN}-${PV}.zip -> ${P}.zip"
 
-LICENSE="CC BY-NC-SA-3.0 - CC BY-NC-ND-3.0"
+LICENSE="CC BY-SA-3.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="colorization -minimal"
@@ -18,11 +19,10 @@ IUSE="colorization -minimal"
 RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
 	colorization? ( media-gfx/imagemagick )
 "
-DEPEND="app-arch/unzip"
+DEPEND="${DEPEND}"
 
 RESTRICT="binchecks strip"
 
-MY_PN=AwOken
 S=${WORKDIR}/${MY_PN}-${PV/-r[0-9]*}
 
 src_prepare() {
