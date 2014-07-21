@@ -1,8 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/awoken-icon-theme/awoken-icon-theme-2.5.ebuild,v 1.1 2012/07/04 00:21:46 -tclover Exp $
+# $Header: x11-themes/awoken-icon-theme/awoken-icon-theme-2.5.ebuild,v 1.1 2014/07/15 00:21:46 -tclover Exp $
 
-EAPI=2
+EAPI="2"
 
 inherit gnome2-utils
 
@@ -48,7 +48,10 @@ src_install() {
 	mv ${MY_PN}{,Dark} "${D}"/usr/share/icons/ || die "eek!"
 }
 
-pkg_preinst() { gnome2_icon_savelist; }
+pkg_preinst() {
+	gnome2_icon_savelist
+}
+
 pkg_postinst() {
 	gnome2_icon_cache_update
 	einfo
@@ -56,4 +59,7 @@ pkg_postinst() {
 	einfo "new one or colorize the icon set"
 	einfo
 }
-pkg_postrm() { gnome2_icon_cache_update; }
+
+pkg_postrm() {
+	gnome2_icon_cache_update
+}
