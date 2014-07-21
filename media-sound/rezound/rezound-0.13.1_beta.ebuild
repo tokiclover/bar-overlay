@@ -9,7 +9,7 @@ inherit autotools-utils flag-o-matic
 DESCRIPTION="Sound editor and recorder"
 HOMEPAGE="http://rezound.sourceforge.net"
 
-SRC_URI="mirror://sourceforge/projects/${PN}/files/ReZound/${PVR/_/}/${PN}-${PVR/_/}.tar.gz"
+SRC_URI="http://sourceforge.net/projects/${PN}/files/ReZound/${PVR/_/}/${PN}-${PVR/_/}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
