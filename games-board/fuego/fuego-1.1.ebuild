@@ -10,7 +10,7 @@ DESCRIPTION="C++ libraries for developing software for the game of Go"
 HOMEPAGE="http://fuego.sourceforge.net/"
 SRC_URI="mirror://sourceforge/project/${PN}/${P}.tar.gz"
 
-LICENSE="|| (GPL-3 LGPL-3 )"
+LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="cache-sync doc optimization"
