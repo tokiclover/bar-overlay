@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack_mixer/jack_mixer-9.ebuild, 2014/07/14 -tclover $
+# $Header: media-sound/jack_mixer/jack_mixer-9.ebuild, 2014/07/15 -tclover $
 
-EAPI=4
+EAPI="4"
 
 inherit eutils gnome2 python
 
@@ -10,7 +10,7 @@ PYTHON_DEPEND="2"
 
 DESCRIPTION="JACK audio mixer using GTK2 interface."
 HOMEPAGE="http://home.gna.org/jackmixer/"
-SRC_URI="mirror://download.gna.org/jackmixer/${P}.tar.gz"
+SRC_URI="http://download.gna.org/jackmixer/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
