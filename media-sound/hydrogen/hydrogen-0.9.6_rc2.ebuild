@@ -8,13 +8,13 @@ inherit eutils cmake-utils multilib flag-o-matic toolchain-funcs
 
 DESCRIPTION="Advanced drum machine"
 HOMEPAGE="http://www.hydrogen-music.org"
-SRC_URI="https://github.com/${PN}-music/${PN}/tarball/${PVR} -> ${P}.tar.gz"
+SRC_URI="https://github.com/${PN}-music/${PN}/archive/${PVR/_rc/-RC}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2 ZLIB"
 SLOT="0"
 KEYWORDS="amd64 ppc ppc64 x86"
 IUSE="+alsa +archive debug doc +jack jacksession ladspa lash oss portaudio portmidi
--puleseaudio rubberband static"
+-pulseaudio rubberband static"
 REQUIRED_USE="lash? ( alsa )"
 
 RDEPEND="archive? ( app-arch/libarchive )
