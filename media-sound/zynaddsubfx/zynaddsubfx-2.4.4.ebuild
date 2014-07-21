@@ -8,7 +8,7 @@ inherit eutils cmake-utils
 
 DESCRIPTION="ZynAddSubFX is an opensource software synthesizer."
 HOMEPAGE="http://zynaddsubfx.sourceforge.net/"
-SRC_URI="mirror://sourceforge/zynaddsubfx/${PN}.tar.xz"
+SRC_URI="mirror://sourceforge/zynaddsubfx/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
