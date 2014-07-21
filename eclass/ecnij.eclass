@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 1.2 2014/07/14 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 1.2 2014/07/15 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -80,6 +80,8 @@ EGTCONF=${EGTCONF:="--force --copy"}
 # @FUNCTION: ecnij_pkg_setup
 # @DESCRIPTION:
 ecnij_pkg_setup() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	${ECNIJ_PVN} ||
 	has amd64 ${IUSE} && use amd64 && multilib_toolchain_setup x86
 
@@ -118,6 +120,8 @@ ecnij_pkg_setup() {
 # @FUNCTION: ecnij_src_unpack
 # @DESCRIPTION:
 ecnij_src_unpack() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	unpack ${A}
 	cd "${S}"
 }
@@ -140,6 +144,8 @@ __src_prepare() {
 # @FUNCTION: ecnij_src_prepare
 # @DESCRIPTION: prepare environment and run elibtoolize.
 ecnij_src_prepare() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	epatch_user
 
 	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
@@ -167,6 +173,8 @@ ecnij_src_prepare() {
 # @FUNCTION: ecnij_src_configure
 # @DESCRIPTION:
 ecnij_src_configure() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
 		pushd ${dir} || die
 		econf --prefix=/usr ${MY_ECONF}
@@ -189,6 +197,8 @@ ecnij_src_configure() {
 # @FUNCTION: ecnij_src_compile
 # @DESCRIPTION:
 ecnij_src_compile() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	local p pr prid
 	for p in ${ECNIJ_PRN}; do
 		pr=${ECNIJ_PRUSE[$p]} prid=${ECNIJ_PRID[$p]}
@@ -209,6 +219,8 @@ ecnij_src_compile() {
 # @FUNCTION: ecnij_src_install
 # @DESCRIPTION:
 ecnij_src_install() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	local ldir=/usr/$(get_libdir) ndir=/usr/libexec/cups pdir=/usr/share/cups/model
 	local arc p pr prid bindir=/usr/bin odir=/usr/lib/cups
 	mkdir -p "${D}"{${ldir}/bjlib,${ndir}/{backend,filter}}
@@ -280,6 +292,8 @@ ecnij_src_pr-install() {
 # @FUNCTION: ecnij_pkg_postinst
 # @DESCRIPTION: output some usefull info
 ecnij_pkg_postinst() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	elog "To install a printer:"
 	elog " * First, restart CUPS: /etc/init.d/cupsd restart"
 	elog " * Go to http://127.0.0.1:631/ with your favorite browser"
