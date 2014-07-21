@@ -1,10 +1,10 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-plugins/ll-plugins/ll-plugins-9999.ebuild,v 2012/11/09 18:00:11 -tclover Exp $
+# $Header: media-plugins/ll-plugins/ll-plugins-9999.ebuild,v 2014/01/15 18:00:11 -tclover Exp $
 
-EAPI="2"
+EAPI="5"
 
-inherit multilib git
+inherit eutils multilib git-2
 
 DESCRIPTION="collection of LV2 plugins, LV2 extension definitions, and LV2 related tools"
 HOMEPAGE="http://ll-plugins.nongnu.org"
@@ -29,10 +29,6 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}"
 
-src_unpack() {
-	git_src_unpack
-}
-
 src_prepare() {
 	# ar doesn't really like ldflags
 	sed -e 's:ar rcs $$@ $$^ $(LDFLAGS) $$($(2)_LDFLAGS):ar rcs	$$@ $$^:' \
@@ -47,13 +43,8 @@ src_prepare() {
 }
 
 src_configure(){
-	./configure \
+	 econf \
 		--prefix=/usr \
-		--CFLAGS="${CFLAGS} `pkg-config --cflags slv2`" \
-		--LDFLAGS="${LDFLAGS} `pkg-config --libs slv2`" \
-		|| die "configure failed"
-}
-
-src_install(){
-	make DESTDIR="${D}" libdir="/usr/$(get_libdir)" install || die "install failed"
+		--CFLAGS="${CFLAGS} $(pkg-config --cflags slv2)" \
+		--LDFLAGS="${LDFLAGS} $(pkg-config --libs slv2)"
 }

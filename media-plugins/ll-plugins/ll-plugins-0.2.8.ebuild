@@ -1,8 +1,10 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-plugins/ll-plugins/ll-plugins-0.2.8.ebuild,v 2012/11/09 18:00:06 -tclover Exp $
+# $Header: bar-overlay/media-plugins/ll-plugins/ll-plugins-0.2.8.ebuild,v 2014/07/15 18:00:06 -tclover Exp $
 
-inherit multilib
+EAPI="5"
+
+inherit eutils multilib
 
 DESCRIPTION="collection of LV2 plugins, LV2 extension definitions, and LV2 related tools"
 HOMEPAGE="http://ll-plugins.nongnu.org"
@@ -24,23 +26,16 @@ DEPEND=">=media-sound/jack-audio-connection-kit-0.109.0
 
 RDEPEND="${DEPEND}"
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
+src_prepare() {
 	# ar doesn't really like ldflags
 	sed -e 's:ar rcs $$@ $$^ $(LDFLAGS) $$($(2)_LDFLAGS):ar rcs	$$@ $$^:' \
 		-i Makefile.template || die
 }
 
-src_compile(){
+src_configure(){
 	econf \
 		--prefix=/usr \
-		--CFLAGS="${CFLAGS} `pkg-config --cflags slv2`" \
-		--LDFLAGS="${LDFLAGS} `pkg-config --libs slv2`" \
-		|| die "configure failed"
-	emake || die "make failed"
+		--CFLAGS="${CFLAGS} $(pkg-config --cflags slv2)" \
+		--LDFLAGS="${LDFLAGS} $(pkg-config --libs slv2)"
 }
 
-src_install(){
-	emake DESTDIR="${D}" libdir="/usr/$(get_libdir)" install || die "install failed"
-}
