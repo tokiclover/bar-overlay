@@ -8,7 +8,7 @@ inherit eutils
 
 DESCRIPTION="LADI Session Handler - a session management system for JACK applications"
 HOMEPAGE="http://${PN}.org/"
-SRC_URI="http://${PN}.org/download/${PN}-${PV}.tar.bz2"
+SRC_URI="https://github.com/LADI/archive/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -17,6 +17,8 @@ IUSE="debug doc gtk lash nls python"
 REQUIRED_USE="python? ( lash )"
 
 LANGS="de fr ru"
+
+S="${WORKDIR}"/${PN}-${P}
 
 for l in ${LANGS}; do
 	IUSE+=" linguas_${l}"
