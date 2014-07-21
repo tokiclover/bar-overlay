@@ -1,8 +1,9 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack-rack/jack-rack-1.4.8_rc1.ebuild,v 1.3 2014/07/14 17:48:37 -tclover Exp $
+# $Header: media-sound/jack-rack/jack-rack-1.4.8_rc1.ebuild,v 1.3 2014/07/15 17:48:37 -tclover Exp $
 
-EAPI=5
+EAPI="5"
+
 inherit autotools-utils flag-o-matic toolchain-funcs
 
 MY_P=${PN}_${PV/_/\~}
@@ -20,7 +21,7 @@ REQUIRED_USE="lash? ( alsa )"
 
 LANGS="cs de fr ru"
 for lang in ${LANGS}; do
-	IUSE+= "linguas_${lang}"
+	IUSE+=" linguas_${lang}"
 done
 
 RDEPEND=">=x11-libs/gtk+-2.12:2
@@ -42,7 +43,7 @@ src_prepare() {
 	if use nls; then
 		for l in ${LANGS}; do
 			use linguas_${l} && langs+=" ${l}" ||
-			has ${l} ${LINGUAS} && langs+=" ${l}
+			has ${l} ${LINGUAS} && langs+=" ${l}"
 		done
 	fi
 	echo "${langs}" >po/LANGUAS
