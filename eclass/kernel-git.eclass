@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/kernel-git.eclass,v 0.1 2014/07/15 20:33:34 -tclover Exp $
+# $Header: eclass/kernel-git.eclass,v 1.0 2014/07/15 20:33:34 -tclover Exp $
 
 # @ECLASS: kernel-git.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -9,21 +9,28 @@
 
 inherit kernel-2 git-2
 
-CKV=${PV}-git
-OKV=${PV}
-
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_COMMIT=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
-#IUSE="aufs bfs bfq ck fbcondecor +gentoo hardened optimization reiser4 rt toi uksm"
-
-REQUIRED_USE="ck? ( bfs )"
-KEYWORDS="-* ~x86 ~amd64"
-
 RDEDEPEND="hardened? ( sys-apps/paxctl sys-apps/gradm )"
-
 DEPEND="${RDEPEND}"
+
+#for iuse in $IUSE; do
+#	case $iuse in
+#		bfs)   SRC_URI+=" bfs? ( ${CK_URI}/${CK_SRC} )";;
+#		ck)      SRC_URI+=" ck?  ( ${CK_URI}/${CK_SRC} )";;
+#		bfq)      SRC_URI+="bfq? ( ${GEN_URI}/${BFQ_SRC} )";;
+#		gentoo)     SRC_URI+=" gentoo? ( ${GEN_URI}/${GEN_SRC} )";;
+#		fbcondecor)  SRC_URI+=" fbcondecor? ( ${GEN_URI}/${FBC_SRC} )";;
+#		optimization) SRC_URI+=" optimization? ( ${OPT_URI}/${OPT_VER}/${OPT_FILE} -> ${OPT_SRC} )";;
+#		hardened)    SRC_URI+=" hardened? ( ${GHP_URI}/${GHP_SRC} )";;
+#		reiser4)   SRC_URI+=" reiser4? ( ${RS4_URI}/${RS4_SRC} )";;
+#		toi)      SRC_URI+=" toi? ( ${TOI_URI}/${TOI_SRC} )";;
+#		uksm)    SRC_URI+=" uksm? ( ${UKSM_URI}/${UKSM_SRC} )";;
+#		rt)    SRC_URI+=" rt? ( ${RT_URI}/${RT_SRC} )";;
+#	esac
+#done
 
 case "${EAPI:-5}" in
 	4|5) EXPORT_FUNCTIONS src_unpack src_prepare;;
@@ -45,12 +52,14 @@ esac
 
 # @ECLASS-VARIABLE: BFS_VER
 # @DESCRIPTION: BFS version string
-:	${BFS_VER:=}
 # @ECLASS-VARIABLE: BFS_SRC
 # @DESCRIPTION: BFS src file
 :	${BFS_SRC:=${MKV}-sched-bfs-${BFS_VER}.patch}
+# @ECLASS-VARIABLE: BFS_BASE_PATCH
+# @DESCRIPTION: bfs base patch to patch the unpacked files
+
 # @ECLASS-VARIABLE: BFS_EXTRA_PATCH
-# @DESCRIPTION: bfs extra patched included in ck broken-out archive
+# @DESCRIPTION: bfs extra patch included in ck broken-out archive
 
 ## @ECLASS-VARIABLE: BLD_VER
 ## @DESCRIPTION: bld version string
@@ -98,7 +107,7 @@ esac
 
 # @ECLASS-VARIABLE: GHP_VER
 # @DESCRIPTION: gentoo hardened uni patch version string
-:	${GHP_VER:=${KV_MAJOR}.${KV_MINOR}.${KV_PATCH}-1}
+:	${GHP_VER:=${MKV}.${KV_PATCH}-1}
 # @ECLASS-VARIABLE: GHP_URI
 # @DESCRIPTION: gentoo hardened uni patch src URI
 :	${GHP_URI:="http://dev.gentoo.org/~blueness/hardened-sources/hardened-patches"}
@@ -117,17 +126,18 @@ esac
 :	${OPT_FILE:="enable_additional_cpu_optimizations_for_gcc.patch"}
 # @ECLASS-VARIABLE: OPT_SRC
 # @DESCRIPTION: cpu optimization src file
-:	${OPT_SRC:=$(echo "${OPT_VER#*/}" | sed 's,+,-,g' 's,/,,g')${OPT_FILE:0:19}}
+:	${OPT_SRC:="${OPT_VER##*/}"${OPT_FILE:0:19}}
+OPT_SRC="linux-3.2-${OPT_SRC//+/-}"
 
 # @ECLASS-VARIABLE: RS4_VER
 # @DESCRIPTION: reiser4 version string
 :	${RS4_VER:=${OKV}}
 # @ECLASS-VARIABLE: RS4_URI
 # @DESCRIPTION: reiser4 src URI
-:	${RS4_URI:="http://sourceforge.net/projects/reiser4/files/reiser4-for-linux-3.x"}
+:	${RS4_URI:="mirror://sourceforge/project/reiser4/reiser4-for-linux-3.x"}
 # @ECLASS-VARIABLE: RS4_SRC
 # @DESCRIPTION: reiser4 src file
-:	${RS4_SRC:=reiser4-for-${OKV}.patch.gz}
+:	${RS4_SRC:=reiser4-for-${RS4_VER}.patch.gz}
 
 # @ECLASS-VARIABLE: RT_URI
 # @DESCRIPTION: -rt version string
@@ -141,7 +151,6 @@ esac
 
 # @ECLASS-VARIABLE: TOI_VER
 # @DESCRIPTION: tuxonice version string
-:	${TOI_VER:=}
 # @ECLASS-VARIABLE: TOI_URI
 # @DESCRIPTION: tuxonice URI
 :	${TOI_URI:="http://tuxonice.nigelcunningham.com.au/downloads/all"}
@@ -149,47 +158,39 @@ esac
 # @DESCRIPTION: tuxonice src file
 :	${TOI_SRC:=tuxonice-for-linux-${TOI_VER}.patch.bz2}
 
-# @ECLASS-VARIABLE: UKSM_VER
+# @ECLASS-VARIABLE: UKSM_EXV
 # @DESCRIPTION: uksm version string
-:	${UKSM_VER:=0.1.2.3}
+:	${UKSM_EXV:=0.1.2.3}
 # @ECLASS-VARIABLE: UKSM_URI
 # @DESCRIPTION: uksm src URI
-:	${UKSM_URI:="http://kerneldedup.org/download/uksm/${UKSM_VER}"}
-# @ECLASS-VARIABLE: UKSM_EXV
-# @DESCRIPTION: uksm extra version
+:	${UKSM_URI:="http://kerneldedup.org/download/uksm/${UKSM_EXV}"}
+# @ECLASS-VARIABLE: UKSM_VER
+# @DESCRIPTION: uksm base version string
 # @ECLASS-VARIABLE: UKSM_SRC
 # @DESCRIPTION: uksm src file
-:	${UKSM_SRC:=uksm-${UKSM_VER}-for-v${UKSM_EXV}.patch}
+:	${UKSM_SRC:=uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch}
 
-for u in $IUSE do;
-	case $u in
-	bfs)
-		SRC_URI+=" bfs? ( ${CK_URI}/${CK_SRC} )";;
-	ck)
-		SRC_URI+=" ck?  ( ${CK_URI}/${CK_SRC} )";;
-	bfq)
-		SRC_URI+="bfq? ( ${GEN_URI}/${BFQ_SRC} )";;
-	gentoo)
-		SRC_URI+=" gentoo? ( ${GEN_URI}/${GEN_SRC} )";;
-	fbcondecor)
-		SRC_URI+=" fbcondecor? ( ${GEN_URI}/${FBC_SRC} )";;
-	optimization)
-		SRC_URI+=" optimization? ( ${OPT_URI}/${OPT_VER}/${OPT_FILE} -> ${OPT_SRC} )";;
-	hardened)
-		SRC_URI+=" hardened? ( ${GHP_URI}/${GHP_SRC} )";;
-	reiser4)
-		SRC_URI+=" reiser4? ( ${RS4_URI}/${RS4_SRC} )";;
-	toi)
-		SRC_URI+=" toi? ( ${TOI_URI}/${TOI_SRC} )";;
-	uksm)
-		SRC_URI+=" uksm? ( ${UKSM_URI}/${UKSM_SRC} )";;
-	rt)
-		SRC_URI+=" rt? ( ${RT_URI}/${RT_SRC} )";;
-	esac
-done
+# @FUNCTION: src_patch_unpack
+src_patch_unpack() {
+	[[ $# < 1 ]] && return $?
+	local dir="${WORKDIR}"/${2}
+	mkdir -p "${dir}"
+	pushd "${dir}" >/dev/null
+	unpack ${1}
+	popd >/dev/null
+}
+
+# @FUNCTION: src_patch_prepare
+src_patch_prepare() {
+	for file in "${WORKDIR}/${1}"/*.patch; do
+		epatch "${file}"
+	done
+}
 
 # @FUNCTION: linux-git_src_unpack
-linux-git_src_unpack() {
+kernel-git_src_unpack() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	git-2_src_unpack
 	if use_if_iuse aufs; then
 		EGIT_BRANCH=aufs${AUFS_VER}
@@ -203,24 +204,40 @@ linux-git_src_unpack() {
 	if use_if_iuse bfs || use_if_iuse ck; then
 		unpack ${CK_SRC}
 	fi
+	use_if_iuse hardened && unpack ${GHP_SRC}
+	use_if_iuse gentoo     && src_patch_unpack ${GEN_SRC} base
+	use_if_iuse fbcondecor && src_patch_unpack ${FBC_SRC} extras
+	use_if_iuse bfq        && src_patch_unpack ${BFQ_SRC} experimental
 }
 
 # @FUNCTION: kernel-git_src_prepare
 kernel-git_src_prepare() {
+	debug-print-function ${FUNCNAME} "${@}"
+
 	epatch_user
+	export EPATCH_COMMON_OPTS="-p1 -g0 -E --no-backup-if-mismatch"
 
 	if use_if_iuse aufs; then
-		local a=aufs${KV_MAJOR}-standalone
-		local b=a/aufs${KV_MAJOR} d
+		local a b d 
+		a=aufs${KV_MAJOR}-standalone
+		b=${a}/aufs${KV_MAJOR}
 		for d in Documentation fs include; do
 			cp -a "${WORKDIR}"/${a}/${d} "${S}" || die
 		done
 		epatch "${WORKDIR}"/${b}-{kbuild,base,standalone,loopback,proc_map}.patch
-		[[ -n "${AUFS_EXTRA_PATCH}" && epatch "${WORKDIR}"/${a}/${AUFS_EXTRA_PATCH}
+		[[ -n "${AUFS_EXTRA_PATCH}" ]] && epatch "${WORKDIR}"/${a}/${AUFS_EXTRA_PATCH}
 	fi
 
+	use_if_iuse hardened   && src_patch_prepare ${GHP_VER/%-*}
+	use_if_iuse gentoo     && src_patch_prepare base
+	use_if_iuse fbcondecor && src_patch_prepare extras
+	use_if_iuse bfq        && src_patch_prepare experimental
+
+	if use_if_iuse ck || use_if_iuse bfs; then
+		[[ -n "${BFS_BASE_PATCH}" ]] && epatch "${WORKDIR}"/patches/${BFS_BASE_PATCH}
+	fi
 	if use_if_iuse ck; then
-		sed -e "d/ck1-version.patch/" \
+		sed -e "/ck.*-version.patch/d" \
 			-i "${WORKDIR}"/patches/series || die
 		while read line; do
 			epatch "${WORKDIR}"/patches/$line
@@ -228,21 +245,15 @@ kernel-git_src_prepare() {
  	elif use_if_iuse bfs; then
 		epatch "${WORKDIR}"/patches/${BFS_SRC}
 		epatch "${WORKDIR}"/patches/hz-{default_1000,no_default_250}.patch
-		[[ -n "${BFS_EXTRA_PATCH}" && epatch "${WORKDIR}"/patches/${BFS_EXTRA_PATCH}
+		[[ -n "${BFS_EXTRA_PATCH}" ]] && epatch "${WORKDIR}"/patches/${BFS_EXTRA_PATCH}
 	fi
 	
-	use_if_iuse gentoo && epatch "${DISTDIR}"/${GEN_SRC}
-	use_if_iuse hardened && epatch "${DISTDIR}"/${GHP_SRC}
-	use_if_iuse fbcondecor && epatch "${DISTDIR}"/${FBC_SRC}
-	use_if_iuse bfq && epatch "${DISTDIR}"/${BFQ_SRC}
 	use_if_iuse reiser4 && epatch "${DISTDIR}"/${RS4_SRC}
-	use_if_iuse bfq && epatch "${DISTDIR}"/${BFQ_SRC}
 	use_if_iuse rt && epatch "${DISTDIR}"/${RT_SRC}
 	use_if_iuse toi && epatch "${DISTDIR}"/${TOI_SRC}
 	use_if_iuse uksm && epatch "${DISTDIR}"/${UKSM_SRC}
-	use_if_iuse optimization && epatch "${DISTDIR}"/${OPT_SRC}
+	use_if_iuse optimization && ! use_if_iuse bfq && epatch "${DISTDIR}"/${OPT_SRC}
 	
 	rm -fr .git*
-	sed -e "s,EXTRAVERSION =.*$,EXTRAVERSION = -git,"
-	    -i Makefile || die
+	sed -e "s,EXTRAVERSION =.*$,EXTRAVERSION = -git," -i Makefile || die
 }
