@@ -1,8 +1,8 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/laditools/laditools-1.0_rc2.ebuild,v 1.0 2012/12/10 14:40:05 -tclover Exp $
+# $Header: media-sound/laditools/laditools-1.0_rc2.ebuild,v 1.1 2014/07/20 14:40:05 -tclover Exp $
 
-EAPI=5
+EAPI="5"
 
 PYTHON_COMPAT="python2_7"
 
@@ -20,7 +20,7 @@ IUSE="lash"
 RDEPEND="dev-python/pygtk
 	dev-python/pyxml
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]
-	>=media-sound/lash-0.6.0_rc2
+	lash? ( virtual/liblash )
 	x11-libs/vte"
 
 DEPEND="dev-lang/python"

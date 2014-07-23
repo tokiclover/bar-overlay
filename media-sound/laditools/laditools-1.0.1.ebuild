@@ -1,8 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/laditools/laditools-1.0.ebuild,v 1.0 2012/12/10 14:40:00 -tclover Exp $
+# $Header: media-sound/laditools/laditools-1.0.ebuild,v 1.1 2014/07/20 14:40:00 -tclover Exp $
 
-EAPI=5
+EAPI="5"
 
 PYTHON_COMPAT="python2_7"
 
@@ -26,7 +26,7 @@ RDEPEND=">=dev-python/enum-0.4.4
 	dev-python/pygobject:3
     x11-libs/gtk+:3[introspection]
 	x11-libs/vte:2.90[introspection]
-	lash? ( media-sound/ladish )"
+	lash? ( virtual/liblash )"
 
 DOCS="README"
 
