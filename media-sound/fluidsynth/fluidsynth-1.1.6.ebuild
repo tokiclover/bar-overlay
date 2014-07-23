@@ -18,7 +18,7 @@ REQUIRE_USE="lash? ( alsa )"
 
 RDEPEND=">=dev-libs/glib-2.6.5:2
 	alsa? ( >=media-libs/alsa-lib-0.9.1 )
-	lash? ( || ( >=media-sound/ladish-1 >=media-sound/lash-0.5 ) )
+	lash? ( virtual/liblash )
 	dbus? ( >=sys-apps/dbus-1.0.0 )
 	jack? ( media-sound/jack-audio-connection-kit )
 	ladspa? ( >=media-libs/ladspa-sdk-1.12
