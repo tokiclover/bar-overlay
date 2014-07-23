@@ -26,12 +26,7 @@ DEPEND=">=media-sound/jack-audio-connection-kit-0.102.0
 RDEPEND="${DEPEND}
 	phat? ( media-libs/pyphat )
 	gconf? ( dev-python/gconf-python:2 )
-	lash? ( || (
-		media-sound/ladish[python]
-		media-sound/lash[python]
-		>=media-libs/pylash-3_pre
-		)
-	)"
+	lash? ( virtual/liblash[python] )"
 
 pkg_setup() {
 	python_set_active_version 2
