@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/seq24/seq24-0.9.2-r1.ebuild,v 1.4 2014/07/14 17:54:33 -tclover Exp $
+# $Header: media-sound/seq24/seq24-0.9.2-r1.ebuild,v 1.5 2014/07/20 17:54:33 -tclover Exp $
 
-EAPI=5
+EAPI="5"
 
 inherit eutils
 
@@ -19,8 +19,8 @@ RDEPEND="media-libs/alsa-lib
 	>=dev-cpp/gtkmm-2.4:2.4
 	>=dev-libs/libsigc++-2.2:2
 	jack? ( >=media-sound/jack-audio-connection-kit-0.90 )
-	lash? ( || ( >=media-sound/ladish-1 >=media-sound/lash-0.5 ) )"
-	
+	lash? ( virtual/liblash )"
+
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
