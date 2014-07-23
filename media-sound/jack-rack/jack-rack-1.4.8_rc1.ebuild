@@ -28,7 +28,7 @@ RDEPEND=">=x11-libs/gtk+-2.12:2
 	>=media-libs/ladspa-sdk-1.12
 	>=media-sound/jack-audio-connection-kit-0.50.0
 	alsa? ( >=media-libs/alsa-lib-0.9 )
-	lash? ( || ( >=media-sound/ladish-1 >=media-sound/lash-0.5 ) )
+	lash? ( virtual/liblash )
 	gnome? ( >=gnome-base/libgnomeui-2 )
 	ladspa? ( dev-libs/libxml2 media-libs/liblrdf )"
 
