@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/awoken-icon-theme/awoken-icon-theme-2.5.ebuild,v 1.1 2014/07/15 00:21:46 -tclover Exp $
+# $Header: x11-themes/awoken-icon-theme/awoken-icon-theme-2.5.ebuild,v 1.3 2014/07/20 00:21:46 -tclover Exp $
 
-EAPI="2"
+EAPI="5"
 
 inherit gnome2-utils
 
@@ -13,22 +13,29 @@ SRC_URI="https://dl.dropbox.com/u/8029324/${MY_PN}-${PV}.zip -> ${P}.zip"
 
 LICENSE="CC BY-SA-3.0"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE="colorization -minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
-	colorization? ( media-gfx/imagemagick )
-"
+	colorization? ( media-gfx/imagemagick )"
 DEPEND="${DEPEND}"
 
 RESTRICT="binchecks strip"
 
-S=${WORKDIR}/${MY_PN}-${PV/-r[0-9]*}
+src_unpack() {
+	unpack ${A}
+	mv ${MY_PN}-${PV} ${P} || die
+	pushd "${S}" > /dev/null 2>&1
+	for theme in ${MY_PN}{,Dark,White}
+		do unpack ./$theme.tar.gz
+		mv $theme $(echo "$theme" | sed 's/\([A-Z]\)/\L\1/g')
+	done
+	popd > /dev/null 2>&1
+}
 
 src_prepare() {
-	for theme in ${MY_PN}{,Dark}; do unpack ./$theme.tar.gz || die "eek!"; done
-	local res x
-	for x in ${MY_PN}{,Dark}; do
+	local res x name=awoken
+	for x in ${name}{,dark,white}; do
 		for res in 24 128; do
 			cd "${x}"/clear/${res}x${res}/places/
 			ln -s -f ../start-here/start-here-gentoo1.png start-here.png || die
@@ -36,16 +43,14 @@ src_prepare() {
 			cd "${S}"
 		done
 	done
+	rm ${name}{,dark,white}/${PN}-* || die
+	find . -iname '.sh' -exec rm '{}' +
+
 }
 
 src_install() {
-	mv ${MY_PN}/Installation_and_Instructions.pdf README.pdf
-	dodoc README.pdf
-	insinto /usr/local/bin
-	doins ${MY_PN}/awoken-icon-theme-customization{,-clear} \
-		${MY_PN}Dark/awoken-icon-theme-customization-dark || die "eek!"
 	insinto /usr/share/icons
-	mv ${MY_PN}{,Dark} "${D}"/usr/share/icons/ || die "eek!"
+	doins -r awoken{,dark,white}
 }
 
 pkg_preinst() {
@@ -54,10 +59,6 @@ pkg_preinst() {
 
 pkg_postinst() {
 	gnome2_icon_cache_update
-	einfo
-	einfo "one should run the scripts to delete previous profile to create a"
-	einfo "new one or colorize the icon set"
-	einfo
 }
 
 pkg_postrm() {
