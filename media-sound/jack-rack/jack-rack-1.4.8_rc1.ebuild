@@ -4,6 +4,8 @@
 
 EAPI="5"
 
+AUTOTOOLS_AUTORECONF="yep"
+
 inherit autotools-utils flag-o-matic toolchain-funcs
 
 MY_P=${PN}_${PV/_/\~}
@@ -38,6 +40,11 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS BUGS ChangeLog NEWS README THANKS TODO WISHLIST )
 
+src_unpack() {
+	unpack ${A}
+	mv ${PN}-* ${P} || die
+}
+
 src_prepare() {
 	local langs
 	if use nls; then
@@ -58,7 +65,7 @@ src_prepare() {
 		-e '/Icon/s:.png::' \
 		-i ${PN}.desktop || die
 
-	autotools-utils_src_preapre
+	autotools-utils_src_prepare
 }
 
 src_configure() {

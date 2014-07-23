@@ -4,6 +4,8 @@
 
 EAPI="5"
 
+AUTOTOOLS_AUTORECONF="yep"
+
 inherit autotools-utils flag-o-matic toolchain-funcs git-2
 
 
@@ -57,7 +59,7 @@ src_prepare() {
 		-e '/Icon/s:.png::' \
 		-i ${PN}.desktop || die
 
-	autotools-utils_src_preapre
+	autotools-utils_src_prepare
 }
 
 src_configure() {
