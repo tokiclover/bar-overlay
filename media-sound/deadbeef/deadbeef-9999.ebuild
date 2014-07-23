@@ -1,6 +1,6 @@
 # Copyright 2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/deadbeef/deadbeef-9999.ebuild,v 1.2 2012/11/02 19:57:55 -tclover Exp $
+# $Header: media-sound/deadbeef/deadbeef-9999.ebuild,v 1.3 2014/07/22 19:57:55 -tclover Exp $
 
 EAPI=5
 
@@ -13,20 +13,18 @@ EGIT_REPO_URI="git://deadbeef.git.sourceforge.net/gitroot/deadbeef/deadbeef"
 
 SLOT="0"
 KEYWORDS=""
-IUSE="+aac adplug +alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gnome gtk
-gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack +musepack midi mms
-+nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis vtx +X zip
-imlib"
+IUSE="+aac adplug alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gtk 
+gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack musepack midi 
+mms +nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis 
+vtx +X zip imlib"
 
+REQUIRED_USE="lastfm? ( curl ) artwork? ( curl ) imlib? ( curl )"
 
 LANGS="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
 lg lt nb nl pl pt pt_BR ro ru si sk sl sr sr@latin sv te tr ug uk vi zh_CN zh_TW"
 for l in ${LANGS}; do
 	IUSE+=" linguas_${l}"
 done
-
-REQUIRED_USE="lastfm? ( curl ) gnome? ( || ( gtk gtk3 ) )
-	artwork? ( curl ) imlib? ( curl )"
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )
@@ -43,11 +41,12 @@ RDEPEND="adplug? ( media-libs/adplug )
 	wavpack? ( media-sound/wavpack )
 	sndfile? ( media-libs/libsndfile )
 	twolame? ( media-sound/twolame )
-	curl? ( net-misc/curl )
+	curl? ( >=net-misc/curl-7.10 )
 	cdda? ( dev-libs/libcdio media-libs/libcddb )
-	gtk? ( x11-libs/gtk+:2 x11-libs/gtkglext )
+	gtk? ( >=x11-libs/gtk+-2.12:2 x11-libs/gtkglext )
 	gtk3? ( x11-libs/gtk+:3 x11-libs/gtkglext )
-	X? ( x11-libs/libX11 )
+	X? ( x11-libs/libX11 
+		|| ( x11-libs/libSM x11-libs/libICE ) )
 	pulseaudio? ( media-sound/pulseaudio )
 	imlib? ( media-libs/imlib2 )
 	!imlib? ( virtual/jpeg media-libs/libpng )
@@ -68,8 +67,7 @@ DEPEND=">=dev-lang/perl-5.8.1
 	dev-lang/yasm
 	ffmpeg? ( virtual/ffmpeg )
 	nls? ( >=dev-util/intltool-0.40.0 )
-	oss? ( virtual/libc )
-	gnome? ( || ( x11-libs/libSM x11-libs/libICE ) )"
+	oss? ( virtual/libc )"
 
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
