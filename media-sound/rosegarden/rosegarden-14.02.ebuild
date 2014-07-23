@@ -1,14 +1,14 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/rosegarden/rosegarden-14.02.ebuild,v 1.1 2014/03/08 23:15:32 -tclover Exp $
+# $Header: media-sound/rosegarden/rosegarden-14.02.ebuild,v 1.1 2014/03/08 23:15:32 -radhermit Exp $
 
 EAPI="5"
 
-inherit autotools eutils fdo-mime gnome2-utils multilib subversion
+inherit autotools eutils fdo-mime gnome2-utils multilib
 
 DESCRIPTION="MIDI and audio sequencer and notation editor"
 HOMEPAGE="http://www.rosegardenmusic.com/"
-ESVN_REPO_URI="svn://svn.code.sf.net/p/${PN}/code/trunk/${PN}"
+SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -29,6 +29,11 @@ RDEPEND="dev-qt/qtgui:4
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	x11-misc/makedepend"
+
+src_prepare() {
+	epatch "${FILESDIR}"/${PN}-12.12.25-debug.patch
+	eautoreconf
+}
 
 src_configure() {
 	export USER_CXXFLAGS="${CXXFLAGS}"
