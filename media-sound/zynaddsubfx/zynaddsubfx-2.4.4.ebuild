@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/zynaddsubfx/zynaddsubfx-2.4.4.ebuild,v 1.1 2014/07/07 18:56:16 -tclover Exp $
+# $Header: media-sound/zynaddsubfx/zynaddsubfx-2.4.4.ebuild,v 1.2 2014/07/20 18:56:16 -tclover Exp $
 
-EAPI=5
+EAPI="5"
 
 inherit eutils cmake-utils
 
@@ -21,7 +21,7 @@ RDEPEND=">=dev-libs/mini-xml-2.2.1
 	alsa? ( media-libs/alsa-lib )
 	fltk? ( >=x11-libs/fltk-1.1:1 )
 	jack? ( media-sound/jack-audio-connection-kit )
-	lash? ( || ( media-sound/ladish media-sound/lash ) )
+	lash? ( virtual/liblash )
 	oss? ( media-sound/oss )
 	portaudio? ( >=media-libs/portaudio-19_pre )"
 
