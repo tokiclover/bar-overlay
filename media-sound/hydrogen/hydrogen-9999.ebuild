@@ -25,7 +25,7 @@ RDEPEND=">=dev-qt/qtgui-4.4.0:4 >=dev-qt/qtcore-4.4.0:4
 	alsa? ( media-libs/alsa-lib )
 	jack? ( >=media-sound/jack-audio-connection-kit-0.120.0 )
 	ladspa? ( media-libs/liblrdf )
-	lash? ( || ( media-sound/ladish media-sound/lash ) )
+	lash? ( virtual/liblash )
 	oss? ( media-sound/oss )
 	portaudio? ( >=media-libs/portaudio-19_pre )
 	portmidi? ( media-libs/portmidi )
