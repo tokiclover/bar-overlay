@@ -31,7 +31,7 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die "emake install failed"
+	emake DESTDIR="${D}" install
 	dodoc AUTHORS ChangeLog README RTC SEQ24
 	newicon src/pixmaps/seq24_32.xpm seq24.xpm
 	make_desktop_entry seq24
