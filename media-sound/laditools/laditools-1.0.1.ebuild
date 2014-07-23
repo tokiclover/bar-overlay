@@ -1,12 +1,12 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/laditools/laditools-1.0.ebuild,v 1.1 2014/07/20 14:40:00 -tclover Exp $
+# $Header: media-sound/laditools/laditools-1.0.ebuild,v 1.1 2014/07/22 14:40:00 -tclover Exp $
 
 EAPI="5"
 
-PYTHON_COMPAT="python2_7"
+PYTHON_COMPAT=( python2_7 )
 
-inherit eutils distutils
+inherit distutils-r1
 
 DESCRIPTION="Control and monitor a LADI system the easy way"
 HOMEPAGE="https://launchpad.net/laditools"
@@ -15,26 +15,31 @@ SRC_URI="https://launchpad.net/laditools/${PV:0:3}/${PV}/+download/${PN}-${PVR/_
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 x86"
-IUSE="lash"
+IUSE="lash wmaker ${PYTHON_REQUIRED_USE}"
 
-DEPEND="dev-python/python-distutils-extra"
 
-RDEPEND=">=dev-python/enum-0.4.4
-	dev-python/pygtk
-	dev-python/pyxml
-	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]
-	dev-python/pygobject:3
+RDEPEND="lash? ( virtual/liblash )
     x11-libs/gtk+:3[introspection]
-	x11-libs/vte:2.90[introspection]
-	lash? ( virtual/liblash )"
+	>=dev-python/pygtk-2.12[${PYTHON_USEDEP}]
+	dev-python/pyxdg[${PYTHON_USEDEP}]
+	>=dev-python/enum-0.4.4[${PYTHON_USEDEP}]
+	>=dev-python/pygobject-3.0.0[${PYTHON_USEDEP}]
+	dev-python/pyxml[${PYTHON_USEDEP}]
+	wmaker? ( dev-python/wmdocklib[${PYTHON_USEDEP}] )
+	>=x11-libs/gtk+-3.0.0[introspection]
+	x11-libs/vte[introspection]
+	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]"
+
+DEPEND="dev-python/python-distutils-extra[${PYTHON_USEDEP}]"
 
 DOCS="README"
-
-pkg_setup() {
-	python_set_active_version 2.7
-	python_pkg_setup
-}
 
 #src_prepare() {
 #	epatch "${FILESDIR}/${P}-rsvg.patch"
 #}
+
+pkg_preinst() {
+	if ! use wmaker; then
+		find "${D}" -name 'wmladi*' -exec rm '{}' + || die
+	fi
+}
