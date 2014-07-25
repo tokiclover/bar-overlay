@@ -1,8 +1,8 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2012/09/25 08:41:46 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2014/07/25 08:41:42 -tclover Exp $
 
-EAPI=5
+EAPI="5"
 
 inherit eutils git-2
 
@@ -12,12 +12,13 @@ EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 
 LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
-IUSE_COMP="bzip2 gzip lzip lzma lzo +xz"
+KEYWORDS=""
+IUSE_COMP="bzip2 gzip lz4 lzip lzma lzo +xz"
 IUSE_FS="btrfs e2fs jfs reiserfs xfs"
 IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
 	zfs zsh ${IUSE_FS/e2fs/+e2fs} ${IUSE_COMP}"
 
-REQUIRED_USE="|| ( bzip2 gzip lzip lzma lzo xz )
+REQUIRED_USE="|| ( bzip2 gzip lz4 lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )"
 
 DEPEND="sys-apps/coreutils
@@ -38,6 +39,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	mdadm? ( sys-fs/mdadm )
 	bzip2? ( app-arch/bzip2 )
 	gzip? ( app-arch/gzip )
+	lz4? ( app-arch/lz4 )
 	lzip? ( app-arch/lzip )
 	lzo? ( app-arch/lzop )
 	xz? ( app-arch/xz-utils )
@@ -50,7 +52,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	xfs? ( sys-fs/xfsprogs )
 	zfs? ( sys-fs/zfs )"
 
-DOCS=(BUGS README.textile)
+DOCS=( BUGS ChangeLog README.textile )
 
 src_prepare() {
 	# append binaries and kernel module group depending on USE
@@ -102,15 +104,14 @@ src_install() {
 }
 
 pkg_postinst() {
-	einfo "easiest way to build an intramfs is running in /usr/share/${PN}"
-	einfo " \`${PN}.${shell} -a -f -y -k$(uname -r)', do copy [usr/bin/]gpg binary with"
-	einfo "its [usr/share/gnupg/]options.skel before for GnuPG support."
-	einfo "Else \`autogen.${shell} -af -y -s -l -g' will build everything in that dir."
+	einfo "easiest way to build an intramfs is running:"
+	einfo " \`${PN}.${shell} -a -f -y -k$(uname -r)'; and do copy usr/bin/gpg binary with"
+	einfo "its usr/share/gnupg/options.skel in /usr/share/${PN} before for GnuPG support."
 	if use aufs && use squashfs; then
 		einfo
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
 		einfo "you have to add that list to /etc/conf.d/sqfsdmount sqfsd_local and then"
-		einfo "run \`sdr.${shell} -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
+		einfo "run \`sdr.${shell} -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
 	unset shell
