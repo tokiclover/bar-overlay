@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: games-board/fuego/fuego-9999.ebuild,v 1.2 2014/07/15 23:23:04 -tclover Exp $
+# $Header: games-board/fuego/fuego-9999.ebuild,v 1.2 2014/07/25 23:23:04 -tclover Exp $
 
-EAPI=3
+EAPI=5
 
 inherit autotools-utils flag-o-matic games subversion
 
@@ -18,7 +18,7 @@ IUSE="cache-sync do optimization"
 
 DEPEND="doc? ( app-doc/doxygen )
 	>=dev-libs/boost-1.33.1"
-	
+
 RDEPEND="${DEPEND}"
 
 src_configure() {
@@ -34,6 +34,6 @@ src_configure() {
 	)
 	autotools-utils_src_configure
 	if use optimization; then
-		append-cxxflags "-O3 -ffast-math -g -pipe"
+		append-cxxflags "-ffast-math -g"
 	fi
 }

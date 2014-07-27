@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: games-board/fuego/fuego-1.1.ebuild,v 1.2 2014/07/15 23:23:04 -tclover Exp $
+# $Header: games-board/fuego/fuego-1.1.ebuild,v 1.2 2014/07/25 23:23:04 -tclover Exp $
 
 EAPI=5
 
@@ -33,6 +33,6 @@ src_configure() {
 	)
 	autotools-utils_src_configure
 	if use optimization; then
-		append-cxxflags "-ffast-math -g -pipe"
+		append-cxxflags "-ffast-math -g"
 	fi
 }
