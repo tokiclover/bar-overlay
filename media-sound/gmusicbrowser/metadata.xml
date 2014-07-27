@@ -6,6 +6,7 @@
 		<email></email>
 	</maintainer>
 	<use>
+		<flag name="123">Support mpg layer 1, 2 and 3 using mpg123/mpg321</flag>
 		<flag name="sid">Support SID player based on libsidplay2 plugin</flag>
 		<flag name="mac">Support Monkey's audio (APE) plugin</flag>
 		<flag name="twolame">Support twolame MPEG-2 plugin</flag>
