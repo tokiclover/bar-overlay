@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.5 2014/07/25 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.6 2014/07/26 08:41:42 -tclover Exp $
 
 EAPI="5"
 
@@ -16,7 +16,7 @@ KEYWORDS=""
 IUSE_COMP="bzip2 gzip lz4 lzip lzma lzo +xz"
 IUSE_FS="btrfs e2fs jfs reiserfs xfs"
 IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
-	zfs zsh ${IUSE_FS/e2fs/+e2fs} ${IUSE_COMP}"
+	zfs zram zsh ${IUSE_FS/e2fs/+e2fs} ${IUSE_COMP}"
 
 REQUIRED_USE="|| ( bzip2 gzip lz4 lzip lzma lzo xz )
 	|| ( bash zsh ) lzma? ( xz )"
@@ -85,10 +85,11 @@ src_prepare() {
 src_install() {
 	emake DESTDIR="${D}" prefix=/usr install
 	if use aufs && use squashfs; then
-		emake DESTDIR="${D}" prefix=/usr install_svc
+		emake DESTDIR="${D}" prefix=/usr install_aufs_squashfs
 		mv svc/README.textile README.svc.textile
-		DOCS+=( README.svc.textile)
+		DOCS+=( README.svc.textile )
 	fi
+	use zram && emake DESTDIR="${D}" install_zram
 	if use bash; then shell=bash
 		emake DESTDIR="${D}" prefix=/usr install_bash
 	fi
@@ -113,6 +114,11 @@ pkg_postinst() {
 		einfo "you have to add that list to /etc/conf.d/sqfsdmount sqfsd_local and then"
 		einfo "run \`sdr.${shell} -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
+	fi
+	if use zram; then
+		einfo "to use zram init service, edit '/etc/conf.d/zram' and add the service"
+		einfo "to boot run level: rc-add zram boot;"
+		einfo "default config file initialize a swap and 2 devices for {/var,}/tmp."
 	fi
 	unset shell
 }

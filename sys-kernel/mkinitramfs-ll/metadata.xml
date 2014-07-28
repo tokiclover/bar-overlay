@@ -6,7 +6,8 @@
 		<email></email>
 	</maintainer>
 	<use>
-		<flag name="squashfs">Adds squashfs-tools support, +aufs adds squashed directory support</flag>
-		<flag name="symlink">Force the ebuild to automatically update the mkifs-ll[/sdr] symlink</flag>
+		<flag name="squashfs">Add squashfs-tools support, +aufs adds squashed directory support</flag>
+		<flag name="symlink">Automatically update mkifs-ll, and sdr if +aufs +squashfs, symlink</flag>
+		<flag name="zram">Add zram init service support for zram devices initialization</flag>
 	</use>
 </pkgmetadata>
