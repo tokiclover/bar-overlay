@@ -2,11 +2,13 @@ diff --git a/setup/Linux/oss/build/osscore.c b/setup/Linux/oss/build/osscore.c
 index d79c6a6..1cc89fc 100644
 --- a/setup/Linux/oss/build/osscore.c
 +++ b/setup/Linux/oss/build/osscore.c
-@@ -472,11 +472,14 @@ oss_get_pid (void)
+@@ -472,11 +472,16 @@ oss_get_pid (void)
  int
  oss_get_uid (void)
  {
 -#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,29)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)
++  return __kuid_val(current->cred->uid);
 + #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)
 +  kuid_t uid = current_uid();
 +  return uid.val;

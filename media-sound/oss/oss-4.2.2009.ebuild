@@ -1,6 +1,6 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/oss/oss-4.2.2006.ebuild,v 1.4 2012/11/11 20:31:48 -tclover Exp $
+# $Header: media-sound/oss/oss-4.2.2009.ebuild,v 1.5 2014/07/28 20:31:48 -tclover Exp $
 
 EAPI=5
 
@@ -46,35 +46,39 @@ src_unpack() {
 
 src_prepare() {
 	cp "${FILESDIR}"/oss "${S}"/setup/Linux/oss/etc/S89oss
-	epatch "${FILESDIR}"/oss-2009.patch
+	epatch "${FILESDIR}"/${PN}-${PV}-linux.patch
 	use pax_kernel && epatch "${FILESDIR}"/pax_kernel.patch
 	elibtoolize
 }
 
 src_configure() {
-	local conf="$(use alsa || echo '--enable-libsalsa=NO') \
-		$(use midi && echo '--config-midi=YES' || echo '--config-midi=NO') \
-		--only-drv=osscore"
+	local drv=osscore
 	for card in ${CARDS}; do
 		if use oss_cards_${card} || has ${card} ${OSS_CARDS};then
-			conf+=,oss_${card}
+			drv+=,oss_${card}
 		fi
 	done
-	cd ../build
-	"${S}"/configure ${conf} || die
+	local myconfargs=(
+		$(use alsa || echo '--enable-libsalsa=NO')
+		$(use midi && echo '--config-midi=YES' || echo '--config-midi=NO')
+		--only-drv=$drv
+	)
+	pushd ../build
+	"${S}"/configure "${myconfargs[@]}"
 }
 
 src_compile() {
-	cd ../build
-	emake build || die
+	pushd ../build
+	emake build
 }
 
 src_install() {
-	newinitd "${FILESDIR}"/oss oss
-	cd ../build
-	cp -R prototype/* "${D}"
+	pushd ../build
+	insinto "${D}"
+	doins -r prototype/*
 
 	# install a pkgconfig file and make symlink to standard library dir
+	newinitd "${FILESDIR}"/oss oss
 	local libdir=$(get_libdir)
 	insinto /usr/${libdir}/pkgconfig
 	doins "${FILESDIR}"/OSSlib.pc
