@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.10.8.ebuild v1.5 2014/07/25 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.13.0.ebuild v1.6 2014/07/28 08:41:42 -tclover Exp $
 
 EAPI="5"
 
@@ -8,18 +8,19 @@ inherit eutils
 
 DESCRIPTION="a flexible initramfs genrating tool with full LUKS support and more"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
-SRC_URI="https://github.com/tokiclover/${PN}/tarball/${PVR} -> ${P}.tar.gz"
+SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE_COMP="bzip2 gzip lz4 lzip lzma lzo +xz"
+
+IUSE_COMP="bzip2 gzip lz4 lzip lzma lzo xz"
 IUSE_FS="btrfs e2fs jfs reiserfs xfs"
 IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
-	zfs zsh ${IUSE_FS/e2fs/+e2fs} ${IUSE_COMP}"
+	zfs +zram zsh ${IUSE_FS/e2fs/+e2fs} ${IUSE_COMP}"
 
-REQUIRED_USE="|| ( bzip2 gzip lz4 lzip lzma lzo xz )
-	|| ( bash zsh ) lzma? ( xz )"
+REQUIRED_USE="|| ( ${IUSE_COMP} ) || ( bash zsh )"
+
 
 DEPEND="sys-apps/coreutils
 	sys-apps/findutils
@@ -41,6 +42,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	gzip? ( app-arch/gzip )
 	lz4? ( app-arch/lz4 )
 	lzip? ( app-arch/lzip )
+	lzma? ( || ( app-arch/xz-utils app-arch/lzma ) )
 	lzo? ( app-arch/lzop )
 	xz? ( app-arch/xz-utils )
 	aufs? ( || ( =sys-fs/aufs-utils-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
@@ -53,11 +55,6 @@ RDEPEND="sys-apps/busybox[mdev]
 	zfs? ( sys-fs/zfs )"
 
 DOCS=( BUGS ChangeLog README.textile )
-
-src_unpack() {
-	unpack ${A}
-	mv *${PN}* ${P} || die
-}
 
 src_prepare() {
 	# append binaries and kernel module group depending on USE
@@ -90,10 +87,11 @@ src_prepare() {
 src_install() {
 	emake DESTDIR="${D}" prefix=/usr install
 	if use aufs && use squashfs; then
-		emake DESTDIR="${D}" prefix=/usr install_svc
+		emake DESTDIR="${D}" prefix=/usr install_aufs_squashfs
 		mv svc/README.textile README.svc.textile
-		DOCS+=( README.svc.textile)
+		DOCS+=( README.svc.textile )
 	fi
+	use zram && emake DESTDIR="${D}" install_zram
 	if use bash; then shell=bash
 		emake DESTDIR="${D}" prefix=/usr install_bash
 	fi
@@ -119,5 +117,11 @@ pkg_postinst() {
 		einfo "run \`sdr.${shell} -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add sqfsdmount boot' afterwards."
 	fi
+	if use zram; then
+		einfo "to use zram init service, edit '/etc/conf.d/zram' and add the service"
+		einfo "to boot run level: rc-add zram boot;"
+		einfo "default config file initialize a swap and 2 devices for {/var,}/tmp."
+	fi
 	unset shell
 }
+

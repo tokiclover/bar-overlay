@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.6 2014/07/26 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.6 2014/07/28 08:41:42 -tclover Exp $
 
 EAPI="5"
 
@@ -13,13 +13,13 @@ EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS=""
-IUSE_COMP="bzip2 gzip lz4 lzip lzma lzo +xz"
+
+IUSE_COMP="bzip2 gzip lz4 lzip lzma lzo xz"
 IUSE_FS="btrfs e2fs jfs reiserfs xfs"
 IUSE="aufs bash cryptsetup device-mapper dmraid fbsplash mdadm squashfs symlink
-	zfs zram zsh ${IUSE_FS/e2fs/+e2fs} ${IUSE_COMP}"
+	zfs +zram zsh ${IUSE_FS/e2fs/+e2fs} ${IUSE_COMP}"
 
-REQUIRED_USE="|| ( bzip2 gzip lz4 lzip lzma lzo xz )
-	|| ( bash zsh ) lzma? ( xz )"
+REQUIRED_USE="|| ( ${IUSE_COMP} ) || ( bash zsh )"
 
 DEPEND="sys-apps/coreutils
 	sys-apps/findutils
@@ -41,6 +41,7 @@ RDEPEND="sys-apps/busybox[mdev]
 	gzip? ( app-arch/gzip )
 	lz4? ( app-arch/lz4 )
 	lzip? ( app-arch/lzip )
+	lzma? ( || ( app-arch/xz-utils app-arch/lzma ) )
 	lzo? ( app-arch/lzop )
 	xz? ( app-arch/xz-utils )
 	aufs? ( || ( =sys-fs/aufs-utils-9999 sys-fs/aufs2 sys-fs/aufs3 ) )
