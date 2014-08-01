@@ -1,8 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/gt3-colors-theme/gt3-colors-theme-0_p20091124.ebuild,v 1.1 2012/07/04 00:22:05 -tclover Exp $
+# $Header: x11-themes/gt3-colors-theme/gt3-xcursor-theme-20091124.ebuild,v 1.1 2014/07/31 00:22:05 -tclover Exp $
 
-EAPI=2
+EAPI=5
 
 inherit gnome2-utils
 
@@ -23,10 +23,11 @@ RESTRICT="binchecks strip"
 S="${WORKDIR}"
 
 src_install() {
-	for pkg in GT3{,-azure,-bronze,-light,-red}
-	do unpack ./${pkg}.tar.gz; done
+	for pkg in GT3{,-azure,-bronze,-light,-red}; do
+		unpack ./${pkg}.tar.gz
+	done
 	insinto /usr/share/icons
-	doins -r GT3{,-azure,-bronze,-light,-red} || die "eek!"
+	doins -r GT3{,-azure,-bronze,-light,-red} || die
 }
 
 pkg_preinst() { gnome2_icon_savelist; }
