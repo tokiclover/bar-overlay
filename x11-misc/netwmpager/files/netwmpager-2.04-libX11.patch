@@ -1,0 +1,42 @@
+--- Makefile
++++ Makefile
+@@ -5,12 +5,12 @@
+ include config.mk
+ include scripts/lib.mk
+ 
+-CFLAGS	+= -g -I. $(XFT_CFLAGS) -DVERSION='"$(VERSION)"' -DDATADIR='"$(datadir)"'
++CFLAGS	+= -g -I. $(XFT_CFLAGS) $(X11_CFLAGS) -DVERSION='"$(VERSION)"' -DDATADIR='"$(datadir)"'
+ 
+ objs	:= file.o main.o opt.o pager.o sconf.o x.o xmalloc.o
+ 
+ netwmpager: $(objs)
+-	$(call cmd,ld,$(XFT_LIBS) -lm)
++	$(call cmd,ld,$(XFT_LIBS) $(X11_LIBS) -lm)
+ 
+ clean		+= *.o netwmpager
+ distclean	+= config.mk
+
+--- configure
++++ configure
+@@ -21,6 +21,12 @@
+ 	return $?
+ }
+ 
++check_x11()
++{
++	pkg_check_modules x11 "x11"
++	return $?
++}
++
+ flag_dir()
+ {
+ 	set_var $1 "$2"
+@@ -50,6 +56,7 @@
+ add_check check_cflags
+ add_check check_cc_depgen
+ add_check check_xft
++add_check check_x11
+ 
+ parse_command_line "$@"
+ run_checks
+
