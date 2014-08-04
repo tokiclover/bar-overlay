@@ -8,8 +8,6 @@
 # @DESCRIPTION: Exports portage base functions used by ebuilds 
 # written for net-print/cnijfilter packages
 
-MULTILIB_COMPAT=( abi_x86_{32,64} )
-
 inherit autotools eutils flag-o-matic multilib-build
 
 IUSE="${IUSE} debug gtk nls servicetools usb"
@@ -19,9 +17,8 @@ REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk ) nls? ( gtk )"
 
 has net ${IUSE} && REQUIRED_USE+=" servicetools? ( net )"
 
-RDEDEPEND="nls? ( >=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}] )"
-
-DEPEND="app-text/ghostscript-gpl[${MULTILIB_USEDEP}]
+RDEPEND="${RDEPEND}
+	app-text/ghostscript-gpl[${MULTILIB_USEDEP}]
 	dev-libs/glib[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
 	servicetools? ( 
@@ -29,16 +26,18 @@ DEPEND="app-text/ghostscript-gpl[${MULTILIB_USEDEP}]
 		>=dev-libs/libxml-1.8[${MULTILIB_USEDEP}] )
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
-
 if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
-	DEPEND="${DEPEND}
+	RDEPEND="${RDEPEND}
 		>=media-libs/tiff-3.4[${MULTILIB_USEDEP}]
 		>=media-libs/libpng-1.0.9[${MULTILIB_USEDEP}]"
 else 
 	use amd64 && multilib_toolchain_setup "x86"
-	DEPEND="${DEPEND}
+	RDEPEND="${RDEPEND}
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
 fi
+
+DEDEPEND="${RDEPEND}
+	nls? ( >=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}] )"
 
 case "${EAPI:-4}" in
 	0|1) EXPORT_FUNCTIONS pkg_setup src_unpack src_compile src_install pkg_postinst;;
@@ -75,19 +74,21 @@ ecnij_pkg_setup() {
 	if use gtk; then
 		ECNIJ_SRC+=" cngpijmon"
 		ECNIJ_PRSRC+=" lgmon"
-		has net ${IUSE} && use net && ECNIJ_SRC+=" cngpijmon/cnijnpr"
+		use_if_iuse net && ECNIJ_SRC+=" cngpijmon/cnijnpr"
 	fi
 	use servicetools && ECNIJ_PRSRC+=" printui"
-	has net ${IUSE} && use net && ECNIJ_SRC+=" backendnet"
+	use_if_iuse net && ECNIJ_SRC+=" backendnet"
 	ECNIJ_PRN="$(seq 0 $((${#ECNIJ_PRUSE[@]}-1)))"
 	if [[ -z "${ECNIJ_PRCOM}" ]]; then
+		local p prn
 		declare -a ECNIJ_PRCOM
 		for p in ${ECNIJ_PRN}; do
-			ECNIJ_PRCOM[p]=${ECNIJ_PRUSE[$p]}-series
+			prn=${ECNIJ_PRUSE[$p]//[0-9]/}
+			ECNIJ_PRCOM[$p]="PIXUS/PIXMA ${prn^[a-z]}-series"
 		done
 	fi
 
-	local b=true
+	local a=true p
 	for p in ${ECNIJ_PRN}; do
 		einfo " ${ECNIJ_PRUSE[$p]}\t${ECNIJ_PRCOM[$p]}"
 		if (use ${ECNIJ_PRUSE[$p]}); then
@@ -131,6 +132,8 @@ _src_prepare() {
 # @DESCRIPTION: prepare environment and run elibtoolize.
 ecnij_src_prepare() {
 	debug-print-function ${FUNCNAME} "${@}"
+
+	[[ ${PATCHES} ]] && epatch "${PATCHES[@]}"
 
 	epatch_user
 
