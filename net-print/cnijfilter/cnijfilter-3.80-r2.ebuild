@@ -7,13 +7,13 @@ EAPI=5
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
-HOMEPAGE="http://support-asia.canon-asia.com/contents/ASIA/EN/0100411802.html"
-SRC_URI="http://gdlp01.c-wss.com/gds/8/0100004118/01/${PN}-source-${PV}-1.tar.gz"
+HOMEPAGE="http://support-au.canon.com.au/contents/AU/EN/0100469302.html"
+SRC_URI="http://gdlp01.c-wss.com/gds/3/0100004693/01/${PN}-source-${PV}-1.tar.gz"
 
 LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 
-ECNIJ_PRUSE=( "ip100" "mx710" "mx890" "mx370" "mx430" "mx510" "e600" )
-ECNIJ_PRID=( "303" "394" "395" "396" "397" "398" "399" )
+ECNIJ_PRUSE=( "mp430" "mg2200" "e510" "mg3200" "mg4200" "ip7200" "mg5400" "mg6300" )
+ECNIJ_PRID=( "401" "402" "403" "405" "406" "407" "408" )
 
 IUSE="net ${ECNIJ_PRUSE[@]}"
 SLOT="0"

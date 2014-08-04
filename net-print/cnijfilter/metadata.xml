@@ -7,11 +7,9 @@
  <email></email>
 </maintainer>
 	<use>
-		<flag name="amd64">Basic support for this architecture - currently without servicetools</flag>
-		<flag name="multislot">Allow for SLOTs to include minor version (3.30 instead of just 3)</flag>
-		<flag name="servicetools">Service tools utility for monitoring, cleaning and more...</flag>
+		<flag name="servicetools">Build service tools utility, this require very old libs</flag>
 		<flag name="symlink">Make a symlink for GIMP plugin in /usr/LIBDIR/gimp/2.0/plug-ins</flag>
-		<flag name="net">Adds network backend for CUPS</flag>
-		<flag name="usb">Adds usb backend for CUPS</flag>
+		<flag name="net">Add network backend for CUPS</flag>
+		<flag name="usb">Add usb backend for CUPS</flag>
 	</use>
 </pkgmetadata>
