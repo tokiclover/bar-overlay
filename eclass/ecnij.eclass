@@ -37,6 +37,14 @@ else
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
 fi
 
+[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
+RDEPEND="${RDEPEND}
+	net-print/cnijfilter-drivers[${MULTILIB_USEDEP}]"
+
+[[ x${ECNIJ_SRC_BUILD} == xdriver ]] &&
+RDEPEND="${RDEPEND}
+	net-print/cnijfilter[${MULTILIB_USEDEP}]"
+
 DEDEPEND="${DEPEND}
 	nls? ( >=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}] )"
 
@@ -111,15 +119,15 @@ ecnij_src_prepare() {
 
 	epatch_user
 
+	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
 	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		dir_src_prepare
 		popd
 	done
 
-	[[ x${ECNIJ_SRC_BUILD} != xdriver ]] &&
-
 	local p pr prid
+	[[ x${ECNIJ_SRC_BUILD} == xdriver ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -140,6 +148,7 @@ ecnij_src_prepare() {
 ecnij_src_configure() {
 	debug-print-function ${FUNCNAME} "${@}"
 
+	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
 	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		econf --prefix="${EPREFIX}"/usr "${myeconfargs[@]}"
@@ -148,6 +157,7 @@ ecnij_src_configure() {
 
 	mv {,_}lgmon || die
 	local p pr prid
+	[[ x${ECNIJ_SRC_BUILD} == xdriver ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -165,6 +175,7 @@ ecnij_src_compile() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local p pr prid
+	[[ x${ECNIJ_SRC_BUILD} == xdriver ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -174,6 +185,7 @@ ecnij_src_compile() {
 		fi
 	done
 
+	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
 	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		emake || die
@@ -186,18 +198,20 @@ ecnij_src_compile() {
 ecnij_src_install() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	local abi_libdir=/usr/$(get_abi_libdir) bindir=/usr/bin p pr prid
-	local libexecdir=/usr/libexec/cups modeldir=/usr/share/cups/model
-	local abi_lib=$(echo $abi_libdir | cut -b9-) olddir=/usr/lib/cups
+	local abi_libdir="${EPREFIX}"/usr/$(get_abi_libdir) p pr prid
+	local libexecdir="${EPREFIX}"/usr/libexec/cups ppddir="${EPREFIX}"/usr/share/cups/model
+	local abi_lib=$(echo $abi_libdir | cut -b9-) olddir="${EPREFIX}"/usr/lib/cups
 	mkdir -p "${D}"{${abi_libdir}/bjlib,${libexecdir}/{backend,filter}}
 	[[ ${ECNIJ_PVN} ]] || abi_lib=
 
+	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
 	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		popd
 	done
 
+	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -206,15 +220,21 @@ ecnij_src_install() {
 			popd
 
 			dolib.so ${prid}/libs_bin${abi_lib}/*.so*
-			install -m644 ${prid}/database/* "${D}${abi_libdir}"/bjlib || die
-			install -Dm644 ppd/canon${pr}.ppd "${D}${modeldir}"/canon${pr}.ppd || die
+			exeinto "${D}${abi_libdir}"/bjlib
+			dosym "${abi_libdir}"/{cnij,bj}lib 
+			doexe ${prid}/database/*
+			insinto "${D}${ppddir}"
+			doins ppd/canon${pr}.ppd
 		fi
 	done
 
+	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 	if use_if_iuse net; then
 		dolib.so com/libs_bin${abi_lib}/*.so*
 		install -Dm644 -glp -olp com/ini/cnnet.ini "${D}${abi_libdir}"/bjlib || die
 	fi
+
+	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
 	for dir in backend filter; do
 		mv "${D}"${olddir}/${dir}/* "${D}"${libexecdir}/${dir} || die
 		rmdir "${D}"${olddir}/${dir}
