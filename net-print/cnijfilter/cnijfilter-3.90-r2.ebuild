@@ -28,8 +28,8 @@ RESTRICT="mirror"
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-${PV/70/20}-4-cups_ppd.patch
-	"${FILESDIR}"/${PN}-${PV/70/20}-4-libpng15.patch
+	"${FILESDIR}"/${PN}-${PV/90/20}-4-cups_ppd.patch
+	"${FILESDIR}"/${PN}-${PV/90/20}-4-libpng15.patch
 )
 
 src_prepare() {
