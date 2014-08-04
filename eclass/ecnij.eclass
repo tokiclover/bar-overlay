@@ -8,43 +8,36 @@
 # @DESCRIPTION: Exports portage base functions used by ebuilds 
 # written for net-print/cnijfilter packages
 
-inherit autotools eutils flag-o-matic
+MULTILIB_COMPAT=( abi_x86_{32,64} )
 
-WANT_AUTOCONF=${E_WANT_AUTOCONF:-latest}
-WANT_AUTOMAKE=${E_WANT_AUTOMAKE:-latest}
+inherit autotools eutils flag-o-matic multilib-build
 
-IUSE="+debug gtk nls servicetools usb"
-KEYWORDS="-* ~x86 ~amd64"
+IUSE="${IUSE} debug gtk nls servicetools usb"
+KEYWORDS="~x86 ~amd64"
 
-REQUIRED_USE="servicetools? ( gtk ) nls? ( gtk )"
+REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk ) nls? ( gtk )"
 
 has net ${IUSE} && REQUIRED_USE+=" servicetools? ( net )"
 
-RDEDEPEND="nls? ( >=sys-devel/gettext-0.10.38 )"
+RDEDEPEND="nls? ( >=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}] )"
 
-DEPEND="app-text/ghostscript-gpl
-	>=net-print/cups-1.1.14
-	sys-libs/glibc
+DEPEND="app-text/ghostscript-gpl[${MULTILIB_USEDEP}]
+	dev-libs/glib[${MULTILIB_USEDEP}]
+	dev-libs/popt[${MULTILIB_USEDEP}]
 	servicetools? ( 
-		>=gnome-base/libglade-0.6
-		>=dev-libs/libxml-1.8
-	)"
+		>=gnome-base/libglade-0.6[${MULTILIB_USEDEP}]
+		>=dev-libs/libxml-1.8[${MULTILIB_USEDEP}] )
+	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
-[[ "${PV:0:1}" -eq "3" ]] && [[ "${PV:2:2}" -ge "40" ]] & ECNIJ_PVN=true
 
-if ${ECNIJ_PVN}; then
+if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
 	DEPEND="${DEPEND}
-		>=dev-libs/popt-1.6
-		>=media-libs/tiff-3.4
-		>=media-libs/libpng-1.0.9
-		gtk? ( x11-libs/gtk+:2 )"
+		>=media-libs/tiff-3.4[${MULTILIB_USEDEP}]
+		>=media-libs/libpng-1.0.9[${MULTILIB_USEDEP}]"
 else 
+	use amd64 && multilib_toolchain_setup "x86"
 	DEPEND="${DEPEND}
-		app-emulation/emul-linux-x86-popt
-		app-emulation/emul-linux-x86-compat
-		app-emulation/emul-linux-x86-baselibs
-		gtk? ( app-emulation/emul-linux-x86-gtklibs )"
-	has amd64 ${IUSE} && REQUIRED_USE+=" servicetools? ( amd64 )"
+		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
 fi
 
 case "${EAPI:-4}" in
@@ -65,10 +58,6 @@ esac
 # @ECLASS-VARIABLE: ECNIJ_PRCOM
 # @DESCRIPTION: An array with printer commercial names
 
-# @ECLASS-VARIABLE: ECNIJ_PVN
-# @DESCRIPTION: auto setted booleann variable if ${PV} >= 3.40
-:	${ECNIJ:=false}
-
 # @ECLASS-VARIABLE: ELTCONF
 # @DESCRIPTION: Extra options passed to elibtoolize
 ELTCONF=${ELTCONF:="--force --copy --automake"}
@@ -81,9 +70,6 @@ EGTCONF=${EGTCONF:="--force --copy"}
 # @DESCRIPTION:
 ecnij_pkg_setup() {
 	debug-print-function ${FUNCNAME} "${@}"
-
-	${ECNIJ_PVN} ||
-	has amd64 ${IUSE} && use amd64 && multilib_toolchain_setup x86
 
 	use usb && ECNIJ_SRC+=" backend"
 	if use gtk; then
@@ -122,13 +108,13 @@ ecnij_pkg_setup() {
 ecnij_src_unpack() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	unpack ${A}
+	default
 	cd "${S}"
 }
 
-# @FUNCTION: __src_prepare
+# @FUNCTION: _src_prepare
 # @DESCRIPTION:
-__src_prepare() {
+_src_prepare() {
 	local e
 	has ${EAPI:-0} 0 1 && e="nonfatal elibtoolize" ||
 		e="autotools_run_tool libtoolize"
@@ -150,7 +136,7 @@ ecnij_src_prepare() {
 
 	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
 		pushd ${dir} || die
-		__src_prepare
+		_src_prepare
 		popd
 	done
 
@@ -163,7 +149,7 @@ ecnij_src_prepare() {
 				cp -a ${dir} ${pr} || die
 			done
 			pushd ${pr} || die
-			${ECNIJ_PVN} && ln -s {../,}com
+			[[ -d ../com ]] && ln -s {../,}com
 			ecnij_src_pr-prepare
 			popd
 		fi
@@ -177,7 +163,7 @@ ecnij_src_configure() {
 
 	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
 		pushd ${dir} || die
-		econf --prefix=/usr ${MY_ECONF}
+		econf --prefix=/usr "${myeconfargs[@]}"
 		popd
 	done
 
@@ -221,13 +207,10 @@ ecnij_src_compile() {
 ecnij_src_install() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	local ldir=/usr/$(get_libdir) ndir=/usr/libexec/cups pdir=/usr/share/cups/model
-	local arc p pr prid bindir=/usr/bin odir=/usr/lib/cups
-	mkdir -p "${D}"{${ldir}/bjlib,${ndir}/{backend,filter}}
-
-	if ${ECNIJ_PVN}; then
-		[ -n "$(uname -m | grep 64)" ] && arc=64 || arc=32
-	fi
+	local abi_libdir=/usr/$(get_abi_libdir) bindir=/usr/bin p pr prid
+	local libexecdir=/usr/libexec/cups modeldir=/usr/share/cups/model
+	local abi_lib=$(echo $abi_libdir | cut -b9-) olddir=/usr/lib/cups
+	mkdir -p "${D}"{${abi_libdir}/bjlib,${libexecdir}/{backend,filter}}
 
 	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
 		pushd ${dir} || die
@@ -242,20 +225,20 @@ ecnij_src_install() {
 			ecnij_src_pr-install
 			popd
 
-			cp -a ${prid}/libs_bin${arc}/* "${D}${ldir}" || die
-			install -m644 ${prid}/database/* "${D}${ldir}"/bjlib || die
-			install -Dm644 ppd/canon${pr}.ppd "${D}${pdir}"/canon${pr}.ppd || die
-			has net ${IUSE} && use net && mv
+			dolib.so ${prid}/libs_bin${abi_lib}/*.so
+			install -m644 ${prid}/database/* "${D}${abi_libdir}"/bjlib || die
+			install -Dm644 ppd/canon${pr}.ppd "${D}${modeldir}"/canon${pr}.ppd || die
 		fi
 	done
 
-	if has net ${IUSE} && use net; then
-		dolib.so com/libs_bin${arc}/* || die
-		install -Dm644 -glp -olp com/ini/cnnet.ini "${D}${ldir}"/bjlib || die
+	if use_if_iuse net; then
+		dolib.so com/libs_bin${abi_lib}/*.so
+		install -Dm644 -glp -olp com/ini/cnnet.ini "${D}${abi_libdir}"/bjlib || die
 	fi
-	for d in backend filter; do
-		mv "${D}"${odir}/${d}/* "${D}"${ndir}/${d}
-		rm -fr "${D}"${odir}/${d}
+	for dir in backend filter; do
+		mv "${D}"${olddir}/${dir}/* "${D}"${libexecdir}/${dir} || die
+		rmdir "${D}"${olddir}/${dir}
+
 	done
 }
 # @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
@@ -263,7 +246,7 @@ ecnij_src_install() {
 ecnij_src_pr-prepare() {
 	for dir in cnijfilter ${ECNIJ_PRSRC}; do
 		pushd ${dir} || die
-		__src_prepare
+		_src_prepare
 		popd
 	done
 }
