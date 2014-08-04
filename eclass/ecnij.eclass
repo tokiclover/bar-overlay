@@ -27,6 +27,7 @@ RDEPEND="${RDEPEND}
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
 if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
+	ECNIJ_PVN=true
 	RDEPEND="${RDEPEND}
 		>=media-libs/tiff-3.4[${MULTILIB_USEDEP}]
 		>=media-libs/libpng-1.0.9[${MULTILIB_USEDEP}]"
@@ -214,6 +215,7 @@ ecnij_src_install() {
 	local libexecdir=/usr/libexec/cups modeldir=/usr/share/cups/model
 	local abi_lib=$(echo $abi_libdir | cut -b9-) olddir=/usr/lib/cups
 	mkdir -p "${D}"{${abi_libdir}/bjlib,${libexecdir}/{backend,filter}}
+	[[ ${ECNIJ_PVN} ]] || abi_lib=
 
 	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
 		pushd ${dir} || die
