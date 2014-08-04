@@ -65,6 +65,8 @@ EGTCONF=${EGTCONF:="--force --copy"}
 ecnij_pkg_setup() {
 	debug-print-function ${FUNCNAME} "${@}"
 
+	CNIJFILTER_SRC="libs pstocanonij"
+	PRINTER_SRC="cnijfilter"
 	use usb && CNIJFILTER_SRC+=" backend"
 	if use gtk; then
 		CNIJFILTER_SRC+=" cngpijmon"
@@ -72,6 +74,7 @@ ecnij_pkg_setup() {
 		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
 	fi
 	use servicetools && PRINTER_SRC+=" printui"
+	use servicetools && CNIJFILTER_SRC+=" cngpij"
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 }
 
@@ -84,7 +87,7 @@ ecnij_src_unpack() {
 	cd "${S}"
 }
 
-# @FUNCTION: _src_prepare
+# @FUNCTION: dir_src_prepare
 # @DESCRIPTION:
 dir_src_prepare() {
 	local e
@@ -108,18 +111,20 @@ ecnij_src_prepare() {
 
 	epatch_user
 
-	for dir in libs cngpij ${CNIJFILTER_SRC} pstocanonij; do
+	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		dir_src_prepare
 		popd
 	done
+
+	[[ x${ECNIJ_SRC_BUILD} != xdriver ]] &&
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			mkdir ${pr} || die
-			for dir in ${prid} cnijfilter ${PRINTER_SRC}; do
+			for dir in ${prid} ${PRINTER_SRC}; do
 				cp -a ${dir} ${pr} || die
 			done
 			pushd ${pr} || die
@@ -135,7 +140,7 @@ ecnij_src_prepare() {
 ecnij_src_configure() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	for dir in libs cngpij ${CNIJFILTER_SRC} pstocanonij; do
+	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		econf --prefix="${EPREFIX}"/usr "${myeconfargs[@]}"
 		popd
@@ -169,7 +174,7 @@ ecnij_src_compile() {
 		fi
 	done
 
-	for dir in libs cngpij ${CNIJFILTER_SRC} pstocanonij; do
+	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		emake || die
 		popd
@@ -187,7 +192,7 @@ ecnij_src_install() {
 	mkdir -p "${D}"{${abi_libdir}/bjlib,${libexecdir}/{backend,filter}}
 	[[ ${ECNIJ_PVN} ]] || abi_lib=
 
-	for dir in libs cngpij ${CNIJFILTER_SRC} pstocanonij; do
+	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		popd
@@ -219,28 +224,28 @@ ecnij_src_install() {
 # @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
 # @DESCRIPTION: internal functions
 printer_src_prepare() {
-	for dir in cnijfilter ${PRINTER_SRC}; do
+	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
 		dir_src_prepare
 		popd
 	done
 }
 printer_src_configure() {
-	for dir in cnijfilter ${PRINTER_SRC}; do
+	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
 		econf --program-suffix=${pr} --enable-progpath="${EPREFIX}"/usr
 		popd
 	done
 }
 printer_src_compile() {
-	for dir in cnijfilter ${PRINTER_SRC}; do
+	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
 		emake ${myconf} || die "${dir}: emake failed"
 		popd
 	done
 }
 printer_src_install() {
-	for dir in cnijfilter ${PRINTER_SRC}; do
+	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
 		popd
