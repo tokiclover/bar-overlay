@@ -22,22 +22,22 @@ RDEPEND="${RDEPEND}
 	dev-libs/glib[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
 	servicetools? ( 
-		>=gnome-base/libglade-0.6[${MULTILIB_USEDEP}]
-		>=dev-libs/libxml-1.8[${MULTILIB_USEDEP}] )
+		gnome-base/libglade[${MULTILIB_USEDEP}]
+		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
 if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
 	ECNIJ_PVN=true
 	RDEPEND="${RDEPEND}
-		>=media-libs/tiff-3.4[${MULTILIB_USEDEP}]
-		>=media-libs/libpng-1.0.9[${MULTILIB_USEDEP}]"
+		media-libs/tiff[${MULTILIB_USEDEP}]
+		media-libs/libpng[${MULTILIB_USEDEP}]"
 else 
 	use amd64 && multilib_toolchain_setup "x86"
 	RDEPEND="${RDEPEND}
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
 fi
 
-DEDEPEND="${RDEPEND}
+DEDEPEND="${DEPEND}
 	nls? ( >=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}] )"
 
 case "${EAPI:-4}" in
@@ -46,17 +46,11 @@ case "${EAPI:-4}" in
 	*) die "EAPI=\"${EAPI}\" is not supported";;
 esac
 
-# @ECLASS-VARIABLE: ECNIJ_PRUSE
+# @ECLASS-VARIABLE: PRINTER_USE
 # @DESCRIPTION: An array with printers USE flags
 
-# @ECLASS-VARIABLE: ECNIJ_PRID
+# @ECLASS-VARIABLE: PRINTER_ID
 # @DESCRIPTION: An array with printers id
-
-# @ECLASS-VARIABLE: ECNIJ_PRN
-# @DESCRIPTION: an integer variable used for iterrations
-
-# @ECLASS-VARIABLE: ECNIJ_PRCOM
-# @DESCRIPTION: An array with printer commercial names
 
 # @ECLASS-VARIABLE: ELTCONF
 # @DESCRIPTION: Extra options passed to elibtoolize
@@ -71,38 +65,14 @@ EGTCONF=${EGTCONF:="--force --copy"}
 ecnij_pkg_setup() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	use usb && ECNIJ_SRC+=" backend"
+	use usb && CNIJFILTER_SRC+=" backend"
 	if use gtk; then
-		ECNIJ_SRC+=" cngpijmon"
-		ECNIJ_PRSRC+=" lgmon"
-		use_if_iuse net && ECNIJ_SRC+=" cngpijmon/cnijnpr"
+		CNIJFILTER_SRC+=" cngpijmon"
+		PRINTER_SRC+=" lgmon"
+		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
 	fi
-	use servicetools && ECNIJ_PRSRC+=" printui"
-	use_if_iuse net && ECNIJ_SRC+=" backendnet"
-	ECNIJ_PRN="$(seq 0 $((${#ECNIJ_PRUSE[@]}-1)))"
-	if [[ -z "${ECNIJ_PRCOM}" ]]; then
-		local p prn
-		declare -a ECNIJ_PRCOM
-		for p in ${ECNIJ_PRN}; do
-			prn=${ECNIJ_PRUSE[$p]//[0-9]/}
-			ECNIJ_PRCOM[$p]="PIXUS/PIXMA ${prn^[a-z]}-series"
-		done
-	fi
-
-	local a=true p
-	for p in ${ECNIJ_PRN}; do
-		einfo " ${ECNIJ_PRUSE[$p]}\t${ECNIJ_PRCOM[$p]}"
-		if (use ${ECNIJ_PRUSE[$p]}); then
-			a=false
-		fi
-	done
-	if ${a}; then
-		einfo ""
-		ewarn "You didn't specify any printer model (USE flag)"
-		einfo "to get ${ECNIJ_PRUSE[1]} support, for example, USE=\"${ECNIJ_PRUSE[1]}\""
-		einfo ""
-		die
-	fi
+	use servicetools && PRINTER_SRC+=" printui"
+	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 }
 
 # @FUNCTION: ecnij_src_unpack
@@ -116,7 +86,7 @@ ecnij_src_unpack() {
 
 # @FUNCTION: _src_prepare
 # @DESCRIPTION:
-_src_prepare() {
+dir_src_prepare() {
 	local e
 	has ${EAPI:-0} 0 1 && e="nonfatal elibtoolize" ||
 		e="autotools_run_tool libtoolize"
@@ -138,23 +108,23 @@ ecnij_src_prepare() {
 
 	epatch_user
 
-	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
+	for dir in libs cngpij ${CNIJFILTER_SRC} pstocanonij; do
 		pushd ${dir} || die
-		_src_prepare
+		dir_src_prepare
 		popd
 	done
 
 	local p pr prid
-	for p in ${ECNIJ_PRN}; do
-		pr=${ECNIJ_PRUSE[$p]} prid=${ECNIJ_PRID[$p]}
+	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
+		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			mkdir ${pr} || die
-			for dir in ${prid} cnijfilter ${ECNIJ_PRSRC}; do
+			for dir in ${prid} cnijfilter ${PRINTER_SRC}; do
 				cp -a ${dir} ${pr} || die
 			done
 			pushd ${pr} || die
 			[[ -d ../com ]] && ln -s {../,}com
-			ecnij_src_pr-prepare
+			printer_src_prepare
 			popd
 		fi
 	done
@@ -165,20 +135,20 @@ ecnij_src_prepare() {
 ecnij_src_configure() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
+	for dir in libs cngpij ${CNIJFILTER_SRC} pstocanonij; do
 		pushd ${dir} || die
-		econf --prefix=/usr "${myeconfargs[@]}"
+		econf --prefix="${EPREFIX}"/usr "${myeconfargs[@]}"
 		popd
 	done
 
 	mv {,_}lgmon || die
 	local p pr prid
-	for p in ${ECNIJ_PRN}; do
-		pr=${ECNIJ_PRUSE[$p]} prid=${ECNIJ_PRID[$p]}
+	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
+		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			ln -sf ${pr}/lgmon lgmon
 			pushd ${pr} || die
-			ecnij_src_pr-configure
+			printer_src_configure
 			popd
 		fi
 	done
@@ -190,16 +160,16 @@ ecnij_src_compile() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local p pr prid
-	for p in ${ECNIJ_PRN}; do
-		pr=${ECNIJ_PRUSE[$p]} prid=${ECNIJ_PRID[$p]}
+	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
+		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			pushd ${pr} || die
-			ecnij_src_pr-compile
+			printer_src_compile
 			popd
 		fi
 	done
 
-	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
+	for dir in libs cngpij ${CNIJFILTER_SRC} pstocanonij; do
 		pushd ${dir} || die
 		emake || die
 		popd
@@ -217,27 +187,27 @@ ecnij_src_install() {
 	mkdir -p "${D}"{${abi_libdir}/bjlib,${libexecdir}/{backend,filter}}
 	[[ ${ECNIJ_PVN} ]] || abi_lib=
 
-	for dir in libs cngpij ${ECNIJ_SRC} pstocanonij; do
+	for dir in libs cngpij ${CNIJFILTER_SRC} pstocanonij; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		popd
 	done
 
-	for p in ${ECNIJ_PRN}; do
-		pr=${ECNIJ_PRUSE[$p]} prid=${ECNIJ_PRID[$p]}
+	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
+		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			pushd ${pr} || die
-			ecnij_src_pr-install
+			printer_src_install
 			popd
 
-			dolib.so ${prid}/libs_bin${abi_lib}/*.so
+			dolib.so ${prid}/libs_bin${abi_lib}/*.so*
 			install -m644 ${prid}/database/* "${D}${abi_libdir}"/bjlib || die
 			install -Dm644 ppd/canon${pr}.ppd "${D}${modeldir}"/canon${pr}.ppd || die
 		fi
 	done
 
 	if use_if_iuse net; then
-		dolib.so com/libs_bin${abi_lib}/*.so
+		dolib.so com/libs_bin${abi_lib}/*.so*
 		install -Dm644 -glp -olp com/ini/cnnet.ini "${D}${abi_libdir}"/bjlib || die
 	fi
 	for dir in backend filter; do
@@ -248,29 +218,29 @@ ecnij_src_install() {
 }
 # @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
 # @DESCRIPTION: internal functions
-ecnij_src_pr-prepare() {
-	for dir in cnijfilter ${ECNIJ_PRSRC}; do
+printer_src_prepare() {
+	for dir in cnijfilter ${PRINTER_SRC}; do
 		pushd ${dir} || die
-		_src_prepare
+		dir_src_prepare
 		popd
 	done
 }
-ecnij_src_pr-configure() {
-	for dir in cnijfilter ${ECNIJ_PRSRC}; do
+printer_src_configure() {
+	for dir in cnijfilter ${PRINTER_SRC}; do
 		pushd ${dir} || die
-		econf --program-suffix=${pr} --prefix=/usr
+		econf --program-suffix=${pr} --enable-progpath="${EPREFIX}"/usr
 		popd
 	done
 }
-ecnij_src_pr-compile() {
-	for dir in cnijfilter ${ECNIJ_PRSRC}; do
+printer_src_compile() {
+	for dir in cnijfilter ${PRINTER_SRC}; do
 		pushd ${dir} || die
 		emake ${myconf} || die "${dir}: emake failed"
 		popd
 	done
 }
-ecnij_src_pr-install() {
-	for dir in cnijfilter ${ECNIJ_PRSRC}; do
+printer_src_install() {
+	for dir in cnijfilter ${PRINTER_SRC}; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
 		popd
