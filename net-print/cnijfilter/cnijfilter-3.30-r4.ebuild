@@ -4,6 +4,8 @@
 
 EAPI=5
 
+MULTILIB_COMPAT=( abi_x86_32 )
+
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"

@@ -4,6 +4,8 @@
 
 EAPI=5
 
+MULTILIB_COMPAT=( abi_x86_32 )
+
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
@@ -25,9 +27,13 @@ RESTRICT="mirror"
 
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
+PATCHES=(
+	"${FILESDIR}"/${P%*-r}-4-cups_ppd.patch
+	"${FILESDIR}"/${P%*-r}-4-libpng15.patch
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/${P%*-r}-4-cups_ppd.patch
-	sed -e 's/-lcnnet/-lcnnet -ldl/g' -i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
-	epatch "${FILESDIR}"/${P%*-r}-4-libpng15.patch
+	sed -e 's/-lcnnet/-lcnnet -ldl/g' \
+		-i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
 	ecnij_src_prepare
 }

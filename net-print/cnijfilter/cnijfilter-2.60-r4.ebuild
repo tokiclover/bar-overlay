@@ -4,6 +4,8 @@
 
 EAPI=5
 
+MULTILIB_COMPAT=( abi_x86_32 )
+
 inherit ecnij rpm
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
@@ -25,11 +27,16 @@ RESTRICT="mirror"
 
 S="${WORKDIR}"/${PN}-common-${PV}
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-${PV/60/70}-4-cups_ppd.patch
+	"${FILESDIR}"/${P%-r*}-1-png_jmpbuf-fix.patch
+	"${FILESDIR}"/${P%-r*}-1-pstocanonij.patch
+	"${FILESDIR}"/${P%-r*}-1-canonip4200.ppd.patch.bz2
+)
+
 src_prepare() {
-	sed -e 's/-lxml/-lxml2/g' -i cngpijmon/src/Makefile.am -i printui/src/Makefile.am
-	epatch "${FILESDIR}"/${PN}-${PV/60/70}-4-cups_ppd.patch
-	epatch "${FILESDIR}"/${P%-r*}-1-png_jmpbuf-fix.patch
-	epatch "${FILESDIR}"/${P%-r*}-1-pstocanonij.patch
-	epatch "${FILESDIR}"/${P%-r*}-1-canonip4200.ppd.patch.bz2
+	sed -e 's/-lxml/-lxml2/g' \
+		-i cngpijmon/src/Makefile.am \
+		-i printui/src/Makefile.am
 	ecnij_src_prepare
 }
