@@ -245,7 +245,7 @@ printer_src_prepare() {
 printer_src_configure() {
 	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
-		econf --program-suffix=-${pr} --enable-progpath="${EPREFIX}"/usr
+		econf --program-suffix=${pr} --enable-progpath="${EPREFIX}"/usr
 		popd
 	done
 }
