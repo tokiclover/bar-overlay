@@ -139,7 +139,7 @@ ecnij_src_prepare() {
 				cp -a ${dir} ${pr} || die
 			done
 			pushd ${pr} || die
-			[[ -d ../com ]] && ln -s {../,}com || die
+			[[ -d ../com ]] && ln -s {../,}com
 			printer_src_prepare
 			popd
 		fi
