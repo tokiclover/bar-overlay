@@ -10,7 +10,7 @@
 
 inherit autotools eutils flag-o-matic multilib-build
 
-IUSE="${IUSE} debug gtk nls servicetools usb"
+IUSE="${IUSE} debug +gtk +nls +servicetools +usb"
 KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk ) nls? ( gtk )"
@@ -32,6 +32,7 @@ if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
 		media-libs/tiff[${MULTILIB_USEDEP}]
 		media-libs/libpng[${MULTILIB_USEDEP}]"
 else 
+#	ECNIJ_PVN=false
 	use amd64 && multilib_toolchain_setup "x86"
 	RDEPEND="${RDEPEND}
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
@@ -77,8 +78,8 @@ ecnij_pkg_setup() {
 		PRINTER_SRC+=" lgmon"
 		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
 	fi
-	use servicetools && PRINTER_SRC+=" printui"
-	use servicetools && CNIJFILTER_SRC+=" cngpij"
+#	use servicetools && PRINTER_SRC+=" cngpijmon"
+	use servicetools && CNIJFILTER_SRC+=" cngpij printui"
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 }
 
@@ -132,7 +133,7 @@ ecnij_src_prepare() {
 				cp -a ${dir} ${pr} || die
 			done
 			pushd ${pr} || die
-			[[ -d ../com ]] && ln -s {../,}com
+			[[ -d ../com ]] && ln -s {../,}com || die
 			printer_src_prepare
 			popd
 		fi
@@ -194,10 +195,10 @@ ecnij_src_compile() {
 ecnij_src_install() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	local abi_libdir="${EPREFIX}"/usr/$(get_abi_libdir) p pr prid
-	local libexecdir="${EPREFIX}"/usr/libexec/cups ppddir="${EPREFIX}"/usr/share/cups/model
-	local abi_lib=$(echo $abi_libdir | cut -b9-) olddir="${EPREFIX}"/usr/lib/cups
-	mkdir -p "${D}"{${abi_libdir}/bjlib,${libexecdir}/{backend,filter}}
+	local abi_libdir=/usr/$(get_libdir) p pr prid
+	local abi_lib=$(grep -q 64 && echo 64 || echo 32)
+	mkdir -p "${ED}"${abi_libdir}/cnijlib
+
 	[[ ${ECNIJ_PVN} ]] || abi_lib=
 
 	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
@@ -216,10 +217,10 @@ ecnij_src_install() {
 			popd
 
 			dolib.so ${prid}/libs_bin${abi_lib}/*.so*
-			exeinto "${D}${abi_libdir}"/bjlib
-			dosym "${abi_libdir}"/{cnij,bj}lib 
+			dosym ${abi_libdir}/{cnij,bj}lib
+			exeinto ${abi_libdir}/cnijlib
 			doexe ${prid}/database/*
-			insinto "${D}${ppddir}"
+			insinto /usr/share/cups/model
 			doins ppd/canon${pr}.ppd
 		fi
 	done
@@ -227,15 +228,10 @@ ecnij_src_install() {
 	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 	if use_if_iuse net; then
 		dolib.so com/libs_bin${abi_lib}/*.so*
-		install -Dm644 -glp -olp com/ini/cnnet.ini "${D}${abi_libdir}"/bjlib || die
+		EXEOPTIONS="-m555 -glp -olp"
+		exeinto ${abi_libdir}/cnijlib
+		doexe com/ini/cnnet.ini
 	fi
-
-	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
-	for dir in backend filter; do
-		mv "${D}"${olddir}/${dir}/* "${D}"${libexecdir}/${dir} || die
-		rmdir "${D}"${olddir}/${dir}
-
-	done
 }
 # @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
 # @DESCRIPTION: internal functions
@@ -249,7 +245,7 @@ printer_src_prepare() {
 printer_src_configure() {
 	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
-		econf --program-suffix=${pr} --enable-progpath="${EPREFIX}"/usr
+		econf --program-suffix=-${pr} --enable-progpath="${EPREFIX}"/usr
 		popd
 	done
 }
