@@ -15,7 +15,7 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 HOMEPAGE="http://support-asia.canon-asia.com/contents/ASIA/EN/010042.0 2014/08/04.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/8/0100004118/01/${MY_PN}-source-${PV}-1.tar.gz"
 
-LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
+LICENSE="GPL-2 cnijfilter"
 
 PRINTER_USE=( "ip100" "mx710" "mx890" "mx370" "mx430" "mx510" "e600" )
 PRINTER_ID=( "303" "394" "395" "396" "397" "398" "399" )

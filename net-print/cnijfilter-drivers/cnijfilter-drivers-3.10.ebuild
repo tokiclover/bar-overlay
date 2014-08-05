@@ -15,7 +15,7 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)."
 HOMEPAGE="http://software.canon-europe.com/software/0033571.asp"
 SRC_URI="http://files.canon-europe.com/files/soft33571/software/${MY_PN}-source-${PV}-1.tar.gz"
 
-LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
+LICENSE="GPL-2 cnijfilter"
 
 PRINTER_USE=( "mx860" "mx320" "mx330" )
 PRINTER_ID=( "347" "348" "349" )
