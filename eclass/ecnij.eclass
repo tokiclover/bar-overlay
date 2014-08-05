@@ -37,10 +37,6 @@ else
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
 fi
 
-[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
-RDEPEND="${RDEPEND}
-	net-print/cnijfilter-drivers[${MULTILIB_USEDEP}]"
-
 [[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 RDEPEND="${RDEPEND}
 	net-print/cnijfilter[${MULTILIB_USEDEP}]"
