@@ -107,7 +107,7 @@ dir_src_prepare() {
 	has ${EAPI:-0} 0 1 && e="nonfatal elibtoolize" ||
 		e="autotools_run_tool libtoolize"
 	[ -d configures ] && mv -f configures/configure.in.new configure.in
-	use nls && [ -d po ] && echo "no" | glib-gettextize ${EGTCONF}
+	[[ -d po ]] && echo "no" | glib-gettextize ${EGTCONF}
 	${e} ${ELTCONF}
 	eaclocal
 	eautoheader
