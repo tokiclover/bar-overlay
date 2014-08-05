@@ -33,7 +33,7 @@ if [[ ${PV:0:1} -eq 3 ]]; then
 			media-libs/tiff[${MULTILIB_USEDEP}]
 			media-libs/libpng[${MULTILIB_USEDEP}]"
 	fi
-	[[ ${PV:2:2} -ge 80 ]] && [[ x${ECNIJ_SRC_BUILD} == xdrivers]] && IUSE+=" +doc"
+	[[ ${PV:2:2} -ge 80 ]] && [[ x${ECNIJ_SRC_BUILD} == xdrivers ]] && IUSE+=" +doc"
 else 
 #	ECNIJ_PVN=false
 	use amd64 && multilib_toolchain_setup "x86"
