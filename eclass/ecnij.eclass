@@ -41,7 +41,7 @@ fi
 RDEPEND="${RDEPEND}
 	net-print/cnijfilter-drivers[${MULTILIB_USEDEP}]"
 
-[[ x${ECNIJ_SRC_BUILD} == xdriver ]] &&
+[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 RDEPEND="${RDEPEND}
 	net-print/cnijfilter[${MULTILIB_USEDEP}]"
 
@@ -127,7 +127,7 @@ ecnij_src_prepare() {
 	done
 
 	local p pr prid
-	[[ x${ECNIJ_SRC_BUILD} == xdriver ]] &&
+	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -157,7 +157,7 @@ ecnij_src_configure() {
 
 	mv {,_}lgmon || die
 	local p pr prid
-	[[ x${ECNIJ_SRC_BUILD} == xdriver ]] &&
+	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -175,7 +175,7 @@ ecnij_src_compile() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local p pr prid
-	[[ x${ECNIJ_SRC_BUILD} == xdriver ]] &&
+	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
