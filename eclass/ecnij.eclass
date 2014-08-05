@@ -81,7 +81,11 @@ ecnij_pkg_setup() {
 		PRINTER_SRC+=" lgmon"
 		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
 	fi
-	use servicetools && CNIJFILTER_SRC+=" cngpij cngpijmnt maintenance"
+	if use servicetools; then
+		[[ ${PV:2:2} -le 70 ]] &&
+		CNIJFILTER_SRC+=" cngpij printui" ||
+		CNIJFILTER_SRC+=" cngpij cngpijmnt maintenance"
+	fi
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 }
 
