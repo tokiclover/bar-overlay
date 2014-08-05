@@ -20,7 +20,7 @@ LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 PRINTER_USE=( "mx860" "mx320" "mx330" )
 PRINTER_ID=( "347" "348" "349" )
 
-IUSE="net symlink ${PRINTER_USE[@]}"
+IUSE="+net symlink ${PRINTER_USE[@]}"
 SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 

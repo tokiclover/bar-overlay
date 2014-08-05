@@ -20,7 +20,7 @@ LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 PRINTER_USE=( "mx720" "mx920" "mx390" "mx450" "mx520" "e660" )
 PRINTER_ID=( "416" "417" "418" "419" "420" "421" )
 
-IUSE="net ${PRINTER_USE[@]}"
+IUSE="+net ${PRINTER_USE[@]}"
 SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
@@ -39,16 +39,12 @@ PATCHES=(
 	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
 )
 
-src_prepare() {
-	sed -e 's/-lcnnet/-lcnnet -ldl/g' \
-		-i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
-	ecnij_src_prepare
-}
-
 src_install() {
 	ecnij_src_install
-	use usb && install -Dm644 /etc/81-canonij_prn.rules \
-		"${D}"/etc/udev/rules.d/81-canonij_prn.rules || die
+	if use usb; then
+		insinto /etc/udev/rules.d
+		doins etc/81-canonij_prn.rules
+	fi
 }
 
 pkg_postinst() {

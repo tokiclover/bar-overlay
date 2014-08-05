@@ -20,7 +20,7 @@ LICENSE="UNKNOWN" # GPL-2 source and proprietary binaries
 PRINTER_USE=( "mg2100" "mg3100" "mg4100" "mg5300" "mg6200" "mg8200" "ip4900" "e500" )
 PRINTER_ID=( "386" "387" "388" "389" "390" "391" "392" "393" )
 
-IUSE="net symlink ${PRINTER_USE[@]}"
+IUSE="+net symlink ${PRINTER_USE[@]}"
 SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
@@ -39,8 +39,3 @@ PATCHES=(
 	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
 )
 
-src_prepare() {
-	sed -e 's/-lcnnet/-lcnnet -ldl/g' \
-		-i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
-	ecnij_src_prepare
-}
