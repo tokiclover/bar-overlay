@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 1.2 2014/07/15 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 2.0 2014/08/05 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -72,6 +72,8 @@ EGTCONF=${EGTCONF:="--force --copy"}
 # @DESCRIPTION:
 ecnij_pkg_setup() {
 	debug-print-function ${FUNCNAME} "${@}"
+
+	[[ -z ${LINGUAS} ]] && export LINGUAS="en"
 
 	CNIJFILTER_SRC="libs pstocanonij"
 	PRINTER_SRC="cnijfilter"
@@ -243,6 +245,11 @@ ecnij_src_install() {
 		exeinto ${abi_libdir}/cnijlib
 		doexe com/ini/cnnet.ini
 	fi
+
+	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
+	for lingua in ${LINGUAS}; do
+		dodoc LICENSE-${MY_PN}-${PV}${lingua^^[a-z]}.txt
+	done
 }
 # @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
 # @DESCRIPTION: internal functions
