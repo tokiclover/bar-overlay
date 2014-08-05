@@ -38,7 +38,6 @@ PATCHES=(
 	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
 	"${FILESDIR}"/${MY_PN}-3.20-4-libpng15.patch
 	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
-	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
-	"${FILESDIR}"/${MY_PN}-3.10-1-libdl.patch
+	"${FILESDIR}"/${MY_PN}-${PV}-1-libexec-backend.patch
 )
 

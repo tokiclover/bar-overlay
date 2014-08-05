@@ -33,6 +33,8 @@ S="${WORKDIR}"/${MY_PN}-common-${PV}
 
 PATCHES=(
 	"${FILESDIR}"/${MY_PN}-2.70-1-png_jmpbuf-fix.patch
+	"${FILESDIR}"/${MY_PN}-2.80-1-libexec-backend.patch
 	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
 )
 

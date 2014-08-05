@@ -35,5 +35,6 @@ PATCHES=(
 	"${FILESDIR}"/${MY_PN}-${PV}-4-ppd.patch
 	"${FILESDIR}"/${MY_PN}-${PV}-1-png_jmpbuf-fix.patch
 	"${FILESDIR}"/${MY_PN}-${PV}-4-libxml2.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
 )
 

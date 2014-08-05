@@ -36,6 +36,6 @@ PATCHES=(
 	"${FILESDIR}"/${MY_PN}-2.70-1-pstocanonij.patch
 	"${FILESDIR}"/${MY_PN}-2.70-4-libxml2.patch
 	"${FILESDIR}"/${MY_PN}-2.70-1-canonip4200.ppd.patch.bz2
-	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
 )
 
