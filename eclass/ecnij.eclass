@@ -10,10 +10,10 @@
 
 inherit autotools eutils flag-o-matic multilib-build
 
-IUSE="${IUSE} debug +gtk +nls +servicetools +usb"
+IUSE="${IUSE} debug +gtk +servicetools +usb"
 KEYWORDS="~x86 ~amd64"
 
-REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk ) nls? ( gtk )"
+REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )"
 
 has net ${IUSE} && REQUIRED_USE+=" servicetools? ( net )"
 
@@ -33,7 +33,7 @@ if [[ ${PV:0:1} -eq 3 ]]; then
 			media-libs/tiff[${MULTILIB_USEDEP}]
 			media-libs/libpng[${MULTILIB_USEDEP}]"
 	fi
-	[[ ${PV:2:2} -ge 80 ]] && IUSE+=" +doc"
+	[[ ${PV:2:2} -ge 80 ]] && [[ x${ECNIJ_SRC_BUILD} == xdrivers]] && IUSE+=" +doc"
 else 
 #	ECNIJ_PVN=false
 	use amd64 && multilib_toolchain_setup "x86"
@@ -46,7 +46,7 @@ RDEPEND="${RDEPEND}
 	net-print/cnijfilter[${MULTILIB_USEDEP}]"
 
 DEDEPEND="${DEPEND}
-	nls? ( >=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}] )"
+	>=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}]"
 
 case "${EAPI:-4}" in
 	0|1) EXPORT_FUNCTIONS pkg_setup src_unpack src_compile src_install pkg_postinst;;
@@ -84,7 +84,7 @@ ecnij_pkg_setup() {
 		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
 	fi
 	if use servicetools; then
-		[[ ${PV:2:2} -le 70 ]] &&
+		[[ ${ECNIJ_PVN} ]] && [[ ${PV:2:2} -le 70 ]] &&
 		CNIJFILTER_SRC+=" cngpij printui" ||
 		CNIJFILTER_SRC+=" cngpij cngpijmnt maintenance"
 	fi
