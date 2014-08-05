@@ -21,7 +21,7 @@ PRINTER_USE=( "ip1900" "ip3600" "ip4600" "mp190" "mp240" "mp540" "mp630" )
 PRINTER_ID=( "346" "333" "334" "342" "341" "338" "336" )
 
 IUSE="symlink ${PRINTER_USE[@]}"
-SLOT="0"
+SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
@@ -35,7 +35,10 @@ RDEPEND="${RDEPEND}"
 S="${WORKDIR}"/${MY_PN}-common-${PV}
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-${PV/00/20}-4-cups_ppd.patch
-	"${FILESDIR}"/${MY_PN}-${PV/00/20}-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${MY_PN}-3.10-1-libdl.patch
 )
 

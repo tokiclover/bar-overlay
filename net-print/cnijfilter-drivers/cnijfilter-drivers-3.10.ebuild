@@ -21,7 +21,7 @@ PRINTER_USE=( "mx860" "mx320" "mx330" )
 PRINTER_ID=( "347" "348" "349" )
 
 IUSE="net symlink ${PRINTER_USE[@]}"
-SLOT="0"
+SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
@@ -31,9 +31,11 @@ RESTRICT="mirror"
 
 S="${WORKDIR}"/${MY_PN}-source-${PV}
 
-src_prepare() {
-	epatch "${FILESDIR}"/${PN}-${PV/10/20}-4-cups_ppd.patch
-	sed -e 's/-lcnnet/-lcnnet -ldl/g' -i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
-	epatch "${FILESDIR}"/${PN}-${PV/10/20}-4-libpng15.patch
-	ecnij_src_prepare
-}
+PATCHES=(
+	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${MY_PN}-${PV}-1-libdl.patch
+)
+

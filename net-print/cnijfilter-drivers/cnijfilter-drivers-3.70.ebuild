@@ -21,7 +21,7 @@ PRINTER_USE=( "ip100" "mx710" "mx890" "mx370" "mx430" "mx510" "e600" )
 PRINTER_ID=( "303" "394" "395" "396" "397" "398" "399" )
 
 IUSE="net ${PRINTER_USE[@]}"
-SLOT="0"
+SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
@@ -32,8 +32,11 @@ RESTRICT="mirror"
 S="${WORKDIR}"/${MY_PN}-source-${PV}-1
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-${PV/70/20}-4-cups_ppd.patch
-	"${FILESDIR}"/${MY_PN}-${PV/70/20}-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
 )
 
 src_prepare() {

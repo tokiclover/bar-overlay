@@ -21,7 +21,7 @@ PRINTER_USE=( "mp250" "mp270" "mp490" "mp550" "mp560" "ip4700" "mp640" )
 PRINTER_ID=( "356" "357" "358" "359" "360" "361" "362" )
 
 IUSE="net symlink ${PRINTER_USE[@]}"
-SLOT="0"
+SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
@@ -32,12 +32,10 @@ RESTRICT="mirror"
 S="${WORKDIR}"/${MY_PN}-source-${PV}-1
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-${PV}-4-cups_ppd.patch
+	"${FILESDIR}"/${MY_PN}-${PV}-4-ppd.patch
 	"${FILESDIR}"/${MY_PN}-${PV}-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${MY_PN}-3.10-1-libdl.patch
 )
 
-src_prepare() {
-	sed -e 's/-lcnnet/-lcnnet -ldl/g' \
-		-i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
-	ecnij_src_prepare
-}

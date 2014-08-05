@@ -21,7 +21,7 @@ PRINTER_USE=( "ip100" "ip2600" )
 PRINTER_ID=( "303" "331" )
 
 IUSE="${PRINTER_USE[@]}"
-SLOT="0"
+SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
@@ -32,11 +32,9 @@ RESTRICT="mirror"
 S="${WORKDIR}"/${MY_PN}-common-${PV}
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-3.20-4-cups_ppd.patch
+	"${FILESDIR}"/${MY_PN}-2.70-1-png_jmpbuf-fix.patch
+	"${FILESDIR}"/${MY_PN}-2.70-1-pstocanonij.patch
+	"${FILESDIR}"/${MY_PN}-2.70-4-libxml2.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
 )
 
-src_prepare() {
-	sed -e 's/png_p->jmpbuf/png_jmpbuf(png_p)/' \
-		-i cnijfilter/src/bjfimage.c || die
-	ecnij_src_prepare
-}

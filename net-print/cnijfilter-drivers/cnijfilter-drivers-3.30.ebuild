@@ -21,7 +21,7 @@ PRINTER_USE=( "ip2700" "mx340" "mx350" "mx870" )
 PRINTER_ID=( "364" "365" "366" "367" )
 
 IUSE="net symlink ${PRINTER_USE[@]}"
-SLOT="0"
+SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
@@ -30,4 +30,12 @@ RDEPEND="${RDEPEND}"
 RESTRICT="mirror"
 
 S="${WORKDIR}"/${MY_PN}-source-${PV}-1
+
+PATCHES=(
+	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
+)
 

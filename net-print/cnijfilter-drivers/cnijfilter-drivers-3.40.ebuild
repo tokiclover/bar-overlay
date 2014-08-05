@@ -21,7 +21,7 @@ PRINTER_USE=( "mp250" "mp495" "mp280" "mg5100" "mg5200" "ip4800" "mg6100" "mg810
 PRINTER_ID=( "356" "369" "370" "373" "374" "375" "376" "377" )
 
 IUSE="net symlink ${PRINTER_USE[@]}"
-SLOT="0"
+SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
@@ -32,8 +32,11 @@ RESTRICT="mirror"
 S="${WORKDIR}"/${MY_PN}-source-${PV}-1
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-${PV/40/20}-4-cups_ppd.patch
-	"${FILESDIR}"/${MY_PN}-${PV/40/20}-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
+	"${FILESDIR}"/${MY_PN}-3.20-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
 )
 
 src_prepare() {

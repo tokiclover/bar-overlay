@@ -21,7 +21,7 @@ PRINTER_USE=( "mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90"
 PRINTER_ID=( "291" "292" "293" "294" "295" "311" "312" "253" )
 
 IUSE="${PRINTER_USE[@]}"
-SLOT="0"
+SLOT="${PV}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
@@ -32,13 +32,8 @@ RESTRICT="fetch mirror"
 S="${WORKDIR}"/${MY_PN}-common-${PV}
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-${PV}-4-cups_ppd.patch
+	"${FILESDIR}"/${MY_PN}-${PV}-4-ppd.patch
 	"${FILESDIR}"/${MY_PN}-${PV}-1-png_jmpbuf-fix.patch
+	"${FILESDIR}"/${MY_PN}-${PV}-4-libxml2.patch
 )
 
-src_prepare() {
-	sed -e 's/-lxml/-lxml2/g' \
-		-i cngpijmon/src/Makefile.am \
-		-i printui/src/Makefile.am
-	ecnij_src_prepare
-}
