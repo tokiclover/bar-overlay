@@ -26,13 +26,11 @@ RDEPEND="${RDEPEND}
 		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
-if [[ ${PV:0:1} -eq 3 ]]; then
-	if [[ ${PV:2:2} -ge 40 ]]; then
-		ECNIJ_PVN=true
-		RDEPEND="${RDEPEND}
-			media-libs/tiff[${MULTILIB_USEDEP}]
-			media-libs/libpng[${MULTILIB_USEDEP}]"
-	fi
+if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
+	ECNIJ_PVN=true
+	RDEPEND="${RDEPEND}
+		media-libs/tiff[${MULTILIB_USEDEP}]
+		media-libs/libpng[${MULTILIB_USEDEP}]"
 	[[ ${PV:2:2} -ge 80 ]] && [[ x${ECNIJ_SRC_BUILD} == xdrivers ]] && IUSE+=" +doc"
 else 
 #	ECNIJ_PVN=false
