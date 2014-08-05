@@ -246,9 +246,11 @@ ecnij_src_install() {
 		doexe com/ini/cnnet.ini
 	fi
 
+	local license lingua
 	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
 	for lingua in ${LINGUAS}; do
-		dodoc LICENSE-${MY_PN}-${PV}${lingua^^[a-z]}.txt
+		license=LICENSE-${MY_PN}-${PV}${lingua^^[a-z]}.txt
+		[[ -e ${license} ]] && dodoc ${license}
 	done
 }
 # @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
