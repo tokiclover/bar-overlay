@@ -35,9 +35,3 @@ PATCHES=(
 	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
 )
 
-src_prepare() {
-	sed -e 's/-lcnnet/-lcnnet -ldl/g' \
-		-i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
-	ecnij_src_prepare
-}
-

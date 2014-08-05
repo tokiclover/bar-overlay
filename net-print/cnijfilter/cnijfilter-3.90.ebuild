@@ -29,15 +29,9 @@ S="${WORKDIR}"/${MY_PN}-source-${PV}-1
 
 PATCHES=(
 	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
-	"${FILESDIR}"/${MY_PN}-3.20-4-libpng15.patch
+	"${FILESDIR}"/${MY_PN}-${PV}-4-libpng15.patch
 	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
 	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
 	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
 )
-
-src_prepare() {
-	sed -e 's/-lcnnet/-lcnnet -ldl/g' \
-		-i cngpijmon/cnijnpr/cnijnpr/Makefile.am || die
-	ecnij_src_prepare
-}
 
