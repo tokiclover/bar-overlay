@@ -26,11 +26,14 @@ RDEPEND="${RDEPEND}
 		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
-if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
-	ECNIJ_PVN=true
-	RDEPEND="${RDEPEND}
-		media-libs/tiff[${MULTILIB_USEDEP}]
-		media-libs/libpng[${MULTILIB_USEDEP}]"
+if [[ ${PV:0:1} -eq 3 ]]; then
+	if [[ ${PV:2:2} -ge 40 ]]; then
+		ECNIJ_PVN=true
+		RDEPEND="${RDEPEND}
+			media-libs/tiff[${MULTILIB_USEDEP}]
+			media-libs/libpng[${MULTILIB_USEDEP}]"
+	fi
+	[[ ${PV:2:2} -ge 80 ]] && IUSE+=" +doc"
 else 
 #	ECNIJ_PVN=false
 	use amd64 && multilib_toolchain_setup "x86"
@@ -221,6 +224,11 @@ ecnij_src_install() {
 			doexe ${prid}/database/*
 			insinto /usr/share/cups/model
 			doins ppd/canon${pr}.ppd
+
+			use_if_iuse doc &&
+			for lingua in ${LINGUAS}; do
+				dodoc lproptions/lproptions-${pr}-${PV}${lingua^^[a-z]}.txt
+			done
 		fi
 	done
 
