@@ -90,7 +90,7 @@ ecnij_pkg_setup() {
 
 	[[ -z ${LINGUAS} ]] && export LINGUAS="en"
 
-	CNIJFILTER_SRC="cngpij libs pstocanonij"
+	CNIJFILTER_SRC="libs cngpij pstocanonij"
 	PRINTER_SRC="cnijfilter"
 	use usb && CNIJFILTER_SRC+=" backend"
 	if use gtk; then
