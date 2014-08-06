@@ -31,7 +31,7 @@ if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
 	RDEPEND="${RDEPEND}
 		media-libs/tiff[${MULTILIB_USEDEP}]
 		media-libs/libpng[${MULTILIB_USEDEP}]"
-	[[ ${PV:2:2} -ge 80 ]] && [[ x${CNIJFILTER_BUILD} == xdrivers ]] && IUSE+=" +doc"
+	[[ ${PV:2:2} -ge 70 ]] && [[ x${CNIJFILTER_BUILD} == xdrivers ]] && IUSE+=" +doc"
 else 
 #	ECNIJ_PVN=false
 	use amd64 && multilib_toolchain_setup "x86"
@@ -143,13 +143,11 @@ ecnij_src_configure() {
 		popd
 	done
 
-	mv {,_}lgmon || die
 	local p pr prid
 	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
-			ln -sf ${pr}/lgmon lgmon
 			pushd ${pr} || die
 			printer_src_configure
 			popd
@@ -248,7 +246,9 @@ printer_src_prepare() {
 printer_src_configure() {
 	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
-		econf --program-suffix=${pr} --enable-progpath="${EPREFIX}"/usr
+		econf --program-suffix=${pr} \
+		      --enable-progpath="${EPREFIX}"/usr \
+			  --enable-libpath="${EPREFIX}"/usr/$(get_libdir)/cnijlib
 		popd
 	done
 }
