@@ -20,7 +20,7 @@ PRINTER_USE=( "mx860" "mx320" "mx330" )
 PRINTER_ID=( "347" "348" "349" )
 
 IUSE="+net symlink ${PRINTER_USE[@]}"
-SLOT="${PV}"
+SLOT="${PV:0:1}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"

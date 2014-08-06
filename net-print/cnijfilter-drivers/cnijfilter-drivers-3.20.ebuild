@@ -20,7 +20,7 @@ PRINTER_USE=( "mp250" "mp270" "mp490" "mp550" "mp560" "ip4700" "mp640" )
 PRINTER_ID=( "356" "357" "358" "359" "360" "361" "362" )
 
 IUSE="+net symlink ${PRINTER_USE[@]}"
-SLOT="${PV}"
+SLOT="${PV:0:1}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"

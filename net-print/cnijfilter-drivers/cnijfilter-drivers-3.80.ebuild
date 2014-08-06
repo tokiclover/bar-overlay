@@ -20,7 +20,7 @@ PRINTER_USE=( "mp430" "mg2200" "e510" "mg3200" "mg4200" "ip7200" "mg5400" "mg630
 PRINTER_ID=( "401" "402" "403" "405" "406" "407" "408" )
 
 IUSE="+net ${PRINTER_USE[@]}"
-SLOT="${PV}"
+SLOT="${PV:0:1}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"

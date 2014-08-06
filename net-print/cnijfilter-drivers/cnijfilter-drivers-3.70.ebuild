@@ -20,7 +20,7 @@ PRINTER_USE=( "ip100" "mx710" "mx890" "mx370" "mx430" "mx510" "e600" )
 PRINTER_ID=( "303" "394" "395" "396" "397" "398" "399" )
 
 IUSE="+net ${PRINTER_USE[@]}"
-SLOT="${PV}"
+SLOT="${PV:0:1}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
