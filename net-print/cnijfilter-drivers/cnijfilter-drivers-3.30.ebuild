@@ -6,7 +6,6 @@ EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_32 )
 
-ECNIJ_SRC_BUILD="drivers"
 MY_PN="${PN/-drivers/}"
 
 inherit ecnij
