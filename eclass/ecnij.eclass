@@ -31,7 +31,7 @@ if [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; then
 	RDEPEND="${RDEPEND}
 		media-libs/tiff[${MULTILIB_USEDEP}]
 		media-libs/libpng[${MULTILIB_USEDEP}]"
-	[[ ${PV:2:2} -ge 80 ]] && [[ x${ECNIJ_SRC_BUILD} == xdrivers ]] && IUSE+=" +doc"
+	[[ ${PV:2:2} -ge 80 ]] && [[ x${CNIJFILTER_BUILD} == xdrivers ]] && IUSE+=" +doc"
 else 
 #	ECNIJ_PVN=false
 	use amd64 && multilib_toolchain_setup "x86"
@@ -39,16 +39,16 @@ else
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
 fi
 
-[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
+[[ x${PN%-drivers} == x${PN} ]] && CNIJFILTER_BUILD=core ||
+CNIJFILTER_BUILD=drivers &&
 RDEPEND="${RDEPEND}
 	net-print/cnijfilter[${MULTILIB_USEDEP}]"
 
 DEDEPEND="${DEPEND}
 	>=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}]"
 
-case "${EAPI:-4}" in
-	0|1) EXPORT_FUNCTIONS pkg_setup src_unpack src_compile src_install pkg_postinst;;
-	2|3|4|5) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst;;
+case "${EAPI:-5}" in
+	4|5) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst;;
 	*) die "EAPI=\"${EAPI}\" is not supported";;
 esac
 
@@ -57,14 +57,6 @@ esac
 
 # @ECLASS-VARIABLE: PRINTER_ID
 # @DESCRIPTION: An array with printers id
-
-# @ECLASS-VARIABLE: ELTCONF
-# @DESCRIPTION: Extra options passed to elibtoolize
-ELTCONF=${ELTCONF:="--force --copy --automake"}
-
-# @ECLASS-VARIABLE: EGTCONF
-# @DESCRIPTION: Extra options passed to glib-gettextize
-EGTCONF=${EGTCONF:="--force --copy"}
 
 # @FUNCTION: ecnij_pkg_setup
 # @DESCRIPTION:
@@ -101,15 +93,8 @@ ecnij_src_unpack() {
 # @FUNCTION: dir_src_prepare
 # @DESCRIPTION:
 dir_src_prepare() {
-	local e
-	has ${EAPI:-0} 0 1 && e="nonfatal elibtoolize" ||
-		e="autotools_run_tool libtoolize"
 	[ -d configures ] && mv -f configures/configure.in.new configure.in
-	[[ -d po ]] && echo "no" | glib-gettextize ${EGTCONF}
-	${e} ${ELTCONF}
-	eaclocal
-	eautoheader
-	eautomake --gnu
+	[[ -d po ]] && echo "no" | glib-gettextize --force --copy
 	eautoreconf
 }
 
@@ -122,7 +107,7 @@ ecnij_src_prepare() {
 
 	epatch_user
 
-	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
+	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		dir_src_prepare
@@ -130,7 +115,7 @@ ecnij_src_prepare() {
 	done
 
 	local p pr prid
-	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
+	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -151,7 +136,7 @@ ecnij_src_prepare() {
 ecnij_src_configure() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
+	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		econf --prefix="${EPREFIX}"/usr "${myeconfargs[@]}"
@@ -160,7 +145,7 @@ ecnij_src_configure() {
 
 	mv {,_}lgmon || die
 	local p pr prid
-	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
+	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -178,7 +163,7 @@ ecnij_src_compile() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local p pr prid
-	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
+	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -188,7 +173,7 @@ ecnij_src_compile() {
 		fi
 	done
 
-	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
+	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		emake || die
@@ -207,14 +192,14 @@ ecnij_src_install() {
 
 	[[ ${ECNIJ_PVN} ]] || abi_lib=
 
-	[[ x${ECNIJ_SRC_BUILD} == xcore ]] &&
+	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	for dir in ${CNIJFILTER_SRC}; do
 		pushd ${dir} || die
 		emake DESTDIR="${D}" install || die
 		popd
 	done
 
-	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
+	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -236,7 +221,7 @@ ecnij_src_install() {
 		fi
 	done
 
-	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
+	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	if use_if_iuse net; then
 		dolib.so com/libs_bin${abi_lib}/*.so*
 		EXEOPTIONS="-m555 -glp -olp"
@@ -245,7 +230,7 @@ ecnij_src_install() {
 	fi
 
 	local license lingua
-	[[ x${ECNIJ_SRC_BUILD} == xdrivers ]] &&
+	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for lingua in ${LINGUAS}; do
 		license=LICENSE-${MY_PN}-${PV}${lingua^^[a-z]}.txt
 		[[ -e ${license} ]] && dodoc ${license}
@@ -270,14 +255,14 @@ printer_src_configure() {
 printer_src_compile() {
 	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
-		emake ${myconf} || die "${dir}: emake failed"
+		emake ${myconf}
 		popd
 	done
 }
 printer_src_install() {
 	for dir in ${PRINTER_SRC}; do
 		pushd ${dir} || die
-		emake DESTDIR="${D}" install || die "${dir}: emake install failed"
+		emake DESTDIR="${D}" install
 		popd
 	done
 }
