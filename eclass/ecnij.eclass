@@ -90,7 +90,7 @@ ecnij_pkg_setup() {
 
 	[[ -z ${LINGUAS} ]] && export LINGUAS="en"
 
-	CNIJFILTER_SRC="libs pstocanonij"
+	CNIJFILTER_SRC="cngpij libs pstocanonij"
 	PRINTER_SRC="cnijfilter"
 	use usb && CNIJFILTER_SRC+=" backend"
 	if use gtk; then
@@ -100,8 +100,8 @@ ecnij_pkg_setup() {
 	fi
 	if use servicetools; then
 		[[ ${ECNIJ_PVN} ]] && [[ ${PV:2:2} -le 70 ]] &&
-		CNIJFILTER_SRC+=" cngpij printui" ||
-		CNIJFILTER_SRC+=" cngpij cngpijmnt maintenance"
+		CNIJFILTER_SRC+=" printui" ||
+		CNIJFILTER_SRC+=" cngpijmnt maintenance"
 	fi
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 }
