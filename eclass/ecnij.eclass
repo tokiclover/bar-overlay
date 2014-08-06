@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 2.0 2014/08/05 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 3.0 2014/08/06 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -39,10 +39,13 @@ else
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
 fi
 
-[[ x${PN%-drivers} == x${PN} ]] && CNIJFILTER_BUILD=core ||
-CNIJFILTER_BUILD=drivers &&
-RDEPEND="${RDEPEND}
-	net-print/cnijfilter[${MULTILIB_USEDEP}]"
+if [[ x${PN%-drivers} == x${PN} ]]; then
+	CNIJFILTER_BUILD=core
+else
+	CNIJFILTER_BUILD=drivers
+	RDEPEND="${RDEPEND}
+		>=net-print/cnijfilter-${PV}[${MULTILIB_USEDEP}]"
+fi
 
 DEDEPEND="${DEPEND}
 	>=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}]"
@@ -57,6 +60,27 @@ esac
 
 # @ECLASS-VARIABLE: PRINTER_ID
 # @DESCRIPTION: An array with printers id
+
+# @FUNCTION: dir_src_prepare
+# @DESCRIPTION:
+dir_src_command() {
+	local dirs="${1}" cmd="${2}" args="${3}"
+	[[ $# < 2 ]] && eeror "invalid number of argument" && return 1
+
+	for dir in ${dirs}; do
+		pushd ${dir} || die
+		if [[ x${cmd} == xeautoreconf ]]; then
+			[[ -d configures ]] && mv -f configures/configure.in.new configure.in
+			[[ -d po ]] && echo "no" | glib-gettextize --force --copy
+			${cmd} ${args}
+		elif [[ x${cmd} == xeconf ]]; then
+			${cmd} ${args} ${myconfargs[@]}
+		else
+			${cmd} ${args}
+		fi
+		popd || die
+	done
+}
 
 # @FUNCTION: ecnij_pkg_setup
 # @DESCRIPTION:
@@ -90,14 +114,6 @@ ecnij_src_unpack() {
 	cd "${S}"
 }
 
-# @FUNCTION: dir_src_prepare
-# @DESCRIPTION:
-dir_src_prepare() {
-	[ -d configures ] && mv -f configures/configure.in.new configure.in
-	[[ -d po ]] && echo "no" | glib-gettextize --force --copy
-	eautoreconf
-}
-
 # @FUNCTION: ecnij_src_prepare
 # @DESCRIPTION: prepare environment and run elibtoolize.
 ecnij_src_prepare() {
@@ -108,11 +124,7 @@ ecnij_src_prepare() {
 	epatch_user
 
 	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
-	for dir in ${CNIJFILTER_SRC}; do
-		pushd ${dir} || die
-		dir_src_prepare
-		popd
-	done
+	dir_src_command "${CNIJFILTER_SRC}" "eautoreconf"
 
 	local p pr prid
 	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
@@ -125,7 +137,7 @@ ecnij_src_prepare() {
 			done
 			pushd ${pr} || die
 			[[ -d ../com ]] && ln -s {../,}com
-			printer_src_prepare
+			dir_src_command "${PRINTER_SRC}" "eautoreconf"
 			popd
 		fi
 	done
@@ -137,11 +149,7 @@ ecnij_src_configure() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
-	for dir in ${CNIJFILTER_SRC}; do
-		pushd ${dir} || die
-		econf --prefix="${EPREFIX}"/usr "${myeconfargs[@]}"
-		popd
-	done
+	dir_src_command "${CNIJFILTER_SRC}" "econf"
 
 	local p pr prid
 	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
@@ -149,7 +157,10 @@ ecnij_src_configure() {
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			pushd ${pr} || die
-			printer_src_configure
+			dir_src_command "${PRINTER_SRC}" \
+				"econf" "--program-suffix=${pr} \
+				         --enable-progpath=\"${EPREFIX}\"/usr \
+				         --enable-libpath=\"${EPREFIX}\"/usr/$(get_libdir)/cnijlib"
 			popd
 		fi
 	done
@@ -166,17 +177,13 @@ ecnij_src_compile() {
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			pushd ${pr} || die
-			printer_src_compile
+			dir_src_command "${PRINTER_SRC}" "emake"
 			popd
 		fi
 	done
 
 	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
-	for dir in ${CNIJFILTER_SRC}; do
-		pushd ${dir} || die
-		emake || die
-		popd
-	done
+	dir_src_command "${CNIJFILTER_SRC}" "emake"
 }
 
 # @FUNCTION: ecnij_src_install
@@ -191,18 +198,14 @@ ecnij_src_install() {
 	[[ ${ECNIJ_PVN} ]] || abi_lib=
 
 	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
-	for dir in ${CNIJFILTER_SRC}; do
-		pushd ${dir} || die
-		emake DESTDIR="${D}" install || die
-		popd
-	done
+	dir_src_command "${CNIJFILTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
 
 	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			pushd ${pr} || die
-			printer_src_install
+			dir_src_command "${PRINTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
 			popd
 
 			dolib.so ${prid}/libs_bin${abi_lib}/*.so*
@@ -232,38 +235,6 @@ ecnij_src_install() {
 	for lingua in ${LINGUAS}; do
 		license=LICENSE-${MY_PN}-${PV}${lingua^^[a-z]}.txt
 		[[ -e ${license} ]] && dodoc ${license}
-	done
-}
-# @FUNCTION: ecnij_{prepare,configure,compile,install}_pr
-# @DESCRIPTION: internal functions
-printer_src_prepare() {
-	for dir in ${PRINTER_SRC}; do
-		pushd ${dir} || die
-		dir_src_prepare
-		popd
-	done
-}
-printer_src_configure() {
-	for dir in ${PRINTER_SRC}; do
-		pushd ${dir} || die
-		econf --program-suffix=${pr} \
-		      --enable-progpath="${EPREFIX}"/usr \
-			  --enable-libpath="${EPREFIX}"/usr/$(get_libdir)/cnijlib
-		popd
-	done
-}
-printer_src_compile() {
-	for dir in ${PRINTER_SRC}; do
-		pushd ${dir} || die
-		emake ${myconf}
-		popd
-	done
-}
-printer_src_install() {
-	for dir in ${PRINTER_SRC}; do
-		pushd ${dir} || die
-		emake DESTDIR="${D}" install
-		popd
 	done
 }
 
