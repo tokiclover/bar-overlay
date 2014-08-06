@@ -159,9 +159,7 @@ ecnij_src_configure() {
 		if use ${pr}; then
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC}" \
-				"econf" "--program-suffix=${pr} \
-				         --enable-progpath=\"${EPREFIX}\"/usr \
-				         --enable-libpath=\"${EPREFIX}\"/usr/$(get_libdir)/cnijlib"
+				"econf" "--program-suffix=${pr}"
 			popd
 		fi
 	done
@@ -193,7 +191,7 @@ ecnij_src_install() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local abi_libdir=/usr/$(get_libdir) p pr prid
-	local abi_lib=$(grep -q 64 && echo 64 || echo 32)
+	local abi_lib=${ABI_X86}
 	mkdir -p "${ED}"${abi_libdir}/cnijlib
 
 	[[ ${ECNIJ_PVN} ]] || abi_lib=
