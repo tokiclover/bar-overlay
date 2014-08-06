@@ -47,7 +47,7 @@ pkg_setup() {
 	PRINTER_SRC="cnijfilter cmdtocanonij"
 	use usb && CNIJFILTER_SRC+=" backend"
 	if use gtk; then
-		CNIJFILTER_SRC+=" cngpij cnijnpr"
+		CNIJFILTER_SRC+=" cngpij"
 		PRINTER_SRC+=" lgmon2"
 		use net && CNIJFILTER_SRC+=" cnijnpr"
 	fi
