@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-print/cnijfilter/cnijfilter-3.90.ebuild,v 1.9 2014/08/02 03:10:53 -tclover Exp $
+# $Header: net-print/cnijfilter/cnijfilter-4.00.ebuild,v 2.0 2014/08/06 03:10:53 -tclover Exp $
 
 EAPI=5
 
