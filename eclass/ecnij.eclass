@@ -10,7 +10,7 @@
 
 inherit autotools eutils flag-o-matic multilib-build
 
-IUSE="${IUSE} debug +gtk +servicetools +usb"
+IUSE="${IUSE} debug +gtk servicetools +usb"
 KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )"
