@@ -16,7 +16,7 @@ SRC_URI="http://gdlp01.c-wss.com/gds/1/0100005171/01/${MY_PN}-source-${PV}-1.tar
 
 LICENSE="GPL-2"
 
-IUSE="net"
+IUSE="+net"
 SLOT="0"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
