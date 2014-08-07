@@ -34,15 +34,15 @@ else
 		>=net-print/cnijfilter-${PV}[${MULTILIB_USEDEP}]"
 fi
 
-version_is_at_least 3.40 ${PV} && ECNIJ_PVN=true
-version_is_at_least 3.70 ${PV} && ECNIJ_PVD=true
+version_is_at_least 3.40 ${PV} && PRINTER_MULTILIB=true
+version_is_at_least 3.70 ${PV} && PRINTER_DOC=true
 
-if [[ ${ECNIJ_PVN} ]]; then
+if [[ ${PRINTER_MULTILIB} ]]; then
 	RDEPEND="${RDEPEND}
 		media-libs/tiff[${MULTILIB_USEDEP}]
 		media-libs/libpng[${MULTILIB_USEDEP}]"
 
-	[[ ${ECNIJ_PVD} ]] && [[ x${CNIJFILTER_BUILD} == xdrivers ]] && IUSE+=" +doc"
+	[[ ${PRINTER_DOC} ]] && [[ x${CNIJFILTER_BUILD} == xdrivers ]] && IUSE+=" +doc"
 else 
 	RDEPEND="${RDEPEND}
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
@@ -196,7 +196,7 @@ ecnij_src_install() {
 	local abi_lib=${ABI_X86}
 	mkdir -p "${ED}"${abi_libdir}/cnijlib
 
-	[[ ${ECNIJ_PVN} ]] || abi_lib=
+	[[ ${PRINTER_MULTILIB} ]] || abi_lib=
 
 	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	dir_src_command "${CNIJFILTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
