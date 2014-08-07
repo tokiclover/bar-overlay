@@ -71,7 +71,7 @@ dir_src_command() {
 	for dir in ${dirs}; do
 		pushd ${dir} || die
 		if [[ x${cmd} == xeautoreconf ]]; then
-			[[ -d configures ]] && mv -f configures/configure.in.new configure.in
+			[[ -d configures ]] && cp -f configures/configure.in.new configure.in
 			[[ -d po ]] && echo "no" | glib-gettextize --force --copy
 			${cmd} ${args}
 		elif [[ x${cmd} == xeconf ]]; then
