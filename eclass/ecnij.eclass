@@ -26,6 +26,14 @@ RDEPEND="${RDEPEND}
 		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
+if [[ x${PN%-drivers} == x${PN} ]]; then
+	CNIJFILTER_BUILD=core
+else
+	CNIJFILTER_BUILD=drivers
+	RDEPEND="${RDEPEND}
+		>=net-print/cnijfilter-${PV}[${MULTILIB_USEDEP}]"
+fi
+
 version_is_at_least 3.40 ${PV} && ECNIJ_PVN=true
 version_is_at_least 3.70 ${PV} && ECNIJ_PVD=true
 
@@ -38,14 +46,6 @@ if [[ ${ECNIJ_PVN} ]]; then
 else 
 	RDEPEND="${RDEPEND}
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
-fi
-
-if [[ x${PN%-drivers} == x${PN} ]]; then
-	CNIJFILTER_BUILD=core
-else
-	CNIJFILTER_BUILD=drivers
-	RDEPEND="${RDEPEND}
-		>=net-print/cnijfilter-${PV}[${MULTILIB_USEDEP}]"
 fi
 
 DEDEPEND="${DEPEND}
