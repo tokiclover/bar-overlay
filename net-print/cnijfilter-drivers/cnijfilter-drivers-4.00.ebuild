@@ -41,7 +41,9 @@ PATCHES=(
 )
 
 pkg_setup() {
-	[[ -z ${LINGUAS} ]] && export LINGUAS="en"
+	[[ ${LINGUAS} ]] && export LINGUAS="en"
+
+	use abi_x86_32 && use amd64 && multilib_toolchain_setup "x86"
 
 	CNIJFILTER_SRC="bscc2sts libs pstocanonij"
 	PRINTER_SRC="cnijfilter cmdtocanonij"
