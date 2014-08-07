@@ -8,7 +8,7 @@
 # @DESCRIPTION: Exports portage base functions used by ebuilds 
 # written for net-print/cnijfilter packages
 
-inherit autotools eutils flag-o-matic multilib-build
+inherit autotools eutils flag-o-matic multilib-build versionator
 
 IUSE="${IUSE} debug +gtk servicetools +usb"
 KEYWORDS="~x86 ~amd64"
@@ -26,16 +26,16 @@ RDEPEND="${RDEPEND}
 		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
-if [[ ${PV:0:1} -ge 4 ]] ||
-	{ [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 40 ]]; }; then
-	ECNIJ_PVN=true
+version_is_at_least 3.40 ${PV} && ECNIJ_PVN=true
+version_is_at_least 3.70 ${PV} && ECNIJ_PVD=true
+
+if [[ ${ECNIJ_PVN} ]]; then
 	RDEPEND="${RDEPEND}
 		media-libs/tiff[${MULTILIB_USEDEP}]
 		media-libs/libpng[${MULTILIB_USEDEP}]"
-	[[ ${PV:2:2} -ge 70 ]] && [[ x${CNIJFILTER_BUILD} == xdrivers ]] && IUSE+=" +doc"
+
+	[[ ${ECNIJ_PVD} ]] && [[ x${CNIJFILTER_BUILD} == xdrivers ]] && IUSE+=" +doc"
 else 
-#	ECNIJ_PVN=false
-	use amd64 && multilib_toolchain_setup "x86"
 	RDEPEND="${RDEPEND}
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
 fi
@@ -90,20 +90,22 @@ ecnij_pkg_setup() {
 
 	[[ -z ${LINGUAS} ]] && export LINGUAS="en"
 
+	use abi_x86_32 && use amd64 && multilib_toolchain_setup "x86"
+
 	CNIJFILTER_SRC="libs cngpij pstocanonij"
 	PRINTER_SRC="cnijfilter"
 	use usb && CNIJFILTER_SRC+=" backend"
+	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 	if use gtk; then
 		CNIJFILTER_SRC+=" cngpijmon"
 		PRINTER_SRC+=" lgmon"
 		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
 	fi
 	if use servicetools; then
-		[[ ${ECNIJ_PVN} ]] && [[ ${PV:2:2} -le 70 ]] &&
-		CNIJFILTER_SRC+=" printui" ||
-		CNIJFILTER_SRC+=" cngpijmnt maintenance"
+		version_is_at_least 3.80 &&
+		CNIJFILTER_SRC+=" cngpijmnt maintenance" ||
+		CNIJFILTER_SRC+=" printui"
 	fi
-	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 }
 
 # @FUNCTION: ecnij_src_unpack
