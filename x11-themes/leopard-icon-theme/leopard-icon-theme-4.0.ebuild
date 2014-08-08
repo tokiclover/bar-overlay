@@ -8,7 +8,7 @@ inherit gnome2-utils
 
 DESCRIPTION="A very good lepard gtk port theme"
 HOMEPAGE="http://badimnk.deviantart.com/"
-SRC_URI="http://www.deviantart.com/download/274872640/gnome_leopard_icons_by_badimnk-d4jnh34.zip -> ${P}.zip"
+SRC_URI="http://fc01.deviantart.net/fs71/f/2012/042/4/b/gnome_leopard_icons_by_badimnk-d4jnh34.zip -> ${P}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -19,6 +19,8 @@ RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
 	gtk? ( x11-themes/${PN/icon/gtk} )"
 
 DEPEND="app-arch/unzip"
+
+RESTRICT="nomirror"
 
 S="${WORKDIR}"
 
