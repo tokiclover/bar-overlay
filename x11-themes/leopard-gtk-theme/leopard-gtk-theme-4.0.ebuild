@@ -1,10 +1,10 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/x11-themes/leopard-gtk-theme/leopard-gtk-theme-4.0.ebuild,v 1.0 2012/07/04 00:22:09 -tclover Exp $
+# $Header: x11-themes/leopard-gtk-theme/leopard-gtk-theme-4.0.ebuild,v 1.1 2014/08/08 00:22:09 -tclover Exp $
 
-EAPI=2
+EAPI=5
 
-inherit eutils
+inherit gnome2-utils
 
 DESCRIPTION="A very good lepard gtk port theme"
 HOMEPAGE="http://badimnk.deviantart.com/"
@@ -17,8 +17,8 @@ IUSE="icon -minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-theme )
 	x11-themes/gtk-engines-murrine
-	icon? ( x11-thems/${PN/gtk/icon} )
-"
+	icon? ( ${CATEGORY}/${PN/gtk/icon} )"
+
 DEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
