@@ -37,6 +37,8 @@ PATCHES=(
 	"${FILESDIR}"/${MY_PN}-4.00-4-ppd.patch
 	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
 	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${MY_PN}-4.00-1-libexec-backend.patch
+	"${FILESDIR}"/${MY_PN}-4.00-1-libexec-cups.patch
 	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
 )
 
