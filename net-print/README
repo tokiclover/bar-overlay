@@ -14,7 +14,8 @@ new lgmon2 in 4.x0 while many chunk of code where left 'as is' which are not
 compilable since the old days!
 
 For the drivers ebuild cnijfilter-drivers-2.[67]0[abi_x86_32,-gtk] compile just
-fine and cnijfilter-drivers-[34].x0[abi_x86_32,gtk] compile as well.
+fine and cnijfilter-drivers-[0-4].x0[abi_x86_32,gtk] compile as well, while
+the latter version support multilib and compile with +gtk.
 The oddity of the very old drivers is a dependency to gtk+:1. So uless you have
 it installed, it is imposile to pass src_prepare ecause aclocal fails on a
 missing AM GTK MACRO (with dep to >=gtk+-1.2.6:1).
