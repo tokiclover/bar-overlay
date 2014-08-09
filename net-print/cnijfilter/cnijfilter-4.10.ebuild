@@ -35,26 +35,3 @@ PATCHES=(
 	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
 )
 
-pkg_setup() {
-	[[ ${LINGUAS} ]] && export LINGUAS="en"
-
-	use abi_x86_32 && use amd64 && multilib_toolchain_setup "x86"
-
-	CNIJFILTER_SRC="bscc2sts libs pstocanonij"
-	PRINTER_SRC="cnijfilter cmdtocanonij"
-	use usb && CNIJFILTER_SRC+=" backend"
-	if use gtk; then
-		CNIJFILTER_SRC+=" cngpij"
-		PRINTER_SRC+=" lgmon2"
-		use net && CNIJFILTER_SRC+=" cnijnpr"
-	fi
-	if use servicetools; then
-		[[ ${ECNIJ_PVN} ]] && [[ ${PV:2:2} -le 70 ]] &&
-		CNIJFILTER_SRC+=" cngpij printui" ||
-		CNIJFILTER_SRC+=" cngpijmnt"
-	fi
-	use net && CNIJFILTER_SRC+=" backendnet"
-	use usb || use net && CNIJFILTER_SRC+=" cnijbe"
-}
-
-
