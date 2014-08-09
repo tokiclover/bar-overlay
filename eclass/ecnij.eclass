@@ -98,7 +98,7 @@ ecnij_pkg_setup() {
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 	if use gtk; then
 		CNIJFILTER_SRC+=" cngpij cngpijmon"
-		PRINTER_SRC+=" cngpij lgmon"
+		PRINTER_SRC+=" lgmon"
 		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
 	fi
 	use servicetools &&
