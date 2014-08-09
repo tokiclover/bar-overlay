@@ -10,7 +10,7 @@ inherit ecnij rpm
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
-SRC_URI="${PN}-common-${PV}-2.src.rpm"
+SRC_URI="http://hex1a4.net/xubuntu/HOWTO/dl/${PN}-common-${PV}-2.src.rpm"
 
 LICENSE="GPL-2 cnijfilter"
 
@@ -24,7 +24,7 @@ REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"
 
-RESTRICT="fetch mirror"
+RESTRICT="mirror"
 
 S="${WORKDIR}"/${PN}-common-${PV}
 

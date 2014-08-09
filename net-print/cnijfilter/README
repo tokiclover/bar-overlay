@@ -21,3 +21,7 @@ compilable since the old days!
 The oddity of the very old drivers is a dependency to gtk+:1. So unless you have
 it installed, it is imposile to pass src_prepare because aclocal fails on a
 missing AM GTK MACRO (with dep to >=gtk+-1.2.6:1).
+
+Note: if 2.70 src rpm cannot be bound, dead link..., just search the full name
+wihh your favorite search engine, or else, look for Linux_Print_Filterv270.tgz
+and extract cnijfilter-common-2.70-2.src.rpm from that archive.
