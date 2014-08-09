@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.0 2014/08/06 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 3.1 2014/08/08 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -26,14 +26,6 @@ RDEPEND="${RDEPEND}
 		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
 
-if [[ x${PN%-drivers} == x${PN} ]]; then
-	CNIJFILTER_BUILD=core
-else
-	CNIJFILTER_BUILD=drivers
-	RDEPEND="${RDEPEND}
-		>=net-print/cnijfilter-${PV}[${MULTILIB_USEDEP}]"
-fi
-
 version_is_at_least 3.40 ${PV} && PRINTER_MULTILIB=true
 version_is_at_least 3.70 ${PV} && PRINTER_DOC=true
 
@@ -42,7 +34,7 @@ if [[ ${PRINTER_MULTILIB} ]]; then
 		media-libs/tiff[${MULTILIB_USEDEP}]
 		media-libs/libpng[${MULTILIB_USEDEP}]"
 
-	[[ ${PRINTER_DOC} ]] && [[ x${CNIJFILTER_BUILD} == xdrivers ]] && IUSE+=" +doc"
+	[[ ${PRINTER_DOC} ]] && IUSE+=" +doc"
 else 
 	RDEPEND="${RDEPEND}
 		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
@@ -134,11 +126,9 @@ ecnij_src_prepare() {
 
 	epatch_user
 
-	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	dir_src_command "${CNIJFILTER_SRC}" "eautoreconf"
 
 	local p pr prid
-	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -159,11 +149,9 @@ ecnij_src_prepare() {
 ecnij_src_configure() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	dir_src_command "${CNIJFILTER_SRC}" "econf"
 
 	local p pr prid
-	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -181,7 +169,6 @@ ecnij_src_compile() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local p pr prid
-	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -191,7 +178,6 @@ ecnij_src_compile() {
 		fi
 	done
 
-	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	dir_src_command "${CNIJFILTER_SRC}" "emake"
 }
 
@@ -205,10 +191,8 @@ ecnij_src_install() {
 
 	[[ ${PRINTER_MULTILIB} ]] || abi_lib=
 
-	[[ x${CNIJFILTER_BUILD} == xcore ]] &&
 	dir_src_command "${CNIJFILTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
 
-	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	mkdir -p "${ED}"${abi_libdir}/cnijlib &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
@@ -231,7 +215,6 @@ ecnij_src_install() {
 		fi
 	done
 
-	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	if use_if_iuse net; then
 		dolib.so com/libs_bin${abi_lib}/*.so*
 		EXEOPTIONS="-m555 -glp -olp"
@@ -240,7 +223,6 @@ ecnij_src_install() {
 	fi
 
 	local license lingua
-	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
 	for lingua in ${LINGUAS}; do
 		license=LICENSE-${MY_PN}-${PV}${lingua^^[a-z]}.txt
 		[[ -e ${license} ]] && dodoc ${license}
