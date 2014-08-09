@@ -67,7 +67,9 @@ dir_src_command() {
 			[[ -d po ]] && echo "no" | glib-gettextize --force --copy
 			${cmd} ${args}
 		elif [[ x${cmd} == xeconf ]]; then
-			${cmd} ${args} ${myconfargs[@]}
+			[[ x${dir} == xcnijfilter ]] &&
+				myeconfargs=( "--enable-libpath=/usr/$(get_libdir)/cnijlib" ${myeconfargs[@]} )
+			${cmd} ${args} ${myeconfargs[@]}
 		else
 			${cmd} ${args}
 		fi
@@ -89,22 +91,25 @@ ecnij_pkg_setup() {
 	use usb && CNIJFILTER_SRC+=" backend"
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 	if use gtk; then
-		CNIJFILTER_SRC+=" cngpij cngpijmon"
-		PRINTER_SRC+=" lgmon"
-		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
+		CNIJFILTER_SRC+=" cngpij"
+		if version_is_at_least 4.00; then
+			PRINTER_SRC+=" lgmon2"
+		else
+			PRINTER_SRC+=" lgmon cngpijmon"
+			use_if_iuse net && PRINTER_SRC+=" cngpijmon/cnijnpr"
+		fi
 	fi
 	use servicetools &&
 	if   version_is_at_least 4.00; then
-		CNIJFILTER_SRC+=" cngpijmnt"
+		PRINTER_SRC+=" cngpijmnt"
 	elif version_is_at_least 3.80; then
-		CNIJFILTER_SRC+=" cngpijmnt maintenance"
+		PRINTER_SRC+=" cngpijmnt maintenance"
 	else
-		CNIJFILTER_SRC+=" printui"
+		PRINTER_SRC+=" printui"
 	fi
 
 	if version_is_at_least 4.00; then
-		CNIJFILTER_SRC="bscc2sts $(echo ${CNIJFILTER_SRC} | sed -re 's,cngpijmon(|/),,g') cnijbe"
-		PRINTER_SRC="cmdtocanonij ${PRINTER_SRC/lgmon/lgmon2}"
+		CNIJFILTER_SRC="bscc2sts cmdtocanonij ${CNIJFILTER_SRC} cnijbe"
 	fi
 }
 
