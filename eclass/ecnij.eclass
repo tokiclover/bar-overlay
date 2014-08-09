@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.1 2014/08/08 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 3.2 2014/08/08 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -18,7 +18,7 @@ REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )"
 has net ${IUSE} && REQUIRED_USE+=" servicetools? ( net )"
 
 RDEPEND="${RDEPEND}
-	app-text/ghostscript-gpl[${MULTILIB_USEDEP}]
+	app-text/ghostscript-gpl
 	dev-libs/glib[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
 	servicetools? ( 
@@ -29,16 +29,11 @@ RDEPEND="${RDEPEND}
 version_is_at_least 3.40 ${PV} && PRINTER_MULTILIB=true
 version_is_at_least 3.70 ${PV} && PRINTER_DOC=true
 
-if [[ ${PRINTER_MULTILIB} ]]; then
-	RDEPEND="${RDEPEND}
-		media-libs/tiff[${MULTILIB_USEDEP}]
-		media-libs/libpng[${MULTILIB_USEDEP}]"
+RDEPEND="${RDEPEND}
+	media-libs/tiff[${MULTILIB_USEDEP}]
+	media-libs/libpng[${MULTILIB_USEDEP}]"
 
-	[[ ${PRINTER_DOC} ]] && IUSE+=" +doc"
-else 
-	RDEPEND="${RDEPEND}
-		sys-libs/lib-compat[${MULTILIB_USEDEP}]"
-fi
+[[ ${PRINTER_DOC} ]] && IUSE+=" +doc"
 
 DEDEPEND="${DEPEND}
 	>=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}]"
