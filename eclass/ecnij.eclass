@@ -92,19 +92,27 @@ ecnij_pkg_setup() {
 
 	use abi_x86_32 && use amd64 && multilib_toolchain_setup "x86"
 
-	CNIJFILTER_SRC="libs cngpij pstocanonij"
+	CNIJFILTER_SRC="libs pstocanonij"
 	PRINTER_SRC="cnijfilter"
 	use usb && CNIJFILTER_SRC+=" backend"
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 	if use gtk; then
-		CNIJFILTER_SRC+=" cngpijmon"
-		PRINTER_SRC+=" lgmon"
+		CNIJFILTER_SRC+=" cngpij cngpijmon"
+		PRINTER_SRC+=" cngpij lgmon"
 		use_if_iuse net && CNIJFILTER_SRC+=" cngpijmon/cnijnpr"
 	fi
-	if use servicetools; then
-		version_is_at_least 3.80 &&
-		CNIJFILTER_SRC+=" cngpijmnt maintenance" ||
+	use servicetools &&
+	if   version_is_at_least 4.00; then
+		CNIJFILTER_SRC+=" cngpijmnt"
+	elif version_is_at_least 3.80; then
+		CNIJFILTER_SRC+=" cngpijmnt maintenance"
+	else
 		CNIJFILTER_SRC+=" printui"
+	fi
+
+	if version_is_at_least 4.00; then
+		CNIJFILTER_SRC="bscc2sts $(echo ${CNIJFILTER_SRC} | sed -re 's,cngpijmon(|/),,g') cnijbe"
+		PRINTER_SRC="cmdtocanonij ${PRINTER_SRC/lgmon/lgmon2}"
 	fi
 }
 
@@ -194,7 +202,6 @@ ecnij_src_install() {
 
 	local abi_libdir=/usr/$(get_libdir) p pr prid
 	local abi_lib=${ABI_X86}
-	mkdir -p "${ED}"${abi_libdir}/cnijlib
 
 	[[ ${PRINTER_MULTILIB} ]] || abi_lib=
 
@@ -202,6 +209,7 @@ ecnij_src_install() {
 	dir_src_command "${CNIJFILTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
 
 	[[ x${CNIJFILTER_BUILD} == xdrivers ]] &&
+	mkdir -p "${ED}"${abi_libdir}/cnijlib &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
