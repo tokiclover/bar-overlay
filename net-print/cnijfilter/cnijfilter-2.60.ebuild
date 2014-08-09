@@ -6,13 +6,11 @@ EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_32 )
 
-MY_PN="${PN/-drivers/}"
-
 inherit ecnij rpm
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 DOWNLOAD_URL="http://support-au.canon.com.au/contents/AU/EN/0900718301.html"
-SRC_URI="http://gdlp01.c-wss.com/gds/3/0900007183/02/${MY_PN}-common-${PV}-4.src.rpm"
+SRC_URI="http://gdlp01.c-wss.com/gds/3/0900007183/02/${PN}-common-${PV}-4.src.rpm"
 
 LICENSE="GPL-2 cnijfilter"
 
@@ -28,13 +26,19 @@ RDEPEND="${RDEPEND}"
 
 RESTRICT="mirror"
 
-S="${WORKDIR}"/${MY_PN}-common-${PV}
+S="${WORKDIR}"/${PN}-common-${PV}
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-2.70-1-png_jmpbuf-fix.patch
-	"${FILESDIR}"/${MY_PN}-2.70-1-pstocanonij.patch
-	"${FILESDIR}"/${MY_PN}-2.70-4-libxml2.patch
-	"${FILESDIR}"/${MY_PN}-2.70-1-canonip4200.ppd.patch.bz2
-	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${PN}-2.70-1-png_jmpbuf-fix.patch
+	"${FILESDIR}"/${PN}-2.70-1-pstocanonij.patch
+	"${FILESDIR}"/${PN}-2.70-4-libxml2.patch
+	"${FILESDIR}"/${PN}-2.70-1-canonip4200.ppd.patch.bz2
+	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch
 )
 
+pkg_setup() {
+	ecnij_pkg_setup
+
+	PRINTER_SRC="${PRINTER_SRC/lgmon/stsmon}"
+	CNIJFILTER_SRC="${CNIJFILTER_SRC/backend}"
+}

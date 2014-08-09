@@ -6,13 +6,11 @@ EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_32 )
 
-MY_PN="${PN/-drivers/}"
-
 inherit ecnij rpm
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
-SRC_URI="${MY_PN}-common-${PV}-2.src.rpm"
+SRC_URI="${PN}-common-${PV}-2.src.rpm"
 
 LICENSE="GPL-2 cnijfilter"
 
@@ -28,12 +26,18 @@ RDEPEND="${RDEPEND}"
 
 RESTRICT="fetch mirror"
 
-S="${WORKDIR}"/${MY_PN}-common-${PV}
+S="${WORKDIR}"/${PN}-common-${PV}
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-${PV}-4-ppd.patch
-	"${FILESDIR}"/${MY_PN}-${PV}-1-png_jmpbuf-fix.patch
-	"${FILESDIR}"/${MY_PN}-${PV}-4-libxml2.patch
-	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${PN}-${PV}-4-ppd.patch
+	"${FILESDIR}"/${PN}-${PV}-1-png_jmpbuf-fix.patch
+	"${FILESDIR}"/${PN}-${PV}-4-libxml2.patch
+	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch
 )
 
+pkg_setup() {
+	ecnij_pkg_setup
+
+	PRINTER_SRC="${PRINTER_SRC/lgmon/stsmon}"
+	CNIJFILTER_SRC="${CNIJFILTER_SRC/backend}"
+}

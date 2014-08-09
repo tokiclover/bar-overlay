@@ -6,13 +6,11 @@ EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
 
-MY_PN="${PN/-drivers/}"
-
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 HOMEPAGE="http://support-au.canon.com.au/contents/AU/EN/0100469302.html"
-SRC_URI="http://gdlp01.c-wss.com/gds/3/0100004693/01/${MY_PN}-source-${PV}-1.tar.gz"
+SRC_URI="http://gdlp01.c-wss.com/gds/3/0100004693/01/${PN}-source-${PV}-1.tar.gz"
 
 LICENSE="GPL-2 cnijfilter"
 
@@ -28,14 +26,14 @@ RDEPEND="${RDEPEND}"
 
 RESTRICT="mirror"
 
-S="${WORKDIR}"/${MY_PN}-source-${PV}-1
+S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(
-	"${FILESDIR}"/${MY_PN}-3.20-4-ppd.patch
-	"${FILESDIR}"/${MY_PN}-3.20-4-libpng15.patch
-	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-cups.patch
-	"${FILESDIR}"/${MY_PN}-3.70-1-libexec-backend.patch
-	"${FILESDIR}"/${MY_PN}-3.80-1-cups-1.6.patch
+	"${FILESDIR}"/${PN}-3.20-4-ppd.patch
+	"${FILESDIR}"/${PN}-3.20-4-libpng15.patch
+	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch
+	"${FILESDIR}"/${PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${PN}-3.80-1-cups-1.6.patch
 )
 
 src_install() {
