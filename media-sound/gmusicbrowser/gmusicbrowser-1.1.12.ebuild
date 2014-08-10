@@ -22,7 +22,7 @@ REQUIRED_USE="|| ( 123 mplayer gstreamer )"
 
 DEPEND=">=dev-lang/perl-5.8
 	dev-vcs/git
-	nls? ( sys-devel/gettext )"
+	nls? ( virtual/libintl )"
 
 RDEPEND="dev-perl/gtk2-perl
 	dbus? ( dev-perl/Net-DBus )
@@ -59,7 +59,9 @@ RDEPEND="dev-perl/gtk2-perl
 
 src_prepare() {
 	sed -e '/menudir/d' -e '/^LINGUAS.*$/d' -i Makefile || die
-	export LINGUAS="$(l10n_get_locales)"
+	local LINGUAS
+	use nls && LINGUAS="$(l10n_get_locales)"
+	export LINGUAS
 }
 
 src_install() {
