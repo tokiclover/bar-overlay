@@ -6,7 +6,7 @@ EAPI=5
 
 PLOCALES="cs de es fr hu it ko nl pl pt pt_BR ru sv zh_CN"
 
-inherit fdo-mime git-2
+inherit l10n fdo-mime eutils git-2
 
 DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac files"
 HOMEPAGE="http://gmusicbrowser.org/"
