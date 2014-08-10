@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/laditools/laditools-1.0.ebuild,v 1.1 2014/07/22 14:40:00 -tclover Exp $
+# $Header: media-sound/laditools/laditools-1.0.ebuild,v 1.2 2014/08/08 14:40:00 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
 PYTHON_COMPAT=( python2_7 )
 
@@ -16,7 +16,6 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 x86"
 IUSE="lash wmaker ${PYTHON_REQUIRED_USE}"
-
 
 RDEPEND="lash? ( virtual/liblash )
     x11-libs/gtk+:3[introspection]
@@ -32,14 +31,8 @@ RDEPEND="lash? ( virtual/liblash )
 
 DEPEND="dev-python/python-distutils-extra[${PYTHON_USEDEP}]"
 
-DOCS="README"
-
-#src_prepare() {
-#	epatch "${FILESDIR}/${P}-rsvg.patch"
-#}
+DOCS=( README )
 
 pkg_preinst() {
-	if ! use wmaker; then
-		find "${D}" -name 'wmladi*' -exec rm '{}' + || die
-	fi
+	use wmaker || find "${D}" -name 'wmladi*' -exec rm '{}' + || die
 }
