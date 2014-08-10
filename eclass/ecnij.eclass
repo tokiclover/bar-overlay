@@ -89,6 +89,7 @@ ecnij_pkg_setup() {
 		CNIJFILTER_SRC+=" cngpij"
 		if version_is_at_least 4.00; then
 			PRINTER_SRC+=" lgmon2"
+			use net && PRINTER_SRC+=" cnijnpr"
 		else
 			PRINTER_SRC+=" lgmon cngpijmon"
 			use_if_iuse net && PRINTER_SRC+=" cngpijmon/cnijnpr"
