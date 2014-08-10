@@ -10,7 +10,7 @@
 
 inherit autotools eutils flag-o-matic multilib-build versionator
 
-IUSE="${IUSE} debug +gtk servicetools +usb"
+IUSE="${IUSE} debug gtk servicetools +usb"
 KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )"
@@ -24,19 +24,22 @@ RDEPEND="${RDEPEND}
 	servicetools? ( 
 		gnome-base/libglade[${MULTILIB_USEDEP}]
 		dev-libs/libxml2[${MULTILIB_USEDEP}] )
-	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
+	media-libs/tiff[${MULTILIB_USEDEP}]
+	media-libs/libpng[${MULTILIB_USEDEP}]"
+
+version_is_at_least 2.80 ${PV} &&
+RDEPEND="${RDEPEND}
+	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )" ||
+RDEPEND="${RDEPEND}
+	gtk? ( x11-libs/gtk+:1[${MULTILIB_USEDEP}] )"
+
+DEPEND="${DEPEND}
+	>=sys-devel/gettext-0.10.38"
 
 version_is_at_least 3.40 ${PV} && PRINTER_MULTILIB=true
 version_is_at_least 3.70 ${PV} && PRINTER_DOC=true
 
-RDEPEND="${RDEPEND}
-	media-libs/tiff[${MULTILIB_USEDEP}]
-	media-libs/libpng[${MULTILIB_USEDEP}]"
-
 [[ ${PRINTER_DOC} ]] && IUSE+=" +doc"
-
-DEDEPEND="${DEPEND}
-	>=sys-devel/gettext-0.10.38[${MULTILIB_USEDEP}]"
 
 case "${EAPI:-5}" in
 	4|5) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst;;
@@ -223,9 +226,12 @@ ecnij_src_install() {
 		doexe com/ini/cnnet.ini
 	fi
 
-	local license lingua
+	local license lingua lng
 	for lingua in ${LINGUAS}; do
-		license=LICENSE-${MY_PN}-${PV}${lingua^^[a-z]}.txt
+		lng=${lingua^^[a-z]}
+		license=LICENSE-${MY_PN}-${PV}${lng}.txt
+		[[ -e ${license%${lng:0:1}.txt}.txt ]] &&
+		mv -f ${license%{lng:0:1}.txt} ${license}
 		[[ -e ${license} ]] && dodoc ${license}
 	done
 }
