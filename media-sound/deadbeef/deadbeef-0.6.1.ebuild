@@ -66,11 +66,13 @@ DEPEND=">=dev-lang/perl-5.8.1
 	dev-perl/XML-Parser
 	dev-lang/yasm
 	ffmpeg? ( <virtual/ffmpeg-10 )
-	nls? ( >=dev-util/intltool-0.40.0 )
+	nls? ( virtual/libintl )
 	oss? ( virtual/libc )"
 
 pkg_setup() {
-	export LINGUAS="$(l10n_get_locales)"
+	local LINGUAS
+	use nls && LINGUAS="$(l10n_get_locales)"
+	export LINGUAS
 }
 
 src_configure() {
