@@ -1,12 +1,14 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.2 2014/07/20 12:14:19 -tclover Exp $
+# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.3 2014/08/08 12:14:19 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit python-single-r1 waf-utils git-2
+PLOCALES="de fr ru"
+
+inherit l10n python-single-r1 waf-utils git-2
 
 DESCRIPTION="LADI Session Handler - a session management system for JACK applications"
 HOMEPAGE="http://${PN}.org/"
@@ -18,13 +20,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="debug doc gtk lash nls python"
 REQUIRED_USE="python? ( lash ) ${PYTHON_REQUIRED_USE}"
 
-LANGS="de fr ru"
-
 S="${WORKDIR}"/${PN}-${P}
-
-for l in ${LANGS}; do
-	IUSE+=" linguas_${l}"
-done
 
 RDEPEND="lash? ( !media-sound/lash )
 	media-sound/jack-audio-connection-kit[dbus]
@@ -50,18 +46,8 @@ DOCS=( AUTHORS README NEWS )
 src_prepare() {
 	epatch "${FILESDIR}"/lash-1.0.pc.in.patch
 
-	if use nls; then
-		local linguas
-		for l in ${LINGUAS}; do
-			has ${l} ${LANG} && linguas+=" ${l}"
-		done
-		for l in ${LANGS}; do
-			use linguas_${l} &&
-				if has ${l} ${linguas}; then :;
-				else linguas+=" ${l}"; fi
-		done
-		echo "${linguas}" > po/LINGUAS
-	else echo > po/LINGUAS; fi
+	local LINGUAS="$(l10n_get_locales)"
+	echo "${LINGUAS}" >po/LINGUAS
 }
 
 src_configure() {
