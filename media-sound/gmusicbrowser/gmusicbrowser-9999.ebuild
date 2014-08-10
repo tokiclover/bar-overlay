@@ -1,10 +1,12 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-sound/gmusicbrowser/gmusicbrowser-9999.ebuild,v 1.4 2014/07/26 09:11:11 -tclover Exp $
+# $Header: media-sound/gmusicbrowser/gmusicbrowser-1.1.12.ebuild,v 1.5 2014/08/08 09:12:46 -tclover Exp $
 
 EAPI=5
 
-inherit fdo-mime
+PLOCALES="cs de es fr hu it ko nl pl pt pt_BR ru sv zh_CN"
+
+inherit fdo-mime git-2
 
 DESCRIPTION="An open-source jukebox for large collections of mp3/ogg/flac files"
 HOMEPAGE="http://gmusicbrowser.org/"
@@ -17,11 +19,6 @@ IUSE="123 a52 aac +alsa cdparanoia +dbus doc dts faad flac gstreamer jack lame
 mac mad modplug musepack mplayer +nls libnotify ogg oss oss4 pulseaudio gsm 
 sid titlebar trayicon twolame vorbis wavpack webkit"
 REQUIRED_USE="|| ( 123 mplayer gstreamer )"
-
-LANGS="cs de es fr hu it ko nl pl pt pt_BR ru sv zh_CN"
-for l in ${LANGS}; do
-	IUSE+=" linguas_${l}"
-done
 
 DEPEND=">=dev-lang/perl-5.8
 	dev-vcs/git
@@ -62,18 +59,10 @@ RDEPEND="dev-perl/gtk2-perl
 
 src_prepare() {
 	sed -e '/menudir/d' -e '/^LINGUAS.*$/d' -i Makefile || die
+	export LINGUAS="$(l10n_get_locales)"
 }
 
 src_install() {
-	local l LINGUAS
-	if use nls; then
-		for l in ${LANGS}; do
-			if use linguas_${l}; then
-				LINGUAS+=" ${l}"
-			fi
-		done
-	else LINGUAS=""; fi
-
 	emake \
 		DOCS="AUTHORS NEWS README" \
 		DESTDIR="${D}" \
