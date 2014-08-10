@@ -36,6 +36,10 @@ RDEPEND="${RDEPEND}
 DEPEND="${DEPEND}
 	>=sys-devel/gettext-0.10.38"
 
+version_is_at_least 4.00 ${PV} &&
+DEPEND="${DEPEND}
+	gtk? ( virtual/libusb:1 )"
+
 version_is_at_least 3.40 ${PV} && PRINTER_MULTILIB=true
 version_is_at_least 3.70 ${PV} && PRINTER_DOC=true
 
@@ -65,8 +69,11 @@ dir_src_command() {
 			[[ -d po ]] && echo "no" | glib-gettextize --force --copy
 			${cmd} ${args}
 		elif [[ x${cmd} == xeconf ]]; then
-			[[ x${dir} == xcnijfilter ]] &&
+			case ${dir} in
+				backendnet|cnijfilter|lgmon*|printui)
 				myeconfargs=( "--enable-libpath=/usr/$(get_libdir)/cnijlib" ${myeconfargs[@]} )
+				;;
+			esac
 			${cmd} ${args} ${myeconfargs[@]}
 		else
 			${cmd} ${args}
@@ -100,9 +107,9 @@ ecnij_pkg_setup() {
 	fi
 	use servicetools &&
 	if   version_is_at_least 4.00; then
-		PRINTER_SRC+=" cngpijmnt"
+		CNIJFILTER_SRC+=" cngpijmnt"
 	elif version_is_at_least 3.80; then
-		PRINTER_SRC+=" cngpijmnt maintenance"
+		CNIJFILTER_SRC+=" cngpijmnt maintenance"
 	else
 		PRINTER_SRC+=" printui"
 	fi
