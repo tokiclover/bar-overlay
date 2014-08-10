@@ -15,7 +15,7 @@ inherit l10n fdo-mime gnome2-utils flag-o-matic git-2 autotools-utils
 DESCRIPTION="DeaDBeeF - Ultimate Music Player For GNU/Linux"
 HOMEPAGE="http://deadbeef.sourceforge.net/"
 LICENSE="|| ( GPL-2 LGPL-2.1 )"
-EGIT_REPO_URI="git://deadbeef.git.sourceforge.net/gitroot/deadbeef/deadbeef"
+EGIT_REPO_URI="git://${PN}.git.sourceforge.net/gitroot/${PN}/${PN}"
 
 SLOT="0"
 KEYWORDS=""
