@@ -1,12 +1,14 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack-rack/jack-rack-1.4.8_rc1.ebuild,v 1.3 2014/07/15 17:48:37 -tclover Exp $
+# $Header: media-sound/jack-rack/jack-rack-1.4.8_rc1.ebuild,v 1.4 2014/08/08 17:48:37 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
-AUTOTOOLS_AUTORECONF="yep"
+AUTOTOOLS_AUTORECONF=1
 
-inherit autotools-utils flag-o-matic toolchain-funcs
+PLOCALES="cs de fr ru"
+
+inherit l10n autotools-utils flag-o-matic toolchain-funcs
 
 MY_P=${PN}_${PV/_/\~}
 DEB_URI="mirror://debian/pool/main/j/${PN}"
@@ -20,11 +22,6 @@ SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="alsa gnome ladspa lash nls"
 REQUIRED_USE="lash? ( alsa )"
-
-LANGS="cs de fr ru"
-for lang in ${LANGS}; do
-	IUSE+=" linguas_${lang}"
-done
 
 RDEPEND=">=x11-libs/gtk+-2.12:2
 	>=media-libs/ladspa-sdk-1.12
@@ -40,26 +37,23 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS BUGS ChangeLog NEWS README THANKS TODO WISHLIST )
 
+EPATCH_FORCE=yes
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.4.6-noalsa.patch
+	"${FILESDIR}"/${PN}-1.4.7-disable_deprecated.patch
+)
+
 src_unpack() {
 	unpack ${A}
 	mv ${PN}-* ${P} || die
 }
 
 src_prepare() {
-	local langs
-	if use nls; then
-		for l in ${LANGS}; do
-			use linguas_${l} && langs+=" ${l}" ||
-			has ${l} ${LINGUAS} && langs+=" ${l}"
-		done
-	fi
-	echo "${langs}" >po/LANGUAS
+	export LINGUAS="$(l10n_get_locales)"
+	echo "${LINGUAS}" >po/LANGUAS
 	
-	EPATCH_FORCE=yes EPATCH_SUFFIX=patch epatch "${WORKDIR}"/debian/patches
-
-	epatch \
-		"${FILESDIR}"/${PN}-1.4.6-noalsa.patch \
-		"${FILESDIR}"/${PN}-1.4.7-disable_deprecated.patch
+	PATCHES=( ${PATCHES[@]} "${WORKDIR}"/debian/patches/*.patch )
 
 	sed -e '/Categories/s:Application:GTK:' \
 		-e '/Icon/s:.png::' \

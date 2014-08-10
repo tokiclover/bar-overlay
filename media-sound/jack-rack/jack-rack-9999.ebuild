@@ -1,13 +1,14 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack-rack/jack-rack-9999.ebuild,v 1.1 2014/07/15 17:48:37 -tclover Exp $
+# $Header: media-sound/jack-rack/jack-rack-9999.ebuild,v 1.2 2014/08/08 17:48:37 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
-AUTOTOOLS_AUTORECONF="yep"
+AUTOTOOLS_AUTORECONF=1
 
-inherit autotools-utils flag-o-matic toolchain-funcs git-2
+PLOCALES="cs de fr ru"
 
+inherit l10n autotools-utils flag-o-matic toolchain-funcs git-2
 
 DESCRIPTION="JACK Rack is an effects rack for the JACK low latency audio API."
 HOMEPAGE="http://jack-rack.sourceforge.net/"
@@ -19,11 +20,6 @@ SLOT="0"
 KEYWORDS=""
 IUSE="alsa gnome ladspa lash nls"
 REQUIRED_USE="lash? ( alsa )"
-
-LANGS="cs de fr ru"
-for lang in ${LANGS}; do
-	IUSE+=" linguas_${lang}"
-done
 
 RDEPEND=">=x11-libs/gtk+-2.12:2
 	>=media-libs/ladspa-sdk-1.12
@@ -39,21 +35,18 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS BUGS ChangeLog NEWS README THANKS TODO WISHLIST )
 
-src_prepare() {
-	local langs
-	if use nls; then
-		for l in ${LANGS}; do
-			use linguas_${l} && langs+=" ${l}" ||
-			has ${l} ${LINGUAS} && langs+=" ${l}"
-		done
-	fi
-	echo "${langs}" >po/LANGUAS
-	
-	EPATCH_FORCE=yes EPATCH_SUFFIX=patch epatch "${WORKDIR}"/debian/patches
+EPATCH_FORCE=yes
 
-	epatch \
-		"${FILESDIR}"/${PN}-1.4.6-noalsa.patch \
-		"${FILESDIR}"/${PN}-1.4.7-disable_deprecated.patch
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.4.6-noalsa.patch
+	"${FILESDIR}"/${PN}-1.4.7-disable_deprecated.patch
+)
+
+src_prepare() {
+	export LINGUAS="$(l10n_get_locales)"
+	echo "${LINGUAS}" >po/LANGUAS
+	
+	PATCHES=( ${PATCHES[@]} "${WORKDIR}"/debian/patches/*.patch )
 
 	sed -e '/Categories/s:Application:GTK:' \
 		-e '/Icon/s:.png::' \
