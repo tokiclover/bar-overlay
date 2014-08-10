@@ -1,10 +1,16 @@
-# Copyright 2012 Gentoo Foundation
+# Copyright 2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/deadbeef/deadbeef-9999.ebuild,v 1.3 2014/07/22 19:57:55 -tclover Exp $
+# $Header: media-sound/deadbeef/deadbeef-9999.ebuild,v 1.4 2014/08/08 19:57:55 -tclover Exp $
 
 EAPI=5
 
-inherit fdo-mime gnome2-utils flag-o-matic git-2 autotools-utils
+AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_IN_SOURCE_BUILD=1
+
+POLOCALES="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
+lg lt nb nl pl pt pt_BR ro ru si sk sl sr sr@latin sv te tr ug uk vi zh_CN zh_TW"
+
+inherit l10n fdo-mime gnome2-utils flag-o-matic git-2 autotools-utils
 
 DESCRIPTION="DeaDBeeF - Ultimate Music Player For GNU/Linux"
 HOMEPAGE="http://deadbeef.sourceforge.net/"
@@ -19,12 +25,6 @@ mms +nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbi
 vtx +X zip imlib"
 
 REQUIRED_USE="lastfm? ( curl ) artwork? ( curl ) imlib? ( curl )"
-
-LANGS="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
-lg lt nb nl pl pt pt_BR ro ru si sk sl sr sr@latin sv te tr ug uk vi zh_CN zh_TW"
-for l in ${LANGS}; do
-	IUSE+=" linguas_${l}"
-done
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )
@@ -54,7 +54,7 @@ RDEPEND="adplug? ( media-libs/adplug )
 	musepack? ( media-sound/musepack-tools )
 	aac? ( media-libs/faad2 )
 	alac? ( media-libs/faad2 )
-	libnotify? ( x11-libs/libnotify sys-apps/dbus )
+	libnotify? ( virtual/notification-daemon sys-apps/dbus )
 	zip? ( sys-libs/zlib dev-libs/libzip )
 	pth? ( dev-libs/pth )
 	gme? ( sys-libs/zlib )
@@ -69,13 +69,8 @@ DEPEND=">=dev-lang/perl-5.8.1
 	nls? ( >=dev-util/intltool-0.40.0 )
 	oss? ( virtual/libc )"
 
-AUTOTOOLS_IN_SOURCE_BUILD=1
-
-src_prepare() {
-	sed -i "${S}"/plugins/wildmidi/wildmidiplug.c \
-		-e 's,#define DEFAULT_TIMIDITY_CONFIG ",&/usr/share/timidity/freepats/timidity.cfg:,'
-	autotools-utils_src_prepare
-	autotools-utils_autoreconf
+pkg_setup() {
+	export LINGUAS="$(l10n_get_locales)"
 }
 
 src_configure() {
