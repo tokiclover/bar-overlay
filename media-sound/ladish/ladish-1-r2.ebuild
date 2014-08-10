@@ -39,7 +39,7 @@ RDEPEND="lash? ( !media-sound/lash )
 DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
 	virtual/pkgconfig
-	dev-util/intltool"
+	nls? ( virtual/libintl )"
 
 DOCS=( AUTHORS README NEWS )
 
@@ -47,7 +47,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/lash-1.0.pc.in.patch
 	epatch "${FILESDIR}"/${P}-include.patch
 
-	local LINGUAS="$(l10n_get_locales)"
+	local LINGUAS
+	use nls && LINGUAS="$(l10n_get_locales)"
 	echo "${LINGUAS}" >po/LINGUAS
 }
 
