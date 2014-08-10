@@ -1,6 +1,6 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-2.9999, 2014/07/07 -tclover $
+# $Header: media-sound/ardour/ardour-2.9999, 2014/08/08 -tclover $
 
 EAPI="2"
 
@@ -54,7 +54,7 @@ RDEPEND="media-libs/aubio
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	nls? ( sys-devel/gettext )"
+	nls? ( virtual/libintl )"
 
 src_prepare() {
 	epatch \

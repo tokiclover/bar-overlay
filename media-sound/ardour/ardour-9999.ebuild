@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-3.9999.ebuild,v 1.8 2014/05/17 18:21:28 -tclover Exp $
+# $Header: media-sound/ardour/ardour-3.9999.ebuild,v 1.8 2014/08/08 18:21:28 -tclover Exp $
 
 EAPI=4
 
@@ -57,7 +57,7 @@ RDEPEND="media-libs/aubio
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	nls? ( sys-devel/gettext )
+	nls? ( virtual/libintl )
 	doc? ( app-doc/doxygen[dot] )"
 
 src_prepare(){
