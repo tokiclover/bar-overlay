@@ -17,7 +17,7 @@ LICENSE="GPL-2 cnijfilter"
 PRINTER_USE=( "mx360" "mx410" "mx420" "mx880" "ix6500" )
 PRINTER_ID=( "380" "381" "382" "383" "384" )
 
-IUSE="+net symlink ${PRINTER_USE[@]}"
+IUSE="+net ${PRINTER_USE[@]}"
 SLOT="${PV:0:1}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 

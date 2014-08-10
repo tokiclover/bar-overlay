@@ -17,7 +17,7 @@ LICENSE="GPL-2 cnijfilter"
 PRINTER_USE=( "ip2700" "mx340" "mx350" "mx870" )
 PRINTER_ID=( "364" "365" "366" "367" )
 
-IUSE="+net symlink ${PRINTER_USE[@]}"
+IUSE="+net ${PRINTER_USE[@]}"
 SLOT="${PV:0:1}"
 REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
