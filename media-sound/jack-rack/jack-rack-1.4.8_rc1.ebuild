@@ -33,7 +33,7 @@ RDEPEND=">=x11-libs/gtk+-2.12:2
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	nls? ( sys-devel/gettext virtual/libintl )"
+	nls? ( virtual/libintl )"
 
 DOCS=( AUTHORS BUGS ChangeLog NEWS README THANKS TODO WISHLIST )
 
@@ -50,7 +50,8 @@ src_unpack() {
 }
 
 src_prepare() {
-	export LINGUAS="$(l10n_get_locales)"
+	local LINGUAS
+	use nls && LINGUAS="$(l10n_get_locales)"
 	echo "${LINGUAS}" >po/LANGUAS
 	
 	PATCHES=( ${PATCHES[@]} "${WORKDIR}"/debian/patches/*.patch )
