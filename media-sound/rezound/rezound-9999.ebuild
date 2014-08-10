@@ -1,11 +1,11 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/rezound/rezound-9999.ebuild,v 1.1 2014/07/14 22:31:21 -tclover Exp $
+# $Header: media-sound/rezound/rezound-9999.ebuild,v 1.3 2014/08/08 22:31:21 -tclover Exp $
 
 EAPI=5
 
-AUTOTOOLS_AUTORECONF="1"
-AUTOTOOLS_IN_SOURCE_BUILD="1"
+AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_IN_SOURCE_BUILD=1
 
 inherit autotools-utils flag-o-matic subversion
 
@@ -35,7 +35,7 @@ RDEPEND="|| ( ( x11-libs/qt-core:4 x11-libs/qt-gui:4 )
 	vorbis? ( media-libs/libvorbis media-libs/libogg )"
 
 DEPEND="${RDEPEND}
-	nls? ( >=sys-devel/gettext-0.11.5 virtual/libintl )
+	nls? ( virtual/libintl )
 	dev-util/pkgconfig"
 
 DOCS=(

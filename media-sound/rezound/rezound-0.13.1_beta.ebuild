@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/rezound/rezound-0.13.1-beta.ebuild,v 1.1 2014/07/14 22:31:21 -tclover Exp $
+# $Header: media-sound/rezound/rezound-0.13.1-beta.ebuild,v 1.2 2014/08/08 22:31:21 -tclover Exp $
 
 EAPI=5
 
@@ -32,7 +32,7 @@ RDEPEND="|| ( ( x11-libs/qt-core:4 x11-libs/qt-gui:4 )
 	vorbis? ( media-libs/libvorbis media-libs/libogg )"
 
 DEPEND="${RDEPEND}
-	nls? ( >=sys-devel/gettext-0.11.5 virtual/libintl )
+	nls? ( virtual/libintl )
 	dev-util/pkgconfig"
 
 DOCS=(
