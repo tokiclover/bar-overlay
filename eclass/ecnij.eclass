@@ -34,7 +34,7 @@ RDEPEND="${RDEPEND}
 	gtk? ( x11-libs/gtk+:1[${MULTILIB_USEDEP}] )"
 
 DEPEND="${DEPEND}
-	>=sys-devel/gettext-0.10.38"
+	virtual/libintl"
 
 version_is_at_least 4.00 ${PV} &&
 DEPEND="${DEPEND}
