@@ -1,8 +1,3 @@
-Note: removed splitting core/drivers ebuilds and eclass bits because...
-splitting is impossible since canon include printer model/ids in the common
-backend (usb+net). So, it is impossible to do so!
-
-
 Actually, old ebuilds used to be mergeable with -servicetools -gtk. Alghough
 cnijfilter-4.[01]0 changed it a little bit because now +gtk build, however,
 the same old code in 'cngpijmon' and 'cngpmnt' present only in cnijfilter-3.[89]0
