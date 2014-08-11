@@ -21,7 +21,7 @@ if use drivers; then
 	LICENSE="GPL-2 cnijfilter"
 elif use backends; then
 	LICENSE="GPL-2"
-	SLOT="0/${PV}"
+	export SLOT="0/${PV}"
 fi
 
 RDEPEND="${RDEPEND}
