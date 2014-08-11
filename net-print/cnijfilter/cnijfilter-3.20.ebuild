@@ -6,20 +6,17 @@ EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_32 )
 
+PRINTER_USE=( "mp250" "mp270" "mp490" "mp550" "mp560" "ip4700" "mp640" )
+PRINTER_ID=( "356" "357" "358" "359" "360" "361" "362" )
+
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 HOMEPAGE="http://support-asia.canon-asia.com/content/EN/0100084101.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/7/0100002367/01/${PN}-source-${PV}-1.tar.gz"
 
-LICENSE="GPL-2 cnijfilter"
-
-PRINTER_USE=( "mp250" "mp270" "mp490" "mp550" "mp560" "ip4700" "mp640" )
-PRINTER_ID=( "356" "357" "358" "359" "360" "361" "362" )
-
-IUSE="+net ${PRINTER_USE[@]}"
+IUSE="+net"
 SLOT="${PV:0:1}"
-REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"

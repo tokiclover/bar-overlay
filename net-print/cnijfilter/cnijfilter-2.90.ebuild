@@ -6,20 +6,16 @@ EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_32 )
 
+PRINTER_USE=( "ip100" "ip2600" )
+PRINTER_ID=( "303" "331" )
+
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 DOWNLOAD_URL="http://support-ph.canon-asia.com/contents/PH/EN/0100119202.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/2/0100001192/01/${PN}-common-${PV}-1.tar.gz"
 
-LICENSE="GPL-2 cnijfilter"
-
-PRINTER_USE=( "ip100" "ip2600" )
-PRINTER_ID=( "303" "331" )
-
-IUSE="${PRINTER_USE[@]}"
 SLOT="${PV:0:1}"
-REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"

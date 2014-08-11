@@ -6,20 +6,17 @@ EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
 
+PRINTER_USE=( "mp430" "mg2200" "e510" "mg3200" "mg4200" "ip7200" "mg5400" "mg6300" )
+PRINTER_ID=( "401" "402" "403" "405" "406" "407" "408" )
+
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 HOMEPAGE="http://support-au.canon.com.au/contents/AU/EN/0100469302.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/3/0100004693/01/${PN}-source-${PV}-1.tar.gz"
 
-LICENSE="GPL-2 cnijfilter"
-
-PRINTER_USE=( "mp430" "mg2200" "e510" "mg3200" "mg4200" "ip7200" "mg5400" "mg6300" )
-PRINTER_ID=( "401" "402" "403" "405" "406" "407" "408" )
-
-IUSE="+net ${PRINTER_USE[@]}"
+IUSE="+doc +net"
 SLOT="${PV:0:1}"
-REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"
@@ -33,6 +30,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.20-4-libpng15.patch
 	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch
 	"${FILESDIR}"/${PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${PN}-${PV}-5-abi_x86_32.patch
 	"${FILESDIR}"/${PN}-3.80-1-cups-1.6.patch
 )
 

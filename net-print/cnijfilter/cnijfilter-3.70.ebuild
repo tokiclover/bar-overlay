@@ -1,10 +1,13 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-3.70.ebuild,v 1.9 2014/08/02 03:10:53 -tclover Exp $
+# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-3.70.ebuild,v 2.0 2014/08/02 03:10:53 -tclover Exp $
 
 EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
+
+PRINTER_USE=( "ip100" "mx710" "mx890" "mx370" "mx430" "mx510" "e600" )
+PRINTER_ID=( "303" "394" "395" "396" "397" "398" "399" )
 
 inherit ecnij
 
@@ -12,14 +15,8 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 HOMEPAGE="http://support-asia.canon-asia.com/contents/ASIA/EN/010042.0 2014/08/04.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/8/0100004118/01/${PN}-source-${PV}-1.tar.gz"
 
-LICENSE="GPL-2 cnijfilter"
-
-PRINTER_USE=( "ip100" "mx710" "mx890" "mx370" "mx430" "mx510" "e600" )
-PRINTER_ID=( "303" "394" "395" "396" "397" "398" "399" )
-
-IUSE="+net ${PRINTER_USE[@]}"
+IUSE="+doc +net"
 SLOT="${PV:0:1}"
-REQUIRED_USE="|| ( ${PRINTER_USE[@]} )"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"
@@ -31,8 +28,9 @@ S="${WORKDIR}"/${PN}-source-${PV}-1
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.20-4-ppd.patch
 	"${FILESDIR}"/${PN}-3.20-4-libpng15.patch
-	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch
-	"${FILESDIR}"/${PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${PN}-${PV}-5-abi_x86_32.patch
+	"${FILESDIR}"/${PN}-${PV}-1-libexec-cups.patch
+	"${FILESDIR}"/${PN}-${PV}-1-libexec-backend.patch
 	"${FILESDIR}"/${PN}-3.80-1-cups-1.6.patch
 )
 

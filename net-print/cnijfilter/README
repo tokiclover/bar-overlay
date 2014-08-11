@@ -1,3 +1,29 @@
+NEWS: 
+
+added a new splitting CUPS backends+filters/drivers with USE flags instead of
+a messy multiple packages implementation which needed messy back ports and much,
+well, not easy to maintain.
+
+To avoid the splitting cruft, just added the follong in `/etc/portage/package.use':
+`=net-print/cnijfilter-${PV} backends drivers <driver names>'
+
+Of course, you need to check drivers/package-version before hand. Or else...
+`emerge' would prompt you to chose, at least, a driver and pull in the latest
+version available and prompt you to enale `backends' USE flag for it! In this
+case, you have to disable `drivers' USE flag if need be, because it is enabled
+by defaut!,or else... you will be prompted to chose... a driver at least.
+
+Wait a sec before merging the package! If you need old drivers present in
+`<net-print/cnijfilter-3.40', you should add `abi_x86_32' if running with
+`ABI=amd64' because these packages lack any multilib support. `x86' users can
+jump to the following.
+
+If one need `<net-print/cnijfilter-2.80', then x86 users would pull in `gtk+:1'
+and amd64 user would pull in `gtk+:1[abi_x86_32]' which is not available in the
+tree, meaning: impossible for `ABI=amd64'.
+
+MORE DETAILS:
+
 Actually, old ebuilds used to be mergeable with -servicetools -gtk. Alghough
 cnijfilter-4.[01]0 changed it a little bit because now +gtk build, however,
 the same old code in 'cngpijmon' and 'cngpmnt' present only in cnijfilter-3.[89]0
