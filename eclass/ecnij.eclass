@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.2 2014/08/08 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 3.3 2014/08/08 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -10,12 +10,19 @@
 
 inherit autotools eutils flag-o-matic multilib-build versionator
 
-IUSE="${IUSE} debug gtk servicetools +usb"
+IUSE="${IUSE} backends debug +drivers gtk servicetools +usb ${PRINTER_USE[@]}"
 KEYWORDS="~x86 ~amd64"
 
-REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )"
-
+REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
+	|| ( drivers backends ) drivers? ( || ( ${PRINTER_USE[@]} ) )"
 has net ${IUSE} && REQUIRED_USE+=" servicetools? ( net )"
+
+if use drivers; then
+	LICENSE="GPL-2 cnijfilter"
+elif use backends; then
+	LICENSE="GPL-2"
+	SLOT="0/${PV}"
+fi
 
 RDEPEND="${RDEPEND}
 	app-text/ghostscript-gpl
@@ -25,7 +32,8 @@ RDEPEND="${RDEPEND}
 		gnome-base/libglade[${MULTILIB_USEDEP}]
 		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	media-libs/tiff[${MULTILIB_USEDEP}]
-	media-libs/libpng[${MULTILIB_USEDEP}]"
+	media-libs/libpng[${MULTILIB_USEDEP}]
+	!backends? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},backends] )"
 
 version_is_at_least 2.80 ${PV} &&
 RDEPEND="${RDEPEND}
@@ -35,15 +43,6 @@ RDEPEND="${RDEPEND}
 
 DEPEND="${DEPEND}
 	virtual/libintl"
-
-version_is_at_least 4.00 ${PV} &&
-DEPEND="${DEPEND}
-	gtk? ( virtual/libusb:1 )"
-
-version_is_at_least 3.40 ${PV} && PRINTER_MULTILIB=true
-version_is_at_least 3.70 ${PV} && PRINTER_DOC=true
-
-[[ ${PRINTER_DOC} ]] && IUSE+=" +doc"
 
 case "${EAPI:-5}" in
 	4|5) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst;;
@@ -65,7 +64,6 @@ dir_src_command() {
 	for dir in ${dirs}; do
 		pushd ${dir} || die
 		if [[ x${cmd} == xeautoreconf ]]; then
-			[[ -d configures ]] && cp -f configures/configure.in.new configure.in
 			[[ -d po ]] && echo "no" | glib-gettextize --force --copy
 			${cmd} ${args}
 		elif [[ x${cmd} == xeconf ]]; then
@@ -137,6 +135,7 @@ ecnij_src_prepare() {
 
 	epatch_user
 
+	use backends &&
 	dir_src_command "${CNIJFILTER_SRC}" "eautoreconf"
 
 	local p pr prid
@@ -160,6 +159,7 @@ ecnij_src_prepare() {
 ecnij_src_configure() {
 	debug-print-function ${FUNCNAME} "${@}"
 
+	use backends &&
 	dir_src_command "${CNIJFILTER_SRC}" "econf"
 
 	local p pr prid
@@ -189,6 +189,7 @@ ecnij_src_compile() {
 		fi
 	done
 
+	use backends &&
 	dir_src_command "${CNIJFILTER_SRC}" "emake"
 }
 
@@ -199,12 +200,13 @@ ecnij_src_install() {
 
 	local abi_libdir=/usr/$(get_libdir) p pr prid
 	local abi_lib=${abi_libdir#*lib}
+	local lib license lingua lng
 
-	[[ ${PRINTER_MULTILIB} ]] || abi_lib=
+	[[ x${#MULTILIB_COMPAT[@]} == x1 ]] && abi_lib=
 
+	use backends &&
 	dir_src_command "${CNIJFILTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
 
-	mkdir -p "${ED}"${abi_libdir}/cnijlib &&
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
@@ -226,14 +228,22 @@ ecnij_src_install() {
 		fi
 	done
 
+	use backends &&
 	if use_if_iuse net; then
+		pushd com/libs_bin${abi_lib} || die
+		for lib in lib*.so; do
+			[[ -L ${lib} ]] && continue ||
+			rm ${lib} && ln -s ${lib}.[0-9]* ${lib}
+		done
+		popd
+
 		dolib.so com/libs_bin${abi_lib}/*.so*
 		EXEOPTIONS="-m555 -glp -olp"
 		exeinto ${abi_libdir}/cnijlib
 		doexe com/ini/cnnet.ini
 	fi
 
-	local license lingua lng
+	use drivers &&
 	for lingua in ${LINGUAS}; do
 		lng=${lingua^^[a-z]}
 		license=LICENSE-${MY_PN}-${PV}${lng}.txt
