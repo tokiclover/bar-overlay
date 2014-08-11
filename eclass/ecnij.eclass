@@ -8,7 +8,7 @@
 # @DESCRIPTION: Exports portage base functions used by ebuilds 
 # written for net-print/cnijfilter packages
 
-inherit autotools eutils flag-o-matic multilib-build versionator
+inherit autotools eutils flag-o-matic multilib-build
 
 IUSE="${IUSE} backends debug +drivers gtk servicetools +usb ${PRINTER_USE[@]}"
 KEYWORDS="~x86 ~amd64"
@@ -35,7 +35,7 @@ RDEPEND="${RDEPEND}
 	media-libs/libpng[${MULTILIB_USEDEP}]
 	!backends? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},backends] )"
 
-version_is_at_least 2.80 ${PV} &&
+{ [[ ${PV:0:1} -ge 3 ]] || [[ ${PV:2:2} -ge 80 ]]; } &&
 RDEPEND="${RDEPEND}
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )" ||
 RDEPEND="${RDEPEND}
@@ -95,7 +95,7 @@ ecnij_pkg_setup() {
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 	if use gtk; then
 		CNIJFILTER_SRC+=" cngpij"
-		if version_is_at_least 4.00; then
+		if [[ ${PV:0:1} == 4 ]]; then
 			PRINTER_SRC+=" lgmon2"
 			use net && PRINTER_SRC+=" cnijnpr"
 		else
@@ -104,15 +104,15 @@ ecnij_pkg_setup() {
 		fi
 	fi
 	use servicetools &&
-	if   version_is_at_least 4.00; then
+	if [[ ${PV:0:1} -eq 4 ]]; then
 		CNIJFILTER_SRC+=" cngpijmnt"
-	elif version_is_at_least 3.80; then
+	elif [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 80 ]]; then
 		CNIJFILTER_SRC+=" cngpijmnt maintenance"
 	else
 		PRINTER_SRC+=" printui"
 	fi
 
-	if version_is_at_least 4.00; then
+	if [[ ${PV:0:1} -eq 4 ]]; then
 		CNIJFILTER_SRC="bscc2sts cmdtocanonij ${CNIJFILTER_SRC} cnijbe"
 	fi
 }
@@ -241,6 +241,12 @@ ecnij_src_install() {
 		EXEOPTIONS="-m555 -glp -olp"
 		exeinto ${abi_libdir}/cnijlib
 		doexe com/ini/cnnet.ini
+	fi
+
+	use backends &&
+	if [[ ${PV:0:1} -eq 4 ]]; then
+		mkdir -p "${ED}"/usr/share/${PN} || die
+		mv "${ED}"/usr/share/{cmdtocanonij,${PN}} || die
 	fi
 
 	use drivers &&
