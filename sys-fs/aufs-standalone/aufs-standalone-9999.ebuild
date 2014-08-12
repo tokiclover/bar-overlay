@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.8 2014/07/14 23:23:44 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.9 2014/08/08 23:23:44 -tclover Exp $
 
 EAPI=5
 
@@ -11,23 +11,28 @@ HOMEPAGE="http://aufs.sourceforge.net/"
 EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs3-standalone.git"
 EGIT_NONBARE=yes
 
+DEPEND="dev-util/patchutils"
 RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/utils}"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="debug doc fuse pax hfs inotify kernel-patch nfs ramfs"
+IUSE="debug doc fuse pax_kernel hfs inotify +kernel-patch nfs ramfs"
 
 S="${WORKDIR}"/${PN}
+
+KV_MAX=17
+KV_MIN=10
+KV_LTS=4
 
 MODULE_NAMES="aufs(misc:${S})"
 
 pkg_setup() {
-	CONFIG_CHECK=" ~EXPERIMENTAL ~PROC_FS"
+	CONFIG_CHECK="!AUFS_FS ~EXPERIMENTAL ~PROC_FS"
 	use inotify && CONFIG_CHECK+=" ~FSNOTIFY"
 	use nfs && CONFIG_CHECK+=" ~EXPORTFS"
 	use fuse && CONFIG_CHECK+=" ~FUSE_FS"
 	use hfs && CONFIG_CHECK+=" ~HFSPLUS_FS"
-	use kernel-patch && CONFIG_CHECK+=" !AUFS_FS"
+	use pax_kernel && CONFIG_CHECK+=" PAX"
  
 	# this is needed so merging a binpkg aufs-standalone is possible
 	# w/out a kernel unpacked on the system
@@ -35,37 +40,42 @@ pkg_setup() {
 
 	get_version
 
-	kernel_is lt 3 2 0 && die "kernel is too old"
-	kernel_is gt 3 16 0 && die "kernel is too new"
+	kernel_is lt 3 ${KV_MIN} 0 && [[ x${PV:0:3} != x${KV_LTS} ]] && die "kernel is too old"
+	kernel_is gt 3 ${KV_MAX} 0 && die "kernel is too new"
 
-	local branch=${KV_MAJOR}.${KV_MINOR} p
+	local PATCHES branch patch n=/dev/null
+	[[ ${KV_MINOR} -eq ${KV_MAX} ]] && branch=x-rcN || branch=${KV_MAJOR}.${KV_MINOR}
+	case ${branch} in
+		3.10|3.12) branch=${branch}.x;;
+	esac
+
 	EGIT_BRANCH=aufs${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
 
+	PATCHES=( "${FILESDIR}"/aufs-{base,mmap,standalone}-${branch}.patch.bz2 )
+
 	linux-mod_pkg_setup
 	if ! ( pushd ${KV_DIR}
-		for p in "${FILESDIR}"/aufs-{proc_map,standalone,base}-${branch}.patch.bz2; do
-			bzip2 -dc "${p}" | patch -p1 --dry-run --force -R >/dev/null ||
-			{
-				break
-				return 1
+		for patch in ${PATCHES[@]}; do
+			bzip2 -dc "${patch}" | patch -p1 --dry-run --force -R >$n || {
+				break; return 1
 			}
 		done ); then
 		if use kernel-patch; then
 			ewarn "Patching your kernel..."
-			for p in "${FILESDIR}"/aufs-{proc_map,standalone,base}-${branch}.patch.bz2; do
-				bzip2 -dc "${p}" | patch --no-backup-if-mismatch --force -p1 -R >/dev/null
+			for patch in "${FILESDIR}"/aufs-{${PATCHES}}-${branch}.patch.bz2; do
+				bzip2 -dc "${patch}" | patch --no-backup-if-mismatch --force -p1 -R -d >$n
 			done
 			popd
-			epatch "${FILESDIR}"/aufs-{base,standalone,proc_map}-${branch}.patch.bz2
+			epatch ${PATCHES[@]}
 			ewarn "You need to compile your kernel with the applied patch"
 			ewarn "to be able to load and use the aufs kernel module"
 		else
-			eerror "Apply patches to your kernel to compile and run the aufs${KV_MAJOR} module"
-			eerror "Either enable the kernel-patch useflag to do it with this ebuild"
-			eerror "or apply 'bzip2 -dc ${FILESDIR}/aufs-base-${branch}.patch.bz2 | patch -p1'"
-			eerror "and 'bzip2 -dc ${FILESDIR}/aufs-standalone-${branch}.patch.bz2 | patch -p1'"
-			eerror "and 'bzip2 -dc ${FILESDIR}/aufs-proc_map-${branch}.patch.bz2 | patch -p1'"
+			eerror "Apply patches to your kernel to compile and run the aufs${KV_MAJOR} module;"
+			eerror "Either enable the kernel-patch USEflag to do it with this ebuild, or apply:"
+			eerror "bzip2 -dc ${PATCHES[1]} | patch -p1;"
+			eerror "bzip2 -dc ${PATCHES[2]} | patch -p1;"
+			eerror "bzip2 -dc ${PATCHES[3]} | patch -p1;"
 			die "missing kernel patch, please apply it first"
 		fi
 	fi
@@ -73,32 +83,27 @@ pkg_setup() {
 }
 
 src_prepare() {
-	use pax && epatch "${FILESDIR}"/pax.patch.bz2
+	if use pax_kernel; then
+		kernel_is ge 3.11 && epatch "${FILESDIR}"/pax-3.11.patch.bz2 ||
+		epatch "${FILESDIR}"/pax-3.patch.bz2
+	fi
 
 	sed -e 's:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g' \
 		-e "s:/lib/modules/${KV_FULL}/build:${KV_OUT_DIR}:g" \
 	 	-i Makefile || die
-	sed -e 's:__user::g' -i include/linux/aufs_type.h || die
-
-	sed -e 's:AUFS_BRANCH_MAX_127.*$:AUFS_BRANCH_MAX_127 = 127:' \
-		-e 's:AUFS_BRANCH_MAX_511.*$:AUFS_BRANCH_MAX_511 = 511:' \
-		-e 's:AUFS_BRANCH_MAX_1023.*$:AUFS_BRANCH_MAX_1023 = 1023:' \
-		-e 's:CONFIG_AUFS_BRANCH_MAX_32767.*$:CONFIG_AUFS_BRANCH_MAX_32767 = 32767:' \
-		-e 's:= y:=:g' \
-		-i config.mk || die
 }
 
 src_configure() {
-	local config="\
-		$(use debug && echo DEBUG MAGIC_SYSRQ) \
-		$(use fuse && echo BR_FUSE POLL) \
-		$(use hfs && echo BR_HFSPLUS) \
-		$(use inotify && echo HNOTIFY HFSNOTIFY) \
-		$(use nfs && echo EXPORT) \
-		$(use nfs && [[ "$ABI" = "amd64" ]] && echo INO_T_64) \
-		$(use ramfs && echo BR_RAMFS)"
-
-	for option in $config PROC_MAP RDU SBILIST SP_IATTR; do
+	local config=(
+		$(use debug && echo DEBUG MAGIC_SYSRQ)
+		$(use fuse && echo BR_FUSE POLL)
+		$(use hfs && echo BR_HFSPLUS)
+		$(use inotify && echo HNOTIFY HFSNOTIFY)
+		$(use nfs && echo EXPORT)
+		$(use nfs && ( use amd64 || use ppc64 ) && echo INO_T_64)
+		$(use ramfs && echo BR_RAMFS)
+	)
+	for option in ${config[@]} BRANCH_MAX_127 RDU SBILIST; do
 		grep -q "^CONFIG_AUFS_${option} =" config.mk ||
 			die "${option} is not a valid config option"
 		sed -e "/^CONFIG_AUFS_${option}/s:=:= y:g" -i config.mk || die
@@ -119,8 +124,10 @@ src_compile() {
 
 src_install() {
 	linux-mod_src_install
-	epatch "${FILESDIR}"/aufs_type.h.patch
+
 	install -Dpm 644 include/linux/aufs_type.h \
 		"${D}"/usr/include/linux/aufs_type.h || die
-	use doc && dodoc Documentation/filesystems/aufs/README
+
+	insinto /usr/share/doc/${PF}
+	use doc && doins -r Documentation
 }
