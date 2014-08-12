@@ -12,7 +12,7 @@ EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs3-standalone.git"
 EGIT_NONBARE=yes
 
 DEPEND="dev-util/patchutils"
-RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/utils}"
+RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/util}"
 
 LICENSE="GPL-2"
 SLOT="0"
