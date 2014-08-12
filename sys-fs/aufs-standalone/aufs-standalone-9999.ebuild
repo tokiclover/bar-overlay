@@ -93,7 +93,6 @@ src_prepare() {
 	 	-i Makefile || die
 
 	epatch "${FILESDIR}"/aufs_type.h.patch
-	sed -e 's:__user::g' -i include/linux/aufs_type.h || die
 }
 
 src_configure() {
@@ -132,5 +131,5 @@ src_install() {
 	doins include/linux/aufs_type.h
 
 	insinto /usr/share/doc/${PF}
-	use doc && doins -r Documentation
+	use doc && doins -r Documentation/*
 }
