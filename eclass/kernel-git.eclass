@@ -16,22 +16,6 @@ EGIT_NOUNPACK="yes"
 RDEDEPEND="hardened? ( sys-apps/paxctl sys-apps/gradm )"
 DEPEND="${RDEPEND}"
 
-#for iuse in $IUSE; do
-#	case $iuse in
-#		bfs)   SRC_URI+=" bfs? ( ${CK_URI}/${CK_SRC} )";;
-#		ck)      SRC_URI+=" ck?  ( ${CK_URI}/${CK_SRC} )";;
-#		bfq)      SRC_URI+="bfq? ( ${GEN_URI}/${BFQ_SRC} )";;
-#		gentoo)     SRC_URI+=" gentoo? ( ${GEN_URI}/${GEN_SRC} )";;
-#		fbcondecor)  SRC_URI+=" fbcondecor? ( ${GEN_URI}/${FBC_SRC} )";;
-#		optimization) SRC_URI+=" optimization? ( ${OPT_URI}/${OPT_VER}/${OPT_FILE} -> ${OPT_SRC} )";;
-#		hardened)    SRC_URI+=" hardened? ( ${GHP_URI}/${GHP_SRC} )";;
-#		reiser4)   SRC_URI+=" reiser4? ( ${RS4_URI}/${RS4_SRC} )";;
-#		toi)      SRC_URI+=" toi? ( ${TOI_URI}/${TOI_SRC} )";;
-#		uksm)    SRC_URI+=" uksm? ( ${UKSM_URI}/${UKSM_SRC} )";;
-#		rt)    SRC_URI+=" rt? ( ${RT_URI}/${RT_SRC} )";;
-#	esac
-#done
-
 case "${EAPI:-5}" in
 	4|5) EXPORT_FUNCTIONS src_unpack src_prepare;;
 	*) die "EAPI=\"${EAPI}\" is not supported";;
@@ -173,18 +157,11 @@ OPT_SRC="linux-3.2-${OPT_SRC//+/-}"
 # @FUNCTION: src_patch_unpack
 src_patch_unpack() {
 	[[ $# < 1 ]] && return $?
-	local dir="${WORKDIR}"/${2}
+	local dir="${WORKDIR}"/${2} n=/dev/null
 	mkdir -p "${dir}"
-	pushd "${dir}" >/dev/null
+	pushd "${dir}" >${n}
 	unpack ${1}
-	popd >/dev/null
-}
-
-# @FUNCTION: src_patch_prepare
-src_patch_prepare() {
-	for file in "${WORKDIR}/${1}"/*.patch; do
-		epatch "${file}"
-	done
+	popd >${n}
 }
 
 # @FUNCTION: linux-git_src_unpack
@@ -218,20 +195,19 @@ kernel-git_src_prepare() {
 	export EPATCH_COMMON_OPTS="-p1 -g0 -E --no-backup-if-mismatch"
 
 	if use_if_iuse aufs; then
-		local a b d 
-		a=aufs${KV_MAJOR}-standalone
-		b=${a}/aufs${KV_MAJOR}
-		for d in Documentation fs include; do
-			cp -a "${WORKDIR}"/${a}/${d} "${S}" || die
+		local dir src 
+		src=aufs${KV_MAJOR}-standalone
+		for dir in Documentation fs include; do
+			cp -a "${WORKDIR}"/${src}/${dir} "${S}" || die
 		done
-		epatch "${WORKDIR}"/${b}-{kbuild,base,standalone,loopback,proc_map}.patch
+		epatch "${WORKDIR}"/${src}/aufs${KV_MAJOR}-{kbuild,base,mmap,standalone,loopback}.patch
 		[[ -n "${AUFS_EXTRA_PATCH}" ]] && epatch "${WORKDIR}"/${a}/${AUFS_EXTRA_PATCH}
 	fi
 
-	use_if_iuse hardened   && src_patch_prepare ${GHP_VER/%-*}
-	use_if_iuse gentoo     && src_patch_prepare base
-	use_if_iuse fbcondecor && src_patch_prepare extras
-	use_if_iuse bfq        && src_patch_prepare experimental
+	use_if_iuse hardened   && epatch "${WORKDIR}"/${GHP_VER/%-*}/*.patch
+	use_if_iuse gentoo     && epatch "${WORKDIR}"/base/*.patch
+	use_if_iuse fbcondecor && epatch "${WORKDIR}"/extras/*.patch
+	use_if_iuse bfq        && epatch "${WORKDIR}"/experimental/*.patch
 
 	if use_if_iuse ck || use_if_iuse bfs; then
 		[[ -n "${BFS_BASE_PATCH}" ]] && epatch "${WORKDIR}"/patches/${BFS_BASE_PATCH}
