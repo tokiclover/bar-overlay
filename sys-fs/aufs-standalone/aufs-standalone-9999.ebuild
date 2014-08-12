@@ -91,6 +91,9 @@ src_prepare() {
 	sed -e 's:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g' \
 		-e "s:/lib/modules/${KV_FULL}/build:${KV_OUT_DIR}:g" \
 	 	-i Makefile || die
+
+	epatch "${FILESDIR}"/aufs_type.h.patch
+	sed -e 's:__user::g' -i include/linux/aufs_type.h || die
 }
 
 src_configure() {
@@ -125,8 +128,8 @@ src_compile() {
 src_install() {
 	linux-mod_src_install
 
-	install -Dpm 644 include/linux/aufs_type.h \
-		"${D}"/usr/include/linux/aufs_type.h || die
+	insinto /usr/include/linux
+	doins include/linux/aufs_type.h
 
 	insinto /usr/share/doc/${PF}
 	use doc && doins -r Documentation
