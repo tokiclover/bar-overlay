@@ -192,7 +192,6 @@ kernel-git_src_prepare() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	epatch_user
-	export EPATCH_COMMON_OPTS="-p1 -g0 -E --no-backup-if-mismatch"
 
 	if use_if_iuse aufs; then
 		local dir src 
