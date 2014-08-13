@@ -20,9 +20,7 @@ IUSE="debug doc fuse pax_kernel hfs inotify +kernel-patch nfs ramfs"
 
 S="${WORKDIR}"/${PN}
 
-KV_MAX=17
-KV_MIN=10
-KV_LTS=4
+KV_SUPPORT=( 4 10 17 3 )
 
 MODULE_NAMES="aufs(misc:${S})"
 
@@ -40,14 +38,18 @@ pkg_setup() {
 
 	get_version
 
-	kernel_is lt 3 ${KV_MIN} 0 && [[ x${PV:0:3} != x${KV_LTS} ]] && die "kernel is too old"
-	kernel_is gt 3 ${KV_MAX} 0 && die "kernel is too new"
+	[[ ${KV_MAJOR} != ${KV_SUPPORT[3]} ]] && die "kernel is not supported"
+	kernel_is lt ${KV_MAJOR} ${KV_SUPPORT[1]} 0 &&
+	[[ ${KV_SUPPORT[0]} != ${KV_MINOR} ]] && die "kernel is too old"
+	kernel_is gt ${KV_MAJOR} ${KV_SUPPORT[2]} 0 && die "kernel is too new"
 
 	local PATCHES branch patch n=/dev/null
-	[[ ${KV_MINOR} -eq ${KV_MAX} ]] && branch=x-rcN || branch=${KV_MAJOR}.${KV_MINOR}
+
+	[[ ${KV_MINOR} -eq ${KV_SUPPORT[2]} ]] && branch=x-rcN || branch=${KV_MINOR}
 	case ${branch} in
-		3.10|3.12) branch=${branch}.x;;
+		10|12) branch=${branch}.x;;
 	esac
+	branch=${KV_MAJOR}.${branch}
 
 	EGIT_BRANCH=aufs${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
