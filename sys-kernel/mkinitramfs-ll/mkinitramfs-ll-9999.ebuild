@@ -21,6 +21,7 @@ zfs +zram zsh +xz ${COMPRESSOR_USE[@]} ${FS_USE[@]}"
 
 REQUIRED_USE="|| ( bash zsh )"
 
+DEPEND=""
 RDEPEND="app-arch/cpio 
 	fbsplash? ( sys-apps/v86d media-gfx/splashutils[fbcondecor,png,truetype] )
 	sys-apps/busybox[mdev]
@@ -86,7 +87,7 @@ src_install() {
 
 	if use aufs && use squashfs; then
 		emake DESTDIR="${D}" prefix=/usr install_aufs_squashfs
-		newdoc svc/README.textile svc.README.textile
+		mv svc{/,.}README.textile && DOCS=( ${DOCS[@]} svc.README.textile )
 	fi
 
 	use zram && emake DESTDIR="${D}" install_zram
@@ -102,7 +103,7 @@ src_install() {
 
 	if use symlink; then
 		local bindir=/usr/sbin
-		dosym ${bindir}/{${PN}.${shell},${PN/nitram/}}
+		dosym ${bindir}/{${PN}.${shell},mkinit-ll}
 		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
 	fi
 

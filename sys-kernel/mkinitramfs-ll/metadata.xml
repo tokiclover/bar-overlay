@@ -7,7 +7,7 @@
 	</maintainer>
 	<use>
 		<flag name="squashfs">Add squashfs-tools support, +aufs adds squashed directory support</flag>
-		<flag name="symlink">Automatically update mkifs-ll, and sdr if +aufs +squashfs, symlink</flag>
+		<flag name="symlink">Automatically add mkinit-ll, and sdr if +aufs +squashfs, symlinks</flag>
 		<flag name="zram">Add zram init service support for zram devices initialization</flag>
 	</use>
 </pkgmetadata>
