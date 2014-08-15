@@ -14,9 +14,9 @@ LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-COMPRESSOR_USE=( bzip2 gzip lz4 lzip lzma lzo )
+COMPRESSOR_USE=( bzip2 gzip lz4 lzip )
 FS_USE=( aufs btrfs f2fs jfs reiserfs squashfs xfs )
-IUSE="+bash cryptsetup device-mapper dmraid fbsplash mdadm +symlink
+IUSE="+bash cryptsetup device-mapper dmraid fbsplash lzma lzo mdadm +symlink
 zfs +zram zsh +xz ${COMPRESSOR_USE[@]} ${FS_USE[@]}"
 
 REQUIRED_USE="|| ( bash zsh )"
@@ -37,6 +37,8 @@ RDEPEND="app-arch/cpio
 	squashfs? ( sys-fs/squashfs-tools[lzma?,lzo?,xz?] )
 	xfs? ( sys-fs/xfsprogs )
 	zfs? ( sys-fs/zfs )
+	lzma? ( || ( app-arch/xz-utils app-arch/lzma ) )
+	lzo? ( app-arch/lzop )
 	xz? ( app-arch/xz-utils )
 	media-fonts/terminus-font[psf]
 	bash? ( app-shells/bash )
