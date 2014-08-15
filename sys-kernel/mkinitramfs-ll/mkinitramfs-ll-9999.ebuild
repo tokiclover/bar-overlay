@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.8 2014/00/08 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.8 2014/08/08 08:41:42 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
 inherit eutils git-2
 
@@ -15,9 +15,9 @@ SLOT="0"
 KEYWORDS=""
 
 COMPRESSOR_USE=( bzip2 gzip lz4 lzip )
-FS_USE=( aufs btrfs f2fs jfs reiserfs squashfs xfs )
-IUSE="+bash cryptsetup device-mapper dmraid fbsplash lzma lzo mdadm +symlink
-zfs +zram zsh +xz ${COMPRESSOR_USE[@]} ${FS_USE[@]}"
+FS_USE=( btrfs f2fs jfs reiserfs xfs )
+IUSE="aufs +bash cryptsetup device-mapper dmraid fbsplash lzma lzo mdadm squashfs
++symlink zfs +zram zsh +xz ${COMPRESSOR_USE[@]} ${FS_USE[@]}"
 
 REQUIRED_USE="|| ( bash zsh )"
 
@@ -53,13 +53,12 @@ unset comp
 DOCS=( BUGS ChangeLog README.textile )
 
 src_prepare() {
-	local bin b e fs fsck=:ext2:fsck.ext3:fsck.ext4 mod kmod=:ext2:ext3:ext4 u
+	local bin b e fs fsck=fsck.ext2:fsck.ext3:fsck.ext4 mod kmod=ext2:ext3:ext4 u
 
 	# set up ${PN}.conf denpending on USE flags
 	for fs in ${FS_USE[@]}; do
 		use ${fs} && fsck+=:fsck.${fs} && kmod+=:${fs}
 	done
-	use btrfs && fsck=${fsck/fsck.btrfs/btrfsck}
 
 	use zfs && bin+=:zfs:zpool && mod+=:zfs
 	use zram && mod+=:zram
