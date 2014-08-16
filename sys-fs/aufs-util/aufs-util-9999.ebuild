@@ -11,7 +11,7 @@ HOMEPAGE="http://aufs.sourceforge.net/"
 EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs-util.git"
 
 RDEPEND="${DEPEND} !sys-fs/aufs3 !sys-fs/aufs2"
-DEPEND="!kernel-builtin? ( =sys-fs/${P/utils/standalone} )"
+DEPEND="!kernel-builtin? ( =sys-fs/${P/utils/standalone}:= )"
 
 LICENSE="GPL-2"
 SLOT="0"
