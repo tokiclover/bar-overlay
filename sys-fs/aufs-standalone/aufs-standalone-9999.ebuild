@@ -57,15 +57,14 @@ pkg_setup() {
 	PATCHES=( "${FILESDIR}"/aufs-{base,mmap,standalone}-${branch}.patch.bz2 )
 
 	linux-mod_pkg_setup
-	if ! ( pushd ${KV_DIR}
+	if ! ( pushd "${KV_DIR}"
 		for patch in ${PATCHES[@]}; do
-			bzip2 -dc "${patch}" | patch -p1 --dry-run --force -R >$n || {
-				break; return 1
-			}
+			( bzip2 -dc "${patch}" | patch -p1 --dry-run --force -R >$n ) ||
+				{ break; return 1; }
 		done ); then
 		if use kernel-patch; then
 			ewarn "Patching your kernel..."
-			for patch in "${FILESDIR}"/aufs-{${PATCHES}}-${branch}.patch.bz2; do
+			for patch in ${PATCHES[@]}; do
 				bzip2 -dc "${patch}" | patch --no-backup-if-mismatch --force -p1 -R -d >$n
 			done
 			popd
