@@ -9,7 +9,7 @@ index d79c6a6..1cc89fc 100644
 -#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,29)
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)
 +  return __kuid_val(current->cred->uid);
-+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)
++ #elif LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)
 +  kuid_t uid = current_uid();
 +  return uid.val;
 + #elif LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,29)

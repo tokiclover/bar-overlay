@@ -80,8 +80,7 @@ src_compile() {
 
 src_install() {
 	pushd ../build
-	insinto /
-	doins -r prototype/*
+	cp -a prototype/* "${D}" || die
 
 	# install a pkgconfig file and make symlink to standard library dir
 	newinitd "${FILESDIR}"/oss oss
