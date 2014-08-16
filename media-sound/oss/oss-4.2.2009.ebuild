@@ -60,14 +60,13 @@ src_configure() {
 			drv+=,oss_${card}
 		fi
 	done
-	unset {AUDIO,DEFAULT}_CARDS
 
 	local myconfargs=(
 		$(use alsa || echo '--enable-libsalsa=NO')
 		$(use midi && echo '--config-midi=YES' || echo '--config-midi=NO')
 		--only-drv=$drv
 	)
-	pushd ../build
+	mkdir -p ../build && pushd ../build
 	"${S}"/configure "${myconfargs[@]}"
 }
 
