@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/oss/oss-4.2.2008.ebuild,v 1.6 2014/00/08 20:31:48 -tclover Exp $
+# $Header: media-sound/oss/oss-4.2.2008.ebuild,v 1.6 2014/08/08 20:31:48 -tclover Exp $
 
 EAPI=5
 
@@ -24,12 +24,14 @@ midimix sblive sbpci sbxfi solo trident usb userdev via823x via97 ymf7xx )
 DEFAULT_CARDS=( hdaudio ich imux midiloop midimix )
 
 for card in ${AUDIO_CARDS[@]}; do
+	has ${card} ${DEFAULT_CARDS[@]} &&
+	CARDS=(${CARDS[@]} +oss_cards_${card}) ||
 	CARDS=(${CARDS[@]} oss_cards_${card})
 done
 
 IUSE="alsa +midi pax_kernel ${CARDS[@]}"
 REQUIRED_USE="oss_cards_midiloop? ( midi ) oss_cards_midimix? ( midi )
-	|| ( ${CARDS[@]} )"
+	|| ( ${CARDS[@]//+} )"
 unset CARDS
 
 DEPEND="sys-apps/gawk
