@@ -16,7 +16,7 @@ RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/util}"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="debug doc fuse pax_kernel hfs inotify +kernel-patch nfs ramfs"
+IUSE="debug doc fhsm fuse pax_kernel hfs inotify +kernel-patch nfs ramfs"
 
 S="${WORKDIR}"/${PN}
 
@@ -100,6 +100,7 @@ src_prepare() {
 src_configure() {
 	local config=(
 		$(use debug && echo DEBUG MAGIC_SYSRQ)
+		$(use fhsm && echo FHSM)
 		$(use fuse && echo BR_FUSE POLL)
 		$(use hfs && echo BR_HFSPLUS)
 		$(use inotify && echo HNOTIFY HFSNOTIFY)
@@ -109,7 +110,7 @@ src_configure() {
 	)
 	for option in ${config[@]} BRANCH_MAX_127 RDU SBILIST; do
 		grep -q "^CONFIG_AUFS_${option} =" config.mk ||
-			die "${option} is not a valid config option"
+			die "CONFIG_AUFS_${option} is not a valid config option"
 		sed -e "/^CONFIG_AUFS_${option}/s:=:= y:g" -i config.mk || die
 	done
 }

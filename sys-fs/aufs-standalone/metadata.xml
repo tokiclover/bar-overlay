@@ -10,6 +10,7 @@
 	</maintainer>
 	<use>
 		<flag name="debug">Enable additional debugging support</flag>
+		<flag name="fhsm">Enable File-based Hierarchy Storage Management support (experimental)</flag>
 		<flag name="fuse">Enable fuse support</flag>
 		<flag name="header">Install include/linux/aufs_type.h header file necessesary to compile the *-util pkg</flag>
 		<flag name="hfs">Enable hfs support</flag>
