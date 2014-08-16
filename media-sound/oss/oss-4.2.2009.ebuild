@@ -45,6 +45,9 @@ S="${WORKDIR}"/${MY_P}
 unset MY_{B,P,PV}
 
 src_prepare() {
+	filter-flags "-fPIC"
+	append-flags "-fno-PIC"
+
 	cp "${FILESDIR}"/oss "${S}"/setup/Linux/oss/etc/S89oss
 	epatch "${FILESDIR}"/${PN}-${PV}-linux.patch
 	use pax_kernel && epatch "${FILESDIR}"/pax_kernel.patch
@@ -77,7 +80,7 @@ src_compile() {
 
 src_install() {
 	pushd ../build
-	insinto "${D}"
+	insinto /
 	doins -r prototype/*
 
 	# install a pkgconfig file and make symlink to standard library dir
