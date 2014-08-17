@@ -8,7 +8,8 @@ inherit autotools-utils git-2
 
 DESCRIPTION="MPRIS plugin for DeaDBeeF music player"
 HOMEPAGE="http://deadbeef-mpris.sourceforge.net/"
-EGIT_REPO_URI="http://git.ihacklog.com/repo/DeaDBeeF-MPRIS-plugin.git"
+EGIT_REPO_URI="git://ihacklog.com/DeaDBeeF-MPRIS-plugin.git"
+EGIT_PROJECT=${PN}.git
 
 LICENSE="GPL-2"
 SLOT="0"
