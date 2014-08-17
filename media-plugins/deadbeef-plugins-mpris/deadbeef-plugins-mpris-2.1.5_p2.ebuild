@@ -9,10 +9,11 @@ inherit autotools-utils git-2
 DESCRIPTION="MPRIS plugin for DeaDBeeF music player"
 HOMEPAGE="http://deadbeef-mpris.sourceforge.net/"
 EGIT_REPO_URI="http://git.ihacklog.com/repo/DeaDBeeF-MPRIS-plugin.git"
+EGIT_TAG=${PV/_p/-}
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND=""
