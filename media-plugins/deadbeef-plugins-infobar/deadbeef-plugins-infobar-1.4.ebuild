@@ -1,10 +1,10 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-plugins/deadbeef-plugins-infobar/deadbeef-plugins-infobar-1.3.ebuild,v 1.0 2012/11/08 07:56:50 -tclover Exp $
+# $Header: media-plugins/deadbeef-plugins-infobar/deadbeef-plugins-infobar-1.4.ebuild,v 1.1 2014/08/16 07:56:50 -tclover Exp $
 
 EAPI=5
 
-inherit eutils 
+inherit eutils
 
 DESCRIPTION="A plugin that allows you to view lyrics, biography, list of similar artists"
 HOMEPAGE="https://bitbucket.org/dsimbiriatin/deadbeef-infobar/wiki/Home"
@@ -16,8 +16,12 @@ KEYWORDS="~amd64 ~x86"
 IUSE="gtk gtk3"
 REQUIRED_USE="|| ( gtk gtk3 )"
 
-DEPEND="dev-libs/libxml2 gtk? ( x11-libs/gtk+:2 ) gtk3? ( x11-libs/gtk+:3 )"
-RDEPEND="media-sound/deadbeef ${DEPEND}"
+DEPEND="dev-libs/libxml2
+	gtk? ( x11-libs/gtk+:2 )
+	gtk3? ( x11-libs/gtk+:3 )"
+
+RDEPEND=">=media-sound/deadbeef-0.6.0[curl]
+	${DEPEND}"
 
 S="${WORKDIR}"/${P/-plugins}
 
@@ -27,6 +31,7 @@ src_compile() {
 }
 
 src_install() {
-	insinto /usr/$(get_libdir)/deadbeef
-	doins gtk*/ddb_infobar_gtk*.so
+	EXEOPTIONS="-m0755"
+	exeinto /usr/$(get_libdir)/deadbeef
+	doexe gtk*/ddb_infobar_gtk*.so
 }
