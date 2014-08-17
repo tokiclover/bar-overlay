@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-plugins/deadbeef-plugins-jack/deadbeef-plugins-jack-9999.ebuild,v 1.1 2012/11/10 14:30:08 -tclover Exp $
+# $Header: media-plugins/deadbeef-plugins-jack/deadbeef-plugins-jack-9999.ebuild,v 1.2 2014/08/16 14:30:08 -tclover Exp $
 
 EAPI=5
 
@@ -11,7 +11,7 @@ HOMEPAGE="http://gitorious.org/deadbeef-sm-plugins/pages/Home"
 EGIT_REPO_URI="git://gitorious.org/deadbeef-sm-plugins/jack.git"
 EGIT_PROJECT=${PN}.git
 
-LICENSE="AS-IS"
+LICENSE="BSD-1"
 SLOT="0"
 KEYWORDS=""
 IUSE=""
@@ -22,9 +22,12 @@ RDEPEND="media-sound/deadbeef
 
 src_prepare() {
 	epatch "${FILESDIR}"/Makefile.patch
-	export LDFLAGS="${LDFLAGS//--as-needed/--no-as-needed}"
+	filter-ldflags "--as-needed"
+	append-ldflags "--no-as-needed"
 }
+
 src_install() {
-	insinto /usr/$(get_libdir)/deadbeef
-	doins jack.so
+	EXEOPTIONS="-m0755"
+	exeinto /usr/$(get_libdir)/deadbeef
+	doexe jack.so
 }
