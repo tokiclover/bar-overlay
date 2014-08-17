@@ -17,7 +17,12 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="media-sound/deadbeef
+	sys-apps/dbus
 	${DEPEND}"
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-2.1.5-glib.patch
+)
 
 AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_PRUNE_LIBTOOL_FILES=modules
