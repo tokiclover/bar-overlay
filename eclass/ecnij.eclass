@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.3 2014/08/08 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 3.3 2014/08/16 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -15,12 +15,14 @@ KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
 	|| ( drivers backends ) drivers? ( || ( ${PRINTER_USE[@]} ) )"
-has net ${IUSE} && REQUIRED_USE+=" servicetools? ( net )"
+has net ${IUSE} &&
+REQUIRED_USE+=" servicetools? ( net ) backends? ( || ( net usb ) )" ||
+REQUIRED_USE+=" backends? ( usb )"
 
-if use drivers; then
-	LICENSE="GPL-2 cnijfilter"
-elif use backends; then
-	LICENSE="GPL-2"
+LICENSE="GPL-2 cnijfilter"
+
+if use backends; then
+	use_if_iuse net || LICENSE="GPL-2"
 	export SLOT="0/${PV}"
 fi
 
@@ -220,11 +222,6 @@ ecnij_src_install() {
 			doexe ${prid}/database/*
 			insinto /usr/share/cups/model
 			doins ppd/canon${pr}.ppd
-
-			use_if_iuse doc &&
-			for lingua in ${LINGUAS}; do
-				dodoc lproptions/lproptions-${pr}-${PV}${lingua^^[a-z]}.txt
-			done
 		fi
 	done
 
@@ -249,13 +246,18 @@ ecnij_src_install() {
 		mv "${ED}"/usr/share/{cmdtocanonij,${PN}} || die
 	fi
 
-	use drivers &&
+	( use drivers || use_if_iuse net ) &&
 	for lingua in ${LINGUAS}; do
 		lng=${lingua^^[a-z]}
 		license=LICENSE-${MY_PN}-${PV}${lng}.txt
 		[[ -e ${license%${lng:0:1}.txt}.txt ]] &&
 		mv -f ${license%{lng:0:1}.txt} ${license}
 		[[ -e ${license} ]] && dodoc ${license}
+	done
+
+	use_if_iuse doc &&
+	for lingua in ${LINGUAS}; do
+		dodoc lproptions/lproptions-${pr}-${PV}${lingua^^[a-z]}.txt
 	done
 }
 
