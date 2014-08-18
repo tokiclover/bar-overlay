@@ -16,11 +16,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE="gtk gtk3"
 REQUIRED_USE="|| ( gtk gtk3 )"
 
-DEPEND="dev-libs/libxml2
-	gtk? ( x11-libs/gtk+:2 )
-	gtk3? ( x11-libs/gtk+:3 )"
-
-RDEPEND=">=media-sound/deadbeef-0.6.0[curl]
+DEPEND="dev-libs/libxml2"
+RDEPEND=">=media-sound/deadbeef-0.6.0[curl,gtk?,gtk3?]
 	${DEPEND}"
 
 S="${WORKDIR}"/${P/-plugins}
