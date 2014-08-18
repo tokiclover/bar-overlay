@@ -1,6 +1,6 @@
 # Copyright 2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/deadbeef/deadbeef-9999.ebuild,v 1.4 2014/08/08 19:57:55 -tclover Exp $
+# $Header: media-sound/deadbeef/deadbeef-9999.ebuild,v 1.4 2014/08/12 19:57:55 -tclover Exp $
 
 EAPI=5
 
@@ -24,7 +24,7 @@ gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack musepack midi
 mms +nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis 
 vtx +X zip imlib"
 
-REQUIRED_USE="lastfm? ( curl ) artwork? ( curl ) imlib? ( curl )"
+REQUIRED_USE="lastfm? ( curl ) imlib? ( curl )"
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )

@@ -1,6 +1,6 @@
 # Copyright 2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/deadbeef/deadbeef-0.6.1.ebuild,v 1.4 2014/08/08 19:57:55 -tclover Exp $
+# $Header: media-sound/deadbeef/deadbeef-0.6.2.ebuild,v 1.4 2014/08/16 19:57:55 -tclover Exp $
 
 EAPI=5
 
@@ -10,7 +10,7 @@ AUTOTOOLS_IN_SOURCE_BUILD=1
 PLOCALES="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
 lg lt nb nl pl pt pt_BR ro ru si sk sl sr sr@latin sv te tr ug uk vi zh_CN zh_TW"
 
-inherit l10n fdo-mime gnome2-utils flag-o-matic git-2 autotools-utils
+inherit l10n fdo-mime gnome2-utils flag-o-matic autotools-utils
 
 DESCRIPTION="DeaDBeeF - Ultimate Music Player For GNU/Linux"
 HOMEPAGE="http://deadbeef.sourceforge.net/"
@@ -24,7 +24,7 @@ gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack musepack midi
 mms +nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis 
 vtx +X zip imlib"
 
-REQUIRED_USE="lastfm? ( curl ) artwork? ( curl ) imlib? ( curl )"
+REQUIRED_USE="lastfm? ( curl ) imlib? ( curl )"
 
 RDEPEND="adplug? ( media-libs/adplug )
 	dts? ( media-libs/libdca )
