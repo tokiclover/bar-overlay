@@ -15,7 +15,7 @@ EGIT_REPO_URI="git://github.com/mackstann/mpris-remote.git"
 LICENSE="AS-IS"
 SLOT="0"
 KEYWORDS=""
-IUSE="${PYTHON_REQUIRED_USE}"
+IUSE=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
