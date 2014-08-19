@@ -8,11 +8,11 @@ PYTHON_COMPAT=( python2_7 )
 
 inherit python-single-r1 git-2
 
-DESCRIPTION="utility that controls an MPRIS-capable music player"
-HOMEPAGE="http://incise.org/mpris-remote.html"
-EGIT_REPO_URI="git://github.com/mackstann/mpris-remote.git"
+DESCRIPTION="utility that controls an MPRIS-2 compliant music player"
+HOMEPAGE="https://github.com/tokiclover/mpris-remote"
+EGIT_REPO_URI="git://github.com/tokiclover/mpris-remote.git"
 
-LICENSE="AS-IS"
+LICENSE="CC0-1.0"
 SLOT="0"
 KEYWORDS=""
 IUSE=""
@@ -25,7 +25,6 @@ RDEPEND="${DEPEND}
 
 src_install()
 {
-	sed -re '0,/env/s/(.*)/\12.7/' -i ${PN} || die
 	insinto /usr/bin
 	insopts -m0755
 	doins ${PN}
