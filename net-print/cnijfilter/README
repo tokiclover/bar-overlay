@@ -1,7 +1,7 @@
 NEWS: 
 
 added a new splitting CUPS backends+filters/drivers with USE flags instead of
-a messy multiple packages implementation which needed messy back ports and much,
+a messy multiple packages implementation which needed messy back ports and such,
 well, not easy to maintain.
 
 To avoid the splitting cruft, just added the follong in `/etc/portage/package.use':
@@ -44,6 +44,11 @@ a use case test!
 
 Finaly, if the latest package does not work for you, you can try (3.90 -- 4.00 is a
 major update;) 3.70 -- 3.80 is a major update; and 3.40 -- multilib support.
+
+One last note is that when using later backends with older printers <cnijfilter-3.00,
+IIRC, one has to edit `cnij_usb' to `cnijusb', newtork backend should be fine, in the
+ppd file. Just check CUPS backends used in the ppd file in regards to what is installed
+in `/usr/libexec/cups/backend'.
 
 INTERNAL INFO:
 
