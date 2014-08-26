@@ -200,7 +200,7 @@ kernel-git_src_prepare() {
 			cp -a "${WORKDIR}"/${src}/${dir} "${S}" || die
 		done
 		epatch "${WORKDIR}"/${src}/aufs${KV_MAJOR}-{kbuild,base,mmap,standalone,loopback}.patch
-		[[ -n "${AUFS_EXTRA_PATCH}" ]] && epatch "${WORKDIR}"/${a}/${AUFS_EXTRA_PATCH}
+		[[ -n "${AUFS_EXTRA_PATCH}" ]] && epatch "${WORKDIR}"/${src}/${AUFS_EXTRA_PATCH}
 	fi
 
 	use_if_iuse hardened   && epatch "${WORKDIR}"/${GHP_VER/%-*}/*.patch
