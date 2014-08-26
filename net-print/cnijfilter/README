@@ -5,13 +5,13 @@ a messy multiple packages implementation which needed messy back ports and much,
 well, not easy to maintain.
 
 To avoid the splitting cruft, just added the follong in `/etc/portage/package.use':
-`=net-print/cnijfilter-${PV} backends drivers <driver names>'
+`=net-print/cnijfilter-${PV} backends drivers <printer model>'
 
-Of course, you need to check drivers/package-version before hand. Or else...
+Of course, you need to check net-print/cnijfilter-$version before hand. Or else...
 `emerge' would prompt you to chose, at least, a driver and pull in the latest
 version available and prompt you to enale `backends' USE flag for it! In this
 case, you have to disable `drivers' USE flag if need be, because it is enabled
-by defaut!,or else... you will be prompted to chose... a driver at least.
+by defaut!, or else... you will be prompted to chose... a printer model at least.
 
 Wait a sec before merging the package! If you need old drivers present in
 `<net-print/cnijfilter-3.40', you should add `abi_x86_32' if running with
@@ -20,9 +20,32 @@ jump to the following.
 
 If one need `<net-print/cnijfilter-2.80', then x86 users would pull in `gtk+:1'
 and amd64 user would pull in `gtk+:1[abi_x86_32]' which is not available in the
-tree, meaning: impossible for `ABI=amd64'.
+tree, meaning: impossible for `ABI=amd64', if +servicetools USE flag is enabled.
 
-MORE DETAILS:
+USAGE INFO:
+
+Actually the mis-named +drivers USE flag is just pulling in `canon$model.ppd' file
+and a `cif$model' binary linked to propriatary blobs (libraries). The ppd file is
+the only usefull file in most cases because unless you are building the latest 3.x0
+or 4.x0, `cif$model' won't work at all for old tarball because this vry old binary
+is linked to very new libpng/tiff...
+
+So one could just extract `canon$model.ppd' file and put it in `/etc/cups/ppd' and
+and then merge something with `net-print/cnijfilter backends -drivers'.
+
+Beware that +net USE flag pull in propriatary blobs (libraries) which are linked to
+network backend.
+
+So just print directly with `cif$model <image file> &>log' to see if keeping that
+binary and its related cruft is worth its salt. Notice that everything is redirected
+to a file to avoid corrupting a terminal. Just read the file afterwards to see if there
+is any meaningfull info. That command have just printed +22MiB garbage to a terminal in
+a use case test!
+
+Finaly, if the latest package does not work for you, you can try (3.90 -- 4.00 is a
+major update;) 3.70 -- 3.80 is a major update; and 3.40 -- multilib support.
+
+INTERNAL INFO:
 
 Actually, old ebuilds used to be mergeable with -servicetools -gtk. Alghough
 cnijfilter-4.[01]0 changed it a little bit because now +gtk build, however,
@@ -42,6 +65,8 @@ compilable since the old days!
 The oddity of the very old drivers is a dependency to gtk+:1. So unless you have
 it installed, it is imposile to pass src_prepare because aclocal fails on a
 missing AM GTK MACRO (with dep to >=gtk+-1.2.6:1).
+
+SOURCE FILES NOTE:
 
 Note: if 2.70 src rpm cannot be bound, dead link..., just search the full name
 wihh your favorite search engine, or else, look for Linux_Print_Filterv270.tgz
