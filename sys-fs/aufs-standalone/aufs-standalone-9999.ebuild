@@ -15,7 +15,6 @@ DEPEND="dev-util/patchutils"
 RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/util}"
 
 LICENSE="GPL-2"
-SLOT="0"
 IUSE="debug doc fhsm fuse pax_kernel hfs inotify +kernel-patch nfs ramfs"
 
 S="${WORKDIR}"/${PN}
@@ -51,6 +50,7 @@ pkg_setup() {
 	esac
 	branch=${KV_MAJOR}.${branch}
 
+	export SLOT="0/${branch}"
 	EGIT_BRANCH=aufs${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
 
@@ -74,9 +74,9 @@ pkg_setup() {
 		else
 			eerror "Apply patches to your kernel to compile and run the aufs${KV_MAJOR} module;"
 			eerror "Either enable the kernel-patch USEflag to do it with this ebuild, or apply:"
+			eerror "bzip2 -dc ${PATCHES[0]} | patch -p1;"
 			eerror "bzip2 -dc ${PATCHES[1]} | patch -p1;"
 			eerror "bzip2 -dc ${PATCHES[2]} | patch -p1;"
-			eerror "bzip2 -dc ${PATCHES[3]} | patch -p1;"
 			die "missing kernel patch, please apply it first"
 		fi
 	fi
