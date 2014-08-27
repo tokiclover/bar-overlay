@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/leopard-gtk-theme/leopard-gtk-theme-4.0.ebuild,v 1.1 2014/08/08 00:22:09 -tclover Exp $
+# $Header: x11-themes/leopard-gtk-theme/leopard-gtk-theme-4.0.ebuild,v 1.1 2014/08/28 00:22:09 -tclover Exp $
 
 EAPI=5
 
@@ -24,10 +24,10 @@ DEPEND="app-arch/unzip"
 S="${WORKDIR}"
 
 src_prepare() {
-	unpack ./gnome-leopard/leopard.tar.gz || die
+	unpack ./gnome-leopard/leopard.tar.gz
 }
 
 src_install() {
 	insinto /usr/share/themes
-	doins -r leopard || die
+	doins -r leopard
 }
