@@ -11,31 +11,34 @@ HOMEPAGE="http://aufs.sourceforge.net/"
 EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs-util.git"
 
 RDEPEND="${DEPEND} !sys-fs/aufs3 !sys-fs/aufs2"
-DEPEND="!kernel-builtin? ( =sys-fs/${P/utils/standalone}:= )"
+DEPEND="!kernel-builtin? ( =sys-fs/${P/util/standalone}:= )"
 
 LICENSE="GPL-2"
-SLOT="0"
-
 IUSE="kernel-builtin"
 
 AUFS_UTILS_VERSION=( 0 2 9 x-rcN )
+KV_MINOR_MAX=17
 
 pkg_setup() {
 	get_version
-	local i version=${KV_MINOR}
 
 	for (( i=0; i<${#AUFS_UTILS_VERSION[@]}; i++ )); do
 		if [[ ${AUFS_UTILS_VERSION[$(($i+1))]} -eq x-rcN ]]; then
 			EGIT_BRANCH=aufs${KV_MAJOR}.${AUFS_UTILS_VERSION[$i]}
 			break
-		elif [[ ${AUFS_UTILS_VERSION[$i]} -gt ${version} ]]; then
+		elif [[ ${AUFS_UTILS_VERSION[$i]} -gt ${KV_MINOR} ]]; then
 			EGIT_BRANCH=aufs${KV_MAJOR}.${AUFS_UTILS_VERSION[$(($i-1))]}
 			break
-		elif [[ ${AUFS_UTILS_VERSION[$i]} -eq ${version} ]]; then
+		elif [[ ${AUFS_UTILS_VERSION[$i]} -eq ${KV_MINOR} ]]; then
 			EGIT_BRANCH=aufs${KV_MAJOR}.${AUFS_UTILS_VERSION[$i]}
+			break
+		elif [[ ${KV_MINOR} -eq ${KV_MINOR_MAX} ]]; then
+			EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN
 			break
 		fi
 	done
+	
+	export SLOT="0/${EGIT_BRANCH#aufs}"
 	
 	if use kernel-builtin; then
 		CONFIG_CHECK="AUFS_FS"
