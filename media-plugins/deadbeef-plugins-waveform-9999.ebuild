@@ -30,5 +30,5 @@ src_compile() {
 src_install() {
 	insinto /usr/$(get_libdir)/deadbeef
 	insopts -m0755
-	doins ddb_misc_waveform_GTK*.so
+	doins gtk*/ddb*.so
 }
