@@ -53,7 +53,7 @@ unset comp
 DOCS=( BUGS ChangeLog README.textile )
 
 src_prepare() {
-	local bin b e fs fsck=fsck.ext2:fsck.ext3:fsck.ext4 mod kmod=ext2:ext3:ext4 u
+	local bin fs fsck=fsck.ext2:fsck.ext3:fsck.ext4 mod kmod=ext2:ext3:ext4
 
 	# set up ${PN}.conf denpending on USE flags
 	for fs in ${FS_USE[@]}; do
@@ -72,10 +72,13 @@ src_prepare() {
 		-e "s,mgrp]+=,mgrp]+=${mod}\nopts[-mgrp]+=," -i ${PN}.conf
 
 	# set up the default compressor if xz USE flag is unset
+	local e=c o
 	if ! use xz; then
 		for u in ${COMPRESSOR_USE[@]}; do
 			if use ${u}; then
-				[[ "${u}" == "bzip2" ]] && e=c
+				case ${u} in
+					lz4) o=" - -" e=;;
+				esac
 				sed -e "s,xz -9 --check=crc32,${u} -${e}9," -i ${PN}.{ba,z}sh
 				break
 			fi
