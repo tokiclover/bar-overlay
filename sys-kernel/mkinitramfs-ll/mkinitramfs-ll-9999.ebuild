@@ -79,7 +79,7 @@ src_prepare() {
 				case ${u} in
 					lz4) o=" - -" e=;;
 				esac
-				sed -e "s,xz -9 --check=crc32,${u} -${e}9," -i ${PN}.{ba,z}sh
+				sed -e "s,xz -9 --check=crc32,${u} -${e}9${o}," -i ${PN}.{ba,z}sh
 				break
 			fi
 		done
