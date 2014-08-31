@@ -12,10 +12,13 @@ to use this overlay execute as root
 or alternatively... and do not forget to uncomment *overlay_defs*
 
 `% grep overlay_defs /etc/layman/layman.cfg
+
 `overlay_defs : /etc/layman/overlays
 
 `% mkdir -p /etc/layman/overlays
+
 `% wget -NP /etc/layman/overlays https://raw.github.com/tokiclover/bar-overlay/master/bar.xml
+
 `% layman -a bar
 
 once done, merge all the goodies with: `% emerge -aNDuv world
