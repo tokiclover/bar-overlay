@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/deadbeef-plugins-spectrum/deadbeef-plugins-spectrum-9999.ebuild,v 1.1 2014/08/16 07:56:50 -tclover Exp $
+# $Header: media-plugins/deadbeef-plugins-spectrum/deadbeef-plugins-spectrum-9999.ebuild,v 1.1 2014/08/31 07:56:50 -tclover Exp $
 
 EAPI=5
 
@@ -13,7 +13,7 @@ EGIT_PROJECT=${PN}.git
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="gtk gtk3"
 
 REQUIRED_USE="|| ( gtk gtk3 )"
