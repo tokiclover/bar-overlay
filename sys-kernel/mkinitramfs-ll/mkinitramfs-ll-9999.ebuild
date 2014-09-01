@@ -72,14 +72,14 @@ src_prepare() {
 		-e "s,mgrp]+=,mgrp]+=${mod}\nopts[-mgrp]+=," -i ${PN}.conf
 
 	# set up the default compressor if xz USE flag is unset
-	local e=c o
+	local e=c
 	if ! use xz; then
 		for u in ${COMPRESSOR_USE[@]}; do
 			if use ${u}; then
 				case ${u} in
-					lz4) o=" - -" e=;;
+					lz4) e=" -";;
 				esac
-				sed -e "s,xz -9 --check=crc32,${u} -${e}9${o}," -i ${PN}.{ba,z}sh
+				sed -e "s,xz -9 --check=crc32,${u} -9${e}," -i ${PN}.{ba,z}sh
 				break
 			fi
 		done
