@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/mesa/mesa-10.1.6.ebuild,v 1.2 2014/07/25 22:15:06 -clover Exp $
+# $Header: media-libs/mesa/mesa-10.3.9999.ebuild,v 1.2 2014/08/31 22:15:06 -tclover Exp $
 
 EAPI=5
 
@@ -36,7 +36,7 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	bindist +classic debug +dri3 +egl +gallium gbm gles1 gles2 +llvm +nptl
-	opencl openvg osmesa pax_kernel pic r600-llvm-compiler selinux
+	opencl openvg osmesa pax_kernel openmax pic r600-llvm-compiler selinux
 	vdpau wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
@@ -48,6 +48,7 @@ REQUIRED_USE="
 		video_cards_radeon? ( r600-llvm-compiler )
 		video_cards_radeonsi? ( r600-llvm-compiler )
 	)
+	openmax? ( gallium )
 	gles1?  ( egl )
 	gles2?  ( egl )
 	r600-llvm-compiler? ( gallium llvm || ( video_cards_r600 video_cards_radeonsi video_cards_radeon ) )
@@ -69,7 +70,7 @@ REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 "
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.52"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.54"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
@@ -109,6 +110,7 @@ RDEPEND="
 				app-admin/eselect-opencl
 				dev-libs/libclc
 			)
+	openmax? ( >=media-libs/libomxil-bellagio-0.9.3[${MULTILIB_USEDEP}] )
 	vdpau? ( >=x11-libs/libvdpau-0.7[${MULTILIB_USEDEP}] )
 	wayland? ( >=dev-libs/wayland-1.2.0[${MULTILIB_USEDEP}] )
 	xvmc? ( >=x11-libs/libXvMC-1.0.8[${MULTILIB_USEDEP}] )
@@ -127,12 +129,13 @@ for card in ${RADEON_CARDS}; do
 done
 
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	llvm? (
 		r600-llvm-compiler? ( sys-devel/llvm[video_cards_radeon] )
 		video_cards_radeonsi? ( sys-devel/llvm[video_cards_radeon] )
 	)
 	opencl? (
-				>=sys-devel/llvm-3.3-r3[video_cards_radeon,${MULTILIB_USEDEP}]
+				>=sys-devel/llvm-3.3-r3[${MULTILIB_USEDEP}]
 				>=sys-devel/clang-3.3[${MULTILIB_USEDEP}]
 				>=sys-devel/gcc-4.6
 	)
@@ -149,12 +152,7 @@ DEPEND="${RDEPEND}
 	>=x11-proto/xextproto-7.2.1-r1[${MULTILIB_USEDEP}]
 	>=x11-proto/xf86driproto-2.1.1-r1[${MULTILIB_USEDEP}]
 	>=x11-proto/xf86vidmodeproto-2.3.1-r1[${MULTILIB_USEDEP}]
-	$(python_gen_any_dep 'dev-libs/libxml2[python,${PYTHON_USEDEP}]')
 "
-
-python_check_deps() {
-	has_version --host-root "dev-libs/libxml2[python,${PYTHON_USEDEP}]"
-}
 
 # It is slow without texrels, if someone wants slow
 # mesa without texrels +pic use is worth the shot
@@ -186,7 +184,7 @@ src_prepare() {
 	fi
 
 	# relax the requirement that r300 must have llvm, bug 380303
-	epatch "${FILESDIR}"/${PN}-9.2-dont-require-llvm-for-r300.patch
+	epatch "${FILESDIR}"/${PN}-10.2-dont-require-llvm-for-r300.patch
 
 	# fix for hardened pax_kernel, bug 240956
 	epatch "${FILESDIR}"/glx_ro_text_segm.patch
@@ -238,6 +236,7 @@ multilib_src_configure() {
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openvg)
 			$(use_enable openvg gallium-egl)
+			$(use_enable openmax omx)
 			$(use_enable r600-llvm-compiler)
 			$(use_enable vdpau)
 			$(use_enable xa)
@@ -300,6 +299,7 @@ multilib_src_configure() {
 		$(use_enable gles2) \
 		$(use_enable nptl glx-tls) \
 		$(use_enable osmesa) \
+		--enable-llvm-shared-libs \
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
 		PYTHON2="${PYTHON}" \
@@ -380,6 +380,12 @@ multilib_src_install() {
 		fi
 		eend $?
 	fi
+
+	if use openmax; then
+		echo "XDG_DATA_DIRS=\"${EPREFIX}/usr/share/mesa/xdg\"" > "${T}/99mesaxdgomx"
+		doenvd "${T}"/99mesaxdgomx
+		keepdir /usr/share/mesa/xdg
+	fi
 }
 
 multilib_src_install_all() {
@@ -428,6 +434,15 @@ pkg_postinst() {
 		eselect opencl set --use-old ${PN}
 	fi
 
+	# run omxregister-bellagio to make the OpenMAX drivers known system-wide
+	if use openmax; then
+		ebegin "Registering OpenMAX drivers"
+		BELLAGIO_SEARCH_PATH="${EPREFIX}/usr/$(get_libdir)/libomxil-bellagio0" \
+			OMX_BELLAGIO_REGISTRY=${EPREFIX}/usr/share/mesa/xdg/.omxregister \
+			omxregister-bellagio
+		eend $?
+	fi
+
 	# warn about patent encumbered texture-float
 	if use !bindist; then
 		elog "USE=\"bindist\" was not set. Potentially patent encumbered code was"
@@ -446,6 +461,12 @@ pkg_postinst() {
 		elog "Note that in order to have full S3TC support, it is necessary to install"
 		elog "media-libs/libtxc_dxtn as well. This may be necessary to get nice"
 		elog "textures in some apps, and some others even require this to run."
+	fi
+}
+
+pkg_prerm() {
+	if use openmax; then
+		rm "${EPREFIX}"/usr/share/mesa/xdg/.omxregister
 	fi
 }
 
