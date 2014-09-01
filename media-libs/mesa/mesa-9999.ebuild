@@ -78,16 +78,16 @@ RDEPEND="
 	abi_x86_32? ( !app-emulation/emul-linux-x86-opengl[-abi_x86_32(-)] )
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
-	>=app-admin/eselect-opengl-1.2.7
+	app-admin/eselect-opengl
 	dev-libs/expat[${MULTILIB_USEDEP}]
 	gbm? ( virtual/udev[${MULTILIB_USEDEP}] )
 	dri3? ( virtual/udev[${MULTILIB_USEDEP}] )
-	>=x11-libs/libX11-1.3.99.901[${MULTILIB_USEDEP}]
-	>=x11-libs/libxshmfence-1.1[${MULTILIB_USEDEP}]
+	x11-libs/libX11[${MULTILIB_USEDEP}]
+	x11-libs/libxshmfence[${MULTILIB_USEDEP}]
 	x11-libs/libXdamage[${MULTILIB_USEDEP}]
 	x11-libs/libXext[${MULTILIB_USEDEP}]
 	x11-libs/libXxf86vm[${MULTILIB_USEDEP}]
-	>=x11-libs/libxcb-1.9.2[${MULTILIB_USEDEP}]
+	x11-libs/libxcb[${MULTILIB_USEDEP}]
 	llvm? (
 		video_cards_radeonsi? ( || (
 			dev-libs/elfutils[${MULTILIB_USEDEP}]
@@ -103,16 +103,16 @@ RDEPEND="
 				dev-libs/libelf[${MULTILIB_USEDEP}]
 				) )
 		)
-		>=sys-devel/llvm-3.3-r3[${MULTILIB_USEDEP}]
+		sys-devel/llvm[${MULTILIB_USEDEP}]
 	)
 	opencl? (
 				app-admin/eselect-opencl
 				dev-libs/libclc
 			)
 	openmax? ( media-libs/libomxil-bellagio[${MULTILIB_USEDEP}] )
-	vdpau? ( >=x11-libs/libvdpau-0.4.1[${MULTILIB_USEDEP}] )
-	wayland? ( >=dev-libs/wayland-1.2.0[${MULTILIB_USEDEP}] )
-	xvmc? ( >=x11-libs/libXvMC-1.0.6[${MULTILIB_USEDEP}] )
+	vdpau? ( x11-libs/libvdpau[${MULTILIB_USEDEP}] )
+	wayland? ( dev-libs/wayland[${MULTILIB_USEDEP}] )
+	xvmc? ( x11-libs/libXvMC[${MULTILIB_USEDEP}] )
 	${LIBDRM_DEPSTRING}[video_cards_freedreno?,video_cards_nouveau?,video_cards_vmware?,${MULTILIB_USEDEP}]
 "
 for card in ${INTEL_CARDS}; do
@@ -134,27 +134,24 @@ DEPEND="${RDEPEND}
 		video_cards_radeonsi? ( sys-devel/llvm[video_cards_radeon] )
 	)
 	opencl? (
-				>=sys-devel/llvm-3.3-r3[${MULTILIB_USEDEP}]
-				>=sys-devel/clang-3.3[${MULTILIB_USEDEP}]
-				>=sys-devel/gcc-4.6
+				sys-devel/llvm[${MULTILIB_USEDEP}]
+				sys-devel/clang[${MULTILIB_USEDEP}]
+				sys-devel/gcc
 	)
 	sys-devel/bison
 	sys-devel/flex
 	sys-devel/gettext
 	virtual/pkgconfig
-	>=x11-proto/dri2proto-2.6[${MULTILIB_USEDEP}]
+	x11-proto/dri2proto[${MULTILIB_USEDEP}]
 	dri3? (
-		>=x11-proto/dri3proto-1.0[${MULTILIB_USEDEP}]
-		>=x11-proto/presentproto-1.0[${MULTILIB_USEDEP}]
+		x11-proto/dri3proto[${MULTILIB_USEDEP}]
+		x11-proto/presentproto[${MULTILIB_USEDEP}]
 	)
-	>=x11-proto/glproto-1.4.15-r1[${MULTILIB_USEDEP}]
-	>=x11-proto/xextproto-7.0.99.1[${MULTILIB_USEDEP}]
+	x11-proto/glproto[${MULTILIB_USEDEP}]
+	x11-proto/xextproto[${MULTILIB_USEDEP}]
 	x11-proto/xf86driproto[${MULTILIB_USEDEP}]
 	x11-proto/xf86vidmodeproto[${MULTILIB_USEDEP}]
 "
-
-S="${WORKDIR}/${MY_P}"
-EGIT_CHECKOUT_DIR=${S}
 
 # It is slow without texrels, if someone wants slow
 # mesa without texrels +pic use is worth the shot
