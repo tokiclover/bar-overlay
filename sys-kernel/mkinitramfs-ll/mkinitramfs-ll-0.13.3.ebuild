@@ -77,7 +77,7 @@ src_prepare() {
 		for u in ${COMPRESSOR_USE[@]}; do
 			if use ${u}; then
 				case ${u} in
-					lz4) e=" -";;
+					lz4) e=" - -";;
 				esac
 				sed -e "s,xz -9 --check=crc32,${u} -9${e}," -i ${PN}.{ba,z}sh
 				break
