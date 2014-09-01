@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.8 2014/08/08 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.8 2014/08/31 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -34,7 +34,7 @@ RDEPEND="app-arch/cpio
 	f2fs? ( sys-fs/f2fs-tools )
 	jfs? ( sys-fs/jfsutils )
 	reiserfs? ( sys-fs/reiserfsprogs )
-	squashfs? ( sys-fs/squashfs-tools[lzma?,lzo?,xz?] )
+	squashfs? ( sys-fs/squashfs-tools[lz4?,lzma?,lzo?,xz?] )
 	xfs? ( sys-fs/xfsprogs )
 	zfs? ( sys-fs/zfs )
 	lzma? ( || ( app-arch/xz-utils app-arch/lzma ) )
