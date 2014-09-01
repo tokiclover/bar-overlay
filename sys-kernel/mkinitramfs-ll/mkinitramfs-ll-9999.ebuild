@@ -16,7 +16,7 @@ KEYWORDS=""
 
 COMPRESSOR_USE=( bzip2 gzip lz4 lzip )
 FS_USE=( btrfs f2fs jfs reiserfs xfs )
-IUSE="aufs +bash cryptsetup device-mapper dmraid fbsplash lzma lzo mdadm squashfs
+IUSE="aufs +bash dm-crypt device-mapper dmraid fbsplash lzma lzo mdadm squashfs
 +symlink zfs +zram zsh +xz ${COMPRESSOR_USE[@]} ${FS_USE[@]}"
 
 REQUIRED_USE="|| ( bash zsh )"
@@ -25,7 +25,7 @@ DEPEND=""
 RDEPEND="app-arch/cpio 
 	fbsplash? ( sys-apps/v86d media-gfx/splashutils[fbcondecor,png,truetype] )
 	sys-apps/busybox[mdev]
-	cryptsetup? ( sys-fs/cryptsetup )
+	dm-crypt? ( sys-fs/cryptsetup )
 	device-mapper? ( sys-fs/lvm2 )
 	dmraid? ( sys-fs/dmraid )
 	mdadm? ( sys-fs/mdadm )
@@ -62,7 +62,7 @@ src_prepare() {
 
 	use zfs && bin+=:zfs:zpool && mod+=:zfs
 	use zram && mod+=:zram
-	use cryptsetup && bin+=:cryptsetup && mod+=:dm-crypt
+	use dm-crypt && bin+=:cryptsetup && mod+=:dm-crypt
 	use device-mapper && bin+=:lvm && mod+=:device-mapper
 	use mdadm && bin+=:mdadm && mod+=:raid
 	use dmraid && bin+=:dmraid && mod+=:dm-raid
