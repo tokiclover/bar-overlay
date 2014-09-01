@@ -14,12 +14,6 @@ inherit base autotools multilib multilib-minimal flag-o-matic \
 
 OPENGL_DIR="xorg-x11"
 
-MY_PN="${PN/m/M}"
-MY_P="${MY_PN}-${PV/_/-}"
-MY_SRC_P="${MY_PN}Lib-${PV/_/-}"
-
-FOLDER="${PV/_rc*/}"
-
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
