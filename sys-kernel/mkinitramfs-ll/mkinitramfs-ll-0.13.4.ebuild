@@ -34,7 +34,7 @@ RDEPEND="app-arch/cpio
 	f2fs? ( sys-fs/f2fs-tools )
 	jfs? ( sys-fs/jfsutils )
 	reiserfs? ( sys-fs/reiserfsprogs )
-	squashfs? ( sys-fs/squashfs-tools[lzma?,lzo?,xz?] )
+	squashfs? ( sys-fs/squashfs-tools[lz4?,lzma?,lzo?,xz?] )
 	xfs? ( sys-fs/xfsprogs )
 	zfs? ( sys-fs/zfs )
 	lzma? ( || ( app-arch/xz-utils app-arch/lzma ) )
