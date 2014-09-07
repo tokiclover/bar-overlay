@@ -20,6 +20,10 @@ AUFS_UTILS_VERSION=( 0 2 9 x-rcN )
 KV_MINOR_MAX=17
 
 pkg_setup() {
+	# this is needed so merging a binpkg aufs-util is possible
+	# w/out a kernel unpacked on the system
+	[ -n "$PKG_SETUP_HAS_BEEN_RAN" ] && return
+
 	get_version
 
 	for (( i=0; i<${#AUFS_UTILS_VERSION[@]}; i++ )); do
@@ -52,6 +56,8 @@ pkg_setup() {
 	else
 		ln -s /usr/include "${T}"/include || die
 	fi
+	
+	export PKG_SETUP_HAS_BEEN_RAN=1
 }
 
 src_prepare() {
