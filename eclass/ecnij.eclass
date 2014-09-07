@@ -37,7 +37,7 @@ RDEPEND="${RDEPEND}
 	media-libs/libpng[${MULTILIB_USEDEP}]
 	!backends? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},backends] )"
 
-{ [[ ${PV:0:1} -ge 3 ]] || [[ ${PV:2:2} -ge 80 ]]; } &&
+( [[ ${PV:0:1} -ge 3 ]] || [[ ${PV:2:2} -ge 80 ]] ) &&
 RDEPEND="${RDEPEND}
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )" ||
 RDEPEND="${RDEPEND}
@@ -46,10 +46,11 @@ RDEPEND="${RDEPEND}
 DEPEND="${DEPEND}
 	virtual/libintl"
 
-case "${EAPI:-5}" in
-	4|5) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst;;
-	*) die "EAPI=\"${EAPI}\" is not supported";;
-esac
+:	${EAPI:=5}
+
+[[ ${EAPI} -lt 4 ]] && die "EAPI=\"${EAPI}\" is not supported"
+
+EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst
 
 # @ECLASS-VARIABLE: PRINTER_USE
 # @DESCRIPTION: An array with printers USE flags
