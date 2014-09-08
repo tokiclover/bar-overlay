@@ -50,7 +50,7 @@ pkg_setup() {
 	esac
 	branch=${KV_MAJOR}.${branch}
 
-	export SLOT="0/${branch}"
+	export SLOT="0/${branch/x-rcN/99}"
 	EGIT_BRANCH=aufs${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
 
