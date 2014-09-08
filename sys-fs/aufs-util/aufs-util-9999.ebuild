@@ -42,11 +42,7 @@ pkg_setup() {
 	done
 	version="${KV_MAJOR}.${version}"
 	
-	if [[ "${SLOT}" == "0/${KV_MAJOR}.x-rcN" ]]; then
-		export SLOT="0/${KV_MAJOR}.99"
-	else
-		export SLOT="0/${version}"
-	fi
+	export SLOT="0/${version/x-rcN/99}"
 	export EGIT_BRANCH="aufs${version}"
 	
 	if use kernel-builtin; then
