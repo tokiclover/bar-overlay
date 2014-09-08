@@ -16,8 +16,7 @@ DEPEND="!kernel-builtin? ( =sys-fs/${P/util/standalone}:= )"
 LICENSE="GPL-2"
 IUSE="kernel-builtin"
 
-AUFS_UTILS_VERSION=( 0 2 9 x-rcN )
-KV_MINOR_MAX=17
+AUFS_VERSION=( 17 0 2 9 x-rcN )
 
 pkg_setup() {
 	# this is needed so merging a binpkg aufs-util is possible
@@ -26,23 +25,29 @@ pkg_setup() {
 
 	get_version
 
-	for (( i=0; i<${#AUFS_UTILS_VERSION[@]}; i++ )); do
-		if [[ ${AUFS_UTILS_VERSION[$(($i+1))]} -eq x-rcN ]]; then
-			EGIT_BRANCH=aufs${KV_MAJOR}.${AUFS_UTILS_VERSION[$i]}
+	local version="${KV_MINOR}"
+	for (( i=1; i<${#AUFS_VERSION[@]}; i++ )); do
+		if [[ "${AUFS_VERSION[$(($i+1))]}" == "x-rcN" ]]; then
+			version=${AUFS_VERSION[$i]}
 			break
-		elif [[ ${AUFS_UTILS_VERSION[$i]} -gt ${KV_MINOR} ]]; then
-			EGIT_BRANCH=aufs${KV_MAJOR}.${AUFS_UTILS_VERSION[$(($i-1))]}
+		elif [[ "${AUFS_VERSION[$i]}" -gt "${version}" ]]; then
+			version=${AUFS_VERSION[$(($i-1))]}
 			break
-		elif [[ ${AUFS_UTILS_VERSION[$i]} -eq ${KV_MINOR} ]]; then
-			EGIT_BRANCH=aufs${KV_MAJOR}.${AUFS_UTILS_VERSION[$i]}
+		elif [[ "${AUFS_VERSION[$i]}" -eq "${version}" ]]; then
 			break
-		elif [[ ${KV_MINOR} -eq ${KV_MINOR_MAX} ]]; then
-			EGIT_BRANCH=aufs${KV_MAJOR}.x-rcN
+		elif [[ "${AUFS_VERSION[0]}" -eq "${version}" ]]; then
+			version=x-rcN
 			break
 		fi
 	done
+	version="${KV_MAJOR}.${version}"
 	
-	export SLOT="0/${EGIT_BRANCH#aufs}"
+	if [[ "${SLOT}" == "0/${KV_MAJOR}.x-rcN" ]]; then
+		export SLOT="0/${KV_MAJOR}.99"
+	else
+		export SLOT="0/${version}"
+	fi
+	export EGIT_BRANCH="aufs${version}"
 	
 	if use kernel-builtin; then
 		CONFIG_CHECK="AUFS_FS"
@@ -66,11 +71,11 @@ src_prepare() {
 }
 
 src_compile() {
-	emake CC=$(tc-getCC) AR=$(tc-getAR) KDIR=${KV_DIR}
+	emake CC="$(tc-getCC)" AR="$(tc-getAR)" KDIR="${KV_DIR}"
 }
 
 src_install() {
 	emake DESTDIR="${D}" install
 	docinto /usr/share/doc/${PF}
-	newdoc README README-utils
+	dodoc README
 }
