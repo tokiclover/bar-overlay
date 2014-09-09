@@ -14,12 +14,14 @@ LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS=""
 
-COMPRESSOR_USE=( bzip2 gzip lz4 lzip )
-FS_USE=( btrfs f2fs jfs reiserfs xfs )
-IUSE="aufs +bash dm-crypt device-mapper dmraid fbsplash lzma lzo mdadm squashfs
-+symlink zfs +zram zsh +xz ${COMPRESSOR_USE[@]} ${FS_USE[@]}"
+COMPRESSOR_USE=( bzip2 gzip lz4 lzip lzo xz )
+FS_USE=( btrfs e2fs f2fs jfs reiserfs xfs )
+IUSE="aufs +bash dm-crypt device-mapper dmraid fbsplash lzma mdadm squashfs
++symlink zfs +zram zsh ${COMPRESSOR_USE[@]/xz/+xz} ${FS_USE[@]/e2fs/+e2fs}"
 
-REQUIRED_USE="|| ( bash zsh )"
+REQUIRED_USE="|| ( bash zsh )
+	|| ( ${COMPRESSOR_USE[@]} )
+	|| ( ${FS_USE[@]} )"
 
 DEPEND=""
 RDEPEND="app-arch/cpio 
@@ -31,6 +33,7 @@ RDEPEND="app-arch/cpio
 	mdadm? ( sys-fs/mdadm )
 	aufs? ( sys-fs/aufs-util )
 	btrfs? ( sys-fs/btrfs-progs )
+	e2fs? ( sys-fs/e2fsprogs )
 	f2fs? ( sys-fs/f2fs-tools )
 	jfs? ( sys-fs/jfsutils )
 	reiserfs? ( sys-fs/reiserfsprogs )
@@ -44,23 +47,25 @@ RDEPEND="app-arch/cpio
 	bash? ( app-shells/bash )
 	zsh? ( app-shells/zsh[unicode] )"
 
-for comp in ${COMPRESSOR_USE[@]}; do
+for (( i=0; i<((${#COMPRESSOR_USE[@]} - 2)); i++ )); do
 	DEPEND="${DEPEND}
-		app-arch/${comp}"
+		app-arch/${COMPRESSOR_USE[$i]}"
 done
-unset comp
 
 DOCS=( BUGS ChangeLog README.textile )
 
 src_prepare() {
-	local bin fs fsck=fsck.ext2:fsck.ext3:fsck.ext4 mod kmod=ext2:ext3:ext4
+	local bin fs fsck mod kmod
 
 	# set up ${PN}.conf denpending on USE flags
 	for fs in ${FS_USE[@]}; do
 		use ${fs} && fsck+=:fsck.${fs} && kmod+=:${fs}
 	done
 
-	use zfs && bin+=:zfs:zpool && mod+=:zfs
+	use e2fs && fsck="${fsck/fsck.e2fs/fsck.ext2:fsck.ext3:fsck.ext4}" \
+		kmod="${kmod/e2fs/ext2:ext3:ext4}"
+	use f2fs && fsck="${fsck/:fsck.f2fs}" && kmod+=:f2fs
+	use zfs  && mod+=:zfs
 	use zram && mod+=:zram
 	use dm-crypt && bin+=:cryptsetup && mod+=:dm-crypt
 	use device-mapper && bin+=:lvm && mod+=:device-mapper
@@ -72,14 +77,10 @@ src_prepare() {
 		-e "s,mgrp]+=,mgrp]+=${mod}\nopts[-mgrp]+=," -i ${PN}.conf
 
 	# set up the default compressor if xz USE flag is unset
-	local e=c
 	if ! use xz; then
 		for u in ${COMPRESSOR_USE[@]}; do
 			if use ${u}; then
-				case ${u} in
-					lz4) e=" - -";;
-				esac
-				sed -e "s,xz -9 --check=crc32,${u} -9${e}," -i ${PN}.{ba,z}sh
+				sed -e "s,xz -9 --check=crc32,${u} -9c," -i ${PN}.{ba,z}sh
 				break
 			fi
 		done
