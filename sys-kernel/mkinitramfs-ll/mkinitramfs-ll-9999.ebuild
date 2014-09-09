@@ -78,7 +78,7 @@ src_prepare() {
 
 	# set up the default compressor if xz USE flag is unset
 	if ! use xz; then
-		for u in ${COMPRESSOR_USE[@]}; do
+		for u in ${COMPRESSOR_USE[@]/lzo/lzop}; do
 			if use ${u}; then
 				sed -e "s,xz -9 --check=crc32,${u} -9c," -i ${PN}.{ba,z}sh
 				break
