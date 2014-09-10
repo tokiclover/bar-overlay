@@ -80,7 +80,7 @@ src_prepare() {
 	if ! use xz; then
 		for u in ${COMPRESSOR_USE[@]}; do
 			if use ${u}; then
-				sed -e "s,# vim,${u/lzo/lzop} -9\n#\n# vim," -i ${PN}.conf
+				sed -e "s,# vim,opts[-comp]=\"${u/lzo/lzop} -9\"\n#\n# vim," -i ${PN}.conf
 				break
 			fi
 		done
