@@ -42,8 +42,8 @@ RT_SRC="patch-${RT_VER}.patch.xz"
 TOI_SRC="tuxonice-for-linux-${TOI_VER}.patch.bz2"
 UKSM_SRC="uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch"
 
-SRC_URI="bfs? ( ${CK_URI}/${CK_SRC} )
-	ck?  ( ${CK_URI}/${CK_SRC} )
+SRC_URI="bfs? ( ${CK_URI}/${CK_VER}/${CK_SRC} )
+	ck?  ( ${CK_URI}/${CK_VER}/${CK_SRC} )
 	bfq? ( ${GEN_URI}/${BFQ_SRC} )
 	gentoo? ( ${GEN_URI}/${GEN_SRC} )
 	fbcondecor? ( ${GEN_URI}/${FBC_SRC} )

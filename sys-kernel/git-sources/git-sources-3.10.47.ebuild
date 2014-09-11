@@ -29,7 +29,7 @@ GEN_VER="${MKV}-55"
 BFQ_VER="${GEN_VER}"
 FBC_VER="${GEN_VER}"
 GHP_VER="${MKV}.11-1"
-RT_VER="${OKV}-rt49"
+RT_VER="${OKV}-rt50"
 RS4_VER="${MKV}"
 TOI_VER="${MKV}.45-2014-06-27"
 UKSM_VER="${MKV}.ge.46"
@@ -49,8 +49,8 @@ TOI_SRC="tuxonice-for-linux-${TOI_VER}.patch.bz2"
 UKSM_URI="http://kerneldedup.org/download/uksm/${UKSM_EXV}"
 UKSM_SRC="uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch"
 
-SRC_URI="bfs? ( ${CK_URI}/${CK_SRC} )
-	ck?  ( ${CK_URI}/${CK_SRC} )
+SRC_URI="bfs? ( ${CK_URI}/${CK_VER}/${CK_SRC} )
+	ck?  ( ${CK_URI}/${CK_VER}/${CK_SRC} )
 	bfq? ( ${GEN_URI}/${BFQ_SRC} )
 	gentoo? ( ${GEN_URI}/${GEN_SRC} )
 	fbcondecor? ( ${GEN_URI}/${FBC_SRC} )

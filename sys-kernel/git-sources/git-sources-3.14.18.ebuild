@@ -25,14 +25,14 @@ MKV="${KV_MAJOR}.${KV_MINOR}"
 AUFS_VER="${MKV}"
 BFS_VER="447"
 CK_VER="${MKV}-ck1"
-GEN_VER="${MKV}-18"
+GEN_VER="${MKV}-22"
 BFQ_VER="${GEN_VER}"
 FBC_VER="${GEN_VER}"
 GHP_VER="${OKV}-1"
 RS4_VER="${MKV}.1"
 OPT_VER="outdated_versions/linux-3.2+/gcc-4.2+"
 RT_VER="${MKV}.12-rt9"
-TOI_VER="${MKV}.9-2014-06-27"
+TOI_VER="${MKV}.15-2014-08-07"
 UKSM_VER="${MKV}.ge.10"
 
 EGIT_REPO_AUFS="git://git.code.sf.net/p/aufs/aufs${KV_MAJOR}-standalone.git"
@@ -59,8 +59,8 @@ UKSM_EXV="0.1.2.3"
 UKSM_URI="http://kerneldedup.org/download/uksm/${UKSM_EXV}"
 UKSM_SRC="uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch"
 
-SRC_URI="bfs? ( ${CK_URI}/${CK_SRC} )
-	ck?  ( ${CK_URI}/${CK_SRC} )
+SRC_URI="bfs? ( ${CK_URI}/${CK_VER}/${CK_SRC} )
+	ck?  ( ${CK_URI}/${CK_VER}/${CK_SRC} )
 	bfq? ( ${GEN_URI}/${BFQ_SRC} )
 	gentoo? ( ${GEN_URI}/${GEN_SRC} )
 	fbcondecor? ( ${GEN_URI}/${FBC_SRC} )

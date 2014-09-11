@@ -23,12 +23,12 @@ MKV="${KV_MAJOR}.${KV_MINOR}"
 
 BFS_VER="424"
 CK_VER="${MKV}-ck3"
-GEN_VER="${MKV}-69"
+GEN_VER="${MKV}-86"
 FBC_VER="${GEN_VER}"
 GHP_VER="${MKV}.7-1"
-RT_VER="${OKV}-rt120"
+RT_VER="${MKV}.97-rt121"
 RS4_VER="${MKV}"
-TOI_VER="${MKV}.95-2014-06-27"
+TOI_VER="${MKV}.99-2014-07-19"
 UKSM_VER="${MKV}.ge.96"
 
 BFS_SRC="${MKV}-sched-bfs-${BFS_VER}.patch"
@@ -45,8 +45,8 @@ TOI_SRC="tuxonice-for-linux-${TOI_VER}.patch.bz2"
 UKSM_URI="http://kerneldedup.org/download/uksm/${UKSM_EXV}"
 UKSM_SRC="uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch"
 
-SRC_URI="bfs? ( ${CK_URI}/${CK_SRC} )
-	ck?  ( ${CK_URI}/${CK_SRC} )
+SRC_URI="bfs? ( ${CK_URI}/${CK_VER}/${CK_SRC} )
+	ck?  ( ${CK_URI}/${CK_VER}/${CK_SRC} )
 	gentoo? ( ${GEN_URI}/${GEN_SRC} )
 	fbcondecor? ( ${GEN_URI}/${FBC_SRC} )
 	optimization? ( ${OPT_URI}/${OPT_VER}/${OPT_FILE} -> ${OPT_SRC} )
