@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: virtual/liblash/liblash-1.ebuild, 2014/07/20 -tclover $
+# $Header: virtual/liblash/liblash-1.ebuild, 2014/09/09 -tclover Exp $
 
 EAPI="5"
 
@@ -14,5 +14,4 @@ KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="python"
 
 DEPEND=""
-RDEPEND="|| ( media-sound/ladish[lash] media-sound/lash )
-python? ( || ( media-sound/ladish[python] media-sound/lash[python] ) )"
+RDEPEND="|| ( media-sound/ladish[lash,python?] media-sound/lash[python?] )"
