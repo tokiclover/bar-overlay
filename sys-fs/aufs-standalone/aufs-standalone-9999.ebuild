@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.9 2014/08/08 23:23:44 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.9 2014/09/09 23:23:44 -tclover Exp $
 
 EAPI=5
 
@@ -54,7 +54,7 @@ pkg_setup() {
 	EGIT_BRANCH=aufs${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
 
-	PATCHES=( "${FILESDIR}"/aufs-{base,mmap,standalone}-${branch}.patch.bz2 )
+	PATCHES=( "${FILESDIR}"/aufs-{base,mmap,standalone}-${branch}.patch )
 
 	linux-mod_pkg_setup
 	if ! ( pushd "${KV_DIR}"
@@ -85,8 +85,8 @@ pkg_setup() {
 
 src_prepare() {
 	if use pax_kernel; then
-		kernel_is ge 3.11 && epatch "${FILESDIR}"/pax-3.11.patch.bz2 ||
-		epatch "${FILESDIR}"/pax-3.patch.bz2
+		kernel_is ge 3.11 && epatch "${FILESDIR}"/pax-3.11.patch ||
+		epatch "${FILESDIR}"/pax-3.patch
 	fi
 
 	sed -e 's:aufs.ko usr/include/linux/aufs_type.h:aufs.ko:g' \
