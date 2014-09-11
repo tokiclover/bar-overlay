@@ -57,10 +57,9 @@ esac
 
 # @ECLASS-VARIABLE: CK_VER
 # @DESCRIPTION: -ck patchset version string
-:	${CK_VER:=${MKV}-ck1}
 # @ECLASS-VARIABLE: CK_URI
 # @DESCRIPTION: -ck patchset src URI
-:	${CK_URI:="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${MKV}/${CK_VER}"}
+:	${CK_URI:="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${MKV}"}
 # @ECLASS-VARIABLE: CK_SRC
 # @DESCRIPTION: -ck src file
 :	${CK_SRC:=${CK_VER}-broken-out.tar.bz2}
