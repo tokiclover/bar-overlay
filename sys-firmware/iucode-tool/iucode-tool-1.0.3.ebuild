@@ -12,7 +12,7 @@ EGIT_REPO_URI="git://gitorious.org:iucode-tool/iucode-tool.git"
 EGIT_PROJECT=${PN}.git
 EGIT_COMMIT=v${PV}
 
-LICENSE="|| ( GPL-2 GPL-3)"
+LICENSE="|| ( GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="test"

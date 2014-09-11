@@ -11,7 +11,7 @@ HOMEPAGE="https://gitorious.org/iucode-tool/pages/Home"
 EGIT_REPO_URI="git://gitorious.org:iucode-tool/iucode-tool.git"
 EGIT_PROJECT=${PN}.git
 
-LICENSE="|| ( GPL-2 GPL-3)"
+LICENSE="|| ( GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS=""
 IUSE="test"
