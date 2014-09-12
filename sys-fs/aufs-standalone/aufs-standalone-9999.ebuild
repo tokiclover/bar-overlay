@@ -8,7 +8,7 @@ inherit flag-o-matic linux-mod toolchain-funcs git-2
 
 DESCRIPTION="An entirely re-designed and re-implemented Unionfs"
 HOMEPAGE="http://aufs.sourceforge.net/"
-EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs3-standalone.git"
+EGIT_REPO_URI="git://git.code.sf.net/p/aufs/aufs3-standalone.git"
 EGIT_NONBARE=yes
 
 DEPEND="dev-util/patchutils"
@@ -16,6 +16,7 @@ RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/util}"
 
 LICENSE="GPL-2"
 IUSE="debug doc fhsm fuse pax_kernel hfs inotify +kernel-patch nfs ramfs"
+SLOT="0/${PV}"
 
 S="${WORKDIR}"/${PN}
 
@@ -49,9 +50,7 @@ pkg_setup() {
 		10|12) branch=${branch}.x;;
 	esac
 	branch=${KV_MAJOR}.${branch}
-
-	export SLOT="0/${branch/x-rcN/99}"
-	EGIT_BRANCH=aufs${branch}
+	export EGIT_BRANCH=aufs${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
 
 	PATCHES=( "${FILESDIR}"/aufs-{base,mmap,standalone}-${branch}.patch )
