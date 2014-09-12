@@ -1,20 +1,21 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.4 2014/08/08 23:23:47 -tclover Exp $
+# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.4 2014/09/09 23:23:47 -tclover Exp $
 
 EAPI=5
 
 inherit multilib toolchain-funcs git-2 linux-info
 
-DESCRIPTION="AUFS3 filesystem utilities."
+DESCRIPTION="AUFS filesystem utilities"
 HOMEPAGE="http://aufs.sourceforge.net/"
-EGIT_REPO_URI="git://aufs.git.sourceforge.net/gitroot/aufs/aufs-util.git"
+EGIT_REPO_URI="git://git.code.sf.net/p/aufs/aufs-util.git"
 
 RDEPEND="${DEPEND} !sys-fs/aufs3 !sys-fs/aufs2"
 DEPEND="!kernel-builtin? ( =sys-fs/${P/util/standalone}:= )"
 
 LICENSE="GPL-2"
 IUSE="kernel-builtin"
+SLOT="0/${PV}"
 
 AUFS_VERSION=( 17 0 2 9 x-rcN )
 
@@ -41,8 +42,6 @@ pkg_setup() {
 		fi
 	done
 	version="${KV_MAJOR}.${version}"
-	
-	export SLOT="0/${version/x-rcN/99}"
 	export EGIT_BRANCH="aufs${version}"
 	
 	if use kernel-builtin; then
