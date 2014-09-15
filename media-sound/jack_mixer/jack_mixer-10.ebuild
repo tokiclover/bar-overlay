@@ -1,12 +1,12 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack_mixer/jack_mixer-10.ebuild, 2014/07/15 -tclover $
+# $Header: media-sound/jack_mixer/jack_mixer-10.ebuild, 2014/09/15 -tclover $
 
-EAPI="4"
+EAPI=5
 
-inherit eutils gnome2 python
+PYTHON_COMPAT=( python2_7 )
 
-PYTHON_DEPEND="2"
+inherit eutils gnome2 python-single-r1
 
 DESCRIPTION="JACK audio mixer using GTK2 interface."
 HOMEPAGE="http://home.gna.org/jackmixer/"
@@ -15,28 +15,26 @@ SRC_URI="http://download.gna.org/jackmixer/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+
 IUSE="gconf lash phat"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 DEPEND=">=media-sound/jack-audio-connection-kit-0.102.0
-	dev-python/pygtk
-	dev-python/fpconst
-	>=dev-python/pyxml-0.8.4"
+	dev-python/pygtk[${PYTHON_USEDEP}]
+	dev-python/fpconst[${PYTHON_USEDEP}]
+	>=dev-python/pyxml-0.8.4[${PYTHON_USEDEP}]"
 
 RDEPEND="${DEPEND}
-	phat? ( media-libs/pyphat )
-	gconf? ( dev-python/gconf-python:2 )
+	phat? ( media-libs/pyphat[${PYTHON_USEDEP}] )
+	gconf? ( dev-python/gconf-python:2[${PYTHON_USEDEP}] )
 	lash? ( virtual/liblash[python] )"
 
-pkg_setup() {
-	python_set_active_version 2
-	python_pkg_setup
-}
+DOCS=( AUTHORS NEWS README )
 
 src_install() {
 	gnome2_src_install
 	python_convert_shebangs -r 2 "${ED}"
 	dosym /usr/bin/jack_mixer.py /usr/bin/jack_mixer
-	dodoc AUTHORS NEWS README
 }
 
 pkg_postinst() {
