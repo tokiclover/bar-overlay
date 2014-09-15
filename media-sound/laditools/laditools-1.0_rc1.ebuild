@@ -33,10 +33,6 @@ PATCHES=(
 
 S="${WORKDIR}"/${PN}-${PVR/_/-}
 
-pkg_setup() {
-	python_set_active_version 2.7
-}
-
 pkg_preinst() {
 	use wmaker || find "${D}" -name 'wmladi*' -exec rm '{}' + || die
 }
