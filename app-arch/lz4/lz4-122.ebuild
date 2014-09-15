@@ -9,7 +9,7 @@ inherit cmake-utils multilib git-2
 CMAKE_USE_DIR="${S}/cmake_unofficial"
 
 EGIT_REPO_URI="git://github.com/Cyan4973/lz4.git"
-EGIT_COMMIT=${PV/0_p/r}
+EGIT_COMMIT=r${PV}
 
 DESCRIPTION="Extremely Fast Compression algorithm"
 HOMEPAGE="https://code.google.com/p/lz4/"
