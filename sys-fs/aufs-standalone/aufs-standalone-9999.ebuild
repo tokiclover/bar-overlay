@@ -25,7 +25,7 @@ KV_SUPPORT=( 4 10 17 3 )
 MODULE_NAMES="aufs(misc:${S})"
 
 pkg_setup() {
-	CONFIG_CHECK="!AUFS_FS ~EXPERIMENTAL ~PROC_FS"
+	CONFIG_CHECK="!AUFS_FS"
 	use inotify && CONFIG_CHECK+=" ~FSNOTIFY"
 	use nfs && CONFIG_CHECK+=" ~EXPORTFS"
 	use fuse && CONFIG_CHECK+=" ~FUSE_FS"
@@ -57,25 +57,24 @@ pkg_setup() {
 
 	linux-mod_pkg_setup
 	if ! ( pushd "${KV_DIR}"
-		for patch in ${PATCHES[@]}; do
-			( bzip2 -dc "${patch}" | patch -p1 --dry-run --force -R >$n ) ||
-				{ break; return 1; }
+		for patch in "${PATCHES[@]}"; do
+			patch -p1 --dry-run --force -R "${patch}" >${n} || return 1
 		done ); then
 		if use kernel-patch; then
 			ewarn "Patching your kernel..."
-			for patch in ${PATCHES[@]}; do
-				bzip2 -dc "${patch}" | patch --no-backup-if-mismatch --force -p1 -R -d >$n
+			for patch in "${PATCHES[@]}"; do
+				patch --no-backup-if-mismatch --force -p1 -R -d "${patch}" >${n}
 			done
 			popd
-			epatch ${PATCHES[@]}
+			epatch "${PATCHES[@]}"
 			ewarn "You need to compile your kernel with the applied patch"
 			ewarn "to be able to load and use the aufs kernel module"
 		else
 			eerror "Apply patches to your kernel to compile and run the aufs${KV_MAJOR} module;"
 			eerror "Either enable the kernel-patch USEflag to do it with this ebuild, or apply:"
-			eerror "bzip2 -dc ${PATCHES[0]} | patch -p1;"
-			eerror "bzip2 -dc ${PATCHES[1]} | patch -p1;"
-			eerror "bzip2 -dc ${PATCHES[2]} | patch -p1;"
+			eerror "patch -p1 \"${PATCHES[0]}\";"
+			eerror "patch -p1 \"${PATCHES[0]}\";"
+			eerror "patch -p1 \"${PATCHES[0]}\";"
 			die "missing kernel patch, please apply it first"
 		fi
 	fi
