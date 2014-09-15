@@ -16,7 +16,8 @@ SLOT=0
 
 RDEPEND="x11-wm/enlightenment:0.17
 	!minimal? ( x11-themes/gnome-themes )"
-DEPEND="dev-util/pkgconfig dev-libs/efl"
+DEPEND="dev-libs/efl
+	virtual/pkgconfig"
 
 src_compile() {
 	sed -e 's,E_DESTDIR := ,E_DESTDIR := \${DESTDIR}/,' \
