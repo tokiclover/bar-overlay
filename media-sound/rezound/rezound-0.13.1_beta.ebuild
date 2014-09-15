@@ -33,7 +33,7 @@ RDEPEND="|| ( ( x11-libs/qt-core:4 x11-libs/qt-gui:4 )
 
 DEPEND="${RDEPEND}
 	nls? ( virtual/libintl )
-	dev-util/pkgconfig"
+	virtual/pkgconfig"
 
 DOCS=(
 	docs/AUTHORS
