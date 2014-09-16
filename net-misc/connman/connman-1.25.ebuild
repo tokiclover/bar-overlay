@@ -12,6 +12,7 @@ EGIT_REPO_URI="git://git.kernel.org/pub/scm/network/connman/connman.git"
 
 LICENSE="GPL-2"
 SLOT="0"
+KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86"
 IUSE="bluetooth debug doc examples +ethernet gnutls networkmanager ofono
 openconnect openvpn pptp policykit selinux systemd tools vpnc +wifi"
 REQUIRED_USE="selinux? ( openvpn )"
