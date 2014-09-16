@@ -23,8 +23,8 @@ DEPEND="${PYTHON_DEPS}"
 RDEPEND="${DEPEND}
 	dev-python/dbus-python[${PYTHON_USEDEP}]"
 
-src_install()
-{
+src_install() {
+	python_convert_shebangs -r 2 "${ED}"
 	insinto /usr/bin
 	insopts -m0755
 	doins ${PN}
