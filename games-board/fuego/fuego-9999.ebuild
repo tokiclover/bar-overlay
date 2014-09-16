@@ -14,7 +14,7 @@ ESVN_PROJECT=${PN}
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0"
 KEYWORDS=""
-IUSE="cache-sync do optimization"
+IUSE="cache-sync doc optimization"
 
 DEPEND="doc? ( app-doc/doxygen )
 	>=dev-libs/boost-1.33.1"
