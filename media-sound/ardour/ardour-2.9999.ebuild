@@ -4,7 +4,7 @@
 
 EAPI="2"
 
-inherit eutils toolchain-funcs fdo-mime flag-o-matic git-2 versionator
+inherit eutils toolchain-funcs fdo-mime flag-o-matic versionator git-r3
 
 DESCRIPTION="multi-track hard disk recording software"
 HOMEPAGE="http://ardour.org/"
@@ -56,11 +56,15 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	nls? ( virtual/libintl )"
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-2.8.11-flags.patch \
+	"${FILESDIR}"/${PN}-2.8.14-syslibs.patch \
+	"${FILESDIR}"/${PN}-2.8.14-boost-150.patch
+)
+
 src_prepare() {
-	epatch \
-		"${FILESDIR}"/${PN}-2.8.11-flags.patch \
-		"${FILESDIR}"/${PN}-2.8.14-syslibs.patch \
-		"${FILESDIR}"/${PN}-2.8.14-boost-150.patch
+	epatch "${PATCHES[@]}"
+	epatch_user
 }
 
 src_compile() {
@@ -68,15 +72,17 @@ src_compile() {
 	tc-export CC CXX
 	mkdir -p "${D}"
 
-	escons \
-		DESTDIR="${D}" \
-		FPU_OPTIMIZATION="${FPU_OPTIMIZATION}" \
-		PREFIX=/usr \
-		SYSLIBS=1 \
-		$(use_scons curl FREESOUND) \
-		$(use_scons debug DEBUG) \
-		$(use_scons nls NLS) \
+	local mysconfargs=(
+		DESTDIR="${D}"
+		FPU_OPTIMIZATION="${FPU_OPTIMIZATION}"
+		PREFIX=/usr
+		SYSLIBS=1
+		$(use_scons curl FREESOUND)
+		$(use_scons debug DEBUG)
+		$(use_scons nls NLS)
 		$(use_scons lv2 LV2)
+	)
+	escons "${mysconfargs[@]}"
 }
 
 src_install() {
