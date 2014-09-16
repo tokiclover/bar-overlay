@@ -43,9 +43,14 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS README NEWS )
 
+PATCHES=(
+	"${FILESDIR}"/lash-1.0.pc.in.patch
+	"${FILESDIR}"/${P}-include.patch
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/lash-1.0.pc.in.patch
-	epatch "${FILESDIR}"/${P}-include.patch
+	epatch "${PATCHES[@]}"
+	epatch_user
 
 	local LINGUAS
 	use nls && LINGUAS="$(l10n_get_locales)"
@@ -60,12 +65,12 @@ src_configure() {
 		$(use_enable lash liblash)
 		$(use_enable python pylash)
 	)
-	waf-utils_src_configure ${mywafconfargs[@]}
+	waf-utils_src_configure "${mywafconfargs[@]}"
 }
 
 src_install() {
 	use doc && HTML_DOC=( "${S}"/build/default/html )
 	waf-utils_src_install
 	python_fix_shebang "${ED}"
-#	use lash &&	dosym /usr/include/{lash-1.0/,}lash
+	use lash &&	dosym /usr/include/{lash-1.0/,}lash
 }

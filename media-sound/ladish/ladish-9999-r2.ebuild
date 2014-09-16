@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.3 2014/08/08 12:14:19 -tclover Exp $
+# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.3 2014/09/09 12:14:19 -tclover Exp $
 
 EAPI=5
 
@@ -43,8 +43,13 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS README NEWS )
 
+PATCHES=(
+	"${FILESDIR}"/lash-1.0.pc.in.patch
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/lash-1.0.pc.in.patch
+	epatch "${PATCHES[@]}"
+	epatch_user
 
 	local LINGUAS
 	use nls && LINGUAS="$(l10n_get_locales)"
@@ -59,7 +64,7 @@ src_configure() {
 		$(use_enable lash liblash)
 		$(use_enable python pylash)
 	)
-	waf-utils_src_configure ${mywafconfargs[@]}
+	waf-utils_src_configure "${mywafconfargs[@]}"
 }
 
 src_install() {
