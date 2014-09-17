@@ -25,6 +25,10 @@ and do not forget to uncomment *overlay_defs*
 
 merge all the goodies with: `% emerge -aNDuv world`
 
+### license
+
+GPL-2
+
 ---
 
 vim:fenc=utf-8:
