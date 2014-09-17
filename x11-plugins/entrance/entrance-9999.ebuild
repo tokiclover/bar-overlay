@@ -6,9 +6,9 @@ EAPI=5
 
 inherit autotools-utils git-2
 
-DESCRIPTION="PAM compatible session manager, epigone of entrance"
+DESCRIPTION="a PAM compatible display manager based on EFL, epigone of entrance"
 HOMEPAGE="https://enlightenment.org"
-EGIT_REPO_URI="git://git.enlightenment.org/misc/entrance.git"
+EGIT_REPO_URI="git://git.enlightenment.org/misc/${PN}.git"
 
 IUSE="consolekit vkbd grub +pam systemd"
 LICENSE="BSD-2"
