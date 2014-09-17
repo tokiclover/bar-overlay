@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>no-herd</herd>
+	<maintainer>
+		<email></email>
+	</maintainer>
+	<use>
+		<flag name="consolekit">Enable <pkg>sys-auth/consolekit</pkg> support for login session</flag>
+		<flag name="grub">Enable <pkg>sys-boot/grub:2</pkg> support for reboot feature</flag>
+		<flag name="pam">Enable <pkg>virtual/pam</pkg> plugable authentification module</flag>
+		<flag name="vkbd">Enable <pkg>x11-plugins/ekbd</pkg> virtual keyboard support</flag>
+	</use>
+</pkgmetadata>
