@@ -17,7 +17,7 @@ DESCRIPTION="Accelerated Open Source driver for nVidia cards"
 HOMEPAGE="http://nouveau.freedesktop.org/"
 SRC_URI=""
 
-KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+KEYWORDS=""
 IUSE=""
 
 RDEPEND=">=x11-libs/libdrm-2.4.34[video_cards_nouveau]"
