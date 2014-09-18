@@ -28,6 +28,7 @@ DEPEND="virtual/libintl
 	qt4?  ( dev-qt/qtgui )"
 
 RDEPEND="${DEPEND}
+	>=net-misc/dhcpcd-6.4.4
 	!icons? ( x11-themes/hicolor-icon-theme )"
 
 if [[ ${PV} == "9999" ]]; then
