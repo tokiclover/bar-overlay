@@ -20,7 +20,9 @@ DEPEND="virtual/libintl
 	>=dev-libs/efl-1.8.0[systemd?]
 	>=x11-wm/enlightenment-0.17.0[systemd?]
 	>=media-libs/elementary-1.8.0"
-RDEPEND="pam? ( virtual/pam )
+
+RDEPEND="${DEPEND}
+	pam? ( virtual/pam )
 	consolekit? ( sys-auth/consolekit )
 	grub? ( sys-boot/grub:2 )
 	vkbd? ( x11-plugins/ekbd )"
