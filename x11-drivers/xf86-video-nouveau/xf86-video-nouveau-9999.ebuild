@@ -4,9 +4,7 @@
 
 EAPI=5
 
-AUTOTOOLS_AUTORECONF=1
-AUTOTOOLS_IN_SOURCE_BUILD=1
-
+XORG_EAUTORECONF="yes"
 XORG_DRI="always"
 
 inherit linux-info xorg-2 git-2
