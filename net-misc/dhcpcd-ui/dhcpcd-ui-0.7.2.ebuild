@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-0.7.2.ebuild,v 1.1 2014/09/17 18:29:24 -tclover Exp $
+# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-0.7.2.ebuild,v 1.1 2014/09/18 18:29:24 -tclover Exp $
 
 EAPI=5
 
@@ -14,6 +14,7 @@ LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="debug gtk gtk3 icons qt4 systemd libnotify"
+REQUIRED_USE="qt4? ( icons )"
 
 DEPEND="virtual/libintl
 	libnotify? ( virtual/notification-daemon )
