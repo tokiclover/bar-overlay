@@ -41,6 +41,7 @@ media-video/mpv
 metadata/md5-cache
 net-libs/libeweather
 net-misc/connman
+net-misc/dhcpcd-ui
 net-print/cnijfilter
 profiles/updades
 sys-firmware/iucode-tool
