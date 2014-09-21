@@ -38,12 +38,11 @@ media-sound/seq24
 media-sound/zynaddsubfx
 media-video/cinelerra
 media-video/mpv
-metadata/md5-cache
 net-libs/libeweather
 net-misc/connman
 net-misc/dhcpcd-ui
 net-print/cnijfilter
-profiles/updades
+sys-apps/hprofile
 sys-firmware/iucode-tool
 sys-fs/aufs-standalone
 sys-fs/aufs-util
