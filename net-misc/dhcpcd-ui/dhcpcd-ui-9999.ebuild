@@ -18,7 +18,7 @@ HOMEPAGE="http://roy.marples.name/projects/dhcpcd-ui/"
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="debug gtk gtk3 icons qt4 systemd libnotify"
+IUSE="debug gtk gtk3 icons qt4 libnotify"
 REQUIRED_USE="qt4? ( icons )"
 
 DEPEND="virtual/libintl
@@ -76,6 +76,6 @@ src_install()
 {
 	emake DESTDIR="${D}" INSTALL_ROOT="${D}" install
 
-	use systemd && systemd_dounit src/dhcpcd-online/dhcpcd-wait-online.service
+	systemd_dounit src/dhcpcd-online/dhcpcd-wait-online.service
 }
 
