@@ -20,7 +20,7 @@ RDEPEND="${DEPEND}
 	sys-apps/sed
 	app-shell/bash"
 
-DOCS=(AUTHORS README ChangeLog)
+DOCS=(AUTHORS BUGS README README.md ChangeLog)
 
 src_install()
 {
