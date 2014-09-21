@@ -12,7 +12,7 @@ SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 
 LICENSE="GPL-2"
 SLOT="0/${PV}"
-KEYWORDS=""
+KEYWORDS="~x86 ~amd64"
 
 
 DEPEND="sys-apps/findutils"
@@ -20,7 +20,7 @@ RDEPEND="${DEPEND}
 	sys-apps/sed
 	app-shell/bash"
 
-DOCS=(AUTHORS BUGS README README.md ChangeLog)
+DOCS=(AUTHORS BUG README README.md ChangeLog)
 
 src_install()
 {

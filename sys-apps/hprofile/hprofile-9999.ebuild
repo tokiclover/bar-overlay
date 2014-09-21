@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-apps/hprofile/hprofile-9999.ebuild,v 1.0 2014/09/20 08:41:42 -tclover Exp $
+# $Header: sys-apps/hprofile/hprofile-9999.ebuild,v 1.1 2014/09/20 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -20,7 +20,7 @@ RDEPEND="${DEPEND}
 	sys-apps/sed
 	app-shell/bash"
 
-DOCS=(AUTHORS BUGS README README.md ChangeLog)
+DOCS=(AUTHORS BUG README README.md ChangeLog)
 
 src_install()
 {
