@@ -14,10 +14,6 @@ EGIT_REPO_URI="git://github.com/mpv-player/mpv.git"
 EGIT_BRANCH=master
 SRC_URI="http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
-if [[ "${PV}" != "9999" ]]; then
-	EGIT_COMMIT="v${PV}"
-fi
-
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack -joystick
@@ -28,6 +24,7 @@ vf-dlopen wayland +X xinerama +xscreensaver +xv"
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS=""
 else
+	EGIT_COMMIT="v${PV}"
 	KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux"
 fi
 
