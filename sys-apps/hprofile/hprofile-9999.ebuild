@@ -17,6 +17,7 @@ KEYWORDS=""
 
 DEPEND="sys-apps/findutils"
 RDEPEND="${DEPEND}
+	sys-apps/diffutils
 	sys-apps/sed
 	app-shell/bash"
 
@@ -24,6 +25,6 @@ DOCS=(AUTHORS BUG README README.md ChangeLog)
 
 src_install()
 {
-	emake DESTDIR="${D}" prefix=/usr install
+	emake DESTDIR="${D}" prefix=/ install
 	dodoc "${DOCS[@]}"
 }
