@@ -4,7 +4,7 @@
 
 EAPI=5
 
-PLOCALES="cs de es fr hu it ko nl pl pt pt_BR ru sv zh_CN"
+PLOCALES="cs de el es fr hu it ko nl pl pt pt_BR ru sv zh_CN"
 
 inherit l10n fdo-mime eutils
 
