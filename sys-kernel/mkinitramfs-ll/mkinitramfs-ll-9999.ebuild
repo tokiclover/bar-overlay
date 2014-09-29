@@ -1,10 +1,10 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.9 2014/09/09 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.10 2014/09/28 08:41:42 -tclover Exp $
 
 EAPI=5
 
-inherit eutils git-2
+inherit eutils linux-info git-2
 
 DESCRIPTION="a flexible initramfs genrating tool with full LUKS support and more"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
@@ -53,6 +53,30 @@ for (( i=0; i<((${#COMPRESSOR_USE[@]} - 2)); i++ )); do
 done
 
 DOCS=( BUGS ChangeLog README.textile )
+
+pkg_setup() {
+	CONFIG_CHECK="BLK_DEV_INITRD PROC_FS SYSFS TMPFS"
+	local u U
+
+	for u in ${COMPRESSOR_USE[@]}; do
+		U="${u^^[a-z]}"
+		if use "${u}"; then
+			CONFIG_CHECK+=" RD_${U}"
+			eval : ERROR_"${U}"="no support of ${u} compressed initial ramdisk found"
+		fi
+	done
+
+	for u in ${FS_USE[@]/e2fs}; do
+		U="${u^^[a-z]}"
+		if use "${u}"; then
+			CONFIG_CHECK+=" ${U}_FS"
+			eval : ERROR_"${U}"="no supprt of ${u} file system found"
+		fi
+	done
+	use e2fs && CONFIG_CHECK+=" ~EXT2_FS ~EXT3_FS ~EXT4_FS"
+
+	linux-info_pkg_setup
+}
 
 src_prepare() {
 	local bin fs fsck mod kmod
