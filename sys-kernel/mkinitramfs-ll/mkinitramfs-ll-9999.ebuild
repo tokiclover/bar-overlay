@@ -61,7 +61,7 @@ pkg_setup() {
 	for u in ${COMPRESSOR_USE[@]}; do
 		U="${u^^[a-z]}"
 		if use "${u}"; then
-			CONFIG_CHECK+=" RD_${U}"
+			CONFIG_CHECK+=" ~RD_${U}"
 			eval : ERROR_"${U}"="no support of ${u} compressed initial ramdisk found"
 		fi
 	done
@@ -69,7 +69,7 @@ pkg_setup() {
 	for u in ${FS_USE[@]/e2fs}; do
 		U="${u^^[a-z]}"
 		if use "${u}"; then
-			CONFIG_CHECK+=" ${U}_FS"
+			CONFIG_CHECK+=" ~${U}_FS"
 			eval : ERROR_"${U}"="no supprt of ${u} file system found"
 		fi
 	done
