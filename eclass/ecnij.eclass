@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.3 2014/08/16 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 3.3 2014/09/30 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -71,9 +71,9 @@ dir_src_command() {
 			${cmd} ${args}
 		elif [[ x${cmd} == xeconf ]]; then
 			case ${dir} in
-				backendnet|cnijfilter|lgmon*|printui)
+				(backendnet|cnijfilter|lgmon*|pstocanonij|printui)
 					myeconfargs=(
-						"--enable-progpath=/usr"
+						"--enable-progpath=/usr/bin"
 						"--enable-libpath=/usr/$(get_libdir)/cnijlib"
 						"${myeconfargs[@]}"
 					)
