@@ -193,13 +193,20 @@ kernel-git_src_prepare() {
 	epatch_user
 
 	if use_if_iuse aufs; then
-		local dir src 
-		src=aufs${KV_MAJOR}-standalone
-		for dir in Documentation fs include; do
+		local dir src=aufs${KV_MAJOR}-standalone
+		local -a PATCHES=(
+			"${WORKDIR}"/${src}/aufs${KV_MAJOR}-{kbuild,base,mmap}.patch
+			"${WORKDIR}"/${src}/aufs${KV_MAJOR}-{standalone,loopback}.patch
+		)
+
+		for dir in Documentation fs; do
 			cp -a "${WORKDIR}"/${src}/${dir} "${S}" || die
 		done
-		epatch "${WORKDIR}"/${src}/aufs${KV_MAJOR}-{kbuild,base,mmap,standalone,loopback}.patch
-		[[ -n "${AUFS_EXTRA_PATCH}" ]] && epatch "${WORKDIR}"/${src}/${AUFS_EXTRA_PATCH}
+
+		cp -a {"${WORKDIR}/${src}","${S}"}/include/uapi/linux/aufs_type.h || die
+		epatch "${PATCHES[@]}"
+		[[ -n "${AUFS_EXTRA_PATCH}" ]] &&
+			epatch "${WORKDIR}"/${src}/${AUFS_EXTRA_PATCH}
 	fi
 
 	use_if_iuse hardened   && epatch "${WORKDIR}"/${GHP_VER/%-*}/*.patch
@@ -208,7 +215,8 @@ kernel-git_src_prepare() {
 	use_if_iuse bfq        && epatch "${WORKDIR}"/experimental/*.patch
 
 	if use_if_iuse ck || use_if_iuse bfs; then
-		[[ -n "${BFS_BASE_PATCH}" ]] && epatch "${WORKDIR}"/patches/${BFS_BASE_PATCH}
+		[[ -n "${BFS_BASE_PATCH}" ]] &&
+			epatch "${WORKDIR}"/patches/${BFS_BASE_PATCH}
 	fi
 	if use_if_iuse ck; then
 		sed -e "/ck.*-version.patch/d" \
@@ -219,14 +227,16 @@ kernel-git_src_prepare() {
  	elif use_if_iuse bfs; then
 		epatch "${WORKDIR}"/patches/${BFS_SRC}
 		epatch "${WORKDIR}"/patches/hz-{default_1000,no_default_250}.patch
-		[[ -n "${BFS_EXTRA_PATCH}" ]] && epatch "${WORKDIR}"/patches/${BFS_EXTRA_PATCH}
+		[[ -n "${BFS_EXTRA_PATCH}" ]] &&
+			epatch "${WORKDIR}"/patches/${BFS_EXTRA_PATCH}
 	fi
 	
 	use_if_iuse reiser4 && epatch "${DISTDIR}"/${RS4_SRC}
 	use_if_iuse rt && epatch "${DISTDIR}"/${RT_SRC}
 	use_if_iuse toi && epatch "${DISTDIR}"/${TOI_SRC}
 	use_if_iuse uksm && epatch "${DISTDIR}"/${UKSM_SRC}
-	use_if_iuse optimization && ! use_if_iuse bfq && epatch "${DISTDIR}"/${OPT_SRC}
+	use_if_iuse optimization && ! use_if_iuse bfq &&
+		epatch "${DISTDIR}"/${OPT_SRC}
 	
 	rm -fr .git*
 	sed -e "s,EXTRAVERSION =.*$,EXTRAVERSION = -git," -i Makefile || die
