@@ -72,7 +72,11 @@ dir_src_command() {
 		elif [[ x${cmd} == xeconf ]]; then
 			case ${dir} in
 				backendnet|cnijfilter|lgmon*|printui)
-				myeconfargs=( "--enable-libpath=/usr/$(get_libdir)/cnijlib" ${myeconfargs[@]} )
+					myeconfargs=(
+						"--enable-progpath=/usr"
+						"--enable-libpath=/usr/$(get_libdir)/cnijlib"
+						"${myeconfargs[@]}"
+					)
 				;;
 			esac
 			${cmd} ${args} ${myeconfargs[@]}
