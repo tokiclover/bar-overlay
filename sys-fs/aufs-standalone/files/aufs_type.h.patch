@@ -1,6 +1,6 @@
---- include/linux/aufs_type.h	2012-06-28 17:55:10.205661800 +0200
-+++ include/linux/aufs_type.h	2012-06-18 19:22:37.000000000 +0200
-@@ -21,21 +21,8 @@
+--- include/uapi/linux/aufs_type.h	2014-09-30 10:52:31.980935859 +0200
++++ include/uapi/linux/aufs_type.h	2014-09-29 21:02:48.814980022 +0200
+@@ -20,22 +20,8 @@
  
  #define AUFS_NAME	"aufs"
  
@@ -13,8 +13,9 @@
 -#define pr_fmt(fmt)	AUFS_NAME " %s:%d: " fmt, __func__, __LINE__
 -#include <linux/sched.h>
 -#undef pr_fmt
--#define pr_fmt(fmt)	AUFS_NAME " %s:%d:%s[%d]: " fmt, \
--		__func__, __LINE__, current->comm, current->pid
+-#define pr_fmt(fmt) \
+-		AUFS_NAME " %s:%d:%.*s[%d]: " fmt, __func__, __LINE__, \
+-		(int)sizeof(current->comm), current->comm, current->pid
 -#else
  #include <stdint.h>
  #include <sys/types.h>
@@ -22,7 +23,7 @@
  
  #include <linux/limits.h>
  
-@@ -60,11 +47,6 @@
+@@ -60,11 +46,6 @@
  #endif
  #endif
  
@@ -34,7 +35,53 @@
  
  /* ---------------------------------------------------------------------- */
  
-@@ -145,11 +127,6 @@
+@@ -147,12 +128,6 @@
+ 
+ #define AuBrAttr_CMOO_Mask	(AuBrAttr_COO_Mask | AuBrWAttr_MOO)
+ 
+-#ifdef __KERNEL__
+-#ifndef CONFIG_AUFS_FHSM
+-#undef AuBrAttr_FHSM
+-#define AuBrAttr_FHSM		0
+-#endif
+-#endif
+ 
+ /* the longest combination */
+ #define AuBrPermStrSz	sizeof(AUFS_BRPERM_RW		\
+@@ -165,27 +140,27 @@
+ 	char a[AuBrPermStrSz];
+ } au_br_perm_str_t;
+ 
+-static inline int au_br_writable(int brperm)
++static __inline__ int au_br_writable(int brperm)
+ {
+ 	return brperm & AuBrPerm_RW;
+ }
+ 
+-static inline int au_br_whable(int brperm)
++static __inline__ int au_br_whable(int brperm)
+ {
+ 	return brperm & (AuBrPerm_RW | AuBrRAttr_WH);
+ }
+ 
+-static inline int au_br_wh_linkable(int brperm)
++static __inline__ int au_br_wh_linkable(int brperm)
+ {
+ 	return !(brperm & AuBrWAttr_NoLinkWH);
+ }
+ 
+-static inline int au_br_cmoo(int brperm)
++static __inline__ int au_br_cmoo(int brperm)
+ {
+ 	return brperm & AuBrAttr_CMOO_Mask;
+ }
+ 
+-static inline int au_br_fhsm(int brperm)
++static __inline__ int au_br_fhsm(int brperm)
+ {
+ 	return brperm & AuBrAttr_FHSM;
+ }
+@@ -216,11 +191,6 @@
  #define __aligned(x)			__attribute__((aligned(x)))
  #endif
  
@@ -46,7 +93,7 @@
  
  struct au_rdu_cookie {
  	uint64_t	h_pos;
-@@ -168,7 +145,7 @@
+@@ -239,7 +209,7 @@
  	char		name[0];
  } __aligned(8);
  
@@ -55,13 +102,12 @@
  {
  	/* include the terminating NULL */
  	return ALIGN(sizeof(struct au_rdu_ent) + nlen + 1,
-@@ -176,7 +153,7 @@
+@@ -247,7 +217,7 @@
  }
  
  union au_rdu_ent_ul {
--	struct au_rdu_ent 	*e;
+-	struct au_rdu_ent __user	*e;
 +	struct au_rdu_ent *e;
  	uint64_t			ul;
  };
  
-
