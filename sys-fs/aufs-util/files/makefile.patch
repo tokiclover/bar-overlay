@@ -31,3 +31,12 @@
  override CPPFLAGS += -DAUFHSMD_CMD=\"/usr/lib/aufhsmd\"
  ${LibFhsmObj}: %.o: %.c ${LibFhsmHdr} $(addprefix ../, ${LibUtilHdr})
  ${LibFhsm}: $(foreach o, ${LibFhsmObj}, ${LibFhsm}(${o}))
+@@ -44,7 +44,7 @@
+ ${TgtObj}: %.o: %.c ${LibFhsmHdr} $(addprefix ../, ${LibUtilHdr}) ${LibFhsm}
+ #${Tgt}: override LDFLAGS += -static
+ ${Tgt}: override LDFLAGS += -s
+-${Tgt}: override LDLIBS += -lrt -L. -lfhsm -L.. -lautil
++${Tgt}: override LDLIBS += -L. -lfhsm -L.. -lautil -lrt
+ 
+ ########################################
+ 
