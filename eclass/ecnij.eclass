@@ -92,7 +92,7 @@ dir_src_command() {
 ecnij_pkg_setup() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	[[ -z ${LINGUAS} ]] && export LINGUAS="en"
+	[[ "${LINGUAS}" ]] || export LINGUAS="en"
 
 	use abi_x86_32 && use amd64 && multilib_toolchain_setup "x86"
 
@@ -138,7 +138,7 @@ ecnij_src_unpack() {
 ecnij_src_prepare() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	[[ ${PATCHES} ]] && epatch "${PATCHES[@]}"
+	[[ "${PATCHES}" ]] && epatch "${PATCHES[@]}"
 
 	epatch_user
 
@@ -279,3 +279,4 @@ ecnij_pkg_postinst() {
 	elog "https://forums.gentoo.org/viewtopic-p-3217721.html"
 	elog "https://bugs.gentoo.org/show_bug.cgi?id=258244"
 }
+
