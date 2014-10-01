@@ -1,11 +1,12 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-0.7.2.ebuild,v 1.1 2014/09/18 18:29:24 -tclover Exp $
+# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-0.7.2.ebuild,v 1.1 2014/10/01 18:29:24 -tclover Exp $
 
 EAPI=5
 
-if [[ ${PV} == "9999" ]]; then
-	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd"
+if [[ "${PV}" == 9999* ]]; then
+	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd-ui"
+	DEPEND="dev-vcs/fossil"
 else
 	SRC_URI="http://roy.marples.name/downloads/${PN}/${P}.tar.bz2"
 	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~amd64-linux ~arm-linux ~x86-linux"
@@ -31,13 +32,11 @@ RDEPEND="${DEPEND}
 	>=net-misc/dhcpcd-6.4.4
 	!icons? ( x11-themes/hicolor-icon-theme )"
 
-if [[ ${PV} == "9999" ]]; then
-	DEPEND+=" dev-vcs/fossil"
-
-	src_unpack()
-	{
-		local distdir=${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}
-		local repo=${distdir}/fossil/${PN}.fossil
+src_unpack()
+{
+	if [[ "${PV}" == 9999* ]]; then
+		local distdir="${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}"/fossil-src
+		local repo="${distdir}"/${PN}.fossil
 
 		addwrite "${distdir}"
 
@@ -51,8 +50,10 @@ if [[ ${PV} == "9999" ]]; then
 		mkdir -p "${S}" || die
 		cd "${S}" || die
 		fossil open "${repo}" || die
-	}
-fi
+	else
+		default
+	fi
+}
 
 src_prepare()
 {

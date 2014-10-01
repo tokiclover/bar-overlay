@@ -1,11 +1,11 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-0.7.2.ebuild,v 1.1 2014/09/18 18:29:24 -tclover Exp $
+# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-0.7.2.ebuild,v 1.1 2014/10/01 18:29:24 -tclover Exp $
 
 EAPI=5
 
-if [[ ${PV} == "9999" ]]; then
-	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd"
+if [[ "${PV}" == 9999* ]]; then
+	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd-ui"
 	DEPEND="dev-vcs/fossil"
 else
 	SRC_URI="http://roy.marples.name/downloads/${PN}/${P}.tar.bz2"
