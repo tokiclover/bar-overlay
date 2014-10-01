@@ -22,7 +22,8 @@ SLOT="0"
 IUSE="debug gtk gtk3 icons qt4 libnotify"
 REQUIRED_USE="qt4? ( icons )"
 
-DEPEND="virtual/libintl
+DEPEND="${DEPEND}
+	virtual/libintl
 	libnotify? ( virtual/notification-daemon )
 	gtk?  ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )
