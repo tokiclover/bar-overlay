@@ -6,6 +6,7 @@ EAPI=5
 
 if [[ ${PV} == "9999" ]]; then
 	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd"
+	DEPEND="dev-vcs/fossil"
 else
 	SRC_URI="http://roy.marples.name/downloads/${PN}/${P}.tar.bz2"
 	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~amd64-linux ~arm-linux ~x86-linux"
@@ -21,7 +22,8 @@ SLOT="0"
 IUSE="debug gtk gtk3 icons qt4 libnotify"
 REQUIRED_USE="qt4? ( icons )"
 
-DEPEND="virtual/libintl
+DEPEND="${DEPEND}
+	virtual/libintl
 	libnotify? ( virtual/notification-daemon )
 	gtk?  ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )
@@ -31,13 +33,11 @@ RDEPEND="${DEPEND}
 	>=net-misc/dhcpcd-6.4.4
 	!icons? ( x11-themes/hicolor-icon-theme )"
 
-if [[ ${PV} == "9999" ]]; then
-	DEPEND+=" dev-vcs/fossil"
-
-	src_unpack()
-	{
-		local distdir=${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}
-		local repo=${distdir}/fossil/${PN}.fossil
+src_unpack()
+{
+	if [[ "${PV}" == 9999* ]]; then
+		local distdir="${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}"/fossil-src
+		local repo="${distdir}"/${PN}.fossil
 
 		addwrite "${distdir}"
 
@@ -51,8 +51,10 @@ if [[ ${PV} == "9999" ]]; then
 		mkdir -p "${S}" || die
 		cd "${S}" || die
 		fossil open "${repo}" || die
-	}
-fi
+	else
+		default
+	fi
+}
 
 src_prepare()
 {
