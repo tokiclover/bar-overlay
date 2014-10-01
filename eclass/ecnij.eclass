@@ -120,7 +120,8 @@ ecnij_pkg_setup() {
 	fi
 
 	if [[ ${PV:0:1} -eq 4 ]]; then
-		CNIJFILTER_SRC="bscc2sts cmdtocanonij ${CNIJFILTER_SRC} cnijbe"
+		PRINTER_SRC="bscc2sts ${PRINTER_SRC}"
+		CNIJFILTER_SRC="cmdtocanonij ${CNIJFILTER_SRC} cnijbe"
 	fi
 }
 
