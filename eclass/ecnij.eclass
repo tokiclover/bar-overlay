@@ -74,7 +74,7 @@ dir_src_command() {
 				(backendnet|cnijnpr|lgmon2)
 					myeconfargs=(
 						"--enable-progpath=/usr/bin"
-						"--enable-libpath=/usr/$(get_libdir)/cnijlib"
+						"--enable-libpath=/var/lib/cnijlib"
 						"${myeconfargs[@]}"
 					)
 				;;
@@ -229,8 +229,7 @@ ecnij_src_install() {
 			popd
 
 			dolib.so ${prid}/libs_bin${abi_lib}/*.so*
-			dosym ${abi_libdir}/{cnij,bj}lib
-			exeinto ${abi_libdir}/cnijlib
+			exeinto /var/lib/cnijlib
 			doexe ${prid}/database/*
 			insinto /usr/share/cups/model
 			doins ppd/canon${pr}.ppd
@@ -248,7 +247,7 @@ ecnij_src_install() {
 
 		dolib.so com/libs_bin${abi_lib}/*.so*
 		EXEOPTIONS="-m555 -glp -olp"
-		exeinto ${abi_libdir}/cnijlib
+		exeinto /var/lib/cnijlib
 		doexe com/ini/cnnet.ini
 	fi
 
