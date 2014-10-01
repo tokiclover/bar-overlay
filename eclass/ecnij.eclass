@@ -71,10 +71,16 @@ dir_src_command() {
 			${cmd} ${args}
 		elif [[ x${cmd} == xeconf ]]; then
 			case ${dir} in
-				(backendnet|cnijfilter|lgmon*|pstocanonij|printui)
+				(backendnet|cnijnpr|lgmon2)
 					myeconfargs=(
 						"--enable-progpath=/usr/bin"
 						"--enable-libpath=/usr/$(get_libdir)/cnijlib"
+						"${myeconfargs[@]}"
+					)
+				;;
+				(backend|cngpiji*|cnijbe|lgmon|pstocanonij)
+					myeconfargs=(
+						"--enable-progpath=/usr/bin"
 						"${myeconfargs[@]}"
 					)
 				;;
