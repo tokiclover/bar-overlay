@@ -5,7 +5,7 @@
 EAPI=5
 
 if [[ "${PV}" == 9999* ]]; then
-	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd-ui"
+	FOSSIL_URI="http://roy.marples.name/projects/${PN}"
 	DEPEND="dev-vcs/fossil"
 else
 	SRC_URI="http://roy.marples.name/downloads/${PN}/${P}.tar.bz2"
