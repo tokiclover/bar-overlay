@@ -1,6 +1,5 @@
 app-arch/lz4
 app-dicts/xmlittre
-app-doc/gimp-help
 dev-libs/wayland
 dev-perl/perl-URxvt
 dev-perl/perl-WebKit-GTk
