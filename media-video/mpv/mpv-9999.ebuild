@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.0 2014/09/16 -tclover Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.1 2014/10/01 -tclover Exp $
 
 EAPI=5
 
@@ -19,7 +19,7 @@ SLOT="0"
 IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack -joystick
 jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123 -openal +opengl
 oss portaudio postproc pulseaudio pvr +quvi samba sdl selinux +shm v4l vaapi vdpau
-vf-dlopen wayland +X xinerama +xscreensaver +xv"
+vf-dlopen wayland +X xinerama +xscreensaver +xv tools"
 
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS=""
@@ -113,7 +113,7 @@ RDEPEND+="
 	selinux? ( sec-policy/selinux-mplayer )
 	v4l? ( media-libs/libv4l )
 	wayland? (
-		>=dev-libs/wayland-1.3.0
+		>=dev-libs/wayland-1.6.0
 		media-libs/mesa[egl,wayland]
 		>=x11-libs/libxkbcommon-0.3.0
 	)
@@ -223,6 +223,13 @@ src_install() {
 
 	if use luajit; then
 		pax-mark -m "${ED}"usr/bin/mpv
+	fi
+
+	if use tools; then
+		insinto /usr/share/${PN}/tools
+		use lua && doins -r TOOLS/lua
+		insopts "-m755"
+		doins TOOLS/*.[ps]*
 	fi
 }
 
