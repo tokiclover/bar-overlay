@@ -23,7 +23,11 @@ REQUIRED_USE="qt4? ( icons )"
 
 DEPEND="${DEPEND}
 	virtual/libintl
-	libnotify? ( virtual/notification-daemon )
+	libnotify? (
+		gtk?  ( x11-libs/libnotify )
+		gtk3? ( x11-libs/libnotify )
+		qt4?  ( kde-base/kdelibs )
+	)
 	gtk?  ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )
 	qt4?  ( dev-qt/qtgui:4 )"
