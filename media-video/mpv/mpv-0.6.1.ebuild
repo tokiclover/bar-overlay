@@ -19,7 +19,7 @@ SLOT="0"
 IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack -joystick
 jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123 -openal +opengl
 oss portaudio postproc pulseaudio pvr +quvi samba sdl selinux +shm v4l vaapi vdpau
-vf-dlopen wayland +X xinerama +xscreensaver +xv tools"
+vf-dlopen wayland +X xinerama +xscreensaver +xv"
 
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS=""
@@ -223,13 +223,6 @@ src_install() {
 
 	if use luajit; then
 		pax-mark -m "${ED}"usr/bin/mpv
-	fi
-
-	if use tools; then
-		insinto /usr/share/${PN}/tools
-		use lua && doins -r TOOLS/lua
-		insopts "-m755"
-		doins TOOLS/*.[ps]*
 	fi
 }
 
