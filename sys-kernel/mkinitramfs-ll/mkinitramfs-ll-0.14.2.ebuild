@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.13.6.ebuild v1.10 2014/09/28 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.14.2.ebuild v1.11 2014/10/10 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -14,7 +14,7 @@ LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-COMPRESSOR_USE=( bzip2 gzip lz4 lzip lzo xz )
+COMPRESSOR_USE=( bzip2 gzip lz4 lzo xz )
 FS_USE=( btrfs e2fs f2fs jfs reiserfs xfs )
 IUSE="aufs +bash dm-crypt device-mapper dmraid fbsplash lzma mdadm squashfs
 +symlink zfs +zram zsh ${COMPRESSOR_USE[@]/xz/+xz} ${FS_USE[@]/e2fs/+e2fs}"
@@ -23,8 +23,9 @@ REQUIRED_USE="|| ( bash zsh )
 	|| ( ${COMPRESSOR_USE[@]} )
 	|| ( ${FS_USE[@]} )"
 
-DEPEND=""
-RDEPEND="app-arch/cpio 
+DEPEND="sys-apps/sed"
+RDEPEND="app-arch/cpio
+	sys-apps/findutils
 	fbsplash? ( sys-apps/v86d media-gfx/splashutils[fbcondecor,png,truetype] )
 	sys-apps/busybox[mdev]
 	dm-crypt? ( sys-fs/cryptsetup )
@@ -101,14 +102,12 @@ src_prepare() {
 		-e "s,mgrp]+=,mgrp]+=${mod}\nopts[-mgrp]+=," -i ${PN}.conf
 
 	# set up the default compressor if xz USE flag is unset
-	if ! use xz; then
-		for u in ${COMPRESSOR_USE[@]}; do
-			if use ${u}; then
-				sed -e "s,# vim,opts[-comp]=\"${u/lzo/lzop} -9\"\n#\n# vim," -i ${PN}.conf
-				break
-			fi
-		done
-	fi
+	use xz && return
+	for u in ${COMPRESSOR_USE[@]}; do
+		use ${u} || continue
+		sed -e "s,# vim,opts[-comp]=\"${u/lzo/lzop} -9\"\n#\n# vim," -i ${PN}.conf
+		(( "${?}" == 0 )) && break
+	done
 }
 
 src_install() {
@@ -121,14 +120,11 @@ src_install() {
 
 	use zram && emake DESTDIR="${D}" install_zram
 
-	if use bash; then
-		shell=bash
-		emake DESTDIR="${D}" prefix=/usr install_bash
-	fi
-	if use zsh; then
-		shell=zsh
-		emake DESTDIR="${D}" prefix=/usr install_zsh
-	fi
+	for sh in {ba,z}sh; do
+		use ${sh} || continue
+		shell=${sh}
+		emake DESTDIR="${D}" prefix=/usr install_${sh}
+	done
 
 	if use symlink; then
 		local bindir=/usr/sbin
@@ -140,8 +136,11 @@ src_install() {
 }
 
 pkg_postinst() {
-	einfo "easiest way to build an intramfs is running:"
-	einfo " \`${PN}.${shell} -a -f -y -k$(uname -r)'; and do copy usr/bin/gpg binary with"
+	local linguas="${LINGUS:-en}"
+
+	einfo "The easiest way to build an intramfs is running:"
+	einfo " \`${PN}.${shell} -a -f -y${linguas// /:} -k$(uname -r)'"
+	einfo "And do not forget to copy usr/bin/gpg binary with"
 	einfo "its usr/share/gnupg/options.skel in /usr/share/${PN} before for GnuPG support."
 	einfo
 
@@ -150,7 +149,7 @@ pkg_postinst() {
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
 		einfo "you have to add that list to /etc/conf.d/squashdir-mount and then"
 		einfo "run \`sdr.${shell} -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
-		einfo "And don't forget to run \`rc-update add squashdir-mount boot' afterwards."
+		einfo "And don't forget to run \`rc-update add squashdir-mount default' afterwards."
 	fi
 
 	if use zram; then
