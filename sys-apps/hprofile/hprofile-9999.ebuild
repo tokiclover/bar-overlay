@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-apps/hprofile/hprofile-9999.ebuild,v 1.1 2014/09/20 08:41:42 -tclover Exp $
+# $Header: sys-apps/hprofile/hprofile-9999.ebuild,v 1.1 2014/10/10 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -19,7 +19,7 @@ DEPEND="sys-apps/findutils"
 RDEPEND="${DEPEND}
 	sys-apps/diffutils
 	sys-apps/sed
-	app-shell/bash"
+	app-shells/bash"
 
 DOCS=(AUTHORS BUG README README.md ChangeLog)
 
