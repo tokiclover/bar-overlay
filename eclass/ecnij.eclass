@@ -215,6 +215,7 @@ ecnij_src_install() {
 	local abi_libdir=/usr/$(get_libdir) p pr prid
 	local abi_lib=${abi_libdir#*lib}
 	local lib license lingua lng
+	local -a DOCS
 
 	[[ x${#MULTILIB_COMPAT[@]} == x1 ]] && abi_lib=
 
@@ -238,7 +239,7 @@ ecnij_src_install() {
 			for lingua in ${LINGUAS}; do
 				lng=${lingua^^[a-z]}
 				[[ -f lproptions/lproptions-${pr}-${PV}${lng}.txt ]] &&
-				dodoc lproptions/lproptions-${pr}-${PV}${lng}.txt
+				DOCS+=(lproptions/lproptions-${pr}-${PV}${lng}.txt)
 			done
 		fi
 	done
@@ -270,9 +271,11 @@ ecnij_src_install() {
 		license=LICENSE-${PN}-${PV}${lng}.txt
 		[[ -e ${license%${lng:0:1}.txt}.txt ]] &&
 		mv -f ${license%{lng:0:1}.txt} ${license}
-		[[ -e ${license} ]] && dodoc ${license}
+		[[ -e ${license} ]] && DOCS+=(${license})
 	done
 	fi
+
+	[[ "${DOCS[*]}" ]] && dodoc "${DOCS[@]}"
 }
 
 # @FUNCTION: ecnij_pkg_postinst
