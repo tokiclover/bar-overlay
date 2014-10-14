@@ -233,6 +233,13 @@ ecnij_src_install() {
 			doexe ${prid}/database/*
 			insinto /usr/share/cups/model
 			doins ppd/canon${pr}.ppd
+
+			use_if_iuse doc &&
+			for lingua in ${LINGUAS}; do
+				lng=${lingua^^[a-z]}
+				[[ -f lproptions/lproptions-${pr}-${PV}${lng}.txt ]] &&
+				dodoc lproptions/lproptions-${pr}-${PV}${lng}.txt
+			done
 		fi
 	done
 
@@ -257,19 +264,15 @@ ecnij_src_install() {
 		mv "${ED}"/usr/share/{cmdtocanonij,${PN}} || die
 	fi
 
-	( use drivers || use_if_iuse net ) &&
+	if use drivers || use_if_iuse net; then
 	for lingua in ${LINGUAS}; do
 		lng=${lingua^^[a-z]}
-		license=LICENSE-${MY_PN}-${PV}${lng}.txt
+		license=LICENSE-${PN}-${PV}${lng}.txt
 		[[ -e ${license%${lng:0:1}.txt}.txt ]] &&
 		mv -f ${license%{lng:0:1}.txt} ${license}
 		[[ -e ${license} ]] && dodoc ${license}
 	done
-
-	use_if_iuse doc &&
-	for lingua in ${LINGUAS}; do
-		dodoc lproptions/lproptions-${pr}-${PV}${lingua^^[a-z]}.txt
-	done
+	fi
 }
 
 # @FUNCTION: ecnij_pkg_postinst
