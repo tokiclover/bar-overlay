@@ -11,15 +11,15 @@ HOMEPAGE="https://github.com/tokiclover/hprofile"
 SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
-SLOT="1/${PV}"
+SLOT="0/${PV}"
 KEYWORDS="~x86 ~amd64"
 
 
-DEPEND="sys-apps/findutils"
+DEPEND=""
 RDEPEND="${DEPEND}
 	sys-apps/diffutils
 	sys-apps/sed
-	app-shells/bash"
+	app-shells/zsh"
 
 DOCS=(AUTHORS BUGS README README.md ChangeLog)
 
