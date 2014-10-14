@@ -15,7 +15,7 @@ SLOT="0/${PV}"
 KEYWORDS=""
 
 
-DEPEND=""
+DEPEND="sys-apps/findutils"
 RDEPEND="${DEPEND}
 	sys-apps/diffutils
 	sys-apps/sed
