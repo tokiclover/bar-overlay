@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit base toolchain-funcs multilib
+inherit base toolchain-funcs multilib-minimal
 
 DESCRIPTION="C++ library for real-time resampling of audio signals"
 HOMEPAGE="http://kokkinizita.linuxaudio.org/linuxaudio/"
@@ -15,10 +15,8 @@ SLOT="0/${PV}"
 KEYWORDS="~amd64 ~x86"
 IUSE="+doc"
 
-DEPEND="media-libs/libsndfile"
+DEPEND="media-libs/libsndfile[${MULTILIB_USEDEP}]"
 RDEPEND="${DEPEND}"
-
-RESTRICT="mirror"
 
 DOCS=( AUTHORS README )
 
@@ -26,7 +24,13 @@ PATCHES=(
 	"${FILESDIR}"/${P}-Makefile.patch
 )
 
-src_compile()
+src_prepare()
+{
+	base_src_prepare
+	multilib_copy_sources
+}
+
+multilib_src_compile()
 {
 	for dir in libs apps; do
 		pushd "${dir}"
@@ -35,14 +39,17 @@ src_compile()
 	done
 }
 
-src_install()
+multilib_src_install()
 {
 	pushd libs
 	emake DESTDIR="${D}" PREFIX="${EPREFIX}/usr" LIBDIR=$(get_libdir) install
 	popd && pushd apps
 	emake DESTDIR="${D}" PREFIX="${EPREFIX}/usr" install
 	popd
+}
 
+multilib_src_install_all()
+{
 	dodoc "${DOCS[@]}"
 	use doc && dohtml -r docs
 }

@@ -30,8 +30,9 @@
 +	$(CXX) $(LDFLAGS) -o $@ $(ALSA_DELAY_O) $(LDLIBS)
  $(ALSA_DELAY_O):
  -include $(ALSA_DELAY_O:%.o=%.d)
- --- libs/Makefile	2014-10-19 15:52:33.209494432 +0200
-+++ libs/Makefile	2014-10-19 15:54:20.026492519 +0200
+ 
+--- libs/Makefile	2014-10-19 22:10:30.595088323 +0200
++++ libs/Makefile	2014-10-19 22:11:42.273087040 +0200
 @@ -31,7 +31,7 @@
  
  
@@ -41,14 +42,14 @@
  LDLFAGS +=
  LDLIBS +=
  
-@@ -45,14 +45,14 @@
+@@ -45,14 +45,15 @@
  
  
  $(ZITA-ALSA-PCMI_MIN): $(ZITA-ALSA-PCMI_O)
 -	g++ -shared $(LDFLAGS) -Wl,-soname,$(ZITA-ALSA-PCMI_MAJ) -o $(ZITA-ALSA-PCMI_MIN) $(ZITA-ALSA-PCMI_O) $(ZITA-ALSA-PCMI_DEP)
--
 +	$(CXX) -shared $(LDFLAGS) -Wl,-soname,$(ZITA-ALSA-PCMI_MAJ) -o $(ZITA-ALSA-PCMI_MIN) $(ZITA-ALSA-PCMI_O) $(ZITA-ALSA-PCMI_DEP)
 +	ln -sf $(ZITA-ALSA-PCMI_MIN) $(ZITA-ALSA-PCMI_SO)
+ 
  
  install:	$(ZITA-ALSA-PCMI_MIN)
  	install -Dm 644 $(ZITA-ALSA-PCMI_H)   $(DESTDIR)$(PREFIX)/include/$(ZITA-ALSA-PCMI_H)
@@ -59,3 +60,4 @@
  
  uninstall:
  	rm -rf $(DESTDIR)$(PREFIX)/include/zita-alsa-pcmi.h
+
