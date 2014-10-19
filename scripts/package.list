@@ -11,6 +11,8 @@ media-fonts/sil-nuosu
 media-fonts/ttf-mph2b-damase
 media-libs/aubio
 media-libs/mesa
+media-libs/zita-alsa-pcmi
+media-libs/zita-resampler
 media-plugins/calf
 media-plugins/deadbeef-plugins-infobar
 media-plugins/deadbeef-plugins-mpris
@@ -34,6 +36,7 @@ media-sound/oss
 media-sound/rezound
 media-sound/rosegarden
 media-sound/seq24
+media-sound/zita-ajbridge
 media-sound/zynaddsubfx
 media-video/cinelerra
 media-video/mpv
