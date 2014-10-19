@@ -1,0 +1,40 @@
+From 1dc8c363d1b312f99d6cb4512727ba6f6e0b2b9f Mon Sep 17 00:00:00 2001
+From: "Gavin Pryke (gavlee)" <gavinlee303@googlemail.com>
+Date: Fri, 7 Sep 2012 17:13:31 +0100
+Subject: [PATCH 1/4] honour toolchain env
+
+---
+ SConstruct |   16 ++++++++++++++++
+ 1 files changed, 16 insertions(+), 0 deletions(-)
+
+diff --git a/SConstruct b/SConstruct
+index 0e40c7c..b816115 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -481,6 +481,22 @@ env['REGISTRATION_URL'] = "http://ffado.org/deviceregistration/register.php?acti
+ #
+ env['top_srcdir'] = env.Dir( "." ).abspath
+ 
++# Respect toolchain settings from environment
++# code found on http://http://dev.gentoo.org/~vapier/scons-blows.txt
++# and modified to strip the double quotes, this should allows setting CFLAGS
++# containing things like --param l1-cache-line-size=64
++import SCons.Util
++if os.environ.has_key('CC'):
++	env['CC'] = os.environ['CC']
++if os.environ.has_key('CFLAGS'):
++        env.Append(CFLAGS = str(os.environ['CFLAGS']).replace('\"', ''))
++if os.environ.has_key('CXX'):
++	env['CXX'] = os.environ['CXX']
++if os.environ.has_key('CXXFLAGS'):
++        env.Append(CXXFLAGS = str(os.environ['CXXFLAGS'].replace('\"', '')))
++if os.environ.has_key('LDFLAGS'):
++	env['LINKFLAGS'] += SCons.Util.CLVar(os.environ['LDFLAGS'])
++
+ #
+ # Start building
+ #
+-- 
+1.7.8.6
+
+
