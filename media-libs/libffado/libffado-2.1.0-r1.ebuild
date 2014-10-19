@@ -71,7 +71,8 @@ multilib_src_compile()
 
 multilib_src_install()
 {
-	escons DESTDIR="${D}" WILL_DEAL_WITH_XDG_MYSELF="True" install
+	escons DESTDIR="${D}" PREFIX="${EPREFIX}/usr" \
+		WILL_DEAL_WITH_XDG_MYSELF="True" install
 }
 
 multilib_src_install_all()
