@@ -52,13 +52,13 @@ multilib_src_configure()
 	# CPU Detection (dynsimd) uses asm routines which requires 3dnow, mmx and sse.
 	if use cpudetection && use 3dnow && use mmx && use sse; then
 		einfo "Enabling cpudetection (dynsimd)"
-		myconfargs+=(${myconf} --enable-dynsimd)
+		myconfargs=(--enable-dynsimd)
 		append-flags -mmmx -msse -m3dnow
 	fi
 
 	use doc || export ac_cv_prog_HAVE_DOXYGEN=false
 
-	myeconfargs=(
+	myeconfargs+=(
 		$(use_enable ieee1394 firewire)
 		$(use_enable freebob)
 		$(use_enable altivec)
@@ -72,14 +72,13 @@ multilib_src_configure()
 		--disable-dependency-tracking
 		--with-default-tmpdir=/dev/shm
 		--with-html-dir=/usr/share/doc/${PF}
-		${myconf}
 	)
 	ECONF_SOURCE="${BUILD_DIR}" autotools-multilib_src_configure
 }
 
 multilib_src_install()
 {
-	ECONF_SOURCE="${BUILD_DIR}" autotools-multilib_src_configure
+	autotools-multilib_src_install
 }
 
 multilib_src_install_all()
