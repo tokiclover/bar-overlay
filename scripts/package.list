@@ -10,6 +10,7 @@ media-fonts/liberation-fonts
 media-fonts/sil-nuosu
 media-fonts/ttf-mph2b-damase
 media-libs/aubio
+media-libs/libffado
 media-libs/mesa
 media-libs/zita-alsa-pcmi
 media-libs/zita-resampler
@@ -28,6 +29,7 @@ media-sound/deadbeef
 media-sound/fluidsynth
 media-sound/gmusicbrowser
 media-sound/hydrogen
+media-sound/jack-audio-connection-kit
 media-sound/jack-rack
 media-sound/jack_mixer
 media-sound/ladish
@@ -64,3 +66,4 @@ x11-themes/gt3-xcursor-theme
 x11-themes/leopard-gtk-theme
 x11-themes/leopard-icon-theme
 x11-themes/nimbus-gtk-theme
+
