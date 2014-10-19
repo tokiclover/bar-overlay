@@ -1,4 +1,4 @@
-$Header: bar-overlay/README.md, 2014/09/16 07:35:10 -tclover Exp $
+$Header: bar-overlay/README.md, 2014/10/18 07:35:10 -tclover Exp $
 
 ---
 
@@ -7,19 +7,19 @@ package list is: *scripts/package.list*
 
 ### to get this overlay
 
-`% USE=git emerge -av layman`
-`% layman -o https://raw.github.com/tokiclover/bar-overlay/master/bar.xml -f -a bar`
+    % USE=git emerge -av layman
+    % layman -o https://raw.github.com/tokiclover/bar-overlay/master/bar.xml -f -a bar
 
 ### another alternative
 
 and do not forget to uncomment *overlay_defs*
 
-`% grep overlay_defs /etc/layman/layman.cfg`
-`overlay_defs : /etc/layman/overlays`
-`% mkdir -p /etc/layman/overlays`
+    % grep overlay_defs /etc/layman/layman.cfg
+    overlay_defs : /etc/layman/overlays
+    % mkdir -p /etc/layman/overlays
 
-`% wget -NP /etc/layman/overlays https://raw.github.com/tokiclover/bar-overlay/master/bar.xml`
-`% layman -a bar`
+    % wget -NP /etc/layman/overlays https://raw.github.com/tokiclover/bar-overlay/master/bar.xml
+    % layman -a bar
 
 ### usage/checking
 
