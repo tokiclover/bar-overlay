@@ -23,9 +23,10 @@ REQUIRED_USE="|| ( bash zsh )
 	|| ( ${COMPRESSOR_USE[@]} )
 	|| ( ${FS_USE[@]} )"
 
-DEPEND="sys-apps/sed"
+DEPEND="sys-apps/sed
+	sys-apps/findutils"
+
 RDEPEND="app-arch/cpio
-	sys-apps/findutils
 	fbsplash? ( sys-apps/v86d media-gfx/splashutils[fbcondecor,png,truetype] )
 	sys-apps/busybox[mdev]
 	dm-crypt? ( sys-fs/cryptsetup )
@@ -49,7 +50,7 @@ RDEPEND="app-arch/cpio
 	zsh? ( app-shells/zsh[unicode] )"
 
 for (( i=0; i<((${#COMPRESSOR_USE[@]} - 2)); i++ )); do
-	DEPEND="${DEPEND}
+	RDEPEND="${RDEPEND}
 		app-arch/${COMPRESSOR_USE[$i]}"
 done
 
