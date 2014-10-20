@@ -4,23 +4,25 @@
 
 EAPI=5
 
-inherit flag-o-matic eutils autotools-multilib git-2
+PYTHON_COMPAT=( python2_7 )
+
+inherit flag-o-matic eutils python-single-r1 autotools-multilib
 
 RESTRICT="mirror"
 DESCRIPTION="A low-latency audio server"
 HOMEPAGE="http://www.jackaudio.org"
-
-EGIT_REPO_URI="git://github.com/jackaudio/jack1.git"
-EGIT_HAS_SUBMODULES="example-clients"
+SRC_URI="http://www.jackaudio.org/downloads/${P}.tar.gz
+	dbus? ( http://nedko.arnaudov.name/soft/jack/dbus/${P}-dbus.patch )"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS=""
-IUSE="3dnow altivec alsa celt coreaudio cpudetection doc debug examples mmx oss sse netjack freebob ieee1394 zalsa"
+IUSE="3dnow altivec alsa celt coreaudio cpudetection dbus doc debug examples mmx oss sse netjack freebob ieee1394 zalsa"
 
 RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 	sys-libs/ncurses[${MULTILIB_USEDEP}]
 	celt? ( >=media-libs/celt-0.5.0[${MULTILIB_USEDEP}] )
+	dbus? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
 	alsa? ( >=media-libs/alsa-lib-0.9.1[${MULTILIB_USEDEP}] )
 	freebob? ( sys-libs/libfreebob[${MULTILIB_USEDEP}]
 	          !media-libs/libffado[${MULTILIB_USEDEP}] )
@@ -32,10 +34,18 @@ RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
+	dbus? ( dev-python/dbus-python[${PYTHON_USEDEP}] )
 	doc? ( app-doc/doxygen )
 	netjack? ( dev-util/scons )"
 
 DOCS=( AUTHORS TODO README )
+
+PATCHES=(
+	"${FILESDIR}/${P}-sparc-cpuinfo.patch"
+	"${FILESDIR}/${P}-freebsd.patch"
+	"${FILESDIR}/${P}-respect-march.patch"
+	"${DISTDIR}/${P}-dbus.patch"
+)
 
 AUTOTOOLS_AUTORECONF=1
 
@@ -84,5 +94,6 @@ multilib_src_install()
 multilib_src_install_all()
 {
 	use examples && dodoc -r example-clients
+	python_fix_shebang "${ED}"
 }
 

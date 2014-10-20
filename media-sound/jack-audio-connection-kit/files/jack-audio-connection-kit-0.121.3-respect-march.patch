@@ -1,0 +1,25 @@
+diff -Naur jack-audio-connection-kit-0.121.3.orig/configure.ac jack-audio-connection-kit-0.121.3/configure.ac
+--- jack-audio-connection-kit-0.121.3.orig/configure.ac	2011-09-28 15:09:59.000000000 +0200
++++ jack-audio-connection-kit-0.121.3/configure.ac	2013-03-17 20:26:24.169593017 +0100
+@@ -468,20 +468,6 @@
+ dnl as the CPU type. we miss out on some possible optimizations as 
+ dnl a result. oh well.
+ dnl     
+-    
+-    if test x$with_cpu_target != x ; then
+-        JACK_OPT_CFLAGS="-march=$with_cpu_target"
+-    else
+-        if test "$build_cpu" = "i586"; then
+-	   JACK_OPT_CFLAGS="-march=i586 "
+-	elif test "$build_cpu" = "i686"; then
+-	    JACK_OPT_CFLAGS="-march=i686"
+-	elif test "$build_cpu" = "x86_64"; then
+-	    JACK_OPT_CFLAGS="-march=k8"
+-	else
+-	    :
+-	fi
+-    fi
+ 
+ dnl
+ dnl do not add h/w specific flags if asked to let compiler
+

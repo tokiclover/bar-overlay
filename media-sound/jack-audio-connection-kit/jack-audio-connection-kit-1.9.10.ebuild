@@ -6,11 +6,11 @@ EAPI=5
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit eutils python-single-r1 waf-utils multilib-minimal git-2
+inherit eutils python-single-r1 waf-utils multilib-minimal
 
 DESCRIPTION="Jackdmp jack implemention for multi-processor machine"
 HOMEPAGE="http://jackaudio.org/"
-EGIT_REPO_URI="git://github.com/jackaudio/jack2.git"
+SRC_URI="https://dl.dropboxusercontent.com/u/28869550/jack-${PV}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -36,6 +36,8 @@ RDEPEND="${RDEPEND}
 	pam? ( sys-auth/realtime-base )"
 
 DOCS=( ChangeLog README README_NETJACK2 TODO )
+
+S="${WORKDIR}/jack-${PV}"
 
 src_prepare()
 {
