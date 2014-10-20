@@ -31,7 +31,10 @@ src_prepare()
 
 multilib_src_compile()
 {
-	for dir in libs apps; do
+	local -a DIRS=(libs)
+	multilib_is_native_abi && DIRS+=(apps)
+
+	for dir in "${DIRS[@]}"; do
 		pushd "${dir}"
 		emake
 		popd
@@ -40,11 +43,14 @@ multilib_src_compile()
 
 multilib_src_install()
 {
-	pushd libs
-	emake DESTDIR="${D}" LIBDIR="$(get_libdir)" PREFIX="${EPREFIX}/usr" install
-	popd && pushd apps
+	local -a DIRS=(libs)
+	multilib_is_native_abi && DIRS+=(apps)
 
-	emake DESTDIR="${D}" PREFIX="${EPREFIX}/usr" install
-	popd
+	for dir in "${DIRS[@]}"; do
+		pushd "${dir}"
+		emake DESTDIR="${D}" LIBDIR="$(get_libdir)" \
+			PREFIX="${EPREFIX}/usr" install
+		popd
+	done
 }
 
