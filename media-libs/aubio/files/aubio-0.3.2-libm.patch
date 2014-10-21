@@ -1,0 +1,22 @@
+--- examples/Makefile.in	2014-10-21 22:04:17.960051743 +0200
++++ examples/Makefile.in	2014-10-21 22:04:41.049051816 +0200
+@@ -239,7 +239,7 @@
+ 
+ # global flags
+ AM_CFLAGS = -DAUBIO_PREFIX=\"$(prefix)\" -I$(top_srcdir)/src -I$(top_srcdir)/ext @AUBIO_CFLAGS@ @LASH_CFLAGS@ @FFTWLIB_CFLAGS@
+-AM_LDFLAGS = -L$(top_builddir)/src -L$(top_builddir)/ext -laubioext -laubio @LASH_LIBS@
++AM_LDFLAGS = -L$(top_builddir)/src -L$(top_builddir)/ext -laubioext -laubio @LASH_LIBS@ -lm
+ EXTRA_DIST = utils.h
+ 
+ # optionally add sources file for these programs
+--- examples/Makefile.am	2014-10-21 22:04:13.569051729 +0200
++++ examples/Makefile.am	2014-10-21 22:04:54.563051859 +0200
+@@ -4,7 +4,7 @@
+ 
+ # global flags
+ AM_CFLAGS = -DAUBIO_PREFIX=\"$(prefix)\" -I$(top_srcdir)/src -I$(top_srcdir)/ext @AUBIO_CFLAGS@ @LASH_CFLAGS@ @FFTWLIB_CFLAGS@
+-AM_LDFLAGS = -L$(top_builddir)/src -L$(top_builddir)/ext -laubioext -laubio @LASH_LIBS@
++AM_LDFLAGS = -L$(top_builddir)/src -L$(top_builddir)/ext -laubioext -laubio @LASH_LIBS@ -lm
+ 
+ # add your programs to this list
+ bin_PROGRAMS = \
