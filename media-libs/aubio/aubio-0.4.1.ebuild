@@ -60,9 +60,7 @@ multilib_src_compile()
 	if multilib_is_native_abi && use doc; then
 		export VARTEXFONTS="${T}/fonts"
 		pushd doc > /dev/null 2>&1 || die
-		doxygen user.cfg
-		doxygen devel.cfg
-		doxygen examples.cfg
+		doxygen full.cfg
 		popd > /dev/null 2>&1 || die
 	fi
 }
@@ -70,14 +68,16 @@ multilib_src_compile()
 multilib_src_install()
 {
 	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_install
+
+	if multilib_is_native_abi && use doc; then
+		dohtml -r doc/full/html/*
+	fi
 }
 
 multilib_src_install_all()
 {
-	mv "${ED}"/usr/share/doc/{libaubio-doc,${P}}/html || die
 	rm -f -r "${ED}"/usr/share/doc/libaubio-doc
-
-	use doc && dodoc doc/*
+	use doc && dodoc doc/*.txt
 
 	if use examples; then
 		insinto "${EPREFIX}/usr/share/doc/${PF}"
