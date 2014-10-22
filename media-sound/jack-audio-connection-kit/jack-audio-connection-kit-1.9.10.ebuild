@@ -10,7 +10,7 @@ inherit eutils python-single-r1 waf-utils multilib-minimal
 
 DESCRIPTION="Jackdmp jack implemention for multi-processor machine"
 HOMEPAGE="http://jackaudio.org/"
-SRC_URI="https://dl.dropboxusercontent.com/u/28869550/jack-${PV}.tar.bz2"
+SRC_URI="https://dl.dropboxusercontent.com/u/28869550/jack-${PV}.tar.bz2 -> ${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -68,11 +68,12 @@ multilib_src_compile()
 multilib_src_install()
 {
 	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_install
+
+	multilib_is_native_abi && use doc && dohtml -r html
 }
 
 multilib_src_install_all()
 {
-	use doc && dohtml -r html
 	python_fix_shebang "${ED}"
 }
 

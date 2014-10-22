@@ -66,11 +66,12 @@ multilib_src_compile()
 multilib_src_install()
 {
 	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_install
+
+	multilib_is_native_abi && use doc && dohtml -r html/*
 }
 
 multilib_src_install_all()
 {
-	use doc && dohtml -r html
 	python_fix_shebang "${ED}"
 }
 
