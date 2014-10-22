@@ -9,8 +9,10 @@ inherit multilib-minimal toolchain-funcs git-2
 DESCRIPTION="Extremely Fast Compression algorithm"
 HOMEPAGE="https://code.google.com/p/lz4/"
 EGIT_REPO_URI="git://github.com/Cyan4973/lz4.git"
+EGIT_COMMIT=r${PV}
 
-LICENSE="BSD-2 GPL-2"
+LICENSE="BSD-2"
+KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~mips ~s390 ~x86 ~amd64-linux ~x86-linux"
 SLOT="0"
 IUSE="test valgrind"
 
