@@ -11,6 +11,7 @@ media-fonts/sil-nuosu
 media-fonts/ttf-mph2b-damase
 media-libs/aubio
 media-libs/libffado
+media-libs/lilv
 media-libs/mesa
 media-libs/zita-alsa-pcmi
 media-libs/zita-resampler
@@ -35,6 +36,7 @@ media-sound/jack_mixer
 media-sound/ladish
 media-sound/laditools
 media-sound/oss
+media-sound/patchage
 media-sound/rezound
 media-sound/rosegarden
 media-sound/seq24
@@ -52,8 +54,10 @@ sys-fs/aufs-standalone
 sys-fs/aufs-util
 sys-kernel/git-sources
 sys-kernel/mkinitramfs-ll
+sys-libs/libfreebob
 virtual/liblash
 x11-drivers/xf86-video-nouveau
+x11-libs/ganv
 x11-misc/netwmpager
 x11-misc/tint2
 x11-plugins/e_modules-engage
@@ -66,4 +70,3 @@ x11-themes/gt3-xcursor-theme
 x11-themes/leopard-gtk-theme
 x11-themes/leopard-icon-theme
 x11-themes/nimbus-gtk-theme
-
