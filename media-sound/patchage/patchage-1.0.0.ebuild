@@ -13,7 +13,7 @@ SRC_URI="http://download.drobilla.net/${P}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="alsa dbus debug"
+IUSE="alsa dbus debug jack-session"
 
 RDEPEND="dev-libs/boost
 	>=x11-libs/ganv-1.4.0
@@ -36,6 +36,7 @@ src_configure()
 		$(use debug && echo '--debug')
 		$(use alsa || echo '--no-alsa')
 		$(use dbus || echo '--jack-dbus')
+		$(use jack-session && echo '--jack-session-manage')
 	)
 	waf-utils_src_configure "${mywafargs[@]}"
 }
