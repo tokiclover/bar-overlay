@@ -12,7 +12,7 @@ ESVN_REPO_URI="svn://svn.code.sf.net/p/${PN}/code/trunk/${PN}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS=""
 IUSE="debug lirc"
 
 RDEPEND="dev-qt/qtgui:4
