@@ -13,7 +13,7 @@ SRC_URI="http://lv2plug.in/spec/${P}.tar.bz2"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
-IUSE="doc plugins"
+IUSE="doc plugins test"
 
 DEPEND="plugins? ( x11-libs/gtk+:2 media-libs/libsndfile )"
 RDEPEND="${DEPEND}
@@ -30,8 +30,9 @@ src_configure()
 {
 	local -a mywafargs=(
 		--docdir="${EPREFIX}"/usr/share/doc/${PF}
+		$(use test    && echo '--test')
 		$(use plugins || echo '--no-plugins')
-		$(use doc     && echo '--docs'      )
+		$(use doc     && echo '--online-docs')
 	)
 	waf-utils_src_configure "${mywafargs[@]}"
 }
