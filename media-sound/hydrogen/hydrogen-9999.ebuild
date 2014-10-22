@@ -13,7 +13,7 @@ EGIT_REPO_URI="git://github.com/hydrogen-music/hydrogen.git"
 LICENSE="GPL-2 ZLIB"
 SLOT="0"
 KEYWORDS=""
-IUSE="+alsa +archive debug doc +jack jacksession ladspa lash oss portaudio
+IUSE="+alsa +archive debug doc +jack jack-session ladspa lash oss portaudio
 -pulseaudio portmidi rubberband static"
 REQUIRED_USE="lash? ( alsa )"
 
@@ -44,7 +44,7 @@ src_configure()
 		$(cmake-utils_use_want archive LIBARCHIVE)
 		$(cmake-utils_use_want debug DEBUG)
 		$(cmake-utils_use_want jack JACK)
-		$(cmake-utils_use_want jacksession JACKSESSION)
+		$(cmake-utils_use_want jack-session JACKSESSION)
 		$(cmake-utils_use_want ladspa LRDF)
 		$(cmake-utils_use_want lash LASH)
 		$(cmake-utils_use_want oss OSS)

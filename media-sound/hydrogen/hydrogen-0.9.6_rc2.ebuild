@@ -13,7 +13,7 @@ SRC_URI="https://github.com/${PN}-music/${PN}/archive/${PVR/_rc/-RC}.tar.gz -> $
 LICENSE="GPL-2 ZLIB"
 SLOT="0"
 KEYWORDS="amd64 ppc ppc64 x86"
-IUSE="+alsa +archive debug doc +jack jacksession ladspa lash oss portaudio portmidi
+IUSE="+alsa +archive debug doc +jack jack-session ladspa lash oss portaudio portmidi
 -pulseaudio rubberband static"
 REQUIRED_USE="lash? ( alsa )"
 
@@ -47,7 +47,7 @@ src_configure()
 		$(cmake-utils_use_want archive LIBARCHIVE)
 		$(cmake-utils_use_want debug DEBUG)
 		$(cmake-utils_use_want jack JACK)
-		$(cmake-utils_use_want jacksession JACKSESSION)
+		$(cmake-utils_use_want jack-session JACKSESSION)
 		$(cmake-utils_use_want ladspa LRDF)
 		$(cmake-utils_use_want lash LASH)
 		$(cmake-utils_use_want oss OSS)
