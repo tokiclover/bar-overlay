@@ -1,10 +1,10 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-2.9999, 2014/08/08 -tclover $
+# $Header: media-sound/ardour/ardour-2.9999,v 1.1 2014/10/10 -tclover $
 
-EAPI="2"
+EAPI=5
 
-inherit eutils toolchain-funcs fdo-mime flag-o-matic git-2 versionator
+inherit eutils toolchain-funcs fdo-mime flag-o-matic versionator git-r3
 
 DESCRIPTION="multi-track hard disk recording software"
 HOMEPAGE="http://ardour.org/"
@@ -56,32 +56,42 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	nls? ( virtual/libintl )"
 
-src_prepare() {
-	epatch \
-		"${FILESDIR}"/${PN}-2.8.11-flags.patch \
-		"${FILESDIR}"/${PN}-2.8.14-syslibs.patch \
+PATCHES=(
+		"${FILESDIR}"/${PN}-2.8.11-flags.patch
+		"${FILESDIR}"/${PN}-2.8.14-syslibs.patch
 		"${FILESDIR}"/${PN}-2.8.14-boost-150.patch
+)
+
+src_prepare()
+{
+	epatch "${PATCHES[@]}"
+	epatch_user
 }
 
-src_compile() {
-	local FPU_OPTIMIZATION=$($(use altivec || use sse) && echo 1 || echo 0)
+src_compile()
+{
 	tc-export CC CXX
 	mkdir -p "${D}"
 
-	escons \
-		DESTDIR="${D}" \
-		FPU_OPTIMIZATION="${FPU_OPTIMIZATION}" \
-		PREFIX=/usr \
-		SYSLIBS=1 \
-		$(use_scons curl FREESOUND) \
-		$(use_scons debug DEBUG) \
-		$(use_scons nls NLS) \
+	local -a mysconsargs=(
+		"DESTDIR=${D}"
+		"FPU_OPTIMIZATION=$($(use altivec || use sse) && echo 1 || echo 0)"
+		'PREFIX=/usr'
+		'SYSLIBS=1'
+		$(use_scons curl FREESOUND)
+		$(use_scons debug DEBUG)
+		$(use_scons nls NLS)
 		$(use_scons lv2 LV2)
+	)
+	escons "${mysconsargs[@]}"
 }
 
-src_install() {
+src_install()
+{
 	escons install
+
 	doman ${PN}.1
 	newicon icons/icon/ardour_icon_mac.png ${PN}.png
 	make_desktop_entry ardour2 ardour2 ardour AudioVideo
 }
+

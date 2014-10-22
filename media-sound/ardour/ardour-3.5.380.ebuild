@@ -9,6 +9,7 @@ inherit eutils toolchain-funcs flag-o-matic waf-utils git-r3
 DESCRIPTION="Digital Audio Workstation"
 HOMEPAGE="http://ardour.org/"
 EGIT_REPO_URI="git://git.ardour.org/ardour/ardour.git"
+EGIT_COMMIT=${PV}
 
 LICENSE="GPL-2"
 SLOT="3"
