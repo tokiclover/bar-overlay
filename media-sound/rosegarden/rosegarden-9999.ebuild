@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/rosegarden/rosegarden-14.02.ebuild,v 1.1 2014/03/08 23:15:32 -tclover Exp $
+# $Header: media-sound/rosegarden/rosegarden-14.02.ebuild,v 1.3 2014/10/10 23:15:32 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
 inherit autotools eutils fdo-mime gnome2-utils multilib subversion
 
@@ -26,33 +26,39 @@ RDEPEND="dev-qt/qtgui:4
 	sci-libs/fftw:3.0
 	media-libs/libsamplerate:=[sndfile]
 	lirc? ( app-misc/lirc:= )"
+
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	x11-misc/makedepend"
 
-src_configure() {
+src_configure()
+{
 	export USER_CXXFLAGS="${CXXFLAGS}"
-
 	export ac_cv_header_lirc_lirc_client_h=$(usex lirc)
 	export ac_cv_lib_lirc_client_lirc_init=$(usex lirc)
 
-	econf \
-		$(use_enable debug) \
-		--with-qtdir=/usr \
+	local -a myeconfargs=(
+		$(use_enable debug)
+		--with-qtdir=/usr
 		--with-qtlibdir=/usr/$(get_libdir)/qt4
+	)
+	autotools-utils_src_configure
 }
 
-pkg_preinst() {
+pkg_preinst()
+{
 	gnome2_icon_savelist
 }
 
-pkg_postinst() {
+pkg_postinst()
+{
 	gnome2_icon_cache_update
 	fdo-mime_desktop_database_update
 	fdo-mime_mime_database_update
 }
 
-pkg_postrm() {
+pkg_postrm()
+{
 	gnome2_icon_cache_update
 	fdo-mime_desktop_database_update
 	fdo-mime_mime_database_update
