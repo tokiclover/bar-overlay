@@ -31,7 +31,13 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	x11-misc/makedepend"
 
-src_configure()
+src_prepare()
+{
+	autotools-utils_src_prepare
+	multilib_copy_sources
+}
+
+multilib_src_configure()
 {
 	export USER_CXXFLAGS="${CXXFLAGS}"
 	export ac_cv_header_lirc_lirc_client_h=$(usex lirc)
