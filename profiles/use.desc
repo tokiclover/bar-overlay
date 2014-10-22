@@ -1,0 +1,5 @@
+# Copyright 1999-2014 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: profiles/use.desc,v 1.516 2014/10/10 21:05:11 -tclover Exp $
+
+jack-session - Enable JACK session handler support
