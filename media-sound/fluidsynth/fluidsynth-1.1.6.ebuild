@@ -1,10 +1,10 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/fluidsynth/fluidsynth-1.1.6.ebuild,v 1.2 2014/07/14 17:43:49 -tclover Exp $
+# $Header: media-sound/fluidsynth/fluidsynth-1.1.6.ebuild,v 1.3 2014/10/10 17:43:49 -tclover Exp $
 
 EAPI=5
 
-inherit cmake-utils
+inherit autotools-utils
 
 DESCRIPTION="Fluidsynth is a software real-time synthesizer based on the Soundfont 2 specifications."
 HOMEPAGE="http://www.fluidsynth.org/"
@@ -13,7 +13,7 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~hppa ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
-IUSE="+alsa dbus debug doc ipv6 +jack ladspa +lash portaudio pulseaudio readline sndfile static"
+IUSE="+alsa dbus debug doc +jack ladspa +lash portaudio pulseaudio readline sndfile"
 REQUIRE_USE="lash? ( alsa )"
 
 RDEPEND=">=dev-libs/glib-2.6.5:2
@@ -32,30 +32,38 @@ DEPEND="${RDEPEND}
 	app-doc/doxygen
 	virtual/pkgconfig"
 
-src_configure() {
-	mycmakeargs=(
-		$(cmake-utils_use alsa enable-alsa)
-		$(cmake-utils_use dbus enable-dbus)
-		$(cmake-utils_use debug enable-debug)
-		$(cmake-utils_use ipv6 enable-ipv6)
-		$(cmake-utils_use jack enable-jack)
-		-Denable-ladcca=OFF
-		$(cmake-utils_use ladspa enable-ladspa)
-		$(cmake-utils_use lash enable-lash)
-		$(cmake-utils_use sndfile enable-libsndfile)
-		$(cmake-utils_use portaudio enable-portaudio)
-		$(cmake-utils_use pulseaudio enable-pulseaudio)
-		$(cmake-utils_use readline enable-readline)
-		$(cmake-utils_useno static BUILD_SHARED_LIBS)
+DOCS=( AUTHORS NEWS README THANKS TODO )
+
+PATCHES=(
+	"${FILESDIR}"/configure.ac.patch
+)
+
+#AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_IN_SOURCE_BUILD=1
+
+src_configure()
+{
+	local -a myeconfargs=(
+		$(use_enable alsa alsa-support)
+		$(use_enable dbus dbus-support)
+		$(use_enable debug)
+		$(use_enable jack jack-support)
+		--disable-ladcca
+		$(use_enable ladspa)
+		$(use_enable lash)
+		$(use_enable sndfile libsndfile-support)
+		$(use_enable portaudio portaudio-support)
+		$(use_enable pulseaudio pulse-support)
+		$(use_with readline)
 	)
-	cmake-utils_src_configure
+	autotools-utils_src_configure
 }
 
-src_install() {
-	cmake-utils_src_install
+src_install()
+{
+	default
 
-	dodoc AUTHORS NEWS README THANKS TODO
-
+	dodoc "${DOCS[@]}"
 	if use doc; then
 		insinto /usr/share/doc/${PF}/pdf
 		doins doc/FluidSynth-LADSPA.pdf
@@ -64,3 +72,4 @@ src_install() {
 		dodoc doc/{xtrafluid,fluidsynth-v11-devdoc}.txt
 	fi
 }
+
