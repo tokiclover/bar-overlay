@@ -1,0 +1,12 @@
+--- CMakeLists.txt	2014-10-22 11:31:14.387038497 +0200
++++ CMakeLists.txt.orig	2014-10-22 11:30:55.527038438 +0200
+@@ -8,9 +8,6 @@
+ #Currently the only directory that uses cmake
+ add_subdirectory(src)
+ 
+-install(FILES AUTHORS.txt COPYING FAQ.txt HISTORY.txt README.txt
+-	DESTINATION share/doc/zynaddsubfx
+-	)
+ install(FILES zynaddsubfx-jack.desktop zynaddsubfx-alsa.desktop
+     DESTINATION share/applications)
+ install(FILES zynaddsubfx.svg

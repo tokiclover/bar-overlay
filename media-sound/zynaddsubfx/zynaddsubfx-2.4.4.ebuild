@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/zynaddsubfx/zynaddsubfx-2.4.4.ebuild,v 1.2 2014/07/20 18:56:16 -tclover Exp $
+# $Header: media-sound/zynaddsubfx/zynaddsubfx-2.4.4.ebuild,v 1.3 2014/10/10 18:56:16 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
 inherit eutils cmake-utils
 
@@ -29,13 +29,14 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-2.4.1-docs.patch
+	"${FILESDIR}"/${P}-docs.patch
 )
 
-DOCS="ChangeLog FAQ.txt HISTORY.txt README.txt bugs.txt"
+DOCS=( ChangeLog FAQ.txt HISTORY.txt README.txt bugs.txt )
 
-src_configure() {
-	local mycmakeargs=(
+src_configure()
+{
+	local -a mycmakeargs=(
 		$(use fltk && echo "-DGuiModule=fltk" || echo "-DGuiModule=off")
 		$(cmake-utils_use alsa AlsaEnable)
 		$(cmake-utils_use jack JackEnable)
@@ -45,3 +46,4 @@ src_configure() {
 	)
 	cmake-utils_src_configure
 }
+
