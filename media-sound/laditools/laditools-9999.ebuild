@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/laditools/laditools-9999.ebuild,v 1.2 2014/08/08 14:40:09 -tclover Exp $
+# $Header: media-sound/laditools/laditools-9999.ebuild,v 1.2 2014/10/10 14:40:09 -tclover Exp $
 
 EAPI=5
 
@@ -33,7 +33,8 @@ DEPEND="dev-python/python-distutils-extra[${PYTHON_USEDEP}]"
 
 DOCS=( README NEWS )
 
-pkg_preinst() {
-	use wmaker || find "${D}" -name 'wmladi*' -exec rm '{}' + || die
+pkg_preinst()
+{
+	use wmaker || find "${ED}" -name 'wmladi*' -exec rm '{}' + || die
 }
 
