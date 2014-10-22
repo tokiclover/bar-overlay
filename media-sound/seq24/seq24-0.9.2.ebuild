@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/seq24/seq24-0.9.2.ebuild,v 1.6 2014/07/20 17:54:29 -tclover Exp $
+# $Header: media-sound/seq24/seq24-0.9.2.ebuild,v 1.7 2014/10/10 17:54:29 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
 inherit eutils
 
@@ -24,15 +24,23 @@ RDEPEND="media-libs/alsa-lib
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
-src_configure() {
-	econf \
-		$(use_enable jack) \
+DOCS=( AUTHORS ChangeLog README RTC SEQ24 )
+
+src_configure()
+{
+	local -a myeconfargs=(
+		$(use_enable jack)
 		$(use_enable lash)
+	)
+	econf "${myeconfargs[@]}"
 }
 
-src_install() {
+src_install()
+{
 	emake DESTDIR="${D}" install
-	dodoc AUTHORS ChangeLog README RTC SEQ24
+
+	dodoc "${DOCS[@]}"
 	newicon src/pixmaps/seq24_32.xpm seq24.xpm
 	make_desktop_entry seq24
 }
+
