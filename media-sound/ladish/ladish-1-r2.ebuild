@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-1.ebuild,v 1.3 2014/08/08 12:14:19 -tclover Exp $
+# $Header: media-sound/ladish/ladish-1.ebuild,v 1.4 2014/10/10 12:14:19 -tclover Exp $
 
 EAPI=5
 
@@ -48,29 +48,33 @@ PATCHES=(
 	"${FILESDIR}"/${P}-include.patch
 )
 
-src_prepare() {
+src_prepare()
+{
 	epatch "${PATCHES[@]}"
 	epatch_user
 
-	local LINGUAS
-	use nls && LINGUAS="$(l10n_get_locales)"
-	echo "${LINGUAS}" >po/LINGUAS
+	local linguas
+	use nls && linguas="$(l10n_get_locales)"
+	echo "${linguas}" >po/LINGUAS
 }
 
-src_configure() {
-	local NO_WAF_LIBDIR="yes"
-	local mywafconfargs=(
+src_configure()
+{
+	local NO_WAF_LIBDIR=yes
+	local -a mywafconfargs=(
 		$(usex debug --debug '')
 		$(usex doc --doxygen '')
 		$(use_enable lash liblash)
 		$(use_enable python pylash)
 	)
-	waf-utils_src_configure "${mywafconfargs[@]}"
+	NO_WAF_LIBDIR=1 waf-utils_src_configure "${mywafconfargs[@]}"
 }
 
 src_install() {
-	use doc && HTML_DOC=( "${S}"/build/default/html )
 	waf-utils_src_install
+
+	use doc && dohtml -r build/default/html/*
 	python_fix_shebang "${ED}"
-	use lash &&	dosym /usr/include/{lash-1.0/,}lash
+	use lash && dosym "${EPREFIX}"/usr/include/{lash-1.0/,}lash
 }
+
