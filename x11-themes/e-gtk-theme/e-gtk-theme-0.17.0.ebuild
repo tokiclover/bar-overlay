@@ -1,8 +1,8 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/e-gtk-theme/e-gtk-theme-0.17.0.ebuild,v 1.3 2014/08/08 14:23:22 -tclover Exp $
+# $Header: x11-themes/e-gtk-theme/e-gtk-theme-0.17.0.ebuild,v 1.4 2014/10/10 14:23:22 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
 inherit eutils
 
@@ -19,8 +19,8 @@ REQUIRED_USE="gnome? ( gtk )"
 GTK_VERSION="3.6"
 
 RDEPEND="x11-libs/gtk+:2
-	gtk? ( >=x11-libs/gtk+-${GTK_VERSION}:3
-		>=x11-themes/gnome-themes-standard-${GTK_VERSION} )
+	gtk? ( x11-libs/gtk+:3
+	       x11-themes/gnome-themes-standard )
 	gnome? ( x11-wm/metacity )
 	!minimal? (  x11-themes/gnome-themes )
 	openbox? ( x11-wm/openbox:3 )"
@@ -29,7 +29,8 @@ DEPEND="${RDEPEND}"
 
 DOC=( AUTHORS COPYING README.md )
 
-src_install() {
+src_install()
+{
 	insinto /usr/share/themes/e
 	use gnome   && doins -r metacity-1
 	use gtk     && doins -r gtk-3.0
@@ -37,3 +38,4 @@ src_install() {
 	               doins -r gtk-2.0
 	dodoc "${DOC[@]}"
 }
+
