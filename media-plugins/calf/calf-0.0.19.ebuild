@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-plugins/calf/calf-0.0.19.ebuild,v 1.0 2012/11/13 00:38:33 -tclover Exp $
+# $Header: bar-overlay/media-plugins/calf/calf-0.0.19.ebuild,v 1.1 2014/10/10 00:38:33 -tclover Exp $
 
 EAPI=5
 
@@ -22,19 +22,22 @@ RDEPEND="dev-libs/expat
 	>=media-sound/jack-audio-connection-kit-0.105.0
 	sci-libs/fftw:3.0
 	x11-libs/gtk+:2
-	lash? ( || ( media-sound/ladish media-sound/lash ) )
+	lash? ( virtual/liblash )
 	lv2? ( >=media-libs/lv2-1.0.0 )"
-DEPEND="${RDEPEND} virtual/pkgconfig"
 
-RESTRICT="mirror"
+DEPEND="${RDEPEND} virtual/pkgconfig"
 
 DOCS=(AUTHORS ChangeLog NEWS README TODO)
 
-src_configure() {
-	myeconfargs=(
+AUTOTOOLS_PRUNE_LIBTOOL_FILES=modules
+
+src_configure()
+{
+	local -a myeconfargs=(
 		$(use_with lv2)
-		$(use lv2 && echo "--with-lv2-dir=/usr/$(get_libdir)/lv2")
+		$(use lv2 && echo "--with-lv2-dir=${EPREFIX}/usr/$(get_libdir)/lv2")
 		$(use_enable sse)
 	)
 	autotools-utils_src_configure
 }
+
