@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/hydrogen/hydrogen-9999.ebuild,v 2014/07/07 02:08:24 -tclover Exp $
+# $Header: media-sound/hydrogen/hydrogen-9999.ebuild,v 1.3 2014/10/10 02:08:24 -tclover Exp $
 
 EAPI=5
 
@@ -37,7 +37,8 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS ChangeLog DEVELOPERS README.txt )
 
-src_configure() {
+src_configure()
+{
 	local mycmakeargs=(
 		$(cmake-utils_use_want alsa ALSA)
 		$(cmake-utils_use_want archive LIBARCHIVE)
