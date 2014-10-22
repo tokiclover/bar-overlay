@@ -14,7 +14,7 @@ EGIT_PROJECT=${PN}.git
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="+alsa dbus debug doc ipv6 +jack ladspa +lash portaudio pulseaudio readline sndfile static"
+IUSE="+alsa dbus debug doc +jack ladspa +lash portaudio pulseaudio readline sndfile"
 REQUIRE_USE="lash? ( alsa )"
 
 RDEPEND=">=dev-libs/glib-2.6.5:2
