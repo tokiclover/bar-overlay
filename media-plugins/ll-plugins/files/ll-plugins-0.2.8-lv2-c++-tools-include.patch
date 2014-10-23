@@ -1,38 +1,99 @@
---- programs/elven/lv2host.hpp	2010-02-11 21:39:19.000000000 +0100
-+++ programs/elven/lv2host.hpp	2014-10-23 10:33:04.027014123 +0200
-@@ -36,11 +36,11 @@
- #include <sigc++/slot.h>
- #include <sigc++/signal.h>
+--- plugins/sineshaper/sineshaper.hpp	2014-10-23 22:28:45.575041260 +0200
++++ plugins/sineshaper/sineshaper.hpp	2014-10-23 22:29:53.416041473 +0200
+@@ -23,7 +23,7 @@
+ #ifndef SINESHAPER_HPP
+ #define SINESHAPER_HPP
  
--#include <lv2.h>
--#include <lv2_event.h>
--#include <lv2_uri_map.h>
--#include <lv2_saverestore.h>
--#include <lv2_contexts.h>
-+#include <lv2-c++-tools/lv2.h>
-+#include <lv2-c++-tools/lv2_event.h>
-+#include <lv2-c++-tools/lv2_uri_map.h>
-+#include <lv2-c++-tools/lv2_saverestore.h>
-+#include <lv2-c++-tools/lv2_contexts.h>
- #include <query.hpp>
- #include "ringbuffer.hpp"
+-#include "lv2plugin.hpp"
++#include <lv2plugin.hpp>
+ #include "sineoscillator.hpp"
+ #include "adsr.hpp"
+ #include "frequencytable.hpp"
+--- plugins/klaviatur/klaviatur.cpp	2014-10-23 22:06:21.220037021 +0200
++++ plugins/klaviatur/klaviatur.cpp	2014-10-23 21:57:24.027035328 +0200
+@@ -24,7 +24,7 @@
+ #include <iostream>
+ #include <lv2plugin.hpp>
+ #include "klaviatur.peg"
+-#include "lv2_event_helpers.h"
++#include <lv2_event_helpers.h>
  
---- programs/elven/lv2guihost.hpp	2010-02-11 21:39:19.000000000 +0100
-+++ programs/elven/lv2guihost.hpp	2014-10-23 10:33:04.027014123 +0200
-@@ -29,11 +29,11 @@
+ 
+ using namespace LV2;
+--- plugins/klaviatur/klaviatur_gtk.cpp	2014-10-23 22:06:36.040037068 +0200
++++ plugins/klaviatur/klaviatur_gtk.cpp	2014-10-23 21:57:24.027035328 +0200
+@@ -26,7 +26,7 @@
+ 
  #include <gtkmm.h>
- #include <sigc++/sigc++.h>
  
--#include <lv2.h>
--#include <lv2_ui.h>
--#include <lv2_ui_presets.h>
--#include <lv2_uri_map.h>
--#include <lv2_event.h>
-+#include <lv2-c++-tools/lv2.h>
-+#include <lv2-c++-tools/lv2_ui.h>
-+#include <lv2-c++-tools/lv2_ui_presets.h>
-+#include <lv2-c++-tools/lv2_uri_map.h>
-+#include <lv2-c++-tools/lv2_event.h>
+-#include "lv2gui.hpp"
++#include <lv2gui.hpp>
+ #include "klaviatur.peg"
+ #include "keyboard.hpp"
+ 
+--- plugins/math-constants/math-constants.cpp	2014-10-23 22:07:33.958037251 +0200
++++ plugins/math-constants/math-constants.cpp	2014-10-23 21:57:24.027035328 +0200
+@@ -25,7 +25,7 @@
+ #include <cmath>
+ #include <iostream>
+ 
+-#include "lv2plugin.hpp"
++#include <lv2plugin.hpp>
  
  
- class LV2GUIHost {
+ namespace {
+--- plugins/math-functions/math-functions.cpp	2014-10-23 22:07:50.788037304 +0200
++++ plugins/math-functions/math-functions.cpp	2014-10-23 21:57:24.028035328 +0200
+@@ -25,7 +25,7 @@
+ #include <cmath>
+ #include <iostream>
+ 
+-#include "lv2plugin.hpp"
++#include <lv2plugin.hpp>
+ 
+ 
+ using namespace std;
+--- plugins/peakmeter/peakmeter.cpp	2014-10-23 22:08:05.625037350 +0200
++++ plugins/peakmeter/peakmeter.cpp	2014-10-23 21:57:24.027035328 +0200
+@@ -23,7 +23,7 @@
+ 
+ #include <cmath>
+ 
+-#include "lv2plugin.hpp"
++#include <lv2plugin.hpp>
+ #include "peakmeter.peg"
+ 
+ 
+--- plugins/peakmeter/peakmeter_gtk.cpp	2014-10-23 22:08:18.119037390 +0200
++++ plugins/peakmeter/peakmeter_gtk.cpp	2014-10-23 21:57:24.027035328 +0200
+@@ -25,7 +25,7 @@
+ 
+ #include <gtkmm.h>
+ 
+-#include "lv2gui.hpp"
++#include <lv2gui.hpp>
+ #include "vuwidget.hpp"
+ 
+ 
+--- plugins/rudolf556/rudolf556.cpp	2014-10-23 22:08:36.396037447 +0200
++++ plugins/rudolf556/rudolf556.cpp	2014-10-23 21:57:24.027035328 +0200
+@@ -27,7 +27,7 @@
+ #include <samplerate.h>
+ #include <sndfile.h>
+ 
+-#include "lv2synth.hpp"
++#include <lv2synth.hpp>
+ #include "rudolf556.peg"
+ 
+ 
+--- plugins/sineshaper/sineshaper_gtk.cpp	2014-10-23 22:09:32.705037625 +0200
++++ plugins/sineshaper/sineshaper_gtk.cpp	2014-10-23 21:57:24.027035328 +0200
+@@ -25,7 +25,7 @@
+ 
+ #include <gtkmm.h>
+ 
+-#include "lv2gui.hpp"
++#include <lv2gui.hpp>
+ #include "sineshaperwidget.hpp"
+ #include "sineshaper.peg"
+ 

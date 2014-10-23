@@ -31,16 +31,9 @@ DOCS=( AUTHORS ChangeLog README )
 PATCHES=(
 	"${FILESDIR}"/${P}-lv2-c++-tools-include.patch
 )
+
 src_prepare()
 {
-	sed -e 's/lv2cxx_common/lv2-c++-tools/' -i \
-		plugins/control2midi/control2midi.cpp \
-		plugins/arpeggiator/arpeggiator.cpp \
-		plugins/sineshaper/sineshaper.cpp \
-		plugins/beep/beep_gtk.cpp \
-		plugins/beep/beep.cpp \
-		plugins/klaviatur/klaviatur.cpp || die
-
 	epatch "${PATCHES[@]}"
 	epatch_user
 	multilib_copy_sources
