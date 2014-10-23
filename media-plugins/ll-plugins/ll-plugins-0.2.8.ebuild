@@ -15,13 +15,13 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=">=media-sound/jack-audio-connection-kit-0.109.0
+DEPEND=">=media-sound/jack-audio-connection-kit-0.109.0[${MULTILIB_USEDEP}]
 	>=dev-cpp/gtkmm-2.8.8
 	>=dev-cpp/cairomm-0.6.0
 	virtual/liblash
 	>=media-libs/liblo-0.22
 	>=sci-libs/gsl-1.8
-	>=media-libs/libsndfile-1.0.16
+	>=media-libs/libsndfile-1.0.16[${MULTILIB_USEDEP}]
 	dev-util/lv2-c++-tools"
 
 RDEPEND="${DEPEND}"
