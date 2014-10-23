@@ -61,7 +61,7 @@ DEPEND="${RDEPEND}
 
 src_prepare()
 {
-	PVTEMP="${PV}-gentoo"
+	PVTEMP="${PV}"
 
 	sed -e "s/rev = .*('utf-8')/rev = \'${PVTEMP}\'/g" \
 		-e "s/FLAGS', optimization_flags/FLAGS', ''/g" \
