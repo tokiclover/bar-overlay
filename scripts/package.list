@@ -2,6 +2,7 @@ app-arch/lz4
 app-dicts/xmlittre
 dev-libs/wayland
 dev-libs/serd
+dev-libs/sord
 dev-perl/perl-URxvt
 dev-perl/perl-WebKit-GTk
 dev-python/mpris-remote
