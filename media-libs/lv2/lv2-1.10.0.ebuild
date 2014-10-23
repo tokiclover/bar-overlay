@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit waf-utils
+inherit multilib-minimal waf-utils
 
 DESCRIPTION="LV2 is a simple but extensible successor of LADSPA"
 HOMEPAGE="http://lv2plug.in/"
@@ -15,7 +15,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="doc plugins test"
 
-DEPEND="plugins? ( x11-libs/gtk+:2 media-libs/libsndfile )"
+DEPEND="plugins? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}]
+	media-libs/libsndfile[${MULTILIB_USEDEP}] )"
 RDEPEND="${DEPEND}
 	!<media-libs/slv2-0.4.2
 	!media-libs/lv2core
@@ -26,7 +27,13 @@ DEPEND="${DEPEND}
 
 DOCS=( README NEWS )
 
-src_configure()
+src_prepare()
+{
+	epatch_user
+	multilib_copy_source
+}
+
+multilib_src_configure()
 {
 	local -a mywafargs=(
 		--docdir="${EPREFIX}"/usr/share/doc/${PF}
@@ -34,6 +41,16 @@ src_configure()
 		$(use plugins || echo '--no-plugins')
 		$(use doc     && echo '--online-docs')
 	)
-	waf-utils_src_configure "${mywafargs[@]}"
+	WAF_BINARY="${BUILD_DIR}" waf-utils_src_configure "${mywafargs[@]}"
+}
+
+multilib_src_compile()
+{
+	WAF_BINARY="${BUILD_DIR}" waf-utils_src_compile
+}
+
+multilib_src_install()
+{
+	WAF_BINARY="${BUILD_DIR}" waf-utils_src_install
 }
 
