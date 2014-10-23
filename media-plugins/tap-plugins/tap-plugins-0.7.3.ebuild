@@ -4,16 +4,16 @@
 
 EAPI=5
 
-inherit multilib-minimal git-2
+inherit multilib-minimal
 
 DESCRIPTION="TAP LADSPA plugins: contains DeEsser, Dynamics, Equalizer, Reverb, Stereo Echo, Tremolo"
 HOMEPAGE="http://tap-plugins.sf.net"
-EGIT_REPO_URI="git://github.com/tomszilagyi/tap-plugins.git"
-SRC_URI="doc? ( mirror://sourceforge/${PN}/${PN}-doc-20140526.tar.gz )"
+SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz
+	doc? ( mirror://sourceforge/${PN}/${PN}-doc-20140526.tar.gz )"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="doc"
 
 DEPEND="media-libs/ladspa-sdk[${MULTILIB_USEDEP}]"
