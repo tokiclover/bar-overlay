@@ -35,10 +35,10 @@ multilib_src_configure()
 	local -a mywafargs=(
 		"--docdir=${EPREFIX}/usr/share/doc/${PF}"
 		$(use doc && echo '--docs')
-#		$(use static && echo '--static-progs')
+		$(use static && echo '--static-progs')
 		$(use static-libs && echo '--static')
 		$(use test && echo '--test')
-#		$(use utils || echo '--no-utils')
+		$(use utils || echo '--no-utils')
 	)
 	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_configure "${mywafargs[@]}"
 }
