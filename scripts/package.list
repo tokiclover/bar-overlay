@@ -17,6 +17,7 @@ media-libs/libffado
 media-libs/lilv
 media-libs/lv2
 media-libs/mesa
+media-libs/sratom
 media-libs/suil
 media-libs/zita-alsa-pcmi
 media-libs/zita-resampler
