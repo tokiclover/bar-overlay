@@ -5,6 +5,7 @@ dev-perl/perl-URxvt
 dev-perl/perl-WebKit-GTk
 dev-python/mpris-remote
 dev-util/editje
+dev-util/lv2-c++-tools
 games-board/fuego
 media-fonts/liberation-fonts
 media-fonts/sil-nuosu
@@ -12,6 +13,7 @@ media-fonts/ttf-mph2b-damase
 media-libs/aubio
 media-libs/libffado
 media-libs/lilv
+media-libs/lv2
 media-libs/mesa
 media-libs/zita-alsa-pcmi
 media-libs/zita-resampler
