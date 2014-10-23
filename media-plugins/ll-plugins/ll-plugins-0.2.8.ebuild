@@ -1,10 +1,10 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-plugins/ll-plugins/ll-plugins-0.2.8.ebuild,v 2014/07/15 18:00:06 -tclover Exp $
+# $Header: media-plugins/ll-plugins/ll-plugins-0.2.8.ebuild,v 1.2 2014/10/10 18:00:06 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
-inherit eutils multilib
+inherit eutils multilib-minimal
 
 DESCRIPTION="collection of LV2 plugins, LV2 extension definitions, and LV2 related tools"
 HOMEPAGE="http://ll-plugins.nongnu.org"
@@ -18,7 +18,7 @@ IUSE=""
 DEPEND=">=media-sound/jack-audio-connection-kit-0.109.0
 	>=dev-cpp/gtkmm-2.8.8
 	>=dev-cpp/cairomm-0.6.0
-	|| ( >=media-sound/ladish-1 >=media-sound/lash-0.5.1 )
+	virtual/liblash
 	>=media-libs/liblo-0.22
 	>=sci-libs/gsl-1.8
 	>=media-libs/libsndfile-1.0.16
@@ -26,16 +26,31 @@ DEPEND=">=media-sound/jack-audio-connection-kit-0.109.0
 
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	# ar doesn't really like ldflags
-	sed -e 's:ar rcs $$@ $$^ $(LDFLAGS) $$($(2)_LDFLAGS):ar rcs	$$@ $$^:' \
-		-i Makefile.template || die
+DOCS=( AUTHORS ChangeLog README )
+
+PATCHES=(
+	"${FILESDIR}"/${P}-lv2-c++-tools-include.patch
+	"${FILESDIR}"/${P}-Makefile.patch
+)
+
+src_prepare()
+{
+	epatch "${PATCHES[@]}"
+	epatch_user
+	multilib_copy_sources
 }
 
-src_configure(){
-	econf \
-		--prefix=/usr \
-		--CFLAGS="${CFLAGS} $(pkg-config --cflags slv2)" \
-		--LDFLAGS="${LDFLAGS} $(pkg-config --libs slv2)"
+multilib_src_configure()
+{
+	local myeconfargs=(
+		--CFLAGS="${CFLAGS}"
+		--LDFLAGS="${LDFLAGS}"
+		--prefix="${EPREFIX}"/usr
+	)
+	ECONF_SOURCE="${BUILD_DIR}" econf "${myeconfargs[@]}"
 }
 
+multilib_src_install_all()
+{
+	mv -f "${ED}"/usr/share/doc/{${PN},${PF}}
+}

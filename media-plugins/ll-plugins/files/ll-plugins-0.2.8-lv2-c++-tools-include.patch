@@ -1,0 +1,38 @@
+--- programs/elven/lv2host.hpp	2010-02-11 21:39:19.000000000 +0100
++++ programs/elven/lv2host.hpp	2014-10-23 10:33:04.027014123 +0200
+@@ -36,11 +36,11 @@
+ #include <sigc++/slot.h>
+ #include <sigc++/signal.h>
+ 
+-#include <lv2.h>
+-#include <lv2_event.h>
+-#include <lv2_uri_map.h>
+-#include <lv2_saverestore.h>
+-#include <lv2_contexts.h>
++#include <lv2-c++-tools/lv2.h>
++#include <lv2-c++-tools/lv2_event.h>
++#include <lv2-c++-tools/lv2_uri_map.h>
++#include <lv2-c++-tools/lv2_saverestore.h>
++#include <lv2-c++-tools/lv2_contexts.h>
+ #include <query.hpp>
+ #include "ringbuffer.hpp"
+ 
+--- programs/elven/lv2guihost.hpp	2010-02-11 21:39:19.000000000 +0100
++++ programs/elven/lv2guihost.hpp	2014-10-23 10:33:04.027014123 +0200
+@@ -29,11 +29,11 @@
+ #include <gtkmm.h>
+ #include <sigc++/sigc++.h>
+ 
+-#include <lv2.h>
+-#include <lv2_ui.h>
+-#include <lv2_ui_presets.h>
+-#include <lv2_uri_map.h>
+-#include <lv2_event.h>
++#include <lv2-c++-tools/lv2.h>
++#include <lv2-c++-tools/lv2_ui.h>
++#include <lv2-c++-tools/lv2_ui_presets.h>
++#include <lv2-c++-tools/lv2_uri_map.h>
++#include <lv2-c++-tools/lv2_event.h>
+ 
+ 
+ class LV2GUIHost {

@@ -1,0 +1,20 @@
+--- Makefile	2014-10-23 10:53:08.351017920 +0200
++++ Makefile	2014-10-23 10:47:40.214016886 +0200
+@@ -12,7 +12,7 @@
+ 	samplerate>=0.1.2
+ 
+ 
+-DOCS = AUTHORS COPYING INSTALL ChangeLog README
++DOCS = AUTHORS ChangeLog README
+ 
+ 
+ ARCHIVES = \
+@@ -56,7 +56,7 @@
+ 	main.cpp \
+ 	midiutils.hpp
+ elven_CFLAGS = `pkg-config --cflags jack gtkmm-2.4 lash-1.0 sigc++-2.0 lv2-plugin lv2-gui paq` -Ilibraries/components -DVERSION=\"$(PACKAGE_VERSION)\"
+-elven_LDFLAGS = `pkg-config --libs jack gtkmm-2.4 lash-1.0 sigc++-2.0 paq` -lpthread
++elven_LDFLAGS = `pkg-config --libs jack gtkmm-2.4 lash-1.0 sigc++-2.0 paq` -ldl -lpthread
+ elven_SOURCEDIR = programs/elven
+ 
+ 
