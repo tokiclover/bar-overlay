@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit multilib-minimal waf-utils
+inherit waf-utils multilib-minimal
 
 DESCRIPTION="Lightweight C library for loading and wrapping LV2 plugin UIs"
 HOMEPAGE="http://drobilla.net/software/suil/"

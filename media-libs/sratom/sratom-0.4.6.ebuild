@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit multilib-minimal waf-utils
+inherit waf-utils multilib-minimal
 
 DESCRIPTION="Library for serialising LV2 atoms to/from RDF, particularly the Turtle syntax"
 HOMEPAGE="http://drobilla.net/software/sratom/"
