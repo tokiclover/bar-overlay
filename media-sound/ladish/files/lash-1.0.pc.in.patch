@@ -1,8 +1,0 @@
---- a/lash_compat/lash-1.0.pc.in	2012-11-12 11:32:40.398932706 +0000
-+++ b/lash_compat/lash-1.0.pc.in	2012-11-12 11:33:01.844664598 +0000
-@@ -8,4 +8,4 @@
- Version: 0.6.0
- Libs: -L${libdir} -llash
- Libs.static:
--Cflags: -I${includedir}/lash-1.0
-+Cflags: -I${includedir}/lash

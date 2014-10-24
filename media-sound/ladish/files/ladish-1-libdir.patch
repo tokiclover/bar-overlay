@@ -1,0 +1,13 @@
+--- wscript	2011-12-19 17:05:10.000000000 +0100
++++ wscript	2014-10-24 11:04:48.379028705 +0200
+@@ -132,7 +132,9 @@
+     else:
+         conf.env['DBUS_SERVICES_DIR'] = os.path.join(os.path.normpath(conf.env['PREFIX']), 'share', 'dbus-1', 'services')
+ 
+-    conf.env['LIBDIR'] = os.path.join(os.path.normpath(conf.env['PREFIX']), 'lib')
++    conf.env['LIBDIR'] = os.environ.get('LIBDIR')
++    if not conf.env['LIBDIR']:
++        conf.env['LIBDIR'] = os.path.join(os.path.normpath(conf.env['PREFIX']), 'lib')
+ 
+     conf.env['BUILD_DOXYGEN_DOCS'] = Options.options.doxygen
+ 
