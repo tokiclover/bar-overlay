@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit multilib-minimal waf-utils
+inherit waf-utils multilib-minimal
 
 DESCRIPTION="Library for RDF syntax which supports reading and writing Turtle and NTriples"
 HOMEPAGE="http://drobilla.net/software/serd/"
@@ -13,7 +13,7 @@ SRC_URI="http://download.drobilla.net/${P}.tar.bz2"
 LICENSE="ISC"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
-IUSE="doc static static-libs test utils"
+IUSE="doc static static-libs test +utils"
 REQUIRED_USE=" static? ( utils )"
 
 RDEPEND=""
