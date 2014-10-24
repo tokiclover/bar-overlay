@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit toolchain-funcs multilib-minimal waf-utils
+inherit toolchain-funcs waf-utils multilib-minimal
 
 DESCRIPTION="An interactive Gtk widget for boxes and lines or graph-like environments"
 HOMEPAGE="http://drobilla.net/software/ganv/"
