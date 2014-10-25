@@ -22,7 +22,7 @@ DEPEND="dev-libs/boost
 	>=media-libs/fontconfig-0.22
 	media-libs/libsndfile
 	>=media-sound/jack-audio-connection-kit-0.115.6
-	sci-libs/fftw:3
+	sci-libs/fftw:3.0
 	sys-libs/zlib
 	x11-libs/cairo
 	>=x11-libs/fltk-1.1.2:1[opengl]"
