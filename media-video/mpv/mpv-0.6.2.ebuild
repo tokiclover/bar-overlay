@@ -1,17 +1,17 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.1 2014/10/01 -tclover Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.1 2014/10/10 -tclover Exp $
 
 EAPI=5
 
-inherit eutils waf-utils pax-utils fdo-mime gnome2-utils git-r3
+inherit eutils waf-utils pax-utils fdo-mime gnome2-utils git-2
 
 WAF_VERSION=1.7.16
 
 DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
 EGIT_REPO_URI="git://github.com/mpv-player/mpv.git"
-EGIT_BRANCH=master
+EGIT_PROJECT=${PN}.git
 SRC_URI="http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
 LICENSE="GPL-2"
@@ -132,7 +132,8 @@ DEPEND="${RDEPEND}
 "
 DOCS=( Copyright README.md etc/example.conf etc/input.conf )
 
-pkg_setup() {
+pkg_setup()
+{
 	if use !libass; then
 		ewarn
 		ewarn "You've disabled the libass flag. No OSD or subtitles will be displayed."
@@ -143,18 +144,21 @@ pkg_setup() {
 	einfo "    media-video/libav or media-video/ffmpeg"
 }
 
-src_unpack() {
-	git-r3_src_unpack
+src_unpack()
+{
+	git-2_src_unpack
 
 	cp "${DISTDIR}"/waf-${WAF_VERSION} "${S}"/waf &&
 	chmod 0755 "${S}"/waf || die
 }
 
-src_prepare() {
+src_prepare()
+{
 	epatch_user
 }
 
-src_configure() {
+src_configure()
+{
 	# keep build reproducible
 	# do not add -g to CFLAGS
 	# SDL output is fallback for platforms where nothing better is available
@@ -218,7 +222,8 @@ src_configure() {
 	waf-utils_src_configure "${mywconfargs[@]}"
 }
 
-src_install() {
+src_install()
+{
 	waf-utils_src_install
 
 	if use luajit; then
@@ -226,16 +231,20 @@ src_install() {
 	fi
 }
 
-pkg_preinst() {
+pkg_preinst()
+{
 	gnome2_icon_savelist
 }
 
-pkg_postinst() {
+pkg_postinst()
+{
 	fdo-mime_desktop_database_update
 	gnome2_icon_cache_update
 }
 
-pkg_postrm() {
+pkg_postrm()
+{
 	fdo-mime_desktop_database_update
 	gnome2_icon_cache_update
 }
+
