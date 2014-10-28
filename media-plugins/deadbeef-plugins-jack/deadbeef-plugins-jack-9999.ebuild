@@ -19,6 +19,8 @@ DEPEND="media-sound/jack-audio-connection-kit"
 RDEPEND="media-sound/deadbeef
 	${DEPEND}"
 
+DOCS=( BUGS README.md )
+
 src_prepare()
 {
 	epatch_user
@@ -28,5 +30,6 @@ src_install()
 {
 	emake install \
 		DESTDIR="${D}" LIBDIR="${EPREFIX}"/usr/$(get_libdir)/deadbeef
+	dodoc "${DOCS[@]}"
 }
 
