@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils git-r3
+inherit eutils git-2
 
 DESCRIPTION="DeaDBeeF JACK output plugin"
 HOMEPAGE="https://github.com/tokiclover/deadbeef-plugins-jack"
