@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/connman/connman-9999.ebuild,v 1.5 2014/09/09 20:54:56 -tclover Exp $
+# $Header: net-misc/connman/connman-9999.ebuild,v 1.5 2014/10/10 20:54:56 -tclover Exp $
 
 EAPI=5
 
@@ -13,7 +13,7 @@ EGIT_REPO_URI="git://git.kernel.org/pub/scm/network/connman/connman.git"
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="bluetooth debug doc examples +ethernet gnutls networkmanager ofono
-openconnect openvpn pptp policykit selinux systemd tools vpnc +wifi"
+openconnect openvpn pptp policykit selinux tools vpnc +wifi"
 REQUIRED_USE="selinux? ( openvpn )"
 
 DEPEND=">=sys-kernel/linux-headers-2.6.39
@@ -30,7 +30,6 @@ DEPEND=">=sys-kernel/linux-headers-2.6.39
 	openvpn? ( net-misc/openvpn )
 	pptp? ( || ( net-dialup/pptpclient net-dialup/pptpd ) )
 	selinux? ( sec-policy/selinux-openvpn )
-	systemd? ( sys-apps/systemd )
 	vpnc? ( net-misc/vpnc )
 	wifi? ( >=net-wireless/wpa_supplicant-0.7[dbus] )"
 
@@ -39,7 +38,8 @@ RDEPEND="${RDEPEND}"
 AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
-src_configure() {
+src_configure()
+{
 	local myeconfargs=(
 		--localstatedir=/var
 		--enable-client
@@ -55,6 +55,7 @@ src_configure() {
 		$(use_enable openvpn openvpn builtin)
 		$(use_enable policykit polkit builtin)
 		$(use_enable selinux)
+		$(use_enable pic pie)
 		$(use_enable pptp pptp builtin)
 		$(use_enable vpnc vpnc builtin)
 		$(use_enable debug)
@@ -65,7 +66,8 @@ src_configure() {
 	autotools-utils_src_configure
 }
 
-src_install() {
+src_install()
+{
 	autotools-utils_src_install
 
 	dobin client/connmanctl
@@ -76,5 +78,6 @@ src_install() {
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 
-	use systemd && systemd_dounit "${FILESDIR}"/connman.service
+	systemd_dounit "${FILESDIR}"/connman.service
 }
+
