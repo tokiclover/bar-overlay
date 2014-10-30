@@ -23,6 +23,7 @@ media-libs/zita-alsa-pcmi
 media-libs/zita-resampler
 media-plugins/calf
 media-plugins/deadbeef-plugins-infobar
+media-plugins/deadbeef-plugins-jack
 media-plugins/deadbeef-plugins-mpris
 media-plugins/deadbeef-plugins-spectogram
 media-plugins/deadbeef-plugins-spectrum
