@@ -24,6 +24,7 @@ EGIT_REPO_URI="git://source.ffmpeg.org/ffmpeg.git"
 EGIT_BRANCH="release/${PV%.9999}"
 
 LICENSE="GPL-2 amr? ( GPL-3 ) encode? ( aac? ( GPL-3 ) )"
+SLOT="0/${FFMPEG_SUBSLOT}"
 KEYWORDS=""
 IUSE="
 	aac aacplus alsa amr amrenc bindist bluray +bzip2 cdio celt
