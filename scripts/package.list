@@ -32,6 +32,7 @@ media-plugins/gmusicbrowser-layouts
 media-plugins/gst-plugins-oss4
 media-plugins/ll-plugins
 media-plugins/tap-plugins
+media-sound/a2jmidid
 media-sound/ardour
 media-sound/deadbeef
 media-sound/fluidsynth
