@@ -22,7 +22,7 @@ RDEPEND="sci-libs/fftw:3.0[${MULTILIB_USEDEP}]
 	media-libs/libsamplerate[${MULTILIB_USEDEP}]
 	alsa? ( media-libs/alsa-lib[${MULTILIB_USEDEP}] )
 	jack? ( media-sound/jack-audio-connection-kit[${MULTILIB_USEDEP}] )
-	lash? ( virtual/liblash )"
+	lash? ( virtual/liblash[${MULTILIB_USEDEP}] )"
 
 DEPEND="${RDEPEND}
 	>=dev-lang/swig-1.3.0
