@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: virtual/liblash/liblash-1.ebuild, 2014/09/09 -tclover Exp $
 
-EAPI="5"
+EAPI=5
+
+inherit multilib-minimal
 
 DESCRIPTION="Virtual for LASH library"
 HOMEPAGE=""
