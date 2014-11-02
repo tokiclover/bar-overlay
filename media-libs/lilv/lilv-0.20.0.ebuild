@@ -36,7 +36,6 @@ src_configure()
 		"--default-lv2-path=${EPREFIX}/usr/$(get_libdir)/lv2"
 		"--docdir=${EPREFIX}/usr/share/doc/${PF}"
 		'--no-bash-completion'
-		'--dyn-manifest'
 		$(use test && echo '--test')
 		$(use doc  && echo '--docs')
 		$(use static       && echo '--static-progs')
