@@ -50,7 +50,7 @@ RDEPEND="app-arch/cpio
 	bash? ( app-shells/bash )
 	zsh? ( app-shells/zsh[unicode] )"
 
-for (( i=0; i<((${#COMPRESSOR_USE[@]} - 2)); i++ )); do
+for (( i=0; i<$((${#COMPRESSOR_USE[@]} - 2)); i++ )); do
 	RDEPEND="${RDEPEND}
 		app-arch/${COMPRESSOR_USE[$i]}"
 done
