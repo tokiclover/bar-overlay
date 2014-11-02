@@ -35,7 +35,7 @@ GEN_VER="${MKV}-39"
 FBC_VER="${GEN_VER}"
 GHP_VER="${OKV}-8"
 OPT_VER="outdated_versions/linux-3.2+/gcc-4.2+"
-RT_VER="${OKV}-rt88"
+RT_VER="${OKV}-rt92"
 TOI_VER="${MKV}.59-2014-06-02"
 UKSM_VER="${MKV}.ge.60"
 
