@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit multilib-minimal
+inherit multilib-build
 
 DESCRIPTION="Virtual for LASH library"
 HOMEPAGE=""
