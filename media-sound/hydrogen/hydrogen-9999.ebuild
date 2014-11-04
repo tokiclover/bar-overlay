@@ -18,6 +18,7 @@ IUSE="+alsa +archive debug doc +jack jack-session ladspa lash oss portaudio
 REQUIRED_USE="lash? ( alsa )"
 
 RDEPEND=">=dev-qt/qtgui-4.4.0:4 >=dev-qt/qtcore-4.4.0:4
+	dev-qt/qtxmlpatterns:4
 	archive? ( app-arch/libarchive )
 	!archive? ( >=dev-libs/libtar-1.2.11-r3 )
 	doc? ( app-doc/doxygen )

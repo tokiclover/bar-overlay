@@ -21,6 +21,7 @@ RDEPEND="archive? ( app-arch/libarchive )
 	!archive? ( >=dev-libs/libtar-1.2.11-r3 )
 	doc? ( app-doc/doxygen )
 	dev-qt/qtgui:4 dev-qt/qtcore:4
+	dev-qt/qtxmlpatterns:4
 	>=media-libs/libsndfile-1.0.18
 	alsa? ( media-libs/alsa-lib )
 	jack? ( >=media-sound/jack-audio-connection-kit-0.120.0 )
