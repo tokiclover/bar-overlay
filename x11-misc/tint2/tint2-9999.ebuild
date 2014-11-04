@@ -1,12 +1,10 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-misc/tint2/tint2-0.11-r1.ebuild,v 1.6 2014/09/26 17:38:41 -tclover Exp $
+# $Header: x11-misc/tint2/tint2-9999.ebuild,v 1.6 2014/10/31 17:38:41 -tclover Exp $
 
 EAPI=5
 
 inherit eutils cmake-utils subversion
-
-MY_P="${PN}-${PV/_/-}"
 
 DESCRIPTION="A lightweight panel/taskbar"
 HOMEPAGE="http://code.google.com/p/tint2/"
@@ -71,3 +69,4 @@ src_install()
 	rm -f "${D}/usr/bin/tintwizard.py"
 	dodoc
 }
+
