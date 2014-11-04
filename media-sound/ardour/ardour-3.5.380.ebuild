@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils toolchain-funcs flag-o-matic waf-utils git-r3
+inherit eutils toolchain-funcs flag-o-matic waf-utils git-2
 
 DESCRIPTION="Digital Audio Workstation"
 HOMEPAGE="http://ardour.org/"

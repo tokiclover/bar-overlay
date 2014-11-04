@@ -7,7 +7,7 @@ EAPI=5
 XORG_EAUTORECONF="yes"
 XORG_DRI="always"
 
-inherit linux-info xorg-2 git-r3
+inherit linux-info xorg-2 git-2
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/git/nouveau/${PN}.git"
 EGIT_COMMIT="${PN}-${PV}"

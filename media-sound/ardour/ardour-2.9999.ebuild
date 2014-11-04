@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils toolchain-funcs fdo-mime flag-o-matic versionator git-r3
+inherit eutils toolchain-funcs fdo-mime flag-o-matic versionator git-2
 
 DESCRIPTION="multi-track hard disk recording software"
 HOMEPAGE="http://ardour.org/"

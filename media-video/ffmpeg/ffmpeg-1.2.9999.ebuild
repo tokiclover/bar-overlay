@@ -16,7 +16,7 @@ EAPI=5
 FFMPEG_SUBSLOT=52.54.54
 FFMPEG_REVISION="${PV}"
 
-inherit eutils flag-o-matic multilib multilib-minimal toolchain-funcs git-r3
+inherit eutils flag-o-matic multilib multilib-minimal toolchain-funcs git-2
 
 DESCRIPTION="Complete solution to record, convert and stream audio and video. Includes libavcodec"
 HOMEPAGE="http://ffmpeg.org/"

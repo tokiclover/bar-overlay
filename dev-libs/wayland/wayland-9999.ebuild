@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit autotools-multilib toolchain-funcs git-r3
+inherit autotools-multilib toolchain-funcs git-2
 
 DESCRIPTION="Wayland protocol libraries"
 HOMEPAGE="http://wayland.freedesktop.org/"
