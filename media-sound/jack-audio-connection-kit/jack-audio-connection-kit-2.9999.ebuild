@@ -13,7 +13,7 @@ HOMEPAGE="http://jackaudio.org/"
 EGIT_REPO_URI="git://github.com/jackaudio/jack2.git"
 
 LICENSE="GPL-2"
-SLOT="0"
+SLOT="0/2"
 KEYWORDS=""
 IUSE="alsa celt debug doc dbus ieee1394 opus pam"
 

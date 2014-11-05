@@ -13,7 +13,7 @@ HOMEPAGE="http://jackaudio.org/"
 SRC_URI="https://dl.dropboxusercontent.com/u/28869550/jack-${PV}.tar.bz2 -> ${P}.tar.bz2"
 
 LICENSE="GPL-2"
-SLOT="0"
+SLOT="0/2"
 KEYWORDS=""
 IUSE="alsa celt debug doc dbus ieee1394 opus pam"
 

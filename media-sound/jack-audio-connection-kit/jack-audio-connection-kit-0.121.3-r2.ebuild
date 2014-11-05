@@ -15,19 +15,19 @@ SRC_URI="http://www.jackaudio.org/downloads/${P}.tar.gz
 	dbus? ( http://nedko.arnaudov.name/soft/jack/dbus/${P}-dbus.patch )"
 
 LICENSE="GPL-2 LGPL-2.1"
-SLOT="0"
+SLOT="0/1"
 KEYWORDS=""
 IUSE="3dnow altivec alsa celt coreaudio cpudetection dbus doc debug examples mmx oss sse netjack freebob ieee1394 zalsa"
+
+REQUIRED_USE="freebob? ( !ieee1394 ) ieee1394? ( !freebob )"
 
 RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 	sys-libs/ncurses[${MULTILIB_USEDEP}]
 	celt? ( >=media-libs/celt-0.5.0[${MULTILIB_USEDEP}] )
 	dbus? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
 	alsa? ( >=media-libs/alsa-lib-0.9.1[${MULTILIB_USEDEP}] )
-	freebob? ( sys-libs/libfreebob[${MULTILIB_USEDEP}]
-	          !media-libs/libffado[${MULTILIB_USEDEP}] )
-	ieee1394? ( media-libs/libffado[${MULTILIB_USEDEP}]
-	           !sys-libs/libfreebob[${MULTILIB_USEDEP}] )
+	freebob? ( sys-libs/libfreebob[${MULTILIB_USEDEP}] )
+	ieee1394? ( media-libs/libffado[${MULTILIB_USEDEP}] )
 	netjack? ( media-libs/libsamplerate[${MULTILIB_USEDEP}] )
 	zalsa? ( media-libs/zita-alsa-pcmi[${MULTILIB_USEDEP}]
 		    media-libs/zita-resampler[${MULTILIB_USEDEP}] )"
