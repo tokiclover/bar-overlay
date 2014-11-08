@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-apps/hprofile/hprofile-9999.ebuild,v 1.2 2014/10/10 08:41:42 -tclover Exp $
+# $Header: sys-apps/hprofile/hprofile-9999.ebuild,v 1.3 2014/11/01 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -11,20 +11,20 @@ HOMEPAGE="https://github.com/tokiclover/hprofile"
 EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 
 LICENSE="GPL-2"
-SLOT="0/${PV}"
+SLOT="0/${PV:0:1}"
 KEYWORDS=""
 
-
-DEPEND="sys-apps/findutils"
+DEPEND=""
 RDEPEND="${DEPEND}
+	sys-apps/findutils
 	sys-apps/diffutils
 	sys-apps/sed
 	app-shells/zsh"
 
-DOCS=(AUTHORS BUGS README README.md ChangeLog)
-
 src_install()
 {
-	emake DESTDIR="${D}" prefix=/ install
-	dodoc "${DOCS[@]}"
+	sed -e '/.*COPYING.*$/d' -i Makefile
+	emake DESTDIR="${ED}" prefix=${EPREFIX}/ \
+		docdir=${EPREFIX}/usr/share/doc/${P} install{,-doc}
 }
+
