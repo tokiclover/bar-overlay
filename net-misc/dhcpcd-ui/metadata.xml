@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <herd></herd>
+  <maintainer>
+    <name>tokiclover</name>
+    <email></email>
+  </maintainer>
+  <use>
+    <flag name="gtk3">Add support for <pkg>x11-libs/gtk+:3</pkg> (The GIMP Toolkit)</flag>
+    <flag name="icons">Install built-in status icons</flag>
+  </use>
+</pkgmetadata>
