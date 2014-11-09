@@ -7,7 +7,7 @@
     <email></email>
   </maintainer>
   <use>
-    <flag name="gtk3">Add support for <pkg>x11-libs/gtk+:3</pkg> (The GIMP Toolkit)</flag>
-    <flag name="icons">Install built-in status icons</flag>
+    <flag name="gtk3">Add support for <pkg>x11-libs/gtk+</pkg> (The GIMP Toolkit)</flag>
+    <flag name="icons">Install bundled-in user interface icons</flag>
   </use>
 </pkgmetadata>
