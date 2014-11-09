@@ -1,4 +1,4 @@
-$Header: bar-overlay/README.md, 2014/10/18 07:35:10 -tclover Exp $
+Header: bar(-overlay)/README.md
 
 ---
 
