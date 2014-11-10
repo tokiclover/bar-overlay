@@ -6,15 +6,13 @@ EAPI=5
 
 inherit eutils flag-o-matic libtool
 
-MY_PV=${PV:0:3}
-MY_B=${PV:4:7}
-MY_P=${PN}-v${MY_PV}-build${MY_B}-src-gpl
+MY_P=${PN}-v${PV:0:3}-build${PV:4:7}-src-gpl
 
 DESCRIPTION="OSSv4 portable, mixing-capable, high quality sound system for Unix"
 HOMEPAGE="http://developer.opensound.com/"
 SRC_URI="http://www.4front-tech.com/developer/sources/stable/gpl/${MY_P}.tar.bz2"
 
-unset MY_{B,P,PV}
+unset MY_P
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -51,6 +49,9 @@ src_unpack()
 
 src_prepare()
 {
+	filter-flags '-fPIC'
+	sed -e 's,-O3 ,,g' -i setup/srcconf*.inc
+
 	cp "${FILESDIR}"/oss.initd "${S}"/setup/Linux/oss/etc/S89oss
 	use pax_kernel && epatch "${FILESDIR}"/pax_kernel.patch
 
@@ -68,8 +69,8 @@ src_configure()
 	done
 
 	local myconfargs=(
-		$(use alsa || echo '--enable-libsalsa=NO')
-		$(use midi && echo '--config-midi=YES' || echo '--config-midi=NO')
+		$(usex alsa '' '--enable-libsalsa=NO')
+		$(usex midi '--config-midi=YES' '')
 		--only-drv=$drv
 	)
 	mkdir -p ../build && pushd ../build
@@ -85,17 +86,17 @@ src_compile()
 src_install()
 {
 	pushd ../build
-	cp -a prototype/* "${D}" || die
+	cp -a prototype/* "${ED}" || die
 
 	# install a pkgconfig file and make symlink to standard library dir
 	newinitd "${FILESDIR}"/oss.initd oss
-	local libdir=$(get_libdir)
-	insinto /usr/${libdir}/pkgconfig
+	local libdir=/usr/$(get_libdir)
+	insinto ${libdir}/pkgconfig
 	doins "${FILESDIR}"/OSSlib.pc
-	dosym /usr/${libdir}/{oss/lib/,}libOSSlib.so
-	dosym /usr/${libdir}/{oss/lib/,}libossmix.so
-	use alsa && dosym /usr/${libdir}/{oss/lib/,}libsalsa.so.2.0.0
-	dosym /usr/${libdir}/oss/include /usr/include/oss
+	dosym ${libdir}/{oss/lib/,}libOSSlib.so
+	dosym ${libdir}/{oss/lib/,}libossmix.so
+	use alsa && dosym ${libdir}/{oss/lib/,}libsalsa.so.2.0.0
+	dosym ${libdir}/oss/include /usr/include/oss
 }
 
 pkg_postinst()
