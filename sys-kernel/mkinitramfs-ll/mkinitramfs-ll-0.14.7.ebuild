@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-0.14.2.ebuild v1.11 2014/10/10 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.12 2014/11/01 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -23,10 +23,9 @@ REQUIRED_USE="|| ( bash zsh )
 	|| ( ${COMPRESSOR_USE[@]} )
 	|| ( ${FS_USE[@]} )"
 
-DEPEND="sys-apps/sed
-	sys-apps/findutils"
-
+DEPEND="sys-apps/sed"
 RDEPEND="app-arch/cpio
+	sys-apps/findutils
 	fbsplash? ( sys-apps/v86d media-gfx/splashutils[fbcondecor,png,truetype] )
 	sys-apps/busybox[mdev]
 	dm-crypt? ( sys-fs/cryptsetup )
@@ -53,10 +52,10 @@ for (( i=0; i<$((${#COMPRESSOR_USE[@]} - 2)); i++ )); do
 	RDEPEND="${RDEPEND}
 		app-arch/${COMPRESSOR_USE[$i]}"
 done
+unset i
 
-DOCS=( BUGS ChangeLog README.textile )
-
-pkg_setup() {
+pkg_setup()
+{
 	CONFIG_CHECK="BLK_DEV_INITRD PROC_FS SYSFS TMPFS"
 	local u U
 
@@ -80,7 +79,10 @@ pkg_setup() {
 	linux-info_pkg_setup
 }
 
-src_prepare() {
+src_prepare()
+{
+	sed -e '/COPYING.*$/d' -i Makefile
+
 	local bin fs fsck mod kmod
 
 	# set up ${PN}.conf denpending on USE flags
@@ -104,6 +106,7 @@ src_prepare() {
 
 	# set up the default compressor if xz USE flag is unset
 	use xz && return
+	local u
 	for u in ${COMPRESSOR_USE[@]}; do
 		use ${u} || continue
 		sed -e "s,# vim,opts[-comp]=\"${u/lzo/lzop} -9\"\n#\n# vim," -i ${PN}.conf
@@ -111,32 +114,34 @@ src_prepare() {
 	done
 }
 
-src_install() {
-	emake DESTDIR="${D}" prefix=/usr install
+src_install()
+{
+	emake DESTDIR="${ED}" prefix=${EPREFIX}/usr \
+		docdir=${EPREFIX}/usr/share/doc/${P} install
 
 	if use aufs && use squashfs; then
-		emake DESTDIR="${D}" prefix=/usr install_aufs_squashfs
-		mv svc{/,.}README.textile && DOCS=( ${DOCS[@]} svc.README.textile )
+		emake DESTDIR="${ED}" prefix=${EPREFIX}/usr install-squashd
+		newdoc svc/README.textile service-README.textile
 	fi
 
-	use zram && emake DESTDIR="${D}" install_zram
+	use zram && emake DESTDIR="${ED}" install-zram
 
+	local sh
 	for sh in {ba,z}sh; do
 		use ${sh} || continue
 		shell=${sh}
-		emake DESTDIR="${D}" prefix=/usr install_${sh}
+		emake DESTDIR="${ED}" prefix=${EPREFIX}/usr install-${sh}
 	done
 
 	if use symlink; then
-		local bindir=/usr/sbin
+		local bindir=${EPREFIX}/usr/sbin
 		dosym ${bindir}/{${PN}.${shell},mkinit-ll}
 		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
 	fi
-
-	dodoc ${DOCS[@]}
 }
 
-pkg_postinst() {
+pkg_postinst()
+{
 	local linguas="${LINGUS:-en}"
 
 	einfo "The easiest way to build an intramfs is running:"

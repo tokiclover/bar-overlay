@@ -52,6 +52,7 @@ for (( i=0; i<$((${#COMPRESSOR_USE[@]} - 2)); i++ )); do
 	RDEPEND="${RDEPEND}
 		app-arch/${COMPRESSOR_USE[$i]}"
 done
+unset i
 
 pkg_setup()
 {
@@ -105,6 +106,7 @@ src_prepare()
 
 	# set up the default compressor if xz USE flag is unset
 	use xz && return
+	local u
 	for u in ${COMPRESSOR_USE[@]}; do
 		use ${u} || continue
 		sed -e "s,# vim,opts[-comp]=\"${u/lzo/lzop} -9\"\n#\n# vim," -i ${PN}.conf
@@ -124,6 +126,7 @@ src_install()
 
 	use zram && emake DESTDIR="${ED}" install-zram
 
+	local sh
 	for sh in {ba,z}sh; do
 		use ${sh} || continue
 		shell=${sh}
