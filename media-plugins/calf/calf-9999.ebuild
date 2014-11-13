@@ -22,7 +22,7 @@ RDEPEND="dev-libs/expat
 	>=media-sound/jack-audio-connection-kit-0.105.0
 	sci-libs/fftw:3.0
 	x11-libs/gtk+:2
-	lash? ( virtual/liblash ) )
+	lash? ( virtual/liblash )
 	lv2? ( >=media-libs/lv2-1.0.0 )"
 
 DEPEND="${RDEPEND} virtual/pkgconfig"
