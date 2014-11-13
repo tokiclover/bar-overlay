@@ -13,10 +13,9 @@ SRC_URI="http://roy.marples.name/downloads/${PN%-ui}/${P}.tar.bz2"
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug gtk gtk3 icons qt4 libnotify"
-REQUIRED_USE="|| ( gtk gtk3 qt4 )
-	gtk3? ( !gtk ) gtk? ( !gtk3 )
-	qt4? ( icons )"
+IUSE="debug gtk gtk3 qt4 libnotify"
+REQUIRED_USE="?? ( gtk gtk3 qt4 )
+	gtk3? ( !gtk ) gtk? ( !gtk3 )"
 
 DEPEND="${DEPEND}
 	virtual/libintl
@@ -29,8 +28,7 @@ DEPEND="${DEPEND}
 	gtk3? ( x11-libs/gtk+:3 )
 	qt4?  ( dev-qt/qtgui:4 )"
 
-RDEPEND=">=net-misc/dhcpcd-6.4.4
-	!icons? ( x11-themes/hicolor-icon-theme )"
+RDEPEND=">=net-misc/dhcpcd-6.4.4"
 
 src_prepare()
 {
@@ -41,10 +39,9 @@ src_configure()
 {
 	local myeconfargs=(
 		$(use_enable debug)
-		$(use_with icons)
 		$(usex gtk  '--with-gtk=gtk+-2.0' '')
 		$(usex gtk3 '--with-gtk=gtk+-3.0' '')
-		$(use gtk || use gtk3 || echo '--without-gtk')
+		$(use gtk || use gtk3 || echo '--without-gtk' && echo '--with-icons')
 		$(use_with qt4 qt)
 		$(use_enable libnotify notification)
 	)
