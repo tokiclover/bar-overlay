@@ -80,7 +80,7 @@ multilib_src_install_all()
 	use doc && dodoc doc/*.txt
 
 	if use examples; then
-		insinto "${EPREFIX}/usr/share/doc/${PF}"
+		insinto /usr/share/doc/${PF}
 		doins -r examples
 		doins -r python/demos
 		newdoc python/README README.python
