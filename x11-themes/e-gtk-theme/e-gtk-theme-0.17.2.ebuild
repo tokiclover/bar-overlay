@@ -14,9 +14,7 @@ LICENSE="BSD-2"
 KEYWORDS="~amd64 ~x86"
 SLOT=0
 IUSE="gnome gtk minimal openbox"
-
 REQUIRED_USE="gnome? ( gtk )"
-GTK_VERSION="3.6"
 
 RDEPEND="!minimal? (  !gtk? ( x11-themes/gnome-themes )
 	              gtk? ( x11-themes/gnome-themes-standard ) )"
