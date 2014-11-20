@@ -8,7 +8,7 @@ inherit eutils
 
 DESCRIPTION="DeaDBeeF JACK output plugin"
 HOMEPAGE="https://github.com/tokiclover/deadbeef-plugins-jack"
-SRC_URI="https://github.com/tokiclover/${PN}/archive/${P}.tar.gz"
+SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
