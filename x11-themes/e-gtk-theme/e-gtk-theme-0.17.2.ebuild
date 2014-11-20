@@ -8,7 +8,7 @@ inherit eutils
 
 DESCRIPTION="a gtk theme to match enlightenment DR17 default theme"
 HOMEPAGE="https://github.com/tokiclover/e-gtk-theme"
-SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/tokiclover/${PN}/archive/${P}.tar.gz"
 
 LICENSE="BSD-2"
 KEYWORDS="~amd64 ~x86"
