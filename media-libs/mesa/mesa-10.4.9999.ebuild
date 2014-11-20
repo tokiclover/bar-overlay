@@ -35,11 +35,12 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic debug +dri3 +egl +gallium gbm gles1 gles2 +llvm +nptl
+	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl
 	opencl openvg osmesa pax_kernel openmax pic r600-llvm-compiler selinux
-	vdpau wayland xvmc xa kernel_FreeBSD"
+	vaapi vdpau wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
+	d3d9? ( gallium dri3 )
 	llvm?   ( gallium )
 	openvg? ( egl gallium )
 	opencl? (
@@ -111,6 +112,7 @@ RDEPEND="
 				dev-libs/libclc
 			)
 	openmax? ( >=media-libs/libomxil-bellagio-0.9.3[${MULTILIB_USEDEP}] )
+	vaapi? ( x11-libs/libva:=[${MULTILIB_USEDEP}] )
 	vdpau? ( >=x11-libs/libvdpau-0.7[${MULTILIB_USEDEP}] )
 	wayland? ( >=dev-libs/wayland-1.2.0[${MULTILIB_USEDEP}] )
 	xvmc? ( >=x11-libs/libXvMC-1.0.8[${MULTILIB_USEDEP}] )
@@ -184,7 +186,7 @@ src_prepare() {
 	fi
 
 	# relax the requirement that r300 must have llvm, bug 380303
-	epatch "${FILESDIR}"/${PN}-10.2-dont-require-llvm-for-r300.patch
+	epatch "${FILESDIR}"/${PN}-10.4-dont-require-llvm-for-r300.patch
 
 	# fix for hardened pax_kernel, bug 240956
 	epatch "${FILESDIR}"/glx_ro_text_segm.patch
@@ -233,11 +235,12 @@ multilib_src_configure() {
 
 	if use gallium; then
 		myconf+="
+			$(use_enable d3d9 nine)
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openvg)
-			$(use_enable openvg gallium-egl)
 			$(use_enable openmax omx)
 			$(use_enable r600-llvm-compiler)
+			$(use_enable vaapi va)
 			$(use_enable vdpau)
 			$(use_enable xa)
 			$(use_enable xvmc)
