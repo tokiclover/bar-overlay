@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/mesa/mesa-10.2.2.ebuild,v 1.2 2014/07/025 22:15:06 -tclover Exp $
+# $Header: media-libs/mesa/mesa-10.4.9999.ebuild,v 1.2 2014/11/20 22:15:06 -tclover Exp $
 
 EAPI=5
 
@@ -70,7 +70,7 @@ REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 "
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.54"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.57"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
@@ -184,7 +184,7 @@ src_prepare() {
 	fi
 
 	# relax the requirement that r300 must have llvm, bug 380303
-	epatch "${FILESDIR}"/${PN}-${PV%.9999}-dont-require-llvm-for-r300.patch
+	epatch "${FILESDIR}"/${PN}-10.2-dont-require-llvm-for-r300.patch
 
 	# fix for hardened pax_kernel, bug 240956
 	epatch "${FILESDIR}"/glx_ro_text_segm.patch
