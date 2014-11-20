@@ -8,7 +8,7 @@ inherit eutils
 
 DESCRIPTION="Utility to manage hardware, network, power or other profiles"
 HOMEPAGE="https://github.com/tokiclover/hprofile"
-SRC_URI="https://github.com/tokiclover/${PN}/archive/${P}.tar.gz"
+SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0/${PV:0:1}"
