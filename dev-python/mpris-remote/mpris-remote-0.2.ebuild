@@ -10,7 +10,7 @@ inherit python-single-r1
 
 DESCRIPTION="utility that controls an MPRIS-2 compliant music player"
 HOMEPAGE="https://github.com/tokiclover/mpris-remote"
-SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/tokiclover/${PN}/archive/${P}.tar.gz"
 
 LICENSE="CC0-1.0"
 SLOT="0"
