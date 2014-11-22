@@ -7,6 +7,7 @@ dev-perl/perl-URxvt
 dev-perl/perl-WebKit-GTk
 dev-python/mpris-remote
 dev-python/pyrobase
+dev-python/pyrocore
 dev-util/editje
 dev-util/lv2-c++-tools
 games-board/fuego
