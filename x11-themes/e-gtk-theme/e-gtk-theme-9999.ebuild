@@ -25,7 +25,7 @@ src_install()
 	sed -e '/.*COPYING.*$/d' -i Makefile
 	local themedir=/usr/share/themes/e
 	emake DESTDIR="${ED}" VERSION=${PV} prefix=/usr install-all
-	use gnome   || rm -fr "${ED}"/${themedir}metacity-1
-	use openbox || rm -fr "${ED}"/${themedir}openbox-3
+	use gnome   || rm -fr "${ED}"/${themedir}/metacity-1
+	use openbox || rm -fr "${ED}"/${themedir}/openbox-3
 }
 
