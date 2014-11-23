@@ -116,11 +116,10 @@ src_prepare()
 
 src_install()
 {
-	emake DESTDIR="${ED}" prefix=${EPREFIX}/usr \
-		docdir=${EPREFIX}/usr/share/doc/${P} install
+	emake DESTDIR="${ED}" prefix=usr install
 
 	if use aufs && use squashfs; then
-		emake DESTDIR="${ED}" prefix=${EPREFIX}/usr install-squashd
+		emake DESTDIR="${ED}" prefix=/usr install-squashd
 		newdoc svc/README.textile service-README.textile
 	fi
 
@@ -130,7 +129,7 @@ src_install()
 	for sh in {ba,z}sh; do
 		use ${sh} || continue
 		shell=${sh}
-		emake DESTDIR="${ED}" prefix=${EPREFIX}/usr install-${sh}
+		emake DESTDIR="${ED}" prefix=/usr install-${sh}
 	done
 
 	if use symlink; then
