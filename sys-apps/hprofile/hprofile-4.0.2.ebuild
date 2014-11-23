@@ -25,6 +25,6 @@ DOCS=(AUTHORS BUGS README README.md ChangeLog)
 
 src_install()
 {
-	emake DESTDIR="${D}" prefix=/ install
+	emake DESTDIR="${ED}" prefix=/ install
 	dodoc "${DOCS[@]}"
 }

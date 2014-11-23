@@ -24,7 +24,6 @@ RDEPEND="${DEPEND}
 src_install()
 {
 	sed -e '/.*COPYING.*$/d' -i Makefile
-	emake DESTDIR="${ED}" prefix=${EPREFIX}/ \
-		docdir=${EPREFIX}/usr/share/doc/${P} install{,-doc}
+	emake DESTDIR="${ED}" VERSION=${PV} prefix=/ install{,-doc}
 }
 
