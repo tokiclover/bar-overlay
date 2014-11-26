@@ -1,12 +1,12 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.1 2014/10/10 -tclover Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.2 2014/11/26 -tclover Exp $
 
 EAPI=5
 
 inherit eutils waf-utils pax-utils fdo-mime gnome2-utils git-2
 
-WAF_VERSION=1.7.16
+WAF_VERSION=1.8.1
 
 DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
@@ -16,10 +16,10 @@ SRC_URI="http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack -joystick
-jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123 -openal +opengl
-oss portaudio postproc pulseaudio pvr +quvi samba sdl selinux +shm v4l vaapi vdpau
-vf-dlopen wayland +X xinerama +xscreensaver +xv"
+IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack
+-joystick jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123
++network -openal +opengl oss portaudio postproc pulseaudio pvr samba sdl selinux
++shm v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver +xv"
 
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS=""
@@ -46,8 +46,8 @@ REQUIRED_USE="
 
 RDEPEND+="
 	|| (
-		>=media-video/libav-10:=[encode?,threads,vaapi?,vdpau?]
-		>=media-video/ffmpeg-2.1.4:0=[encode?,threads,vaapi?,vdpau?]
+		>=media-video/libav-10:=[encode?,network?,threads,vaapi?,vdpau?]
+		>=media-video/ffmpeg-2.1.4:0=[encode?,network?,threads,vaapi?,vdpau?]
 	)
 	sys-libs/ncurses
 	sys-libs/zlib
@@ -101,13 +101,6 @@ RDEPEND+="
 		)
 	)
 	pulseaudio? ( media-sound/pulseaudio )
-	quvi? (
-		>=media-libs/libquvi-0.4.1:=
-		|| (
-			>=media-video/libav-10[network]
-			>=media-video/ffmpeg-2.1.4:0[network]
-		)
-	)
 	samba? ( net-fs/samba )
 	sdl? ( media-libs/libsdl2[threads] )
 	selinux? ( sec-policy/selinux-mplayer )
@@ -174,7 +167,6 @@ src_configure()
 		$(use_enable encode encoding)
 		$(use_enable joystick)
 		$(use_enable bluray libbluray)
-		$(use_enable quvi libquvi)
 		$(use_enable samba libsmbclient)
 		$(use_enable lirc)
 		$(use_enable lua)
