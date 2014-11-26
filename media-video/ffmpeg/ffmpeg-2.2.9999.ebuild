@@ -165,7 +165,7 @@ RDEPEND="${RDEPEND}
 	abi_x86_32? ( !<=app-emulation/emul-linux-x86-medialibs-20140508-r3
 		!app-emulation/emul-linux-x86-medialibs[-abi_x86_32(-)] )"
 
-DOCS=( Changelog README CREDITS doc/*.txt doc/APIchanges doc/RELEASE_NOTES )
+DOCS=( Changelog README CREDITS doc/APIchanges doc/RELEASE_NOTES )
 
 # faac is license-incompatible with ffmpeg
 REQUIRED_USE="bindist? ( encode? ( !faac !aacplus ) !openssl )
@@ -349,7 +349,7 @@ multilib_src_install()
 
 multilib_src_install_all()
 {
-	dodoc "${DOCS[@]}"
+	dodoc "${DOCS[@]}" doc/*.txt
 	use doc && dohtml -r doc/*
 	if use examples ; then
 		dodoc -r doc/examples

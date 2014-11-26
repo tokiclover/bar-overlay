@@ -174,7 +174,7 @@ REQUIRED_USE="bindist? ( encode? ( !faac !aacplus ) !openssl )
 	fftools_cws2fws? ( zlib )
 	test? ( encode )"
 
-DOCS=( Changelog README.md CREDITS doc/*.txt doc/APIchanges )
+DOCS=( Changelog README.md CREDITS doc/APIchanges )
 
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/libavutil/avconfig.h
@@ -353,7 +353,7 @@ multilib_src_install()
 multilib_src_install_all()
 {
 	[ -f RELEASE_NOTES ] && DOCS+=( RELEASE_NOTES )
-	dodoc "${DOCS[@]}"
+	dodoc "${DOCS[@]}" doc/*.txt
 	use doc && dohtml -r doc/*
 	if use examples ; then
 		dodoc -r doc/examples
