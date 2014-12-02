@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/leopard-gtk-theme/leopard-gtk-theme-4.0.ebuild,v 1.1 2014/08/28 00:22:09 -tclover Exp $
+# $Header: x11-themes/leopard-gtk-theme/leopard-gtk-theme-4.0.ebuild,v 1.2 2014/12/01 00:22:09 -tclover Exp $
 
 EAPI=5
 
@@ -13,21 +13,23 @@ SRC_URI="http://gnome-look.org/CONTENT/content-files/147309-gnome-leopard.zip ->
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="icon -minimal"
+IUSE="icon"
 
-RDEPEND="minimal? ( !x11-themes/gnome-theme )
-	x11-themes/gtk-engines-murrine
+RDEPEND="x11-themes/gtk-engines-murrine
 	icon? ( ${CATEGORY}/${PN/gtk/icon} )"
 
 DEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 
-src_prepare() {
+src_prepare()
+{
 	unpack ./gnome-leopard/leopard.tar.gz
 }
 
-src_install() {
+src_install()
+{
 	insinto /usr/share/themes
 	doins -r leopard
 }
+
