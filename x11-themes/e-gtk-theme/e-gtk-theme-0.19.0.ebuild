@@ -16,10 +16,9 @@ SLOT=0
 IUSE="gnome gtk minimal openbox"
 REQUIRED_USE="gnome? ( gtk )"
 
-RDEPEND="!minimal? (  !gtk? ( x11-themes/gnome-themes )
-	              gtk? ( x11-themes/gnome-themes-standard ) )"
-
-DEPEND="${RDEPEND}"
+DEPEND=""
+RDEPEND="!minimal? ( gtk? ( x11-themes/gnome-themes-standard ) )
+	x11-themes/gtk-engines"
 
 src_install()
 {
