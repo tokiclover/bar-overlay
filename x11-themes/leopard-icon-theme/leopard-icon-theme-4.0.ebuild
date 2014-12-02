@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/leopard-icon-theme/leopard-icon-theme-4.0.ebuild,v 1.1 2014/08/28 10:58:02 -tclover Exp $
+# $Header: x11-themes/leopard-icon-theme/leopard-icon-theme-4.0.ebuild,v 1.2 2014/12/01 10:58:02 -tclover Exp $
 
 EAPI=5
 
@@ -24,17 +24,22 @@ RESTRICT="nomirror"
 
 S="${WORKDIR}"
 
-src_install() {
+src_install()
+{
 	insinto /usr/share/icons
 	doins -r leoicons
 }
 
-pkg_preinst() {
+pkg_preinst()
+{
 	gnome2_icon_savelist
 }
-pkg_postinst() {
+pkg_postinst()
+{
 	gnome2_icon_cache_update
 }
-pkg_postrm() {
+pkg_postrm()
+{
 	gnome2_icon_cache_update
 }
+
