@@ -116,7 +116,7 @@ src_prepare()
 
 src_install()
 {
-	emake DESTDIR="${ED}" prefix=usr install
+	emake DESTDIR="${ED}" prefix=/usr install
 
 	if use aufs && use squashfs; then
 		emake DESTDIR="${ED}" prefix=/usr install-squashd
