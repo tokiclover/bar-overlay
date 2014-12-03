@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-9999.ebuild,v 1.2 2014/11/08 18:29:24 -tclover Exp $
+# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-9999.ebuild,v 1.3 2014/12/02 18:29:24 -tclover Exp $
 
 EAPI=5
 
@@ -19,11 +19,11 @@ HOMEPAGE="http://roy.marples.name/projects/dhcpcd-ui/"
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="debug gtk gtk3 icons qt4 libnotify"
+IUSE="debug gtk gtk3 qt4 libnotify"
 REQUIRED_USE="?? ( gtk gtk3 qt4 )
 	gtk3? ( !gtk ) gtk? ( !gtk3 )"
 
-DEPEND="${DEPEND}
+DEPEND="gnome-base/librsvg
 	virtual/libintl
 	libnotify? (
 		gtk?  ( x11-libs/libnotify )
@@ -33,7 +33,6 @@ DEPEND="${DEPEND}
 	gtk?  ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )
 	qt4?  ( dev-qt/qtgui:4 )"
-
 RDEPEND=">=net-misc/dhcpcd-6.4.4"
 
 src_unpack()

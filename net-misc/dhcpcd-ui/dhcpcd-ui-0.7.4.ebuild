@@ -17,8 +17,7 @@ IUSE="debug gtk gtk3 qt4 libnotify"
 REQUIRED_USE="?? ( gtk gtk3 qt4 )
 	gtk3? ( !gtk ) gtk? ( !gtk3 )"
 
-DEPEND="${DEPEND}
-	virtual/libintl
+DEPEND="virtual/libintl
 	libnotify? (
 		gtk?  ( x11-libs/libnotify )
 		gtk3? ( x11-libs/libnotify )
@@ -27,7 +26,6 @@ DEPEND="${DEPEND}
 	gtk?  ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )
 	qt4?  ( dev-qt/qtgui:4 )"
-
 RDEPEND=">=net-misc/dhcpcd-6.4.4"
 
 src_prepare()
