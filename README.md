@@ -29,6 +29,13 @@ and do not forget to uncomment *overlay_defs*
 
 merge all the goodies with: `% emerge -aNDuv world`
 
+To update the repository, one can either use *layman* `layman -s bar`
+if the repository was cloned with layman; or even use `eix-sync` to
+sync portage/overlays; or else, use *git* to sync `git pull` should
+suffice or add *-f* if you've runned out of luck.
+
+SIMPLY PUT, DO NOT CLONE MULTIPLE TIMES FOR NOTHING.
+
 ### license
 
 GPL-2
