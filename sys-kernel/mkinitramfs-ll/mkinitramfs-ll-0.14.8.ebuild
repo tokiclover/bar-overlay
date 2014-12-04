@@ -6,7 +6,7 @@ EAPI=5
 
 inherit eutils linux-info
 
-DESCRIPTION="a flexible initramfs genrating tool with full LUKS support and more"
+DESCRIPTION="Lightweight, modular and powerfull initramfs genrating tool"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 

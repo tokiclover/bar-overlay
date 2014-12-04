@@ -6,7 +6,7 @@ EAPI=5
 
 inherit eutils linux-info git-2
 
-DESCRIPTION="a flexible initramfs genrating tool with full LUKS support and more"
+DESCRIPTION="Lightweight, modular and powerfull initramfs genrating tool"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 
