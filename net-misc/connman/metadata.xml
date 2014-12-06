@@ -6,7 +6,7 @@
   </maintainer>
   <use>
     <flag name="ethernet">Enable ethernet support</flag>
-    <flag name="proxy">Add <pkg>net-misc/pacrunner</pkg> proxy configuration daemon</flag>
+    <flag name="proxy">Use <pkg>net-misc/pacrunner</pkg> for proxy configuration</flag>
     <flag name="pptp">Use <pkg>net-misc/pptpd</pkg> for nptd plugin</flag>
     <flag name="ofono">Use <pkg>net-misc/ofono</pkg> for telephony support</flag>
     <flag name="openvpn">Use <pkg>net-misc/openvpn</pkg> for openvpn support</flag>
