@@ -12,8 +12,8 @@ EGIT_REPO_URI="git://git.kernel.org/pub/scm/network/connman/connman.git"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="bluetooth debug doc examples +ethernet gnutls networkmanager ofono
-openconnect openvpn pptp policykit selinux tools vpnc +wifi"
+IUSE="bluetooth debug doc examples +ethernet gnutls hardened networkmanager ofono
+openconnect openvpn pacrunner pptp policykit selinux tools vpnc +wifi"
 REQUIRED_USE="selinux? ( openvpn )"
 
 DEPEND=">=sys-kernel/linux-headers-2.6.39
@@ -28,6 +28,7 @@ DEPEND=">=sys-kernel/linux-headers-2.6.39
 	policykit? ( sys-auth/polkit )
 	openconnect? ( net-misc/openconnect[gnutls?] )
 	openvpn? ( net-misc/openvpn )
+	pacrunner? ( net-misc/pacrunner )
 	pptp? ( || ( net-dialup/pptpclient net-dialup/pptpd ) )
 	selinux? ( sec-policy/selinux-openvpn )
 	vpnc? ( net-misc/vpnc )
@@ -41,6 +42,7 @@ AUTOTOOLS_IN_SOURCE_BUILD=1
 src_configure()
 {
 	local myeconfargs=(
+		${EXTRA_CONF}
 		--localstatedir=/var
 		--enable-client
 		--enable-datafiles
@@ -55,13 +57,13 @@ src_configure()
 		$(use_enable openvpn openvpn builtin)
 		$(use_enable policykit polkit builtin)
 		$(use_enable selinux)
-		$(use_enable pic pie)
+		$(use_enable pacrunner)
+		$(use_enable hardened pie)
 		$(use_enable pptp pptp builtin)
 		$(use_enable vpnc vpnc builtin)
 		$(use_enable debug)
 		$(use_enable tools)
 		--disable-hh2serial-gps
-		--disable-pacrunner
 	)
 	autotools-utils_src_configure
 }
