@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/connman/connman-9999.ebuild,v 1.5 2014/10/10 20:54:56 -tclover Exp $
+# $Header: net-misc/connman/connman-9999.ebuild,v 1.6 2014/12/01 20:54:56 -tclover Exp $
 
 EAPI=5
 
@@ -14,8 +14,8 @@ EGIT_COMMIT=${PV}
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86"
-IUSE="bluetooth debug doc examples +ethernet gnutls hardened networkmanager ofono
-openconnect openvpn pacrunner pptp policykit selinux tools vpnc +wifi"
+IUSE="bluetooth debug doc examples +ethernet gnutls hardened ofono
+openconnect openvpn proxy pptp policykit selinux tools vpnc +wifi"
 REQUIRED_USE="selinux? ( openvpn )"
 
 DEPEND=">=sys-kernel/linux-headers-2.6.39
@@ -30,7 +30,7 @@ DEPEND=">=sys-kernel/linux-headers-2.6.39
 	policykit? ( sys-auth/polkit )
 	openconnect? ( net-misc/openconnect[gnutls?] )
 	openvpn? ( net-misc/openvpn )
-	pacrunner? ( net-misc/pacrunner )
+	proxy? ( net-misc/pacrunner )
 	pptp? ( || ( net-dialup/pptpclient net-dialup/pptpd ) )
 	selinux? ( sec-policy/selinux-openvpn )
 	vpnc? ( net-misc/vpnc )
@@ -53,11 +53,10 @@ src_configure()
 		$(use_enable ethernet ethernet builtin)
 		$(use_enable wifi wifi builtin)
 		$(use_enable bluetooth bluetooth builtin)
-		$(use_enable networkmanager nmcompat)
 		$(use_enable ofono ofono builtin)
 		$(use_enable openconnect openconnect builtin)
 		$(use_enable openvpn openvpn builtin)
-		$(use_enable pacrunner)
+		$(use_enable proxy pacrunner)
 		$(use_enable policykit polkit builtin)
 		$(use_enable selinux)
 		$(use_enable hardened pie)
