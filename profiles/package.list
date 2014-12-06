@@ -68,6 +68,7 @@ sys-kernel/git-sources
 sys-kernel/mkinitramfs-ll
 sys-libs/libfreebob
 virtual/liblash
+virtual/libproxy
 x11-drivers/xf86-video-nouveau
 x11-libs/ganv
 x11-misc/netwmpager
