@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.12 2014/11/01 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild v1.12 2014/12/01 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -133,7 +133,7 @@ src_install()
 	done
 
 	if use symlink; then
-		local bindir=${EPREFIX}/usr/sbin
+		local bindir=/usr/sbin
 		dosym ${bindir}/{${PN}.${shell},mkinit-ll}
 		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
 	fi
@@ -143,6 +143,7 @@ pkg_postinst()
 {
 	local linguas="${LINGUS:-en}"
 
+	einfo
 	einfo "The easiest way to build an intramfs is running:"
 	einfo " \`${PN}.${shell} -a -f -y${linguas// /:} -k$(uname -r)'"
 	einfo "And do not forget to copy usr/bin/gpg binary with"
@@ -165,6 +166,7 @@ pkg_postinst()
 
 	einfo
 	einfo "And do not forget to review /etc/${PN}.conf to check the configuration!"
+	einfo
 
 	unset shell
 }
