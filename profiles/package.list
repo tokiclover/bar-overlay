@@ -58,6 +58,7 @@ media-video/mpv
 net-libs/libeweather
 net-misc/connman
 net-misc/dhcpcd-ui
+net-misc/pacrunner
 net-print/cnijfilter
 sys-apps/hprofile
 sys-firmware/iucode-tool
