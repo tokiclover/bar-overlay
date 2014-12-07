@@ -10,7 +10,6 @@
 		<flag name="dbus">Build jackdbus</flag>
 		<flag name="freebob">enables support for older 'BeBoB' ieee1394</flag>
 		<flag name="ieee1394">enables support for FFADO - 'BeBoB'</flag>
-		<flag name="mixed">build with 32/64 bits mixed mode</flag>
 		<flag name="netjack">Build netjack</flag>
 		<flag name="opus">build with compression support using media-libs/opus in netjack</flag>
 		<flag name="pam">Add basic realime configuration via <pkg>sys-auth/realtime-base</pkg></flag>

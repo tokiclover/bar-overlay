@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<herd>no-herd</herd>
 	<maintainer>
 		<email></email>
 	</maintainer>
@@ -15,7 +14,6 @@
 		<flag name="vtx">Support libayemy VTX ZX-Spectrum music player plugin</flag>
 		<flag name="adplug">Support Adplug (OPL2/OPL3 emulation) plugin</flag>
 		<flag name="artwork">Support cover art plugin</flag>
-		<flag name="shellexec">Support shell commands plugin</flag>
 		<flag name="aosdk">Support AOSDK plugin for for DSF,PSF,QSF,SSF formats</flag>
 		<flag name="dumb">Support DUMB module plugin, for MOD, S3M, etc plugin</flag>
 		<flag name="shn">Support SHN based on xmms-shn plugin</flag>

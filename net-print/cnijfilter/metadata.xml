@@ -10,7 +10,6 @@
 		<flag name="backends">Build only CUPS backends+filter+utilities</flag>
 		<flag name="drivers">Build Canon CUPS filter command line utility and pull in propriatary blobs</flag>
 		<flag name="servicetools">Build service tools utility, this require very old libs</flag>
-		<flag name="symlink">Make a symlink for GIMP plugin in /usr/LIBDIR/gimp/2.0/plug-ins</flag>
 		<flag name="net">Add network backend for CUPS</flag>
 		<flag name="usb">Add usb backend for CUPS</flag>
 	</use>
