@@ -28,7 +28,7 @@ DEPEND=">=sys-kernel/linux-headers-2.6.39
 	policykit? ( sys-auth/polkit )
 	openconnect? ( net-misc/openconnect[gnutls?] )
 	openvpn? ( net-misc/openvpn )
-	pacrunner? ( net-misc/pacrunner )
+	proxy? ( net-misc/pacrunner )
 	pptp? ( || ( net-dialup/pptpclient net-dialup/pptpd ) )
 	selinux? ( sec-policy/selinux-openvpn )
 	vpnc? ( net-misc/vpnc )
