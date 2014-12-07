@@ -23,7 +23,7 @@ MKV="${KV_MAJOR}.${KV_MINOR}"
 
 BFS_VER="424"
 CK_VER="${MKV}-ck3"
-GEN_VER="${MKV}-86"
+GEN_VER="${MKV}-87"
 FBC_VER="${GEN_VER}"
 GHP_VER="${MKV}.7-1"
 RT_VER="${OKV}-rt128"

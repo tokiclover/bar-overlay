@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.10.47.ebuild,v 2.0 2014/07/14 13:45:34 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.10.62.ebuild,v 2.0 2014/12/04 13:45:34 -tclover Exp $
 
 EAPI="5"
 
@@ -25,13 +25,13 @@ MKV="${KV_MAJOR}.${KV_MINOR}"
 AUFS_VER="${MKV}.x"
 BFS_VER="440"
 CK_VER="${MKV}-ck1"
-GEN_VER="${MKV}-65"
+GEN_VER="${MKV}-68"
 BFQ_VER="${GEN_VER}"
 FBC_VER="${GEN_VER}"
 GHP_VER="${MKV}.11-1"
-RT_VER="${OKV}-rt62"
+RT_VER="${MKV}.61-rt65"
 RS4_VER="${MKV}"
-TOI_VER="${MKV}.45-2014-06-27"
+TOI_VER="${MKV}.51-2014-08-07"
 UKSM_VER="${MKV}.ge.46"
 
 BFS_SRC="${MKV}-sched-bfs-${BFS_VER}.patch"
