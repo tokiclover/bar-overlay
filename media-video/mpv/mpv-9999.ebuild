@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.2 2014/11/26 -tclover Exp $
+# $Header: media-video/mpv/mpv-0.7.1.ebuild,v 1.3 2014/12/12 -tclover Exp $
 
 EAPI=5
 
@@ -18,7 +18,7 @@ LICENSE="GPL-2"
 SLOT="0"
 IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack
 -joystick jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123
-+network -openal +opengl oss portaudio postproc pulseaudio pvr samba sdl selinux
+-openal +opengl oss portaudio postproc pulseaudio pvr samba sdl selinux
 +shm v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver +xv"
 
 if [[ "${PV}" == "9999" ]]; then
@@ -46,8 +46,8 @@ REQUIRED_USE="
 
 RDEPEND+="
 	|| (
-		>=media-video/libav-10:=[encode?,network?,threads,vaapi?,vdpau?]
-		>=media-video/ffmpeg-2.1.4:0=[encode?,network?,threads,vaapi?,vdpau?]
+		>=media-video/libav-10:=[encode?,threads,vaapi?,vdpau?]
+		>=media-video/ffmpeg-2.1.4:0=[encode?,threads,vaapi?,vdpau?]
 	)
 	sys-libs/ncurses
 	sys-libs/zlib
@@ -158,9 +158,11 @@ src_configure()
 	# media-sound/rsound is in pro-audio overlay only
 	# vapoursynth is not packaged
 	local mywconfargs=(
+		${EXTRA_MPV_CONF}
 		--disable-build-date
 		--disable-debug-build
 		--disable-sdl1
+		--disable-optimize
 		$(use_enable sdl sdl2)
 		--disable-rsound
 		--disable-vapoursynth
