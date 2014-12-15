@@ -37,8 +37,8 @@ DEPEND="${RDEPEND}
 DOCS=( AUTHORS ChangeLog README )
 
 PATCHES=(
-	"${FILESDIR}/${P}-honor-toolchain-env.patch"
-	"${FILESDIR}/${P}-no-jackd-version.patch"
+	"${FILESDIR}"/${P}-flags.patch
+	"${FILESDIR}"/${P}-jack-version.patch
 )
 
 src_prepare()
