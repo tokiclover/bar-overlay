@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.9 2014/09/09 23:23:44 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.10 2014/19/01 23:23:44 -tclover Exp $
 
 EAPI=5
 
@@ -15,16 +15,17 @@ DEPEND="dev-util/patchutils"
 RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/util}"
 
 LICENSE="GPL-2"
-IUSE="debug doc fhsm fuse pax_kernel hfs inotify +kernel-patch nfs ramfs"
+IUSE="debug doc fhsm fuse pax_kernel hfs inotify +kernel-patch nfs ramfs +xattr"
 SLOT="0/${PV}"
 
 S="${WORKDIR}"/${PN}
 
-KV_SUPPORT=( 4 10 17 3 )
+KV_SUPPORT=( 4 10 19 3 )
 
 MODULE_NAMES="aufs(misc:${S})"
 
-pkg_setup() {
+pkg_setup()
+{
 	CONFIG_CHECK="!AUFS_FS"
 	use inotify && CONFIG_CHECK+=" ~FSNOTIFY"
 	use nfs && CONFIG_CHECK+=" ~EXPORTFS"
@@ -34,7 +35,7 @@ pkg_setup() {
  
 	# this is needed so merging a binpkg aufs-standalone is possible
 	# w/out a kernel unpacked on the system
-	[ -n "$PKG_SETUP_HAS_BEEN_RAN" ] && return
+	[[ -n "$PKG_SETUP_HAS_BEEN_RAN" ]] && return
 
 	get_version
 
@@ -47,7 +48,11 @@ pkg_setup() {
 
 	[[ ${KV_MINOR} -eq ${KV_SUPPORT[2]} ]] && branch=x-rcN || branch=${KV_MINOR}
 	case ${branch} in
-		10|12) branch=${branch}.x;;
+		(10) branch+=.x;;
+		(12) (( ${KV_MAJOR} >= 31 )) && branch+=.31+ ||
+			die "Unsupported minor version/kernel";;
+		(14) (( ${KV_MAJOR} >= 21 )) && branch+=.21+ ||
+			die "Unsupported minor version/kernel";;
 	esac
 	branch=${KV_MAJOR}.${branch}
 	export EGIT_BRANCH=aufs${branch}
@@ -81,7 +86,8 @@ pkg_setup() {
 	export PKG_SETUP_HAS_BEEN_RAN=1
 }
 
-src_prepare() {
+src_prepare()
+{
 	if use pax_kernel; then
 		kernel_is ge 3.11 && epatch "${FILESDIR}"/pax-3.11.patch ||
 		epatch "${FILESDIR}"/pax-3.patch
@@ -94,25 +100,31 @@ src_prepare() {
 	epatch "${FILESDIR}"/aufs_type.h.patch
 }
 
-src_configure() {
-	local config=(
+src_configure()
+{
+	local -a config=(
+		${EXTRA_AUFS_CONF}
 		$(use debug && echo DEBUG MAGIC_SYSRQ)
 		$(use fhsm && echo FHSM)
 		$(use fuse && echo BR_FUSE POLL)
 		$(use hfs && echo BR_HFSPLUS)
 		$(use inotify && echo HNOTIFY HFSNOTIFY)
 		$(use nfs && echo EXPORT)
-		$(use nfs && ( use amd64 || use ppc64 ) && echo INO_T_64)
 		$(use ramfs && echo BR_RAMFS)
+		$(use xattr && echo XATTR)
 	)
-	for option in ${config[@]} BRANCH_MAX_127 RDU SBILIST; do
+	case "${ARCH}" in
+		(amd64|ppc64) use nfs && config+=INO_T_64;;
+	esac
+	for option in ${config[@]} RDU SBILIST; do
 		grep -q "^CONFIG_AUFS_${option} =" config.mk ||
 			die "CONFIG_AUFS_${option} is not a valid config option"
 		sed -e "/^CONFIG_AUFS_${option}/s:=:= y:g" -i config.mk || die
 	done
 }
 
-src_compile() {
+src_compile()
+{
 	local ARCH=x86
 
 	emake \
@@ -124,7 +136,8 @@ src_compile() {
 		KDIR="${KV_OUT_DIR}"
 }
 
-src_install() {
+src_install()
+{
 	linux-mod_src_install
 
 	insinto /usr/include/linux

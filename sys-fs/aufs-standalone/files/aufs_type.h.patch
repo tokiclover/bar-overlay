@@ -1,5 +1,5 @@
---- include/uapi/linux/aufs_type.h	2014-09-30 10:52:31.980935859 +0200
-+++ include/uapi/linux/aufs_type.h	2014-09-29 21:02:48.814980022 +0200
+--- aufs_type.h.orig	2014-12-15 10:51:58.292238698 +0100
++++ aufs_type.h	2014-12-15 11:04:09.142625303 +0100
 @@ -20,22 +20,8 @@
  
  #define AUFS_NAME	"aufs"
@@ -35,20 +35,36 @@
  
  /* ---------------------------------------------------------------------- */
  
-@@ -147,12 +128,6 @@
+@@ -166,28 +147,6 @@
  
  #define AuBrAttr_CMOO_Mask	(AuBrAttr_COO_Mask | AuBrWAttr_MOO)
  
+-/* #warning test userspace */
 -#ifdef __KERNEL__
 -#ifndef CONFIG_AUFS_FHSM
 -#undef AuBrAttr_FHSM
 -#define AuBrAttr_FHSM		0
 -#endif
+-#ifndef CONFIG_AUFS_XATTR
+-#undef	AuBrAttr_ICEX
+-#define AuBrAttr_ICEX		0
+-#undef	AuBrAttr_ICEX_SEC
+-#define AuBrAttr_ICEX_SEC	0
+-#undef	AuBrAttr_ICEX_SYS
+-#define AuBrAttr_ICEX_SYS	0
+-#undef	AuBrAttr_ICEX_TR
+-#define AuBrAttr_ICEX_TR	0
+-#undef	AuBrAttr_ICEX_USR
+-#define AuBrAttr_ICEX_USR	0
+-#undef	AuBrAttr_ICEX_OTH
+-#define AuBrAttr_ICEX_OTH	0
 -#endif
- 
+-#endif
+-
  /* the longest combination */
- #define AuBrPermStrSz	sizeof(AUFS_BRPERM_RW		\
-@@ -165,27 +140,27 @@
+ /* AUFS_BRATTR_ICEX and AUFS_BRATTR_ICEX_TR don't affect here */
+ #define AuBrPermStrSz	sizeof(AUFS_BRPERM_RW			\
+@@ -204,27 +163,27 @@
  	char a[AuBrPermStrSz];
  } au_br_perm_str_t;
  
@@ -81,7 +97,7 @@
  {
  	return brperm & AuBrAttr_FHSM;
  }
-@@ -216,11 +191,6 @@
+@@ -255,11 +214,6 @@
  #define __aligned(x)			__attribute__((aligned(x)))
  #endif
  
@@ -93,7 +109,7 @@
  
  struct au_rdu_cookie {
  	uint64_t	h_pos;
-@@ -239,7 +209,7 @@
+@@ -278,7 +232,7 @@
  	char		name[0];
  } __aligned(8);
  
@@ -102,7 +118,7 @@
  {
  	/* include the terminating NULL */
  	return ALIGN(sizeof(struct au_rdu_ent) + nlen + 1,
-@@ -247,7 +217,7 @@
+@@ -286,7 +240,7 @@
  }
  
  union au_rdu_ent_ul {
