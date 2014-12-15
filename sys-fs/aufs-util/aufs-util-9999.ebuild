@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.4 2014/09/09 23:23:47 -tclover Exp $
+# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.5 2014/12/01 23:23:47 -tclover Exp $
 
 EAPI=5
 
@@ -19,10 +19,11 @@ SLOT="0/${PV}"
 
 AUFS_VERSION=( 17 0 2 9 x-rcN )
 
-pkg_setup() {
+pkg_setup()
+{
 	# this is needed so merging a binpkg aufs-util is possible
 	# w/out a kernel unpacked on the system
-	[ -n "$PKG_SETUP_HAS_BEEN_RAN" ] && return
+	[[ -n "$PKG_SETUP_HAS_BEEN_RAN" ]] && return
 
 	get_version
 
@@ -48,7 +49,7 @@ pkg_setup() {
 		CONFIG_CHECK="AUFS_FS"
 		ERROR_AUSFS_FS="aufs have to be enabled [y|m]."
 		linux-info_pkg_setup
-		if [ -d "${KV_DIR}"/usr/include ]; then
+		if [[ -d "${KV_DIR}"/usr/include ]]; then
 			ln -s "${KV_DIR}"/usr/include "${T}"/include || die
 		else
 			die "you have to \`cd ${KV_DIR}; make headers_install\' before merging"
@@ -60,16 +61,19 @@ pkg_setup() {
 	export PKG_SETUP_HAS_BEEN_RAN=1
 }
 
-src_prepare() {
+src_prepare()
+{
 	epatch "${FILESDIR}"/makefile.patch
 	mv "${T}"/include . || die
 }
 
-src_compile() {
+src_compile()
+{
 	emake CC="$(tc-getCC)" AR="$(tc-getAR)" KDIR="${KV_DIR}"
 }
 
-src_install() {
+src_install()
+{
 	emake DESTDIR="${D}" install
 	docinto /usr/share/doc/${PF}
 	dodoc README
