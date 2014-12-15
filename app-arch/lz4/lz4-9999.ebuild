@@ -18,6 +18,7 @@ DEPEND="test? ( valgrind? ( dev-util/valgrind ) )"
 
 src_prepare()
 {
+	sed -e 's,sudo ,,g' -i {,lib/,programs/}Makefile
 	if ! use valgrind; then
 		sed -i -e '/^test:/s|test-mem||g' programs/Makefile || die
 	fi
