@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<use>
+	<flag name='ffado_cards_bebob'>Enable support for the BeBoB platform</flag>
+	<flag name='ffado_cards_fireworks'>Enable support for the ECHO Audio FireWOrks platform</flag>
+	<flag name='ffado_cards_oxford'>Enable support for the Oxford Semiconductor FW  platform</flag>
+	<flag name='ffado_cards_motu'>Enable support for the MOTU platform</flag>
+	<flag name='ffado_cards_dice'>Enable support for the TCAT DICE platform</flag>
+	<flag name='ffado_cards_metric_halo'>Enable support for the Metric Halo platform</flag>
+	<flag name='ffado_cards_rme'>Enable support for the RME platform</flag>
+	<flag name='ffado_cards_digidesign'>Enable support for the DigiDesign interfaces</flag>
+	<flag name='ffado_cards_bounce'>Enable support for the BOUNCE device</flag>
+</use>
+</pkgmetadata>

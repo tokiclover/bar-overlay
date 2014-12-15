@@ -12,6 +12,13 @@ DESCRIPTION="Successor for freebob: Library for accessing BeBoB IEEE1394 devices
 HOMEPAGE="http://www.ffado.org"
 SRC_URI="http://www.ffado.org/files/${P}.tgz"
 
+FIREWIRE_CARDS=( bebob fireworks oxford motu dice metric_halo rme digidesign bounce )
+DEFAULT_CARDS=( bebob fireworks oxford motu dice rme )
+for card in "${FIREWIRE_CARDS[@]}"; do
+	has "${card}" "${DEFAULT_CARDS[@]}" "${FFADO_CARDS}" &&
+		CARDS+=( +ffado_cards_${card} ) || CARDS+=( ffado_cards_${card} )
+done
+
 LICENSE="GPL-2"
 KEYWORDS="~amd64 ~ppc ~x86"
 SLOT="0"
@@ -49,11 +56,12 @@ src_prepare()
 }
 
 multilib_src_configure() {
-	local -a myesconsargs=(
+	myesconsargs=(
 		PREFIX="${EPREFIX}/usr"
 		LIBDIR="${EPREFIX}/usr/$(get_libdir)"
 		MANDIR="${EPREFIX}/usr/share/man"
-		UDEVDIR="$(get_udevdir)/rules.d"
+		UDEVDIR="$(get_udevdir)/udev/rules.d"
+		PYPKGDIR="${EPREFIX}/usr/$(get_libdir)/python2.7/site-packages/${PN}"
 		$(use_scons debug DEBUG)
 		$(use_scons test-programs BUILD_TESTS)
 		# ENABLE_OPTIMIZATIONS detects cpu type and sets flags accordingly
@@ -61,7 +69,14 @@ multilib_src_configure() {
 		# we set flags from portage instead
 		ENABLE_OPTIMIZATIONS=False
 	)
-	base_src_configure
+	for card in "${FIREWIRE_CARDS[@]}"; do
+		if use ffado_cards_${card} || has ${card} ${FFADO_CARDS}; then
+			myesconsargs+=( "ENABLE_${card^^[a-z]}=${USE_SCONS_TRUE}" )
+		else
+			myesconsargs+=( "ENABLE_${card^^[a-z]}=${USE_SCONS_FALSE}" )
+		fi
+	done
+	unset card
 }
 
 multilib_src_compile()
@@ -71,11 +86,7 @@ multilib_src_compile()
 
 multilib_src_install()
 {
-	escons DESTDIR="${D}" PREFIX="${EPREFIX}/usr" \
-		LIBDIR="${EPREFIX}/usr/$(get_libdir)" \
-		MANDIR="${EPREFIX}/usr/share/man" \
-		UDEVDIR="$(get_udevdir)/rules.d" \
-		WILL_DEAL_WITH_XDG_MYSELF="True" install
+	escons DESTDIR="${D}" WILL_DEAL_WITH_XDG_MYSELF="True" install
 }
 
 multilib_src_install_all()
