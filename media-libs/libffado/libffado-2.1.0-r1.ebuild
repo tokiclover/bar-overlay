@@ -22,8 +22,9 @@ done
 LICENSE="GPL-2"
 KEYWORDS="~amd64 ~ppc ~x86"
 SLOT="0"
-IUSE="debug qt4 +test-programs"
-REQUIRED_USE="${PYTHOH_REQUIRED_USE}"
+IUSE="debug qt4 +test-programs ${CARDS[@]}"
+REQUIRED_USE="${PYTHOH_REQUIRED_USE} || ( ${CARD[@]//+/} )"
+unset CARDS
 
 RDEPEND=">=dev-cpp/libxmlpp-2.6.13
 	>=dev-libs/dbus-c++-0.9.0

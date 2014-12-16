@@ -23,7 +23,7 @@ LICENSE="GPL-2"
 KEYWORDS="~amd64 ~ppc ~x86"
 SLOT="0"
 IUSE="debug qt4 +test-programs ${CARDS[@]}"
-REQUIRED_USE="${PYTHOH_REQUIRED_USE}"
+REQUIRED_USE="${PYTHOH_REQUIRED_USE} || ( ${CARD[@]//+/} )"
 unset CARDS
 
 RDEPEND=">=dev-cpp/libxmlpp-2.6.13
