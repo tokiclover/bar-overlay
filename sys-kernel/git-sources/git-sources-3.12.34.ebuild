@@ -33,7 +33,7 @@ RS4_VER="${MKV}.6"
 TOI_VER="${MKV}.26-2014-08-07"
 UKSM_VER="${MKV}.ge.23"
 
-AUFS_VER="${MKV}.x"
+AUFS_VER="${MKV}.31+"
 BFS_SRC="${MKV}-sched-bfs-${BFS_VER}.patch"
 CK_SRC="${CK_VER}-broken-out.tar.bz2"
 GEN_SRC="genpatches-${GEN_VER}.base.tar.xz"

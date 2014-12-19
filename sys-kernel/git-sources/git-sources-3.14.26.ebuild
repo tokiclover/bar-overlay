@@ -22,7 +22,7 @@ CKV="${PV}-git"
 OKV="${PV}"
 MKV="${KV_MAJOR}.${KV_MINOR}"
 
-AUFS_VER="${MKV}"
+AUFS_VER="${MKV}.21+"
 BFS_VER="447"
 CK_VER="${MKV}-ck1"
 GEN_VER="${MKV}-30"
