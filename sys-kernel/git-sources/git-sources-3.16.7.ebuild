@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.16.2.ebuild,v 2.0 2014/09/09 13:45:34 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.16.2.ebuild,v 2.0 2014/12/12 13:45:34 -tclover Exp $
 
 EAPI="5"
 
@@ -14,8 +14,9 @@ detect_arch
 DESCRIPTION="latest linux-stable.git pulled by git from the stable tree"
 HOMEPAGE="http://www.kernel.org"
 
-IUSE="aufs bfs ck deblob fbcondecor +gentoo hardened +optimization reiser4 toi uksm"
+IUSE="aufs bfs ck fbcondecor +gentoo hardened +optimization reiser4 toi uksm"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
+REQUIRED_USE="ck? ( bfs ) bfq? ( optimization )"
 
 CKV="${PV}-git"
 OKV="${PV}"
