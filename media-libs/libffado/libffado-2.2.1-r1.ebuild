@@ -27,7 +27,7 @@ REQUIRED_USE="${PYTHOH_REQUIRED_USE} || ( ${CARD[@]//+/} )"
 unset CARDS
 
 RDEPEND=">=dev-cpp/libxmlpp-2.6.13
-	>=dev-libs/dbus-c++-0.9.0
+	>=dev-libs/dbus-c++-0.9.0[${MULTILIB_USEDEP}]
 	>=dev-libs/libconfig-1.4.8[${MULTILIB_USEDEP}]
 	>=media-libs/alsa-lib-1.0.0[${MULTILIB_USEDEP}]
 	>=media-libs/libiec61883-1.1.0[${MULTILIB_USEDEP}]
