@@ -1,5 +1,6 @@
 app-arch/lz4
 app-dicts/xmlittre
+dev-libs/dbus-c++
 dev-libs/wayland
 dev-libs/serd
 dev-libs/sord
