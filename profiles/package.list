@@ -33,6 +33,7 @@ media-plugins/deadbeef-plugins-mpris
 media-plugins/deadbeef-plugins-spectogram
 media-plugins/deadbeef-plugins-spectrum
 media-plugins/deadbeef-plugins-waveform
+media-plugins/emotion_generic_players
 media-plugins/gmusicbrowser-layouts
 media-plugins/gst-plugins-oss4
 media-plugins/ll-plugins
