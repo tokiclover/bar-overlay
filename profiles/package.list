@@ -44,6 +44,7 @@ media-sound/a2jmidid
 media-sound/ardour
 media-sound/deadbeef
 media-sound/fluidsynth
+media-sound/empc
 media-sound/gmusicbrowser
 media-sound/hydrogen
 media-sound/jack-audio-connection-kit
