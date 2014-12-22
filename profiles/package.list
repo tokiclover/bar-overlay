@@ -19,6 +19,7 @@ media-fonts/ttf-mph2b-damase
 media-gfx/ephoto
 media-libs/aubio
 media-libs/elementary
+media-libs/ewe
 media-libs/libffado
 media-libs/lilv
 media-libs/lv2
