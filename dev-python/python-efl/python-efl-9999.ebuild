@@ -6,11 +6,11 @@ EAPI=5
 
 PYTHON_COMPAT=( python{2_{6,7},3_{2,3}} )
 
-inherit distutils-r1
+inherit distutils-r1 git-2
 
 DESCRIPTION="Python bindings for the EFL"
 HOMEPAGE="http://enlightenement.org"
-SRC_URI="http://download.enlightenment.org/rel/bindings/python/${P}.tar.bz2"
+EGIT_REPO_URI="git.enlightenment.org/bindings/python/${PN}.git"
 
 LICENSE="GPL-3 LGPL-3"
 SLOT="0/${PV:0:4}"
