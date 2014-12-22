@@ -14,8 +14,8 @@ IUSE="quicklaunch"
 LICENSE="BSD-2"
 SLOT="0"
 
-RDEPEND=">=dev-libs/efl-1.8:=
-	>=media-libs/elementary-1.8:=[quicklaunch?]"
+RDEPEND=">=dev-libs/efl-1.8
+	>=media-libs/elementary-1.8[quicklaunch?]"
 DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS NEWS README TODO )
