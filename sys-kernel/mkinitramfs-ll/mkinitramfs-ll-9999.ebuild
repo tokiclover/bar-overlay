@@ -56,6 +56,8 @@ unset i
 
 pkg_setup()
 {
+	[[ -n "$PKG_SETUP_HAS_BEEN_RAN" ]] && return
+
 	CONFIG_CHECK="BLK_DEV_INITRD PROC_FS SYSFS TMPFS"
 	local u U
 
@@ -77,6 +79,8 @@ pkg_setup()
 	use e2fs && CONFIG_CHECK+=" ~EXT2_FS ~EXT3_FS ~EXT4_FS"
 
 	linux-info_pkg_setup
+
+	export PKG_SETUP_HAS_BEEN_RAN=1
 }
 
 src_prepare()
