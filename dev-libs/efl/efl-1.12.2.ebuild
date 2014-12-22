@@ -108,6 +108,8 @@ DEPEND="${COMMON_DEP}
 
 DOCS=( AUTHORS ChangeLog NEWS README )
 
+AUTOTOOLS_IN_SOURCE_BUILD=1
+
 S="${WORKDIR}/${P/_/-}"
 
 src_configure()
