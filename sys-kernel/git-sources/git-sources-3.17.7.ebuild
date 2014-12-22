@@ -27,7 +27,7 @@ CK_VER="${MKV}-ck2"
 GEN_VER="${MKV}-9"
 BFQ_VER="${GEN_VER}"
 FBC_VER="${GEN_VER}"
-GHP_VER="${MKV}.6-2"
+GHP_VER="${OKV}-1"
 RS4_VER="${MKV}.2"
 UKSM_VER="${MKV}.ge.2"
 
