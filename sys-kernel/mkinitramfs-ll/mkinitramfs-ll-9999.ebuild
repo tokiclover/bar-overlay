@@ -17,7 +17,7 @@ KEYWORDS=""
 COMPRESSOR_USE=( bzip2 gzip lz4 lzo xz )
 FS_USE=( btrfs e2fs f2fs jfs reiserfs xfs )
 IUSE="aufs +bash dm-crypt device-mapper dmraid fbsplash lzma mdadm squashfs
-+symlink zfs +zram zsh ${COMPRESSOR_USE[@]/xz/+xz} ${FS_USE[@]/e2fs/+e2fs}"
+zfs +zram zsh ${COMPRESSOR_USE[@]/xz/+xz} ${FS_USE[@]/e2fs/+e2fs}"
 
 REQUIRED_USE="|| ( bash zsh )
 	|| ( ${COMPRESSOR_USE[@]} )
@@ -123,24 +123,17 @@ src_install()
 	emake DESTDIR="${ED}" VERSION=${PV} prefix=/usr install
 
 	if use aufs && use squashfs; then
-		emake DESTDIR="${ED}" prefix=/usr install-squashd
+		emake DESTDIR="${ED}" prefix=/usr install-squashdir-mount-svc
 		newdoc svc/README.textile service-README.textile
 	fi
 
-	use zram && emake DESTDIR="${ED}" install-zram
+	use zram && emake DESTDIR="${ED}" install-zram{,dir}-svc
 
 	local sh
 	for sh in {ba,z}sh; do
 		use ${sh} || continue
-		shell=${sh}
-		emake DESTDIR="${ED}" prefix=/usr install-${sh}
+		emake DESTDIR="${ED}" prefix=/usr install-scripts-${sh}
 	done
-
-	if use symlink; then
-		local bindir=/usr/sbin
-		dosym ${bindir}/{${PN}.${shell},mkinit-ll}
-		use aufs && use squashfs && dosym ${bindir}/sdr{.${shell},}
-	fi
 }
 
 pkg_postinst()
@@ -149,7 +142,7 @@ pkg_postinst()
 
 	einfo
 	einfo "The easiest way to build an intramfs is running:"
-	einfo " \`${PN}.${shell} -a -f -y${linguas// /:} -k$(uname -r)'"
+	einfo " \`${PN} -a -f -y${linguas// /:} -k$(uname -r)'"
 	einfo "And do not forget to copy usr/bin/gpg binary with"
 	einfo "its usr/share/gnupg/options.skel in /usr/share/${PN} before for GnuPG support."
 	einfo
@@ -158,7 +151,7 @@ pkg_postinst()
 		einfo
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
 		einfo "you have to add that list to /etc/conf.d/squashdir-mount and then"
-		einfo "run \`sdr.${shell} -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
+		einfo "run \`sdr -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
 		einfo "And don't forget to run \`rc-update add squashdir-mount default' afterwards."
 	fi
 
@@ -171,6 +164,4 @@ pkg_postinst()
 	einfo
 	einfo "And do not forget to review /etc/${PN}.conf to check the configuration!"
 	einfo
-
-	unset shell
 }
