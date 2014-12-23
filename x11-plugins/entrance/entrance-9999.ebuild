@@ -27,6 +27,8 @@ RDEPEND="${DEPEND}
 DEPEND="${RDEPEND}
 	virtual/libintl"
 
+DOCS=( AUTHORS ChangeLog NEWS README )
+
 AUTOTOOLS_AUTORECONF=1
 
 src_configure()
