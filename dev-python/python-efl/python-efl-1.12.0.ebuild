@@ -23,4 +23,4 @@ DEPEND="${RDEPEND}
 	doc? ( dev-python/sphinx )
 	virtual/pkgconfig"
 
-DOCS=( AUTHORS NEWS README TODO )
+DOCS=( AUTHORS README.rst )
