@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/ewe/ewe-9999.ebuild,v 1.1 2014/12/12 12:02:10 -tclover Exp $
+# $Header: media-libs/ewe/ewe-9999.ebuild,v 1.2 2014/12/22 12:02:10 -tclover Exp $
 
 EAPI=5
 
