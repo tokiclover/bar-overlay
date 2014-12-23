@@ -12,6 +12,7 @@ dev-python/pyrobase
 dev-python/pyrocore
 dev-python/python-efl
 dev-util/editje
+dev-util/eflete
 dev-util/lv2-c++-tools
 games-board/fuego
 media-fonts/liberation-fonts
