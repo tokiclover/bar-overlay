@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit autotools-utils git-2
+inherit autotools-multilib git-2
 
 DESCRIPTION="Elementary Widgets Extension, desktop widget library"
 HOMEPAGE="https://enlightenment.org"
@@ -14,8 +14,8 @@ IUSE=""
 LICENSE="LGPL-2"
 SLOT="0"
 
-RDEPEND=">=dev-libs/efl-1.12.2:=
-	>=media-libs/elementary-1.12.2:="
+RDEPEND=">=dev-libs/efl-1.12.2:=[${MULTILIB_USEDEP}]
+	>=media-libs/elementary-1.12.2:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
