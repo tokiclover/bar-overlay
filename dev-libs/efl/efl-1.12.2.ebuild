@@ -1,10 +1,10 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-libs/efl/efl-1.12.1.ebuild,v 1.1 2014/12/01 -tclover Exp $
+# $Header: dev-libs/efl/efl-1.12.1.ebuild,v 1.1 2014/12/22 -tclover Exp $
 
 EAPI=5
 
-inherit autotools-utils
+inherit autotools-multilib
 
 RESTRICT="test"
 
@@ -23,69 +23,69 @@ xim xine xpm"
 
 COMMON_DEP="
 	dev-lang/luajit:2
-	sys-apps/dbus
-	sys-libs/zlib
-	virtual/jpeg
+	sys-apps/dbus[${MULTILIB_USEDEP}]
+	sys-libs/zlib[${MULTILIB_USEDEP}]
+	virtual/jpeg[${MULTILIB_USEDEP}]
 	virtual/udev
 	X? (
-		x11-libs/libX11
-		x11-libs/libXScrnSaver
-		x11-libs/libXcomposite
-		x11-libs/libXcursor
-		x11-libs/libXdamage
-		x11-libs/libXext
-		x11-libs/libXfixes
-		x11-libs/libXinerama
-		x11-libs/libXp
-		x11-libs/libXrandr
-		x11-libs/libXrender
-		x11-libs/libXtst
+		x11-libs/libX11[${MULTILIB_USEDEP}]
+		x11-libs/libXScrnSaver[${MULTILIB_USEDEP}]
+		x11-libs/libXcomposite[${MULTILIB_USEDEP}]
+		x11-libs/libXcursor[${MULTILIB_USEDEP}]
+		x11-libs/libXdamage[${MULTILIB_USEDEP}]
+		x11-libs/libXext[${MULTILIB_USEDEP}]
+		x11-libs/libXfixes[${MULTILIB_USEDEP}]
+		x11-libs/libXinerama[${MULTILIB_USEDEP}]
+		x11-libs/libXp[${MULTILIB_USEDEP}]
+		x11-libs/libXrandr[${MULTILIB_USEDEP}]
+		x11-libs/libXrender[${MULTILIB_USEDEP}]
+		x11-libs/libXtst[${MULTILIB_USEDEP}]
 		gles? (
-			media-libs/mesa[egl,gles2]
-			x11-libs/libXrender
+			media-libs/mesa[egl,gles2,${MULTILIB_USEDEP}]
+			x11-libs/libXrender[${MULTILIB_USEDEP}]
 		)
 		opengl? (
-			virtual/opengl
-			x11-libs/libXrender
+			virtual/opengl[${MULTILIB_USEDEP}]
+			x11-libs/libXrender[${MULTILIB_USEDEP}]
 		)
 	)
-	avahi? ( net-dns/avahi )
+	avahi? ( net-dns/avahi[${MULTILIB_USEDEP}] )
 	debug? ( dev-util/valgrind )
-	fontconfig? ( media-libs/fontconfig )
-	fribidi? ( dev-libs/fribidi )
-	gif? ( media-libs/giflib )
-	glib? ( dev-libs/glib )
-	gnutls? ( net-libs/gnutls )
-	!gnutls? ( ssl? ( dev-libs/openssl ) )
+	fontconfig? ( media-libs/fontconfig[${MULTILIB_USEDEP}] )
+	fribidi? ( dev-libs/fribidi[${MULTILIB_USEDEP}] )
+	gif? ( media-libs/giflib[${MULTILIB_USEDEP}] )
+	glib? ( dev-libs/glib[${MULTILIB_USEDEP}] )
+	gnutls? ( net-libs/gnutls[${MULTILIB_USEDEP}] )
+	!gnutls? ( ssl? ( dev-libs/openssl[${MULTILIB_USEDEP}] ) )
 	gstreamer? (
-		media-libs/gstreamer:1.0
-		media-libs/gst-plugins-base:1.0
+		media-libs/gstreamer:1.0[${MULTILIB_USEDEP}]
+		media-libs/gst-plugins-base:1.0[${MULTILIB_USEDEP}]
 	)
-	harfbuzz? ( media-libs/harfbuzz )
+	harfbuzz? ( media-libs/harfbuzz[${MULTILIB_USEDEP}] )
 	ibus? ( app-i18n/ibus )
-	jp2k? ( media-libs/openjpeg )
-	nls? ( virtual/libintl )
+	jp2k? ( media-libs/openjpeg[${MULTILIB_USEDEP}] )
+	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )
 	physics? ( sci-physics/bullet )
-	png? ( media-libs/libpng:0= )
+	png? ( media-libs/libpng:0=[${MULTILIB_USEDEP}] )
 	pulseaudio? (
-		media-sound/pulseaudio
-		media-libs/libsndfile
+		media-sound/pulseaudio[${MULTILIB_USEDEP}]
+		media-libs/libsndfile[${MULTILIB_USEDEP}]
 	)
 	scim?	( app-i18n/scim )
 	sdl? (
-		>=media-libs/libsdl2-2.0.0:0[opengl?,gles?]
+		>=media-libs/libsdl2-2.0.0:0[opengl?,gles?,${MULTILIB_USEDEP}]
 	)
-	systemd? ( sys-apps/systemd )
-	tiff? ( media-libs/tiff:0 )
-	tslib? ( x11-libs/tslib )
+	systemd? ( sys-apps/systemd[${MULTILIB_USEDEP}] )
+	tiff? ( media-libs/tiff:0[${MULTILIB_USEDEP}] )
+	tslib? ( x11-libs/tslib[${MULTILIB_USEDEP}] )
 	wayland? (
-		>=dev-libs/wayland-1.3.0:0
-		>=x11-libs/libxkbcommon-0.3.1
-		egl? ( media-libs/mesa[egl,gles2] )
+		>=dev-libs/wayland-1.3.0:0[${MULTILIB_USEDEP}]
+		>=x11-libs/libxkbcommon-0.3.1[${MULTILIB_USEDEP}]
+		egl? ( media-libs/mesa[egl,gles2,${MULTILIB_USEDEP}] )
 	)
-	webp? ( media-libs/libwebp )
-	xine? ( >=media-libs/xine-lib-1.1.1 )
-	xpm? ( x11-libs/libXpm )"
+	webp? ( media-libs/libwebp[${MULTILIB_USEDEP}] )
+	xine? ( >=media-libs/xine-lib-1.1.1[${MULTILIB_USEDEP}] )
+	xpm? ( x11-libs/libXpm[${MULTILIB_USEDEP}] )"
 RDEPEND="${COMMON_DEP}"
 DEPEND="${COMMON_DEP}
 	!!dev-libs/ecore
@@ -104,7 +104,7 @@ DEPEND="${COMMON_DEP}
 	!!media-libs/evas
 	app-arch/xz-utils
 	doc? ( app-doc/doxygen )
-	test? ( dev-libs/check )"
+	test? ( dev-libs/check[${MULTILIB_USEDEP}] )"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
 
@@ -112,7 +112,7 @@ AUTOTOOLS_IN_SOURCE_BUILD=1
 
 S="${WORKDIR}/${P/_/-}"
 
-src_configure()
+multilib_src_configure()
 {
 	local -a myeconfargs=( ${EXTRA_EFL_CONF} )
 
@@ -232,7 +232,7 @@ src_configure()
 	autotools-utils_src_configure
 }
 
-src_install()
+multilib_src_install()
 {
 	MAKEOPTS="-j1" emake DESTDIR="${D}" install
 }
