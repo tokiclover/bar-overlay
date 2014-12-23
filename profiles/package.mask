@@ -1,2 +1,5 @@
+# Rezound-0.13 is totaly broken & unusable
 =media-sound/rezound-0.13.1_beta
+
 =media-libs/mesa-9999
+
