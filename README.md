@@ -36,6 +36,9 @@ suffice or add *-f* if you've runned out of luck.
 
 SIMPLY PUT, DO NOT CLONE MULTIPLE TIMES FOR NOTHING.
 
+And don't forget to run `git gc --aggressive` in the repository from
+times to times to optimize local disk usage.
+
 ### license
 
 GPL-2
