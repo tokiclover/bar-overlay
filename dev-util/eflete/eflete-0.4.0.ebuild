@@ -12,6 +12,7 @@ EGIT_REPO_URI="git://git.enlightenment.org/devs/rimmed/${PN}.git"
 EGIT_COMMIT=${PV}
 
 IUSE="debug doc"
+KEYWORDS="~amd64 ~x86"
 LICENSE="BSD-2"
 SLOT="0"
 
