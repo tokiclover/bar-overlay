@@ -27,7 +27,7 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${P/_/-}"
 
-src_configure()
+multilib_src_configure()
 {
 	local -a myeconfargs=(
 		${EXTRA_ELEMENTARY_CONF}
