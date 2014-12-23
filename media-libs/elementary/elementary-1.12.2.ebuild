@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit autotools-utils
+inherit autotools-multilib
 
 RESTRICT="test"
 
@@ -18,12 +18,12 @@ KEYWORDS="~amd64 ~x86"
 IUSE="X debug doc examples fbcon +nls quicklaunch sdl static-libs test wayland"
 
 RDEPEND="
-	>=dev-libs/efl-1.12.0[X?,fbcon?,png,sdl?,wayland?]
-	nls? ( virtual/libintl )"
+	>=dev-libs/efl-1.12.0[X?,fbcon?,png,sdl?,wayland?,${MULTILIB_USEDEP}]
+	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
 	app-arch/xz-utils
 	doc? ( app-doc/doxygen )
-	test? ( >=dev-libs/check-0.9.5 )"
+	test? ( >=dev-libs/check-0.9.5[${MULTILIB_USEDEP}] )"
 
 S="${WORKDIR}/${P/_/-}"
 
