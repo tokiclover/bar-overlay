@@ -22,7 +22,6 @@ DOCS=( NEWS LZ4_Frame_Format.html lz4_block_format.txt )
 
 src_prepare()
 {
-	sed -e 's,sudo ,,g' -i {,lib/,programs/}Makefile
 	if ! use valgrind; then
 		sed -i -e '/^test:/s|test-mem||g' programs/Makefile || die
 	fi
