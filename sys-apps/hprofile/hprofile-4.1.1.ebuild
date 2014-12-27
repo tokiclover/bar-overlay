@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-apps/hprofile/hprofile-3.0.ebuild,v 1.2 2014/10/10 08:41:42 -tclover Exp $
+# $Header: sys-apps/hprofile/hprofile-3.0.ebuild,v 1.2 2014/12/24 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -21,10 +21,10 @@ RDEPEND="${DEPEND}
 	sys-apps/sed
 	app-shells/zsh"
 
-DOCS=(AUTHORS BUGS README README.md ChangeLog)
+DOCS=(AUTHORS README README.md ChangeLog)
 
 src_install()
 {
-	emake DESTDIR="${ED}" prefix=/ install
+	emake DESTDIR="${ED}" prefix=/usr exec_prefix=/ install
 	dodoc "${DOCS[@]}"
 }
