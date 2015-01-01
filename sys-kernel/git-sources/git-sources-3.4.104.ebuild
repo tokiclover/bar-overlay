@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.4.97.ebuild,v 2.0 2014/12/12 13:45:34 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.4.97.ebuild,v 2.0 2014/12/31 13:45:34 -tclover Exp $
 
 EAPI="5"
 
@@ -16,7 +16,7 @@ HOMEPAGE="http://www.kernel.org"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="aufs bfs ck fbcondecor +gentoo hardened +optimization rt toi uksm"
-REQUIRED_USE="ck? ( bfs ) bfq? ( optimization )"
+REQUIRED_USE="ck? ( bfs )"
 
 CKV="${PV}-git"
 OKV="${PV}"
@@ -37,8 +37,6 @@ CK_SRC="${CK_VER}-broken-out.tar.bz2"
 GEN_SRC="genpatches-${GEN_VER}.base.tar.xz"
 FBC_SRC="genpatches-${FBC_VER}.extras.tar.xz"
 GHP_SRC="hardened-patches-${GHP_VER}.extras.tar.bz2"
-OPT_SRC="linux-3.2-${OPT_VER##*/}${OPT_FILE:0:19}"
-OPT_SRC="${OPT_SRC//+/-}"
 RS4_SRC="reiser4-for-${RS4_VER}.patch.gz"
 RT_URI="https://www.kernel.org/pub/linux/kernel/projects/rt/${MKV}"
 RT_SRC="patch-${RT_VER}.patch.xz"

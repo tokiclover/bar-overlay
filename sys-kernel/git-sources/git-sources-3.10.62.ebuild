@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.10.62.ebuild,v 2.0 2014/12/12 13:45:34 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.10.62.ebuild,v 2.0 2014/12/31 13:45:34 -tclover Exp $
 
 EAPI="5"
 
@@ -40,13 +40,9 @@ GEN_SRC="genpatches-${GEN_VER}.base.tar.xz"
 FBC_SRC="genpatches-${FBC_VER}.extras.tar.xz"
 BFQ_SRC="genpatches-${BFQ_VER}.experimental.tar.xz"
 GHP_SRC="hardened-patches-${GHP_VER}.extras.tar.bz2"
-OPT_SRC="linux-3.2-${OPT_VER##*/}${OPT_FILE:0:19}"
-OPT_SRC="${OPT_SRC//+/-}"
 RS4_SRC="reiser4-for-${RS4_VER}.patch.gz"
-RT_URI="https://www.kernel.org/pub/linux/kernel/projects/rt/${MKV}"
 RT_SRC="patch-${RT_VER}.patch.xz"
 TOI_SRC="tuxonice-for-linux-${TOI_VER}.patch.bz2"
-UKSM_URI="http://kerneldedup.org/download/uksm/${UKSM_EXV}"
 UKSM_SRC="uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch"
 
 SRC_URI="bfs? ( ${CK_URI}/${CK_VER}/${CK_SRC} )
