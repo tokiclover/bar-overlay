@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/kernel-git.eclass,v 1.0 2014/07/15 20:33:34 -tclover Exp $
+# $Header: eclass/kernel-git.eclass,v 1.0 2014/12/31 20:33:34 -tclover Exp $
 
 # @ECLASS: kernel-git.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -109,8 +109,8 @@ esac
 :	${OPT_FILE:="enable_additional_cpu_optimizations_for_gcc.patch"}
 # @ECLASS-VARIABLE: OPT_SRC
 # @DESCRIPTION: cpu optimization src file
-:	${OPT_SRC:="${OPT_VER##*/}"${OPT_FILE:0:19}}
-OPT_SRC="linux-3.2-${OPT_SRC//+/-}"
+:	${OPT_SRC:=${OPT_VER#*/}}
+OPT_SRC="${OPT_SRC/\//-}.patch"
 
 # @ECLASS-VARIABLE: RS4_VER
 # @DESCRIPTION: reiser4 version string
