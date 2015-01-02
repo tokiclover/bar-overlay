@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.13 2014/12/22 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.14 2014/12/31 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -10,7 +10,7 @@ DESCRIPTION="Lightweight, modular and powerfull initramfs genrating tool"
 HOMEPAGE="https://github.com/tokiclover/mkinitramfs-ll"
 EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 
-LICENSE="|| ( BSD-2 GPL-2 GPL-3 )"
+LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS=""
 
