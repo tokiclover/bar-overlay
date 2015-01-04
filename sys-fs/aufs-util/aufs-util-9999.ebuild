@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.5 2014/12/01 23:23:47 -tclover Exp $
+# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.6 2015/01/01 23:23:47 -tclover Exp $
 
 EAPI=5
 
@@ -17,7 +17,7 @@ LICENSE="GPL-2"
 IUSE="kernel-builtin"
 SLOT="0/${PV}"
 
-AUFS_VERSION=( 17 0 2 9 x-rcN )
+AUFS_VERSION=( 19 0 2 9 14 x-rcN )
 
 pkg_setup()
 {
