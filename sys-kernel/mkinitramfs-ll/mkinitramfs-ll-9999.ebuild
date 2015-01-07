@@ -124,7 +124,6 @@ src_install()
 
 	if use aufs && use squashfs; then
 		emake DESTDIR="${ED}" prefix=/usr install-squashdir-mount-svc
-		newdoc svc/README.textile service-README.textile
 	fi
 
 	use zram && emake DESTDIR="${ED}" install-zram{,dir}-svc
