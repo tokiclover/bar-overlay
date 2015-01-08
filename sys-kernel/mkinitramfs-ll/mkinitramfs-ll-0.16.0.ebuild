@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.14 2014/12/31 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.14 2015/01/01 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -120,18 +120,16 @@ src_prepare()
 
 src_install()
 {
+	MAKEOPTS="-j1"
 	emake DESTDIR="${ED}" VERSION=${PV} prefix=/usr install
-
 	if use aufs && use squashfs; then
 		emake DESTDIR="${ED}" prefix=/usr install-squashdir-mount-svc
-		newdoc svc/README.textile service-README.textile
 	fi
-
-	use zram && emake DESTDIR="${ED}" install-zram{,dir}-svc
+	use zram && emake DESTDIR="${ED}" install-{zram,tmpdir}-svc
 
 	local sh
 	for sh in {ba,z}sh; do
-		use ${sh} || continue
+		use ${sh} &&
 		emake DESTDIR="${ED}" prefix=/usr install-scripts-${sh}
 	done
 }
