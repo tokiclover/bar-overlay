@@ -121,7 +121,7 @@ src_prepare()
 src_install()
 {
 	MAKEOPTS="-j1"
-	emake DESTDIR="${ED}" VERSION=${PV} prefix=/usr install
+	emake DESTDIR="${ED}" VERSION=${PV} prefix=/usr install{,-doc}
 	if use aufs && use squashfs; then
 		emake DESTDIR="${ED}" prefix=/usr install-squashdir-mount-svc
 	fi
