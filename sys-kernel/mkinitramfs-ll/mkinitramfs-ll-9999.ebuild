@@ -126,7 +126,7 @@ src_install()
 		emake DESTDIR="${ED}" prefix=/usr install-squashdir-mount-svc
 	fi
 
-	use zram && emake DESTDIR="${ED}" install-zram{,dir}-svc
+	use zram && emake DESTDIR="${ED}" install-{zram,tmpdir}-svc
 
 	local sh
 	for sh in {ba,z}sh; do
