@@ -123,7 +123,7 @@ src_install()
 	MAKEOPTS="-j1"
 	emake DESTDIR="${ED}" VERSION=${PV} prefix=/usr install{,-doc}
 	if use aufs && use squashfs; then
-		emake DESTDIR="${ED}" prefix=/usr install-squashdir-mount-svc
+		emake DESTDIR="${ED}" prefix=/usr install-squashdir-svc
 	fi
 	use zram && emake DESTDIR="${ED}" install-{zram,tmpdir}-svc
 
@@ -150,7 +150,7 @@ pkg_postinst()
 		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
 		einfo "you have to add that list to /etc/conf.d/squashdir-mount and then"
 		einfo "run \`sdr -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
-		einfo "And don't forget to run \`rc-update add squashdir-mount default' afterwards."
+		einfo "And don't forget to run \`rc-update add squashdir default' afterwards."
 	fi
 
 	if use zram; then
