@@ -140,23 +140,23 @@ pkg_postinst()
 
 	einfo
 	einfo "The easiest way to build an intramfs is running:"
-	einfo " \`${PN} -a -f -y${linguas// /:} -k$(uname -r)'"
-	einfo "And do not forget to copy usr/bin/gpg binary with"
-	einfo "its usr/share/gnupg/options.skel in /usr/share/${PN} before for GnuPG support."
+	einfo " \`${PN} -a -f: -y${LINGUAS// /:} -k$(uname -r)'"
+	einfo "Do copy gpg binary along with its options.skel file"
+	einfo "into /usr/share/${PN}/usr before for GnuPG support."
 	einfo
 
 	if use aufs && use squashfs; then
 		einfo
-		einfo "If you want to squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb"
-		einfo "you have to add that list to /etc/conf.d/squashdir-mount and then"
-		einfo "run \`sdr -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb'."
-		einfo "And don't forget to run \`rc-update add squashdir default' afterwards."
+		einfo "To squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb;"
+		einfo "Edit /etc/conf.d/squashdir to add that list; And then,"
+		einfo "Run \`sdr -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb';"
+		einfo "And then add squashdir service to boot or default run level."
+		einfo
 	fi
 
 	if use zram; then
-		einfo "to use zram init service, edit '/etc/conf.d/zram' and add the service"
-		einfo "to boot run level: rc-add zram boot; /etc/init.d/zram start;"
-		einfo "default config file initialize a swap and 2 devices for {/var,}/tmp."
+		einfo "To use zram init service, edit the cnfiguration file;"
+		einfo "And then add the service to boot run level."
 	fi
 
 	einfo
