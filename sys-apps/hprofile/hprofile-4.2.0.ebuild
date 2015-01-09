@@ -18,12 +18,10 @@ DEPEND="sys-apps/findutils"
 RDEPEND="${DEPEND}
 	sys-apps/diffutils
 	sys-apps/sed
-	app-shells/bash"
-
-DOCS=(AUTHORS README README.md ChangeLog)
+	app-shells/zsh"
 
 src_install()
 {
+	sed -e '/.*COPYING.*$/d' -i Makefile
 	emake DESTDIR="${ED}" prefix=/usr exec_prefix=/ install
-	dodoc "${DOCS[@]}"
 }
