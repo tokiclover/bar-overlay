@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.14 2015/01/01 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.14 2015/01/10 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -15,8 +15,8 @@ SLOT="0"
 KEYWORDS=""
 
 COMPRESSOR_USE=( bzip2 gzip lz4 lzo xz )
-FS_USE=( btrfs e2fs f2fs jfs reiserfs xfs )
-IUSE="aufs +bash dm-crypt device-mapper dmraid fbsplash lzma mdadm squashfs
+FS_USE=( e2fs f2fs jfs reiserfs xfs )
+IUSE="aufs +bash btrfs dm-crypt device-mapper dmraid fbsplash lzma mdadm squashfs
 zfs +zram zsh ${COMPRESSOR_USE[@]/xz/+xz} ${FS_USE[@]/e2fs/+e2fs}"
 
 REQUIRED_USE="|| ( bash zsh )
@@ -94,6 +94,7 @@ src_prepare()
 		use ${fs} && fsck+=:fsck.${fs} && kmod+=:${fs}
 	done
 
+	use btrfs  && mod+=:btrfs
 	use e2fs && fsck="${fsck/fsck.e2fs/fsck.ext2:fsck.ext3:fsck.ext4}" \
 		kmod="${kmod/e2fs/ext2:ext3:ext4}"
 	use f2fs && fsck="${fsck/:fsck.f2fs}" && kmod+=:f2fs
