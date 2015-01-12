@@ -122,7 +122,4 @@ pkg_postinst()
 		einfo "To use zram init service, edit the cnfiguration file;"
 		einfo "And then add the service to boot run level."
 	fi
-	einfo
-	einfo "And do not forget to review /etc/${PN}.conf to check the configuration!"
-	einfo
 }
