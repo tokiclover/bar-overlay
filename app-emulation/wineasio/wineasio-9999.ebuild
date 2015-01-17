@@ -31,6 +31,14 @@ src_prepare() {
 	multilib_copy_sources
 }
 
+src_unpack() {
+    if [ "${PV}" = "9999" ]; then
+        subversion_src_unpack
+    else
+        default
+    fi
+}
+
 multilib_src_configure() {
 	if has_multilib_profile && [[ ${ABI} == "amd64" ]] ; then
 		mv Makefile64 Makefile
