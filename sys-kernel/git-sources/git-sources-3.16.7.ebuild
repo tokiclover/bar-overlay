@@ -14,7 +14,7 @@ detect_arch
 DESCRIPTION="latest linux-stable.git pulled by git from the stable tree"
 HOMEPAGE="http://www.kernel.org"
 
-IUSE="aufs bfs ck fbcondecor +gentoo hardened +optimization reiser4 toi uksm"
+IUSE="aufs bfq bfs ck fbcondecor +gentoo hardened +optimization reiser4 toi uksm"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 REQUIRED_USE="ck? ( bfs ) bfq? ( optimization )"
 
