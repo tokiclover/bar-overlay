@@ -103,7 +103,6 @@ src_install()
 
 pkg_postinst()
 {
-	local linguas="${LINGUS:-en}"
 	einfo
 	einfo "The easiest way to build an intramfs is running:"
 	einfo " \`${PN} -a -f: -y${LINGUAS// /:} -k$(uname -r)'"
@@ -111,7 +110,6 @@ pkg_postinst()
 	einfo "into /usr/share/${PN}/usr before for GnuPG support."
 	einfo
 	if use aufs && use squashfs; then
-		einfo
 		einfo "To squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb;"
 		einfo "Edit /etc/conf.d/squashdir to add that list; And then,"
 		einfo "Run \`sdr -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb';"
