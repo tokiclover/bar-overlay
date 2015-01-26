@@ -44,6 +44,7 @@ UKSM_URI="http://kerneldedup.org/download/uksm/${UKSM_EXV}"
 UKSM_SRC="uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch"
 
 SRC_URI="bfs? ( ${CK_URI}/${CK_SRC} )
+	bfq? ( ${GEN_URI}/${BFQ_SRC} )
 	ck?  ( ${CK_URI}/${CK_VER}/${CK_SRC} )
 	gentoo? ( ${GEN_URI}/${GEN_SRC} )
 	fbcondecor? ( ${GEN_URI}/${FBC_SRC} )
