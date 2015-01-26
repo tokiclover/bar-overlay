@@ -69,6 +69,7 @@ net-libs/libeweather
 net-misc/connman
 net-misc/dhcpcd-ui
 net-misc/pacrunner
+net-misc/tipcutils
 net-print/cnijfilter
 sys-apps/hprofile
 sys-firmware/iucode-tool
