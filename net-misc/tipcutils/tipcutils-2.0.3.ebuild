@@ -13,9 +13,7 @@ SRC_URI="mirror://sourceforge/tipc/${P}.tar.gz"
 LICENSE="|| ( BSD-2 GPL-2 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="test"
 
-RDEPEND=""
 DEPEND=">=sys-kernel/linux-headers-2.6.39"
 
 DOCS=( README )
