@@ -28,8 +28,8 @@ Merge all the goodies with: `emerge -avDNu world`
 
 To update the repository, one can either use *layman* `layman -s bar`
 if the repository was cloned with layman; or even use `eix-sync` to
-sync portage/overlays; or else, use *git* to sync `git pull` should
-suffice or add *-f* if you've runned out of luck.
+sync portage/overlays; Or else, simply use *git* to sync `git pull -f`
+(*-f* if runned out of luck.)
 
 **SIMPLY PUT, DO NOT CLONE MULTIPLE TIMES FOR NOTHING**
 
