@@ -1,5 +1,5 @@
---- Makefile	2014-08-12 22:27:22.262848802 +0200
-+++ Makefile	2014-08-12 22:27:46.697848621 +0200
+--- Makefile	2015-01-26 10:25:57.484000895 +0100
++++ Makefile	2015-01-26 10:28:17.892002817 +0100
 @@ -17,7 +17,7 @@
  
  HOSTCC ?= cc
@@ -9,19 +9,8 @@
  override CPPFLAGS += -DAUFHSM_CMD=\"/usr/bin/aufhsm\"
  override CFLAGS += -O -Wall
  INSTALL ?= install
---- libau/Makefile	2014-08-12 22:39:04.920843618 +0200
-+++ libau/Makefile	2014-08-12 22:39:34.378843401 +0200
-@@ -30,7 +30,7 @@
- rdu64.o: override CPPFLAGS += -DRdu64
- .INTERMEDIATE.: rdu64.c
- 
--${LibSoObj}: override CPPFLAGS += -DNDEBUG -D_REENTRANT -I.
-+${LibSoObj}: override CPPFLAGS += -DNDEBUG -D_REENTRANT -I. -I../include
- ${LibSoObj}: override CFLAGS += -fPIC
- ${LibSoObj}: %.o: %.c ${LibSoHdr}
- ${LibSo}: ${LibSo}.${LibSoMajor}
---- fhsm/Makefile	2014-08-12 22:57:32.429835447 +0200
-+++ fhsm/Makefile	2014-08-12 22:56:34.028835878 +0200
+--- fhsm/Makefile	2015-01-26 10:27:11.164001904 +0100
++++ fhsm/Makefile	2015-01-26 10:31:03.264005079 +0100
 @@ -35,7 +35,7 @@
  
  ########################################
@@ -31,12 +20,14 @@
  override CPPFLAGS += -DAUFHSMD_CMD=\"/usr/lib/aufhsmd\"
  ${LibFhsmObj}: %.o: %.c ${LibFhsmHdr} $(addprefix ../, ${LibUtilHdr})
  ${LibFhsm}: $(foreach o, ${LibFhsmObj}, ${LibFhsm}(${o}))
-@@ -44,7 +44,7 @@
- ${TgtObj}: %.o: %.c ${LibFhsmHdr} $(addprefix ../, ${LibUtilHdr}) ${LibFhsm}
- #${Tgt}: override LDFLAGS += -static
- ${Tgt}: override LDFLAGS += -s
--${Tgt}: override LDLIBS += -lrt -L. -lfhsm -L.. -lautil
-+${Tgt}: override LDLIBS += -L. -lfhsm -L.. -lautil -lrt
+--- libau/Makefile	2015-01-26 10:27:21.432002044 +0100
++++ libau/Makefile	2015-01-26 10:29:11.096003545 +0100
+@@ -30,7 +30,7 @@
+ rdu64.o: override CPPFLAGS += -DRdu64
+ .INTERMEDIATE.: rdu64.c
  
- ########################################
- 
+-${LibSoObj}: override CPPFLAGS += -DNDEBUG -D_REENTRANT -I.
++${LibSoObj}: override CPPFLAGS += -DNDEBUG -D_REENTRANT -I. -I../include
+ ${LibSoObj}: override CFLAGS += -fPIC
+ ${LibSoObj}: %.o: %.c ${LibSoHdr}
+ ${LibSo}: ${LibSo}.${LibSoMajor}
