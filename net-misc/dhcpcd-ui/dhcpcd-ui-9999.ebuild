@@ -30,6 +30,7 @@ DEPEND="gnome-base/librsvg
 		gtk3? ( x11-libs/libnotify )
 		qt4?  ( kde-base/kdelibs )
 	)
+	${DEPEND}
 	gtk?  ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )
 	qt4?  ( dev-qt/qtgui:4 )"
