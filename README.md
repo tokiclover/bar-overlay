@@ -8,6 +8,16 @@ See *profiles/package.list* for package list.
 HOWTO GET THIS OVERLAY
 ----------------------
 
+**FIRST, DO NOT CLONE THE REPOSITORY MULTIPLE TIMES FOR NOTHING**
+
+To update the repository, one can either use *layman* `layman -s bar`
+if the repository was cloned with layman; Or even use `eix-sync` to
+sync every overlays and portage tree; Or else, simply use *git* to sync
+`git pull --force` (*--force* might be necessary if runned out of luck.)
+
+And don't forget to run `git gc --aggressive` in the repository from
+times to times to optimize local disk usage.
+
 ### Short variant
 
     USE=git emerge -av layman
@@ -25,16 +35,6 @@ USAGE
 -----
 
 Merge all the goodies with: `emerge -avDNu world`
-
-To update the repository, one can either use *layman* `layman -s bar`
-if the repository was cloned with layman; or even use `eix-sync` to
-sync portage/overlays; Or else, simply use *git* to sync `git pull -f`
-(*-f* if runned out of luck.)
-
-**SIMPLY PUT, DO NOT CLONE MULTIPLE TIMES FOR NOTHING**
-
-And don't forget to run `git gc --aggressive` in the repository from
-times to times to optimize local disk usage.
 
 LICENSE
 -------
