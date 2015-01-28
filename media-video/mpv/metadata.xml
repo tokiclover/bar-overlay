@@ -2,9 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer>
-	<email>tclover@bar.overlay</email>
+	<email>bar@overlay</email>
 </maintainer>
-<herd>video</herd>
 <use>
 	<flag name="bluray">Enable playback of Blu-ray filesystems</flag>
 	<flag name="bs2b">Enable Bauer stereophonic-to-binaural headphone filter</flag>

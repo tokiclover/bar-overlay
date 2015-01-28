@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-0.7.1.ebuild,v 1.4 2014/12/22 -tclover Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.4 2015/01/28 -tclover Exp $
 
 EAPI=5
 
@@ -19,7 +19,8 @@ SLOT="0"
 IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack
 -joystick jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123
 -openal +opengl oss portaudio postproc pulseaudio pvr samba sdl selinux +shm
-static-libs v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver +xv"
+static static-libs v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver
++xv"
 
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS=""
@@ -200,6 +201,7 @@ src_configure()
 		$(use_enable oss oss-audio)
 		$(use_enable pulseaudio pulse)
 		$(use_enable shm)
+		$(usex static '--enable-static-build' '')
 		$(usex static-libs '--enable-libmpv-static' '--enable-libmpv-shared')
 		$(use_enable X x11)
 		$(use_enable vaapi)
