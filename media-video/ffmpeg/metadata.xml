@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer>
-    <email>tclover@bar-overlay</email>
+    <email>bar@overlay</email>
   </maintainer>
   <use>
     <flag name="3dnowext">
@@ -13,12 +13,16 @@
     <flag name="aacplus">AAC+ encoding via <pkg>media-libs/libaacplus</pkg>.</flag>
     <flag name="amr">Enables Adaptive Multi-Rate Audio support</flag>
 	<flag name="amrenc">Enables Adaptive Multi-Rate Audio encoding support with <pkg>media-libs/vo-amrwbenc</pkg>.</flag>
-	<flag name="armv5te">Enables optimizations for armv5te processors.</flag>
-	<flag name="armv6">Enables optimizations for armv6 processors.</flag>
-	<flag name="armv6t2">Enables optimizations for armv6t2 processors.</flag>
-	<flag name="armvfp">Enables VFP optimizations for ARM processors.</flag>
-    <flag name="avx">Adds support for Advanced Vector Extensions instructions (Intel Sandy Bridge, AMD Bulldozer and later chips)</flag>
-    <flag name="avx2">Adds support for Advanced Vector Extensions 2 instructions (Intel Haswell and later chips)</flag>
+	<flag name="cpu_flags_arm_neon">Enables advanced SIMD extension for ARMv7 processors</flag>
+	<flag name="cpu_flags_arm_v5te">Enables optimizations for ARMv5te processors</flag>
+	<flag name="cpu_flags_arm_v6">Enables optimizations for ARMv6 processors</flag>
+	<flag name="cpu_flags_arm_v6t2">Enables optimizations for ARMv6t2 processors</flag>
+	<flag name="cpu_flags_arm_vfp">Enables Vector Floating-Point optimizations for ARM processors</flag>
+	<flag name="cpu_flags_mips_32r2">Enables MIPS32R2 optimizations</flag>
+	<flag name="cpu_flags_mips_dspr1">Enables MIPS DSP ASE R1 optimizations</flag>
+	<flag name="cpu_flags_mips_dspr2">Enables MIPS DSP ASE R2 optimizations</flag>
+	<flag name="cpu_flags_mips_fpu">Enables floating point MIPS optimizations</flag>
+	<flag name="cpu_flags_sparc_vis"> Adds support for SIMD optimizations for UltraSPARC processors</flag>
 	<flag name="bindist">Enforces license compatibility constraints via REQUIRED_USE.</flag>
 	<flag name="bluray">Enable playback of Blu-ray filesystems</flag>
 	<flag name="bs2b">Enables <pkg>media-libs/libbs2b</pkg> based Bauer stereo-to-binaural filter.</flag>
@@ -37,11 +41,6 @@
 	<flag name="iec61883"> Support for FireWire DV/HDV input device using <pkg>media-libs/libiec61883</pkg>.</flag>
 	<flag name="libsoxr">Enables audio resampling through <pkg>media-libs/soxr</pkg>.</flag>
 	<flag name="libv4l">Uses <pkg>media-libs/libv4l</pkg> for video4linux instead of direct calls. Adds support for more devices via the userspace library.</flag>
-	<flag name="mips32r2">Enables MIPS32R2 optimizations.</flag>
-	<flag name="mipsdspr1">Enables MIPS DSP ASE R1 optimizations.</flag>
-	<flag name="mipsdspr2">Enables MIPS DSP ASE R2 optimizations.</flag>
-	<flag name="mipsfpu">Enables floating point MIPS optimizations.</flag>
-    <flag name="mmxext">Enables mmx2 support</flag>
     <flag name="network">Enables network streaming support</flag>
 	<flag name="openssl">Enables <pkg>dev-libs/openssl</pkg> support. Adds support for encrypted network protocols (TLS/HTTPS).</flag>
 	<flag name="opus">Adds (decoding) support for the Opus codec via <pkg>media-libs/opus</pkg>.</flag>
@@ -55,7 +54,6 @@
     <flag name="ssse3">Faster floating point optimization for SSSE3 capable chips (Intel Core 2 and later chips)</flag>
 	<flag name="twolame">Enables MP2 encoding via <pkg>media-sound/twolame</pkg> as an alternative to the internal encoder.</flag>
 	<flag name="vaapi">Enables VAAPI (Video Acceleration API) for hardware decoding</flag>
-	<flag name="vis"> Adds support for SIMD optimizations for UltraSPARC processors.</flag>
 	<flag name="vpx">Enables vp8 codec support using libvpx: Decoding vp8 does not require this to be enabled but libvpx can also be used for decoding; encoding vp8 requires this useflag to be enabled though.</flag>
 	<flag name="xop">Enables XOP (eXtended Operations) optimizations: AMD processors starting with Bulldozer architecture.</flag>
 	<flag name="webp">Enables WebP encoding with <pkg>media-libs/libwebp</pkg>.</flag>

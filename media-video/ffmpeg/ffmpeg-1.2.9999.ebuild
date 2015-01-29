@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/ffmpeg/ffmpeg-1.2.9.ebuild,v 1.2 2014/10/10 08:04:11 -tclover Exp $
+# $Header: media-video/ffmpeg/ffmpeg-1.2.9999.ebuild,v 1.3 2015/01/28 08:04:11 -tclover Exp $
 
 EAPI=5
 
@@ -37,11 +37,22 @@ IUSE="
 
 # String for CPU features in the useflag[:configure_option] form
 # if :configure_option isn't set, it will use 'useflag' as configure option
-CPU_FEATURES=(3dnow:amd3dnow 3dnowext:amd3dnowext altivec avx mmx mmxext ssse3 vis neon)
+ARM_CPU_FEATURES=(neon)
+PPC_CPU_FEATURES=(altivec)
+SPARC_CPU_FEATURES=(vis)
+X86_CPU_FEATURES=(3dnow:amd3dnow 3dnowext:amd3dnowext avx mmx mmxext ssse3)
 
-for (( i=0; i<${#CPU_FEATURES[@]}; i++ )); do
-	IUSE="${IUSE} ${CPU_FEATURES[i]%:*}"
+CPU_FEATURES=()
+for arch in {ARM,PPC,SPARC,X86}; do
+	eval CPU_FLAGS=\"\${${arch}_CPU_FEATURES[@]}\"
+	for flag in ${CPU_FLAGS}; do
+		cpu_flag=cpu_flags_${arch,,[A-Z]}_${flag%:*}
+		eval has "${flag%:*}" "\${CPU_FLAGS_${arch}}" &&
+			IUSE+=" +${cpu_flag}" || IUSE+=" ${cpu_flag}"
+		CPU_FEATURES+=(${cpu_flag}:${flag#*:})
+	done
 done
+unset {ARM,MIPS,PPC,X86}_CPU_FEATURES CPU_FLAGS arch {cpu_,}flag
 
 FFTOOLS=(
 	aviocat cws2fws ffescape ffeval fourcc2pixfmt graph2dot
@@ -57,7 +68,12 @@ RDEPEND="
 	amr? ( >=media-libs/opencore-amr-0.1.3-r1[${MULTILIB_USEDEP}] )
 	bluray? ( >=media-libs/libbluray-0.3.0-r1[${MULTILIB_USEDEP}] )
 	bzip2? ( >=app-arch/bzip2-1.0.6-r4[${MULTILIB_USEDEP}] )
-	cdio? ( >=dev-libs/libcdio-paranoia-0.90_p1-r1[${MULTILIB_USEDEP}] )
+	cdio? (
+		|| (
+			>=dev-libs/libcdio-paranoia-0.90_p1-r1[${MULTILIB_USEDEP}]
+			<dev-libs/libcdio-0.90[-minimal,${MULTILIB_USEDEP}]
+		)
+	)
 	celt? ( >=media-libs/celt-0.11.1-r1[${MULTILIB_USEDEP}] )
 	encode? (
 		aac? ( >=media-libs/vo-aacenc-0.1.3[${MULTILIB_USEDEP}] )
@@ -129,7 +145,7 @@ DEPEND="${RDEPEND}
 	gnutls? ( >=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}] )
 	ieee1394? ( >=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}] )
 	libv4l? ( >=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}] )
-	mmx? ( dev-lang/yasm )
+	cpu_flags_x86_mmx? ( dev-lang/yasm )
 	rtmp? ( >=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}] )
 	schroedinger? ( >=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}] )
 	test? ( net-misc/wget )
@@ -160,12 +176,12 @@ src_prepare()
 
 multilib_src_configure()
 {
-	local -a myconf=( ${EXTRA_FFMPEG_CONF} )
+	local myconf=( ${EXTRA_FFMPEG_CONF} )
 
 	# options to use as use_enable in the foo[:bar] form.
 	# This will feed configure with $(use_enable foo bar)
 	# or $(use_enable foo foo) if no :bar is set.
-	local -a ffuse=(
+	local ffuse=(
 		bzip2:bzlib cpudetection:runtime-cpudetect debug doc
 		gnutls hardcoded-tables iconv network openssl sdl:ffplay vaapi vdpau zlib
 	)
@@ -293,6 +309,7 @@ multilib_src_configure()
 		$(use_enable static-libs static)
 		"${myconf[@]}"
 	)
+	echo configure "${myconf[@]}"
 	"${S}"/configure "${myconf[@]}" || die
 }
 
@@ -340,3 +357,4 @@ multilib_src_test()
 	emake V=1 fate
 }
 
+unset i
