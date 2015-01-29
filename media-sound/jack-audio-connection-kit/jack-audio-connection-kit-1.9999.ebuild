@@ -27,10 +27,9 @@ for arch in {PPC,X86}; do
 		cpu_flag=cpu_flags_${arch,,[A-Z]}_${flag%:*}
 		eval has "${flag}" "\${CPU_FLAGS_${arch}}" &&
 			IUSE+=" +${cpu_flag}" || IUSE+=" ${cpu_flag}"
-		CPU_IUSE+=(${flag})
 	done
 done
-unset arch {cpu_,}flag
+unset {PPC,X86}_CPU_FLAGS arch {cpu_,}flag
 
 RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 	sys-libs/ncurses[${MULTILIB_USEDEP}]
