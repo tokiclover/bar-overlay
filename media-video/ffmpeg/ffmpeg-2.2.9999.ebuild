@@ -51,9 +51,7 @@ for arch in {ARM,MIPS,PPC,X86}; do
 	eval CPU_FLAGS=\"\${${arch}_CPU_FEATURES[@]}\"
 	for flag in ${CPU_FLAGS}; do
 		cpu_flag=cpu_flags_${arch,,[A-Z]}_${flag%:*}
-		eval has "${flag%:*}" "\${CPU_FLAGS_${arch}}" &&
-			IUSE+=" +${cpu_flag}" || IUSE+=" ${cpu_flag}"
-		CPU_FEATURES+=(${cpu_flag}:${flag#*:})
+		IUSE+=" ${cpu_flag}" CPU_FEATURES+=(${cpu_flag}:${flag#*:})
 	done
 done
 unset {ARM,MIPS,PPC,X86}_CPU_FEATURES CPU_FLAGS arch {cpu_,}flag
