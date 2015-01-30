@@ -1,4 +1,2 @@
 metadata/md5-cache/*
-*.patch
-eclass/*.patch
-
+patches/*
