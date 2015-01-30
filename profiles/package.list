@@ -48,7 +48,6 @@ media-sound/ardour
 media-sound/deadbeef
 media-sound/fluidsynth
 media-sound/empc
-media-sound/gmusicbrowser
 media-sound/hydrogen
 media-sound/jack-audio-connection-kit
 media-sound/jack_mixer
@@ -86,7 +85,6 @@ x11-misc/tint2
 x11-plugins/engage
 x11-themes/ardoise-xcursor-theme
 x11-themes/e-gtk-theme
-x11-themes/efenniht
 x11-themes/gt3-xcursor-theme
 x11-themes/leopard-gtk-theme
 x11-themes/leopard-icon-theme
