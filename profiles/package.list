@@ -62,7 +62,6 @@ media-sound/seq24
 media-sound/yoshimi
 media-sound/zita-ajbridge
 media-sound/zynaddsubfx
-media-video/cinelerra
 media-video/ffmpeg
 media-video/mpv
 net-libs/libeweather
