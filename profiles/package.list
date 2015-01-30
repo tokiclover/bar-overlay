@@ -64,7 +64,6 @@ media-sound/zita-ajbridge
 media-sound/zynaddsubfx
 media-video/ffmpeg
 media-video/mpv
-net-libs/libeweather
 net-misc/connman
 net-misc/dhcpcd-ui
 net-misc/pacrunner
