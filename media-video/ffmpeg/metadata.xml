@@ -5,60 +5,49 @@
     <email>bar@overlay</email>
   </maintainer>
   <use>
-    <flag name="3dnowext">
-      Enable manually-optimised routines using the AMD 3DNow!Ex SIMD
-      instruction set, present in modern AMD CPUs.  (Check for
-      3dnowext in /proc/cpuinfo to know whether your CPU supports it).
-    </flag>
-    <flag name="aacplus">AAC+ encoding via <pkg>media-libs/libaacplus</pkg>.</flag>
-    <flag name="amr">Enables Adaptive Multi-Rate Audio support</flag>
-	<flag name="amrenc">Enables Adaptive Multi-Rate Audio encoding support with <pkg>media-libs/vo-amrwbenc</pkg>.</flag>
-	<flag name="cpu_flags_arm_neon">Enables advanced SIMD extension for ARMv7 processors</flag>
-	<flag name="cpu_flags_arm_v5te">Enables optimizations for ARMv5te processors</flag>
-	<flag name="cpu_flags_arm_v6">Enables optimizations for ARMv6 processors</flag>
-	<flag name="cpu_flags_arm_v6t2">Enables optimizations for ARMv6t2 processors</flag>
-	<flag name="cpu_flags_arm_vfp">Enables Vector Floating-Point optimizations for ARM processors</flag>
-	<flag name="cpu_flags_mips_32r2">Enables MIPS32R2 optimizations</flag>
-	<flag name="cpu_flags_mips_dspr1">Enables MIPS DSP ASE R1 optimizations</flag>
-	<flag name="cpu_flags_mips_dspr2">Enables MIPS DSP ASE R2 optimizations</flag>
-	<flag name="cpu_flags_mips_fpu">Enables floating point MIPS optimizations</flag>
-	<flag name="cpu_flags_sparc_vis"> Adds support for SIMD optimizations for UltraSPARC processors</flag>
-	<flag name="bindist">Enforces license compatibility constraints via REQUIRED_USE.</flag>
-	<flag name="bluray">Enable playback of Blu-ray filesystems</flag>
-	<flag name="bs2b">Enables <pkg>media-libs/libbs2b</pkg> based Bauer stereo-to-binaural filter.</flag>
-    <flag name="cdio">Enables audio CD grabbing with <pkg>dev-libs/libcdio</pkg>.</flag>
-	<flag name="celt">Adds Xiph CELT audio decoding support via <pkg>media-libs/celt</pkg></flag>
-    <flag name="cpudetection">Enables runtime CPU detection (useful for bindist, compatibility on other CPUs)</flag>
-	<flag name="faac">Use external faac library for AAC encoding</flag>
-	<flag name="fdk">Use external fdk-aac library for AAC encoding</flag>
-	<flag name="flite">Adds a text-to-speech filter based on <pkg>app-accessibility/flite</pkg>.</flag>
-	<flag name="fma3">Enables FMA3 optimizations: AMD processors starting with Piledriver architecture and Intel Haswell based processors or later.</flag>
-	<flag name="fma4">Enables FMA4 optimizations: AMD processors starting with Bulldozer architecture.</flag>
-	<flag name="frei0r">Enable frei0r wrapping in libavfilter</flag>
-	<flag name="fribidi">Enables fribidi support in the drawtext filter.</flag>
-    <flag name="gme">Enables support for <pkg>media-libs/game-music-emu</pkg> for playing various video game music formats.</flag>
-    <flag name="hardcoded-tables">Use pre-calculated tables rather than calculating them on the fly.</flag>
-	<flag name="iec61883"> Support for FireWire DV/HDV input device using <pkg>media-libs/libiec61883</pkg>.</flag>
-	<flag name="libsoxr">Enables audio resampling through <pkg>media-libs/soxr</pkg>.</flag>
-	<flag name="libv4l">Uses <pkg>media-libs/libv4l</pkg> for video4linux instead of direct calls. Adds support for more devices via the userspace library.</flag>
-    <flag name="network">Enables network streaming support</flag>
-	<flag name="openssl">Enables <pkg>dev-libs/openssl</pkg> support. Adds support for encrypted network protocols (TLS/HTTPS).</flag>
-	<flag name="opus">Adds (decoding) support for the Opus codec via <pkg>media-libs/opus</pkg>.</flag>
-    <flag name="pic">Force shared libraries to be built as PIC (this is slower)</flag>
-	<flag name="quvi">Adds support for playing media from Internet services using the quvi project.</flag>
+    <flag name="aacplus">AAC+ encoding via <pkg>media-libs/libaacplus</pkg></flag>
+    <flag name="amr">Enable Adaptive Multi-Rate Audio support</flag>
+    <flag name="amrenc">Enable Adaptive Multi-Rate Audio encoding support via <pkg>media-libs/vo-amrwbenc</pkg></flag>
+    <flag name="cpu_flags_arm_neon">Use advanced SIMD extension instruction set</flag>
+    <flag name="cpu_flags_arm_v5te">Enable optimizations for ARMv5te processors</flag>
+    <flag name="cpu_flags_arm_v6">Enable optimizations for ARMv6 processors</flag>
+    <flag name="cpu_flags_arm_v6t2">Enable optimizations for ARMv6t2 processors</flag>
+    <flag name="cpu_flags_arm_vfp">Use Vector Floating-Point instruction set</flag>
+    <flag name="cpu_flags_mips_32r2">Enable MIPS32R2 optimizations</flag>
+    <flag name="cpu_flags_mips_dspr1">Enable MIPS DSP ASE R1 optimizations</flag>
+    <flag name="cpu_flags_mips_dspr2">Enable MIPS DSP ASE R2 optimizations</flag>
+    <flag name="cpu_flags_mips_fpu">Enable floating point MIPS optimizations</flag>
+    <flag name="cpu_flags_sparc_vis">Use extended SIMD instruction set (UltraSPARC processors)</flag>
+    <flag name="bindist">Enforce license compatibility constraints via REQUIRED_USE</flag>
+    <flag name="bluray">Enable playback of Blu-ray filesystems</flag>
+    <flag name="bs2b">Enable <pkg>media-libs/libbs2b</pkg> based Bauer stereo-to-binaural filter</flag>
+    <flag name="cdio">Enable audio CD grabbing with <pkg>dev-libs/libcdio</pkg></flag>
+    <flag name="celt">Add Xiph CELT audio decoding support via <pkg>media-libs/celt</pkg></flag>
+    <flag name="cpudetection">Enable runtime CPU detection (useful for bindist, compatibility on other CPUs)</flag>
+    <flag name="faac">Use external faac library for AAC encoding</flag>
+    <flag name="fdk">Use external fdk-aac library for AAC encoding</flag>
+    <flag name="flite">Add a text-to-speech filter via <pkg>app-accessibility/flite</pkg></flag>
+    <flag name="frei0r">Enable frei0r wrapping in libavfilter</flag>
+    <flag name="fribidi">Enable fribidi support in the drawtext filter</flag>
+    <flag name="gme">Enable support for <pkg>media-libs/game-music-emu</pkg> for playing various video game music formats</flag>
+    <flag name="hardcoded-tables">Use pre-calculated tables rather than calculating them on the fly</flag>
+    <flag name="iec61883">Support for FireWire DV/HDV input device via <pkg>media-libs/libiec61883</pkg></flag>
+    <flag name="libsoxr">Enable audio resampling through <pkg>media-libs/soxr</pkg></flag>
+    <flag name="libv4l">Add support for more devices via <pkg>media-libs/libv4l</pkg> for video4linux instead of direct calls</flag>
+    <flag name="network">Enable network streaming support</flag>
+    <flag name="openssl">Add support for encrypted network protocols (TLS/HTTPS) via <pkg>dev-libs/openssl</pkg></flag>
+    <flag name="opus">Add (decoding) support for the Opus codec via <pkg>media-libs/opus</pkg></flag>
+    <flag name="pic">Force shared libraries to be built as Position-Independant Code (this is slower)</flag>
+	<flag name="quvi">Add support for playing media from Internet services via <pkg>media-libs/libquvi</pkg></flag>
     <flag name="rtmp">Enable Real Time Messaging Protocol using librtmp</flag>
-    <flag name="schroedinger">Enable Dirac video support (an advanced royalty-free video compression format) via libschroedinger (high-speed implementation in C of the Dirac codec).</flag>
-	<flag name="ssh">Enable SSH/sftp support via <pkg>net-libs/libssh</pkg>.</flag>
-	<flag name="sse4">Enables SSE4 optimizations: Intel Core microarchitecture and AMD K10 or later.</flag>
-	<flag name="sse4_2">Enables SSE4.2 optimizations: Nehalem-based Intel Core i7 or later.</flag>
-    <flag name="ssse3">Faster floating point optimization for SSSE3 capable chips (Intel Core 2 and later chips)</flag>
-	<flag name="twolame">Enables MP2 encoding via <pkg>media-sound/twolame</pkg> as an alternative to the internal encoder.</flag>
-	<flag name="vaapi">Enables VAAPI (Video Acceleration API) for hardware decoding</flag>
-	<flag name="vpx">Enables vp8 codec support using libvpx: Decoding vp8 does not require this to be enabled but libvpx can also be used for decoding; encoding vp8 requires this useflag to be enabled though.</flag>
-	<flag name="xop">Enables XOP (eXtended Operations) optimizations: AMD processors starting with Bulldozer architecture.</flag>
-	<flag name="webp">Enables WebP encoding with <pkg>media-libs/libwebp</pkg>.</flag>
-	<flag name="x265">Enables HEVC encoding with <pkg>media-libs/x265</pkg>.</flag>
-	<flag name="xcb">Enables X11 grabbing using <pkg>media-libs/libxcb</pkg>.</flag>
-	<flag name="zvbi">Enables <pkg>media-libs/zvbi</pkg> based teletext decoder.</flag>
+    <flag name="schroedinger">Enable Dirac video support (an advanced royalty-free video compression format) via <pkg>media-libs/schroedinger</pkg> (high-speed implementation in C of the Dirac codec)</flag>
+    <flag name="ssh">Enable SSH/sftp support via <pkg>net-libs/libssh</pkg></flag>
+    <flag name="twolame">Enable MP2 encoding via <pkg>media-sound/twolame</pkg> as an alternative to the internal encoder</flag>
+    <flag name="vaapi">Enable VAAPI (Video Acceleration API) for hardware decoding</flag>
+	<flag name="vpx">Enable VP8 codec support via <pkg>media-libs/libvpx</pkg> (only required for encoding VP8)</flag>
+    <flag name="webp">Enable WebP encoding via <pkg>media-libs/libwebp</pkg></flag>
+    <flag name="x265">Enable HEVC encoding via <pkg>media-libs/x265</pkg></flag>
+    <flag name="xcb">Enable X11 grabbing using <pkg>media-libs/libxcb</pkg></flag>
+    <flag name="zvbi">Enable teletext decoder via <pkg>media-libs/zvbi</pkg></flag>
   </use>
 </pkgmetadata>
