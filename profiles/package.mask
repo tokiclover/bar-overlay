@@ -2,6 +2,3 @@
 =media-sound/rezound-0.13.1_beta
 
 =media-libs/mesa-9999
-
-# WARN: EMPC is probably not even alpha software
-media-sound/empc
