@@ -4,7 +4,6 @@ app-vim/colorschemes
 app-vim/colorsel
 app-vim/ctrlp
 app-vim/ctx
-#app-vim/nerdtree
 app-vim/pathogen
 app-vim/recover
 app-vim/txtfmt

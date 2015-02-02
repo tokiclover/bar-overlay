@@ -7,4 +7,3 @@ app-portage/gentoolkit
 app-portage/getdelta
 app-portage/layman
 app-portage/portage-utils
-dev-util/meld

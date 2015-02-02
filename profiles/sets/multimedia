@@ -9,9 +9,7 @@ media-plugins/alsa-plugins
 media-plugins/ladspa-bs2b
 media-sound/alsa-utils
 media-sound/ecasound
-media-sound/gmpc
 media-sound/mpd
-media-sound/ncmpcpp
 media-sound/timidity++
 media-video/ffmpeg
 media-video/mpv
