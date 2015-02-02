@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-util/eflete/eflete-9999.ebuild,v 1.1 2014/12/12 12:02:10 -tclover Exp $
+# $Header: dev-util/eflete/eflete-9999.ebuild,v 1.1 2015/02/02 12:02:10 -tclover Exp $
 
 EAPI=5
 
@@ -14,9 +14,10 @@ IUSE="debug doc"
 LICENSE="BSD-2"
 SLOT="0"
 
-VDEPEND=1.12.2
-RDEPEND=">=dev-libs/efl-${VDEPEND}
-	>=media-libs/elementary-${VDEPEND}
+EFL_VERSION=1.12.99
+RDEPEND=">=dev-libs/efl-${EFL_VERSION}
+	>=media-libs/elementary-${EFL_VERSION}
+	>=dev-util/enventor-0.4.0
 	>=media-libs/ewe-0.2.2"
 DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
