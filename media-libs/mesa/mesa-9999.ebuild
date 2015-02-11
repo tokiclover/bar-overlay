@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/mesa/mesa-9999.ebuild,v 1.4 2014/07/25 09:15:38 -tclover Exp $
+# $Header: media-libs/mesa/mesa-9999.ebuild,v 1.5 2015/02/10 09:15:38 -tclover Exp $
 
 EAPI=5
 
@@ -17,9 +17,6 @@ OPENGL_DIR="xorg-x11"
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
-#SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
-SRC_URI="${SRC_PATCHES}"
-
 # The code is MIT/X11.
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
@@ -35,15 +32,15 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl
-	opencl openvg osmesa pax_kernel openmax pic r600-llvm-compiler selinux
+	opencl osmesa pax_kernel openmax pic r600-llvm-compiler selinux +udev
 	vaapi vdpau wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
 	d3d9? ( gallium dri3 )
 	llvm?   ( gallium )
-	openvg? ( egl gallium )
 	opencl? (
 		gallium
+		llvm
 		video_cards_r600? ( r600-llvm-compiler )
 		video_cards_radeon? ( r600-llvm-compiler )
 		video_cards_radeonsi? ( r600-llvm-compiler )
@@ -111,8 +108,13 @@ RDEPEND="
 	opencl? (
 				app-admin/eselect-opencl
 				dev-libs/libclc
+				|| (
+					>=dev-libs/elfutils-0.155-r1:=[${MULTILIB_USEDEP}]
+					>=dev-libs/libelf-0.8.13-r2:=[${MULTILIB_USEDEP}]
+				)
 			)
 	openmax? ( media-libs/libomxil-bellagio[${MULTILIB_USEDEP}] )
+	udev? ( kernel_linux? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] ) )
 	vaapi? ( x11-libs/libva:=[${MULTILIB_USEDEP}] )
 	vdpau? ( x11-libs/libvdpau[${MULTILIB_USEDEP}] )
 	wayland? ( dev-libs/wayland[${MULTILIB_USEDEP}] )
@@ -142,6 +144,7 @@ DEPEND="${RDEPEND}
 				sys-devel/clang[${MULTILIB_USEDEP}]
 				sys-devel/gcc
 	)
+	dev-python/mako
 	sys-devel/bison
 	sys-devel/flex
 	sys-devel/gettext
@@ -159,8 +162,8 @@ DEPEND="${RDEPEND}
 
 # It is slow without texrels, if someone wants slow
 # mesa without texrels +pic use is worth the shot
-QA_EXECSTACK="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
-QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
+QA_EXECSTACK="usr/lib*/libGL.so*"
+QA_WX_LOAD="usr/lib*/libGL.so*"
 
 # Think about: ggi, fbcon, no-X configs
 
@@ -227,7 +230,6 @@ multilib_src_configure() {
 		myconf+="
 			$(use_enable d3d9 nine)
 			$(use_enable llvm gallium-llvm)
-			$(use_enable openvg)
 			$(use_enable openmax omx)
 			$(use_enable r600-llvm-compiler)
 			$(use_enable vaapi va)
@@ -258,7 +260,6 @@ multilib_src_configure() {
 		if use opencl; then
 			myconf+="
 				$(use_enable opencl)
-				--with-opencl-libdir="${EPREFIX}/usr/$(get_libdir)/OpenCL/vendors/mesa"
 				--with-clang-libdir="${EPREFIX}/usr/lib"
 				"
 		fi
@@ -283,7 +284,9 @@ multilib_src_configure() {
 		--enable-dri \
 		--enable-glx \
 		--enable-shared-glapi \
+		--disable-shader-cache \
 		$(use_enable !bindist texture-float) \
+		$(use_enable d3d9 nine) \
 		$(use_enable debug) \
 		$(use_enable dri3) \
 		$(use_enable egl) \
@@ -292,6 +295,7 @@ multilib_src_configure() {
 		$(use_enable gles2) \
 		$(use_enable nptl glx-tls) \
 		$(use_enable osmesa) \
+		$(use_enable !udev sysfs) \
 		--enable-llvm-shared-libs \
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
@@ -301,32 +305,6 @@ multilib_src_configure() {
 
 multilib_src_install() {
 	emake install DESTDIR="${D}"
-
-	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib
-	# because user can eselect desired GL provider.
-	ebegin "Moving libGL and friends for dynamic switching"
-		local x
-		local gl_dir="/usr/$(get_libdir)/opengl/${OPENGL_DIR}/"
-		dodir ${gl_dir}/{lib,extensions,include/GL}
-		for x in "${ED}"/usr/$(get_libdir)/lib{EGL,GL*,OpenVG}.{la,a,so*}; do
-			if [ -f ${x} -o -L ${x} ]; then
-				mv -f "${x}" "${ED}${gl_dir}"/lib \
-					|| die "Failed to move ${x}"
-			fi
-		done
-		for x in "${ED}"/usr/include/GL/{gl.h,glx.h,glext.h,glxext.h}; do
-			if [ -f ${x} -o -L ${x} ]; then
-				mv -f "${x}" "${ED}${gl_dir}"/include/GL \
-					|| die "Failed to move ${x}"
-			fi
-		done
-		for x in "${ED}"/usr/include/{EGL,GLES*,VG,KHR}; do
-			if [ -d ${x} ]; then
-				mv -f "${x}" "${ED}${gl_dir}"/include \
-					|| die "Failed to move ${x}"
-			fi
-		done
-	eend $?
 
 	if use classic || use gallium; then
 			ebegin "Moving DRI/Gallium drivers for dynamic switching"
@@ -409,13 +387,6 @@ pkg_postinst() {
 	# Switch to the xorg implementation.
 	echo
 	eselect opengl set --use-old ${OPENGL_DIR}
-
-	# switch to xorg-x11 and back if necessary, bug #374647 comment 11
-	OLD_IMPLEM="$(eselect opengl show)"
-	if [[ ${OPENGL_DIR}x != ${OLD_IMPLEM}x ]]; then
-		eselect opengl set ${OPENGL_DIR}
-		eselect opengl set ${OLD_IMPLEM}
-	fi
 
 	# Select classic/gallium drivers
 	if use classic || use gallium; then
