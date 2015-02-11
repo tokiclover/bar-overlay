@@ -1,12 +1,14 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.4 2015/01/28 -tclover Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.5 2015/02/10 -tclover Exp $
 
 EAPI=5
+PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_REQ_USE='threads(+)'
 
-inherit eutils waf-utils pax-utils fdo-mime gnome2-utils git-2
+inherit eutils python-any-r1 waf-utils pax-utils fdo-mime gnome2-utils git-2
 
-WAF_VERSION=1.8.1
+WAF_VERSION=1.8.5
 
 DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
@@ -18,14 +20,13 @@ LICENSE="GPL-2"
 SLOT="0"
 IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack
 -joystick jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123
--openal +opengl oss portaudio postproc pulseaudio pvr samba sdl selinux +shm
-static static-libs v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver
-+xv"
+-openal +opengl oss pulseaudio pvr samba sdl selinux +shm static static-libs
+v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver +xv"
 
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS=""
 else
-	EGIT_COMMIT="v${PV}"
+	EGIT_COMMIT="v${PV/_/-}"
 	KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux"
 fi
 
@@ -94,13 +95,6 @@ RDEPEND+="
 	)
 	mpg123? ( >=media-sound/mpg123-1.14.0 )
 	openal? ( >=media-libs/openal-1.13 )
-	portaudio? ( >=media-libs/portaudio-19_pre20111121 )
-	postproc? (
-		|| (
-			>=media-libs/libpostproc-10.20140517
-			>=media-video/ffmpeg-2.1.4:0
-		)
-	)
 	pulseaudio? ( media-sound/pulseaudio )
 	samba? ( net-fs/samba )
 	sdl? ( media-libs/libsdl2[threads] )
@@ -136,6 +130,8 @@ pkg_setup()
 	einfo "For additional format support you need to enable the support on your"
 	einfo "libavcodec/libavformat provider:"
 	einfo "    media-video/libav or media-video/ffmpeg"
+
+	python-any-r1_pkg_setup
 }
 
 src_unpack()
@@ -191,11 +187,9 @@ src_configure()
 		$(use_enable mpg123)
 		$(use_enable jpeg)
 		$(use_enable libcaca caca)
-		$(use_enable postproc libpostproc)
 		$(use_enable alsa)
 		$(use_enable jack)
 		$(use_enable ladspa)
-		$(use_enable portaudio)
 		$(use_enable bs2b libbs2b)
 		$(use_enable openal)
 		$(use_enable oss oss-audio)
