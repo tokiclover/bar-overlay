@@ -1,10 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/patchage/patchage-0.5.0.ebuild,v 1.5 2014/10/10 08:45:11 -tclover Exp $
+# $Header: media-sound/patchage/patchage-0.5.0.ebuild,v 1.6 2015/02/10 08:45:11 -tclover Exp $
 
 EAPI=5
+PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_REQ_USE='threads(+)'
 
-inherit toolchain-funcs waf-utils
+inherit toolchain-funcs python-any-r1 waf-utils
 
 DESCRIPTION="Modular patch bay for audio and MIDI systems"
 HOMEPAGE="http://wiki.drobilla.net/Patchage"
@@ -25,8 +27,8 @@ RDEPEND=">=media-libs/raul-0.7.0
 	>=media-sound/jack-audio-connection-kit-0.107
 	alsa? ( media-libs/alsa-lib )
 	lash? ( dev-libs/dbus-glib )"
-
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	virtual/pkgconfig"
 
 DOCS=( AUTHORS README ChangeLog )
