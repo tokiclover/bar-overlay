@@ -1,11 +1,10 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.5 2014/10/10 12:14:19 -tclover Exp $
+# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.6 2015/02/10 12:14:19 -tclover Exp $
 
 EAPI=5
-
 PYTHON_COMPAT=( python2_7 )
-
+PYTHON_REQ_USE='threads(+)'
 PLOCALES="de fr ru"
 
 inherit l10n python-single-r1 waf-utils multilib-minimal git-2
@@ -33,7 +32,6 @@ RDEPEND="lash? ( !media-sound/lash )
 	)
 	sys-apps/dbus[${MULTILIB_USEDEP}]
 	${PYTHON_DEPS}"
-
 DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
 	virtual/pkgconfig
