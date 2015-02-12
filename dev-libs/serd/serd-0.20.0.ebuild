@@ -1,10 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-libs/serd/serd-0.18.2.ebuild,v 1.2 2014/10/14 21:08:17 -tclover Exp $
+# $Header: dev-libs/serd/serd-0.18.2.ebuild,v 1.3 2015/02/10 21:08:17 -tclover Exp $
 
 EAPI=5
+PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_REQ_USE='threads(+)'
 
-inherit waf-utils multilib-minimal
+inherit python-any-r1 waf-utils multilib-minimal
 
 DESCRIPTION="Library for RDF syntax which supports reading and writing Turtle and NTriples"
 HOMEPAGE="http://drobilla.net/software/serd/"
@@ -18,6 +20,7 @@ REQUIRED_USE=" static? ( utils )"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	doc? ( app-doc/doxygen )"
 
 DOCS=( AUTHORS NEWS README )
