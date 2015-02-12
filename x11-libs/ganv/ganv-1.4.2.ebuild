@@ -1,10 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-libs/ganv/ganv-1.4.2.ebuild,v 1.5 2014/10/10 08:45:11 -tclover Exp $
+# $Header: x11-libs/ganv/ganv-1.4.2.ebuild,v 1.6 2015/02/10 08:45:11 -tclover Exp $
 
 EAPI=5
+PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_REQ_USE='threads(+)'
 
-inherit toolchain-funcs waf-utils multilib-minimal
+inherit toolchain-funcs python-any-r1 waf-utils multilib-minimal
 
 DESCRIPTION="An interactive Gtk widget for boxes and lines or graph-like environments"
 HOMEPAGE="http://drobilla.net/software/ganv/"
@@ -23,6 +25,7 @@ RDEPEND="dev-libs/boost
 	introspection? ( dev-libs/gobject-introspection )"
 
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	nls? ( virtual/libintl )
 	virtual/pkgconfig"
 
