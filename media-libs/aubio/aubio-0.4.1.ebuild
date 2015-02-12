@@ -1,10 +1,10 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/aubio/aubio-0.3.2-r2.ebuild,v 1.6 2014/10/10 18:03:32 -tclover Exp $
+# $Header: media-libs/aubio/aubio-0.3.2-r2.ebuild,v 1.7 2015/02/10 18:03:32 -tclover Exp $
 
 EAPI=5
-
 PYTHON_COMPAT=( python2_7 )
+PYTHON_REQ_USE='threads(+)'
 
 inherit eutils python-single-r1 waf-utils multilib-minimal
 
@@ -16,14 +16,15 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~ppc64 ~sparc ~x86"
 IUSE="+alsa doc examples ffmpeg +jack +samplerate +sndfile static-libs"
+REQUIRED_USE="${PYHON_REQUIRED_USE}"
 
 RDEPEND="sci-libs/fftw:3.0[${MULTILIB_USEDEP}]
+	${PYTHON_DEPS}
 	alsa? ( media-libs/alsa-lib[${MULTILIB_USEDEP}] )
 	ffmpeg? ( virtual/ffmpeg[${MULTILIB_USEDEP}] )
 	jack? ( media-sound/jack-audio-connection-kit[${MULTILIB_USEDEP}] )
 	samplerate? ( media-libs/libsamplerate[${MULTILIB_USEDEP}] )
 	sndfile? ( media-libs/libsndfile[${MULTILIB_USEDEP}] )"
-
 DEPEND="${RDEPEND}
 	>=dev-lang/swig-1.3.0
 	virtual/pkgconfig
