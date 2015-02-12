@@ -1,14 +1,12 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack-audio-connection-kit-1.9999.ebuild,v 1.1 2015/01/28 -tclover Exp $
+# $Header: media-sound/jack-audio-connection-kit-1.9999.ebuild,v 1.2 2015/02/18 -tclover Exp $
 
 EAPI=5
-
 PYTHON_COMPAT=( python2_7 )
 
 inherit eutils python-single-r1 autotools-multilib
 
-RESTRICT="mirror"
 DESCRIPTION="A low-latency audio server"
 HOMEPAGE="http://www.jackaudio.org"
 SRC_URI="http://www.jackaudio.org/downloads/${P}.tar.gz
@@ -33,6 +31,7 @@ done
 unset {PPC,X86}_CPU_FLAGS arch {cpu_,}flag
 
 RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
+	${PYTHON_DEPS}
 	sys-libs/ncurses[${MULTILIB_USEDEP}]
 	celt? ( >=media-libs/celt-0.5.0[${MULTILIB_USEDEP}] )
 	dbus? ( sys-apps/dbus[${MULTILIB_USEDEP}] )

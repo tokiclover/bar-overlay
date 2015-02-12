@@ -1,10 +1,10 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack-audio-connection-kit-2.9999.ebuild,v 1.1 2015/01/28 -tclover Exp $
+# $Header: media-sound/jack-audio-connection-kit-2.9999.ebuild,v 1.2 2015/02/10 -tclover Exp $
 
 EAPI=5
-
 PYTHON_COMPAT=( python2_7 )
+PYTHON_REQ_USE='threads(+)'
 
 inherit eutils python-single-r1 waf-utils multilib-minimal
 
@@ -27,7 +27,6 @@ RDEPEND="media-libs/libsamplerate[${MULTILIB_USEDEP}]
 	dbus? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
 	ieee1394? ( media-libs/libffado[${MULTILIB_USEDEP}] )
 	opus? ( media-libs/opus[custom-modes,${MULTILIB_USEDEP}] )"
-
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	doc? ( app-doc/doxygen )"

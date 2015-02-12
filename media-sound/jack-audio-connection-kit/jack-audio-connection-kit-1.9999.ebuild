@@ -6,7 +6,6 @@ EAPI=5
 
 inherit eutils autotools-multilib git-2
 
-RESTRICT="mirror"
 DESCRIPTION="A low-latency audio server"
 HOMEPAGE="http://www.jackaudio.org"
 
