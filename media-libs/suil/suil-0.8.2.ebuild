@@ -1,10 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/suil/suil-0.8.0.ebuild,v 1.2 2014/10/10 12:20:50 -tclover Exp $
+# $Header: media-libs/suil/suil-0.8.0.ebuild,v 1.3 2015/02/10 12:20:50 -tclover Exp $
 
 EAPI=5
+PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_REQ_USE='threads(+)'
 
-inherit waf-utils multilib-minimal
+inherit python-any-r1 waf-utils multilib-minimal
 
 DESCRIPTION="Lightweight C library for loading and wrapping LV2 plugin UIs"
 HOMEPAGE="http://drobilla.net/software/suil/"
@@ -19,6 +21,7 @@ RDEPEND="media-libs/lv2
 	gtk? ( x11-libs/gtk+:2 )
 	qt4? ( dev-qt/qtgui:4 )"
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	doc? ( app-doc/doxygen )
 	virtual/pkgconfig"
 
