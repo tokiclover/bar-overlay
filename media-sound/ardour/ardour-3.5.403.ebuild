@@ -1,10 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-3.9999.ebuild,v 1.9 2014/10/10 18:21:28 -tclover Exp $
+# $Header: media-sound/ardour/ardour-3.9999.ebuild,v 1.10 2015/02/10 18:21:28 -tclover Exp $
 
 EAPI=5
+PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_REQ_USE='threads(+)'
 
-inherit eutils toolchain-funcs flag-o-matic waf-utils git-2
+inherit eutils toolchain-funcs flag-o-matic python-any-r1 waf-utils git-2
 
 DESCRIPTION="Digital Audio Workstation"
 HOMEPAGE="http://ardour.org/"
@@ -53,9 +55,8 @@ RDEPEND="media-libs/aubio
 		>=media-libs/suil-0.6.10
 		>=media-libs/lv2-1.4.0
 	)"
-
 DEPEND="${RDEPEND}
-	dev-lang/python
+	${PYTHON_DEPS}
 	virtual/pkgconfig
 	nls? ( virtual/libintl )
 	doc? ( app-doc/doxygen[dot] )"
