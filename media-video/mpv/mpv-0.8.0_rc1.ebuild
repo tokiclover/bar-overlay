@@ -107,6 +107,7 @@ RDEPEND+="
 	)
 "
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	virtual/pkgconfig
 	>=dev-lang/perl-5.8
 	dev-python/docutils
