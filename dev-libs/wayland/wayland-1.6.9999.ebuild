@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-libs/wayland/wayland-9999.ebuild,v 1.3 2015/02/10 09:08:34 -tclover Exp $
+# $Header: dev-libs/wayland/wayland-1.6.9999.ebuild,v 1.3 2015/02/10 09:08:34 -tclover Exp $
 
 EAPI=5
 
@@ -10,9 +10,10 @@ DESCRIPTION="Wayland protocol libraries"
 HOMEPAGE="http://wayland.freedesktop.org/"
 EGIT_REPO_URI="git://anongit.freedesktop.org/git/${PN}/${PN}"
 EGIT_PROJECT="${PN}.git"
+EGIT_BRANCH=${PV:0:3}
 
 LICENSE="MIT"
-SLOT="0"
+SLOT="0/${PV:0:3}"
 IUSE="doc static-libs"
 
 RDEPEND=">=dev-libs/expat-2.1.0-r3:=[${MULTILIB_USEDEP}]
