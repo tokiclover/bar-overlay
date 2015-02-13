@@ -7,7 +7,6 @@ dev-libs/serd
 dev-libs/sord
 dev-perl/IO-Socket-TIPC
 dev-perl/perl-URxvt
-dev-perl/perl-WebKit-GTk
 dev-python/mpris-remote
 dev-python/pyrobase
 dev-python/pyrocore
