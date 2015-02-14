@@ -1,18 +1,14 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/oss/oss-4.2.2010.ebuild,v 1.7 2014/11/01 20:31:48 -tclover Exp $
+# $Header: media-sound/oss/oss-4.2.2010.ebuild,v 1.8 2015/02/14 20:31:48 -tclover Exp $
 
 EAPI=5
 
 inherit eutils flag-o-matic libtool
 
-MY_P=${PN}-v${PV:0:3}-build${PV:4:7}-src-gpl
-
 DESCRIPTION="OSSv4 portable, mixing-capable, high quality sound system for Unix"
 HOMEPAGE="http://developer.opensound.com/"
-SRC_URI="http://www.4front-tech.com/developer/sources/stable/gpl/${MY_P}.tar.bz2"
-
-unset MY_P
+SRC_URI="http://www.4front-tech.com/developer/sources/stable/gpl/${PN}-v${PV:0:3}-build${PV:4:7}-src-gpl.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -38,7 +34,6 @@ DEPEND="sys-apps/gawk
 	x11-libs/gtk+:2
 	>=sys-kernel/linux-headers-2.6.11
 	!media-sound/oss-devel"
-
 RDEPEND="${DEPEND}"
 
 src_unpack()
