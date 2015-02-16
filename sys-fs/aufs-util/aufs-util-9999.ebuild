@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.6 2015/01/01 23:23:47 -tclover Exp $
+# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.7 2015/02/14 23:23:47 -tclover Exp $
 
 EAPI=5
 
@@ -17,7 +17,10 @@ LICENSE="GPL-2"
 IUSE="kernel-builtin"
 SLOT="0/${PV}"
 
-AUFS_VERSION=( 19 0 2 9 14 x-rcN )
+KV_SUPPORT=(
+	3.20
+	3.{0,2,9,14}
+)
 
 pkg_setup()
 {
@@ -27,23 +30,23 @@ pkg_setup()
 
 	get_version
 
-	local version="${KV_MINOR}"
-	for (( i=1; i<${#AUFS_VERSION[@]}; i++ )); do
-		if [[ "${AUFS_VERSION[$(($i+1))]}" == "x-rcN" ]]; then
-			version=${AUFS_VERSION[$i]}
+	local branch
+	for (( i=1; i<${#KV_SUPPORT[@]}; i++ )); do
+		if [[ $((${i}+1)) -eq ${#KV_SUPPORT[@]} ]]; then
+			branch=${KV_SUPPORT[i]}
 			break
-		elif [[ "${AUFS_VERSION[$i]}" -gt "${version}" ]]; then
-			version=${AUFS_VERSION[$(($i-1))]}
+		elif [[ ${KV_SUPPORT[i]:2:2} -gt ${KV_MINOR} ]]; then
+			branch=${KV_SUPPORT[$((${i}-1))]}
 			break
-		elif [[ "${AUFS_VERSION[$i]}" -eq "${version}" ]]; then
+		elif [[ ${KV_SUPPORT[i]:2:2} -eq ${KV_MINOR} ]]; then
+			branch=${KV_SUPPORT[i]}
 			break
-		elif [[ "${AUFS_VERSION[0]}" -eq "${version}" ]]; then
-			version=x-rcN
+		elif [[ ${KV_SUPPORT[0]:2:2} -ge ${KV_MAJOR} ]]; then
+			branch=${KV_MAJOR}.x-rcN
 			break
 		fi
 	done
-	version="${KV_MAJOR}.${version}"
-	export EGIT_BRANCH="aufs${version}"
+	export EGIT_BRANCH="aufs${branch}"
 	
 	if use kernel-builtin; then
 		CONFIG_CHECK="AUFS_FS"
