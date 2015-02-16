@@ -1,5 +1,17 @@
 aufs3.17 standalone patch
 
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 39748be..54d271a 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -1154,6 +1154,7 @@ rename_retry:
+ 	seq = 1;
+ 	goto again;
+ }
++EXPORT_SYMBOL(d_walk);
+ 
+ /*
+  * Search for at least 1 mount point in the dentry's subdirs.
 diff --git a/fs/inode.c b/fs/inode.c
 index df21e66..c8df03d 100644
 --- a/fs/inode.c
@@ -20,18 +32,6 @@ index df21e66..c8df03d 100644
  
  /**
   *	touch_atime	-	update the access time
-diff --git a/fs/namei.c b/fs/namei.c
-index 111215b..9663194 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -277,6 +277,7 @@ int check_acl(struct inode *inode, int mask)
- 
- 	return -EAGAIN;
- }
-+EXPORT_SYMBOL(check_acl);
- 
- /*
-  * This does the basic permission checking
 diff --git a/fs/namespace.c b/fs/namespace.c
 index ef42d9b..88af377 100644
 --- a/fs/namespace.c

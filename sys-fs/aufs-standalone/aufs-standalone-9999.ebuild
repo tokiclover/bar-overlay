@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.10 2014/19/01 23:23:44 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.11 2015/02/14 23:23:44 -tclover Exp $
 
 EAPI=5
 
@@ -18,9 +18,10 @@ LICENSE="GPL-2"
 IUSE="debug doc fhsm fuse pax_kernel hfs inotify +kernel-patch nfs ramfs +xattr"
 SLOT="0/${PV}"
 
-S="${WORKDIR}"/${PN}
-
-KV_SUPPORT=( 4 10 19 3 )
+KV_SUPPORT=(
+	3.20
+	3.1{0,1,2,3,4,5,6,7,8,9}
+)
 
 MODULE_NAMES="aufs(misc:${S})"
 
@@ -39,23 +40,19 @@ pkg_setup()
 
 	get_version
 
-	[[ ${KV_MAJOR} != ${KV_SUPPORT[3]} ]] && die "kernel is not supported"
-	kernel_is lt ${KV_MAJOR} ${KV_SUPPORT[1]} 0 &&
-	[[ ${KV_SUPPORT[0]} != ${KV_MINOR} ]] && die "kernel is too old"
-	kernel_is gt ${KV_MAJOR} ${KV_SUPPORT[2]} 0 && die "kernel is too new"
-
-	local PATCHES branch patch n=/dev/null
-
-	[[ ${KV_MINOR} -eq ${KV_SUPPORT[2]} ]] && branch=x-rcN || branch=${KV_MINOR}
-	case ${branch} in
+	local PATCHES branch=${KV_MINOR} patch n=/dev/null
+	[[ ${KV_MAJOR}  != ${KV_SUPPORT[1]:0:1} ]] && die "kernel is not supported"
+	[[ ${KV_MINOR} -lt ${KV_SUPPORT[1]:2:2} ]] && die "kernel is too old"
+	[[ ${KV_MINOR} -gt ${KV_SUPPORT[0]:2:2} ]] && die "kernel is too new"
+	case ${KV_MINOR} in
 		(10) branch+=.x;;
 		(12) (( ${KV_MAJOR} >= 31 )) && branch+=.31+ ||
 			die "Unsupported minor version/kernel";;
 		(14) (( ${KV_MAJOR} >= 21 )) && branch+=.21+ ||
 			die "Unsupported minor version/kernel";;
+		(${KV_SUPPORT[0]:2:2}) branch=x-rcN;;
 	esac
-	branch=${KV_MAJOR}.${branch}
-	export EGIT_BRANCH=aufs${branch}
+	export EGIT_BRANCH=aufs${KV_MAJOR}.${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
 
 	PATCHES=( "${FILESDIR}"/aufs-{base,mmap,standalone}-${branch}.patch )
