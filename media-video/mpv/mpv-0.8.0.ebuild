@@ -17,7 +17,7 @@ EGIT_PROJECT=${PN}.git
 SRC_URI="http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
 LICENSE="GPL-2"
-SLOT="0"
+SLOT="0/${PV}"
 IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack
 -joystick jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123
 -openal +opengl oss pulseaudio pvr samba sdl selinux +shm static static-libs
