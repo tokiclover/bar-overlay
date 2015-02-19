@@ -21,7 +21,6 @@ DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
 	virtual/pkgconfig"
 
-EXPERIMENTAL=1
 AUTOTOOLS_AUTORECONF=1
 
 multilib_src_configure()
