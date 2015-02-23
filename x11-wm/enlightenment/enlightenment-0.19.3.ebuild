@@ -51,7 +51,7 @@ RDEPEND=">=dev-libs/efl-1.11.2[X,egl?,wayland?]
 DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )"
 
-DOCS=( AUTHORS ChangeLog README TODO )
+DOCS=( AUTHORS ChangeLog README )
 
 PATCHES=(
 	 "${FILESDIR}"/${PN}-0.19.1-wayland-cflags.patch

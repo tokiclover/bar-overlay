@@ -50,7 +50,7 @@ RDEPEND=">=dev-libs/efl-1.8.3[X,wayland?]
 DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )"
 
-DOCS=( AUTHORS ChangeLog README TODO )
+DOCS=( AUTHORS ChangeLog README )
 
 AUTOTOOLS_IN_SOURCE_BUILD=1
 S="${WORKDIR}/${P/_/-}"
