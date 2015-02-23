@@ -74,6 +74,7 @@ sys-fs/aufs-util
 sys-kernel/git-sources
 sys-kernel/mkinitramfs-ll
 sys-libs/libfreebob
+sys-process/supervision-scripts
 virtual/liblash
 virtual/libproxy
 x11-drivers/xf86-video-nouveau
