@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.12.34.ebuild,v 2.0 2014/12/12 13:45:34 -tclover Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.14.32.ebuild,v 2.0 2015/02/20 13:45:34 -tclover Exp $
 
 EAPI="5"
 
@@ -15,25 +15,26 @@ DESCRIPTION="latest linux-stable.git pulled by git from the stable tree"
 HOMEPAGE="http://www.kernel.org"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
-IUSE="aufs bfs bfq ck fbcondecor +gentoo hardened reiser4 +optimization rt toi uksm"
+IUSE="aufs bfs ck fbcondecor bfq +gentoo hardened reiser4 +optimization rt toi uksm"
 REQUIRED_USE="ck? ( bfs ) bfq? ( optimization )"
 
 CKV="${PV}-git"
 OKV="${PV}"
 MKV="${KV_MAJOR}.${KV_MINOR}"
 
-BFS_VER="444"
-CK_VER="${MKV}-ck2"
-GEN_VER="${MKV}-34"
+AUFS_VER="${MKV}.21+"
+BFS_VER="447"
+CK_VER="${MKV}-ck1"
+GEN_VER="${MKV}-38"
 BFQ_VER="${GEN_VER}"
 FBC_VER="${GEN_VER}"
-GHP_VER="${MKV}.8-2"
-RT_VER="${MKV}.33-rt47"
-RS4_VER="${MKV}.6"
-TOI_VER="${MKV}.26-2014-08-07"
-UKSM_VER="${MKV}.ge.23"
+GHP_VER="${MKV}.23-2"
+RS4_VER="${MKV}.1"
+OPT_VER="outdated_versions/linux-3.2+/gcc-4.2+"
+RT_VER="${MKV}.31-rt28"
+TOI_VER="${OKV}-2015-02-10"
+UKSM_VER="${MKV}.ge.10"
 
-AUFS_VER="${MKV}.31+"
 BFS_SRC="${MKV}-sched-bfs-${BFS_VER}.patch"
 CK_SRC="${CK_VER}-broken-out.tar.bz2"
 GEN_SRC="genpatches-${GEN_VER}.base.tar.xz"
@@ -41,10 +42,8 @@ FBC_SRC="genpatches-${FBC_VER}.extras.tar.xz"
 BFQ_SRC="genpatches-${BFQ_VER}.experimental.tar.xz"
 GHP_SRC="hardened-patches-${GHP_VER}.extras.tar.bz2"
 RS4_SRC="reiser4-for-${RS4_VER}.patch.gz"
-RT_URI="https://www.kernel.org/pub/linux/kernel/projects/rt/${MKV}"
 RT_SRC="patch-${RT_VER}.patch.xz"
 TOI_SRC="tuxonice-for-linux-${TOI_VER}.patch.bz2"
-UKSM_URI="http://kerneldedup.org/download/uksm/${UKSM_EXV}"
 UKSM_SRC="uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch"
 
 SRC_URI="bfs? ( ${CK_URI}/${CK_VER}/${CK_SRC} )
