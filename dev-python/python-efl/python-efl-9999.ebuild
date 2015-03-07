@@ -10,7 +10,7 @@ inherit distutils-r1 git-2
 
 DESCRIPTION="Python bindings for the EFL"
 HOMEPAGE="http://enlightenement.org"
-EGIT_REPO_URI="git.enlightenment.org/bindings/python/${PN}.git"
+EGIT_REPO_URI="git://git.enlightenment.org/bindings/python/${PN}.git"
 
 LICENSE="GPL-3 LGPL-3"
 SLOT="0/${PV:0:4}"
@@ -23,4 +23,4 @@ DEPEND="${RDEPEND}
 	doc? ( dev-python/sphinx )
 	virtual/pkgconfig"
 
-DOCS=( AUTHORS NEWS README TODO )
+DOCS=( AUTHORS README TODO )
