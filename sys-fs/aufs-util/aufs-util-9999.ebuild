@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.7 2015/02/14 23:23:47 -tclover Exp $
+# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.8 2015/03/09 23:23:47 -tclover Exp $
 
 EAPI=5
 
@@ -10,12 +10,12 @@ DESCRIPTION="AUFS filesystem utilities"
 HOMEPAGE="http://aufs.sourceforge.net/"
 EGIT_REPO_URI="git://git.code.sf.net/p/aufs/aufs-util.git"
 
-RDEPEND="${DEPEND} !sys-fs/aufs3 !sys-fs/aufs2"
-DEPEND="!kernel-builtin? ( =sys-fs/${P/util/standalone}:= )"
-
 LICENSE="GPL-2"
-IUSE="kernel-builtin"
+IUSE="fhsm kernel-builtin"
 SLOT="0/${PV}"
+
+RDEPEND="${DEPEND} !sys-fs/aufs3 !sys-fs/aufs2"
+DEPEND="!kernel-builtin? ( =sys-fs/${P/util/standalone}:=[fhsm?] )"
 
 KV_SUPPORT=(
 	3.20
@@ -35,21 +35,22 @@ pkg_setup()
 		if [[ $((${i}+1)) -eq ${#KV_SUPPORT[@]} ]]; then
 			branch=${KV_SUPPORT[i]}
 			break
-		elif [[ ${KV_SUPPORT[i]:2:2} -gt ${KV_MINOR} ]]; then
+		elif [[ ${KV_SUPPORT[i]#*.} -gt ${KV_MINOR} ]]; then
 			branch=${KV_SUPPORT[$((${i}-1))]}
 			break
-		elif [[ ${KV_SUPPORT[i]:2:2} -eq ${KV_MINOR} ]]; then
+		elif [[ ${KV_SUPPORT[i]#*.} -eq ${KV_MINOR} ]]; then
 			branch=${KV_SUPPORT[i]}
 			break
-		elif [[ ${KV_SUPPORT[0]:2:2} -ge ${KV_MAJOR} ]]; then
+		elif [[ ${KV_MAJOR} -ge ${KV_SUPPORT[0]#*.} ]]; then
 			branch=${KV_MAJOR}.x-rcN
 			break
 		fi
 	done
 	export EGIT_BRANCH="aufs${branch}"
 	
+	CONFIG_CHECK="$(usex fhsm 'AUFS_FHSM' '')"
 	if use kernel-builtin; then
-		CONFIG_CHECK="AUFS_FS"
+		CONFIG_CHECK="AUFS_FS ${CONFIG_CHECK}"
 		ERROR_AUSFS_FS="aufs have to be enabled [y|m]."
 		linux-info_pkg_setup
 		if [[ -d "${KV_DIR}"/usr/include ]]; then
@@ -72,12 +73,15 @@ src_prepare()
 
 src_compile()
 {
-	emake CC="$(tc-getCC)" AR="$(tc-getAR)" KDIR="${KV_DIR}"
+	emake CC="$(tc-getCC)" AR="$(tc-getAR)" KDIR="${KV_DIR}" \
+		$(usex fhsm 'BuildFHSM=yes' 'BuildFHSM=no')
 }
 
 src_install()
 {
-	emake DESTDIR="${D}" install
+	emake DESTDIR="${D}" install \
+		$(usex fhsm 'BuildFHSM=yes' 'BuildFHSM=no')
+
 	docinto /usr/share/doc/${PF}
 	dodoc README
 }

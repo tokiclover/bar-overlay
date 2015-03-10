@@ -4,6 +4,7 @@
 	<maintainer><email>tclover@bar-overlay</email>
 	</maintainer>
 	<use>
+		<flag name="fhsm">Enable File-based Hierarchy Storage Management support (experimental)</flag>
 		<flag name="kernel-builtin">Build against kernel-builtin instead of sys-fs/aufs-standlone header</flag>
 	</use>
 </pkgmetadata>
