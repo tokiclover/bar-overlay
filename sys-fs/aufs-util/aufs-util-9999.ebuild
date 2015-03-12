@@ -48,7 +48,7 @@ pkg_setup()
 	done
 	export EGIT_BRANCH="aufs${branch}"
 	
-	CONFIG_CHECK="$(usex fhsm 'AUFS_FHSM' '')"
+	CONFIG_CHECK="$(usex fhsm 'AUFS_FHSM' '!AUFS_FHSM')"
 	if use kernel-builtin; then
 		CONFIG_CHECK="AUFS_FS ${CONFIG_CHECK}"
 		ERROR_AUSFS_FS="aufs have to be enabled [y|m]."
@@ -73,14 +73,15 @@ src_prepare()
 
 src_compile()
 {
+	use fhsm && BuildFHSM=yes || BuildFHSM=no
 	emake CC="$(tc-getCC)" AR="$(tc-getAR)" KDIR="${KV_DIR}" \
-		$(usex fhsm 'BuildFHSM=yes' 'BuildFHSM=no')
+		BuildFHSM=${BuildFHSM}
 }
 
 src_install()
 {
-	emake DESTDIR="${D}" install \
-		$(usex fhsm 'BuildFHSM=yes' 'BuildFHSM=no')
+	emake DESTDIR="${D}" install BuildFHSM=${BuildFHSM}
+	unset BuildFHSM
 
 	docinto /usr/share/doc/${PF}
 	dodoc README
