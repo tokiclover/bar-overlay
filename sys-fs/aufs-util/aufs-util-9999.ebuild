@@ -82,7 +82,5 @@ src_install()
 {
 	emake DESTDIR="${D}" install BuildFHSM=${BuildFHSM}
 	unset BuildFHSM
-
-	docinto /usr/share/doc/${PF}
 	dodoc README
 }
