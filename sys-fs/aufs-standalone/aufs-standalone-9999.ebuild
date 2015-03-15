@@ -47,9 +47,11 @@ pkg_setup()
 	[[ ${KV_MINOR} -gt ${KV_SUPPORT[0]#*.} ]] && die "kernel is too new"
 	case ${KV_MINOR} in
 		(10) branch+=.x;;
-		(12) (( ${KV_MAJOR} >= 31 )) && branch+=.31+ ||
+		(12) (( ${KV_MINOR} >= 31 )) && branch+=.31+ ||
 			die "Unsupported minor version/kernel";;
-		(14) (( ${KV_MAJOR} >= 21 )) && branch+=.21+ ||
+		(14) (( ${KV_MINOR} >= 21 )) && branch+=.21+ ||
+			die "Unsupported minor version/kernel";;
+		(18) (( ${KV_MINOR} >=  1 )) && branch+=.1+  ||
 			die "Unsupported minor version/kernel";;
 		(${KV_SUPPORT[0]#*.}) branch=x-rcN;;
 	esac
