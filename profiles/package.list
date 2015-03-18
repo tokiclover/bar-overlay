@@ -63,6 +63,7 @@ media-sound/zynaddsubfx
 media-video/ffmpeg
 media-video/mpv
 net-misc/connman
+net-misc/dhcpcd
 net-misc/dhcpcd-ui
 net-misc/pacrunner
 net-misc/tipcutils
