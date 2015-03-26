@@ -7,7 +7,7 @@ EAPI=5
 if [[ ${PV} == "9999" ]]; then
 	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd"
 else
-	SRC_URI="http://roy.marples.name/downloads/${P/_/-}.tar.bz2"
+	SRC_URI="ftp://roy.marples.name/pub/${PN}/${P/_/-}.tar.bz2"
 	KEYWORDS="~alpha ~amd64 ~arm arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~amd64-linux ~arm-linux ~x86-linux"
 	S="${WORKDIR}/${P/_/-}"
 fi
