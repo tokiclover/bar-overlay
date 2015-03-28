@@ -13,7 +13,7 @@ SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="daemontools daemontools-encore +runit s6"
+IUSE="daemontools daemontools-encore +runit s6 static-service"
 
 DEPEND="sys-apps/sed"
 RDEPEND="${DEPEND}
@@ -27,6 +27,7 @@ src_install()
 	local SV=(
 		$(usex runit 'RUNIT=1' '')
 		$(usex s6    'S6=1'    '')
+		$(usex static-service 'STATIC=1' '')
 	)
 	emake PREFIX=/usr "${SV[@]}" DESTDIR="${ED}" install-all
 }

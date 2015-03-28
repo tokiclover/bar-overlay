@@ -27,6 +27,7 @@ src_install()
 	local SV=(
 		$(usex runit 'RUNIT=1' '')
 		$(usex s6    'S6=1'    '')
+		$(usex static-service 'STATIC=1' '')
 	)
 	emake PREFIX=/usr "${SV[@]}" DESTDIR="${ED}" install-all
 }
