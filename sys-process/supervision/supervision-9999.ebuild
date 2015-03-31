@@ -1,13 +1,13 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-process/supervision-scripts/supervision-scripts-9999.ebuild,v 1.1 2015/02/22 -tclover Exp $
+# $Header: sys-process/supervision/supervision-9999.ebuild,v 1.1 2015/03/30 -tclover Exp $
 
 EAPI=5
 
 inherit eutils git-2
 
 DESCRIPTION="Supervision Scripts Framework"
-HOMEPAGE="https://github.com/tokiclover/supervision-scripts"
+HOMEPAGE="https://github.com/tokiclover/supervision"
 EGIT_REPO_URI="git://github.com/tokiclover/supervision-scripts.git"
 
 LICENSE="BSD-2"
