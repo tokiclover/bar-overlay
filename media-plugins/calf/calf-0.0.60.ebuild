@@ -1,18 +1,18 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/calf/calf-9999.ebuild,v 1.2 2015/03/30 00:38:38 -tclover Exp $
+# $Header: media-plugins/calf/calf-0.0.60.ebuild,v 1.2 2015/03/30 00:38:33 -tclover Exp $
 
 EAPI=5
 
-inherit autotools-utils git-2
+inherit autotools-utils
 
 DESCRIPTION="A set of open source instruments and effects for digital audio workstations"
 HOMEPAGE="http://calf.sf.net/"
-EGIT_REPO_URI="git://repo.or.cz/calf.git"
+SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE="debug +lash lv2 static-libs"
 
 RDEPEND="dev-libs/expat
@@ -29,8 +29,6 @@ DEPEND="${RDEPEND} virtual/pkgconfig"
 
 DOCS=(AUTHORS ChangeLog NEWS README TODO)
 
-AUTOTOOLS_AUTORECONF=1
-ATOTOOL_IN_SOURCE_BUILD=1
 AUTOTOOLS_PRUNE_LIBTOOL_FILES=modules
 
 src_configure()
@@ -44,3 +42,4 @@ src_configure()
 	)
 	autotools-utils_src_configure
 }
+

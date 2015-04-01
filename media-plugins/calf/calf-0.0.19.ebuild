@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-plugins/calf/calf-0.0.19.ebuild,v 1.1 2014/10/10 00:38:33 -tclover Exp $
+# $Header: media-plugins/calf/calf-0.0.19.ebuild,v 1.2 2015/03/30 00:38:33 -tclover Exp $
 
 EAPI=5
 
@@ -13,7 +13,7 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="lash lv2 sse static-libs"
+IUSE="+lash lv2 static-libs"
 
 RDEPEND="dev-libs/expat
 	dev-libs/glib:2
@@ -34,10 +34,9 @@ AUTOTOOLS_PRUNE_LIBTOOL_FILES=modules
 src_configure()
 {
 	local -a myeconfargs=(
+		${CLAF_EXTRA_CONF}
 		$(use_with lv2)
-		$(use lv2 && echo "--with-lv2-dir=${EPREFIX}/usr/$(get_libdir)/lv2")
-		$(use_enable sse)
+		$(usex lv2 "--with-lv2-dir=${EPREFIX}/usr/$(get_libdir)/lv2")
 	)
 	autotools-utils_src_configure
 }
-
