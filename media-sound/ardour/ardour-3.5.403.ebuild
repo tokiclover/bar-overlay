@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-3.9999.ebuild,v 1.10 2015/02/10 18:21:28 -tclover Exp $
+# $Header: media-sound/ardour/ardour-3.9999.ebuild,v 1.11 2015/03/30 18:21:28 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
@@ -83,11 +83,10 @@ src_configure()
 		"--prefix=${EPREFIX}/usr"
 		"--configdir=${EPREFIX}/etc"
 		"--libdir=${EPREFIX}/usr/$(get_libdir)"
-		$(use lv2 && echo '--lv2' || echo '--no-lv2')
-		$(use nls && echo '--nls' || echo '--no-nls')
-		$(use debug && echo '--stl-debug' || echo '--optimize')
-		$($(use altivec || use sse) && echo '--fpu-optimization' || echo '--no-fpu-optimization')
-		$(use doc && echo '--docs')
+		$(usex doc '--docs' '')
+		$(usex lv2 '--lv2' '--no-lv2')
+		$(usex nls '--nls' '--no-nls')
+		$(usex debug '--stl-debug' '')
 	)
 	CCFLAGS="${CFLAGS}" LINKFLAGS="${CFLAGS} ${LDFLAGS}" ./waf \
 		configure "${mywafargs[@]}" || die "Failed to configure"

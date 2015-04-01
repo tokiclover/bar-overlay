@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-2.9999,v 1.1 2014/10/10 -tclover $
+# $Header: media-sound/ardour/ardour-2.9999,v 1.11 2015/03/30 -tclover $
 
 EAPI=5
 
@@ -15,7 +15,7 @@ EGIT_BRANCH=2.0-ongoing
 LICENSE="GPL-2"
 SLOT="2"
 KEYWORDS="~amd64 ~x86"
-IUSE="altivec curl debug nls lv2 sse"
+IUSE="curl debug nls lv2"
 
 RDEPEND="media-libs/aubio
 	media-libs/liblo
@@ -75,7 +75,6 @@ src_compile()
 
 	local -a mysconsargs=(
 		"DESTDIR=${D}"
-		"FPU_OPTIMIZATION=$($(use altivec || use sse) && echo 1 || echo 0)"
 		'PREFIX=/usr'
 		'SYSLIBS=1'
 		$(use_scons curl FREESOUND)
