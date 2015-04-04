@@ -1,4 +1,4 @@
---- a/cngpijmon/cnijnpr/cnijnpr/Makefile.am.orig	2014-08-05 10:25:42.657977618 +0200
+--- a/cngpijmon/cnijnpr/cnijnpr/Makefile.am	2014-08-05 10:25:42.657977618 +0200
 +++ b/cngpijmon/cnijnpr/cnijnpr/Makefile.am	2014-08-05 10:26:10.558977413 +0200
 @@ -3,7 +3,7 @@
  cnijnpr_SOURCES=\

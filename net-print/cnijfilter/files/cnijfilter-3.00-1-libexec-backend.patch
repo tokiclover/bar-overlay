@@ -1,4 +1,4 @@
---- a/backend/src/Makefile.am.orig	2014-08-05 16:46:00.552809278 +0200
+--- a/backend/src/Makefile.am	2014-08-05 16:46:00.552809278 +0200
 +++ b/backend/src/Makefile.am	2014-08-05 16:46:33.662809034 +0200
 @@ -1,6 +1,6 @@
  ## Process this file with automake to produce Makefile.in
