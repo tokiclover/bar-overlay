@@ -77,6 +77,7 @@ sys-kernel/git-sources
 sys-kernel/mkinitramfs-ll
 sys-libs/libfreebob
 sys-process/supervision
+virtual/daemontools
 virtual/liblash
 virtual/libproxy
 x11-drivers/xf86-video-nouveau
