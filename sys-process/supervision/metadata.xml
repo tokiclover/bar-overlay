@@ -5,8 +5,6 @@
 		<email>bar@overlay</email>
 	</maintainer>
 	<use>
-		<flag name="daemontools">Enable <pkg>sys-process/daemontools</pkg> Supervision backend</flag>
-		<flag name="daemontools-encore">Enable <pkg>sys-process/daemontools-encore</pkg> Supervision backend</flag>
 		<flag name="runit">Enable <pkg>sys-process/runit</pkg> Supervision and Init-Stage support</flag>
 		<flag name="s6">Enable <pkg>sys-apps/s6</pkg> Supervision and Init-Satge support</flag>
 		<flag name="static-service">Install a static /service/ variant (WARN: Read-only rootfs is not supported.)</flag>
