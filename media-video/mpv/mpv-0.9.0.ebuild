@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.5 2015/02/10 -tclover Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.6 2015/04/26 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
@@ -18,10 +18,10 @@ SRC_URI="http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
 LICENSE="GPL-2"
 SLOT="0/${PV}"
-IUSE="+alsa bluray bs2b cdio -doc-pdf dvb +dvd dvdnav +enca encode +iconv jack
--joystick jpeg ladspa lcms +libass libcaca libguess lirc lua luajit +mpg123
--openal +opengl oss pulseaudio pvr samba sdl selinux +shm static static-libs
-v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver +xv"
+IUSE="+alsa bluray bs2b cdio -doc-pdf +drm dvb +dvd dvdnav +enca encode +iconv
+jack jpeg ladspa lcms +libass libcaca libguess lua luajit -openal +opengl oss
+pulseaudio pvr samba sdl selinux +shm static static-libs v4l vaapi vdpau
+vf-dlopen wayland +X xinerama +xscreensaver +xv"
 
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS=""
@@ -48,8 +48,8 @@ REQUIRED_USE="
 
 RDEPEND+="
 	|| (
-		>=media-video/libav-10:=[encode?,threads,vaapi?,vdpau?]
-		>=media-video/ffmpeg-2.1.4:0=[encode?,threads,vaapi?,vdpau?]
+		>=media-video/libav-11:=[encode?,threads,vaapi?,vdpau?]
+		>=media-video/ffmpeg-2.4.0:0=[encode?,threads,vaapi?,vdpau?]
 	)
 	sys-libs/ncurses
 	sys-libs/zlib
@@ -72,6 +72,7 @@ RDEPEND+="
 		dev-libs/libcdio
 		dev-libs/libcdio-paranoia
 	)
+	drm? ( x11-libs/libdrm )
 	dvb? ( virtual/linuxtv-dvb-headers )
 	dvd? (
 		>=media-libs/libdvdread-4.1.3
@@ -83,17 +84,15 @@ RDEPEND+="
 	jpeg? ( virtual/jpeg:0 )
 	ladspa? ( media-libs/ladspa-sdk )
 	libass? (
-		>=media-libs/libass-0.9.10:=[enca?,fontconfig]
+		>=media-libs/libass-0.12.1:=[enca?,fontconfig]
 		virtual/ttf-fonts
 	)
 	libcaca? ( >=media-libs/libcaca-0.99_beta18 )
 	libguess? ( >=app-i18n/libguess-1.0 )
-	lirc? ( app-misc/lirc )
 	lua? (
-		!luajit? ( >=dev-lang/lua-5.1 )
+		!luajit? ( <dev-lang/lua-5.3 >=dev-lang/lua-5.1 )
 		luajit? ( dev-lang/luajit:2 )
 	)
-	mpg123? ( >=media-sound/mpg123-1.14.0 )
 	openal? ( >=media-libs/openal-1.13 )
 	pulseaudio? ( media-sound/pulseaudio )
 	samba? ( net-fs/samba )
@@ -165,27 +164,25 @@ src_configure()
 		--disable-rsound
 		--disable-vapoursynth
 		$(use_enable encode encoding)
-		$(use_enable joystick)
 		$(use_enable bluray libbluray)
 		$(use_enable samba libsmbclient)
-		$(use_enable lirc)
 		$(use_enable lua)
 		$(usex luajit '--lua=luajit' '')
 		$(use_enable doc-pdf pdf-build)
 		$(use_enable vf-dlopen vf-dlopen-filters)
 		$(use_enable cdio cdda)
+		$(use_enable drm)
 		$(use_enable dvd dvdread)
 		$(use_enable dvdnav)
 		$(use_enable enca)
 		$(use_enable iconv)
 		$(use_enable libass)
 		$(use_enable libguess)
-		$(use_enable dvb)
+		$(use_enable dvb dvbin)
 		$(use_enable pvr)
 		$(use_enable v4l libv4l2)
 		$(use_enable v4l tv)
 		$(use_enable v4l tv-v4l2)
-		$(use_enable mpg123)
 		$(use_enable jpeg)
 		$(use_enable libcaca caca)
 		$(use_enable alsa)
