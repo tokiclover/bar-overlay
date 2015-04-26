@@ -74,9 +74,9 @@ LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.57"
 RDEPEND="
 	!<x11-base/xorg-server-1.7
 	!<=x11-proto/xf86driproto-2.0.3
-	classic? ( app-admin/eselect-mesa )
-	gallium? ( app-admin/eselect-mesa )
-	>=app-admin/eselect-opengl-1.2.7
+	classic? ( app-eselect/eselect-mesa )
+	gallium? ( app-eselect/eselect-mesa )
+	>=app-eselect/eselect-opengl-1.2.7
 	>=dev-libs/expat-2.1.0-r3[${MULTILIB_USEDEP}]
 	gbm? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] )
 	dri3? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] )
@@ -104,7 +104,7 @@ RDEPEND="
 		>=sys-devel/llvm-3.3-r3:=[${MULTILIB_USEDEP}]
 	)
 	opencl? (
-				app-admin/eselect-opencl
+				app-eselect/eselect-opencl
 				dev-libs/libclc
 			)
 	openmax? ( >=media-libs/libomxil-bellagio-0.9.3:=[${MULTILIB_USEDEP}] )
