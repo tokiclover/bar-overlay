@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.8 2015/03/09 23:23:47 -tclover Exp $
+# $Header: sys-fs/aufs-utils/aufs-utils-9999.ebuild v1.9 2015/05/05 23:23:47 -tclover Exp $
 
 EAPI=5
 
@@ -17,10 +17,23 @@ SLOT="0/${PV}"
 RDEPEND="${DEPEND} !sys-fs/aufs3 !sys-fs/aufs2"
 DEPEND="!kernel-builtin? ( =sys-fs/${P/util/standalone}:=[fhsm?] )"
 
-KV_SUPPORT=(
-	3.20
-	3.{0,2,9,14}
-)
+version_setup()
+{
+	local arg num=1
+	for arg; do
+		if (( $((${num})) == ${#} )); then
+			branch=${arg}
+			break
+		elif (( ${arg} >= ${KV_MINOR} )); then
+			branch=\$$((${num}-1))
+			break
+		elif (( ${arg} == ${KV_MINOR} )); then
+			branch=${arg}
+			break
+		fi
+		num=$((${num}+1))
+	done
+}
 
 pkg_setup()
 {
@@ -31,21 +44,13 @@ pkg_setup()
 	get_version
 
 	local branch
-	for (( i=1; i<${#KV_SUPPORT[@]}; i++ )); do
-		if [[ $((${i}+1)) -eq ${#KV_SUPPORT[@]} ]]; then
-			branch=${KV_SUPPORT[i]}
-			break
-		elif [[ ${KV_SUPPORT[i]#*.} -gt ${KV_MINOR} ]]; then
-			branch=${KV_SUPPORT[$((${i}-1))]}
-			break
-		elif [[ ${KV_SUPPORT[i]#*.} -eq ${KV_MINOR} ]]; then
-			branch=${KV_SUPPORT[i]}
-			break
-		elif [[ ${KV_MAJOR} -ge ${KV_SUPPORT[0]#*.} ]]; then
-			branch=${KV_MAJOR}.x-rcN
-			break
-		fi
-	done
+	case "${KV_MAJOR}" in
+		(3) version_setup 0 2 9 14;;
+		(4) version_setup 0;;
+		(*) die "Unsupported kernel!";;
+	esac
+:	${branch:=x-rcN}
+	branch="${KV_MAJOR}.${branch}"
 	export EGIT_BRANCH="aufs${branch}"
 	
 	CONFIG_CHECK="$(usex fhsm 'AUFS_FHSM' '!AUFS_FHSM')"
