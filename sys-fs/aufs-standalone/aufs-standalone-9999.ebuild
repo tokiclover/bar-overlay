@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.12 2015/03/09 23:23:44 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.13 2015/05/05 23:23:44 -tclover Exp $
 
 EAPI=5
 
@@ -18,12 +18,25 @@ LICENSE="GPL-2"
 IUSE="debug doc fhsm fuse pax_kernel hfs inotify +kernel-patch nfs ramfs +xattr"
 SLOT="0/${PV}"
 
-KV_SUPPORT=(
-	4.0
-	3.1{0,1,2,3,4,5,6,7,8,9}
-)
-
 MODULE_NAMES="aufs(misc:${S})"
+
+version_setup()
+{
+	local arg num=1
+	for arg; do
+		if (( $((${num})) == ${#} )); then
+			branch=${arg}
+			break
+		elif (( ${arg} >= ${KV_MINOR} )); then
+			branch=\$$((${num}-1))
+			break
+		elif (( ${arg} == ${KV_MINOR} )); then
+			branch=${arg}
+			break
+		fi
+		num=$((${num}+1))
+	done
+}
 
 pkg_setup()
 {
@@ -40,21 +53,26 @@ pkg_setup()
 
 	get_version
 
-	local PATCHES branch=${KV_MINOR} patch n=/dev/null
-	[[ ${KV_MAJOR}  != ${KV_SUPPORT[1]%.*} ]] && die "kernel is not supported"
-	[[ ${KV_MINOR} -lt ${KV_SUPPORT[1]#*.} ]] && die "kernel is too old"
-	[[ ${KV_MAJOR} -gt ${KV_SUPPORT[0]%.*} ]] &&
-	[[ ${KV_MINOR} -gt ${KV_SUPPORT[0]#*.} ]] && die "kernel is too new"
-	case ${KV_MINOR} in
-		(10) branch+=.x;;
-		(12) (( ${KV_MINOR} >= 31 )) && branch+=.31+ ||
-			die "Unsupported minor version/kernel";;
-		(14) (( ${KV_MINOR} >= 21 )) && branch+=.21+ ||
-			die "Unsupported minor version/kernel";;
-		(18) (( ${KV_MINOR} >=  1 )) && branch+=.1+  ||
-			die "Unsupported minor version/kernel";;
-		(${KV_SUPPORT[0]#*.}) branch=x-rcN;;
+	local PATCHES ERR_OLD branch patch n=/dev/null
+	ERR_OLD='die "kernel version is too old!"'
+
+	case "${KV_MAJOR}" in
+		(3)
+		case "${KV_MINOR}" in
+			([0-10]) eval ${ERR_OLD};;
+			(*) version_setup 1{1,2,3,4,5,6,7,8,9};;
+		esac
+		case ${KV_MINOR} in
+			(12) (( ${KV_PATCH} >= 31 )) && branch+=.31+ || eval ${ERR_OLD};;
+			(14) (( ${KV_PATCH} >= 21 )) && branch+=.40+ || eval ${ERR_OLD};;
+			(18) (( ${KV_PATCH} >=  1 )) && branch+=.1+  || eval ${ERR_OLD};;
+		esac;;
+		(4) EGIT_REPO_URI="git@github.com:sfjro/aufs4-standalone.git"
+			version_setup 0;;
+		(*) die "kernel version is not supported!";;
 	esac
+:	${branch:=x-rcN}
+	branch="${KV_MAJOR}.${branch}"
 	export EGIT_BRANCH=aufs${KV_MAJOR}.${branch}
 	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
 

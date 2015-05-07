@@ -1,7 +1,7 @@
-aufs3.18.1+ standalone patch
+aufs3.18 standalone patch
 
 diff --git a/fs/dcache.c b/fs/dcache.c
-index da7342e..b147b6c 100644
+index ec7550e..909aef4 100644
 --- a/fs/dcache.c
 +++ b/fs/dcache.c
 @@ -1124,6 +1124,7 @@ rename_retry:
