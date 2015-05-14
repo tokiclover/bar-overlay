@@ -23,13 +23,22 @@ times to times to optimize local disk usage.
     USE=git emerge -av layman
     layman -o https://raw.github.com/tokiclover/bar-overlay/master/bar.xml -f -a bar
 
-### Alternative (re-usable)
+### Alternative (re-usable) variant
 
 (Uncomment *overlay_defs* in '/etc/layman/layman.cfg')
 
     mkdir -p /etc/layman/overlays
     wget -NP /etc/layman/overlays https://raw.github.com/tokiclover/bar-overlay/master/bar.xml
     layman -a bar
+
+### Manual variant
+
+Nothing makes *layman* necessary in this process at all...
+Just merge *git* with `emerge -av git`; and then clone the repository with
+`mkdir -p /var/db/repos`, and then
+`git clone git://github.com/tokiclover/bar-overlay.git /var/db/repos/bar`;
+and finaly add `PORTDIR_OVERLAY=/var/db/repos/bar ${PORTDIR_OVERLAY}` in
+`/etc/portage/make.conf`.
 
 USAGE
 -----
