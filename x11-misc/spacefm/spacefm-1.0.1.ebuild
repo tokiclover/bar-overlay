@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-misc/spacefm/spacefm-0.9.4.ebuild,v 1.3 2014/11/01 19:40:05 -tclover Exp $
+# $Header: x11-misc/spacefm/spacefm-1.0.1.ebuild,v 1.4 2015/05/18 19:40:05 -tclover Exp $
 
 EAPI=5
 
@@ -13,7 +13,7 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.xz"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="-gtk3 +startup-notification"
+IUSE="-gtk3 +startup-notification video-thumbnails"
 
 RDEPEND="dev-libs/glib:2
 	dev-util/desktop-file-utils
@@ -25,6 +25,7 @@ RDEPEND="dev-libs/glib:2
 	x11-libs/pango
 	x11-libs/libX11
 	x11-misc/shared-mime-info
+	video-thumbnails? ( media-video/ffmpegthumbnailer )
 	startup-notification? ( x11-libs/startup-notification )"
 DEPEND="${RDEPEND}
 	dev-util/intltool
@@ -36,6 +37,7 @@ src_configure()
 	local -a myeconfargs=(
 		--htmldir=/usr/share/doc/${PF}/html
 		$(use_enable startup-notification)
+		$(use_enable video-thumbnails)
 		--disable-hal
 		--enable-inotify
 		--disable-pixmaps

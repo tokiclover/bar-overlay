@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-misc/spacefm/spacefm-9999.ebuild,v 1.13 2014/11/01 17:56:49 -tclover Exp $
+# $Header: x11-misc/spacefm/spacefm-9999.ebuild,v 1.14 2015/05/18 17:56:49 -tclover Exp $
 
 EAPI=5
 
@@ -15,7 +15,7 @@ HOMEPAGE="http://ignorantguru.github.com/spacefm/"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS=""
-IUSE="-gtk3 +startup-notification"
+IUSE="-gtk3 +startup-notification video-thumbnails"
 
 RDEPEND="dev-libs/glib:2
 	dev-util/desktop-file-utils
@@ -27,6 +27,7 @@ RDEPEND="dev-libs/glib:2
 	x11-libs/pango
 	x11-libs/libX11
 	x11-misc/shared-mime-info
+	video-thumbnails? ( media-video/ffmpegthumbnailer )
 	startup-notification? ( x11-libs/startup-notification )"
 DEPEND="${RDEPEND}
 	dev-util/intltool
@@ -38,6 +39,7 @@ src_configure()
 	local -a myeconfargs=(
 		--htmldir=/usr/share/doc/${PF}/html
 		$(use_enable startup-notification)
+		$(use_enable video-thumbnails)
 		--disable-hal
 		--enable-inotify
 		--disable-pixmaps
