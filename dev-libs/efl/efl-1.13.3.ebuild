@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-libs/efl/efl-1.12.1.ebuild,v 1.1 2014/12/22 -tclover Exp $
+# $Header: dev-libs/efl/efl-1.13.3.ebuild,v 1.2 2015/05/18 -tclover Exp $
 
 EAPI=5
 
@@ -20,6 +20,7 @@ IUSE="+X avahi cxx-bindings debug doc +drm +egl fbcon +fontconfig +fribidi gif
 gles glib gnutls gstreamer harfbuzz ibus jp2k +nls +opengl ssl physics +png
 pulseaudio scim sdl static-libs systemd system-lz4 test tiff tslib v4l2 wayland
 webp xim xine xpm"
+REQUIRED_USE="drm? ( systemd ) ?? ( gnutls ssl ) ?? ( opengl gles sdl )"
 
 COMMON_DEP="
 	dev-lang/luajit:2
@@ -51,6 +52,11 @@ COMMON_DEP="
 	)
 	avahi? ( net-dns/avahi[${MULTILIB_USEDEP}] )
 	debug? ( dev-util/valgrind )
+	drm? ( x11-libs/libdrm[${MULTILIB_USEDEP}]
+		x11-libs/libxkbcommon[${MULTILIB_USEDEP}]
+		media-libs/mesa[gbm,${MULTILIB_USEDEP}]
+		dev-libs/libinput
+	)
 	fontconfig? ( media-libs/fontconfig[${MULTILIB_USEDEP}] )
 	fribidi? ( dev-libs/fribidi[${MULTILIB_USEDEP}] )
 	gif? ( media-libs/giflib[${MULTILIB_USEDEP}] )
@@ -116,13 +122,7 @@ multilib_src_configure()
 	local -a myeconfargs=( ${EXTRA_EFL_CONF} )
 
 	# gnutls / openssl
-	if use gnutls; then
-		myeconfargs+=( --with-crypto=gnutls )
-		use ssl &&
-			einfo "You enabled both USE=ssl and USE=gnutls, using gnutls"
-	elif use ssl; then
-		myeconfargs+=( --with-crypto=openssl )
-	else
+	if ! (use gnutls || use ssl); then
 		myeconfargs+=( --with-crypto=none )
 	fi
 	# X
@@ -130,18 +130,7 @@ multilib_src_configure()
 		$(use_with X x)
 		$(use_with X x11 xlib)
 	)
-	if use opengl; then
-		myeconfargs+=( --with-opengl=full )
-		use gles &&
-			einfo "You enabled both USE=opengl and USE=gles, using opengl"
-	elif use gles; then
-		myeconfargs+=( --with-opengl=es )
-		if use sdl; then
-			myeconfargs+=( --with-opengl=none )
-			ewarn "You enabled both USE=sdl and USE=gles which isn't currently supported."
-			ewarn "Disabling gl for all backends."
-		fi
-	else
+	if ! (use opengl || use gles); then
 		myeconfargs+=( --with-opengl=none )
 	fi
 	# wayland
@@ -149,21 +138,19 @@ multilib_src_configure()
 		$(use_enable egl)
 		$(use_enable wayland)
 	)
-	if use systemd; then
-		myeconfargs+=( $(use_enable drm) )
-	else
-		myeconfargs+=( --disable-drm )
-		use drm &&
-			einfo "You cannot build DRM support without systemd support, disabling drm engine"
-	fi
 	myeconfargs+=(
 		$(use_enable avahi)
 		$(use_enable cxx-bindings cxx-bindings)
 		$(use_enable doc)
+		$(use_enable drm)
 		$(use_enable fbcon fb)
 		$(use_enable fontconfig)
 		$(use_enable fribidi)
+		$(usex opengl '--with-opengl=full' '')
+		$(usex gles '--with-opengl=es' '')
 		$(use_enable gstreamer gstreamer1)
+		$(usex gnutls '--with-crypto=gnutls' '')
+		$(usex ssl '--with-crypto=openssl' '')
 		$(use_enable harfbuzz)
 		$(use_enable ibus)
 		$(use_enable nls)
