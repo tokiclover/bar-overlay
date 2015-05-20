@@ -16,7 +16,7 @@ LICENSE="BSD-2 GPL-2 LGPL-2.1 ZLIB"
 SLOT="0/${PV:0:4}"
 KEYWORDS="~amd64 ~x86"
 
-IUSE="+X avahi cxx-bindings debug doc +drm +egl fbcon +fontconfig +fribidi gif
+IUSE="+X avahi cxx-bindings debug doc drm +egl fbcon +fontconfig +fribidi gif
 gles glib gnutls gstreamer harfbuzz ibus jp2k +nls +opengl ssl physics +png
 pulseaudio scim sdl static-libs systemd system-lz4 test tiff tslib v4l2 wayland
 webp xim xine xpm"
