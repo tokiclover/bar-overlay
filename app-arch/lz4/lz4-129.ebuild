@@ -18,11 +18,10 @@ IUSE="test valgrind"
 
 DEPEND="test? ( valgrind? ( dev-util/valgrind ) )"
 
-DOCS=( NEWS LZ4_Frame_Format.html lz4_block_format.txt )
+DOCS=( NEWS lz4_Block_format.md lz4_Frame_format.md )
 
 src_prepare()
 {
-	sed -e 's,sudo ,,g' -i {,lib/,programs/}Makefile
 	if ! use valgrind; then
 		sed -i -e '/^test:/s|test-mem||g' programs/Makefile || die
 	fi
