@@ -29,6 +29,7 @@ S="${WORKDIR}/${P/_/-}"
 
 multilib_src_configure()
 {
+	sed -e '/#define ELM_ELOCATION/d' -i "${S}"/src/lib/Elementary.h
 	local -a myeconfargs=(
 		${EXTRA_ELEMENTARY_CONF}
 		$(use_enable X ecore-x)
