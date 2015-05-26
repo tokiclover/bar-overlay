@@ -39,7 +39,7 @@ PATCHES=(
 	"${FILESDIR}"/configure.ac.patch
 )
 
-#AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
 src_configure()
@@ -64,7 +64,6 @@ src_install()
 {
 	default
 
-	dodoc "${DOCS[@]}"
 	if use doc; then
 		insinto /usr/share/doc/${PF}/pdf
 		doins doc/FluidSynth-LADSPA.pdf
