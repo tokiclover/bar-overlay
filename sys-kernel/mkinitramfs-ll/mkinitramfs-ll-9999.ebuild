@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.14 2015/01/10 08:41:42 -tclover Exp $
+# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.15 2015/05/26 08:41:42 -tclover Exp $
 
 EAPI=5
 
@@ -19,7 +19,7 @@ FS_USE=( btrfs e2fs f2fs jfs reiserfs xfs )
 IUSE="aufs +bash dm-crypt device-mapper dmraid fbsplash lzma mdadm squashfs
 zfs +zram zsh ${COMPRESSOR_USE[@]/xz/+xz} ${FS_USE[@]/e2fs/+e2fs}"
 
-REQUIRED_USE="|| ( bash zsh )
+REQUIRED_USE="
 	|| ( ${COMPRESSOR_USE[@]} )
 	|| ( ${FS_USE[@]} )"
 
@@ -88,7 +88,7 @@ src_prepare()
 src_install()
 {
 	MAKEOPTS="-j1"
-	emake DESTDIR="${ED}" VERSION=${PV} prefix=/usr install{,-doc}
+	emake DESTDIR="${ED}" VERSION=${PV} PREFIX=/usr install
 	if use aufs && use squashfs; then
 		emake DESTDIR="${ED}" prefix=/usr install-squashdir-svc
 	fi
@@ -97,27 +97,7 @@ src_install()
 	local sh
 	for sh in {ba,z}sh; do
 		use ${sh} &&
-		emake DESTDIR="${ED}" prefix=/usr install-scripts-${sh}
+		emake DESTDIR="${ED}" PREFIX=/usr install-${sh}-scripts
 	done
-}
-
-pkg_postinst()
-{
-	einfo
-	einfo "The easiest way to build an intramfs is running:"
-	einfo " \`${PN} -a -f: -y${LINGUAS// /:} -k$(uname -r)'"
-	einfo "Do copy gpg binary along with its options.skel file"
-	einfo "into /usr/share/${PN}/usr before for GnuPG support."
-	einfo
-	if use aufs && use squashfs; then
-		einfo "To squash \${PORTDIR}:var/lib/layman:var/db:var/cache/edb;"
-		einfo "Edit /etc/conf.d/squashdir to add that list; And then,"
-		einfo "Run \`sdr -r -d\${PORTDIR}:var/lib/layman:var/db:var/cache/edb';"
-		einfo "And then add squashdir service to boot or default run level."
-		einfo
-	fi
-	if use zram; then
-		einfo "To use zram init service, edit the cnfiguration file;"
-		einfo "And then add the service to boot run level."
-	fi
+	use bash || use zsh || emake DESTDIR="${ED}" PREFIX=/usr install-sh-scripts
 }
