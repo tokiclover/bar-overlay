@@ -45,9 +45,6 @@ multilib_src_configure()
 		$(use_enable nls)
 		$(use_enable static-libs static)
 		$(use_enable quicklaunch quick-launch)
-		--disable-elocation
-		--disable-emap
-		--disable-eweather
 		--with-tests=$(usex test regular none)
 		--with-elementary-web-backend=none
 	)
