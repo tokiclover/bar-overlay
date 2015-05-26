@@ -45,3 +45,10 @@ src_configure()
 	)
 	autotools-utils_src_configure
 }
+
+pkg_postinst()
+{
+	elog
+	elog "USAGE: Launch empc daemon (empdd <host> <port>); and then empc."
+	elog
+}
