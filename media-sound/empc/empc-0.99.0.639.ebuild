@@ -1,18 +1,19 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/empc/empc-9999.ebuild,v 1.2 2015/05/26 12:02:10 -tclover Exp $
+# $Header: media-sound/empc/empc-0.99.0.639.ebuild,v 1.2 2015/05/26 12:02:10 -tclover Exp $
 
 EAPI=5
 
 PLOCALES="ca eo fr gl it lt pl pt ru sr tr"
 
-inherit l10n autotools-utils git-2
+inherit l10n autotools-utils
 
 DESCRIPTION="MPD multiplexer/client build on Enlightenment Foundation Libraries"
 HOMEPAGE="https://enlightenment.org"
-EGIT_REPO_URI="git://git.enlightenment.org/apps/${PN}.git"
+SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P}.tar.xz"
 
 IUSE="glyr +id3tag +nls"
+KEYWORDS="~amd64 ~x86"
 LICENSE="BSD-2"
 SLOT="0"
 
@@ -27,9 +28,6 @@ DEPEND="${RDEPEND}
 	virtual/libintl"
 
 DOCS=( AUTHORS README TODO )
-
-AUTOTOOLS_AUTORECONF=1
-AUTOTOOLS_IN_SOURCE_BUILD=1
 
 src_configure()
 {
