@@ -18,6 +18,7 @@ case "${PV}" in
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
 	SRC_URI="https://download.enlightenment.org/rel/bindings/python/${PN}/${P/_/-}.tar.xz"
+	;;
 esac
 inherit distutils-r1 ${VCS_ECLASS}
 

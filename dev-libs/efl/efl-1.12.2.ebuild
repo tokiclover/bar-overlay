@@ -17,6 +17,7 @@ case "${PV}" in
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
 	SRC_URI="https://download.enlightenment.org/rel/libs/${PN}/${P/_/-}.tar.xz"
+	;;
 esac
 inherit autotools-multilib ${VCS_ECLASS}
 

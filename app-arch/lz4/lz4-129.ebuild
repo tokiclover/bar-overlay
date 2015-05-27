@@ -7,16 +7,16 @@ EAPI=5
 case "${PV}" in
 	(9999*)
 	KEYWORDS=""
-	EVCS=git-2
+	VCS_ECLASS=git-2
 	EGIT_REPO_URI="git://github.com/Cyan4973/${PN}.git"
 	EGIT_PROJECT="${PN}.git"
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~mips ~s390 ~x86 ~amd64-linux ~x86-linux"
 	SRC_URI="https://github.com/Cyan4973/${PN}/archive/r${PV}.tar.gz -> ${P}.tar.gz"
+	;;
 esac
-
-inherit multilib-minimal toolchain-funcs ${EVCS}
+inherit multilib-minimal toolchain-funcs ${VCS_ECLASS}
 
 DESCRIPTION="Extremely Fast Compression algorithm"
 HOMEPAGE="http://lz4.org/"
