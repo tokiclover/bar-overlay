@@ -81,7 +81,6 @@ virtual/daemontools
 virtual/liblash
 virtual/libproxy
 www-misc/browser-home-profile
-x11-drivers/xf86-video-nouveau
 x11-libs/ganv
 x11-misc/netwmpager
 x11-misc/spacefm
