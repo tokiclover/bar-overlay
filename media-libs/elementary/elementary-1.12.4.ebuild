@@ -1,10 +1,22 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/elementary/elementary-1.12.1.ebuild,v 1.2 2014/12/22 -tclover Exp $
+# $Header: media-libs/elementary/elementary-1.12.4.ebuild,v 1.3 2015/05/26 -tclover Exp $
 
 EAPI=5
 
-inherit autotools-multilib
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	EVCS=git-2
+	EGIT_REPO_URI="git://git.enlightenment.org/libs/${PN}.git"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~arm ~x86"
+	SRC_URI="http://download.enlightenment.org/rel/libs/${PN}/${P/_/-}.tar.xz"
+esac
+
+inherit autotools-multilib ${EVCS}
 
 RESTRICT="test"
 
@@ -14,7 +26,6 @@ SRC_URI="http://download.enlightenment.org/rel/libs/${PN}/${P/_/-}.tar.xz"
 
 LICENSE="LGPL-2.1"
 SLOT="0/${PV:0:4}"
-KEYWORDS="~amd64 ~x86"
 IUSE="X debug doc examples fbcon +nls quicklaunch sdl static-libs test wayland"
 
 RDEPEND="
