@@ -13,6 +13,7 @@ case "${PV}" in
 	case "${PV}" in
 		(*.9999*) EGIT_BRANCH="${PN}-${PV:0:4}";;
 	esac
+	AUTOTOOLS_AUTORECONF=1
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
