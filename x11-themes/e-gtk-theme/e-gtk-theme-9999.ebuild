@@ -1,17 +1,26 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/e-gtk-theme/e-gtk-theme-9999.ebuild,v 1.7 2014/12/01 14:23:25 -tclover Exp $
+# $Header: x11-themes/e-gtk-theme/e-gtk-theme-9999.ebuild,v 1.8 2015/05/26 14:23:25 -tclover Exp $
 
 EAPI=5
 
-inherit eutils git-2
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	VCS_ECLASS=git-2
+	EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~arm ~x86"
+	SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+esac
+inherit eutils ${VCS_ECLASS}
 
 DESCRIPTION="a gtk theme to match enlightenment DR17 default theme"
 HOMEPAGE="https://github.com/tokiclover/e-gtk-theme"
-EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
 
 LICENSE="BSD-2"
-KEYWORDS=""
 SLOT=0
 IUSE="gnome gtk minimal openbox"
 
@@ -27,4 +36,3 @@ src_install()
 	use gnome   || rm -fr "${ED}"/${themedir}/metacity-1
 	use openbox || rm -fr "${ED}"/${themedir}/openbox-3
 }
-
