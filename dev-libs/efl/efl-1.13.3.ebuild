@@ -5,18 +5,20 @@
 EAPI=5
 
 case "${PV}" in
-	(9999*)
+	(*9999*)
 	KEYWORDS=""
-	EVCS=git-2
-	EGIT_REPO_URI="git://git.enlightenment.org/libs/${PN}.git"
+	VCS_ECLASS=git-2
+	EGIT_REPO_URI="git://git.enlightenment.org/core/${PN}.git"
 	EGIT_PROJECT="${PN}.git"
+	case "${PV}" in
+		(*.9999*) EGIT_BRANCH="${PN}-${PV:0:4}";;
+	esac
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
-	SRC_URI="http://download.enlightenment.org/rel/libs/${PN}/${P/_/-}.tar.xz"
+	SRC_URI="https://download.enlightenment.org/rel/libs/${PN}/${P/_/-}.tar.xz"
 esac
-
-inherit autotools-multilib ${EVCS}
+inherit autotools-multilib ${VCS_ECLASS}
 
 RESTRICT="test"
 
