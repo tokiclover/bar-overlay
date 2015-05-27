@@ -1,18 +1,27 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: app-arch/lz4/lz4-9999.ebuild,v 1.12 2014/12/24 12:58:22 -tclover Exp $
+# $Header: app-arch/lz4/lz4-129.ebuild,v 1.13 2015/05/24 12:58:22 -tclover Exp $
 
 EAPI=5
 
-inherit multilib-minimal toolchain-funcs git-2
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	EVCS=git-2
+	EGIT_REPO_URI="git://github.com/Cyan4973/${PN}.git"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~mips ~s390 ~x86 ~amd64-linux ~x86-linux"
+	SRC_URI="https://github.com/Cyan4973/${PN}/archive/r${PV}.tar.gz -> ${P}.tar.gz"
+esac
+
+inherit multilib-minimal toolchain-funcs ${EVCS}
 
 DESCRIPTION="Extremely Fast Compression algorithm"
-HOMEPAGE="https://code.google.com/p/lz4/"
-EGIT_REPO_URI="git://github.com/Cyan4973/lz4.git"
-EGIT_COMMIT=r${PV}
+HOMEPAGE="http://lz4.org/"
 
 LICENSE="BSD-2"
-KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~mips ~s390 ~x86 ~amd64-linux ~x86-linux"
 SLOT="0"
 IUSE="test valgrind"
 
@@ -43,4 +52,3 @@ multilib_src_install()
 		PREFIX="${EPREFIX}/usr" \
 		LIBDIR="${EPREFIX}"/usr/$(get_libdir)
 }
-
