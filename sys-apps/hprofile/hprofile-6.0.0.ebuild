@@ -1,18 +1,27 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-apps/hprofile/hprofile-6.0.ebuild,v 1.2 2014/05/04 08:41:42 -tclover Exp $
+# $Header: sys-apps/hprofile/hprofile-6.0.ebuild,v 1.2 2014/05/24 08:41:42 -tclover Exp $
 
 EAPI=5
 
-inherit eutils
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	VCS_ECLASS=git-2
+	EGIT_REPO_URI="git://github.com/tokiclover/${PN}.git"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~arm ~x86"
+	SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+esac
+inherit eutils ${VCS_ECLASS}
 
 DESCRIPTION="Utility to manage hardware, network, power or other profiles"
 HOMEPAGE="https://github.com/tokiclover/hprofile"
-SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
 
 DEPEND="sys-apps/findutils"
 RDEPEND="${DEPEND}
