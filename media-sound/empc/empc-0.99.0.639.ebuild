@@ -5,15 +5,24 @@
 EAPI=5
 
 PLOCALES="ca eo fr gl it lt pl pt ru sr tr"
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	EVCS=git-2
+	EGIT_REPO_URI="git://git.enlightenment.org/apps/${PN}.git"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~arm ~x86"
+	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P}.tar.xz"
+esac
 
-inherit l10n autotools-utils
+inherit l10n autotools-utils ${EVCS}
 
-DESCRIPTION="MPD multiplexer/client build on Enlightenment Foundation Libraries"
+DESCRIPTION="EFL (Enlightenment Foundation Libraries) MPD multiplexer/client"
 HOMEPAGE="https://enlightenment.org"
-SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P}.tar.xz"
 
 IUSE="glyr +id3tag +nls"
-KEYWORDS="~amd64 ~x86"
 LICENSE="BSD-2"
 SLOT="0"
 

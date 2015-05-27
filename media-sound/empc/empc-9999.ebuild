@@ -3,14 +3,24 @@
 # $Header: media-sound/empc/empc-9999.ebuild,v 1.2 2015/05/26 12:02:10 -tclover Exp $
 
 EAPI=5
-
 PLOCALES="ca eo fr gl it lt pl pt ru sr tr"
 
-inherit l10n autotools-utils git-2
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	EVCS=git-2
+	EGIT_REPO_URI="git://git.enlightenment.org/apps/${PN}.git"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~arm ~x86"
+	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P}.tar.xz"
+esac
 
-DESCRIPTION="MPD multiplexer/client build on Enlightenment Foundation Libraries"
+inherit l10n autotools-utils ${EVCS}
+
+DESCRIPTION="EFL (Enlightenment Foundation Libraries) MPD multiplexer/client"
 HOMEPAGE="https://enlightenment.org"
-EGIT_REPO_URI="git://git.enlightenment.org/apps/${PN}.git"
 
 IUSE="glyr +id3tag +nls"
 LICENSE="BSD-2"
