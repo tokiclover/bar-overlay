@@ -1,20 +1,28 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.6 2015/04/26 -tclover Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.7 2015/05/26 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
 PYTHON_REQ_USE='threads(+)'
-
-inherit eutils python-any-r1 waf-utils pax-utils fdo-mime gnome2-utils git-2
-
 WAF_VERSION=1.8.5
+
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	EVCS=git-2
+	EGIT_REPO_URI="git://github.com/Cyan4973/${PN}.git"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux"
+	SRC_URI="https://github.com/mpv-player/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+esac
+inherit eutils python-any-r1 waf-utils pax-utils fdo-mime gnome2-utils ${EVCS}
 
 DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
-EGIT_REPO_URI="git://github.com/mpv-player/mpv.git"
-EGIT_PROJECT=${PN}.git
-SRC_URI="http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
+SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
 LICENSE="GPL-2"
 SLOT="0/${PV}"
@@ -22,13 +30,6 @@ IUSE="+alsa bluray bs2b cdio -doc-pdf +drm dvb +dvd dvdnav +enca encode +iconv
 jack jpeg ladspa lcms +libass libcaca libguess lua luajit -openal +opengl oss
 pulseaudio pvr samba sdl selinux +shm static static-libs v4l vaapi vdpau
 vf-dlopen wayland +X xinerama +xscreensaver +xv"
-
-if [[ "${PV}" == "9999" ]]; then
-	KEYWORDS=""
-else
-	EGIT_COMMIT="v${PV/_/-}"
-	KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux"
-fi
 
 REQUIRED_USE="
 	dvdnav? ( dvd )
@@ -45,7 +46,6 @@ REQUIRED_USE="
 	xscreensaver? ( X )
 	xv? ( X )
 "
-
 RDEPEND+="
 	|| (
 		>=media-video/libav-11:=[encode?,threads,vaapi?,vdpau?]
