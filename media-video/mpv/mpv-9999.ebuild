@@ -10,7 +10,7 @@ WAF_VERSION=1.8.5
 case "${PV}" in
 	(9999*)
 	KEYWORDS=""
-	EVCS=git-2
+	VCS_ECLASS=git-2
 	EGIT_REPO_URI="git://github.com/Cyan4973/${PN}.git"
 	EGIT_PROJECT="${PN}.git"
 	;;
@@ -18,7 +18,7 @@ case "${PV}" in
 	KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux"
 	SRC_URI="https://github.com/mpv-player/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 esac
-inherit eutils python-any-r1 waf-utils pax-utils fdo-mime gnome2-utils ${EVCS}
+inherit eutils python-any-r1 waf-utils pax-utils fdo-mime gnome2-utils ${VCS_ECLASS}
 
 DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
@@ -136,8 +136,7 @@ pkg_setup()
 
 src_unpack()
 {
-	git-2_src_unpack
-
+	default
 	cp "${DISTDIR}"/waf-${WAF_VERSION} "${S}"/waf &&
 	chmod 0755 "${S}"/waf || die
 }
