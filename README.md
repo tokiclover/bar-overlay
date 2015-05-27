@@ -37,8 +37,9 @@ Nothing makes *layman* necessary in this process at all...
 Just merge *git* with `emerge -av git`; and then clone the repository with
 `mkdir -p /var/db/repos`, and then
 `git clone git://github.com/tokiclover/bar-overlay.git /var/db/repos/bar`;
-and finaly add `PORTDIR_OVERLAY=/var/db/repos/bar ${PORTDIR_OVERLAY}` in
-`/etc/portage/make.conf`.
+and finaly include `bar.conf` in `/etc/portage/repos.conf/` directory,
+or concatenate the content to the file directly with
+`cat <bar.conf >>/etc/portage/repos.conf`.
 
 USAGE
 -----
