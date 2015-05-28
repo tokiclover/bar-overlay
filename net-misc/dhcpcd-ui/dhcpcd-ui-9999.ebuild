@@ -1,17 +1,21 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-9999.ebuild,v 1.3 2014/12/02 18:29:24 -tclover Exp $
+# $Header: net-misc/dhcpcd-ui/dhcpcd-ui-9999.ebuild,v 1.4 2015/05/28 18:29:24 -tclover Exp $
 
 EAPI=5
 
-if [[ "${PV}" == 9999* ]]; then
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
 	DEPEND="dev-vcs/fossil"
-	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd-ui"
-else
+	FOSSIL_REPO_URI="http://roy.marples.name/projects/dhcpcd-ui"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~arm ~x86"
 	SRC_URI="http://roy.marples.name/downloads/${PN%-ui}/${P}.tar.bz2"
-	KEYWORDS="~amd64 ~x86"
-fi
-
+	S="${WORKDIR}/${P/_/-}"
+	;;
+esac
 inherit eutils systemd
 
 DESCRIPTION="Desktop notification and configuration for dhcpcd"
@@ -23,40 +27,42 @@ IUSE="debug gtk gtk3 qt4 libnotify"
 REQUIRED_USE="?? ( gtk gtk3 qt4 )
 	gtk3? ( !gtk ) gtk? ( !gtk3 )"
 
-DEPEND="gnome-base/librsvg
+RDEPEND="gnome-base/librsvg
 	virtual/libintl
 	libnotify? (
 		gtk?  ( x11-libs/libnotify )
 		gtk3? ( x11-libs/libnotify )
 		qt4?  ( kde-base/kdelibs )
 	)
-	${DEPEND}
 	gtk?  ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )
 	qt4?  ( dev-qt/qtgui:4 )"
-RDEPEND=">=net-misc/dhcpcd-6.4.4"
+RDEPEND+="
+	>=net-misc/dhcpcd-6.4.4
+	${RDEPEND}"
 
 src_unpack()
 {
-	if [[ "${PV}" == 9999* ]]; then
+	case "${PV}" in
+		(9999*)
 		local distdir="${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}"/fossil-src
 		local repo="${distdir}"/${PN}.fossil
-
 		addwrite "${distdir}"
 
 		if [[ -e "${repo}" ]]; then
-			fossil pull "${FOSSIL_URI}" -R "${repo}" || die
+			fossil pull "${FOSSIL_REPO_URI}" -R "${repo}" || die
 		else
 			mkdir -p "${distdir}/fossil" || die
-			fossil clone "${FOSSIL_URI}" "${repo}" || die
+			fossil clone "${FOSSIL_REPO_URI}" "${repo}" || die
 		fi
-
 		mkdir -p "${S}" || die
 		cd "${S}" || die
 		fossil open "${repo}" || die
-	else
+		;;
+		(*)
 		default
-	fi
+		;;
+	esac
 }
 
 src_prepare()
@@ -83,4 +89,3 @@ src_install()
 
 	systemd_dounit src/dhcpcd-online/dhcpcd-wait-online.service
 }
-
