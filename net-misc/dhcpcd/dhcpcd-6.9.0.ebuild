@@ -1,50 +1,55 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/dhcpcd/dhcpcd-6.7.1.ebuild,v 1.3 2015/03/18 18:53:34 -tclover Exp $
+# $Header: net-misc/dhcpcd/dhcpcd-6.7.1.ebuild,v 1.4 2015/05/28 18:53:34 -tclover Exp $
 
 EAPI=5
 
-if [[ ${PV} == "9999" ]]; then
-	FOSSIL_URI="http://roy.marples.name/projects/dhcpcd"
-else
-	SRC_URI="ftp://roy.marples.name/pub/${PN}/${P/_/-}.tar.bz2"
-	KEYWORDS="~alpha ~amd64 ~arm arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~amd64-linux ~arm-linux ~x86-linux"
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	DEPEND="dev-vcs/fossil"
+	FOSSIL_REPO_URI="http://roy.marples.name/projects/dhcpcd-ui"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~arm ~x86"
+	SRC_URI="http://roy.marples.name/downloads/${PN%-ui}/${P}.tar.bz2"
 	S="${WORKDIR}/${P/_/-}"
-fi
-
+	;;
+esac
 inherit eutils systemd toolchain-funcs
 
 DESCRIPTION="A fully featured, yet light weight RFC2131 compliant DHCP client"
 HOMEPAGE="http://roy.marples.name/projects/dhcpcd/"
+
 LICENSE="BSD-2"
 SLOT="0"
 IUSE="elibc_glibc +embedded ipv6 kernel_linux +udev"
 
-COMMON_DEPEND="udev? ( virtual/udev )"
-DEPEND="${COMMON_DEPEND}"
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="udev? ( virtual/udev )"
+DEPEND+=" ${RDEPEND}"
 
 src_unpack()
 {
-	if [[ "${PV}" == 9999* ]]; then
+	case "${PV}" in
+		(9999*)
 		local distdir="${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}"/fossil-src
 		local repo="${distdir}"/${PN}.fossil
-
 		addwrite "${distdir}"
 
 		if [[ -e "${repo}" ]]; then
-			fossil pull "${FOSSIL_URI}" -R "${repo}" || die
+			fossil pull "${FOSSIL_REPO_URI}" -R "${repo}" || die
 		else
 			mkdir -p "${distdir}/fossil" || die
-			fossil clone "${FOSSIL_URI}" "${repo}" || die
+			fossil clone "${FOSSIL_REPO_URI}" "${repo}" || die
 		fi
-
 		mkdir -p "${S}" || die
 		cd "${S}" || die
 		fossil open "${repo}" || die
-	else
+		;;
+		(*)
 		default
-	fi
+		;;
+	esac
 }
 
 src_prepare()
