@@ -12,6 +12,7 @@ dev-python/mpris-remote
 dev-python/pyrobase
 dev-python/pyrocore
 dev-python/python-efl
+dev-util/edi
 dev-util/eflete
 dev-util/enventor
 dev-util/lv2-c++-tools
