@@ -1,20 +1,30 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/lilv/lilv-0.18.0.ebuild,v 1.3 2015/02/10 12:22:58 -tclover Exp $
+# $Header: media-libs/lilv/lilv-0.18.0.ebuild,v 1.4 2015/06/01 12:22:58 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
 PYTHON_REQ_USE='threads(+)'
 
-inherit base python-any-r1 waf-utils bash-completion-r1
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	VCS_ECLASS=subversion
+	ESVN_REPO_URI="http://svn.drobilla.net/lad/trunk/${PN}"
+	ESVN_PROJECT="${PN}"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~ppc ~x86"
+	SRC_URI="http://download.drobilla.net/${P}.tar.bz2"
+	;;
+esac
+inherit base python-any-r1 waf-utils bash-completion-r1 ${VCS_ECLASS}
 
 DESCRIPTION="Library to make the use of LV2 plugins as simple as possible for applications"
 HOMEPAGE="http://drobilla.net/software/lilv/"
-SRC_URI="http://download.drobilla.net/${P}.tar.bz2"
 
 LICENSE="ISC"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="doc +dyn-manifest static static-libs test +utils"
 
 RDEPEND="media-libs/lv2
