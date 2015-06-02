@@ -17,7 +17,7 @@ case "${PV}" in
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
-	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P/_/-}.tar.xz"
+	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P/_/-}.tar.bz2"
 	;;
 esac
 inherit autotools-utils ${VCS_ECLASS}
