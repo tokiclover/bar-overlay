@@ -26,7 +26,6 @@ RESTRICT="test"
 
 DESCRIPTION="Basic widget set, based on EFL for mobile touch-screen devices"
 HOMEPAGE="http://trac.enlightenment.org/e/wiki/Elementary"
-SRC_URI="http://download.enlightenment.org/rel/libs/${PN}/${P/_/-}.tar.xz"
 
 LICENSE="LGPL-2.1"
 SLOT="0/${PV:0:4}"
