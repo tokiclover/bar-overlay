@@ -26,7 +26,6 @@ RESTRICT="test"
 
 DESCRIPTION="Enlightenment Foundation Core Libraries"
 HOMEPAGE="http://www.enlightenment.org/"
-SRC_URI="http://download.enlightenment.org/rel/libs/${PN}/${P/_/-}.tar.xz"
 
 LICENSE="BSD-2 GPL-2 LGPL-2.1 ZLIB"
 SLOT="0/${PV:0:4}"
