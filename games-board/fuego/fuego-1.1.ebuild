@@ -1,18 +1,28 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: games-board/fuego/fuego-1.1.ebuild,v 1.3 2015/01/30 23:23:04 -tclover Exp $
+# $Header: games-board/fuego/fuego-1.1.ebuild,v 1.4 2015/05/30 23:23:04 -tclover Exp $
 
 EAPI=5
 
-inherit autotools-utils games
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	VCS_ECLASS=subversion
+	ESVN_REPO_URI="svn://svn.code.sf.net/p/${PN}/code/trunk"
+	ESVN_PROJECT=${PN}
+	;;
+	(*)
+	KEYWORDS="~amd64 ~x86"
+	SRC_URI="mirror://sourceforge/project/${PN}/${P}.tar.gz"
+	;;
+esac
+inherit autotools-utils games ${VCS_ECLASS}
 
 DESCRIPTION="C++ libraries for developing software for the game of Go"
 HOMEPAGE="http://fuego.sourceforge.net/"
-SRC_URI="mirror://sourceforge/project/${PN}/${P}.tar.gz"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE="cache-sync doc"
 
 DEPEND="doc? ( app-doc/doxygen )
