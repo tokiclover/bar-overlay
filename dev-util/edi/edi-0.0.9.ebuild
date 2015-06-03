@@ -10,11 +10,10 @@ case "${PV}" in
 	VCS_ECLASS=git-2
 	EGIT_REPO_URI="git://git.enlightenment.org/tools/${PN}.git"
 	EGIT_PROJECT="${PN}.git"
-	AUTOTOOLS_AUTORECONF=1
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
-	SRC_URI="https://github.com/ajwillia-ms/${PN}/releases/download/v${PV}/${P}.tar.bz2"
+	SRC_URI="https://github.com/ajwillia-ms/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	;;
 esac
 inherit autotools-utils ${VCS_ECLASS}
@@ -35,6 +34,9 @@ DEPEND="${RDEPEND}
 	virtual/libintl"
 
 DOCS=( AUTHORS ChangeLog NEWS README TODO )
+
+AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_IN_SOURCE_BUILD=1
 
 src_configure()
 {
