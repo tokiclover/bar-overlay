@@ -1,17 +1,26 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-3.9999.ebuild,v 1.11 2015/03/30 18:21:28 -tclover Exp $
+# $Header: media-sound/ardour/ardour-4.9999.ebuild,v 1.12 2015/06/06 18:21:28 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
 PYTHON_REQ_USE='threads(+)'
 
-inherit eutils toolchain-funcs flag-o-matic python-any-r1 waf-utils git-2
+case "${PV}" in
+	(*9999*)
+	KEYWORDS=""
+	VCS_ECLASS=git-2
+	EGIT_REPO_URI="git://git.ardour.org/ardour/ardour.git"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~ppc ~x86"
+	SRC_URI="https://github.com/Ardour/ardour/archive/${PV}.tar.gz -> ${P}.tar.gz"
+esac
+inherit eutils toolchain-funcs flag-o-matic python-any-r1 waf-utils ${VCS_ECLASS}
 
 DESCRIPTION="Digital Audio Workstation"
 HOMEPAGE="http://ardour.org/"
-EGIT_REPO_URI="git://git.ardour.org/ardour/ardour.git"
-EGIT_COMMIT=${PV}
 
 LICENSE="GPL-2"
 SLOT="3"
