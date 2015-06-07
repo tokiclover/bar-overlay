@@ -17,6 +17,7 @@ case "${PV}" in
 	(*)
 	KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux"
 	SRC_URI="https://github.com/mpv-player/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	;;
 esac
 inherit eutils python-any-r1 waf-utils pax-utils fdo-mime gnome2-utils ${VCS_ECLASS}
 
