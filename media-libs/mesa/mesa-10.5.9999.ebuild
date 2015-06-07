@@ -1,19 +1,31 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/mesa/mesa-10.5.9999.ebuild,v 1.5 2015/02/10 22:15:06 -tclover Exp $
+# $Header: media-libs/mesa/mesa-10.5.9999.ebuild,v 1.6 2015/06/06 22:15:06 -tclover Exp $
 
 EAPI=5
-
-EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa.git"
-EGIT_BRANCH=${PV%.9999}
-EXPERIMENTAL="true"
-
 PYTHON_COMPAT=( python{2_6,2_7} )
 
-inherit base autotools multilib multilib-minimal flag-o-matic \
-	python-any-r1 toolchain-funcs pax-utils git-2
-
-OPENGL_DIR="xorg-x11"
+case "${PV}" in
+	(*9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://anongit.freedesktop.org/${PN}/${PN}"
+		EGIT_PROJECT="${PN}.git"
+		case "${PV}" in
+			(*.9999*) EGIT_BRANCH="${PV%.9999*}";;
+			(*) EXPERIMENTAL=true;;
+		esac
+		AUTOTOOLS_AUTORECONF=1
+		;;
+	(*)
+		KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc \
+			~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~arm-linux \
+			~ia64-linux ~x86-linux ~sparc-solaris ~x64-solaris ~x86-solaris"
+		SRC_URI="ftp://ftp.freedesktop.org/pub/${PN}/${PV/_rc*/}/${P/_/-}.tar.xz"
+		;;
+esac
+inherit base autotools-multilib flag-o-matic \
+	python-any-r1 toolchain-funcs pax-utils ${VCS_ECLASS}
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -22,7 +34,6 @@ HOMEPAGE="http://mesa3d.sourceforge.net/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 SLOT="0/${PV:0:4}"
-KEYWORDS=""
 
 INTEL_CARDS="i915 i965 ilo intel"
 RADEON_CARDS="r100 r200 r300 r600 radeon radeonsi"
@@ -159,7 +170,14 @@ DEPEND="${RDEPEND}
 QA_EXECSTACK="usr/lib*/libGL.so*"
 QA_WX_LOAD="usr/lib*/libGL.so*"
 
-# Think about: ggi, fbcon, no-X configs
+OPENGL_DIR="xorg-x11"
+
+PATCHES=(
+	# Relax the requirement that r300 must have llvm, bug 380303
+	"${FILESDIR}"/${PN}-10.4-dont-require-llvm-for-r300.patch
+	# Fix for hardened pax_kernel, bug 240956
+	"${FILESDIR}"/glx_ro_text_segm.patch
+)
 
 pkg_setup() {
 	# workaround toc-issue wrt #386545
@@ -175,25 +193,19 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# relax the requirement that r300 must have llvm, bug 380303
-	epatch "${FILESDIR}"/${PN}-10.4-dont-require-llvm-for-r300.patch
-
-	# fix for hardened pax_kernel, bug 240956
-	epatch "${FILESDIR}"/glx_ro_text_segm.patch
-
 	# Solaris needs some recent POSIX stuff in our case
-	if [[ ${CHOST} == *-solaris* ]] ; then
-		sed -i -e "s/-DSVR4/-D_POSIX_C_SOURCE=200112L/" configure.ac || die
-	fi
+	case "${CHOST}" in
+		(*-solaris*)
+			sed -i -e "s/-DSVR4/-D_POSIX_C_SOURCE=200112L/" configure.ac || die
+			;;
+	esac
 
-	base_src_prepare
-
-	eautoreconf
+	autotools-utils_src_prepare
 	multilib_copy_sources
 }
 
 multilib_src_configure() {
-	local myconf
+	local -a myeconfargs=( ${EXTRA_MESA_CONF} )
 
 	if use classic; then
 	# Configurable DRI drivers
@@ -220,11 +232,11 @@ multilib_src_configure() {
 	fi
 
 	if use egl; then
-		myconf+="--with-egl-platforms=x11$(use wayland && echo ",wayland")$(use gbm && echo ",drm") "
+		myeconfargs+=( "--with-egl-platforms=x11$(usex wayland && ',wayland' '')$(usex gbm ',drm')" )
 	fi
 
 	if use gallium; then
-		myconf+="
+		myeconfargs+=(
 			$(use_enable d3d9 nine)
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openmax omx)
@@ -233,7 +245,7 @@ multilib_src_configure() {
 			$(use_enable vdpau)
 			$(use_enable xa)
 			$(use_enable xvmc)
-		"
+		)
 		gallium_enable swrast
 		gallium_enable video_cards_vmware svga
 		gallium_enable video_cards_nouveau nouveau
@@ -255,49 +267,50 @@ multilib_src_configure() {
 		gallium_enable video_cards_freedreno freedreno
 		# opencl stuff
 		if use opencl; then
-			myconf+="
+			myeconfargs+=(
 				$(use_enable opencl)
 				--with-clang-libdir="${EPREFIX}/usr/lib"
-				"
+			)
 		fi
 	fi
 
 	# x86 hardened pax_kernel needs glx-rts, bug 240956
 	if use pax_kernel; then
-		myconf+="
-			$(use_enable x86 glx-rts)
-		"
+		myeconfargs+=( $(use_enable x86 glx-rts) )
 	fi
 
 	# on abi_x86_32 hardened we need to have asm disable  
-	if [[ ${ABI} == x86* ]] && use pic; then
-		myconf+=" --disable-asm"
-	fi
+	case "${ABI}" in
+		(x86*)
+			use pic && myeconfargs+=( --disable-asm )
+			;;
+	esac
 
 	# build fails with BSD indent, bug #428112
 	use userland_GNU || export INDENT=cat
 
-	econf \
-		--enable-dri \
-		--enable-glx \
-		--enable-shared-glapi \
-		--disable-shader-cache \
-		$(use_enable !bindist texture-float) \
-		$(use_enable d3d9 nine) \
-		$(use_enable debug) \
-		$(use_enable dri3) \
-		$(use_enable egl) \
-		$(use_enable gbm) \
-		$(use_enable gles1) \
-		$(use_enable gles2) \
-		$(use_enable nptl glx-tls) \
-		$(use_enable osmesa) \
-		$(use_enable !udev sysfs) \
-		--enable-llvm-shared-libs \
-		--with-dri-drivers=${DRI_DRIVERS} \
-		--with-gallium-drivers=${GALLIUM_DRIVERS} \
-		PYTHON2="${PYTHON}" \
-		${myconf}
+	myeconfargs=(
+		--enable-dri
+		--enable-glx
+		--enable-shared-glapi
+		--disable-shader-cache
+		$(use_enable !bindist texture-float)
+		$(use_enable d3d9 nine)
+		$(use_enable debug)
+		$(use_enable dri3)
+		$(use_enable egl)
+		$(use_enable gbm)
+		$(use_enable gles1)
+		$(use_enable gles2)
+		$(use_enable nptl glx-tls)
+		$(use_enable osmesa)
+		$(use_enable !udev sysfs)
+		--enable-llvm-shared-libs
+		--with-dri-drivers="${DRI_DRIVERS}"
+		--with-gallium-drivers="${GALLIUM_DRIVERS}"
+		PYTHON2="${PYTHON}"
+	)
+	autotools-utils_src_configure
 }
 
 multilib_src_install() {
@@ -326,13 +339,13 @@ multilib_src_install() {
 			pushd "${ED}"/usr/$(get_libdir)/dri || die "pushd failed"
 			ln -s ../mesa/*.so . || die "Creating symlink failed"
 			# remove symlinks to drivers known to eselect
-			for x in ${gallium_drivers[@]}; do
-				if [ -f ${x} -o -L ${x} ]; then
+			for x in "${gallium_drivers[@]}"; do
+				if [ -f "${x}" -o -L "${x}" ]; then
 					rm "${x}" || die "Failed to remove ${x}"
 				fi
 			done
 			popd
-		eend $?
+		eend "${?}"
 	fi
 	if use opencl; then
 		ebegin "Moving Gallium/Clover OpenCL implementation for dynamic switching"
@@ -346,7 +359,7 @@ multilib_src_install() {
 			mv -f "${ED}"/usr/include/CL \
 			"${ED}"${cl_dir}/include
 		fi
-		eend $?
+		eend "${?}"
 	fi
 
 	if use openmax; then
@@ -435,16 +448,17 @@ pkg_prerm() {
 # other args - names of DRI drivers to enable
 # TODO: avoid code duplication for a more elegant implementation
 driver_enable() {
-	case $# in
+	case "${#}" in
 		# for enabling unconditionally
-		1)
+		(1)
 			DRI_DRIVERS+=",$1"
 			;;
-		*)
-			if use $1; then
+		(*)
+			local u
+			if use "${1}"; then
 				shift
-				for i in $@; do
-					DRI_DRIVERS+=",${i}"
+				for u; do
+					DRI_DRIVERS+=",${u}"
 				done
 			fi
 			;;
@@ -452,16 +466,17 @@ driver_enable() {
 }
 
 gallium_enable() {
-	case $# in
+	case "${#}" in
 		# for enabling unconditionally
-		1)
-			GALLIUM_DRIVERS+=",$1"
+		(1)
+			GALLIUM_DRIVERS+=",${1}"
 			;;
-		*)
-			if use $1; then
+		(*)
+			local u
+			if use "${1}"; then
 				shift
-				for i in $@; do
-					GALLIUM_DRIVERS+=",${i}"
+				for u; do
+					GALLIUM_DRIVERS+=",${u}"
 				done
 			fi
 			;;
