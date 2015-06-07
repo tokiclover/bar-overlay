@@ -1,18 +1,29 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-misc/spacefm/spacefm-1.0.1.ebuild,v 1.4 2015/05/18 19:40:05 -tclover Exp $
+# $Header: x11-misc/spacefm/spacefm-1.0.1.ebuild,v 1.5 2015/06/06 19:40:05 -tclover Exp $
 
 EAPI=5
 
-inherit fdo-mime gnome2-utils linux-info
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	VCS_ECLASS=git-2
+	EGIT_REPO_URI="git://github.com/IgnorantGuru/${PN}.git"
+	EGIT_BRANCH="next"
+	EGIT_PROJECT="${PN}.git"
+	;;
+	(*)
+	KEYWORDS="amd64 x86"
+	SRC_URI="mirror://sourceforge/${PN}/${P}.tar.xz"
+	;;
+esac
+inherit fdo-mime gnome2-utils linux-info ${VCS_ECLASS}
 
 DESCRIPTION="A multi-panel tabbed file manager"
 HOMEPAGE="http://ignorantguru.github.com/spacefm/"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="amd64 x86"
 IUSE="-gtk3 +startup-notification video-thumbnails"
 
 RDEPEND="dev-libs/glib:2
