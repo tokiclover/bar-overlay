@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/ffmpeg/ffmpeg-2.5.9999.ebuild,v 1.3 2015/01/28 10:01:57 -tclover Exp $
+# $Header: media-video/ffmpeg/ffmpeg-2.5.9999.ebuild,v 1.4 2015/06/06 10:01:57 -tclover Exp $
 
 EAPI=5
 
@@ -16,17 +16,28 @@ EAPI=5
 FFMPEG_SUBSLOT=54.56.56
 FFMPEG_REVISION="${PV}"
 
-inherit eutils flag-o-matic multilib multilib-minimal toolchain-funcs git-2
+case "${PV}" in
+	(*9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://source.ffmpeg.org/ffmpeg.git"
+		EGIT_PROJECT="${PN}.git"
+		case "${PV}" in
+			(*.9999*) EGIT_BRANCH="release/${PV%.9999}";;
+		esac;;
+	(*)
+		KEYWORDS="~alpha amd64 arm hppa ia64 ~mips ppc ppc64 sparc x86 ~amd64-fbsd \
+			~x86-fbsd ~amd64-linux ~arm-linux ~x86-linux"
+		SRC_URI="http://ffmpeg.org/releases/${P/_/-}.tar.bz2"
+		;;
+esac
+inherit eutils flag-o-matic multilib multilib-minimal toolchain-funcs ${VCS_ECLASS}
 
 DESCRIPTION="Complete solution to record, convert and stream audio and video. Includes libavcodec"
 HOMEPAGE="http://ffmpeg.org/"
-EGIT_REPO_URI="git://source.ffmpeg.org/ffmpeg.git"
-EGIT_BRANCH="release/${PV%.9999}"
-
 
 LICENSE="GPL-2 amr? ( GPL-3 ) encode? ( aac? ( GPL-3 ) ) samba? ( GPL-3 )"
 SLOT="0/${FFMPEG_SUBSLOT}"
-KEYWORDS=""
 IUSE="
 	aac aacplus alsa amr amrenc bindist bluray bs2b +bzip2 cdio celt
 	cpudetection debug doc +encode examples faac fdk flite fontconfig frei0r
@@ -192,7 +203,7 @@ src_prepare()
 
 multilib_src_configure()
 {
-	local myconf=( ${EXTRA_FFMPEG_CONF} )
+	local -a myeconfargs=( ${EXTRA_FFMPEG_CONF} )
 
 	# options to use as use_enable in the foo[:bar] form.
 	# This will feed configure with $(use_enable foo bar)
@@ -203,8 +214,8 @@ multilib_src_configure()
 		sdl:ffplay vaapi vdpau X:xlib xcb:libxcb xcb:libxcb-shm xcb:libxcb-xfixes
 		zlib
 	)
-	use openssl && myconf+=( --enable-nonfree )
-	use samba && myconf+=( --enable-version3 )
+	use openssl && myeconfargs+=( --enable-nonfree )
+	use samba && myeconfargs+=( --enable-version3 )
 
 	# Encoders
 	if use encode; then
@@ -215,28 +226,28 @@ multilib_src_configure()
 
 		# Licensing.
 		if use aac || use amrenc ; then
-			myconf+=( --enable-version3 )
+			myeconfargs+=( --enable-version3 )
 		fi
 		if use aacplus || use faac ; then
-			myconf+=( --enable-nonfree )
+			myeconfargs+=( --enable-nonfree )
 		fi
 	else
-		myconf+=( --disable-encoders )
+		myeconfargs+=( --disable-encoders )
 	fi
 
 	# libavdevice options
 	ffuse+=( cdio:libcdio iec61883:libiec61883 ieee1394:libdc1394 libcaca openal opengl )
 
 	# Indevs
-	use v4l || myconf+=( --disable-indev=v4l2 --disable-outdev=v4l2 )
+	use v4l || myeconfargs+=( --disable-indev=v4l2 --disable-outdev=v4l2 )
 	for i in alsa oss jack ; do
-		use ${i} || myconf+=( --disable-indev=${i} )
+		use "${i}" || myeconfargs+=( "--disable-indev=${i}" )
 	done
 	ffuse+=( libv4l:libv4l2 pulseaudio:libpulse X:x11grab )
 
 	# Outdevs
 	for i in alsa oss sdl ; do
-		use ${i} || myconf+=( --disable-outdev=${i} )
+		use ${i} || myeconfargs+=( "--disable-outdev=${i}" )
 	done
 
 	# libavfilter options
@@ -250,34 +261,38 @@ multilib_src_configure()
 
 	# Decoders
 	ffuse+=( amr:libopencore-amrwb amr:libopencore-amrnb fdk:libfdk-aac jpeg2k:libopenjpeg )
-	use amr && myconf+=( --enable-version3 )
+	use amr && myeconfargs+=( --enable-version3 )
 	for i in bluray celt gme gsm modplug opus quvi rtmp ssh schroedinger speex vorbis vpx zvbi; do
 		ffuse+=( ${i}:lib${i} )
 	done
-	use fdk && myconf+=( --enable-nonfree )
+	use fdk && myeconfargs+=( --enable-nonfree )
 
 	for (( i=0; i<${#ffuse[@]}; i++ )); do
-		myconf+=( $(use_enable ${ffuse[i]%:*} ${ffuse[i]#*:}) )
+		myeconfargs+=( $(use_enable "${ffuse[i]%:*}" "${ffuse[i]#*:}") )
 	done
 
 	# (temporarily) disable non-multilib deps
 	if ! multilib_is_native_abi; then
 		for i in frei0r ; do
-			myconf+=( --disable-${i} )
+			myeconfargs+=( "--disable-${i}" )
 		done
 	fi
 
 	# CPU features
 	for (( i=0; i<${#CPU_FEATURES[@]}; i++ )); do
-		use ${CPU_FEATURES[i]%:*} || myconf+=( --disable-${CPU_FEATURES[i]#*:} )
+		use ${CPU_FEATURES[i]%:*} || myeconfargs+=( "--disable-${CPU_FEATURES[i]#*:}" )
 	done
 	if use pic ; then
-		myconf+=( --enable-pic )
+		myeconfargs+=( --enable-pic )
 		# disable asm code if PIC is required
 		# as the provided asm decidedly is not PIC for x86.
-		[[ ${ABI} == x86 ]] && myconf+=( --disable-asm )
+		case "${ABI}" in
+			(x86) myeconfargs+=( --disable-asm );;
+		esac
 	fi
-	[[ ${ABI} == x32 ]] && myconf+=( --disable-asm ) #427004
+	case "${ABI}" in
+		(x32) myeconfargs+=( --disable-asm ) ;; #427004
+	esac
 
 	# Try to get cpu type based on CFLAGS.
 	# Bug #172723
@@ -285,13 +300,15 @@ multilib_src_configure()
 	# If they contain an unknown CPU it will not hurt since ffmpeg's configure
 	# will just ignore it.
 	for i in $(get-flag march) $(get-flag mcpu) $(get-flag mtune) ; do
-		[[ ${i} = native ]] && i="host" # bug #273421
-		myconf+=( --cpu=${i} )
+		case "${i}" in
+			(native) i="host";; # bug #273421
+		esac
+		myeconfargs+=( "--cpu=${i}" )
 		break
 	done
 
 	# Mandatory configuration
-	myconf+=(
+	myeconfargs+=(
 		--enable-gpl
 		--enable-postproc
 		--enable-avfilter
@@ -301,21 +318,18 @@ multilib_src_configure()
 
 	# cross compile support
 	if tc-is-cross-compiler ; then
-		myconf+=( --enable-cross-compile --arch=$(tc-arch-kernel) --cross-prefix=${CHOST}- )
-		case ${CHOST} in
-			*freebsd*)
-				myconf+=( --target-os=freebsd )
-				;;
-			mingw32*)
-				myconf+=( --target-os=mingw32 )
-				;;
-			*linux*)
-				myconf+=( --target-os=linux )
-				;;
+		myeconfargs+=( --enable-cross-compile
+			"--arch=$(tc-arch-kernel)"
+			"--cross-prefix=${CHOST}-"
+		)
+		case "${CHOST}" in
+			(*freebsd*) myeconfargs+=( --target-os=freebsd );;
+			(mingw32*)  myeconfargs+=( --target-os=mingw32 );;
+			(*linux*)   myeconfargs+=( --target-os=linux )  ;;
 		esac
 	fi
 
-	myconf=(
+	myeconfargs+=(
 		--prefix="${EPREFIX}/usr"
 		--libdir="${EPREFIX}/usr/$(get_libdir)"
 		--shlibdir="${EPREFIX}/usr/$(get_libdir)"
@@ -328,10 +342,9 @@ multilib_src_configure()
 		--extra-cflags="${CFLAGS}"
 		--extra-cxxflags="${CXXFLAGS}"
 		$(use_enable static-libs static)
-		"${myconf[@]}"
 	)
-	echo configure "${myconf[@]}"
-	"${S}"/configure "${myconf[@]}" || die
+	echo configure "${myeconfargs[@]}"
+	"${S}"/configure "${myeconfargs[@]}" || die
 }
 
 multilib_src_compile()
