@@ -1,16 +1,29 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-libs/wayland/wayland-1.6.9999.ebuild,v 1.3 2015/02/10 09:08:34 -tclover Exp $
+# $Header: dev-libs/wayland/wayland-9999.ebuild,v 1.4 2015/06/06 09:08:34 -tclover Exp $
 
 EAPI=5
 
-inherit autotools-multilib toolchain-funcs git-2
+case "${PV}" in
+	(*9999*)
+	KEYWORDS=""
+	VCS_ECLASS=git-2
+	EGIT_REPO_URI="git://anongit.freedesktop.org/git/${PN}/${PN}"
+	EGIT_PROJECT="${PN}.git"
+	case "${PV}" in
+		(*.9999*) EGIT_BRANCH="${PV:0:3}";;
+	esac
+	AUTOTOOLS_AUTORECONF=1
+	;;
+	(*)
+	KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
+	SRC_URI="http://wayland.freedesktop.org/releases/${P}.tar.xz"
+	;;
+esac
+inherit autotools-multilib toolchain-funcs ${VCS_ECLASS}
 
 DESCRIPTION="Wayland protocol libraries"
 HOMEPAGE="http://wayland.freedesktop.org/"
-EGIT_REPO_URI="git://anongit.freedesktop.org/git/${PN}/${PN}"
-EGIT_PROJECT="${PN}.git"
-EGIT_BRANCH=${PV:0:3}
 
 LICENSE="MIT"
 SLOT="0/${PV:0:3}"
@@ -21,8 +34,6 @@ RDEPEND=">=dev-libs/expat-2.1.0-r3:=[${MULTILIB_USEDEP}]
 DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
 	virtual/pkgconfig"
-
-AUTOTOOLS_AUTORECONF=1
 
 multilib_src_configure()
 {
