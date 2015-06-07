@@ -22,7 +22,7 @@ DESCRIPTION="multi-track hard disk recording software"
 HOMEPAGE="http://ardour.org/"
 
 LICENSE="GPL-2"
-SLOT="2"
+SLOT="${PV:0:1}"
 IUSE="curl debug nls lv2"
 
 RDEPEND="media-libs/aubio

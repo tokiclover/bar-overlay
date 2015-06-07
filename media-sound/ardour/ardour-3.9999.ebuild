@@ -23,7 +23,7 @@ DESCRIPTION="Digital Audio Workstation"
 HOMEPAGE="http://ardour.org/"
 
 LICENSE="GPL-2"
-SLOT="3"
+SLOT="${PV:0:1}"
 IUSE="debug doc nls lv2"
 
 RDEPEND="media-libs/aubio
