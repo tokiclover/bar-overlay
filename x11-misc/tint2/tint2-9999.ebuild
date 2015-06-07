@@ -1,19 +1,28 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-misc/tint2/tint2-9999.ebuild,v 1.6 2014/10/31 17:38:41 -tclover Exp $
+# $Header: x11-misc/tint2/tint2-9999.ebuild,v 1.7 2015/06/06 17:38:41 -tclover Exp $
 
 EAPI=5
 
-inherit eutils cmake-utils subversion
+case "${PV}" in
+	(9999*)
+	KEYWORDS=""
+	VCS_ECLASS=subversion
+	ESVN_REPO_URI="http://tint2.googlecode.com/svn/trunk/"
+	SRC_URI="https://dl.dropbox.com/s/gmko5d6sy8qjpao/tint2patchfiles.tar.gz"
+	;;
+	(*)
+	KEYWORDS="~amd64 ~x86"
+	SRC_URI="http://tint2.googlecode.com/files/${MY_P}.tar.bz2"
+	;;
+esac
+inherit eutils cmake-utils ${VCS_ECLASS}
 
 DESCRIPTION="A lightweight panel/taskbar"
 HOMEPAGE="http://code.google.com/p/tint2/"
-ESVN_REPO_URI="http://tint2.googlecode.com/svn/trunk/"
-SRC_URI="https://dl.dropbox.com/s/gmko5d6sy8qjpao/tint2patchfiles.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86"
 IUSE="battery examples tint2conf"
 
 DEPEND="dev-libs/glib:2
