@@ -8,8 +8,8 @@ case "${PV}" in
 	(*9999*)
 		KEYWORDS=""
 		VCS_ECLASS=subversion
-		EGIT_REPO_URI="git://git.code.sf.net/p/${PN}/code.git"
-		EGIT_PROJECT=${PN}.git
+		ESVN_REPO_URI="git://git.code.sf.net/p/${PN}/code.git"
+		ESVN_PROJECT=${PN}.git
 		AUTOTOOLS_AUTORECONF=1
 		;;
 	(*)
