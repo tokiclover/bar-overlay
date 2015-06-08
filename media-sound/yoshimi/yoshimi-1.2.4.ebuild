@@ -1,18 +1,29 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/yoshimi/yoshimi-1.2.4.ebuild,v 1.1 2014/10/10 -tclover Exp $
+# $Header: media-sound/yoshimi/yoshimi-1.2.4.ebuild,v 1.2 2015/06/08 -tclover Exp $
 
 EAPI=5
 
-inherit cmake-utils
+case "${PV}" in
+	(*9999*)
+		KEYWORDS=""
+		VCS_ECLASS=subversion
+		EGIT_REPO_URI="git://git.code.sf.net/p/${PN}/code.git"
+		EGIT_PROJECT=${PN}.git
+		AUTOTOOLS_AUTORECONF=1
+		;;
+	(*)
+		KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
+		;;
+esac
+inherit cmake-utils ${VCS_ECLASS}
 
 DESCRIPTION="A software synthesizer for Linux, based on ZynAddSubFX"
 HOMEPAGE="http://yoshimi.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="dev-libs/boost
