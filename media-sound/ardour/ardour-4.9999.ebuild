@@ -8,14 +8,15 @@ PYTHON_REQ_USE='threads(+)'
 
 case "${PV}" in
 	(*9999*)
-	KEYWORDS=""
-	VCS_ECLASS=git-2
-	EGIT_REPO_URI="git://git.ardour.org/ardour/ardour.git"
-	EGIT_PROJECT="${PN}.git"
-	;;
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://git.ardour.org/ardour/ardour.git"
+		EGIT_PROJECT="${PN}.git"
+		;;
 	(*)
-	KEYWORDS="~amd64 ~ppc ~x86"
-	SRC_URI="https://github.com/Ardour/ardour/archive/${PV}.tar.gz -> ${P}.tar.gz"
+		KEYWORDS="~amd64 ~ppc ~x86"
+		SRC_URI="https://github.com/Ardour/ardour/archive/${PV}.tar.gz -> ${P}.tar.gz"
+		;;
 esac
 inherit eutils toolchain-funcs flag-o-matic python-any-r1 waf-utils ${VCS_ECLASS}
 
