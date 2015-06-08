@@ -1,18 +1,28 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/hydrogen/hydrogen-9999.ebuild,v 1.3 2014/10/10 02:08:24 -tclover Exp $
+# $Header: media-sound/hydrogen/hydrogen-9999.ebuild,v 1.4 2015/06/08 02:08:24 -tclover Exp $
 
 EAPI=5
 
-inherit cmake-utils eutils multilib flag-o-matic toolchain-funcs git-2
+case "${PV}" in
+	(*9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://github.com/hydrogen-music/${PN}.git"
+		EGIT_PROJECT="${PN}.git"
+		;;
+	(*)
+		KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+		SRC_URI="https://github.com/${PN}-music/${PN}/archive/${PVR/_rc/-RC}.tar.gz -> ${P}.tar.gz"
+		;;
+esac
+inherit eutils cmake-utils multilib flag-o-matic toolchain-funcs ${VCS_ECLASS}
 
 DESCRIPTION="Advanced drum machine"
 HOMEPAGE="http://www.hydrogen-music.org"
-EGIT_REPO_URI="git://github.com/hydrogen-music/hydrogen.git"
 
 LICENSE="GPL-2 ZLIB"
 SLOT="0"
-KEYWORDS=""
 IUSE="+alsa +archive debug doc +jack jack-session ladspa lash oss portaudio
 -pulseaudio portmidi rubberband static"
 REQUIRED_USE="lash? ( alsa )"
@@ -32,7 +42,6 @@ RDEPEND=">=dev-qt/qtgui-4.4.0:4 >=dev-qt/qtcore-4.4.0:4
 	portmidi? ( media-libs/portmidi )
 	pulseaudio? ( media-sound/pulseaudio )
 	rubberband? ( media-libs/rubberband )"
-
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
