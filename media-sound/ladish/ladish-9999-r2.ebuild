@@ -1,21 +1,32 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.6 2015/02/10 12:14:19 -tclover Exp $
+# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.6 2015/06/08 12:14:19 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE='threads(+)'
 PLOCALES="de fr ru"
 
-inherit l10n python-single-r1 waf-utils multilib-minimal git-2
+case "${PV}" in
+	(*9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://github.com/jackaudio/jack2.git"
+		EGIT_PROJECT="${PN}.git"
+		;;
+	(*)
+		KEYWORDS="~amd64 ~ppc ~x86"
+		SRC_URI="https://github.com/LADI/archive/${P}.tar.gz"
+		;;
+esac
+inherit l10n python-single-r1 waf-utils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="LADI Session Handler - a session management system for JACK applications"
-HOMEPAGE="http://${PN}.org/"
+HOMEPAGE="http://ladish.org/"
 EGIT_REPO_URI="git://repo.or.cz/ladish.git"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE="debug doc gtk lash nls python"
 REQUIRED_USE="python? ( lash ) ${PYTHON_REQUIRED_USE}"
 
@@ -38,6 +49,15 @@ DEPEND="${RDEPEND}
 	nls? ( virtual/libintl )"
 
 DOCS=( AUTHORS README NEWS )
+
+src_unpack()
+{
+	default
+	case "${PV}" in
+		(9999*) ;;
+		(*) mv {${PN}-,}${P} || die;;
+	esac
+}
 
 src_prepare()
 {
