@@ -3,20 +3,30 @@
 # $Header: media-sound/rezound/rezound-0.13.1-beta.ebuild,v 1.3 2014/10/10 22:31:21 -tclover Exp $
 
 EAPI=5
-
 PLOCALES="cs de es fi fr ru"
 
-inherit l10n autotools-utils flag-o-matic
-
-MY_PVR="${PVR%-r*}"
+case "${PV}" in
+	(*9999*)
+		KEYWORDS=""
+		VCS_ECLASS=subversion
+		ESVN_REPO_URI="svn://svn.code.sf.net/p/${PN}/code/trunk/${PN}"
+		AUTOTOOLS_AUTORECONF=1
+		;;
+	(*)
+		KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+		MY_PVR="${PVR%-r*}"
+		SRC_URI="http://sourceforge.net/projects/${PN}/files/ReZound/${PVR/_/}/${PN}-${MY_PVR/_/}.tar.gz"
+		S="${WORKDIR}/${PN}-${MY_PVR/_/}"
+		unset MY_PVR
+		;;
+esac
+inherit l10n autotools-utils flag-o-matic ${VCS_ECLASS}
 
 DESCRIPTION="Sound editor and recorder"
 HOMEPAGE="http://rezound.sourceforge.net"
-SRC_URI="http://sourceforge.net/projects/${PN}/files/ReZound/${PVR/_/}/${PN}-${MY_PVR/_/}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE="16bittmp +alsa +fftw flac +jack ladspa nls oss portaudio pulseaudio +soundtouch static vorbis"
 
 RDEPEND=">=x11-libs/fox-1.1.0:1.6
@@ -32,7 +42,6 @@ RDEPEND=">=x11-libs/fox-1.1.0:1.6
 	pulseaudio? ( media-sound/pulseaudio )
 	soundtouch? ( >=media-libs/libsoundtouch-1.3.1 )
 	vorbis? ( media-libs/libvorbis media-libs/libogg )"
-
 DEPEND="${RDEPEND}
 	nls? ( virtual/libintl )
 	virtual/pkgconfig"
@@ -42,10 +51,6 @@ PATCHES=(
 	"${FILESDIR}/undefined-function.patch"
 )
 
-S="${WORKDIR}/${PN}-${MY_PVR/_/}"
-unset MY_PVR
-
-AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
 src_configure()
