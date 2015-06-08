@@ -1,20 +1,31 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack-audio-connection-kit-1.9999.ebuild,v 1.1 2015/01/28 -tclover Exp $
+# $Header: media-sound/jack-audio-connection-kit-1.9999.ebuild,v 1.2 2015/06/08 -tclover Exp $
 
 EAPI=5
+PYTHON_COMPAT=( python2_7 )
 
-inherit eutils autotools-multilib git-2
+case "${PV}" in
+	(*9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://github.com/jackaudio/jack1.git"
+		EGIT_PROJECT="${PN}.git"
+		EGIT_HAS_SUBMODULES="example-clients jack"
+		AUTOTOOLS_AUTORECONF=1
+		;;
+	(*)
+		KEYWORDS="~amd64 ~ppc ~x86"
+		SRC_URI="http://www.jackaudio.org/downloads/${P}.tar.gz"
+		;;
+esac
+inherit eutils python-single-r1 autotools-multilib ${VCS_ECLASS}
 
 DESCRIPTION="A low-latency audio server"
 HOMEPAGE="http://www.jackaudio.org"
 
-EGIT_REPO_URI="git://github.com/jackaudio/jack1.git"
-EGIT_HAS_SUBMODULES="example-clients"
-
 LICENSE="GPL-2 LGPL-2.1"
-SLOT="0/1"
-KEYWORDS=""
+SLOT="0/${PV:0:1}"
 IUSE="alsa celt coreaudio cpudetection doc debug examples oss netjack freebob ieee1394 zalsa"
 REQUIRED_USE="freebob? ( !ieee1394 ) ieee1394? ( !freebob )"
 
@@ -45,8 +56,6 @@ DEPEND="${RDEPEND}
 	netjack? ( dev-util/scons )"
 
 DOCS=( AUTHORS TODO README )
-
-AUTOTOOLS_AUTORECONF=1
 
 src_prepare()
 {

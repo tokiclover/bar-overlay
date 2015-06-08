@@ -1,16 +1,27 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack-audio-connection-kit-2.9999.ebuild,v 1.2 2015/02/10 -tclover Exp $
+# $Header: media-sound/jack-audio-connection-kit-2.9999.ebuild,v 1.2 2015/06/08 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE='threads(+)'
 
-inherit eutils python-single-r1 waf-utils multilib-minimal
+case "${PV}" in
+	(9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://github.com/jackaudio/jack2.git"
+		EGIT_PROJECT="${PN}.git"
+		;;
+	(*)
+		KEYWORDS="~amd64 ~ppc ~x86"
+		SRC_URI="https://github.com/jackaudio/jack2/archive/${PV}.tar.gz -> ${P}.tar.gz"
+		;;
+esac
+inherit eutils python-single-r1 waf-utils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="Jackdmp jack implemention for multi-processor machine"
 HOMEPAGE="http://jackaudio.org/"
-SRC_URI="https://dl.dropboxusercontent.com/u/28869550/jack-${PV}.tar.bz2 -> ${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0/2"

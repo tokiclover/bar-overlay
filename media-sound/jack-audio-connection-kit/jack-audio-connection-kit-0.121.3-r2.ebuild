@@ -1,21 +1,32 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack-audio-connection-kit-1.9999.ebuild,v 1.2 2015/02/18 -tclover Exp $
+# $Header: media-sound/jack-audio-connection-kit-1.9999.ebuild,v 1.2 2015/06/08 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
 
-inherit eutils python-single-r1 autotools-multilib
+case "${PV}" in
+	(*9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://github.com/jackaudio/jack1.git"
+		EGIT_PROJECT="${PN}.git"
+		EGIT_HAS_SUBMODULES="example-clients jack"
+		AUTOTOOLS_AUTORECONF=1
+		;;
+	(*)
+		KEYWORDS="~amd64 ~ppc ~x86"
+		SRC_URI="http://www.jackaudio.org/downloads/${P}.tar.gz"
+		;;
+esac
+inherit eutils python-single-r1 autotools-multilib ${VCS_ECLASS}
 
 DESCRIPTION="A low-latency audio server"
 HOMEPAGE="http://www.jackaudio.org"
-SRC_URI="http://www.jackaudio.org/downloads/${P}.tar.gz
-	dbus? ( http://nedko.arnaudov.name/soft/jack/dbus/${P}-dbus.patch )"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0/1"
-KEYWORDS=""
-IUSE="alsa celt coreaudio cpudetection dbus doc debug examples oss netjack freebob ieee1394 zalsa"
+IUSE="alsa celt coreaudio cpudetection doc debug examples oss netjack freebob ieee1394 zalsa"
 REQUIRED_USE="freebob? ( !ieee1394 ) ieee1394? ( !freebob )"
 
 PPC_CPU_FLAGS=(altivec)
@@ -34,7 +45,6 @@ RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 	${PYTHON_DEPS}
 	sys-libs/ncurses[${MULTILIB_USEDEP}]
 	celt? ( >=media-libs/celt-0.5.0[${MULTILIB_USEDEP}] )
-	dbus? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
 	alsa? ( >=media-libs/alsa-lib-0.9.1[${MULTILIB_USEDEP}] )
 	freebob? ( sys-libs/libfreebob[${MULTILIB_USEDEP}] )
 	ieee1394? ( media-libs/libffado[${MULTILIB_USEDEP}] )
@@ -43,7 +53,6 @@ RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 		    media-libs/zita-resampler[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	dbus? ( dev-python/dbus-python[${PYTHON_USEDEP}] )
 	doc? ( app-doc/doxygen )
 	netjack? ( dev-util/scons )"
 
@@ -55,11 +64,8 @@ PATCHES=(
 	"${FILESDIR}/${P}-respect-march.patch"
 )
 
-AUTOTOOLS_AUTORECONF=1
-
 src_prepare()
 {
-	use dbus && PATCHES+=("${DISTDIR}/${P}-dbus.patch")
 	autotools-multilib_src_prepare
 	multilib_copy_sources
 }
