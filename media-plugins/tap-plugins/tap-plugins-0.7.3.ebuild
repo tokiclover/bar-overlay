@@ -1,19 +1,30 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/tap-plugins/tap-plugins-9999.ebuild,v 1.1 2014/10/10 18:00:11 -tclover Exp $
+# $Header: media-plugins/tap-plugins/tap-plugins-9999.ebuild,v 1.2 2015/06/06 18:00:11 -tclover Exp $
 
 EAPI=5
 
-inherit multilib-minimal
+case "${PV}" in
+	(9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://github.com/tomszilagyi/${PN}.git"
+		EGIT_PROJECT="${PN}.git"
+		;;
+	(*)
+		KEYWORDS="~amd64 ~ppc ~x86"
+		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
+		;;
+esac
+inherit eutils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="TAP LADSPA plugins: contains DeEsser, Dynamics, Equalizer, Reverb, Stereo Echo, Tremolo"
 HOMEPAGE="http://tap-plugins.sf.net"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz
+SRC_URI+="
 	doc? ( mirror://sourceforge/${PN}/${PN}-doc-20140526.tar.gz )"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="doc"
 
 DEPEND="media-libs/ladspa-sdk[${MULTILIB_USEDEP}]"
