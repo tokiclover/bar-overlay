@@ -8,6 +8,7 @@ dev-libs/sord
 dev-perl/IO-Socket-TIPC
 dev-perl/perl-URxvt
 dev-python/enum
+dev-python/espionage
 dev-python/mpris-remote
 dev-python/pyrobase
 dev-python/pyrocore
