@@ -64,6 +64,7 @@ media-sound/zita-ajbridge
 media-sound/zynaddsubfx
 media-video/ffmpeg
 media-video/mpv
+media-video/rage
 net-misc/connman
 net-misc/dhcpcd
 net-misc/dhcpcd-ui
