@@ -7,19 +7,20 @@ PLOCALES="ca eo fr gl it lt pl pt ru sr tr"
 
 case "${PV}" in
 	(9999*)
-	KEYWORDS=""
-	EVCS=git-2
-	EGIT_REPO_URI="git://git.enlightenment.org/apps/${PN}.git"
-	EGIT_PROJECT="${PN}.git"
-	;;
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://git.enlightenment.org/apps/${PN}.git"
+		EGIT_PROJECT="${PN}.git"
+		AUTOTOOLS_AUTORECONF=1
+		;;
 	(*)
-	KEYWORDS="~amd64 ~arm ~x86"
-	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P}.tar.xz"
+		KEYWORDS="~amd64 ~arm ~x86"
+		SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P}.tar.xz"
+		;;
 esac
+inherit l10n autotools-utils ${VCS_ECLASS}
 
-inherit l10n autotools-utils ${EVCS}
-
-DESCRIPTION="EFL (Enlightenment Foundation Libraries) MPD multiplexer/client"
+DESCRIPTION="EFL MPD multiplexer and client"
 HOMEPAGE="https://enlightenment.org"
 
 IUSE="glyr +id3tag +nls"
