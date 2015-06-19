@@ -1,0 +1,40 @@
+I like your change, because it makes "sv check" behave as documented
+(check that services are in the requested state), whereas my version
+made it check that services are up, which is not the same.
+
+There is a subtle coding flaw in your patch though as there is no "break"
+for the "case 'C'" switch, so if svstatus[17] is 'd' and pid is zero, the
+code will fall through to the case 't' code below, which is not what you want.
+
+Here is a rewritten version of the patch (against the original 2.1.2 code)
+where I've fixed this in the style of the original code:
+
+From: James Byrne <james.by...@origamienergy.com>
+Date: Fri, 20 Feb 2015 17:35:55 +0000
+Subject: [PATCH] Make "sv check" perform as documented.
+
+This makes 'sv check' behave as documented - it checks that the services are in
+the 'wanted' state (either up or down). If all the services specified are in the
+requested state it will exit with exit code 0, and if not it will wait until the
+timeout for them to reach the requested state, and return a non-zero exit code
+if any are not.
+
+---diff --git a/src/sv.c b/src/sv.c
+index 0125795..3064711 100644
+--- a/src/sv.c
++++ b/src/sv.c
+@@ -227,7 +227,13 @@ int check(char *a) {
+       if (!checkscript()) return(0);
+       break;
+     case 'd': if (pid || svstatus[19] != 0) return(0); break;
+-    case 'C': if (pid) if (!checkscript()) return(0); break;
++    case 'C':
++      if (svstatus[17] == 'd') {
++        if (pid) return(0);
++      }
++      else
++        if (!pid || !checkscript()) return(0);
++      break;
+     case 't':
+     case 'k':
+       if (!pid && svstatus[17] == 'd') break;

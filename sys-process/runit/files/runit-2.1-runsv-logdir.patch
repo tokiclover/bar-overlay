@@ -1,0 +1,83 @@
+runsv: Fix bug in existence check for log/supervise/control
+
+Version 2.1.0 of the runit tools added a check to runit.c to make it exit if
+'supervise/control' or 'log/supervise/control' exists, but is not a fifo.
+Unfortunately, due to what appears to be a copy-and-paste error, it checks
+'supervise/control' a second time instead of checking 'log/supervise/control'.
+
+
+This change moves the duplicated code into a function to fix the bug and make
+it easier to read.
+---
+ src/runsv.c | 47 +++++++++++++++++++++--------------------------
+ 1 file changed, 21 insertions(+), 26 deletions(-)
+
+diff --git a/src/runsv.c b/src/runsv.c
+index 0de2803..36ff798 100644
+--- a/src/runsv.c
++++ b/src/runsv.c
+@@ -381,6 +381,24 @@ int ctrl(struct svdir *s, char c) {
+   return(1);
+ }
+ 
++static void open_control(char *f, struct svdir *s)
++{
++  struct stat st;
++
++  fifo_make(f, 0600);
++  if (stat(f, &st) == -1)
++    fatal2("unable to stat ", f);
++  if (!S_ISFIFO(st.st_mode))
++    fatalx(f, " exists but is not a fifo");
++  if ((s->fdcontrol =open_read(f)) == -1)
++    fatal2("unable to open ", f);
++  coe(s->fdcontrol);
++  if ((s->fdcontrolwrite =open_write(f)) == -1)
++    fatal2("unable to open ", f);
++  coe(s->fdcontrolwrite);
++  update_status(s);
++}
++
+ int main(int argc, char **argv) {
+   struct stat s;
+   int fd;
+@@ -478,32 +496,9 @@ int main(int argc, char **argv) {
+     coe(svd[1].fdlock);
+   }
+ 
+-  fifo_make("supervise/control", 0600);
+-  if (stat("supervise/control", &s) == -1)
+-    fatal("unable to stat supervise/control");
+-  if (!S_ISFIFO(s.st_mode))
+-    fatalx("supervise/control exists but is not a fifo", "");
+-  if ((svd[0].fdcontrol =open_read("supervise/control")) == -1)
+-    fatal("unable to open supervise/control");
+-  coe(svd[0].fdcontrol);
+-  if ((svd[0].fdcontrolwrite =open_write("supervise/control")) == -1)
+-    fatal("unable to open supervise/control");
+-  coe(svd[0].fdcontrolwrite);
+-  update_status(&svd[0]);
+-  if (haslog) {
+-    fifo_make("log/supervise/control", 0600);
+-    if (stat("supervise/control", &s) == -1)
+-      fatal("unable to stat log/supervise/control");
+-    if (!S_ISFIFO(s.st_mode))
+-      fatalx("log/supervise/control exists but is not a fifo", "");
+-    if ((svd[1].fdcontrol =open_read("log/supervise/control")) == -1)
+-      fatal("unable to open log/supervise/control");
+-    coe(svd[1].fdcontrol);
+-    if ((svd[1].fdcontrolwrite =open_write("log/supervise/control")) == -1)
+-      fatal("unable to open log/supervise/control");
+-    coe(svd[1].fdcontrolwrite);
+-    update_status(&svd[1]);
+-  }
++  open_control("supervise/control", &svd[0]);
++  if (haslog)
++    open_control("log/supervise/control", &svd[1]);
+   fifo_make("supervise/ok",0600);
+   if ((fd =open_read("supervise/ok")) == -1)
+     fatal("unable to read supervise/ok");
+-- 
+1.9.1
+
+

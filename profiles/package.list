@@ -79,6 +79,7 @@ sys-fs/aufs-util
 sys-kernel/git-sources
 sys-kernel/mkinitramfs-ll
 sys-libs/libfreebob
+sys-process/runit
 sys-process/supervision
 virtual/daemontools
 virtual/liblash
