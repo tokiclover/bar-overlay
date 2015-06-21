@@ -93,6 +93,7 @@ pkg_setup()
 src_prepare()
 {
 	sed -e '/COPYING.*$/d' -i Makefile
+	epatch_user
 }
 
 src_install()
