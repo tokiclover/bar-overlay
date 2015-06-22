@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-apps/hprofile/hprofile-5.0.ebuild,v 1.2 2014/05/26 08:41:42 -tclover Exp $
+# $Header: sys-apps/hprofile/hprofile-6.0.ebuild,v 1.2 2014/05/24 08:41:42 -tclover Exp $
 
 EAPI=5
 
