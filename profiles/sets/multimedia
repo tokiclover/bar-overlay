@@ -3,6 +3,7 @@ app-text/pdftk
 media-gfx/gimp
 media-gfx/inkscape
 media-gfx/sane-backends
+media-libs/mutagen
 media-libs/alsa-oss
 media-libs/x265
 media-plugins/alsa-plugins
