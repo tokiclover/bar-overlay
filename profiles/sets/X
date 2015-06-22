@@ -3,6 +3,7 @@ x11-base/xorg-server
 x11-terms/xterm
 x11-terms/rxvt-unicode
 dev-perl/perl-URxvt
+app-text/mupdf
 x11-misc/tint2
 x11-misc/dunst
 x11-misc/xclip
