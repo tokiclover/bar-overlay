@@ -52,8 +52,9 @@ src_configure()
 src_install()
 {
 	dobin $(<../package/commands) || die "dobin"
-	dodir /sbin
+	dodir /{,s}bin
 	mv "${ED}"/usr/bin/{runit-init,runit,utmpset} "${ED}"/sbin/ || die "dosbin"
+	mv "${ED}"/usr/bin/{chpst,runsv{,{,ch}dir},sv{,logd}} "${ED}"/bin/ || die "dobin"
 
 	cd "${S}"/..
 	dodoc package/{CHANGES,README,THANKS,TODO}
