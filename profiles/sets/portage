@@ -5,4 +5,5 @@ app-portage/euses
 app-portage/genlop
 app-portage/gentoolkit
 app-portage/getdelta
+app-portage/layman
 app-portage/portage-utils
