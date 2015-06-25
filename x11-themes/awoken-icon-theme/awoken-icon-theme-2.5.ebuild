@@ -1,13 +1,13 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/awoken-icon-theme/awoken-icon-theme-2.5.ebuild,v 1.3 2014/07/20 00:21:46 -tclover Exp $
+# $Header: x11-themes/awoken-icon-theme/awoken-icon-theme-2.5.ebuild,v 1.4 2015/06/24 00:21:46 -tclover Exp $
 
-EAPI="5"
+EAPI=5
 
 inherit gnome2-utils
 
 MY_PN=AwOken
-DESCRIPTION="A great monochrome-ish scalable icon theme with 100³ colors and more"
+DESCRIPTION="Monochrome/color-ish scalable icon theme with colorization"
 HOMEPAGE="http://alecive.deviantart.com/"
 SRC_URI="https://dl.dropbox.com/u/8029324/${MY_PN}-${PV}.zip -> ${P}.zip"
 
@@ -22,45 +22,65 @@ DEPEND="${DEPEND}"
 
 RESTRICT="binchecks strip"
 
-src_unpack() {
+src_unpack()
+{
+	local name
 	unpack ${A}
 	mv ${MY_PN}-${PV} ${P} || die
 	pushd "${S}" > /dev/null 2>&1
-	for theme in ${MY_PN}{,Dark,White}
-		do unpack ./$theme.tar.gz
-		mv $theme $(echo "$theme" | sed 's/\([A-Z]\)/\L\1/g')
+	cp -p "${FILESDIR}"/awoken-icon-settings.sh . || die
+	for theme in ${MY_PN}{,Dark,White}; do
+		unpack ./${theme}.tar.gz
+		if [ -f "${theme}/.${theme}rc" ]; then
+			mv "${theme}/.${theme}rc" "${theme}/${theme}rc"
+		fi
 	done
 	popd > /dev/null 2>&1
 }
+src_prepare()
+{
+	local res x
 
-src_prepare() {
-	local res x name=awoken
-	for x in ${name}{,dark,white}; do
+	for x in ${MY_PN}{,Dark,White}; do
+		ICONSET="${x}"
+		AWOKEN_RCFILE="${S}/${x}/${x}rc"
+		LOCALDIR="${S}/${x}"
+		ICONSDIR="${LOCALDIR}"
+		export ICONSET ICONSDIR LOCALDIR AWOKEN_RCFILE
+		bash "${S}"/awoken-icon-settings.sh -Fawoken -fawokenclear
+
 		for res in 24 128; do
-			cd "${x}"/clear/${res}x${res}/places/
-			ln -s -f ../start-here/start-here-gentoo1.png start-here.png || die
-			ln -s -f ../start-here/start-here-gentoo1.png start-here-symbolic.png || die
-			cd "${S}"
+			pushd "${x}"/clear/${res}x${res}/places > /dev/null 2>&1
+			ln -s -f ../start-here/start-here-gentoo1.png start-here.png
+			ln -s -f ../start-here/start-here-gentoo1.png start-here-symbolic.png
+			popd > /dev/null 2>&1
 		done
 	done
-	rm ${name}{,dark,white}/${PN}-* || die
-	find . -iname '.sh' -exec rm '{}' +
-
+	unset ICONSET ICONSDIR LOCALDIR AWOKEN_RCFILE
+	rm ${MY_PN}{,Dark,White}/${PN}-* || die
+	rm ${MY_PN}*/extra/*.sh
+	mv ${MY_PN}/Installation_and_Instructions.pdf README.pdf || die
 }
 
-src_install() {
-	insinto /usr/share/icons
-	doins -r awoken{,dark,white}
+src_install()
+{
+	local dir=/usr/share/icons
+	insinto "${dir}"
+	doins -r ${MY_PN}{,Dark,White}
+	exeinto ${dir}/${MY_PN}
+	doexe awoken-icon-settings.sh
+	dodoc README.pdf
 }
 
-pkg_preinst() {
+pkg_preinst()
+{
 	gnome2_icon_savelist
 }
-
-pkg_postinst() {
+pkg_postinst()
+{
 	gnome2_icon_cache_update
 }
-
-pkg_postrm() {
+pkg_postrm()
+{
 	gnome2_icon_cache_update
 }
