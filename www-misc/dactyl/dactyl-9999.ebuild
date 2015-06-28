@@ -24,7 +24,7 @@ HOMEPAGE="https://5digits/org https://github.com/5digits/dactyl"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="+firefox songbird thunderbird"
+IUSE="+firefox +plugins songbird thunderbird"
 REQUIRED_USE="|| ( firefox songbird thunderbird )"
 
 DEPEND="app-arch/zip
@@ -32,7 +32,16 @@ DEPEND="app-arch/zip
 	sys-apps/sed"
 RDEPEND="${DEPEND}
 	virtual/awk"
+
 DOCS=( BREAKING_CHANGES HACKING )
+
+DACTYL_PLUGINS=(browser-improvements curl fix-focus flashblock http-headers
+	jQuery jscompletion noscript useragent xpcom)
+for plugin in "${DACTYL_PLUGINS[@]}"; do
+SRC_URI="${SRC_URI}
+	plugins? ( http://5digits.org/plugins/${plugin}.js -> ${PN}-plugins-${plugin}.js )"
+done
+unset plugin
 
 src_configure()
 {
@@ -55,7 +64,7 @@ src_compile()
 
 src_install()
 {
-	local dir doc{,s}
+	local dir doc{,s} plugin
 	for dir in "${BROWSER_SRC[@]}"; do
 		insinto /usr/"$(get_libdir)/${dir#*:}"/browser/extensions
 		mv downloads/${dir%:*}*.xpi "${dir%:*}@5digits.org.xpi"
@@ -65,5 +74,13 @@ src_install()
 		done
 		dodoc "${docs[@]}"
 	done
+
+	if use plugins; then
+		dodir /usr/share/${PN}/plugins
+		for plugin in "${DACTYL_PLUGINS[@]}"; do
+			install -m 644 "${DISTDIR}/${PN}-plugins-${plugin}.js" \
+				"${ED}/usr/share/${PN}/plugins/${plugin}.js"
+		done
+	fi
 	dodoc "${DOCS[@]}"
 }
