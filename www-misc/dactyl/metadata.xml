@@ -3,7 +3,7 @@
 <pkgmetadata>
 <use>
 	<flag name="firefox">Enable building pentadactyl add-on</flag>
-	<flag name="thunderbird">Enable installing javascript plugins</flag>
+	<flag name="plugins">Enable installing javascript plugins</flag>
 	<flag name="songbird">Enable building melodactyl add-on</flag>
 	<flag name="thunderbird">Enable building teledactyl add-on</flag>
 </use>
