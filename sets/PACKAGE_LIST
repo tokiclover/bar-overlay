@@ -86,6 +86,7 @@ sys-process/supervision
 virtual/daemontools
 virtual/liblash
 virtual/libproxy
+www-misc/dactyl
 www-misc/browser-home-profile
 x11-libs/ganv
 x11-misc/netwmpager
