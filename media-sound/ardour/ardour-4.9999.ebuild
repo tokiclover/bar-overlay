@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-4.9999.ebuild,v 1.12 2015/06/06 18:21:28 -tclover Exp $
+# $Header: media-sound/ardour/ardour-4.9999.ebuild,v 1.13 2015/06/28 18:21:28 -tclover Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
@@ -25,7 +25,7 @@ HOMEPAGE="http://ardour.org/"
 
 LICENSE="GPL-2"
 SLOT="${PV:0:1}"
-IUSE="debug doc nls lv2"
+IUSE="debug doc cpu_flags_ppc_altivec cpu_flags_x86_sse +jack lv2 nls"
 
 RDEPEND="media-libs/aubio
 	media-libs/liblo
@@ -42,7 +42,7 @@ RDEPEND="media-libs/aubio
 	media-libs/flac
 	media-libs/raptor:2
 	>=media-libs/liblrdf-0.4.0-r20
-	>=media-sound/jack-audio-connection-kit-0.120
+	jack? ( >=media-sound/jack-audio-connection-kit-0.120 )
 	>=gnome-base/libgnomecanvas-2
 	media-libs/vamp-plugin-sdk
 	dev-libs/libxslt
@@ -85,6 +85,7 @@ src_prepare()
 
 src_configure()
 {
+	use cpu_flags_x86_sse append-flags -msse
 	tc-export CC CXX
 	mkdir -p "${D}"
 
@@ -93,33 +94,25 @@ src_configure()
 		"--prefix=${EPREFIX}/usr"
 		"--configdir=${EPREFIX}/etc"
 		"--libdir=${EPREFIX}/usr/$(get_libdir)"
+		$(usex cpu_flags_ppc_altivec '--fpu-optimization' '--no-fpu-optimization')
 		$(usex doc '--docs' '')
+		$(usex jack '--with-backends=alsa,jack' '--with-backends=alsa --no-jack --libjack=weak')
 		$(usex lv2 '--lv2' '--no-lv2')
 		$(usex nls '--nls' '--no-nls')
 		$(usex debug '--stl-debug' '')
 	)
-	CCFLAGS="${CFLAGS}" LINKFLAGS="${CFLAGS} ${LDFLAGS}" ./waf \
-		configure "${mywafargs[@]}" || die "Failed to configure"
+	WAF_BINARY="${S}"/waf  waf-utils_src_configure "${mywafargs[@]}"
 }
 
 src_compile()
 {
-	./waf --jobs=$(makeopts_jobs) || die "Failed to compile"
+	WAF_BINARY="${S}"/waf waf-utils_src_compile
 }
-
 src_install()
 {
-	./waf --destdir="${ED}" || die "Failed to install"
-
+	WAF_BINARY="${S}"/waf waf-utils_src_install
 	mv ${PN}.1 ${PN}${SLOT}.1
 	doman ${PN}${SLOT}.1
 	newicon icons/icon/ardour_icon_mac.png ${PN}${SLOT}.png
 	make_desktop_entry ardour3 ardour3 ardour3 AudioVideo
 }
-
-pkg_postinst()
-{
-	elog "If you are using Ardour and want to keep its development alive"
-	elog "then please consider to do a donation upstream at ardour.org. Thanks!"
-}
-
