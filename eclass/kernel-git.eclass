@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/kernel-git.eclass,v 1.0 2014/12/31 20:33:34 -tclover Exp $
+# $Header: eclass/kernel-git.eclass,v 2.0 2015/06/30 20:33:34 -tclover Exp $
 
 # @ECLASS: kernel-git.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -9,21 +9,43 @@
 
 inherit kernel-2 git-2
 
+case "${EAPI:-5}" in
+	(4|5) EXPORT_FUNCTIONS src_unpack src_prepare;;
+	(*) die "EAPI=\"${EAPI}\" is not supported";;
+esac
+
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
 EGIT_COMMIT=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
+DESCRIPTION="latest linux-stable.git pulled by git from the stable tree"
+HOMEPAGE="http://www.kernel.org"
+
+IUSE="${PATCHSET[*]}"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
+
+has ck "${PATCHSET[@]}" &&
+REQUIRED_USE="${REQUIRED_USE}
+	ck? ( bfs )"
+
 RDEDEPEND="hardened? ( sys-apps/paxctl sys-apps/gradm )"
 DEPEND="${RDEPEND}"
 
-case "${EAPI:-5}" in
-	4|5) EXPORT_FUNCTIONS src_unpack src_prepare;;
-	*) die "EAPI=\"${EAPI}\" is not supported";;
-esac
+K_EXTRAEINFO="This kernel is not supported by Gentoo due to its (unstable and)
+experimental nature. If you have any issues, try disabling a few USE flags
+that you may suspect being the source of your issues because this ebuild is
+based on the latest stable tree."
 
+# @ECLASS-VARIABLE: OKV
+# @DESCRIPT: kernel version release
+:	${OKV:=${PV}}
 # @ECLASS-VARIABLE: MKV
 # @DESCRIPT: *major* kernel version release
-:	${MKV:=${KV_MAJOR}.${KV_MINOR}}
+:	${MKV:=${KV_MAJOR%.*}}
+
+:	${KV_MAJOR:=${MKV%.*}}
+:	${KV_MINOR:=${MKV#*.}}
+:	${KV_PATCH:=${PV##*.}}
 
 # @ECLASS-VARIABLE: AUFS_VER
 # @DESCRIPTION: AUFS version to use
@@ -60,67 +82,66 @@ esac
 # @ECLASS-VARIABLE: CK_URI
 # @DESCRIPTION: -ck patchset src URI
 :	${CK_URI:="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${MKV}"}
+:	${BFS_URI:=${CK_URI}}
 # @ECLASS-VARIABLE: CK_SRC
 # @DESCRIPTION: -ck src file
 :	${CK_SRC:=${CK_VER}-broken-out.tar.bz2}
 
-# @ECLASS-VARIABLE: GEN_VER
+# @ECLASS-VARIABLE: GENTOO_VER
 # @DESCRIPTION: gentoo base patchset version string
-:	${GEN_VER:=${MKV}-1}
-# @ECLASS-VARIABLE: GEN_URI
+:	${GENTOO_VER:=${MKV}-1}
+# @ECLASS-VARIABLE: GENTOO_URI
 # @DESCRIPTION: gentoo patchset src URI
-:	${GEN_URI:="http://dev.gentoo.org/~mpagano/genpatches/tarballs"}
-# @ECLASS-VARIABLE: GEN_SRC
+:	${GENTOO_URI:="http://dev.gentoo.org/~mpagano/genpatches/tarballs"}
+# @ECLASS-VARIABLE: GENTOO_SRC
 # @DESCRIPTION: gentoo base src file
-:	${GEN_SRC:=genpatches-${GEN_VER}.base.tar.xz}
+:	${GENTOO_SRC:=genpatches-${GENTOO_VER}.base.tar.xz}
 
-# @ECLASS-VARIABLE: FBC_VER
+# @ECLASS-VARIABLE: FBCONDECOR_VER
 # @DESCRIPTION: fbcondecor version string: genpatches extras version
-:	${FBC_VER:=${GEN_VER}}
-# @ECLASS-VARIABLE: FBC_SRC
+:	${FBCONDECOR_VER:=${GENTOO_VER}}
+# @ECLASS-VARIABLE: FBCONDECOR_SRC
 # @DESCRIPTION: gentoo extras src file
-:	${FBC_SRC:=genpatches-${FBC_VER}.extras.tar.xz}
+:	${FBCONDECOR_SRC:=genpatches-${FBCONDECOR_VER}.extras.tar.xz}
+:	${FBCONDECOR_URI:=${GENTOO_URI}}
 
 # @ECLASS-VARIABLE: BFQ_VER
 # @DESCRIPTION: BFQ version string: genpatches experimental version
-:	${BFQ_VER:=${GEN_VER}}
+:	${BFQ_VER:=${GENTOO_VER}}
 # @ECLASS-VARIABLE: BFQ_SRC
 # @DESCRIPTION: gentoo experimental src file
 :	${BFQ_SRC:=genpatches-${BFQ_VER}.experimental.tar.xz}
+:	${BFQ_URI:=${GENTOO_URI}}
 
-# @ECLASS-VARIABLE: GHP_VER
+# @ECLASS-VARIABLE: HARDENED_VER
 # @DESCRIPTION: gentoo hardened uni patch version string
-:	${GHP_VER:=${MKV}.${KV_PATCH}-1}
-# @ECLASS-VARIABLE: GHP_URI
+:	${HARDENED_VER:=${OKV}-1}
+# @ECLASS-VARIABLE: HARDENED_URI
 # @DESCRIPTION: gentoo hardened uni patch src URI
-:	${GHP_URI:="http://dev.gentoo.org/~blueness/hardened-sources/hardened-patches"}
-# @ECLASS-VARIABLE: GHP_SRC
+:	${HARDENED_URI:="http://dev.gentoo.org/~blueness/hardened-sources/hardened-patches"}
+# @ECLASS-VARIABLE: HARDENED_SRC
 # @DESCRIPTION: gentoo hardened uni patch src file
-:	${GHP_SRC:=hardened-patches-${GHP_VER}.extras.tar.bz2}
+:	${HARDENED_SRC:=hardened-patches-${HARDENED_VER}.extras.tar.bz2}
 
-# @ECLASS-VARIABLE: OPT_VER
+# @ECLASS-VARIABLE: OPTIMIZATION_VER
 # @DESCRIPTION: cpu optimization kind of *version* string
-:	${OPT_VER:="outdated_versions/linux-3.2+/gcc-4.2+"}
-# @ECLASS-VARIABLE: OPT_URI
+:	${OPTIMIZATION_VER:=${BFQ_VER}}
+# @ECLASS-VARIABLE: OPTIMIZATION_URI
 # @DESCRIPTION: cpu optimization src URI
-:	${OPT_URI:="https://raw.githubusercontent.com/graysky2/kernel_gcc_patch/master"}
-# @ECLASS-VARIABLE: OPT_FILE
-# @DESCRIPTION: cpu optimization original src file name
-:	${OPT_FILE:="enable_additional_cpu_optimizations_for_gcc.patch"}
-# @ECLASS-VARIABLE: OPT_SRC
+:	${OPTIMIZATION_URI:=${BFQ_URI}}
+# @ECLASS-VARIABLE: OPTIMIZATION_SRC
 # @DESCRIPTION: cpu optimization src file
-:	${OPT_SRC:=${OPT_VER#*/}}
-OPT_SRC="${OPT_SRC/\//-}.patch"
+:	${OPTIMIZATION_SRC:=${BFQ_SRC}}
 
-# @ECLASS-VARIABLE: RS4_VER
+# @ECLASS-VARIABLE: REISER4_VER
 # @DESCRIPTION: reiser4 version string
-:	${RS4_VER:=${OKV}}
-# @ECLASS-VARIABLE: RS4_URI
+:	${REISER4_VER:=${OKV}}
+# @ECLASS-VARIABLE: REISER4_URI
 # @DESCRIPTION: reiser4 src URI
-:	${RS4_URI:="mirror://sourceforge/project/reiser4/reiser4-for-linux-3.x"}
-# @ECLASS-VARIABLE: RS4_SRC
+:	${REISER4_URI:="mirror://sourceforge/project/reiser4/reiser4-for-linux-3.x"}
+# @ECLASS-VARIABLE: REISER4_SRC
 # @DESCRIPTION: reiser4 src file
-:	${RS4_SRC:=reiser4-for-${RS4_VER}.patch.gz}
+:	${REISER4_SRC:=reiser4-for-${REISER4_VER}.patch.gz}
 
 # @ECLASS-VARIABLE: RT_URI
 # @DESCRIPTION: -rt version string
@@ -141,21 +162,32 @@ OPT_SRC="${OPT_SRC/\//-}.patch"
 # @DESCRIPTION: tuxonice src file
 :	${TOI_SRC:=tuxonice-for-linux-${TOI_VER}.patch.bz2}
 
-# @ECLASS-VARIABLE: UKSM_EXV
+# @ECLASS-VARIABLE: UKSM_REV
 # @DESCRIPTION: uksm version string
-:	${UKSM_EXV:=0.1.2.3}
+:	${UKSM_REV:=0.1.2.3}
 # @ECLASS-VARIABLE: UKSM_URI
 # @DESCRIPTION: uksm src URI
-:	${UKSM_URI:="http://kerneldedup.org/download/uksm/${UKSM_EXV}"}
+:	${UKSM_URI:="http://kerneldedup.org/download/uksm/${UKSM_REV}"}
 # @ECLASS-VARIABLE: UKSM_VER
 # @DESCRIPTION: uksm base version string
 # @ECLASS-VARIABLE: UKSM_SRC
 # @DESCRIPTION: uksm src file
-:	${UKSM_SRC:=uksm-${UKSM_EXV}-for-v${UKSM_VER}.patch}
+:	${UKSM_SRC:=uksm-${UKSM_REV}-for-v${UKSM_VER}.patch}
+
+SRC_URI+="$(eval
+for u in "${PATCHSET[@]}"; do
+	case "${u}" in
+		(aufs) continue;;
+	esac
+	eval printf '"\n\t%s"' "\"${u}? ( \${${u^^[a-z]}_URI}/\${${u^^[a-z]}_SRC} )\""
+	unset ${u^^[a-z]}_{URI,VER}
+done
+)"
+unset u
 
 # @FUNCTION: src_patch_unpack
 src_patch_unpack() {
-	[[ $# < 1 ]] && return $?
+	(( ${#} < 1 )) && return "${?}"
 	local dir="${WORKDIR}"/${2} n=/dev/null
 	mkdir -p "${dir}"
 	pushd "${dir}" >${n}
@@ -167,7 +199,7 @@ src_patch_unpack() {
 kernel-git_src_unpack() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	git-2_src_unpack
+	kernel-2_src_unpack
 	if use_if_iuse aufs; then
 		EGIT_BRANCH=aufs${AUFS_VER}
 		unset EGIT_COMMIT
@@ -180,9 +212,9 @@ kernel-git_src_unpack() {
 	if use_if_iuse bfs || use_if_iuse ck; then
 		unpack ${CK_SRC}
 	fi
-	use_if_iuse hardened && unpack ${GHP_SRC}
-	use_if_iuse gentoo     && src_patch_unpack ${GEN_SRC} base
-	use_if_iuse fbcondecor && src_patch_unpack ${FBC_SRC} extras
+	use_if_iuse hardened   && unpack ${HARDENED_SRC}
+	use_if_iuse gentoo     && src_patch_unpack ${GENTOO_SRC} base
+	use_if_iuse fbcondecor && src_patch_unpack ${FBCONDECOR_SRC} extras
 	use_if_iuse bfq        && src_patch_unpack ${BFQ_SRC} experimental
 }
 
@@ -209,10 +241,10 @@ kernel-git_src_prepare() {
 			epatch "${WORKDIR}"/${src}/${AUFS_EXTRA_PATCH}
 	fi
 
-	use_if_iuse hardened   && epatch "${WORKDIR}"/${GHP_VER/%-*}/*.patch
+	use_if_iuse hardened   && epatch "${WORKDIR}"/${HARDENED_VER/%-*}/*.patch
 	use_if_iuse gentoo     && epatch "${WORKDIR}"/base/*.patch
 	use_if_iuse fbcondecor && epatch "${WORKDIR}"/extras/*.patch
-	use_if_iuse bfq        && epatch "${WORKDIR}"/experimental/*.patch
+	use_if_iuse bfq        && epatch "${WORKDIR}"/experimental/*BFQ*.patch
 
 	if use_if_iuse ck || use_if_iuse bfs; then
 		[[ -n "${BFS_BASE_PATCH}" ]] &&
@@ -231,12 +263,11 @@ kernel-git_src_prepare() {
 			epatch "${WORKDIR}"/patches/${BFS_EXTRA_PATCH}
 	fi
 	
-	use_if_iuse reiser4 && epatch "${DISTDIR}"/${RS4_SRC}
+	use_if_iuse reiser4 && epatch "${DISTDIR}"/${REISER4_SRC}
 	use_if_iuse rt && epatch "${DISTDIR}"/${RT_SRC}
 	use_if_iuse toi && epatch "${DISTDIR}"/${TOI_SRC}
 	use_if_iuse uksm && epatch "${DISTDIR}"/${UKSM_SRC}
-	use_if_iuse optimization && ! use_if_iuse bfq &&
-		epatch "${DISTDIR}"/${OPT_SRC}
+	use_if_iuse optimization && epatch "${DISTDIR}"/experimental/*-cpu-optimization*.patch
 	
 	rm -fr .git*
 	sed -e "s,EXTRAVERSION =.*$,EXTRAVERSION = -git," -i Makefile || die
