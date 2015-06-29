@@ -60,22 +60,12 @@ based on the latest stable tree."
 # @DESCRIPTION: BFS version string
 # @ECLASS-VARIABLE: BFS_SRC
 # @DESCRIPTION: BFS src file
-:	${BFS_SRC:=${MKV}-sched-bfs-${BFS_VER}.patch}
+:	${BFS_PATCH:=${MKV}-sched-bfs-${BFS_VER}.patch}
 # @ECLASS-VARIABLE: BFS_BASE_PATCH
 # @DESCRIPTION: bfs base patch to patch the unpacked files
 
 # @ECLASS-VARIABLE: BFS_EXTRA_PATCH
 # @DESCRIPTION: bfs extra patch included in ck broken-out archive
-
-## @ECLASS-VARIABLE: BLD_VER
-## @DESCRIPTION: bld version string
-#:	${BLD_VER:=${MKV}.0}
-## @ECLASS-VARIABLE: BLD_URI
-## @DESCRIPTION: bld src URI
-#:	${BLD_URI:="https://bld.googlecode.com"}
-## @ECLASS-VARIABLE: BLD_SRC
-## @DESCRIPTION: BLD src file
-#:	${BLD_SRC:=bld-${MKV}.0.patch}
 
 # @ECLASS-VARIABLE: CK_VER
 # @DESCRIPTION: -ck patchset version string
@@ -86,6 +76,7 @@ based on the latest stable tree."
 # @ECLASS-VARIABLE: CK_SRC
 # @DESCRIPTION: -ck src file
 :	${CK_SRC:=${CK_VER}-broken-out.tar.bz2}
+:	${BFS_SRC:=${CK_SRC}}
 
 # @ECLASS-VARIABLE: GENTOO_VER
 # @DESCRIPTION: gentoo base patchset version string
@@ -248,7 +239,7 @@ kernel-git_src_prepare() {
 
 	if use_if_iuse ck || use_if_iuse bfs; then
 		[[ -n "${BFS_BASE_PATCH}" ]] &&
-			epatch "${WORKDIR}"/patches/${BFS_BASE_PATCH}
+			epatch "${WORKDIR}"/patches/${BFS_BASE}
 	fi
 	if use_if_iuse ck; then
 		sed -e "/ck.*-version.patch/d" \
@@ -257,10 +248,10 @@ kernel-git_src_prepare() {
 			epatch "${WORKDIR}"/patches/$line
 		done <"${WORKDIR}"/patches/series
  	elif use_if_iuse bfs; then
-		epatch "${WORKDIR}"/patches/${BFS_SRC}
+		epatch "${WORKDIR}"/patches/${BFS_PATCH}
 		epatch "${WORKDIR}"/patches/hz-{default_1000,no_default_250}.patch
 		[[ -n "${BFS_EXTRA_PATCH}" ]] &&
-			epatch "${WORKDIR}"/patches/${BFS_EXTRA_PATCH}
+			epatch "${WORKDIR}"/patches/${BFS_EXTRA}
 	fi
 	
 	use_if_iuse reiser4 && epatch "${DISTDIR}"/${REISER4_SRC}
