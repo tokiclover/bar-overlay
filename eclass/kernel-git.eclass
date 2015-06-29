@@ -9,6 +9,7 @@
 
 inherit kernel-2 git-2
 detect_version
+detect_arch
 SRC_URI+="
 	${KERNEL_BASE_URI}/linux-${MKV}.tar.xz
 	${KERNEL_BASE_URI}/patch-${OKV}.xz"
