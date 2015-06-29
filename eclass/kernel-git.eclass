@@ -8,6 +8,10 @@
 # sys-kernel/git-sources::bar ebuilds
 
 inherit kernel-2 git-2
+detect_version
+SRC_URI+="
+	${KERNEL_BASE_URI}/linux-${MKV}.tar.xz
+	${KERNEL_BASE_URI}/patch-${OKV}.xz"
 
 case "${EAPI:-5}" in
 	(4|5) EXPORT_FUNCTIONS src_unpack src_prepare;;
@@ -18,7 +22,7 @@ EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable
 EGIT_COMMIT=v${PV/%.0}
 EGIT_NOUNPACK="yes"
 
-DESCRIPTION="latest linux-stable.git pulled by git from the stable tree"
+DESCRIPTION="Latest stable branch Linux kernel"
 HOMEPAGE="http://www.kernel.org"
 
 IUSE="${PATCHSET[*]}"
@@ -41,7 +45,7 @@ based on the latest stable tree."
 :	${OKV:=${PV}}
 # @ECLASS-VARIABLE: MKV
 # @DESCRIPT: *major* kernel version release
-:	${MKV:=${KV_MAJOR%.*}}
+:	${MKV:=${PV%.*}}
 
 :	${KV_MAJOR:=${MKV%.*}}
 :	${KV_MINOR:=${MKV#*.}}
@@ -171,10 +175,11 @@ for u in "${PATCHSET[@]}"; do
 		(aufs) continue;;
 	esac
 	eval printf '"\n\t%s"' "\"${u}? ( \${${u^^[a-z]}_URI}/\${${u^^[a-z]}_SRC} )\""
-	unset ${u^^[a-z]}_{URI,VER}
 done
 )"
-unset u
+unset u {CK,BF{S,Q},FBCONDECOR,HARDENED,OPTIMIZATION,REISER4,RT,UKSM}_{URI,VER}
+
+S="${WORKDIR}/linux-${OKV}-git"
 
 # @FUNCTION: src_patch_unpack
 src_patch_unpack() {
@@ -190,7 +195,9 @@ src_patch_unpack() {
 kernel-git_src_unpack() {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	kernel-2_src_unpack
+	unpack ${A}
+	mv linux-${MKV} linux-${OKV}-git || die
+
 	if use_if_iuse aufs; then
 		EGIT_BRANCH=aufs${AUFS_VER}
 		unset EGIT_COMMIT
@@ -213,6 +220,7 @@ kernel-git_src_unpack() {
 kernel-git_src_prepare() {
 	debug-print-function ${FUNCNAME} "${@}"
 
+	epatch "${WORKDIR}"/patch-${OKV}
 	epatch_user
 
 	if use_if_iuse aufs; then
@@ -221,18 +229,16 @@ kernel-git_src_prepare() {
 			"${WORKDIR}"/${src}/aufs${KV_MAJOR}-{kbuild,base,mmap}.patch
 			"${WORKDIR}"/${src}/aufs${KV_MAJOR}-{standalone,loopback}.patch
 		)
-
 		for dir in Documentation fs; do
 			cp -a "${WORKDIR}"/${src}/${dir} "${S}" || die
 		done
-
 		cp -a {"${WORKDIR}/${src}","${S}"}/include/uapi/linux/aufs_type.h || die
 		epatch "${PATCHES[@]}"
 		[[ -n "${AUFS_EXTRA_PATCH}" ]] &&
 			epatch "${WORKDIR}"/${src}/${AUFS_EXTRA_PATCH}
 	fi
 
-	use_if_iuse hardened   && epatch "${WORKDIR}"/${HARDENED_VER/%-*}/*.patch
+	use_if_iuse hardened   && epatch "${WORKDIR}"/${MKV}*/*.patch
 	use_if_iuse gentoo     && epatch "${WORKDIR}"/base/*.patch
 	use_if_iuse fbcondecor && epatch "${WORKDIR}"/extras/*.patch
 	use_if_iuse bfq        && epatch "${WORKDIR}"/experimental/*BFQ*.patch
