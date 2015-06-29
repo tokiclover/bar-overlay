@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.14.33.ebuild,v 2.2 2015/06/30 Exp $
+# $Header: sys-kernel/git-sources/git-sources-3.14.32.ebuild,v 2.2 2015/06/30 $
 
 EAPI="5"
 ETYPE="sources"
@@ -14,13 +14,13 @@ KV_PATCH="${PV##*.}"
 AUFS_VER="${MKV}.21+"
 BFS_VER="447"
 CK_VER="${MKV}-ck1"
-GENTOO_VER="${MKV}-38"
+GENTOO_VER="${MKV}-51"
 BFQ_VER="${GENTOO_VER}"
 FBCONDECOR_VER="${GENTOO_VER}"
-HARDENED_VER="${OKV}-2"
+HARDENED_VER="${MKV}.39-2"
 REISER4_VER="${MKV}.1"
-RT_VER="${MKV}.31-rt28"
-TOI_VER="${OKV}-2015-02-14"
+RT_VER="${OKV}-rt44"
+TOI_VER="${OKV}-2015-06-17"
 UKSM_VER="${MKV}.ge.10"
 
 inherit kernel-git

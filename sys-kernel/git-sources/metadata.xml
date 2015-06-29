@@ -8,6 +8,7 @@
 		<flag name="aufs">Add Another Union FS support</flag>
 		<flag name="bfq">Add Budget Fair Queueing I/O Scheduler support</flag>
 		<flag name="bfs">Add Brain Fuck CPU Scheduler support</flag>
+		<flag name="deblob">Deblob kernel firmware for libre support</flag>
 		<flag name="fbcondecor">Add genpatch extras to the patch stack</flag>
 		<flag name="ck">Add the whole -ck patchset to the patch stack</flag>
 		<flag name="gentoo">Adds genpatch base to the patch stack</flag>
