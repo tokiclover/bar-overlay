@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: app-arch/lz4/lz4-128.ebuild,v 1.13 2015/05/24 12:58:22 -tclover Exp $
+# $Header: app-arch/lz4/lz4-129.ebuild,v 1.13 2015/05/24 12:58:22 -tclover Exp $
 
 EAPI=5
 
@@ -28,7 +28,7 @@ IUSE="test valgrind"
 
 DEPEND="test? ( valgrind? ( dev-util/valgrind ) )"
 
-DOCS=( NEWS LZ4_Frame_Format.html lz4_block_format.txt )
+DOCS=( NEWS lz4_Block_format.md lz4_Frame_format.md )
 
 src_prepare()
 {
