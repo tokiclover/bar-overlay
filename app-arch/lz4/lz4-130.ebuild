@@ -22,7 +22,7 @@ inherit multilib-minimal toolchain-funcs ${VCS_ECLASS}
 DESCRIPTION="Extremely Fast Compression algorithm"
 HOMEPAGE="http://lz4.org/"
 
-LICENSE="BSD-2"
+LICENSE="BSD-2 GPL-2"
 SLOT="0"
 IUSE="test valgrind"
 
