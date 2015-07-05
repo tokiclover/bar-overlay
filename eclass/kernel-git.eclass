@@ -134,7 +134,7 @@ based on the latest stable tree."
 :	${REISER4_VER:=${OKV}}
 # @ECLASS-VARIABLE: REISER4_URI
 # @DESCRIPTION: reiser4 src URI
-:	${REISER4_URI:="mirror://sourceforge/project/reiser4/reiser4-for-linux-3.x"}
+:	${REISER4_URI:="mirror://sourceforge/project/reiser4/reiser4-for-linux-${KV_MAJOR}.x"}
 # @ECLASS-VARIABLE: REISER4_SRC
 # @DESCRIPTION: reiser4 src file
 :	${REISER4_SRC:=reiser4-for-${REISER4_VER}.patch.gz}
