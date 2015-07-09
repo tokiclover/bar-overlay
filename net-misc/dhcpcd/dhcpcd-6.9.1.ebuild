@@ -12,7 +12,7 @@ case "${PV}" in
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
-	SRC_URI="http://roy.marples.name/downloads/${PN%-ui}/${P}.tar.bz2"
+	SRC_URI="http://roy.marples.name/downloads/${PN%-ui}/${P}.tar.xz"
 	S="${WORKDIR}/${P/_/-}"
 	;;
 esac
