@@ -75,6 +75,7 @@ net-misc/pacrunner
 net-misc/tipcutils
 net-print/cnijfilter
 sys-apps/hprofile
+sys-apps/less
 sys-firmware/iucode-tool
 sys-fs/aufs-standalone
 sys-fs/aufs-util
