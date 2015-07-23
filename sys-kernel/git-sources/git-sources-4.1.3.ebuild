@@ -5,18 +5,14 @@
 EAPI="5"
 ETYPE="sources"
 K_DEBLOB_AVAILABLE="1"
-PATCHSET=(aufs bfq bfs ck fbcondecor gentoo hardened optimization reiser4)
+PATCHSET=(aufs bfq fbcondecor gentoo optimization rt)
 
 OKV="${PV}"
 MKV="${PV%.*}"
 KV_PATCH="${PV##*.}"
 
-BFS_VER="461"
-CK_VER="${MKV}-ck1"
-CK_SRC="${CK_VER}-broken-out.tar.xz"
-GENTOO_VER="${MKV}-${KV_PATCH}"
+GENTOO_VER="${MKV}-6"
 FBCONDECOR_VER="${GENTOO_VER}"
-HARDENED_VER="${OKV}-2"
-REISER4_VER="${OKV}"
+RT_VER="${MKV}.2-rt1"
 
 inherit kernel-git
