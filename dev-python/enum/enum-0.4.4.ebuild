@@ -13,6 +13,7 @@ HOMEPAGE="http://pypi.python.org/pypi/enum/"
 SRC_URI="mirror://pypi/e/${PN}/${P}.tar.gz"
 
 IUSE=""
+REQUIRED_USE="${PTHON_REQUIRED_USE}"
 
 LICENSE="GPL-2"
 SLOT="0"
