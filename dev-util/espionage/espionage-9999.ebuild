@@ -30,7 +30,7 @@ IUSE="doc"
 
 EFL_VERSION=1.8.0
 RDEPEND=">=dev-python/python-efl-${EFL_VERSION}
-	dev-python/dbus-python"
+	dev-python/dbus-python[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}"
 
