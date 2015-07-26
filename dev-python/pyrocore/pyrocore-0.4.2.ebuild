@@ -18,8 +18,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND="x11-plugins/screenlets"
-DEPEND="dev-python/pyrobase
-	dev-python/setuptools"
+DEPEND="dev-python/pyrobase[${PYTHON_USEDEP}]
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 
 src_install()
 {
