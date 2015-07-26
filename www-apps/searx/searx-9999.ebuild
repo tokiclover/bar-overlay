@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: www-apps/searx/searx-9999.ebuild,v 1.1 2015/07/16 Exp $
+# $Header: www-apps/searx/searx-9999.ebuild,v 1.2 2015/07/26 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -27,18 +27,18 @@ SLOT="0"
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-DEPEND=">=dev-python/flask-0.10.1
-	>=dev-python/flask-babel-0.9
-	>=dev-python/mock-1.0.1
-	>=dev-python/lxml-3.4.4
-	>=dev-python/pyyaml-3.11
-	>=dev-python/pygments-2.0.2
-	>=dev-python/python-dateutil-2.4.2
-	>=dev-python/pyopenssl-0.15.1
-	>=dev-python/ndg-httpsclient-0.4.0
-	>=dev-python/pyasn1-0.1.8
-	>=dev-python/pyasn1-modules-0.0.6
-	>=dev-python/certifi-2015.04.28
+DEPEND=">=dev-python/flask-0.10.1[${PYTHON_USEDEP}]
+	>=dev-python/flask-babel-0.9[${PYTHON_USEDEP}]
+	>=dev-python/mock-1.0.1[${PYTHON_USEDEP}]
+	>=dev-python/lxml-3.4.4[${PYTHON_USEDEP}]
+	>=dev-python/pyyaml-3.11[${PYTHON_USEDEP}]
+	>=dev-python/pygments-2.0.2[${PYTHON_USEDEP}]
+	>=dev-python/python-dateutil-2.4.2[${PYTHON_USEDEP}]
+	>=dev-python/pyopenssl-0.15.1[${PYTHON_USEDEP}]
+	>=dev-python/ndg-httpsclient-0.4.0[${PYTHON_USEDEP}]
+	>=dev-python/pyasn1-0.1.8[${PYTHON_USEDEP}]
+	>=dev-python/pyasn1-modules-0.0.6[${PYTHON_USEDEP}]
+	>=dev-python/certifi-2015.04.28[${PYTHON_USEDEP}]
 	${PYTHON_DEPS}"
 RDEPEND="${DEPEND}"
 
