@@ -32,9 +32,9 @@ IUSE="doc ${PYTHON_USEDEP}"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND=">=dev-libs/efl-${PV:0:4}
-	>=dev-python/cython-0.19.1"
+	>=dev-python/cython-0.19.1[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	doc? ( dev-python/sphinx )
+	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )
 	virtual/pkgconfig
 	${PTHON_DEPS}"
 
