@@ -27,12 +27,12 @@ LICENSE="GPL-3"
 SLOT="0"
 IUSE="lash"
 
-RDEPEND="dev-python/pygtk
-	dev-python/pyxml
+RDEPEND="dev-python/pygtk[${PYTHON_USEDEP}]
+	dev-python/pyxml[${PYTHON_USEDEP}]
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]
 	lash? ( virtual/liblash )
 	x11-libs/vte"
-DEPEND="dev-lang/python"
+DEPEND="${RDEPEND}"
 
 DOCS=( README )
 

@@ -39,7 +39,6 @@ RDEPEND="lash? ( virtual/liblash )
 	>=x11-libs/gtk+-3.0.0[introspection]
 	x11-libs/vte[introspection]
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]"
-
 DEPEND="dev-python/python-distutils-extra[${PYTHON_USEDEP}]"
 
 DOCS=( README )

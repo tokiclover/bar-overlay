@@ -34,7 +34,7 @@ RDEPEND="lash? ( virtual/liblash )
 	>=dev-python/enum-0.4.4[${PYTHON_USEDEP}]
 	>=dev-python/pygobject-3.0.0[${PYTHON_USEDEP}]
 	dev-python/pyxml[${PYTHON_USEDEP}]
-	wmaker? ( dev-python/wmdocklib )
+	wmaker? ( dev-python/wmdocklib[${PYTHON_USEDEP}] )
 	>=x11-libs/gtk+-3.0.0[introspection]
 	x11-libs/vte[introspection]
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]"
