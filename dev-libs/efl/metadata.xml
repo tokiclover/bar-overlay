@@ -3,6 +3,7 @@
 <pkgmetadata>
 <use>
 	<flag name="bmp">Enable WBMP image loader.</flag>
+	<flag name="cpu_flags_arm_neon">Use advanced SIMD extension instruction set</flag>
 	<flag name="drm">Enable DRM engine.</flag>
 	<flag name="eet">Enable Eet image loader.</flag>
 	<flag name="egl">Enable EGL rendering.</flag>

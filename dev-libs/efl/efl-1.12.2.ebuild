@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-libs/efl/efl-1.12.2.ebuild,v 1.3 2015/05/26 -tclover Exp $
+# $Header: dev-libs/efl/efl-1.12.2.ebuild,v 1.4 2015/08/12 Exp $
 
 EAPI=5
 
@@ -18,6 +18,7 @@ case "${PV}" in
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
 	SRC_URI="https://download.enlightenment.org/rel/libs/${PN}/${P/_/-}.tar.xz"
+	S="${WORKDIR}/${P/_/-}"
 	;;
 esac
 inherit autotools-multilib ${VCS_ECLASS}
@@ -27,12 +28,12 @@ RESTRICT="test"
 DESCRIPTION="Enlightenment Foundation Core Libraries"
 HOMEPAGE="http://www.enlightenment.org/"
 
-LICENSE="BSD-2 GPL-2 LGPL-2.1 ZLIB"
+LICENSE="BSD-2 GPL-2 GPL-2 LGPL-2.1 ZLIB"
 SLOT="0/${PV:0:4}"
 
-IUSE="+X avahi cxx-bindings debug doc drm +egl fbcon +fontconfig +fribidi gif
-gles glib gnutls gstreamer harfbuzz ibus jp2k +nls +opengl ssl physics +png
-pulseaudio scim sdl static-libs systemd system-lz4 test tiff tslib v4l2 wayland
+IUSE="+X avahi cpu_flags_arm_neon cxx-bindings debug doc drm +egl fbcon +fontconfig
++fribidi gif gles glib gnutls gstreamer harfbuzz ibus jp2k +nls +opengl ssl physics
++png pulseaudio scim sdl static-libs systemd system-lz4 test tiff tslib v4l2 wayland
 webp xim xine xpm"
 REQUIRED_USE="drm? ( systemd ) ?? ( gnutls ssl ) ?? ( opengl gles sdl )"
 
@@ -126,9 +127,7 @@ DEPEND="${COMMON_DEP}
 	doc? ( app-doc/doxygen )
 	test? ( dev-libs/check[${MULTILIB_USEDEP}] )"
 
-DOCS=( AUTHORS ChangeLog NEWS README )
-
-S="${WORKDIR}/${P/_/-}"
+DOCS=( AUTHORS COMPLIANCE COPYING ChangeLog NEWS README )
 
 multilib_src_configure()
 {
@@ -153,6 +152,7 @@ multilib_src_configure()
 	)
 	myeconfargs+=(
 		$(use_enable avahi)
+		$(use_enable cpu_flags_arm_neon neon)
 		$(use_enable cxx-bindings cxx-bindings)
 		$(use_enable doc)
 		$(use_enable drm)
