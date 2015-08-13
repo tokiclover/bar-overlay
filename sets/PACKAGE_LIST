@@ -1,5 +1,6 @@
 app-arch/lz4
 app-dicts/xmlittre
+app-editors/ecrire
 dev-libs/efl
 dev-libs/dbus-c++
 dev-libs/wayland
