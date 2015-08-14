@@ -95,8 +95,9 @@ x11-libs/ganv
 x11-misc/netwmpager
 x11-misc/spacefm
 x11-misc/tint2
-x11-plugins/engage
 x11-plugins/ekbd
+x11-plugins/engage
+x11-plugins/entrance
 x11-themes/ardoise-xcursor-theme
 x11-themes/awoken-icon-theme
 x11-themes/e-gtk-theme
