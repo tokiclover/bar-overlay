@@ -4,6 +4,9 @@
 
 EAPI=5
 
+MY_PN="urxvt-perls"
+MY_P="${MY_PN}-${PV}"
+
 case "${PV}" in
 	(9999*)
 	KEYWORDS=""
@@ -29,6 +32,8 @@ DEPEND="dev-lang/perl"
 RDEPEND="${DEPEND}
 	x11-terms/rxvt-unicode
 	|| ( x11-misc/xsel x11-misc/xclip )"
+
+S="${WORKDIR}/${MY_P}"
 
 src_install() {
 	insinto /usr/lib/urxvt/perl/
