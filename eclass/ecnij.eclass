@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.3 2014/09/30 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 3.3 2015/08/14 19:33:34 -tclover Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER: tclover@bar-overlay
@@ -15,16 +15,11 @@ KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
 	|| ( drivers backends ) drivers? ( || ( ${PRINTER_USE[@]} ) )"
-has net ${IUSE} &&
+( [[ ${PV:0:1} -gt 3 ]] || ( [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 10 ]] ) ) &&
 REQUIRED_USE+=" servicetools? ( net ) backends? ( || ( net usb ) )" ||
 REQUIRED_USE+=" backends? ( usb )"
 
-LICENSE="GPL-2 cnijfilter"
-
-if use backends; then
-	use_if_iuse net || LICENSE="GPL-2"
-	export SLOT="0/${PV}"
-fi
+LICENSE="GPL-2 net? ( cnijfilter)"
 
 RDEPEND="${RDEPEND}
 	app-text/ghostscript-gpl
