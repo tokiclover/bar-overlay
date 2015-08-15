@@ -81,6 +81,7 @@ sys-firmware/iucode-tool
 sys-fs/aufs-standalone
 sys-fs/aufs-util
 sys-fs/fskit
+sys-fs/vdev
 sys-kernel/git-sources
 sys-kernel/mkinitramfs-ll
 sys-libs/libfreebob
