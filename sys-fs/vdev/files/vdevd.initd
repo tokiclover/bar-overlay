@@ -5,7 +5,7 @@
 VDEV_CONFIG="/etc/vdev/vdevd.conf"
 VDEV_MOUNTPOINT="/dev"
 
-command="/sbin/udevd"
+command="/sbin/vdevd"
 command_args="-c $VDEV_CONFIG ${VDEV_LOGFILE+-l} $VDEV_LOGFILE $VDEV_OPTS $VDEV_MOUNTPOINT"
 pidfile="/run/vdevd.pid"
 description="Device (permissions and symbolic links) manager"
@@ -22,8 +22,8 @@ start_pre()
 	local fs=devtmpfs
 	if ! mountinfo -q /dev; then
 		grep -qs devtmpfs /proc/filesystems || fs=tmpfs
-		mount -n -t "$fs" dev /dev || return 1
-		mkdir /dev/pts
+		mount -n -t "$fs" dev $VDEV_MOUNTPOINT || return 1
+		mkdir $VDEV_MOUNTPOINT/pts
 	fi
 
 	for fs in /proc/sys/kernel/hotplug /sys/kernel/uevent_helper; do
@@ -35,7 +35,7 @@ stop()
 {
 	local ret
 	ebegin "Stopping ${name:-$RC_SVCNAME}"
-	start-stop-daemon --stop --pidfile $pidfile --exec /sbin/udevd
+	start-stop-daemon --stop --pidfile $pidfile --exec /sbin/vdevd
 	ret="$?"
 	if ! [ "$ret" = 0 ]; then
 		kill -TERM $(cat $pidfile)
