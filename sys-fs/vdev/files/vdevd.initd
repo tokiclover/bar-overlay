@@ -1,0 +1,46 @@
+#!/sbin/runscript
+# Copyright 1999-2015 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+VDEV_CONFIG="/etc/vdev/vdevd.conf"
+VDEV_MOUNTPOINT="/dev"
+
+command="/sbin/udevd"
+command_args="-c $VDEV_CONFIG ${VDEV_LOGFILE+-l} $VDEV_LOGFILE $VDEV_OPTS $VDEV_MOUNTPOINT"
+pidfile="/run/vdevd.pid"
+description="Device (permissions and symbolic links) manager"
+
+depend()
+{
+	provide dev
+	need sysfs dev-mount
+	before checkfs fsck
+}
+
+start_pre()
+{
+	local fs=devtmpfs
+	if ! mountinfo -q /dev; then
+		grep -qs devtmpfs /proc/filesystems || fs=tmpfs
+		mount -n -t "$fs" dev /dev || return 1
+		mkdir /dev/pts
+	fi
+
+	for fs in /proc/sys/kernel/hotplug /sys/kernel/uevent_helper; do
+		[ -e $fs ] && echo "" >$fs
+	done
+}
+
+stop()
+{
+	local ret
+	ebegin "Stopping ${name:-$RC_SVCNAME}"
+	start-stop-daemon --stop --pidfile $pidfile --exec /sbin/udevd
+	ret="$?"
+	if ! [ "$ret" = 0 ]; then
+		kill -TERM $(cat $pidfile)
+		eend "$?"
+	else
+		eend "$ret"
+	fi
+}

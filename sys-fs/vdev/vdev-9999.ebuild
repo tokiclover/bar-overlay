@@ -51,4 +51,8 @@ multilib_src_install()
 {
 	emake DESTDIR="${ED}" PREFIX=/usr LIBDIR="${ED}/$(get_libdir)" \
 		PKGCONFIGDIR="${ED}/usr/$(get_libdir)/pkgconfig" install
+
+	rm -f "${ED}"/etc/{conf,init}.d/vdev*
+	newinitd "${FILESDIR}"/vdevd.initd vdevd
+	newconfd "${FILESDIR}"/vdevd.confd vdevd
 }
