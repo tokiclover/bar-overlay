@@ -14,6 +14,7 @@ case "${PV}" in
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
 	SRC_URI="https://github.com/muennich/urxvt-perls/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	S="${WORKDIR}/urxvt-perls-${PV}"
 	;;
 esac
 inherit eutils ${VCS_ECLASS}
