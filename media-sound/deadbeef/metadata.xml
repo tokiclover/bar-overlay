@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer>
-		<email></email>
+		<email>bar@overlay</email>
 	</maintainer>
 	<use>
 		<flag name="alac">Support Aple Lossless Audio Codec (through FAAD2)</flag>
