@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-firmware/iucode-tool/iucode-tool-1.3.ebuild,v 1.2 2015/06/26 07:56:50 -tclover Exp $
+# $Header: sys-firmware/iucode-tool/iucode-tool-1.3.ebuild,v 1.2 2015/08/16 07:56:50 Exp $
 
 EAPI=5
 
@@ -26,9 +26,9 @@ HOMEPAGE="https://gitlab.com/groups/iucode-tool"
 
 LICENSE="|| ( GPL-2 GPL-3 )"
 SLOT="0"
-IUSE="test"
+IUSE="debug"
 
-DEPEND="test? ( dev-util/valgrind )"
+DEPEND="debug? ( dev-util/valgrind )"
 RDEPEND="${DEPEND}"
 
 DOCS=( AUTHORS README NEWS TODO )
@@ -36,7 +36,7 @@ DOCS=( AUTHORS README NEWS TODO )
 src_configure()
 {
 	local -a myeconfargs=( ${EXTRA_IUCODE_CONF}
-		$(use_enable test valgrind-build)
+		$(use_enable debug valgrind-build)
 	)
 	autotools-utils_src_configure
 }
