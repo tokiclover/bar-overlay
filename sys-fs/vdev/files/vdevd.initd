@@ -20,7 +20,7 @@ depend()
 start_pre()
 {
 	local fs=devtmpfs
-	if ! mountinfo -q /dev; then
+	if ! mountinfo -q $VDEV_MOUNTPOINT; then
 		grep -qs devtmpfs /proc/filesystems || fs=tmpfs
 		mount -n -t "$fs" dev $VDEV_MOUNTPOINT || return 1
 		mkdir $VDEV_MOUNTPOINT/pts
