@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/leopard-gtk-theme/leopard-gtk-theme-4.0.ebuild,v 1.2 2014/12/01 00:22:09 -tclover Exp $
+# $Header: x11-themes/leopard-gtk-theme/leopard-gtk-theme-4.0.ebuild,v 1.2 2015/08/16 00:22:09 Exp $
 
 EAPI=5
 
@@ -17,9 +17,9 @@ IUSE="icon"
 
 RDEPEND="x11-themes/gtk-engines-murrine
 	icon? ( ${CATEGORY}/${PN/gtk/icon} )"
-
 DEPEND="app-arch/unzip"
 
+RESTRICT="mirror"
 S="${WORKDIR}"
 
 src_prepare()
