@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/leopard-icon-theme/leopard-icon-theme-4.0.ebuild,v 1.2 2014/12/01 10:58:02 -tclover Exp $
+# $Header: x11-themes/leopard-icon-theme/leopard-icon-theme-4.0.ebuild,v 1.2 2015/08/16 10:58:02 Exp $
 
 EAPI=5
 
@@ -17,11 +17,9 @@ IUSE="gtk -minimal"
 
 RDEPEND="minimal? ( !x11-themes/gnome-icon-theme )
 	gtk? ( x11-themes/${PN/icon/gtk} )"
-
 DEPEND="app-arch/unzip"
 
-RESTRICT="nomirror"
-
+RESTRICT="mirror"
 S="${WORKDIR}"
 
 src_install()
@@ -42,4 +40,3 @@ pkg_postrm()
 {
 	gnome2_icon_cache_update
 }
-
