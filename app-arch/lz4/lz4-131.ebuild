@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: app-arch/lz4/lz4-129.ebuild,v 1.13 2015/05/24 12:58:22 -tclover Exp $
+# $Header: app-arch/lz4/lz4-129.ebuild,v 1.14 2015/08/14 12:58:22 Exp $
 
 EAPI=5
 
@@ -24,15 +24,15 @@ HOMEPAGE="http://lz4.org/"
 
 LICENSE="BSD-2 GPL-2"
 SLOT="0"
-IUSE="test valgrind"
+IUSE="debug test"
 
-DEPEND="test? ( valgrind? ( dev-util/valgrind ) )"
+DEPEND="test? ( debug? ( dev-util/valgrind ) )"
 
 DOCS=( NEWS lz4_Block_format.md lz4_Frame_format.md )
 
 src_prepare()
 {
-	if ! use valgrind; then
+	if ! use debug; then
 		sed -i -e '/^test:/s|test-mem||g' programs/Makefile || die
 	fi
 	multilib_copy_sources
