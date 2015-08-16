@@ -14,7 +14,7 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~arm ~x86"
-		SRC_URI="https://pypi.python.org/packages/source/p/${PN}/${P}.zip"
+		SRC_URI="mirror://pypi.python.org/packages/source/p/${PN}/${P}.zip"
 		;;
 esac
 inherit distutils-r1 ${VCS_ECLASS}
