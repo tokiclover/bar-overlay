@@ -1,14 +1,21 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.3 2015/08/14 19:33:34 -tclover Exp $
+# $Header: eclass/ecnij.eclass,v 3.4 2015/08/14 19:33:34 Exp $
 
 # @ECLASS: ecnij.eclass
-# @MAINTAINER: tclover@bar-overlay
+# @MAINTAINER: bar@overlay
 # @BLURB: 
 # @DESCRIPTION: Exports portage base functions used by ebuilds 
 # written for net-print/cnijfilter packages
+# @AUTHOR: tokiclover <tokiclover@gmail.com>
 
 inherit autotools eutils flag-o-matic multilib-build
+
+for card in ${PRINTER_MODELS[@]}; do
+	has ${card} ${CANON_PRINTERS} &&
+	PRINTER_USE=(${PRINTER_USE[@]} +canon_printers_${card}) ||
+	PRINTER_USE=(${PRINTER_USE[@]} canon_printers_${card})
+done
 
 IUSE="${IUSE} backends debug +drivers gtk servicetools +usb ${PRINTER_USE[@]}"
 KEYWORDS="~x86 ~amd64"
@@ -149,7 +156,7 @@ ecnij_src_prepare() {
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
-		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
+		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			mkdir ${pr} || die
 			for dir in ${prid} ${PRINTER_SRC}; do
@@ -173,7 +180,7 @@ ecnij_src_configure() {
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
-		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
+		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC}" \
@@ -190,7 +197,7 @@ ecnij_src_compile() {
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
-		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
+		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC}" "emake"
@@ -218,7 +225,7 @@ ecnij_src_install() {
 	dir_src_command "${CNIJFILTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
 
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
-		pr=${PRINTER_USE[$p]} prid=${PRINTER_ID[$p]}
+		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use ${pr}; then
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
