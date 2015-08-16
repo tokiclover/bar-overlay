@@ -29,6 +29,7 @@ start_pre()
 	for fs in /proc/sys/kernel/hotplug /sys/kernel/uevent_helper; do
 		[ -w $fs ] && echo "" >$fs
 	done
+	return 0
 }
 
 stop()
