@@ -1,12 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-3.80.ebuild,v 1.9 2014/08/02 03:10:53 -tclover Exp $
+# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-3.80.ebuild,v 1.9 2015/08/02 03:10:53  Exp $
 
 EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
 
-PRINTER_USE=( "mp430" "mg2200" "e510" "mg3200" "mg4200" "ip7200" "mg5400" "mg6300" )
+PRINTER_MODEL=( "mp430" "mg2200" "e510" "mg3200" "mg4200" "ip7200" "mg5400" "mg6300" )
 PRINTER_ID=( "401" "402" "403" "405" "406" "407" "408" )
 
 inherit ecnij

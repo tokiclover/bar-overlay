@@ -1,12 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-2.60.ebuild,v 2.0 2014/08/04 23:01:38 -tclover Exp $
+# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-2.60.ebuild,v 2.0 2015/08/04 23:01:38  Exp $
 
 EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_32 )
 
-PRINTER_USE=( "ip2200" "ip4200" "ip6600d" "ip7700" "mp500" )
+PRINTER_MODEL=( "ip2200" "ip4200" "ip6600d" "ip7700" "mp500" )
 PRINTER_ID=( "256" "260" "265" "266" "273" )
 
 inherit ecnij rpm

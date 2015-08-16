@@ -1,10 +1,10 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-2.70.ebuild,v 2.0 2014/08/04 23:01:33 -tclover Exp $
+# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-2.70.ebuild,v 2.0 2015/08/04 23:01:33  Exp $
 
 EAPI=5
 
-PRINTER_USE=( "mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90" )
+PRINTER_MODEL=( "mp160" "ip3300" "mp510" "ip4300" "mp600" "ip2500" "ip1800" "ip90" )
 PRINTER_ID=( "291" "292" "293" "294" "295" "311" "312" "253" )
 
 MULTILIB_COMPAT=( abi_x86_32 )

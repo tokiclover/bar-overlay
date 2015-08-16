@@ -1,12 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-3.30.ebuild,v 2.0 2014/08/04 03:10:53 -tclover Exp $
+# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-3.30.ebuild,v 2.0 2015/08/04 03:10:53  Exp $
 
 EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_32 )
 
-PRINTER_USE=( "ip2700" "mx340" "mx350" "mx870" )
+PRINTER_MODEL=( "ip2700" "mx340" "mx350" "mx870" )
 PRINTER_ID=( "364" "365" "366" "367" )
 
 inherit ecnij

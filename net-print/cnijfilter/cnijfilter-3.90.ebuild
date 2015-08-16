@@ -1,12 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-3.90.ebuild,v 2.0 2014/08/08 03:10:53 -tclover Exp $
+# $Header: net-print/cnijfilter-drivers/cnijfilter-driverss-3.90.ebuild,v 2.0 2015/08/08 03:10:53  Exp $
 
 EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
 
-PRINTER_USE=( "mx720" "mx920" "mx390" "mx450" "mx520" "e660" )
+PRINTER_MODEL=( "mx720" "mx920" "mx390" "mx450" "mx520" "e660" )
 PRINTER_ID=( "416" "417" "418" "419" "420" "421" )
 
 inherit ecnij
