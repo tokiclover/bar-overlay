@@ -5,6 +5,6 @@
 		<email>bar@overlay</email>
 	</maintainer>
 	<use>
-		<flag name="colorization">exploit the colorization script ability to color icons/flag>
+		<flag name="colorization">exploit the colorization script ability to color icons</flag>
 	</use>
 </pkgmetadata>
