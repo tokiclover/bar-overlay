@@ -19,7 +19,7 @@ REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
 REQUIRED_USE+=" servicetools? ( net ) backends? ( || ( net usb ) )" ||
 REQUIRED_USE+=" backends? ( usb )"
 
-LICENSE="GPL-2 net? ( cnijfilter)"
+LICENSE="GPL-2 net? ( cnijfilter )"
 
 RDEPEND="${RDEPEND}
 	app-text/ghostscript-gpl
