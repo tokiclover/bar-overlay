@@ -37,7 +37,7 @@ DOCS=( CONTRIBUTORS README.md how-to-test.md )
 
 src_prepare()
 {
-	sed -e 's,dash,sh,g' -i */*.sh */*/*.sh || die
+	sed -e 's,dash,sh,g' -i "${S}"/*/*.sh "${S}"/*/*/*.sh || die
 	epatch_user
 	multilib_copy_sources
 }
