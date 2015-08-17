@@ -1,19 +1,28 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/mesa/mesa-9999.ebuild,v 1.6 2015/06/06 22:15:06 -tclover Exp $
+# $Header: media-libs/mesa/mesa-9999.ebuild,v 1.6 2015/08/16 22:15:06 Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python{2_6,2_7} )
+PYTHON_COMPAT=( python2_7 )
+
+inherit autotools-multilib flag-o-matic python-any-r1 pax-utils
 
 case "${PV}" in
 	(*9999*)
 		KEYWORDS=""
-		VCS_ECLASS=git-2
+		inherit git-2
 		EGIT_REPO_URI="git://anongit.freedesktop.org/${PN}/${PN}"
 		EGIT_PROJECT="${PN}.git"
 		case "${PV}" in
-			(*.9999*) EGIT_BRANCH="${PV%.9999*}";;
-			(*) EXPERIMENTAL=true;;
+			(*.9999*) EGIT_BRANCH="${PV%.9999*}"
+				PATCHES=("${FILESDIR}"/glx_ro_text_segm.patch)
+			;;
+			(*) EXPERIMENTAL=true
+				DEPEND="sys-devel/bison
+	sys-devel/flex
+	${PYTHON_DEPS}
+	$(python_gen_any_dep ">=dev-python/mako-0.7.3[\${PYTHON_USEDEP}]")"
+			;;
 		esac
 		AUTOTOOLS_AUTORECONF=1
 		;;
@@ -24,8 +33,6 @@ case "${PV}" in
 		SRC_URI="ftp://ftp.freedesktop.org/pub/${PN}/${PV/_rc*/}/${P/_/-}.tar.xz"
 		;;
 esac
-inherit base autotools-multilib flag-o-matic \
-	python-any-r1 toolchain-funcs pax-utils ${VCS_ECLASS}
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -34,6 +41,7 @@ HOMEPAGE="http://mesa3d.sourceforge.net/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 SLOT="0/${PV:0:4}"
+RESTRICT="!bindist? ( bindist )"
 
 INTEL_CARDS="i915 i965 ilo intel"
 RADEON_CARDS="r100 r200 r300 r600 radeon radeonsi"
@@ -44,27 +52,22 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl
-	opencl osmesa pax_kernel openmax pic r600-llvm-compiler selinux +udev
-	vaapi vdpau wayland xvmc xa kernel_FreeBSD"
+	opencl osmesa pax_kernel openmax pic selinux +udev vaapi vdpau wayland xvmc
+	xa kernel_FreeBSD"
 
 REQUIRED_USE="
 	d3d9? ( gallium dri3 )
 	llvm?   ( gallium )
-	opencl? (
-		gallium
-		llvm
-		video_cards_r600? ( r600-llvm-compiler )
-		video_cards_radeon? ( r600-llvm-compiler )
-		video_cards_radeonsi? ( r600-llvm-compiler )
-	)
+	opencl? ( gallium llvm )
 	openmax? ( gallium )
 	gles1?  ( egl )
 	gles2?  ( egl )
-	r600-llvm-compiler? ( gallium llvm || ( video_cards_r600 video_cards_radeonsi video_cards_radeon ) )
+	vaapi? ( gallium )
+	vdpau? ( gallium )
 	wayland? ( egl gbm )
 	xa?  ( gallium )
 	video_cards_freedreno?  ( gallium )
-	video_cards_intel?  ( || ( classic gallium ) )
+	video_cards_intel?  ( classic )
 	video_cards_i915?   ( || ( classic gallium ) )
 	video_cards_i965?   ( classic )
 	video_cards_ilo?    ( gallium )
@@ -72,14 +75,14 @@ REQUIRED_USE="
 	video_cards_radeon? ( || ( classic gallium ) )
 	video_cards_r100?   ( classic )
 	video_cards_r200?   ( classic )
-	video_cards_r300?   ( gallium )
+	video_cards_r300?   ( gallium  llvm )
 	video_cards_r600?   ( gallium )
 	video_cards_radeonsi?   ( gallium llvm )
 	video_cards_vmware? ( gallium )
 	${PYTHON_REQUIRED_USE}
 "
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.57"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
@@ -97,26 +100,21 @@ RDEPEND="
 	x11-libs/libXext:=[${MULTILIB_USEDEP}]
 	x11-libs/libXxf86vm:=[${MULTILIB_USEDEP}]
 	x11-libs/libxcb:=[${MULTILIB_USEDEP}]
+	x11-libs/libXfixes:=[${MULTILIB_USEDEP}]
 	llvm? (
 		video_cards_radeonsi? ( || (
 			dev-libs/elfutils:=[${MULTILIB_USEDEP}]
 			dev-libs/libelf:=[${MULTILIB_USEDEP}]
 			) )
-		video_cards_r600? ( || (
-			>=dev-libs/elfutils:=[${MULTILIB_USEDEP}]
-			>=dev-libs/libelf:=[${MULTILIB_USEDEP}]
-			) )
-		!video_cards_r600? (
-			video_cards_radeon? ( || (
-				dev-libs/elfutils:=[${MULTILIB_USEDEP}]
-				dev-libs/libelf:=[${MULTILIB_USEDEP}]
-				) )
-		)
 		sys-devel/llvm:=[${MULTILIB_USEDEP}]
 	)
 	opencl? (
 				app-eselect/eselect-opencl
 				dev-libs/libclc
+				|| (
+					dev-libs/elfutils:=[${MULTILIB_USEDEP}]
+					dev-libs/libelf:=[${MULTILIB_USEDEP}]
+				)
 			)
 	openmax? ( media-libs/libomxil-bellagio:=[${MULTILIB_USEDEP}] )
 	udev? ( kernel_linux? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] ) )
@@ -138,10 +136,10 @@ for card in ${RADEON_CARDS}; do
 	"
 done
 
-DEPEND="${RDEPEND}
+DEPEND+="
+	${RDEPEND}
 	${PYTHON_DEPS}
 	llvm? (
-		r600-llvm-compiler? ( sys-devel/llvm[video_cards_radeon] )
 		video_cards_radeonsi? ( sys-devel/llvm[video_cards_radeon] )
 	)
 	opencl? (
@@ -149,9 +147,6 @@ DEPEND="${RDEPEND}
 				sys-devel/clang[${MULTILIB_USEDEP}]
 				sys-devel/gcc
 	)
-	dev-python/mako
-	sys-devel/bison
-	sys-devel/flex
 	sys-devel/gettext
 	virtual/pkgconfig
 	x11-proto/dri2proto[${MULTILIB_USEDEP}]
@@ -171,18 +166,9 @@ QA_EXECSTACK="usr/lib*/libGL.so*"
 QA_WX_LOAD="usr/lib*/libGL.so*"
 
 OPENGL_DIR="xorg-x11"
-
-PATCHES=(
-	# relax the requirement that r300 must have llvm, bug 380303
-	"${FILESDIR}"/${PN}-10.4-dont-require-llvm-for-r300.patch
-	# fix for hardened pax_kernel, bug 240956
-	"${FILESDIR}"/glx_ro_text_segm.patch
-)
+FOLDER="${PV/_rc*/}"
 
 pkg_setup() {
-	# workaround toc-issue wrt #386545
-	use ppc64 && append-flags -mminimal-toc
-
 	# warning message for bug 459306
 	if use llvm && has_version sys-devel/llvm[!debug=]; then
 		ewarn "Mismatch between debug USE flags in media-libs/mesa and sys-devel/llvm"
@@ -193,13 +179,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# Solaris needs some recent POSIX stuff in our case
-	case "${CHOST}" in
-		(*-solaris*)
-			sed -i -e "s/-DSVR4/-D_POSIX_C_SOURCE=200112L/" configure.ac || die
-			;;
-	esac
-
 	autotools-utils_src_prepare
 	multilib_copy_sources
 }
@@ -240,7 +219,6 @@ multilib_src_configure() {
 			$(use_enable d3d9 nine)
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openmax omx)
-			$(use_enable r600-llvm-compiler)
 			$(use_enable vaapi va)
 			$(use_enable vdpau)
 			$(use_enable xa)
@@ -423,15 +401,7 @@ pkg_postinst() {
 		elog "enabled. Please see patents.txt for an explanation."
 	fi
 
-	local using_radeon r_flag
-	for r_flag in ${RADEON_CARDS}; do
-		if use video_cards_${r_flag}; then
-			using_radeon=1
-			break
-		fi
-	done
-
-	if [[ ${using_radeon} = 1 ]] && ! has_version media-libs/libtxc_dxtn; then
+	if ! has_version media-libs/libtxc_dxtn; then
 		elog "Note that in order to have full S3TC support, it is necessary to install"
 		elog "media-libs/libtxc_dxtn as well. This may be necessary to get nice"
 		elog "textures in some apps, and some others even require this to run."
