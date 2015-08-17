@@ -51,6 +51,11 @@ LICENSE
 
 GPL-2
 
+MIRRORS
+-------
+
+* https://gitlab.com/tokiclover/bar-overlay
+
 ---
 
 vim:fenc=utf-8:
