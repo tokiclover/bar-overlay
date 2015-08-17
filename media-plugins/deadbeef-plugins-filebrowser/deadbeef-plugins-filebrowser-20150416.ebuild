@@ -26,10 +26,11 @@ HOMEPAGE="http://deadbeef-fb.sourceforge.net/ https://gitlab.com/zykure/deadbeef
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="debug gtk gtk3 static-libs"
+REQUIRED_USE="|| ( gtk gtk3 )"
 
 DEPEND="gtk? ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )"
-RDEPEND="media-sound/deadbeef
+RDEPEND="media-sound/deadbeef[gtk?,gtk3?]
 	${DEPEND}"
 
 AUTOTOOLS_PRUNE_LIBTOOL_FILES=modules
