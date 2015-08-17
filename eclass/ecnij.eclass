@@ -11,7 +11,7 @@
 
 inherit autotools eutils flag-o-matic multilib-build
 
-for card in ${PRINTER_MODELS[@]}; do
+for card in ${PRINTER_MODEL[@]}; do
 	has ${card} ${CANON_PRINTERS} &&
 	PRINTER_USE=(${PRINTER_USE[@]} +canon_printers_${card}) ||
 	PRINTER_USE=(${PRINTER_USE[@]} canon_printers_${card})
@@ -56,6 +56,9 @@ EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_
 
 # @ECLASS-VARIABLE: PRINTER_USE
 # @DESCRIPTION: An array with printers USE flags
+
+# @ECLASS-VARIABLE: PRINTER_MODEL
+# @DESCRIPTION: An array with printers model
 
 # @ECLASS-VARIABLE: PRINTER_ID
 # @DESCRIPTION: An array with printers id
