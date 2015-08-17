@@ -37,6 +37,7 @@ media-libs/suil
 media-libs/zita-alsa-pcmi
 media-libs/zita-resampler
 media-plugins/calf
+media-plugins/deadbeef-plugins-filebrowser
 media-plugins/deadbeef-plugins-infobar
 media-plugins/deadbeef-plugins-jack
 media-plugins/deadbeef-plugins-mpris
