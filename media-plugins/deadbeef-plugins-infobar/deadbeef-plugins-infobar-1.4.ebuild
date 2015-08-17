@@ -1,18 +1,29 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/deadbeef-plugins-infobar/deadbeef-plugins-infobar-1.4.ebuild,v 1.1 2014/08/16 07:56:50 -tclover Exp $
+# $Header: media-plugins/deadbeef-plugins-infobar/deadbeef-plugins-infobar-1.4.ebuild,v 1.2 2015/08/16 07:56:50 Exp $
 
 EAPI=5
 
-inherit eutils
+case "${PV}" in
+	(9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://bitbucket.org/dsimbiriatin/deadbeef-infobar.git"
+		EGIT_PROJECT="${PN}.git"
+		;;
+	(*)
+		KEYWORDS="~amd64 ~x86"
+		SRC_URI="https://bitbucket.org/dsimbiriatin/${PN/-plugins}/downloads/${P/-plugins}.tar.gz"
+		S="${WORKDIR}"/${P/-plugins}
+		;;
+esac
+inherit eutils ${VCS_ECLASS}
 
-DESCRIPTION="A plugin that allows you to view lyrics, biography, list of similar artists"
+DESCRIPTION="Info-bar plugin for DeaDBeeF audio player"
 HOMEPAGE="https://bitbucket.org/dsimbiriatin/deadbeef-infobar/wiki/Home"
-SRC_URI="https://bitbucket.org/dsimbiriatin/${PN/-plugins}/downloads/${P/-plugins}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE="gtk gtk3"
 REQUIRED_USE="|| ( gtk gtk3 )"
 
@@ -20,14 +31,14 @@ DEPEND="dev-libs/libxml2"
 RDEPEND=">=media-sound/deadbeef-0.6.0[curl,gtk?,gtk3?]
 	${DEPEND}"
 
-S="${WORKDIR}"/${P/-plugins}
-
-src_compile() {
+src_compile()
+{
 	use gtk && emake gtk2
 	use gtk3 && emake gtk3
 }
 
-src_install() {
+src_install()
+{
 	EXEOPTIONS="-m0755"
 	exeinto /usr/$(get_libdir)/deadbeef
 	doexe gtk*/ddb_infobar_gtk*.so
