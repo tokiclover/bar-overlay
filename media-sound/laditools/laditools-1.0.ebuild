@@ -26,6 +26,7 @@ HOMEPAGE="http://www.marcochapeau.org/software/laditools"
 LICENSE="GPL-3"
 SLOT="0"
 IUSE="lash"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="dev-python/pygtk[${PYTHON_USEDEP}]
 	dev-python/pyxml[${PYTHON_USEDEP}]

@@ -26,7 +26,8 @@ HOMEPAGE="https://launchpad.net/laditools"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 x86"
-IUSE="lash wmaker ${PYTHON_REQUIRED_USE}"
+IUSE="lash wmaker"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="lash? ( virtual/liblash )
     x11-libs/gtk+:3[introspection]
