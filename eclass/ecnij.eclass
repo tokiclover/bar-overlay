@@ -160,7 +160,7 @@ ecnij_src_prepare() {
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
-		if use ${pr}; then
+		if use canon_printers_${pr}; then
 			mkdir ${pr} || die
 			for dir in ${prid} ${PRINTER_SRC}; do
 				cp -a ${dir} ${pr} || die
@@ -184,7 +184,7 @@ ecnij_src_configure() {
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
-		if use ${pr}; then
+		if use canon_printers_${pr}; then
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC}" \
 				"econf" "--program-suffix=${pr}"
@@ -201,7 +201,7 @@ ecnij_src_compile() {
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
-		if use ${pr}; then
+		if use canon_printers_${pr}; then
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC}" "emake"
 			popd
@@ -229,7 +229,7 @@ ecnij_src_install() {
 
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
-		if use ${pr}; then
+		if use canon_printers_${pr}; then
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
 			popd
