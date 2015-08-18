@@ -22,7 +22,7 @@ KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
 	|| ( drivers backends ) drivers? ( || ( ${PRINTER_USE[@]} ) )"
-( [[ ${PV:0:1} -gt 3 ]] || ( [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 10 ]] ) ) &&
+( (( ${PV:0:1} > 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 10 )) ) ) &&
 REQUIRED_USE+=" servicetools? ( net ) backends? ( || ( net usb ) )" ||
 REQUIRED_USE+=" backends? ( usb )"
 
@@ -39,17 +39,15 @@ RDEPEND="${RDEPEND}
 	media-libs/libpng[${MULTILIB_USEDEP}]
 	!backends? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},backends] )"
 
-( [[ ${PV:0:1} -ge 3 ]] || [[ ${PV:2:2} -ge 80 ]] ) &&
+( (( ${PV:0:1} >= 3 )) || (( ${PV:2:2} >= 80 )) ) &&
 RDEPEND="${RDEPEND}
 	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )" ||
 RDEPEND="${RDEPEND}
 	gtk? ( x11-libs/gtk+:1[${MULTILIB_USEDEP}] )"
-
 DEPEND="${DEPEND}
 	virtual/libintl"
 
 :	${EAPI:=5}
-
 [[ ${EAPI} -lt 4 ]] && die "EAPI=\"${EAPI}\" is not supported"
 
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst
@@ -67,14 +65,16 @@ EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_
 # @DESCRIPTION:
 dir_src_command() {
 	local dirs="${1}" cmd="${2}" args="${3}"
-	[[ $# < 2 ]] && eeror "invalid number of argument" && return 1
+	(( $# < 2 )) && eeror "Invalid number of argument" && return 1
 
 	for dir in ${dirs}; do
 		pushd ${dir} || die
-		if [[ x${cmd} == xeautoreconf ]]; then
+		case "${cmd}" in
+			(eautoreconf)
 			[[ -d po ]] && echo "no" | glib-gettextize --force --copy
 			${cmd} ${args}
-		elif [[ x${cmd} == xeconf ]]; then
+			;;
+			(econf)
 			case ${dir} in
 				(backendnet|cnijnpr|lgmon2)
 					myeconfargs=(
@@ -91,9 +91,11 @@ dir_src_command() {
 				;;
 			esac
 			${cmd} ${args} ${myeconfargs[@]}
-		else
+			;;
+			(*)
 			${cmd} ${args}
-		fi
+			;;
+		esac
 		popd || die
 	done
 }
@@ -113,7 +115,7 @@ ecnij_pkg_setup() {
 	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
 	if use gtk; then
 		CNIJFILTER_SRC+=" cngpij"
-		if [[ ${PV:0:1} == 4 ]]; then
+		if (( ${PV:0:1} == 4 )); then
 			PRINTER_SRC+=" lgmon2"
 			use net && PRINTER_SRC+=" cnijnpr"
 		else
@@ -122,15 +124,15 @@ ecnij_pkg_setup() {
 		fi
 	fi
 	use servicetools &&
-	if [[ ${PV:0:1} -eq 4 ]]; then
+	if (( ${PV:0:1} == 4 )); then
 		CNIJFILTER_SRC+=" cngpijmnt"
-	elif [[ ${PV:0:1} -eq 3 ]] && [[ ${PV:2:2} -ge 80 ]]; then
+	elif (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 80 )); then
 		CNIJFILTER_SRC+=" cngpijmnt maintenance"
 	else
 		PRINTER_SRC+=" printui"
 	fi
 
-	if [[ ${PV:0:1} -eq 4 ]]; then
+	if (( ${PV:0:1} == 4 )); then
 		PRINTER_SRC="bscc2sts ${PRINTER_SRC}"
 		CNIJFILTER_SRC="cmdtocanonij ${CNIJFILTER_SRC} cnijbe"
 	fi
@@ -222,7 +224,7 @@ ecnij_src_install() {
 	local lib license lingua lng
 	local -a DOCS
 
-	[[ x${#MULTILIB_COMPAT[@]} == x1 ]] && abi_lib=
+	(( ${#MULTILIB_COMPAT[@]} == 1 )) && abi_lib=
 
 	use backends &&
 	dir_src_command "${CNIJFILTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
@@ -265,7 +267,7 @@ ecnij_src_install() {
 	fi
 
 	use backends &&
-	if [[ ${PV:0:1} -eq 4 ]]; then
+	if (( ${PV:0:1} == 4 )); then
 		mkdir -p "${ED}"/usr/share/${PN} || die
 		mv "${ED}"/usr/share/{cmdtocanonij,${PN}} || die
 	fi
