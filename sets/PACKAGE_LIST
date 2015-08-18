@@ -1,4 +1,5 @@
 app-arch/lz4
+app-benchmarks/rt-tests
 app-dicts/xmlittre
 app-editors/ecrire
 dev-libs/efl
