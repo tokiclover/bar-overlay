@@ -1,42 +1,42 @@
-NEWS: 
+NEWS:
 
-added a new splitting CUPS backends+filters/drivers with USE flags instead of
-a messy multiple packages implementation which needed messy back ports and such,
+Added a new splitting CUPS backends/filters/drivers with USE flags instead of
+a messy multiple packages implementation which need messy back ports and such,
 well, not easy to maintain.
 
-To avoid the splitting cruft, just added the follong in `/etc/portage/package.use':
-`=net-print/cnijfilter-${PV} backends drivers <printer model>'
+To avoid the splitting cruft, just add the follong in `/etc/portage/package.use':
+`=net-print/cnijfilter-${PV} backends drivers canon_printers_<MODEL>'
 
-Of course, you need to check net-print/cnijfilter-$version before hand. Or else...
-`emerge' would prompt you to chose, at least, a driver and pull in the latest
-version available and prompt you to enale `backends' USE flag for it! In this
-case, you have to disable `drivers' USE flag if need be, because it is enabled
-by defaut!, or else... you will be prompted to chose... a printer model at least.
+Of course, the need to check net-print/cnijfilter-$VERSION before hand. Or else...
+`emerge' would prompt to chose, at least, a printer model and pull in the latest
+version available and prompt to enale `backends' USE flag for it! In this
+case, disabling `drivers' USE flag might be necessary, because it is enabled
+by defaut!, or else... chossing a printer model at least is necessary.
 
-Wait a sec before merging the package! If you need old drivers present in
-`<net-print/cnijfilter-3.40', you should add `abi_x86_32' if running with
+Wait a sec before merging the package! If old printer models are needed present in
+`<net-print/cnijfilter-3.40', `abi_x86_32' USE flag should be enabled if running with
 `ABI=amd64' because these packages lack any multilib support. `x86' users can
 jump to the following.
 
-If one need `<net-print/cnijfilter-2.80', then x86 users would pull in `gtk+:1'
+If `<net-print/cnijfilter-2.80' is needed, then x86 users would pull in `gtk+:1'
 and amd64 user would pull in `gtk+:1[abi_x86_32]' which is not available in the
 tree, meaning: impossible for `ABI=amd64', if +servicetools USE flag is enabled.
 
 USAGE INFO:
 
-Actually the mis-named +drivers USE flag is just pulling in `canon$model.ppd' file
-and a `cif$model' binary linked to propriatary blobs (libraries). The ppd file is
+Actually the mis-named +drivers USE flag is just pulling in `canon<MODEL>.ppd' file
+and a `cif<MODEL>' binary linked to propriatary blobs (libraries). The ppd file is
 the only usefull file in most cases because unless you are building the latest 3.x0
-or 4.x0, `cif$model' won't work at all for old tarball because this vry old binary
+or 4.x0, `cif<MODEL>' won't work at all for old tarball because this vry old binary
 is linked to very new libpng/tiff...
 
-So one could just extract `canon$model.ppd' file and put it in `/etc/cups/ppd' and
+So one could just extract `canon<MODEL>.ppd' file and put it in `/etc/cups/ppd' and
 and then merge something with `net-print/cnijfilter backends -drivers'.
 
 Beware that +net USE flag pull in propriatary blobs (libraries) which are linked to
 network backend.
 
-So just print directly with `cif$model <image file> &>log' to see if keeping that
+So just print directly with `cif<MODEL> <IMAGE_FILE> &>log' to see if keeping that
 binary and its related cruft is worth its salt. Notice that everything is redirected
 to a file to avoid corrupting a terminal. Just read the file afterwards to see if there
 is any meaningfull info. That command have just printed +22MiB garbage to a terminal in
@@ -62,17 +62,18 @@ So cnijfilter-{2.[6-9],3.[0-9]}0[-servicetools,-gtk] is compilable while
 cnijfilter-4.[01]0[-servicetools,+gtk] compile just fine! 
 
 I don't really know where the whole old code in 'cngpijmon' present in old
-tarball went in cnijfilter-4.x0 nor the 'maintenace' present in the last 3.x0.
+tarball went in cnijfilter-4.x0 nor the 'maintenance' present in the last 3.x0.
 It seems 'cngpijmon/cnijnpr' was moved and lgmon API changed because there is a
 new lgmon2 in 4.x0 while many chunk of code where left 'as is' which are not
 compilable since the old days!
 
-The oddity of the very old drivers is a dependency to gtk+:1. So unless you have
+The oddity of the very old packages is a dependency to gtk+:1. So unless you have
 it installed, it is imposile to pass src_prepare because aclocal fails on a
 missing AM GTK MACRO (with dep to >=gtk+-1.2.6:1).
 
 SOURCE FILES NOTE:
 
-Note: if 2.70 src rpm cannot be bound, dead link..., just search the full name
-wihh your favorite search engine, or else, look for Linux_Print_Filterv270.tgz
-and extract cnijfilter-common-2.70-2.src.rpm from that archive.
+Note: if 2.70 src rpm cannot be found, dead link..., just search the full name
+with your favorite search engine, or else, look for Linux_Print_Filterv270.tgz
+and extract cnijfilter-common-2.70-2.src.rpm from that archive; and then put it
+to `DISTDIR'.
