@@ -1,8 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-fonts/liberation-fonts/liberation-fonts-1.07.1.ebuild,v 1.3 2012/04/13 08:03:26 je_fro Exp $
+# $Header: media-fonts/liberation-fonts/liberation-fonts-2.00.0.ebuild,v 1.4 2015/08/20 08:03:26 Exp $
 
-EAPI=3
+EAPI=4
 
 inherit font
 
@@ -17,16 +17,18 @@ LICENSE="GPL-2-with-exceptions"
 IUSE="fontforge X"
 
 FONT_SUFFIX="ttf"
-
 FONT_CONF=( "${FILESDIR}/60-liberation.conf" )
 
 DEPEND="fontforge? ( media-gfx/fontforge )"
-
 RDEPEND=""
 
-if use fontforge; then
-	FONT_S="${S}/${PN}-ttf-${PV}"
-else
-	FONT_S="${WORKDIR}/${PN}-ttf-${PV}"
-	S="${FONT_S}"
-fi
+pkg_setup()
+{
+	if use fontforge; then
+		FONT_S="${S}/${PN}-ttf-${PV}"
+	else
+		FONT_S="${WORKDIR}/${PN}-ttf-${PV}"
+		S="${FONT_S}"
+	fi
+	font_pkg_setup
+}
