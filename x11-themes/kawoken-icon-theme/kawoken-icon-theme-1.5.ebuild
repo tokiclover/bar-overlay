@@ -11,7 +11,7 @@ DESCRIPTION="KDE port of monochrome/color-ish scalable icon theme with colorizat
 HOMEPAGE="https://alecive.deviantart.com/art/"
 SRC_URI="https://dl.dropbox.com/u/8029324/${MY_PN}-${PV}.zip -> ${P}.zip"
 
-LICENSE="CC BY-NC-SA-3.0 - CC BY-NC-ND-3.0"
+LICENSE="CC-BY-NC-SA-3.0 CC-BY-NC-ND-3.0"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="-minimal"
