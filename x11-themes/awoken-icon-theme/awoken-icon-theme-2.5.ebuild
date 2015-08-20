@@ -11,7 +11,7 @@ DESCRIPTION="Monochrome/color-ish scalable icon theme with colorization"
 HOMEPAGE="http://alecive.deviantart.com/"
 SRC_URI="https://dl.dropbox.com/u/8029324/${MY_PN}-${PV}.zip -> ${P}.zip"
 
-LICENSE="CC BY-SA-3.0"
+LICENSE="CC-BY-SA-3.0"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
 IUSE="colorization -minimal"
