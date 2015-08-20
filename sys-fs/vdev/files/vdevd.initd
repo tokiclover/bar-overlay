@@ -34,14 +34,8 @@ start_pre()
 
 stop()
 {
-	local ret
 	ebegin "Stopping ${name:-$RC_SVCNAME}"
-	start-stop-daemon --stop --pidfile $VDEV_PIDFILE --exec $command
-	ret="$?"
-	if ! [ "$ret" = 0 ]; then
+	start-stop-daemon --stop --pidfile $VDEV_PIDFILE --exec $command ||
 		kill -TERM $(cat $VDEV_PIDFILE)
-		eend "$?"
-	else
-		eend "$ret"
-	fi
+	eend "$?"
 }
