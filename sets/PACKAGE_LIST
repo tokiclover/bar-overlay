@@ -30,6 +30,7 @@ media-libs/aubio
 media-libs/elementary
 media-libs/ewe
 media-libs/libffado
+media-libs/libutvideo
 media-libs/lilv
 media-libs/lv2
 media-libs/mesa
