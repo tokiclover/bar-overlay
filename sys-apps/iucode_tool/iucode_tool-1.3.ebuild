@@ -1,9 +1,10 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-firmware/iucode-tool/iucode-tool-9999.ebuild,v 1.2 2015/08/16 07:56:50 Exp $
+# $Header: sys-apps/iucode_tool/iucode_tool-1.3.ebuild,v 1.2 2015/08/20 07:56:50 Exp $
 
 EAPI=5
 
+COMMIT="871cfe4695eeff3ffe8b633aad3e14af3c908af1"
 case "${PV}" in
 	(*9999*)
 		KEYWORDS=""
@@ -15,8 +16,9 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~arm ~x86"
-		SRC_URI="https://gitlab.com/${PN}/releases/raw/871cfe4695eeff3ffe8b633aad3e14af3c908af1/${PN}_${PV}.tar.xz -> ${P}.tar.xz"
+		SRC_URI="https://gitlab.com/${PN}/releases/raw/${COMMIT}/${PN}_${PV}.tar.xz -> ${P}.tar.xz"
 		S="${WORKDIR}/${PN/-/_}-${PV}"
+		unset COMMIT
 		;;
 esac
 inherit autotools-utils ${VCS_ECLASS}
@@ -35,7 +37,8 @@ DOCS=( AUTHORS README NEWS TODO )
 
 src_configure()
 {
-	local -a myeconfargs=( ${EXTRA_IUCODE_CONF}
+	local -a myeconfargs=(
+		${EXTRA_IUCODE_CONF}
 		$(use_enable debug valgrind-build)
 	)
 	autotools-utils_src_configure
