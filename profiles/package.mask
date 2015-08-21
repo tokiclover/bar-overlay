@@ -1,3 +1,8 @@
+# Serious warnings and QA:
+#   * RWX --- --- usr/lib64/libutvideo.so.15.2.0 (read,write,executable!!!)
+#   * utv_core/TunedFunc_x86x64.cpp:{289:25,307:30}: warning: dereferencing
+#     type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+media-libs/libutvideo
 # Sparse file de/compress (pipe) is broken
 =app-arch/lz4-129
 # Rezound-0.13 is totaly broken & unusable
