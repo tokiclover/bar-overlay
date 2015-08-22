@@ -35,9 +35,6 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS ChangeLog NEWS README TODO )
 
-AUTOTOOLS_AUTORECONF=1
-AUTOTOOLS_IN_SOURCE_BUILD=1
-
 src_configure()
 {
 	local -a myeconfargs=(
