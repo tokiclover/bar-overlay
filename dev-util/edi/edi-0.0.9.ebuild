@@ -22,7 +22,7 @@ DESCRIPTION="EFL based IDE"
 HOMEPAGE="https://www.enlightenment.org/about-edi"
 
 IUSE="clang doc test"
-LICENSE="GPL-3"
+LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 
 EFL_VERSION=1.8.0
