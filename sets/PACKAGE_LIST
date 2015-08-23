@@ -78,6 +78,7 @@ net-misc/dhcpcd
 net-misc/dhcpcd-ui
 net-misc/pacrunner
 net-misc/tipcutils
+net-p2p/epour
 net-print/cnijfilter
 sys-apps/hprofile
 sys-apps/iucode_tool
