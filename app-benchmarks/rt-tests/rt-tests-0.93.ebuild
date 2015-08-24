@@ -25,12 +25,12 @@ HOMEPAGE="https://kernel.org "
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="threads"
+IUSE="nptl"
 REQUIERED_USE="${PYTHON_REQUIRED_USE}"
 
 DEPEND="${PYTHON_DEPS}
 	sys-process/numactl
-	threads? ( dev-libs/npth )"
+	nptl? ( dev-libs/npth )"
 RDEPEND="${DEPEND}"
 
 DOCS=( MAINTAINERS README.markdown )
@@ -47,7 +47,7 @@ src_configure()
 
 src_compile()
 {
-	emake HAVE_NPTL="$(usex threads yes no)" \
+	emake HAVE_NPTL="$(usex nptl yes no)" \
 		CFLAGS="${CFLAGS} -Wall" LDFLAGS="${LDFLAGS}"
 }
 
