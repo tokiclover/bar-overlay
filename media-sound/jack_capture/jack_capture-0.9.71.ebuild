@@ -1,19 +1,29 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: media-sound/jack_capture/jack-capture-9999.ebuild,v 1.2 2015/08/24 Exp $
 
 EAPI=5
 RESTRICT="mirror"
 
-inherit base eutils toolchain-funcs
+case "${PV}" in
+	(9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://github.com/kmatheussen/${PN}.git"
+		EGIT_PROJECT="${PN}.git"
+		;;
+	(*)
+		KEYWORDS="~amd64 ~x86"
+		SRC_URI="http://www.notam02.no/arkiv/src/${P}.tar.gz"
+		;;
+esac
+inherit base eutils toolchain-funcs ${VCS_ECLASS}
 
 DESCRIPTION="JACK Recording utility"
-HOMEPAGE="http://www.notam02.no/arkiv/src"
-SRC_URI="http://www.notam02.no/arkiv/src/${P}.tar.gz"
+HOMEPAGE="https://github.com/kmatheussen/jack_capture http://www.notam02.no/arkiv/src"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
 IUSE="gtk"
 
 RDEPEND=">=media-libs/libsndfile-1.0.17
