@@ -59,6 +59,7 @@ media-sound/fluidsynth
 media-sound/empc
 media-sound/hydrogen
 media-sound/jack-audio-connection-kit
+media-sound/jack_capture
 media-sound/jack_mixer
 media-sound/ladish
 media-sound/laditools
