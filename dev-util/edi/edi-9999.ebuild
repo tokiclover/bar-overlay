@@ -3,6 +3,7 @@
 # $Header: dev-util/edi/edi-9999.ebuild,v 1.1 2015/02/02 12:02:10 -tclover Exp $
 
 EAPI=5
+AUTOTOOLS_AUTORECONF=1
 
 case "${PV}" in
 	(*9999*)
@@ -10,7 +11,6 @@ case "${PV}" in
 	VCS_ECLASS=git-2
 	EGIT_REPO_URI="git://git.enlightenment.org/tools/${PN}.git"
 	EGIT_PROJECT="${PN}.git"
-	AUTOTOOLS_AUTORECONF=1
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
@@ -26,7 +26,7 @@ IUSE="clang doc test"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 
-EFL_VERSION=1.14.99
+EFL_VERSION=1.15.0
 RDEPEND=">=dev-libs/efl-${EFL_VERSION}
 	>=media-libs/elementary-${EFL_VERSION}"
 DEPEND="${RDEPEND}
