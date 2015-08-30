@@ -37,7 +37,8 @@ DOCS=( CONTRIBUTORS README.md how-to-test.md )
 
 src_prepare()
 {
-	sed -e 's,dash,sh,g' -i "${S}"/*/*.sh "${S}"/*/*/*.sh || die
+	sed -e 's,dash,sh,g' -i "${S}"/*/*.sh \
+		"${S}"/*/*/{*.sh,daemonlet} || die
 	epatch_user
 	multilib_copy_sources
 }
@@ -49,8 +50,8 @@ multilib_src_compile()
 
 multilib_src_install()
 {
-	emake DESTDIR="${ED}" PREFIX=/usr LIBDIR="${ED}/$(get_libdir)" \
-		PKGCONFIGDIR="${ED}/usr/$(get_libdir)/pkgconfig" install
+	emake DESTDIR="${ED}" PREFIX=/usr LIBDIR="$(get_libdir)" \
+		PKGCONFIGDIR="/usr/$(get_libdir)/pkgconfig" install
 
 	rm -f "${ED}"/etc/{conf,init}.d/vdev*
 	newinitd "${FILESDIR}"/vdevd.initd vdevd
