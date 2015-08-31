@@ -50,7 +50,7 @@ multilib_src_compile()
 
 multilib_src_install()
 {
-	emake DESTDIR="${ED}" PREFIX=/usr LIBDIR="$(get_libdir)" \
+	emake DESTDIR="${ED}" PREFIX= LIBDIR="$(get_libdir)" SHAREDIR=/usr/share \
 		PKGCONFIGDIR="/usr/$(get_libdir)/pkgconfig" install
 
 	rm -f "${ED}"/etc/{conf,init}.d/vdev*
