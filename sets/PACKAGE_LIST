@@ -2,6 +2,7 @@ app-arch/lz4
 app-benchmarks/rt-tests
 app-dicts/xmlittre
 app-editors/ecrire
+app-text/pdfchain
 dev-libs/efl
 dev-libs/dbus-c++
 dev-libs/wayland
