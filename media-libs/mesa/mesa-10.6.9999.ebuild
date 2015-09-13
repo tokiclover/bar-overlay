@@ -160,10 +160,17 @@ DEPEND+="
 	x11-proto/xf86vidmodeproto[${MULTILIB_USEDEP}]
 "
 
-# It is slow without texrels, if someone wants slow
-# mesa without texrels +pic use is worth the shot
-QA_EXECSTACK="usr/lib*/libGL.so*"
-QA_WX_LOAD="usr/lib*/libGL.so*"
+QA_WX_LOAD="
+x86? (
+	!pic? (
+		usr/lib*/libglapi.so*
+		usr/lib*/libGLESv1_CM.so*
+		usr/lib*/libGLESv2.so*
+		usr/lib*/libGL.so*
+		usr/lib*/libOSMesa.so*
+	)
+)"
+
 
 OPENGL_DIR="xorg-x11"
 FOLDER="${PV/_rc*/}"
