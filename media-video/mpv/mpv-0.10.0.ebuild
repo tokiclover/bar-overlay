@@ -40,6 +40,7 @@ REQUIRED_USE="
 	luajit? ( lua )
 	opengl? ( || ( wayland X ) )
 	pvr? ( v4l )
+	uchardet? ( iconv )
 	vaapi? ( X )
 	vdpau? ( X )
 	wayland? ( opengl )
