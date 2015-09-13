@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.7 2015/05/26 -tclover Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.8 2015/09/09 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
@@ -28,9 +28,9 @@ SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 LICENSE="GPL-2"
 SLOT="0/${PV}"
 IUSE="+alsa bluray bs2b cdio -doc-pdf +drm dvb +dvd dvdnav +enca encode +iconv
-jack jpeg ladspa lcms +libass libcaca libguess lua luajit -openal +opengl oss
-pulseaudio pvr samba sdl selinux +shm static static-libs v4l vaapi vdpau
-vf-dlopen wayland +X xinerama +xscreensaver +xv"
+jack jpeg ladspa lcms libarchive +libass libcaca libguess lua luajit -openal
++opengl oss pulseaudio pvr samba sdl selinux +shm static static-libs uchardet
+v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver +xv"
 
 REQUIRED_USE="
 	dvdnav? ( dvd )
@@ -45,9 +45,7 @@ REQUIRED_USE="
 	wayland? ( opengl )
 	xinerama? ( X )
 	xscreensaver? ( X )
-	xv? ( X )
-"
-
+	xv? ( X )"
 RDEPEND+="
 	|| (
 		>=media-video/libav-11:=[encode?,threads,vaapi?,vdpau?]
@@ -85,6 +83,7 @@ RDEPEND+="
 	jack? ( media-sound/jack-audio-connection-kit )
 	jpeg? ( virtual/jpeg:0 )
 	ladspa? ( media-libs/ladspa-sdk )
+	libarchive? ( >=app-arch/libarchive-3.0 )
 	libass? (
 		>=media-libs/libass-0.12.1:=[enca?,fontconfig]
 		virtual/ttf-fonts
@@ -100,13 +99,13 @@ RDEPEND+="
 	samba? ( net-fs/samba )
 	sdl? ( media-libs/libsdl2[threads] )
 	selinux? ( sec-policy/selinux-mplayer )
+	uchardet? ( dev-libs/uchardet )
 	v4l? ( media-libs/libv4l )
 	wayland? (
 		>=dev-libs/wayland-1.6.0
 		media-libs/mesa[egl,wayland]
 		>=x11-libs/libxkbcommon-0.3.0
-	)
-"
+	)"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	virtual/pkgconfig
@@ -118,8 +117,7 @@ DEPEND="${RDEPEND}
 		x11-proto/xf86vidmodeproto
 		xinerama? ( x11-proto/xineramaproto )
 		xscreensaver? ( x11-proto/scrnsaverproto )
-	)
-"
+	)"
 DOCS=( Copyright README.md etc/example.conf etc/input.conf )
 
 pkg_setup()
@@ -177,10 +175,12 @@ src_configure()
 		$(use_enable dvdnav)
 		$(use_enable enca)
 		$(use_enable iconv)
+		$(use_enable libarchive)
 		$(use_enable libass)
 		$(use_enable libguess)
 		$(use_enable dvb dvbin)
 		$(use_enable pvr)
+		$(use_enable uchardet)
 		$(use_enable v4l libv4l2)
 		$(use_enable v4l tv)
 		$(use_enable v4l tv-v4l2)
