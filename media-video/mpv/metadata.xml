@@ -17,7 +17,7 @@
 	<flag name="luajit">Use <pkg>dev-lang/luajit</pkg> instead of <pkg>dev-lang/lua</pkg></flag>
 	<flag name="pvr">Enable Video4Linux2 MPEG PVR</flag>
 	<flag name="shm">Enable support for shm</flag>
-	<flag name="enca">Enable support for charset discovery and conversion using <pkg>dev-libs/uchardet</pkg></flag>
+	<flag name="uchardet">Enable support for charset discovery and conversion using <pkg>dev-libs/uchardet</pkg></flag>
 	<flag name="vaapi">Enable VAAPI (Video Acceleration API) for hardware decoding</flag>
 	<flag name="vf-dlopen">Install additional video filters for using with -vf dlopen</flag>
 </use>
