@@ -6,7 +6,6 @@
 </maintainer>
 <use>
 	<flag name="bluray">Enable playback of Blu-ray filesystems</flag>
-	<flag name="bs2b">Enable Bauer stereophonic-to-binaural headphone filter</flag>
 	<flag name="cdio">Use libcdio for CD support (instead of cdparanoia)</flag>
 	<flag name='doc-pdf'>Build documentation in pdf format</flag>
 	<flag name="drm">Enable support for direct rendring to framebuffer using <pkg>x11-libs/libdrm</pkg></flag>
@@ -19,6 +18,5 @@
 	<flag name="shm">Enable support for shm</flag>
 	<flag name="uchardet">Enable support for charset discovery and conversion using <pkg>dev-libs/uchardet</pkg></flag>
 	<flag name="vaapi">Enable VAAPI (Video Acceleration API) for hardware decoding</flag>
-	<flag name="vf-dlopen">Install additional video filters for using with -vf dlopen</flag>
 </use>
 </pkgmetadata>

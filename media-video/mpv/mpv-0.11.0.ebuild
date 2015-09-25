@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.8 2015/09/09 Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.9 2015/09/24 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
@@ -27,10 +27,10 @@ SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
 LICENSE="GPL-2"
 SLOT="0/${PV}"
-IUSE="+alsa bluray bs2b cdio -doc-pdf +drm dvb +dvd dvdnav +enca encode +iconv
-jack jpeg ladspa lcms libarchive +libass libcaca libguess lua luajit -openal
+IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +enca encode +iconv
+jack jpeg lcms libarchive +libass libcaca libguess lua luajit -openal
 +opengl oss pulseaudio pvr samba sdl selinux +shm static static-libs uchardet
-v4l vaapi vdpau vf-dlopen wayland +X xinerama +xscreensaver +xv"
+v4l vaapi vdpau wayland +X xinerama +xscreensaver +xv"
 
 REQUIRED_USE="
 	dvdnav? ( dvd )
@@ -68,7 +68,6 @@ RDEPEND+="
 	)
 	alsa? ( media-libs/alsa-lib )
 	bluray? ( >=media-libs/libbluray-0.3.0 )
-	bs2b? ( media-libs/libbs2b )
 	cdio? (
 		dev-libs/libcdio
 		dev-libs/libcdio-paranoia
@@ -83,7 +82,6 @@ RDEPEND+="
 	iconv? ( virtual/libiconv )
 	jack? ( media-sound/jack-audio-connection-kit )
 	jpeg? ( virtual/jpeg:0 )
-	ladspa? ( media-libs/ladspa-sdk )
 	libarchive? ( >=app-arch/libarchive-3.0 )
 	libass? (
 		>=media-libs/libass-0.12.1:=[enca?,fontconfig]
@@ -169,7 +167,6 @@ src_configure()
 		$(use_enable lua)
 		$(usex luajit '--lua=luajit' '')
 		$(use_enable doc-pdf pdf-build)
-		$(use_enable vf-dlopen vf-dlopen-filters)
 		$(use_enable cdio cdda)
 		$(use_enable drm)
 		$(use_enable dvd dvdread)
@@ -189,8 +186,6 @@ src_configure()
 		$(use_enable libcaca caca)
 		$(use_enable alsa)
 		$(use_enable jack)
-		$(use_enable ladspa)
-		$(use_enable bs2b libbs2b)
 		$(use_enable openal)
 		$(use_enable oss oss-audio)
 		$(use_enable pulseaudio pulse)
