@@ -9,6 +9,7 @@ media-libs/libutvideo
 =media-sound/rezound-0.13.1_beta
 
 # Compilation issue (function def)
+media-plugins/vapoursynth-plugins-dfttest
 media-plugins/vapoursynth-plugins-tdeintmod
 
 =media-libs/mesa-9999
