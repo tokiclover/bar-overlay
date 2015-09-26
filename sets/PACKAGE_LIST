@@ -54,6 +54,7 @@ media-plugins/gst-plugins-oss4
 media-plugins/ll-plugins
 media-plugins/tap-plugins
 media-plugins/vapoursynth-plugins-bm3d
+media-plugins/vapoursynth-plugins-d2vsource
 media-plugins/vapoursynth-plugins-dfttest
 media-plugins/vapoursynth-plugins-it
 media-plugins/vapoursynth-plugins-tdeintmod
