@@ -57,6 +57,7 @@ media-plugins/vapoursynth-plugins-bm3d
 media-plugins/vapoursynth-plugins-d2vsource
 media-plugins/vapoursynth-plugins-dfttest
 media-plugins/vapoursynth-plugins-ffms
+media-plugins/vapoursynth-plugins-fieldhint
 media-plugins/vapoursynth-plugins-it
 media-plugins/vapoursynth-plugins-tdeintmod
 media-plugins/vapoursynth-plugins-yadifmod
