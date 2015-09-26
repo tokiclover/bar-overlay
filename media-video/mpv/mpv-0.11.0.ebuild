@@ -30,7 +30,7 @@ SLOT="0/${PV}"
 IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +enca encode +iconv
 jack jpeg lcms libarchive +libass libcaca libguess lua luajit -openal
 +opengl oss pulseaudio pvr samba sdl selinux +shm static static-libs uchardet
-v4l vaapi vdpau wayland +X xinerama +xscreensaver +xv"
+v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver +xv"
 
 REQUIRED_USE="
 	dvdnav? ( dvd )
@@ -100,6 +100,7 @@ RDEPEND+="
 	selinux? ( sec-policy/selinux-mplayer )
 	uchardet? ( dev-libs/uchardet )
 	v4l? ( media-libs/libv4l )
+	vapoursynth? ( media-video/vapoursynth )
 	wayland? (
 		>=dev-libs/wayland-1.6.0
 		media-libs/mesa[egl,wayland]
@@ -151,7 +152,6 @@ src_configure()
 	# do not add -g to CFLAGS
 	# SDL output is fallback for platforms where nothing better is available
 	# media-sound/rsound is in pro-audio overlay only
-	# vapoursynth is not packaged
 	local mywconfargs=(
 		${EXTRA_MPV_CONF}
 		--disable-build-date
@@ -195,6 +195,7 @@ src_configure()
 		$(use_enable X x11)
 		$(use_enable vaapi)
 		$(use_enable vdpau)
+		$(use_enable vapoursynth)
 		$(use_enable wayland)
 		$(use_enable xinerama)
 		$(use_enable xv)
