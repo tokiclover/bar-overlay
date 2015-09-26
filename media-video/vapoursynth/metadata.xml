@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer>
+	<email>bar@overlay</email>
+</maintainer>
+<use>
+	<flag name="vapoursynth-pipe">Enable support for piping output</flag>
+	<flag name="vapoursynth-script">Enable scripts support</flag>
+	<flag name="vapoursynth_plugins_ass">Enable SSA/ASS subtitles plugin using <pkg>media-libs/libass</pkg></flag>
+	<flag name="vapoursynth_plugins_eedi3">Enable slow edge directed interpolation filterplugin</flag>
+	<flag name="vapoursynth_plugins_image">Enable Image Reader/Writer plugin using <pkg>media-gfx/imagemagick</pkg></flag>
+	<flag name="vapoursynth_plugins_inverse">Enable residual combing removal plugin</flag>
+	<flag name="vapoursynth_plugins_ivtc">Enable Inverse Telecine and Decimation plugin</flag>
+	<flag name="vapoursynth_plugins_morpho">Enable simple morphological filters plugin</flag>
+	<flag name="vapoursynth_plugins_ocr">Enable video frames Optical Character Recognition plugin</flag>
+	<flag name="vapoursynth_plugins_removegrain">Enable Remove Grain plugin</flag>
+</use>
+</pkgmetadata>
