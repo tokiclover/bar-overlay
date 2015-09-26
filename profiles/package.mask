@@ -11,5 +11,6 @@ media-libs/libutvideo
 # Compilation issue (function def)
 media-plugins/vapoursynth-plugins-dfttest
 media-plugins/vapoursynth-plugins-tdeintmod
+media-plugins/vapoursynth-plugins-yadifmod
 
 =media-libs/mesa-9999
