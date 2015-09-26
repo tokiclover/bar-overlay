@@ -3,8 +3,6 @@
 # $Header: media-video/vapoursynth-plugins-bm3d/vapoursynth-plugins-bm3d-9999.ebuild,v 1.1 2015/09/24 Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python3_{3,4} )
-PYTHON_REQ_USE='threads(+)'
 
 MY_PN="VapourSynth-BM3D"
 case "${PV}" in
@@ -56,5 +54,5 @@ src_compile()
 src_install()
 {
 	emake -f GNUmakefile libdir="${ED}/usr/$(get_libdir)/vapoursynth" install
-	dodoc "${DOC[@]}"
+	dodoc "${DOCS[@]}"
 }
