@@ -75,6 +75,7 @@ media-sound/zynaddsubfx
 media-video/ffmpeg
 media-video/mpv
 media-video/rage
+media-video/vapoursynth
 net-misc/connman
 net-misc/dhcpcd
 net-misc/dhcpcd-ui
