@@ -39,6 +39,7 @@ src_configure()
 	local -a myeconfargs=(
 		${EXTRA_FFMS_CONF}
 		$(use_enable debug)
+		--libdir="${EPREFIX}/usr/$(get_libdir)/vapoursynth"
 	)
 	autotools-utils_src_configure
 }
