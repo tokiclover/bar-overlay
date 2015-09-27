@@ -68,6 +68,7 @@ media-plugins/vapoursynth-plugins-scxvid
 media-plugins/vapoursynth-plugins-scrawl
 media-plugins/vapoursynth-plugins-ssiq
 media-plugins/vapoursynth-plugins-tdeintmod
+media-plugins/vapoursynth-plugins-temporalsoften
 media-plugins/vapoursynth-plugins-videoscope
 media-plugins/vapoursynth-plugins-yadifmod
 media-plugins/vapoursynth-scripts-adjust
