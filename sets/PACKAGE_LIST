@@ -61,6 +61,7 @@ media-plugins/vapoursynth-plugins-dfttest
 media-plugins/vapoursynth-plugins-ffms
 media-plugins/vapoursynth-plugins-fieldhint
 media-plugins/vapoursynth-plugins-it
+media-plugins/vapoursynth-plugins-msmoosh
 media-plugins/vapoursynth-plugins-mvtools
 media-plugins/vapoursynth-plugins-nnedi3
 media-plugins/vapoursynth-plugins-scxvid
