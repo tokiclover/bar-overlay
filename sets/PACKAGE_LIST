@@ -74,6 +74,7 @@ media-plugins/vapoursynth-plugins-tdeintmod
 media-plugins/vapoursynth-plugins-temporalsoften
 media-plugins/vapoursynth-plugins-videoscope
 media-plugins/vapoursynth-plugins-yadifmod
+media-plugins/vapoursynth-plugins-zimg
 media-plugins/vapoursynth-scripts-adjust
 media-sound/a2jmidid
 media-sound/ardour
