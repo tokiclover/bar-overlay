@@ -19,7 +19,7 @@ esac
 inherit autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="Structure-preserving smoothing on I/Q chrominance plugin for VapourSynth ported from Avisynth"
-HOMEPAGE="https://github.com/dubhater/ssiq"
+HOMEPAGE="https://github.com/dubhater/vapoursynth-ssiq"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

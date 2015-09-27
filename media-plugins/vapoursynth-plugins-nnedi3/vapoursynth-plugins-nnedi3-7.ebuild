@@ -19,7 +19,7 @@ esac
 inherit autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="Intra-field only deinterlacer plugin for VapourSynth ported from Avisynth"
-HOMEPAGE="https://github.com/dubhater/nnedi3"
+HOMEPAGE="https://github.com/dubhater/vapoursynth-nnedi3"
 
 LICENSE="GPL-2"
 SLOT="0"

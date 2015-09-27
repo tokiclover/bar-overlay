@@ -19,7 +19,7 @@ esac
 inherit autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="MVTools (Motion compensation and estimation filters) plugin for VapourSynth ported from Avisynth"
-HOMEPAGE="https://github.com/dubhater/mvtools"
+HOMEPAGE="https://github.com/dubhater/vapoursynth-mvtools"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

@@ -19,7 +19,7 @@ esac
 inherit autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="Damb plugin (adding basic audio support) for VapourSynth"
-HOMEPAGE="https://github.com/dubhater/damb"
+HOMEPAGE="https://github.com/dubhater/vapoursynth-damb"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

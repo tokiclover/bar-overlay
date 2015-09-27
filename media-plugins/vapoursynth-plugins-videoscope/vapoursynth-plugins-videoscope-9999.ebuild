@@ -19,7 +19,7 @@ esac
 inherit autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="VideoScope plugin for VapourSynth ported from Avisynth"
-HOMEPAGE="https://github.com/dubhater/videoscope"
+HOMEPAGE="https://github.com/dubhater/vapoursynth-videoscope"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

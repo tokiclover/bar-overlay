@@ -19,7 +19,7 @@ esac
 inherit autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="Temporal derainbowing filter plugin for VapourSynth ported from Avisynth"
-HOMEPAGE="https://github.com/dubhater/bifrost"
+HOMEPAGE="https://github.com/dubhater/vapoursynth-bifrost"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

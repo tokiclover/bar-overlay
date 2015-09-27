@@ -19,7 +19,7 @@ esac
 inherit autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="FieldHint plugin for VapourSynth"
-HOMEPAGE="https://github.com/dubhater/fieldhint"
+HOMEPAGE="https://github.com/dubhater/vapoursynth-fieldhint"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
