@@ -25,10 +25,10 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 IUSE=""
 
-RDEPEND="dev-lang/yasm
-	media-video/vapoursynth:=
+RDEPEND="media-video/vapoursynth:=
 	sci-libs/fftw:3="
-DEPEND="${RDEPEND}"
+DEPEND="dev-lang/yasm
+	${RDEPEND}"
 
 DOCS=( readme.rst )
 AUTOTOOLS_AUTORECONF=1
