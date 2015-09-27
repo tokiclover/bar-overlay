@@ -64,6 +64,7 @@ media-plugins/vapoursynth-plugins-it
 media-plugins/vapoursynth-plugins-mvtools
 media-plugins/vapoursynth-plugins-nnedi3
 media-plugins/vapoursynth-plugins-tdeintmod
+media-plugins/vapoursynth-plugins-videoscope
 media-plugins/vapoursynth-plugins-yadifmod
 media-sound/a2jmidid
 media-sound/ardour
