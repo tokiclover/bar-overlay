@@ -76,6 +76,7 @@ media-plugins/vapoursynth-plugins-videoscope
 media-plugins/vapoursynth-plugins-yadifmod
 media-plugins/vapoursynth-plugins-zimg
 media-plugins/vapoursynth-scripts-adjust
+media-plugins/vapoursynth-scripts-modules
 media-sound/a2jmidid
 media-sound/ardour
 media-sound/deadbeef
