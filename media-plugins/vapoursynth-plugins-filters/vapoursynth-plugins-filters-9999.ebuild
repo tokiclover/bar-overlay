@@ -15,6 +15,7 @@ case "${PV}" in
 	(*)
 		KEYWORDS="~amd64 ~arm ~ppc ~x86"
 		SRC_URI="https://github.com/myrsloik/${MY_PN}/archive/r${PV}.tar.gz -> ${P}.tar.gz"
+		VCS_ECLASS=vcs-snapshot
 		;;
 esac
 inherit eutils ${VCS_ECLASS}
@@ -30,7 +31,6 @@ RDEPEND="media-video/vapoursynth:="
 DEPEND="${RDEPEND}"
 
 DOCS=( readme.rst )
-S="${WORKDIR}/${MY_PN}-r${PV}"
 
 src_prepare()
 {

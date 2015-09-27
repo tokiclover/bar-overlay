@@ -14,6 +14,7 @@ case "${PV}" in
 	(*)
 		KEYWORDS="~amd64 ~arm ~ppc ~x86"
 		SRC_URI="https://github.com/dubhater/${PN/-plugins}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+		VCS_ECLASS=vcs-snapshot
 		;;
 esac
 inherit autotools-utils ${VCS_ECLASS}
@@ -29,7 +30,6 @@ RDEPEND="media-video/vapoursynth:="
 DEPEND="${RDEPEND}"
 
 AUTOTOOLS_AUTORECONF=1
-S="${WORKDIR}/${PN/-plugins}-${PV}"
 
 src_configure()
 {

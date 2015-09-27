@@ -16,6 +16,7 @@ case "${PV}" in
 	(*)
 		KEYWORDS="~amd64 ~arm ~ppc ~x86"
 		SRC_URI="https://github.com/vapoursynth/${PN}/archive/R${PV}.tar.gz -> ${P}.tar.gz"
+		VCS_ECLASS=vcs-snapshot
 		;;
 esac
 inherit eutils distutils-r1 autotools-utils ${VCS_ECLASS}
@@ -54,7 +55,6 @@ DEPEND="${RDEPEND}
 
 AUTOTOOLS_AUTORECONF=1
 DOCS=( ChangeLog )
-S="${WORKDIR}/${PN}-R${PV}"
 
 src_configure()
 {

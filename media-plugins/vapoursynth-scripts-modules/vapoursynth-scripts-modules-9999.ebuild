@@ -16,6 +16,7 @@ case "${PV}" in
 	(*)
 		KEYWORDS="~amd64 ~arm ~ppc ~x86"
 		SRC_URI="https://github.com/4re/${PN/-scripts}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+		VCS_ECLASS=vcs-snapshot
 		;;
 esac
 inherit eutils ${VCS_ECLASS}
@@ -32,7 +33,6 @@ DEPEND="${RDEPEND}"
 
 DOCS=( README.md )
 AUTOTOOLS_AUTORECONF=1
-S="${WORKDIR}/${PN/-scripts}-${PV}"
 
 src_install()
 {

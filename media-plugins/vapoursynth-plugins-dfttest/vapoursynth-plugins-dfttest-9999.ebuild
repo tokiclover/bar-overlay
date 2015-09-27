@@ -15,6 +15,7 @@ case "${PV}" in
 	(*)
 		KEYWORDS="~amd64 ~arm ~ppc ~x86"
 		SRC_URI="https://github.com/HomeOfVapourSynthEvolution/${MY_PN}/archive/r${PV}.tar.gz -> ${P}.tar.gz"
+		VCS_ECLASS=vcs-snapshot
 		;;
 esac
 inherit eutils ${VCS_ECLASS}
@@ -31,7 +32,6 @@ RDEPEND="sci-libs/fftw:3
 DEPEND="${RDEPEND}"
 
 DOCS=( README.md )
-S="${WORKDIR}/${MY_PN}-r${PV}"
 
 src_prepare()
 {
