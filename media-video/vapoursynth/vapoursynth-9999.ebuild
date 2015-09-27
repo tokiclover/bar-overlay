@@ -25,7 +25,7 @@ HOMEPAGE="http://www.vapoursynth.com/ https://github.com/vapoursynth/vapoursynth
 
 LICENSE="LGPL-2.1 OFL-1.1"
 SLOT="0/${PV}"
-IUSE="debug python +vapoursynth-pipe +vapoursynth-script"
+IUSE="debug +python static static-libs +vapoursynth-pipe +vapoursynth-script"
 REQUIRED_USE="vapoursynth-pipe? ( vapoursynth-script )
 	python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -63,6 +63,8 @@ src_configure()
 		$(use_enable debug)
 		$(use_enable python python-module)
 		$(usex python --with-cython="${EPREFIX}/usr/lib/python-exec/${PYTHON_TARGETS/_/.}/cython" "")
+		$(use_enable static)
+		$(use_enable static-libs shared)
 		$(use_enable vapoursynth-pipe vspipe)
 		$(use_enable vapoursynth-script vsscript)
 		--enable-core
@@ -74,10 +76,17 @@ src_configure()
 	done
 	autotools-utils_src_configure
 }
-
+src_compile()
+{
+	autotools-utils_src_compile
+	autotools-utils_src_compile -C "${S}/doc" man
+	use python && LDFLAGS="${LDFLAGS} -L${ED}/usr/$(get_libdir)" \
+		CFLAGS="${CFLAGS} $(usex static-libs '' '-fPIC')" \
+		distutils-r1_src_compile
+}
 src_install()
 {
 	autotools-utils_src_install
-	use python && LDFLAGS="${LDFLAGS} -L${ED}/usr/$(get_libdir)" \
-		distutils-r1_src_install
+	use python && distutils-r1_src_install
+	doman doc/_build/man/*
 }
