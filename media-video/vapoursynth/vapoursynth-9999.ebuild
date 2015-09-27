@@ -64,7 +64,7 @@ src_configure()
 		$(use_enable python python-module)
 		$(usex python --with-cython="${EPREFIX}/usr/lib/python-exec/${PYTHON_TARGETS/_/.}/cython" "")
 		$(use_enable static)
-		$(use_enable static-libs shared)
+		$(use_enable !static-libs shared)
 		$(use_enable vapoursynth-pipe vspipe)
 		$(use_enable vapoursynth-script vsscript)
 		--enable-core
