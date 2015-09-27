@@ -90,6 +90,7 @@ media-video/ffmpeg
 media-video/mpv
 media-video/rage
 media-video/vapoursynth
+media-video/wobbly
 net-misc/connman
 net-misc/dhcpcd
 net-misc/dhcpcd-ui
