@@ -30,6 +30,7 @@ media-gfx/ephoto
 media-libs/aubio
 media-libs/elementary
 media-libs/ewe
+media-libs/ffms2
 media-libs/libffado
 media-libs/libutvideo
 media-libs/lilv
@@ -58,7 +59,6 @@ media-plugins/vapoursynth-plugins-bm3d
 media-plugins/vapoursynth-plugins-d2vsource
 media-plugins/vapoursynth-plugins-damb
 media-plugins/vapoursynth-plugins-dfttest
-media-plugins/vapoursynth-plugins-ffms
 media-plugins/vapoursynth-plugins-fieldhint
 media-plugins/vapoursynth-plugins-fillborders
 media-plugins/vapoursynth-plugins-filters
