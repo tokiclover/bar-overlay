@@ -1,2 +1,3 @@
 media-plugins/vapoursynth-plugins-ffms media-libs/ffms2
+media-plugins/vapoursynth-plugins-zimg media-libs/zimg
 sys-firmware/iucode-tool sys-appe/iucode_tool

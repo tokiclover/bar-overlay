@@ -38,6 +38,7 @@ media-libs/lv2
 media-libs/mesa
 media-libs/sratom
 media-libs/suil
+media-libs/zimg
 media-libs/zita-alsa-pcmi
 media-libs/zita-resampler
 media-plugins/calf
@@ -74,7 +75,6 @@ media-plugins/vapoursynth-plugins-tdeintmod
 media-plugins/vapoursynth-plugins-temporalsoften
 media-plugins/vapoursynth-plugins-videoscope
 media-plugins/vapoursynth-plugins-yadifmod
-media-plugins/vapoursynth-plugins-zimg
 media-plugins/vapoursynth-scripts-adjust
 media-plugins/vapoursynth-scripts-modules
 media-sound/a2jmidid
