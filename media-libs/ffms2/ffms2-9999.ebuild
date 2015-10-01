@@ -36,7 +36,7 @@ DEPEND="${RDEPEND}
 DOCS=( README.md doc/ffms2-avisynth.md etc/FFMS2.avsi )
 AUTOTOOLS_AUTORECONF=1
 
-multilib_src_prepare()
+src_prepare()
 {
 	sed -rne 's/-O[0-3]//g' -i configure.ac
 	autotools-utils_src_prepare

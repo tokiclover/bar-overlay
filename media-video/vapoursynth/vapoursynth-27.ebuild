@@ -58,7 +58,7 @@ DEPEND="${RDEPEND}
 AUTOTOOLS_AUTORECONF=1
 DOCS=( ChangeLog )
 
-multilib_src_prepare()
+src_prepare()
 {
 	autotools-utils_src_prepare
 	multilib_copy_sources
