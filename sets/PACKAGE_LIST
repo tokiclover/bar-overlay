@@ -56,6 +56,7 @@ media-plugins/gst-plugins-oss4
 media-plugins/ll-plugins
 media-plugins/tap-plugins
 media-plugins/vapoursynth-plugins-bifrost
+media-plugins/vapoursynth-plugins-bilateral
 media-plugins/vapoursynth-plugins-bm3d
 media-plugins/vapoursynth-plugins-combmask
 media-plugins/vapoursynth-plugins-d2vsource
