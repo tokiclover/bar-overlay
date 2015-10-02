@@ -1,10 +1,10 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/vapoursynth-plugins-dfttest/vapoursynth-plugins-dfttest-9999.ebuild,v 1.1 2015/09/24 Exp $
+# $Header: media-video/vapoursynth-plugins-bm3d/vapoursynth-plugins-bm3d-9999.ebuild,v 1.2 2015/10/01 Exp $
 
 EAPI=5
 
-MY_PN="VapourSynth-DFTTest"
+MY_PN="VapourSynth-BM3D"
 case "${PV}" in
 	(9999*)
 		KEYWORDS=""
@@ -18,26 +18,26 @@ case "${PV}" in
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
-inherit eutils ${VCS_ECLASS}
+inherit multilib-minimal ${VCS_ECLASS}
 
-DESCRIPTION="DFTTest denoising filter plugin for VapourSynth ported from Avisynth"
-HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DFTTest"
+DESCRIPTION="BM3D denoising filter plugin for VapourSynth ported from Avisynth"
+HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-BM3D"
 
 LICENSE="GPL-3"
 SLOT="0"
 IUSE="debug"
 
-RDEPEND="sci-libs/fftw:3
-	media-video/vapoursynth:="
+RDEPEND="sci-libs/fftw:3[${MULTILIB_USEDEP}]
+	media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
-
-DOCS=( README.md )
 
 src_prepare()
 {
 	epatch_user
+	sed -e 's/-O[0-3s]//g' -i configure
+	multilib_copy_sources
 }
-src_configure()
+multilib_src_configure()
 {
 	./configure \
 		${EXTRA_BM3D_CONF} \
@@ -47,12 +47,15 @@ src_configure()
 		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
 		--target-os="${CHOST}"
 }
-src_compile()
+multilib_src_compile()
 {
-	emake
+	emake -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getCXX)"
 }
-src_install()
+multilib_src_install()
 {
 	emake -f GNUmakefile libdir="${ED}/usr/$(get_libdir)/vapoursynth" install
-	dodoc "${DOCS[@]}"
+}
+multilib_src_install_all()
+{
+	dodoc README/md
 }

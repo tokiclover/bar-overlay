@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/vapoursynth-plugins-d2vsource/vapoursynth-plugins-d2vsource-9999.ebuild,v 1.1 2015/09/24 Exp $
+# $Header: media-video/vapoursynth-plugins-d2vsource/vapoursynth-plugins-d2vsource-9999.ebuild,v 1.2 2015/10/01 Exp $
 
 EAPI=5
 
@@ -17,7 +17,7 @@ case "${PV}" in
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
-inherit eutils ${VCS_ECLASS}
+inherit multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="D2V source decoder plugin for VapourSynth"
 HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Yadifmod"
@@ -26,16 +26,16 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 IUSE="debug"
 
-RDEPEND="media-video/vapoursynth:="
+RDEPEND="media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
-
-DOCS=( README )
 
 src_prepare()
 {
 	epatch_user
+	sed -e 's/-O[0-3s]//g' -i configure
+	multilib_copy_sources
 }
-src_configure()
+multilib_src_configure()
 {
 	chmod +x configure
 	./configure \
@@ -46,12 +46,15 @@ src_configure()
 		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
 		--target-os="${CHOST}"
 }
-src_compile()
+multilib_src_compile()
 {
-	emake
+	emake -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getCXX)"
 }
-src_install()
+multilib_src_install()
 {
 	emake -f GNUmakefile libdir="${ED}/usr/$(get_libdir)/vapoursynth" install
-	dodoc "${DOCS[@]}"
+}
+multilib_src_install_all()
+{
+	dodoc README
 }

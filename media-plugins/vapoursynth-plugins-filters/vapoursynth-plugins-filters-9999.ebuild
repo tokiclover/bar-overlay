@@ -33,6 +33,7 @@ DEPEND="${RDEPEND}"
 src_prepare()
 {
 	epatch_user
+	sed -e 's/-O[0-3s]//g' -i configure
 	multilib_copy_sources
 }
 multilib_src_configure()
@@ -47,7 +48,7 @@ multilib_src_configure()
 }
 multilib_src_compile()
 {
-	emake -f src/GNUmakefile
+	emake -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getCXX)"
 }
 multilib_src_install()
 {
