@@ -13,6 +13,7 @@ media-plugins/vapoursynth-plugins-it
 media-plugins/vapoursynth-plugins-msmoosh
 media-plugins/vapoursynth-plugins-mvtools
 media-plugins/vapoursynth-plugins-nnedi3
+media-plugins/vapoursynth-plugins-rawsource
 media-plugins/vapoursynth-plugins-scxvid
 media-plugins/vapoursynth-plugins-scrawl
 media-plugins/vapoursynth-plugins-ssiq
