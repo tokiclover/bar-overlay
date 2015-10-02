@@ -26,7 +26,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 IUSE=""
 
-RDEPEND="media-libs/xvid:=[${MULTILIB_USEDP}]
+RDEPEND="media-libs/xvid:=[${MULTILIB_USEDEP}]
 	media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 
