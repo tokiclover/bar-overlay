@@ -81,6 +81,7 @@ media-plugins/vapoursynth-plugins-retinex
 media-plugins/vapoursynth-plugins-scxvid
 media-plugins/vapoursynth-plugins-scrawl
 media-plugins/vapoursynth-plugins-ssiq
+media-plugins/vapoursynth-plugins-tcanny
 media-plugins/vapoursynth-plugins-tcomb
 media-plugins/vapoursynth-plugins-tdeintmod
 media-plugins/vapoursynth-plugins-temporalsoften
