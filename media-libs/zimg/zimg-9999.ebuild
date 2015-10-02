@@ -26,7 +26,7 @@ LICENSE="WTFPL-2"
 SLOT="0"
 IUSE="debug static-libs +vapoursynth"
 
-RDEPEND="vapoursynth? ( media-video/vapoursynth )"
+RDEPEND="vapoursynth? ( media-video/vapoursynth[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}"
 
 AUTOTOOLS_AUTORECONF=1

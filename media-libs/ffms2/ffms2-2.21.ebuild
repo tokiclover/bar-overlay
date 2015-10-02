@@ -28,7 +28,7 @@ IUSE="debug static-libs +vapoursynth"
 
 RDEPEND="|| ( >=media-libs/libav-11:=[${MULTILIB_USEDEP}]
 		>=media-video/ffmpeg-2.4.0:=[${MULTILIB_USEDEP}] )
-		vapoursynth? ( media-video/vapoursynth )
+		vapoursynth? ( media-video/vapoursynth[${MULTILIB_USEDEP}] )
 		sys-libs/zlib"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
