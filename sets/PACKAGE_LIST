@@ -55,6 +55,7 @@ media-plugins/evas_generic_loaders
 media-plugins/gst-plugins-oss4
 media-plugins/ll-plugins
 media-plugins/tap-plugins
+media-plugins/vapoursynth-plugins-addgrain
 media-plugins/vapoursynth-plugins-bifrost
 media-plugins/vapoursynth-plugins-bilateral
 media-plugins/vapoursynth-plugins-bm3d
