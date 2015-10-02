@@ -57,6 +57,7 @@ media-plugins/ll-plugins
 media-plugins/tap-plugins
 media-plugins/vapoursynth-plugins-bifrost
 media-plugins/vapoursynth-plugins-bm3d
+media-plugins/vapoursynth-plugins-combmask
 media-plugins/vapoursynth-plugins-d2vsource
 media-plugins/vapoursynth-plugins-damb
 media-plugins/vapoursynth-plugins-dfttest
