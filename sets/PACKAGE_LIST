@@ -66,6 +66,7 @@ media-plugins/vapoursynth-plugins-damb
 media-plugins/vapoursynth-plugins-deblock
 media-plugins/vapoursynth-plugins-delogo
 media-plugins/vapoursynth-plugins-dfttest
+media-plugins/vapoursynth-plugins-eedi2
 media-plugins/vapoursynth-plugins-fieldhint
 media-plugins/vapoursynth-plugins-fillborders
 media-plugins/vapoursynth-plugins-filters
