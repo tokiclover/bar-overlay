@@ -60,6 +60,7 @@ media-plugins/vapoursynth-plugins-bifrost
 media-plugins/vapoursynth-plugins-bilateral
 media-plugins/vapoursynth-plugins-bm3d
 media-plugins/vapoursynth-plugins-combmask
+media-plugins/vapoursynth-plugins-ctmf
 media-plugins/vapoursynth-plugins-d2vsource
 media-plugins/vapoursynth-plugins-damb
 media-plugins/vapoursynth-plugins-deblock
