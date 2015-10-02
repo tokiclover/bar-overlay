@@ -64,6 +64,7 @@ media-plugins/vapoursynth-plugins-fieldhint
 media-plugins/vapoursynth-plugins-fillborders
 media-plugins/vapoursynth-plugins-filters
 media-plugins/vapoursynth-plugins-histogram
+media-plugins/vapoursynth-plugins-imagereader
 media-plugins/vapoursynth-plugins-it
 media-plugins/vapoursynth-plugins-msmoosh
 media-plugins/vapoursynth-plugins-mvtools
