@@ -3,7 +3,7 @@ Header: bar(-overlay)/README.md
 ---
 
 Another foo (gentoo) overlay with a few packages...
-See *sets/PACKAGE_LIST* for a complete package list.
+See *PACKAGE_LIST* for a complete package list.
 
 HOWTO GET THIS OVERLAY
 ----------------------
