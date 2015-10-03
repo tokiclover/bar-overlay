@@ -24,9 +24,9 @@ HOMEPAGE="https://github.com/sekrit-twc/zimg"
 
 LICENSE="WTFPL-2"
 SLOT="0"
-IUSE="debug static-libs +vapoursynth"
+IUSE="debug static-libs"
 
-RDEPEND="vapoursynth? ( media-video/vapoursynth[${MULTILIB_USEDEP}] )"
+RDEPEND=""
 DEPEND="${RDEPEND}"
 
 AUTOTOOLS_AUTORECONF=1
