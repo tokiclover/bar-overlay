@@ -102,5 +102,5 @@ multilib_src_install_all()
 		emake -C "${S}/doc" "${u}"
 	done
 	doman doc/_build/man/*
-	use doc && dohtml doc/_build/html
+	use doc && dohtml -r doc/_build/html/*
 }
