@@ -3,7 +3,7 @@ Header: bar(-overlay)/README.md
 ---
 
 Another foo (gentoo) overlay with a few packages...
-See *PACKAGE_LIST* for a complete package list.
+See [package-list](PACKAGE_LIST) for a complete package list.
 
 HOWTO GET THIS OVERLAY
 ----------------------
@@ -37,7 +37,7 @@ Nothing makes *layman* necessary in this process at all...
 Just merge *git* with `emerge -av git`; and then clone the repository with
 `mkdir -p /var/db/repos`, and then
 `git clone git://github.com/tokiclover/bar-overlay.git /var/db/repos/bar`;
-and finaly include `bar.conf` in `/etc/portage/repos.conf/` directory,
+and finaly include [bar.conf](bar.conf) in `/etc/portage/repos.conf/` directory,
 or concatenate the content to the file directly with
 `cat <bar.conf >>/etc/portage/repos.conf`.
 
@@ -52,10 +52,11 @@ LICENSE
 
 GPL-2
 
-MIRRORS
+CLONE/MIRRORS
 -------
 
-* https://gitlab.com/tokiclover/bar-overlay
+- https://github.com/tokiclover/bar-overlay, git://github.com/tokiclover/bar-overlay.git, git@github.com:tokiclover/bar-overlay.git
+- https://gitlab.com/tokiclover/bar-overlay, git://gitlab.com/tokiclover/bar-overlay.git, git@gitlab.com:tokiclover/bar-overlay.git
 
 ---
 
