@@ -45,6 +45,7 @@ USAGE
 -----
 
 Merge all the goodies with: `emerge -avDNu world`
+or merge package sets for the repository (see sets/ for more info.)
 
 LICENSE
 -------
