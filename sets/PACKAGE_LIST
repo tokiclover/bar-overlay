@@ -30,7 +30,7 @@ media-gfx/ephoto
 media-libs/aubio
 media-libs/elementary
 media-libs/ewe
-media-libs/ffms2
+media-libs/ffmpegsource
 media-libs/libffado
 media-libs/libutvideo
 media-libs/lilv

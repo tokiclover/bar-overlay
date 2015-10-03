@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/ffms2/ffms2-9999.ebuild,v 1.2 2015/09/28 Exp $
+# $Header: media-libs/ffmpegsource/ffmpegsource-9999.ebuild,v 1.2 2015/09/28 Exp $
 
 EAPI=5
 
@@ -8,28 +8,27 @@ case "${PV}" in
 	(9999*)
 		KEYWORDS=""
 		VCS_ECLASS=git-2
-		EGIT_REPO_URI="git://github.com/FFMS/${PN}.git"
+		EGIT_REPO_URI="git://github.com/FFMS/ffms2.git"
 		EGIT_PROJECT="${PN}.git"
 		;;
 	(*)
 		KEYWORDS="~amd64 ~arm ~ppc ~x86"
-		SRC_URI="https://github.com/FFMS/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+		SRC_URI="https://github.com/FFMS/ffms2/archive/${PV}.tar.gz -> ${P}.tar.gz"
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
 inherit autotools-multilib ${VCS_ECLASS}
 
-DESCRIPTION="FFmpeg(/LibAV)Source decoder wrapper library"
+DESCRIPTION="FFmpeg(/LibAV)Source decoder wrapper library for easy frame"
 HOMEPAGE="https://github.com/FFMS/ffms2"
 
 LICENSE="GPL-3 MIT"
-SLOT="0"
-IUSE="debug static-libs +vapoursynth"
+SLOT="0/3"
+IUSE="debug static-libs"
 
 RDEPEND="|| ( >=media-libs/libav-11:=[${MULTILIB_USEDEP}]
 		>=media-video/ffmpeg-2.4.0:=[${MULTILIB_USEDEP}] )
-		vapoursynth? ( media-video/vapoursynth[${MULTILIB_USEDEP}] )
-		sys-libs/zlib"
+		sys-libs/zlib[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
@@ -43,7 +42,7 @@ src_prepare()
 multilib_src_configure()
 {
 	local -a myeconfargs=(
-		${EXTRA_FFMS_CONF}
+		${EXTRA_FFMPEGSOURCE_CONF}
 		$(use_enable debug)
 		$(use_enable !static-libs shared)
 	)
@@ -52,7 +51,6 @@ multilib_src_configure()
 multilib_src_install()
 {
 	autotools-utils_src_install
-	use vapoursynth && dosym /usr/$(get_libdir)/{,vapoursynth/}libffms2.so
 }
 multilib_src_install_all()
 {
