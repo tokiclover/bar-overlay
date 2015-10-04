@@ -10,9 +10,11 @@ media-plugins/alsa-plugins
 media-plugins/ladspa-bs2b
 media-sound/alsa-utils
 media-sound/ecasound
+media-sound/mpc
 media-sound/mpd
+media-sound/ncmpcpp
 media-sound/timidity++
 media-video/ffmpeg
 media-video/mpv
 media-video/x264-encoder
-
+net-misc/youtube-dl
