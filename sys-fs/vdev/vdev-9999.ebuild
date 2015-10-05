@@ -29,7 +29,7 @@ IUSE="+udev vdevfs"
 DEPEND="udev? ( sys-fs/squashfs-tools )
 	vdevfs? (
 		sys-libs/libpstat[${MULTILIB_USEDEP}]
-		sys-fs/fskit
+		sys-fs/fskit[${MULTILIB_USEDEP},fuse]
 	)"
 RDEPEND="${DEPEND}"
 
@@ -46,11 +46,19 @@ src_prepare()
 multilib_src_compile()
 {
 	MAKEOPTS="-j1" emake
+	use udev? MAKEOPTS="-j1" emake -C libudev-compat
+	use vdevfs MAKEOPTS="-j1" emake -C fs
 }
 
 multilib_src_install()
 {
 	emake DESTDIR="${ED}" PREFIX= LIBDIR="$(get_libdir)" SHAREDIR=/usr/share \
+		PKGCONFIGDIR="/usr/$(get_libdir)/pkgconfig" install
+	use udev && \
+		emake -C libudev-compat DESTDIR="${ED}" PREFIX= LIBDIR="$(get_libdir)" SHAREDIR=/usr/share \
+		PKGCONFIGDIR="/usr/$(get_libdir)/pkgconfig" install
+	use vdevfs && \
+		emake -C fs DESTDIR="${ED}" PREFIX= LIBDIR="$(get_libdir)" SHAREDIR=/usr/share \
 		PKGCONFIGDIR="/usr/$(get_libdir)/pkgconfig" install
 
 	rm -f "${ED}"/etc/{conf,init}.d/vdev*
