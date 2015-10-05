@@ -32,7 +32,6 @@ media-libs/elementary
 media-libs/ewe
 media-libs/ffmpegsource
 media-libs/libffado
-media-libs/libutvideo
 media-libs/lilv
 media-libs/lv2
 media-libs/mesa
