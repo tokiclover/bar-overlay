@@ -43,8 +43,6 @@ media-plugins/calf
 media-plugins/deadbeef-plugins-filebrowser
 media-plugins/deadbeef-plugins-infobar
 media-plugins/deadbeef-plugins-jack
-media-plugins/deadbeef-plugins-mpris
-media-plugins/deadbeef-plugins-mpris2
 media-plugins/deadbeef-plugins-spectogram
 media-plugins/deadbeef-plugins-spectrum
 media-plugins/deadbeef-plugins-waveform
