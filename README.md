@@ -44,8 +44,16 @@ or concatenate the content to the file directly with
 USAGE
 -----
 
+### Packages
+
 Merge all the goodies with: `emerge -avDNu world`
 or merge package sets for the repository (see sets/ for more info.)
+
+### Configuration
+
+Examples of runtime configuration files can be found in this repository
+[dotfiles](https://github.com/tokiclover/dotfiles) might be handy to get,
+for example, JACK/LADI or mail-utilities @set set up and working in no time!
 
 LICENSE
 -------
