@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/fskit/fskit-9999.ebuild,v 1.0 2015/08/01 Exp $
+# $Header: sys-fs/fskit/fskit-9999.ebuild,v 1.1 2015/10/01 Exp $
 
 EAPI=5
 
@@ -19,14 +19,14 @@ esac
 inherit multilib-minimal toolchain-funcs ${VCS_ECLASS}
 
 
-DESCRIPTION="Virtual device manager for UNIX"
+DESCRIPTION="Filesystem utility library and SDK"
 HOMEPAGE="https://github.com/jcnelson/fskit"
 
 LICENSE="|| ( ISC LGPL-3+ )"
 SLOT="0"
-IUSE=""
+IUSE="fuse"
 
-DEPEND="sys-fs/fuse"
+DEPEND="fuse? ( sys-fs/fuse )"
 RDEPEND="${DEPEND}"
 
 DOCS=( CONTRIBUTORS README.md )
@@ -40,10 +40,15 @@ src_prepare()
 multilib_src_compile()
 {
 	MAKEOPTS="-j1" emake
+	use fuse && MAKEOPTS="-j1" emake -C fuse
 }
 
 multilib_src_install()
 {
 	emake DESTDIR="${ED}" PREFIX=/usr LIBDIR="${ED}/$(get_libdir)" \
 		PKGCONFIGDIR="${ED}/usr/$(get_libdir)/pkgconfig" install
+	use fuse && \
+		emake -C fuse DESTDIR="${ED}" PREFIX=/usr LIBDIR="${ED}/$(get_libdir)" \
+		PKGCONFIGDIR="${ED}/usr/$(get_libdir)/pkgconfig" install
+
 }
