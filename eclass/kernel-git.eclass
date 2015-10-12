@@ -76,7 +76,7 @@ based on the latest stable tree."
 # @DESCRIPTION: -ck patchset version string
 # @ECLASS-VARIABLE: CK_URI
 # @DESCRIPTION: -ck patchset src URI
-:	${CK_URI:="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${MKV}"}
+:	${CK_URI:="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${MKV}/${CK_VER}"}
 :	${BFS_URI:=${CK_URI}}
 # @ECLASS-VARIABLE: CK_SRC
 # @DESCRIPTION: -ck src file
