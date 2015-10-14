@@ -126,7 +126,6 @@ sys-fs/fskit
 sys-fs/vdev
 sys-kernel/git-sources
 sys-kernel/mkinitramfs-ll
-sys-libs/libfreebob
 sys-libs/libpstat
 sys-process/runit
 sys-process/supervision
