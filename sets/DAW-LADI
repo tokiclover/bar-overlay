@@ -5,7 +5,7 @@ media-plugins/tap-plugins::bar
 media-sound/a2jmidid
 media-sound/ardour
 media-sound/fluidsynth::bar
-media-sound/jack-audio-connection::bar
+media-sound/jack-audio-connection-kit::bar
 media-sound/jack_capture::bar
 media-sound/jack_mixer::bar
 media-sound/jalv
