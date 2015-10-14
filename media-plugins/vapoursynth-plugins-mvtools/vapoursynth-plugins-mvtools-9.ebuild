@@ -27,7 +27,7 @@ SLOT="0"
 IUSE=""
 
 RDEPEND="media-video/vapoursynth:=[${MULTILIB_USEDEP}]
-	sci-libs/fftw:3=[${MULTILIB_USEDEP}]"
+	sci-libs/fftw:3.0=[${MULTILIB_USEDEP}]"
 DEPEND="dev-lang/yasm
 	${RDEPEND}"
 

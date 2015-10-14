@@ -27,7 +27,7 @@ LICENSE="GPL-3"
 SLOT="0"
 IUSE="debug"
 
-RDEPEND="sci-libs/fftw:3[${MULTILIB_USEDEP}]
+RDEPEND="sci-libs/fftw:3.0[${MULTILIB_USEDEP}]
 	media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 
