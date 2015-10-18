@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.13 2015/05/05 23:23:44 -tclover Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.14 2015/10/18 23:23:44 Exp $
 
 EAPI=5
 
@@ -8,15 +8,16 @@ inherit flag-o-matic linux-mod toolchain-funcs git-2
 
 DESCRIPTION="An entirely re-designed and re-implemented Unionfs"
 HOMEPAGE="http://aufs.sourceforge.net/"
-EGIT_REPO_URI="git://git.code.sf.net/p/aufs/aufs3-standalone.git"
+EGIT_REPO_URI="git://github.com/sfjro/aufs4-standalone.git"
 EGIT_NONBARE=yes
 
 DEPEND="dev-util/patchutils"
-RDEPEND="!sys-fs/aufs2 !sys-fs/aufs3 =sys-fs/${P/standalone/util}"
+RDEPEND="sys-fs/aufs4
+	=sys-fs/${P/standalone/util}"
 
 LICENSE="GPL-2"
 IUSE="debug doc fhsm fuse pax_kernel hfs inotify +kernel-patch nfs ramfs +xattr"
-SLOT="0/${PV}"
+SLOT="0/${PV:0:1}"
 
 MODULE_NAMES="aufs(misc:${S})"
 
@@ -53,22 +54,15 @@ pkg_setup()
 
 	get_version
 
-	local PATCHES ERR_OLD branch patch n=/dev/null
-	ERR_OLD='die "kernel version is too old!"'
+	local PATCHES ERR_VER branch patch n=/dev/null
+	ERR_VER='die "kernel version is too old!"'
 
 	case "${KV_MAJOR}" in
-		(3)
+		(4)
 		case "${KV_MINOR}" in
-			([0-10]) eval ${ERR_OLD};;
-			(*) version_setup 1{1,2,3,4,5,6,7,8,9};;
-		esac
-		case ${KV_MINOR} in
-			(12) (( ${KV_PATCH} >= 31 )) && branch+=.31+ || eval ${ERR_OLD};;
-			(14) (( ${KV_PATCH} >= 21 )) && branch+=.40+ || eval ${ERR_OLD};;
-			(18) (( ${KV_PATCH} >=  1 )) && branch+=.1+  || eval ${ERR_OLD};;
+			([0-3]) version_setup {0,1,2};;
+			(*) eval ${ERR_VER};;
 		esac;;
-		(4) EGIT_REPO_URI="git@github.com:sfjro/aufs4-standalone.git"
-			version_setup 0;;
 		(*) die "kernel version is not supported!";;
 	esac
 :	${branch:=x-rcN}
