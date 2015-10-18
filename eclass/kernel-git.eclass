@@ -57,7 +57,14 @@ based on the latest stable tree."
 :	${AUFS_VER:=${MKV}}
 # @ECLASS-VARIABLE: EGIT_REPO_AUFS
 # @DESCRIPTION: AUFS git URI
+case "${KV_MAJOR}" in
+	(3)
 :	${EGIT_REPO_AUFS:="git://git.code.sf.net/p/aufs/aufs${KV_MAJOR}-standalone.git"}
+	;;
+	(4)
+:	${EGIT_REPO_AUFS:="git://github.com/sfjro/aufs${KV_MAJOR}-standalone.git"}
+	;;
+esac
 # @ECLASS-VARIABLE: AUFS_EXTRA_PATCH
 # @DESCRIPTION: extra patches included in AUFS package to use
 
