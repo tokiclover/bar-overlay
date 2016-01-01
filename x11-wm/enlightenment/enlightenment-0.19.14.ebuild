@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-wm/enlightenment/enlightenment-0.18.9999.ebuild,v 1.2 2015/05/20 -tclover Exp $
+# $Header: x11-wm/enlightenment/enlightenment-0.19.9999.ebuild,v 1.2 2015/05/20 -tclover Exp $
 
 EAPI=5
 PLOCALES="bg ca cs da de el eo es fi fr fr_CH he hu it ja ko nb nl pl pt_BR ru sk sl sv tr zh_CN zh_TW"
@@ -18,7 +18,7 @@ case "${PV}" in
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
-	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P/_/-}.tar.bz2"
+	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P/_/-}.tar.xz"
 	;;
 esac
 inherit l10n autotools-utils ${VCS_ECLASS}
@@ -27,6 +27,7 @@ DESCRIPTION="Enlightenment DR${PV:2:4} window manager"
 HOMEPAGE="http://www.enlightenment.org/"
 
 LICENSE="BSD-2"
+KEYWORDS="~amd64 ~x86"
 SLOT="0.17/${PV:0:4}"
 
 E_MODULES_DEFAULT=(
@@ -42,21 +43,22 @@ E_MODULES_DEFAULT=(
 E_MODULES=(
 	access packagkit wl-desktop-shell wl-drm wl-fb wl-x11
 )
-IUSE="debug doc +eeze +nls pam static-libs systemd +udev ukit wayland
+IUSE="debug doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
 	${E_MODULES_DEFAULT[@]/#/+enlightenment_modules_}
 	${E_MODULES[@]/#/enlightenment_modules_}
 "
 REQUIED_USE="!udev? ( eeze )"
 
-RDEPEND=">=dev-libs/efl-1.8.3[X,wayland?]
-	>=media-libs/elementary-1.8.3
-	debug? ( dev-util/valgrind )
-	udev? ( virtual/udev )
+RDEPEND=">=dev-libs/efl-1.11.2[X,egl?,wayland?]
+	>=media-libs/elementary-1.11.2
+	virtual/udev
 	x11-libs/libxcb
 	x11-libs/xcb-util-keysyms
 	enlightenment_modules_mixer? ( >=media-libs/alsa-lib-1.0.8 )
+	debug? ( dev-util/valgrind )
 	nls? ( virtual/libintl )
 	pam? ( sys-libs/pam )
+	pm-utils? ( sys-power/pm-utils )
 	systemd? ( sys-apps/systemd )
 	wayland? (
 		>=dev-libs/wayland-1.3.0
@@ -67,6 +69,10 @@ DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )"
 
 DOCS=( AUTHORS ChangeLog README )
+
+PATCHES=(
+	 "${FILESDIR}"/${PN}-0.19.1-wayland-cflags.patch
+)
 
 AUTOTOOLS_IN_SOURCE_BUILD=1
 S="${WORKDIR}/${P/_/-}"
@@ -85,6 +91,7 @@ src_configure()
 		--enable-install-enlightenment-menu
 		--enable-install-sysactions
 		$(use_enable doc)
+		$(use_enable egl wayland-egl)
 		$(use_enable nls)
 		$(use_enable pam)
 		$(use_enable static-libs static)

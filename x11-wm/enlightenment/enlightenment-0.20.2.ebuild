@@ -3,6 +3,7 @@
 # $Header: x11-wm/enlightenment/enlightenment-0.19.9999.ebuild,v 1.2 2015/05/20 -tclover Exp $
 
 EAPI=5
+PLOCALES="bg ca cs da de el eo es fi fr fr_CH he hu it ja ko nb nl pl pt_BR ru sk sl sv tr zh_CN zh_TW"
 
 case "${PV}" in
 	(*9999*)
@@ -20,7 +21,7 @@ case "${PV}" in
 	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P/_/-}.tar.xz"
 	;;
 esac
-inherit autotools-utils ${VCS_ECLASS}
+inherit l10n autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="Enlightenment DR${PV:2:4} window manager"
 HOMEPAGE="http://www.enlightenment.org/"
@@ -42,17 +43,18 @@ E_MODULES_DEFAULT=(
 E_MODULES=(
 	access packagkit wl-desktop-shell wl-drm wl-fb wl-x11
 )
-IUSE="doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
+IUSE="debug doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
 	${E_MODULES_DEFAULT[@]/#/+enlightenment_modules_}
 	${E_MODULES[@]/#/enlightenment_modules_}
 "
 REQUIED_USE="!udev? ( eeze )"
 
-RDEPEND=">=dev-libs/efl-1.11.2[X,egl?,wayland?]
-	>=media-libs/elementary-1.11.2
+RDEPEND=">=dev-libs/efl-1.15.2[X,egl?,wayland?]
+	>=media-libs/elementary-1.15.2
 	virtual/udev
 	x11-libs/libxcb
 	x11-libs/xcb-util-keysyms
+	debug? ( dev-util/valgrind )
 	enlightenment_modules_mixer? ( >=media-libs/alsa-lib-1.0.8 )
 	nls? ( virtual/libintl )
 	pam? ( sys-libs/pam )
