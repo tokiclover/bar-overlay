@@ -5,7 +5,7 @@
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
 PYTHON_REQ_USE='threads(+)'
-WAF_VERSION=1.8.5
+WAF_VERSION=1.8.12
 
 case "${PV}" in
 	(9999*)
@@ -29,7 +29,7 @@ LICENSE="GPL-2"
 SLOT="0/${PV}"
 IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +enca encode +iconv
 jack jpeg lcms libarchive +libass libcaca libguess lua luajit -openal
-+opengl oss pulseaudio pvr samba sdl selinux +shm static static-libs uchardet
++opengl oss pulseaudio samba sdl selinux +shm static static-libs uchardet
 v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver +xv"
 
 REQUIRED_USE="
@@ -39,7 +39,6 @@ REQUIRED_USE="
 	libguess? ( iconv )
 	luajit? ( lua )
 	opengl? ( || ( wayland X ) )
-	pvr? ( v4l )
 	uchardet? ( iconv )
 	vaapi? ( X )
 	vdpau? ( X )
@@ -177,7 +176,6 @@ src_configure()
 		$(use_enable libass)
 		$(use_enable libguess)
 		$(use_enable dvb dvbin)
-		$(use_enable pvr)
 		$(use_enable uchardet)
 		$(use_enable v4l libv4l2)
 		$(use_enable v4l tv)
