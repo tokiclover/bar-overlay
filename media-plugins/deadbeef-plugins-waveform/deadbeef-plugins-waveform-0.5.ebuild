@@ -14,8 +14,8 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~x86"
+		VCS_ECLASS=vcs-snapshot
 		SRC_URI="https://github.com/cboxdoerfer/ddb_waveform_seekbar/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-		S="${WORKDIR}/ddb_waveform_seekbar-${PV}"
 		;;
 esac
 inherit eutils ${VCS_ECLASS}

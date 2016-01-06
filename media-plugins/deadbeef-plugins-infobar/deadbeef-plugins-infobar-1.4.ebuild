@@ -13,8 +13,8 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~x86"
+		VCS_ECLASS=vcs-snapshot
 		SRC_URI="https://bitbucket.org/dsimbiriatin/${PN/-plugins}/downloads/${P/-plugins}.tar.gz"
-		S="${WORKDIR}"/${P/-plugins}
 		;;
 esac
 inherit eutils ${VCS_ECLASS}

@@ -4,12 +4,22 @@
 
 EAPI=5
 
-inherit eutils git-2
+case "${PV}" in
+	(9999*)
+		KEYWORDS=""
+		VCS_ECLASS=git-2
+		EGIT_REPO_URI="git://github.com/cboxdoerfer/ddb_spectrogram.git"
+		EGIT_PROJECT="${PN}.git"
+		;;
+	(*)
+		KEYWORDS="~amd64 ~arm ~x86"
+		VCS_ECLASS=vcs-snapshot
+		;;
+esac
+inherit eutils ${VCS_ECLASS}
 
 DESCRIPTION="spectrum plugin for DeaDBeeF audio player"
 HOMEPAGE="https://github.com/cboxdoerfer/ddb_spectrogram"
-EGIT_REPO_URI="git://github.com/cboxdoerfer/ddb_spectrogram.git"
-EGIT_PROJECT=${PN}.git
 
 LICENSE="GPL-2"
 SLOT="0"

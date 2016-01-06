@@ -14,8 +14,8 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~arm ~x86"
+		VCS_ECLASS=vcs-snapshot
 		SRC_URI="https://gitlab.com/zykure/deadbeef-fb/raw/release/source/deadbeef-fb_${PV}_src.tar.gz"
-		S="${WORKDIR}"/deadbeef-fb-devel
 		;;
 esac
 inherit autotools-utils ${VCS_ECLASS}
