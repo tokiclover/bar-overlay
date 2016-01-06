@@ -13,8 +13,8 @@ case "${PV}" in
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~mips ~s390 ~x86 ~amd64-linux ~x86-linux"
+	VCS_ECLASS=vcs-snapshot
 	SRC_URI="https://github.com/Cyan4973/${PN}/archive/r${PV}.tar.gz -> ${P}.tar.gz"
-	S="${WORKDIR}/${PN}-r${PV}"
 	;;
 esac
 inherit multilib-minimal toolchain-funcs ${VCS_ECLASS}
