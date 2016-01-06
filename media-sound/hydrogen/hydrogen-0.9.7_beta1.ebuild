@@ -13,6 +13,7 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="amd64 ppc ppc64 x86"
+		VCS_ECLASS=vcs-snapshot
 		SRC_URI="https://github.com/${PN}-music/${PN}/archive/${PVR/_/-}.tar.gz -> ${P}.tar.gz"
 		;;
 esac
