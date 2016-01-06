@@ -13,6 +13,7 @@ case "${PV}" in
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
+	VCS_ECLASS=vcs-snapshot
 	SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	;;
 esac
