@@ -14,9 +14,9 @@ KV_PATCH="${PV##*.}"
 EGIT_REPO_AUFS="git://github.com/sfjro/aufs${PV:0:1}-linux.git"
 BFS_VER="463"
 CK_VER="${MKV}-ck2"
-GENTOO_VER="${MKV}-14"
+GENTOO_VER="${MKV}-19"
 FBCONDECOR_VER="${GENTOO_VER}"
 REISER4_VER="${MKV}.7"
-RT_VER="${MKV}.7-rt8"
+RT_VER="${OKV}-rt17"
 
 inherit kernel-git
