@@ -41,5 +41,5 @@ multilib_src_configure()
 }
 multilib_src_install_all()
 {
-	dodoc readme.rst
+	dodoc README
 }
