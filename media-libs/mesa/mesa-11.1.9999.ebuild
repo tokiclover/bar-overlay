@@ -72,17 +72,18 @@ REQUIRED_USE="
 	video_cards_i965?   ( classic )
 	video_cards_ilo?    ( gallium )
 	video_cards_nouveau? ( || ( classic gallium ) )
-	video_cards_radeon? ( || ( classic gallium ) )
+	video_cards_radeon? ( || ( classic gallium )
+						  gallium? ( x86? ( llvm ) amd64? ( llvm ) ) )
 	video_cards_r100?   ( classic )
 	video_cards_r200?   ( classic )
-	video_cards_r300?   ( gallium  llvm )
+	video_cards_r300?   ( gallium x86? ( llvm ) amd64? ( llvm ) )
 	video_cards_r600?   ( gallium )
 	video_cards_radeonsi?   ( gallium llvm )
 	video_cards_vmware? ( gallium )
 	${PYTHON_REQUIRED_USE}
 "
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.64"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
@@ -170,7 +171,6 @@ x86? (
 		usr/lib*/libOSMesa.so*
 	)
 )"
-
 
 OPENGL_DIR="xorg-x11"
 FOLDER="${PV/_rc*/}"
