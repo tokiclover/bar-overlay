@@ -4,6 +4,7 @@
 
 # @ECLASS: kernel-git.eclass
 # @MAINTAINER: tclover@bar-overlay
+# @BLURB: 
 # @DESCRIPTION: portage eclass base functions used by 
 # sys-kernel/git-sources::bar ebuilds
 
