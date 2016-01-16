@@ -86,14 +86,16 @@ multilib_src_configure()
 multilib_src_compile()
 {
 	autotools-utils_src_compile
-	use python && LDFLAGS="${LDFLAGS} -L${ED}/usr/$(get_libdir)" \
-		CFLAGS="${CFLAGS} $(usex static-libs '' '-fPIC')" \
-		distutils-r1_src_compile
 }
 multilib_src_install()
 {
 	autotools-utils_src_install
-	use python && distutils-r1_src_install
+	if use python; then
+		LDFLAGS="${LDFLAGS} -L${ED}/usr/$(get_libdir)" \
+		CFLAGS="${CFLAGS} $(usex static-libs '' '-fPIC')" \
+		distutils-r1_src_compile
+		distutils-r1_src_install
+	fi
 }
 multilib_src_install_all()
 {
