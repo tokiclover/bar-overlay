@@ -1,9 +1,9 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/vapursynth/vapursynth-9999.ebuild,v 1.1 2015/09/24 Exp $
+# $Header: media-video/vapursynth/vapursynth-9999.ebuild,v 1.2 2016/01/20 Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python3_{3,4} )
+PYTHON_COMPAT=( python3_{3,4,5} )
 PYTHON_REQ_USE='threads(+)'
 
 case "${PV}" in
@@ -28,7 +28,7 @@ LICENSE="LGPL-2.1 OFL-1.1"
 SLOT="0/${PV}"
 IUSE="debug +doc +python static static-libs +vapoursynth-pipe +vapoursynth-script"
 REQUIRED_USE="vapoursynth-pipe? ( vapoursynth-script )
-	python? ( ${PYTHON_REQUIRED_USE} )"
+	python? ( || ( ${PYTHON_REQUIRED_USE} ) )"
 
 DEFAULT_PLUGINS=( eedi3 morpho removegrain inverse:vinverse ivtc:vivtc )
 for i in ass:assvapour image:imwri ocr "${DEFAULT_PLUGINS[@]}"; do
@@ -43,8 +43,9 @@ unset i
 
 RDEPEND="|| ( >=media-video/libav-11:=[${MULTILIB_USEDEP}]
 		>=media-video/ffmpeg-2.4.0:=[${MULTILIB_USEDEP}] )
+	media-libs/zimg[${MULTILIB_USEDEP}]
 	debug? ( sys-devel/gdb )
-	python? ( dev-python/cython[${PYTHON_USEDEP}]
+	python? ( dev-python/cython[${PYTHON_USEDEP}] 
 		${PYTHON_DEPS} )
 	vapoursynth-script? ( ${PYTHON_DEPS} )
 	vapoursynth_plugins_ass? ( media-libs/libass[${MULTILIB_USEDEP}] )
@@ -69,7 +70,7 @@ multilib_src_configure()
 		${EXTRA_VAPURSYNTH_CONF}
 		$(use_enable debug)
 		$(use_enable python python-module)
-		$(usex python --with-cython="${EPREFIX}/usr/lib/python-exec/${PYTHON_TARGETS/_/.}/cython" "")
+		$(usex python --with-cython="${EPREFIX}/usr/$(get_libdir)/python-exec/${PYTHON_TARGETS/_/.}/cython" "")
 		$(use_enable static)
 		$(use_enable !static-libs shared)
 		$(use_enable vapoursynth-pipe vspipe)
@@ -86,16 +87,16 @@ multilib_src_configure()
 multilib_src_compile()
 {
 	autotools-utils_src_compile
+	use python &&
+		LDFLAGS="${LDFLAGS} -L." \
+		CFLAGS="${CFLAGS} $(usex static-libs '' '-fPIC')" \
+		distutils-r1_src_compile
 }
 multilib_src_install()
 {
 	autotools-utils_src_install
-	if use python; then
-		LDFLAGS="${LDFLAGS} -L${ED}/usr/$(get_libdir)" \
-		CFLAGS="${CFLAGS} $(usex static-libs '' '-fPIC')" \
-		distutils-r1_src_compile
+	use python &&
 		distutils-r1_src_install
-	fi
 }
 multilib_src_install_all()
 {
