@@ -70,7 +70,7 @@ multilib_src_configure()
 		${EXTRA_VAPURSYNTH_CONF}
 		$(use_enable debug)
 		$(use_enable python python-module)
-		$(usex python --with-cython="${EPREFIX}/usr/$(get_libdir)/python-exec/${PYTHON_TARGETS/_/.}/cython" "")
+		$(usex python --with-cython="${EPREFIX}/usr/bin/cython" "")
 		$(use_enable static)
 		$(use_enable !static-libs shared)
 		$(use_enable vapoursynth-pipe vspipe)
