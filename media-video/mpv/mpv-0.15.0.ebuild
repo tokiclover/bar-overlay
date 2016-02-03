@@ -118,7 +118,7 @@ DEPEND="${RDEPEND}
 		xinerama? ( x11-proto/xineramaproto )
 		xscreensaver? ( x11-proto/scrnsaverproto )
 	)"
-DOCS=( Copyright README.md etc/example.conf etc/input.conf )
+DOCS=( Copyright README.md )
 
 pkg_setup()
 {
@@ -215,6 +215,7 @@ src_install()
 	if use luajit; then
 		pax-mark -m "${ED}"usr/bin/mpv
 	fi
+	dodoc etc/*.conf
 }
 
 pkg_preinst()
