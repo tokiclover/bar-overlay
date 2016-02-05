@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-libs/efl/efl-1.13.3.ebuild,v 1.4 2015/08/12 Exp $
+# $Header: dev-libs/efl/efl-9999.ebuild,v 1.5 2015/02/02 Exp $
 
 EAPI=5
 
@@ -28,14 +28,21 @@ RESTRICT="test"
 DESCRIPTION="Enlightenment Foundation Core Libraries"
 HOMEPAGE="http://www.enlightenment.org/"
 
-LICENSE="BSD-2 GPL-2 LGPL-2.1 ZLIB"
+LICENSE="BSD-2 FTL GPL-2 LGPL-2.1 ZLIB"
 SLOT="0/${PV:0:4}"
 
-IUSE="+X avahi cpu_flags_arm_neon cxx-bindings debug doc drm +egl fbcon +fontconfig
-+fribidi gif gles glib gnutls gstreamer harfbuzz ibus jp2k +nls +opengl ssl physics
-+png pulseaudio scim sdl static-libs systemd system-lz4 test tiff tslib v4l2 wayland
-webp xim xine xpm"
-REQUIRED_USE="drm? ( systemd ) ?? ( gnutls ssl ) ?? ( opengl gles sdl )"
+IUSE="+X avahi +bmp cpu_flags_arm_neon cxx-bindings debug doc drm +eet +egl fbcon
++fontconfig +fribidi gif gles glib gnutls gstreamer harfbuzz ibus +ico jpeg2k
++nls +opengl ssl physics pixman +png +ppm +psd  pulseaudio scim sdl sndfile
+static-libs systemd system-lz4 test +tga tiff tslib v4l2 wayland webp xim xine xpm"
+REQUIRED_USE="?? ( gnutls ssl ) ?? ( opengl gles )
+	drm? ( systemd )
+	gles? ( !sdl egl )
+	gles? ( || ( X wayland ) )
+	pulseaudio? ( sndfile )
+	sdl? ( opengl )
+	xim? ( X )
+	wayland? ( egl !opengl gles )"
 
 COMMON_DEP="
 	dev-lang/luajit:2
@@ -77,15 +84,17 @@ COMMON_DEP="
 	gif? ( media-libs/giflib[${MULTILIB_USEDEP}] )
 	glib? ( dev-libs/glib[${MULTILIB_USEDEP}] )
 	gnutls? ( net-libs/gnutls[${MULTILIB_USEDEP}] )
-	!gnutls? ( ssl? ( dev-libs/openssl[${MULTILIB_USEDEP}] ) )
+	ssl? ( || ( dev-libs/libressl[${MULTILIB_USEDEP}]
+		dev-libs/openssl[${MULTILIB_USEDEP}] ) )
 	gstreamer? (
 		media-libs/gstreamer:1.0[${MULTILIB_USEDEP}]
 		media-libs/gst-plugins-base:1.0[${MULTILIB_USEDEP}]
 	)
 	harfbuzz? ( media-libs/harfbuzz[${MULTILIB_USEDEP}] )
 	ibus? ( app-i18n/ibus )
-	jp2k? ( media-libs/openjpeg[${MULTILIB_USEDEP}] )
+	jpeg2k? ( media-libs/openjpeg[${MULTILIB_USEDEP}] )
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )
+	pixman? ( x11-libs/pixman[${MULTILIB_USEDEP}] )
 	physics? ( sci-physics/bullet )
 	png? ( media-libs/libpng:0=[${MULTILIB_USEDEP}] )
 	pulseaudio? (
@@ -134,37 +143,17 @@ multilib_src_configure()
 {
 	local -a myeconfargs=( ${EXTRA_EFL_CONF} )
 
-	# gnutls / openssl
-	if ! (use gnutls || use ssl); then
-		myeconfargs+=( --with-crypto=none )
-	fi
-	# X
-	myeconfargs+=(
-		$(use_with X x)
-		$(use_with X x11 xlib)
-	)
-	if ! (use opengl || use gles); then
-		myeconfargs+=( --with-opengl=none )
-	fi
-	# wayland
-	myeconfargs+=(
-		$(use_enable egl)
-		$(use_enable wayland)
-	)
 	myeconfargs+=(
 		$(use_enable avahi)
 		$(use_enable cpu_flags_arm_neon neon)
 		$(use_enable cxx-bindings cxx-bindings)
 		$(use_enable doc)
 		$(use_enable drm)
+		$(use_enable egl)
 		$(use_enable fbcon fb)
 		$(use_enable fontconfig)
 		$(use_enable fribidi)
-		$(usex opengl '--with-opengl=full' '')
-		$(usex gles '--with-opengl=es' '')
 		$(use_enable gstreamer gstreamer1)
-		$(usex gnutls '--with-crypto=gnutls' '')
-		$(usex ssl '--with-crypto=openssl' '')
 		$(use_enable harfbuzz)
 		$(use_enable ibus)
 		$(use_enable nls)
@@ -173,57 +162,55 @@ multilib_src_configure()
 		$(use_enable pulseaudio audio)
 		$(use_enable scim)
 		$(use_enable sdl)
+		$(use_enable sndfile audio)
 		$(use_enable static-libs static)
 		$(use_enable systemd)
 		$(use_enable system-lz4 liblz4)
 		$(use_enable tslib)
 		$(use_enable v4l2)
+		$(use_enable wayland)
 		$(use_enable xim)
 		$(use_enable xine)
-		# image loders
-		--enable-image-loader-bmp
-		--enable-image-loader-eet
-		--enable-image-loader-generic
-		--enable-image-loader-ico
-		--enable-image-loader-jpeg # required by ethumb
-		--enable-image-loader-psd
-		--enable-image-loader-pmaps
-		--enable-image-loader-tga
-		--enable-image-loader-wbmp
+		$(use_enable bmp image-loader-bmp)
+		$(use_enable bmp image-loader-wbmp)
+		$(use_enable eet image-loader-eet)
+		$(use_enable ico image-loader-ico)
+		$(use_enable jpeg2k image-loader-jp2k)
+		$(use_enable psd image-loader-psd)
+		$(use_enable ppm image-loader-pmaps)
+		$(use_enable tga image-loader-tga)
 		$(use_enable gif image-loader-gif)
-		$(use_enable jp2k image-loader-jp2k)
+		$(use_enable pixman)
+		$(use_enable pixman pixman-font)
+		$(use_enable pixman pixman-rect)
+		$(use_enable pixman pixman-line)
+		$(use_enable pixman pixman-poly)
+		$(use_enable pixman pixman-image)
+		$(use_enable pixman pixman-image-scale-sample)
 		$(use_enable png image-loader-png)
 		$(use_enable tiff image-loader-tiff)
 		$(use_enable webp image-loader-webp)
 		$(use_enable xpm image-loader-xpm)
-		--enable-cserve
-		--enable-libmount
-		--enable-threads
-		--enable-xinput22
-		--disable-gesture
-		--disable-gstreamer # using gstreamer1
-		--disable-lua-old
-		--disable-multisense
-		--disable-tizen
-		--disable-xinput2
-		--disable-xpresent
-		# bug 501074
-		--disable-pixman
-		--disable-pixman-font
-		--disable-pixman-rect
-		--disable-pixman-line
-		--disable-pixman-poly
-		--disable-pixman-image
-		--disable-pixman-image-scale-sample
+		--with-crypto=$(usex gnutls gnutls $(usex ssl openssl none))
+		--with-opengl=$(usex opengl full $(usex gles es none))
 		--with-profile=$(usex debug debug release)
 		--with-glib=$(usex glib yes no)
 		--with-tests=$(usex test regular none)
+		--with-x11=$(usex X xlib none)
+		$(use_with X x)
+
+		--enable-image-loader-generic
+		--enable-image-loader-jpeg
+		--enable-cserve
+		--enable-libmount
+		--enable-xinput2
+		--disable-xinput22
+		--disable-gesture
+		--disable-gstreamer
+		--disable-lua-old
+		--disable-multisense
+		--disable-tizen
 		--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-aba
 	)
 	autotools-utils_src_configure
-}
-
-multilib_src_install()
-{
-	MAKEOPTS="-j1" emake DESTDIR="${D}" install
 }
