@@ -1,8 +1,9 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-util/enventor/enventor-0.5.0.ebuild,v 1.2 2015/05/26 12:02:10 -tclover Exp $
+# $Header: dev-util/enventor/enventor-0.7.0.ebuild,v 1.2 2016/02/02 12:02:10 Exp $
 
 EAPI=5
+PLOCALES="ru"
 
 case "${PV}" in
 	(*9999*)
@@ -17,7 +18,7 @@ case "${PV}" in
 	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${PN}-${PV/_/-}.tar.xz"
 	;;
 esac
-inherit autotools-utils ${VCS_ECLASS}
+inherit l10n autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="EFL Dynamic EDC editor"
 HOMEPAGE="https://enlightenment.org"
@@ -26,10 +27,16 @@ IUSE=""
 LICENSE="BSD-2"
 SLOT="0"
 
-EFL_VERSION=1.13.0
+EFL_VERSION=1.16.0
 RDEPEND=">=dev-libs/efl-${EFL_VERSION}
 	>=media-libs/elementary-${EFL_VERSION}"
 DEPEND="${RDEPEND}
 	virtual/libintl"
 
 DOCS=( AUTHORS NEWS README )
+
+src_prepare()
+{
+	sed -re 's,(--g[ch]),--eo \1,g' -i Makefile_Eolian_Helper.am
+	autotools-utils_src_prepare
+}
