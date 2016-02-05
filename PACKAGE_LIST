@@ -5,7 +5,6 @@ app-editors/ecrire
 app-text/pdfchain
 dev-libs/efl
 dev-libs/dbus-c++
-dev-libs/wayland
 dev-libs/serd
 dev-libs/sord
 dev-perl/IO-Socket-TIPC
