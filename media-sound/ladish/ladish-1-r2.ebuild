@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-1.ebuild,v 1.6 2015/06/08 12:14:19 -tclover Exp $
+# $Header: media-sound/ladish/ladish-1.ebuild,v 1.6 2015/06/08 12:14:19 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -16,6 +16,7 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
+		VCS_ECLASS=vcs-snapshot
 		SRC_URI="https://github.com/LADI/archive/${P}.tar.gz"
 		;;
 esac
@@ -53,15 +54,6 @@ PATCHES=(
 	"${FILESDIR}"/${P}-include.patch
 	"${FILESDIR}"/${P}-libdir.patch
 )
-
-src_unpack()
-{
-	default
-	case "${PV}" in
-		(9999*) ;;
-		(*) mv {${PN}-,}${P} || die;;
-	esac
-}
 
 src_prepare()
 {
@@ -105,4 +97,3 @@ multilib_src_install_all()
 	rm -f "${ED}"/usr/share/${PN}/{AUTHORS,COPYING,NEWS,README}
 	python_fix_shebang "${ED}"
 }
-

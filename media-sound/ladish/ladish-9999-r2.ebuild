@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-9999.ebuild,v 1.6 2015/06/08 12:14:19 -tclover Exp $
+# $Header: media-sound/ladish/ladish-1.ebuild,v 1.6 2015/06/08 12:14:19 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -16,6 +16,7 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
+		VCS_ECLASS=vcs-snapshot
 		SRC_URI="https://github.com/LADI/archive/${P}.tar.gz"
 		;;
 esac
@@ -23,7 +24,6 @@ inherit l10n python-single-r1 waf-utils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="LADI Session Handler - a session management system for JACK applications"
 HOMEPAGE="http://ladish.org/"
-EGIT_REPO_URI="git://repo.or.cz/ladish.git"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -36,7 +36,7 @@ RDEPEND="lash? ( !media-sound/lash )
 	gtk? ( 
 		dev-libs/boost[${MULTILIB_USEDEP}]
 		>=x11-libs/gtk+-2.20.0:2[${MULTILIB_USEDEP}]
-		>=x11-libs/flowcanvas-0.6.4[${MULTILIB_USEDEP}]
+		>=x11-libs/flowcanvas-0.6.4
 		>=dev-libs/glib-2.20.3[${MULTILIB_USEDEP}]
 		>=dev-libs/dbus-glib-0.74[${MULTILIB_USEDEP}]
 		>=gnome-base/libglade-2.6.2[${MULTILIB_USEDEP}]
@@ -49,15 +49,6 @@ DEPEND="${RDEPEND}
 	nls? ( virtual/libintl )"
 
 DOCS=( AUTHORS README NEWS )
-
-src_unpack()
-{
-	default
-	case "${PV}" in
-		(9999*) ;;
-		(*) mv {${PN}-,}${P} || die;;
-	esac
-}
 
 src_prepare()
 {
@@ -73,14 +64,13 @@ src_prepare()
 multilib_src_configure()
 {
 	local -a mywafconfargs=(
-		"--libdir=${EPREFIX}/usr/$(get_libdir)"
 		$(usex debug --debug '')
 		$(usex doc --doxygen '')
 		$(use_enable lash liblash)
 		$(use_enable python pylash)
 	)
-	PREFIX="${EPREFIX}/usr" WAF_BINARY="${BUILD_DIR}"/waf \
-		waf-utils_src_configure "${mywafconfargs[@]}"
+	NO_WAF_LIBDIR=1 PREFIX="${EPREFIX}/usr" LIBDIR="${EPREFIX}/usr/$(get_libdir)" \
+		WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_configure "${mywafconfargs[@]}"
 }
 
 multilib_src_compile()
@@ -99,7 +89,6 @@ multilib_src_install()
 multilib_src_install_all()
 {
 	rm -f "${ED}"/usr/share/${PN}/{AUTHORS,COPYING,NEWS,README}
-	use lash && dosym /usr/include/{lash-1.0/,}lash
 	python_fix_shebang "${ED}"
 }
 
