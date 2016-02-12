@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/laditools/laditools-1.0_rc2.ebuild,v 1.2 2014/10/10 14:40:05 -tclover Exp $
+# $Header: media-sound/laditools/laditools-1.0_rc2.ebuild,v 1.2 2016/02/08 14:40:05 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -14,8 +14,8 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
+		VCS_ECLASS=vcs-snapshot
 		SRC_URI="https://launchpad.net/laditools/${PV:0:3}/${PV}/+download/${PN}-${PVR/_/-}.tar.bz2"
-		S="${WORKDIR}"/${PN}-${PVR/_/-}
 		;;
 esac
 inherit distutils-r1 ${VCS_ECLASS}
