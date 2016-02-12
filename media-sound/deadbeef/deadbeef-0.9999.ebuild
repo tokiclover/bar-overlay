@@ -1,29 +1,21 @@
-# Copyright 2016 Gentoo Foundation
+# Copyright 2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/deadbeef/deadbeef-0.7.0.ebuild,v 1.5 2016/02/12 19:57:55 Exp $
+# $Header: media-sound/deadbeef/deadbeef-0.6.2.ebuild,v 1.4 2014/08/16 19:57:55 -tclover Exp $
 
 EAPI=5
+
+AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_IN_SOURCE_BUILD=1
+
 PLOCALES="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
 lg lt nb nl pl pt pt_BR ro ru si sk sl sr sr@latin sv te tr ug uk vi zh_CN zh_TW"
 
-case "${PV}" in
-	(*9999*)
-		KEYWORDS=""
-		VCS_ECLASS=git-2
-		EGIT_REPO_URI="git://github.com/Alexey-Yakovenko/${PN}.git"
-		EGIT_PROJECT="${PN}.git"
-		;;
-	(*)
-		KEYWORDS="~alpha ~amd64 ~hppa ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
-		VCS_ECLASS=vcs-snapshot
-		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
-		;;
-esac
-inherit l10n fdo-mime gnome2-utils flag-o-matic autotools-utils ${VCS_ECLASS}
+inherit l10n fdo-mime gnome2-utils flag-o-matic autotools-utils
 
 DESCRIPTION="DeaDBeeF - Ultimate Music Player For GNU/Linux"
 HOMEPAGE="http://deadbeef.sourceforge.net/"
 LICENSE="|| ( GPL-2 LGPL-2.1 )"
+SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -53,7 +45,7 @@ RDEPEND="adplug? ( media-libs/adplug )
 	twolame? ( media-sound/twolame )
 	curl? ( >=net-misc/curl-7.10 )
 	cdda? ( dev-libs/libcdio media-libs/libcddb )
-	gtk? ( >=x11-libs/gtk+-2.12:2
+	gtk? ( >=x11-libs/gtk+-2.12:2 
 		${GTK_DEPEND} )
 	gtk3? ( x11-libs/gtk+:3
 		${GTK_DEPEND} )
@@ -77,12 +69,9 @@ RDEPEND="adplug? ( media-libs/adplug )
 DEPEND=">=dev-lang/perl-5.8.1
 	dev-perl/XML-Parser
 	dev-lang/yasm
-	ffmpeg? ( virtual/ffmpeg )
+	ffmpeg? ( <virtual/ffmpeg-10 )
 	nls? ( virtual/libintl )
 	oss? ( virtual/libc )"
-
-AUTOTOOLS_AUTORECONF=1
-AUTOTOOLS_IN_SOURCE_BUILD=1
 
 pkg_setup() {
 	local LINGUAS
