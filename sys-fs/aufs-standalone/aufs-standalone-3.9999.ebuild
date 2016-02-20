@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.14 2015/10/18 23:23:44 Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.15 2016/02/18 23:23:44 Exp $
 
 EAPI=5
 
@@ -21,24 +21,6 @@ SLOT="0/${PV:0:1}"
 
 MODULE_NAMES="aufs(misc:${S})"
 
-version_setup()
-{
-	local arg num=1
-	for arg; do
-		if (( $((${num})) == ${#} )); then
-			branch=${arg}
-			break
-		elif (( ${arg} >= ${KV_MINOR} )); then
-			branch=\$$((${num}-1))
-			break
-		elif (( ${arg} == ${KV_MINOR} )); then
-			branch=${arg}
-			break
-		fi
-		num=$((${num}+1))
-	done
-}
-
 pkg_setup()
 {
 	CONFIG_CHECK="!AUFS_FS"
@@ -55,26 +37,25 @@ pkg_setup()
 	get_version
 
 	local PATCHES ERR_VER branch patch n=/dev/null
-	ERR_VER='die "kernel version is too old!"'
+	ERR_OLD='die "kernel version is too old!"'
 
 	case "${KV_MAJOR}" in
 		(3)
 		case "${KV_MINOR}" in
-			([0-10]) eval ${ERR_VER};;
-			(*) version_setup 1{1,2,3,4,5,6,7,8,9};;
+			(1[0248]) branch="${KV_MAJOR}.${KV_MINOR}";;
+			(*) eval ${ERR_OLD};;
 		esac
-		case ${KV_MINOR} in
+		case "${KV_MINOR}" in
+			(10) (( ${KV_PATCH} >= 31 )) && branch+=.x   || eval ${ERR_OLD};;
 			(12) (( ${KV_PATCH} >= 31 )) && branch+=.31+ || eval ${ERR_OLD};;
 			(14) (( ${KV_PATCH} >= 21 )) && branch+=.40+ || eval ${ERR_OLD};;
-			(18) (( ${KV_PATCH} >=  1 )) && branch+=.1+  || eval ${ERR_OLD};;
+			(18) (( ${KV_PATCH} >= 25 )) && branch+=.25+ || eval ${ERR_OLD};;
 		esac;;
 		(*) die "kernel version is not supported!";;
 	esac
-
-:	${branch:=x-rcN}
 	branch="${KV_MAJOR}.${branch}"
-	export EGIT_BRANCH=aufs${KV_MAJOR}.${branch}
-	export EGIT_PROJECT=${PN/-/${KV_MAJOR}-}.git
+	export EGIT_BRANCH="aufs${branch}"
+	export EGIT_PROJECT="${PN/-/${KV_MAJOR}-}.git"
 
 	PATCHES=( "${FILESDIR}"/aufs-{base,mmap,standalone}-${branch}.patch )
 

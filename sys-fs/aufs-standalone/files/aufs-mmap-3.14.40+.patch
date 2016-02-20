@@ -67,7 +67,7 @@ index eaa7374..f422b1a 100644
  		seq_path(m, &file->f_path, "\n\t= ");
  	} else if (vma->vm_start <= mm->brk && vma->vm_end >= mm->start_brk) {
 diff --git a/fs/proc/task_nommu.c b/fs/proc/task_nommu.c
-index 678455d..0ef7ef4 100644
+index 678455d..ebd34ba 100644
 --- a/fs/proc/task_nommu.c
 +++ b/fs/proc/task_nommu.c
 @@ -141,7 +141,10 @@ static int nommu_vma_show(struct seq_file *m, struct vm_area_struct *vma,
@@ -77,20 +77,19 @@ index 678455d..0ef7ef4 100644
 -		struct inode *inode = file_inode(vma->vm_file);
 +		struct inode *inode;
 +
-+		file = vma_pr_or_file(file);
++		file = vma_pr_or_file(vma);
 +		inode = file_inode(file);
  		dev = inode->i_sb->s_dev;
  		ino = inode->i_ino;
  		pgoff = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index a7b311d..8fda4b2 100644
+index a7b311d..c823224 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
 @@ -1163,6 +1163,28 @@ static inline int fixup_user_fault(struct task_struct *tsk,
  }
  #endif
  
-+#ifdef CONFIG_MMU
 +extern void vma_do_file_update_time(struct vm_area_struct *, const char[], int);
 +extern struct file *vma_do_pr_or_file(struct vm_area_struct *, const char[],
 +				      int);
@@ -103,14 +102,15 @@ index a7b311d..8fda4b2 100644
 +							  __LINE__)
 +#define vma_get_file(vma)		vma_do_get_file(vma, __func__, __LINE__)
 +#define vma_fput(vma)			vma_do_fput(vma, __func__, __LINE__)
-+#else
++
++#ifndef CONFIG_MMU
 +extern struct file *vmr_do_pr_or_file(struct vm_region *, const char[], int);
 +extern void vmr_do_fput(struct vm_region *, const char[], int);
 +
 +#define vmr_pr_or_file(region)		vmr_do_pr_or_file(region, __func__, \
 +							  __LINE__)
 +#define vmr_fput(region)		vmr_do_fput(region, __func__, __LINE__)
-+#endif /* CONFIG_MMU */
++#endif /* !CONFIG_MMU */
 +
  extern int access_process_vm(struct task_struct *tsk, unsigned long addr, void *buf, int len, int write);
  extern int access_remote_vm(struct mm_struct *mm, unsigned long addr,
@@ -209,25 +209,6 @@ index 34feba6..5397350 100644
  				err = 0;
  			}
  			goto out_freed;
-diff --git a/mm/madvise.c b/mm/madvise.c
-index a402f8f..134e15d 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -327,12 +327,12 @@ static long madvise_remove(struct vm_area_struct *vma,
- 	 * vma's reference to the file) can go away as soon as we drop
- 	 * mmap_sem.
- 	 */
--	get_file(f);
-+	vma_get_file(vma);
- 	up_read(&current->mm->mmap_sem);
- 	error = do_fallocate(f,
- 				FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
- 				offset, end - start);
--	fput(f);
-+	vma_fput(vma);
- 	down_read(&current->mm->mmap_sem);
- 	return error;
- }
 diff --git a/mm/memory.c b/mm/memory.c
 index 749e1c6..d46df34 100644
 --- a/mm/memory.c
@@ -309,23 +290,6 @@ index d4c97ba..837741e 100644
  			if (new_vma->vm_ops && new_vma->vm_ops->open)
  				new_vma->vm_ops->open(new_vma);
  			vma_link(mm, new_vma, prev, rb_link, rb_parent);
-diff --git a/mm/msync.c b/mm/msync.c
-index 632df45..02d770e 100644
---- a/mm/msync.c
-+++ b/mm/msync.c
-@@ -80,10 +80,10 @@ SYSCALL_DEFINE3(msync, unsigned long, start, size_t, len, int, flags)
- 		start = vma->vm_end;
- 		if ((flags & MS_SYNC) && file &&
- 				(vma->vm_flags & VM_SHARED)) {
--			get_file(file);
-+			vma_get_file(vma);
- 			up_read(&mm->mmap_sem);
- 			error = vfs_fsync(file, 0);
--			fput(file);
-+			vma_fput(vma);
- 			if (error || start >= end)
- 				goto out;
- 			down_read(&mm->mmap_sem);
 diff --git a/mm/nommu.c b/mm/nommu.c
 index 76b3f90..244dd6a 100644
 --- a/mm/nommu.c
@@ -372,7 +336,7 @@ index 76b3f90..244dd6a 100644
  	return ret;
 diff --git a/mm/prfile.c b/mm/prfile.c
 new file mode 100644
-index 0000000..fc708d2
+index 0000000..532e518
 --- /dev/null
 +++ b/mm/prfile.c
 @@ -0,0 +1,86 @@
@@ -397,12 +361,11 @@ index 0000000..fc708d2
 +{
 +#ifdef PRFILE_TRACE
 +	if (pr)
-+		pr_info("%s:%d: %s, %p\n", func, line, func2,
++		pr_info("%s:%d: %s, %s\n", func, line, func2,
 +			f ? (char *)f->f_dentry->d_name.name : "(null)");
 +#endif
 +}
 +
-+#ifdef CONFIG_MMU
 +void vma_do_file_update_time(struct vm_area_struct *vma, const char func[],
 +			     int line)
 +{
@@ -442,7 +405,8 @@ index 0000000..fc708d2
 +	if (f && pr)
 +		fput(pr);
 +}
-+#else
++
++#ifndef CONFIG_MMU
 +struct file *vmr_do_pr_or_file(struct vm_region *region, const char func[],
 +			       int line)
 +{
@@ -461,4 +425,4 @@ index 0000000..fc708d2
 +	if (f && pr)
 +		fput(pr);
 +}
-+#endif /* CONFIG_MMU */
++#endif /* !CONFIG_MMU */
