@@ -34,7 +34,6 @@ media-libs/lv2
 media-libs/mesa
 media-libs/sratom
 media-libs/suil
-media-libs/zimg
 media-libs/zita-alsa-pcmi
 media-libs/zita-resampler
 media-plugins/calf
