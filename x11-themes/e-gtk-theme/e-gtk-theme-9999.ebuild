@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/e-gtk-theme/e-gtk-theme-9999.ebuild,v 1.8 2015/05/26 14:23:25 -tclover Exp $
+# $Header: x11-themes/e-gtk-theme/e-gtk-theme-9999.ebuild,v 1.8 2015/05/26 14:23:25 Exp $
 
 EAPI=5
 

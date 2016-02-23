@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.15 2016/02/18 23:23:44 Exp $
+# $Header: sys-fs/aufs-standalone/aufs-standalone-9999.ebuild v1.15 2016/02/23 12:56:49 Exp $
 
 EAPI=5
 

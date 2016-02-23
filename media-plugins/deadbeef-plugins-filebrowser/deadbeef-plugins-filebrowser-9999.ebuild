@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: media-plugins/deadbeef-plugins-filebrowser/deadbeef-plugins-filebrowser-9999.ebuild,v 1.2 2015/08/16 14:43:14 Exp $
 

@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/rezound/rezound-0.13.1-beta.ebuild,v 1.3 2014/10/10 22:31:21 -tclover Exp $
+# $Header: media-sound/rezound/rezound-0.13.1-beta.ebuild,v 1.3 2014/10/10 22:31:21 Exp $
 
 EAPI=5
 PLOCALES="cs de es fi fr ru"

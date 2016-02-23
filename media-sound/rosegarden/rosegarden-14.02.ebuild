@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: media-sound/rosegarden/rosegarden-14.02.ebuild,v 1.2 2015/06/08 23:15:32 -radhermit Exp $
 

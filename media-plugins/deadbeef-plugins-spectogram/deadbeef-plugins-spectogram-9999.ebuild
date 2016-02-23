@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/deadbeef-plugins-spectogram/deadbeef-plugins-spectogram-9999.ebuild,v 1.1 2014/08/31 07:56:50 -tclover Exp $
+# $Header: media-plugins/deadbeef-plugins-spectogram/deadbeef-plugins-spectogram-9999.ebuild,v 1.1 2014/08/31 07:56:50 Exp $
 
 EAPI=5
 

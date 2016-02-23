@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-perl/IO-Socket-TIPC/IO-Socket-TIPC-1.08.ebuild,v 1.0 2015/01/26 -tclover Exp $
+# $Header: dev-perl/IO-Socket-TIPC/IO-Socket-TIPC-1.08.ebuild,v 1.0 2015/01/26 Exp $
 
 EAPI=5
 

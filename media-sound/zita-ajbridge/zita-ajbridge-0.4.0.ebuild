@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/zita-ajbridge/zita-ajbridge-0.4.0.ebuild,v 1.0 2014/10/10 -tclover Exp $
+# $Header: media-sound/zita-ajbridge/zita-ajbridge-0.4.0.ebuild,v 1.0 2014/10/10 Exp $
 
 EAPI=5
 

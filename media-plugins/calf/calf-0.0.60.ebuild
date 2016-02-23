@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/calf/calf-0.0.60.ebuild,v 1.3 2015/05/30 00:38:33 -tclover Exp $
+# $Header: media-plugins/calf/calf-0.0.60.ebuild,v 1.3 2015/05/30 00:38:33 Exp $
 
 EAPI=5
 

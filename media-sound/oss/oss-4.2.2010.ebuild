@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/oss/oss-4.2.2010.ebuild,v 1.8 2015/02/14 20:31:48 -tclover Exp $
+# $Header: media-sound/oss/oss-4.2.2010.ebuild,v 1.8 2015/02/14 20:31:48 Exp $
 
 EAPI=5
 

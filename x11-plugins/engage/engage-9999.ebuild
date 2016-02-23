@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-plugins/e_modules-engage/e_modules-engage-9999.ebuild,v 1.3 2014/12/12 12:02:10 -tclover Exp $
+# $Header: x11-plugins/e_modules-engage/e_modules-engage-9999.ebuild,v 1.3 2014/12/12 12:02:10 Exp $
 
 EAPI=5
 

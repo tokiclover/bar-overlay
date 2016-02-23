@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/ll-plugins/ll-plugins-9999.ebuild,v 1.3 2015/06/06 18:00:06 -tclover Exp $
+# $Header: media-plugins/ll-plugins/ll-plugins-9999.ebuild,v 1.3 2015/06/06 18:00:06 Exp $
 
 EAPI=5
 

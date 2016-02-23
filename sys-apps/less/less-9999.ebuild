@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: sys-apps/less/less-9999.ebuild,v 1.8 2014/07/14 05:20:34 Exp $
 

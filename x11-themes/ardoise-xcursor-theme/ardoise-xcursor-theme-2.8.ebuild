@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/ardoise-xcursor-theme/ardoise-xcursor-theme-2.8.ebuild,v 1.2 2014/11/26 00:22:05 -tclover Exp $
+# $Header: x11-themes/ardoise-xcursor-theme/ardoise-xcursor-theme-2.8.ebuild,v 1.2 2014/11/26 00:22:05 Exp $
 
 EAPI=5
 

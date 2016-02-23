@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/empc/empc-0.99.0.639.ebuild,v 1.2 2015/05/26 12:02:10 -tclover Exp $
+# $Header: media-sound/empc/empc-0.99.0.639.ebuild,v 1.2 2015/05/26 12:02:10 Exp $
 
 EAPI=5
 

@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-perl/perl-URxvt/perl-URxvt-9999.ebuild,v 1.2 2015/05/30 09:39:34 -tclover Exp $
+# $Header: dev-perl/perl-URxvt/perl-URxvt-9999.ebuild,v 1.2 2015/05/30 09:39:34 Exp $
 
 EAPI=5
 

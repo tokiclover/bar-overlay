@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ardour/ardour-4.9999.ebuild,v 1.13 2015/06/28 18:21:28 -tclover Exp $
+# $Header: media-sound/ardour/ardour-4.9999.ebuild,v 1.13 2015/06/28 18:21:28 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )

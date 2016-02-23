@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: media-libs/lv2/lv2-1.10.0.ebuild,v 1.3 2015/02/10 12:16:47 aballier Exp $
 

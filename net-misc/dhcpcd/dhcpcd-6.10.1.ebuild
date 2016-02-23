@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/dhcpcd/dhcpcd-6.7.1.ebuild,v 1.4 2015/05/28 18:53:34 -tclover Exp $
+# $Header: net-misc/dhcpcd/dhcpcd-6.7.1.ebuild,v 1.4 2015/05/28 18:53:34 Exp $
 
 EAPI=5
 

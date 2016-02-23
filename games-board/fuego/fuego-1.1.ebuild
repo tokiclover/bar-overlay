@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: games-board/fuego/fuego-1.1.ebuild,v 1.4 2015/05/30 23:23:04 -tclover Exp $
+# $Header: games-board/fuego/fuego-1.1.ebuild,v 1.4 2015/05/30 23:23:04 Exp $
 
 EAPI=5
 

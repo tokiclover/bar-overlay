@@ -1,6 +1,6 @@
 # Copyright 2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/deadbeef/deadbeef-0.6.2.ebuild,v 1.4 2014/08/16 19:57:55 -tclover Exp $
+# $Header: media-sound/deadbeef/deadbeef-0.6.2.ebuild,v 1.4 2014/08/16 19:57:55 Exp $
 
 EAPI=5
 

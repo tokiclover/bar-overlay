@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/tap-plugins/tap-plugins-9999.ebuild,v 1.2 2015/06/06 18:00:11 -tclover Exp $
+# $Header: media-plugins/tap-plugins/tap-plugins-9999.ebuild,v 1.2 2015/06/06 18:00:11 Exp $
 
 EAPI=5
 

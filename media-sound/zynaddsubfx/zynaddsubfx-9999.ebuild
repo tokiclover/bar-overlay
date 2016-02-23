@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/zynaddsubfx/zynaddsubfx-9999.ebuild,v 1.4 2015/06/08 17:56:16 -tclover Exp $
+# $Header: media-sound/zynaddsubfx/zynaddsubfx-9999.ebuild,v 1.4 2015/06/08 17:56:16 Exp $
 
 EAPI=5
 

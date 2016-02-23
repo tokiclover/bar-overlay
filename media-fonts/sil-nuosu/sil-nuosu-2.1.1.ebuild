@@ -1,6 +1,6 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: bar-overlay/media-fonts/sil-nuosu/sil-nuosu-2.1.1.ebuild,v 1.1 2011/12/17 -Hypnos Exp $
+# $Header: media-fonts/sil-nuosu/sil-nuosu-2.1.1.ebuild,v 1.1 2011/12/17 -Hypnos Exp $
 
 EAPI=2
 

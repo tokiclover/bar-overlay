@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: sys-apps/iucode_tool/iucode_tool-9999.ebuild,v 1.2 2015/20/16 07:56:50 Exp $
 
