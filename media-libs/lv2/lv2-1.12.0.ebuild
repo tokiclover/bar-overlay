@@ -3,7 +3,7 @@
 # $Header: media-libs/lv2/lv2-1.10.0.ebuild,v 1.3 2015/02/10 12:16:47 aballier Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_COMPAT=( python{2_7,3_{3,4,5}} )
 PYTHON_REQ_USE='threads(+)'
 
 inherit multilib-minimal python-any-r1 waf-utils
