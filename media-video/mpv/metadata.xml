@@ -10,7 +10,9 @@
 	<flag name='doc-pdf'>Build documentation in pdf format</flag>
 	<flag name="drm">Enable support for direct rendring to framebuffer using <pkg>x11-libs/libdrm</pkg></flag>
 	<flag name='dvdnav'>Enable support for DVD navigation using <pkg>media-libs/libdvdnav</pkg></flag>
+	<flag name="egl">Enable support for various EGL-based video outputs</flag>
 	<flag name="enca">Enable support for charset discovery and conversion using <pkg>app-i18n/enca</pkg></flag>
+	<flag name="gbm">Enable Graphics Buffer Manager based EGL video output</flag>
 	<flag name="libarchive">Enable support for reading compressed archive using <pkg>app-arch/libarchive</pkg></flag>
 	<flag name="libguess">Enable support for charset discovery and conversion using <pkg>app-i18n/libguess</pkg></flag>
 	<flag name="luajit">Use <pkg>dev-lang/luajit</pkg> instead of <pkg>dev-lang/lua</pkg></flag>

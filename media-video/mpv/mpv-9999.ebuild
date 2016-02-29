@@ -1,9 +1,9 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.9 2015/09/24 Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.10 2016/02/29 21:11:27 Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_COMPAT=( python{2_7,3_{3,4,5}} )
 PYTHON_REQ_USE='threads(+)'
 WAF_VERSION=1.8.12
 
@@ -26,24 +26,26 @@ DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
 SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
-LICENSE="GPL-2"
+LICENSE="GPL-2 LGPL-2.1"
 SLOT="0/${PV}"
-IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +enca encode +iconv
-jack jpeg lcms libarchive +libass libcaca libguess lua luajit -openal
+IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl +enca encode +gbm
++iconv jack jpeg lcms libarchive +libass libcaca libguess lua luajit openal
 +opengl oss pulseaudio samba sdl selinux +shm static static-libs uchardet
-v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver +xv"
+v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver xv zsh-completion"
 
 REQUIRED_USE="
 	dvdnav? ( dvd )
 	enca? ( iconv )
+	gbm? ( egl drm )
 	lcms? ( opengl )
 	libguess? ( iconv )
 	luajit? ( lua )
 	opengl? ( || ( wayland X ) )
 	uchardet? ( iconv )
-	vaapi? ( X )
+	v4l? ( || ( alsa oss ) )
+	vaapi? ( || ( X wayland drm ) )
 	vdpau? ( X )
-	wayland? ( opengl )
+	wayland? ( egl )
 	xinerama? ( X )
 	xscreensaver? ( X )
 	xv? ( X )"
@@ -60,7 +62,7 @@ RDEPEND+="
 		x11-libs/libXxf86vm
 		opengl? ( virtual/opengl )
 		lcms? ( >=media-libs/lcms-2.6:2 )
-		vaapi? ( >=x11-libs/libva-0.34.0[X(+)] )
+		vaapi? ( >=x11-libs/libva-0.36.0[X?,drm?,wayland?] )
 		vdpau? ( >=x11-libs/libvdpau-0.2 )
 		xinerama? ( x11-libs/libXinerama )
 		xscreensaver? ( x11-libs/libXScrnSaver )
@@ -161,6 +163,8 @@ src_configure()
 		$(use_enable sdl sdl2)
 		--disable-rsound
 		--disable-vapoursynth
+		$(usex egl "$(use_enable X egl-x11)" '--disable-egl-x11')
+		$(usex egl "$(use_enable gbm egl-drm)" '--disable-egl-drm')
 		$(use_enable encode encoding)
 		$(use_enable bluray libbluray)
 		$(use_enable samba libsmbclient)
@@ -172,6 +176,7 @@ src_configure()
 		$(use_enable dvd dvdread)
 		$(use_enable dvdnav)
 		$(use_enable enca)
+		$(use_enable gbm)
 		$(use_enable iconv)
 		$(use_enable libarchive)
 		$(use_enable libass)
@@ -201,6 +206,7 @@ src_configure()
 		$(use_enable opengl gl)
 		$(use_enable lcms lcms2)
 		$(use_enable xscreensaver xss)
+		$(use_enable zsh-completion zsh-comp)
 		--confdir="${EPREFIX}"/etc/${PN}
 		--mandir="${EPREFIX}"/usr/share/man
 		--docdir="${EPREFIX}"/usr/share/doc/${PF}
