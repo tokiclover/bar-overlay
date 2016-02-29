@@ -3,7 +3,7 @@
 # $Header: dev-libs/sord/sord-0.12.0.ebuild,v 1.4 2015/06/01 10:12:33 Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_COMPAT=( python{2_7,3_{3,4,5}} )
 PYTHON_REQ_USE='threads(+)'
 
 case "${PV}" in
