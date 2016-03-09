@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: www-misc/browser-home-profile/browser-home-profile-2.0.ebuild,v 1.2 2016/02/24 Exp $
+# $Header: www-misc/browser-home-profile/browser-home-profile-3.0.ebuild,v 1.2 2016/03/09 12:53:34 Exp $
 
 EAPI=5
 
@@ -23,7 +23,7 @@ HOMEPAGE="https://github.com/tokiclover/browser-home-profile"
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="perl"
+IUSE="perl python"
 
 DEPEND="sys-apps/sed"
 RDEPEND="${DEPEND}"
@@ -31,5 +31,5 @@ RDEPEND="${DEPEND}"
 src_install()
 {
 	sed '/.*COPYING.*$/d' -i Makefile
-	emake PREFIX=/usr DESTDIR="${ED}" install$(usex perl '-perl' '')
+	emake PREFIX=/usr DESTDIR="${ED}" install$(usex perl '-perl' "$(usex python '-python' '')" )
 }
