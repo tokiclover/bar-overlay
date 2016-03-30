@@ -2,7 +2,7 @@ Header: bar(-overlay)/README.md
 
 ---
 
-Another foo (gentoo) overlay with a few packages...
+Yet Another foo [Overlay][1] for [Gentoo][0] (Linux/BSD) with a few packages...
 See [package-list](PACKAGE_LIST) for a complete package list.
 
 HOWTO GET THIS OVERLAY
@@ -67,5 +67,8 @@ CLONE/MIRRORS
 - https://gitlab.com/tokiclover/bar-overlay, git://gitlab.com/tokiclover/bar-overlay.git, git@gitlab.com:tokiclover/bar-overlay.git
 
 ---
+
+[0]: https://gentoo.org
+[1]: https://wiki.gentoo.org/wiki/Overlay
 
 vim:fenc=utf-8:
