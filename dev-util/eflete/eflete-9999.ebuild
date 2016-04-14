@@ -26,10 +26,10 @@ IUSE="debug doc enventor"
 LICENSE="BSD-2"
 SLOT="0"
 
-EFL_VERSION=1.12.2
+EFL_VERSION=1.17.0
 RDEPEND=">=dev-libs/efl-${EFL_VERSION}
 	>=media-libs/elementary-${EFL_VERSION}
-	enventor? ( >=dev-util/enventor-0.4.0 )
+	enventor? ( >=dev-util/enventor-0.5.1 )
 	>=media-libs/ewe-0.2.2"
 DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
