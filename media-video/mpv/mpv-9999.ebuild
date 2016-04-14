@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/mpv/mpv-9999.ebuild,v 1.10 2016/02/29 21:11:27 Exp $
+# $Header: media-video/mpv/mpv-9999.ebuild,v 1.11 2016/04/04 21:11:27 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_7,3_{3,4,5}} )
@@ -26,9 +26,9 @@ DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
 SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
-LICENSE="GPL-2 LGPL-2.1"
+LICENSE="GPL-2+ LGPL-2.1 gpl? ( GPL-3 LGPL-3 ) BSD MIT ISC"
 SLOT="0/${PV}"
-IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl +enca encode +gbm
+IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl +enca encode +gbm +gpl
 +iconv jack jpeg lcms libarchive +libass libcaca libguess lua luajit openal
 +opengl oss pulseaudio samba sdl selinux +shm static static-libs uchardet
 v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver xv zsh-completion"
@@ -177,6 +177,7 @@ src_configure()
 		$(use_enable dvdnav)
 		$(use_enable enca)
 		$(use_enable gbm)
+		$(use_enable gpl gpl3)
 		$(use_enable iconv)
 		$(use_enable libarchive)
 		$(use_enable libass)
