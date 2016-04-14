@@ -14,7 +14,7 @@ case "${PV}" in
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
-	SRC_URI="https://github.com/ajwillia-ms/${PN}/releases/download/v${PV}/${P}.tar.bz2"
+	SRC_URI="https://github.com/ajwillia-ms/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	;;
 esac
 inherit autotools-utils ${VCS_ECLASS}
@@ -26,7 +26,7 @@ IUSE="clang doc test"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 
-EFL_VERSION=1.15.0
+EFL_VERSION=1.17.0
 RDEPEND=">=dev-libs/efl-${EFL_VERSION}
 	>=media-libs/elementary-${EFL_VERSION}"
 DEPEND="${RDEPEND}
@@ -40,7 +40,7 @@ src_configure()
 {
 	local -a myeconfargs=(
 		${EXTRA_EFLETE_CONF}
-		--with-tests=$(usex test regular none)
+		--with-tests=$(usex test regular coverage)
 		$(use_enable clang libclang)
 	)
 	autotools-utils_src_configure
