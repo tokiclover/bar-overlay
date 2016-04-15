@@ -15,9 +15,7 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~arm ~x86"
-		SRC_URI="https://gitlab.com/${PN}/releases/raw/${COMMIT}/${PN}_${PV}.tar.xz -> ${P}.tar.xz"
-		S="${WORKDIR}/${PN/-/_}-${PV}"
-		unset COMMIT
+		SRC_URI="https://gitlab.com/${PN/_/-}/releases/raw/${COMMIT}/${PN/_/-}_${PV}.tar.xz -> ${P}.tar.xz"
 		;;
 esac
 inherit autotools-utils ${VCS_ECLASS}

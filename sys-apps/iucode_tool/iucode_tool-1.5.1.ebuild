@@ -4,7 +4,7 @@
 
 EAPI=5
 
-COMMIT="871cfe4695eeff3ffe8b633aad3e14af3c908af1"
+COMMIT="25373b3d7328fb76e5cb3020c2df3d47e5df27f2"
 case "${PV}" in
 	(*9999*)
 		KEYWORDS=""
@@ -16,11 +16,10 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~arm ~x86"
-		SRC_URI="https://gitlab.com/${PN}/releases/raw/${COMMIT}/${PN}_${PV}.tar.xz -> ${P}.tar.xz"
-		S="${WORKDIR}/${PN/-/_}-${PV}"
-		unset COMMIT
+		SRC_URI="https://gitlab.com/${PN/_/-}/releases/raw/${COMMIT}/${PN/_/-}_${PV}.tar.xz -> ${P}.tar.xz"
 		;;
 esac
+unset COMMIT
 inherit autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="intel(r) 64 and IA-32 processor microcode tool"
