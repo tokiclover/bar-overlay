@@ -42,6 +42,12 @@ DOCS=( ../Changelog )
 
 S="${WORKDIR}/${P}/src"
 
+src_prepare()
+{
+	sed -e 's/-O3 -march=.*-m64/-m64/g' -i CMakeLists.txt
+	cmake-utils_src_prepare
+}
+
 src_install()
 {
 	cmake-utils_src_install
