@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/laditools/laditools-9999.ebuild,v 1.2 2012/02/08 14:40:09 Exp $
+# $Header: media-sound/laditools/laditools-9999.ebuild,v 1.3 2016/04/04 14:40:09 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -9,19 +9,19 @@ case "${PV}" in
 	(*9999*)
 		KEYWORDS=""
 		VCS_ECLASS=git-2
-		EGIT_REPO_URI="git://repo.or.cz/${PN}.git"
+		EGIT_REPO_URI="git://github.com/alessio/${PN}.git"
 		EGIT_PROJECT="${PN}.git"
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
 		VCS_ECLASS=vcs-snapshot
-		SRC_URI="https://launchpad.net/laditools/${PV:0:3}/${PV}/+download/${PN}-${PVR/_/-}.tar.bz2"
+		SRC_URI="https://github.com/alessio/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 		;;
 esac
 inherit distutils-r1 ${VCS_ECLASS}
 
-DESCRIPTION="Control and monitor a LADI system the easy way"
-HOMEPAGE="https://launchpad.net/laditools"
+DESCRIPTION="Linux Audio Desktop Integration Tools"
+HOMEPAGE="https://github.com/LADI/laditools https://github.com/alessio/laditools"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -32,7 +32,7 @@ RDEPEND="lash? ( virtual/liblash )
     x11-libs/gtk+:3[introspection]
 	>=dev-python/pygtk-2.12[${PYTHON_USEDEP}]
 	dev-python/pyxdg[${PYTHON_USEDEP}]
-	>=dev-python/enum-0.4.4[${PYTHON_USEDEP}]
+	!dev-python/enum[${PYTHON_USEDEP}] virtual/python-enum34[${PYTHON_USEDEP}]
 	>=dev-python/pygobject-3.0.0[${PYTHON_USEDEP}]
 	dev-python/pyxml[${PYTHON_USEDEP}]
 	wmaker? ( dev-python/wmdocklib[${PYTHON_USEDEP}] )

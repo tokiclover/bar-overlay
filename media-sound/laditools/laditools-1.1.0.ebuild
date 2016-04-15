@@ -1,6 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/laditools/laditools-1.0.ebuild,v 1.2 2016/02/08 14:40:00 Exp $
+# $Header: media-sound/laditools/laditools-1.1.0.ebuild,v 1.3 2016/04/04 14:40:00 Exp $
+:x
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -15,7 +16,7 @@ case "${PV}" in
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
 		VCS_ECLASS=vcs-snapshot
-		SRC_URI="https://github.com/alessio/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+		SRC_URI="https://github.com/alessio/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 		;;
 esac
 inherit distutils-r1 ${VCS_ECLASS}
@@ -33,7 +34,7 @@ RDEPEND="lash? ( virtual/liblash )
     x11-libs/gtk+:3[introspection]
 	>=dev-python/pygtk-2.12[${PYTHON_USEDEP}]
 	dev-python/pyxdg[${PYTHON_USEDEP}]
-	>=dev-python/enum-0.4.4[${PYTHON_USEDEP}]
+	!dev-python/enum[${PYTHON_USEDEP}] virtual/python-enum34[${PYTHON_USEDEP}]
 	>=dev-python/pygobject-3.0.0[${PYTHON_USEDEP}]
 	dev-python/pyxml[${PYTHON_USEDEP}]
 	wmaker? ( dev-python/wmdocklib[${PYTHON_USEDEP}] )
@@ -42,7 +43,10 @@ RDEPEND="lash? ( virtual/liblash )
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]"
 DEPEND="dev-python/python-distutils-extra[${PYTHON_USEDEP}]"
 
-DOCS=( README )
+DOCS=( AUTHORS ChangeLog NEWS README.md )
+PATCHES=(
+	"${FILESDIR}"/python-enum34.patch
+)
 
 pkg_preinst()
 {
