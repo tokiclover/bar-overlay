@@ -23,14 +23,15 @@ DEPEND="media-libs/alsa-lib
 DOCS=( ../{AUTHORS,README} )
 
 PATCHES=(
-	"${FILESDIR}"/${P}-Makefile.patch
+	"${FILESDIR}"/${PN}-0.4.0-Makefile.patch
 )
 
 S="${WORKDIR}/${P}/source"
 
 src_install()
 {
-	emake PREFIX="${D}${EPREFIX}/usr" install
+	mkdir -p "${ED}"/usr/{bin,share/man/man1}
+	emake PREFIX="${EPREFIX}/usr" DESTDIR="${D}" install
 	dodoc "${DOCS[@]}"
 }
 
