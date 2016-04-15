@@ -52,6 +52,7 @@ S="${WORKDIR}/${PN}-${PVR/_rc/-RC}"
 
 src_configure()
 {
+	sed -e 's/-O2 //g' -i CMakeLists.txt
 	local mycmakeargs=(
 		$(cmake-utils_use_want alsa ALSA)
 		$(cmake-utils_use_want archive LIBARCHIVE)
