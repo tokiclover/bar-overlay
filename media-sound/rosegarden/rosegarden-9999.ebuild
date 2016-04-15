@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/rosegarden/rosegarden-14.02.ebuild,v 1.4 2015/06/08 23:15:32 Exp $
+# $Header: media-sound/rosegarden/rosegarden-16.02.ebuild,v 1.3 2016/04/04 23:15:32 -radhermit Exp $
 
 EAPI=5
 
@@ -9,24 +9,23 @@ case "${PV}" in
 		KEYWORDS=""
 		VCS_ECLASS=subversion
 		ESVN_REPO_URI="svn://svn.code.sf.net/p/${PN}/code/trunk/${PN}"
-		AUTOTOOLS_AUTORECONF=1
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
 		SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.bz2"
 		;;
 esac
-inherit eutils autotools-multilib fdo-mime gnome2-utils ${VCS_ECLASS}
+inherit eutils cmake-utils fdo-mime gnome2-utils ${VCS_ECLASS}
 
 DESCRIPTION="MIDI and audio sequencer and notation editor"
 HOMEPAGE="http://www.rosegardenmusic.com/"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="debug lirc"
+IUSE="debug lirc qt4 qt5 sndfile"
+REQUIRED_USE="|| ( qt4 qt5 )"
 
-RDEPEND="dev-qt/qtgui:4
-	media-libs/ladspa-sdk:=
+RDEPEND="media-libs/ladspa-sdk:=
 	x11-libs/libSM:=
 	media-sound/jack-audio-connection-kit:=
 	media-libs/alsa-lib:=
@@ -35,29 +34,28 @@ RDEPEND="dev-qt/qtgui:4
 	media-libs/liblrdf:=
 	sci-libs/fftw:3.0
 	media-libs/libsamplerate:=[sndfile]
-	lirc? ( app-misc/lirc:= )"
+	lirc? ( app-misc/lirc:= )
+	sndfile? ( media-libs/libsndfile:= )
+	qt4? ( >=dev-qt/qtxml-4.8:4 >=dev-qt/qtgui-4.8:4 >=dev-qt/qtnetwork-4.8:8
+		>=qttest-4.8:4 )
+	qt5? ( dev-qt/qtxml-4.8:4 >=dev-qt/qtgui-5.1:5 >=dev-qt/qtnetwork-4.8:8
+		>=dev-qt/qtprintsupport-5.1:5 >=qttest-4.8:4 >=dev-qt/qtwidgets-5.1:5 )
+	"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	x11-misc/makedepend"
 
-src_prepare()
+src_configure()
 {
-	autotools-utils_src_prepare
-	multilib_copy_sources
-}
-
-multilib_src_configure()
-{
-	export USER_CXXFLAGS="${CXXFLAGS}"
-	export ac_cv_header_lirc_lirc_client_h=$(usex lirc)
-	export ac_cv_lib_lirc_client_lirc_init=$(usex lirc)
-
-	local -a myeconfargs=(
-		$(use_enable debug)
+	local -a mycmakeargs=(
+		$(usex debug '-DCMAKE_BUILD_TYPE=Debug')
+		$(usex qt4 '-DUSE_QT4=TRUE')
+		$(usex qt5 '-DUSE_QT5=TRUE')
+		$(cmake-utils_use_enable lirc LIRC)
 		--with-qtdir=/usr
 		--with-qtlibdir=/usr/$(get_libdir)/qt4
 	)
-	autotools-utils_src_configure
+	cmake-utils_src_configure
 }
 
 pkg_preinst()
