@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/zynaddsubfx/zynaddsubfx-9999.ebuild,v 1.4 2015/06/08 17:56:16 Exp $
+# $Header: media-sound/zynaddsubfx/zynaddsubfx-2.4.4.ebuild,v 1.4 2015/06/08 18:56:16 Exp $
 
 EAPI=5
 
@@ -14,7 +14,7 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
-		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.xz"
+		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 		;;
 esac
 inherit eutils cmake-utils ${VCS_ECLASS}
@@ -24,7 +24,7 @@ HOMEPAGE="http://zynaddsubfx.sourceforge.net/"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="+alsa +fltk +jack +lash oss portaudio"
+IUSE="+alsa +fltk +jack lash oss portaudio"
 REQUIRED_USE="lash? ( alsa ) !alsa? ( jack )"
 
 RDEPEND=">=dev-libs/mini-xml-2.2.1
@@ -39,14 +39,15 @@ RDEPEND=">=dev-libs/mini-xml-2.2.1
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
-DOCS=( ChangeLog FAQ.txt HISTORY.txt README.txt bugs.txt )
-
 PATCHES=(
-	"${FILESDIR}"/${PN}-2.4.4-docs.patch
+	"${FILESDIR}"/${P}-docs.patch
 )
+
+DOCS=( ChangeLog HISTORY.txt README.adoc )
 
 src_configure()
 {
+	append-cxxflags "-std=c++11"
 	local -a mycmakeargs=(
 		$(use fltk && echo "-DGuiModule=fltk" || echo "-DGuiModule=off")
 		$(cmake-utils_use alsa AlsaEnable)
@@ -54,6 +55,7 @@ src_configure()
 		$(cmake-utils_use lash LashEnable)
 		$(cmake-utils_use oss OssEnable)
 		$(cmake-utils_use portaudio PaEnable)
+		-DPluginLibDir=$(get_libdir)
 	)
 	cmake-utils_src_configure
 }

@@ -14,7 +14,7 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
-		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.xz"
+		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 		;;
 esac
 inherit eutils cmake-utils ${VCS_ECLASS}
@@ -43,10 +43,11 @@ PATCHES=(
 	"${FILESDIR}"/${P}-docs.patch
 )
 
-DOCS=( ChangeLog FAQ.txt HISTORY.txt README.txt bugs.txt )
+DOCS=( ChangeLog HISTORY.txt README.adoc )
 
 src_configure()
 {
+	append-cxxflags "-std=c++11"
 	local -a mycmakeargs=(
 		$(use fltk && echo "-DGuiModule=fltk" || echo "-DGuiModule=off")
 		$(cmake-utils_use alsa AlsaEnable)
@@ -54,6 +55,7 @@ src_configure()
 		$(cmake-utils_use lash LashEnable)
 		$(cmake-utils_use oss OssEnable)
 		$(cmake-utils_use portaudio PaEnable)
+		-DPluginLibDir=$(get_libdir)
 	)
 	cmake-utils_src_configure
 }
