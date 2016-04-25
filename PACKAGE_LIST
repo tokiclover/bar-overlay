@@ -83,6 +83,7 @@ media-plugins/vapoursynth-plugins-videoscope
 media-plugins/vapoursynth-plugins-yadifmod
 media-plugins/vapoursynth-scripts-adjust
 media-plugins/vapoursynth-scripts-modules
+media-plugins/vapoursynth-scripts-havsfunc
 media-plugins/vapoursynth-scripts-mvsfunc
 media-sound/a2jmidid
 media-sound/ardour
