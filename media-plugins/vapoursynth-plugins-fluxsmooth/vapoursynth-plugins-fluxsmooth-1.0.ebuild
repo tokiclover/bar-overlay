@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/vapoursynth-plugins-fluxsmooth/vapoursynth-plugins-fluxsmooth-9999.ebuild,v 1. 2015/10/01 Exp $
+# $Header: media-video/vapoursynth-plugins-fluxsmooth/vapoursynth-plugins-fluxsmooth-9999.ebuild,v 1. 2016/04/25 22:19:33 Exp $
 
 EAPI=5
 
@@ -32,6 +32,13 @@ DEPEND="dev-lang/yasm
 
 AUTOTOOLS_AUTORECONF=1
 
+src_prepare()
+{
+	epatch_user
+	sed -e 's/-O[0-3s]//g' -i configure
+	multilib_copy_sources
+	autotools-utils_src_prepare
+}
 multilib_src_configure()
 {
 	local -a myeconfargs=(
