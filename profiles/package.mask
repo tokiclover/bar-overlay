@@ -13,6 +13,5 @@ media-plugins/vapoursynth-plugins-dfttest
 # Compilation error (yasm file open error)
 media-plugins/vapoursynth-plugins-fluxsmooth
 media-plugins/vapoursynth-plugins-tcomb
-media-plugins/vapoursynth-plugins-yadifmod
 
 =media-libs/mesa-9999
