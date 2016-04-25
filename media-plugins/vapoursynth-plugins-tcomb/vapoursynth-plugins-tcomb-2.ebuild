@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/vapoursynth-plugins-tcomb/vapoursynth-plugins-tcomb-9999.ebuild,v 1.2 2015/10/01 Exp $
+# $Header: media-video/vapoursynth-plugins-tcomb/vapoursynth-plugins-tcomb-9999.ebuild,v 1.2 2016/04/25 22:08:33 Exp $
 
 EAPI=5
 
@@ -17,7 +17,7 @@ case "${PV}" in
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
-inherit autotools-multilib ${VCS_ECLASS}
+inherit flag-o-matic autotools-multilib ${VCS_ECLASS}
 
 DESCRIPTION="(NTSC) Temporal comb filter plugin for VapourSynth"
 HOMEPAGE="https://github.com/dubhater/vapoursynth-tcomb"
@@ -32,8 +32,16 @@ DEPEND="${RDEPEND}
 
 AUTOTOOLS_AUTORECONF=1
 
+src_prepare()
+{
+	epatch_user
+	sed -e 's/-O[0-3s]//g' -i configure
+	multilib_copy_sources
+	autotools-utils_src_prepare
+}
 multilib_src_configure()
 {
+	append-cxxflags '-fabi-version=6'
 	local -a myeconfargs=(
 		${EXTRA_FFMS_CONF}
 		--libdir="${EPREFIX}/usr/$(get_libdir)/vapoursynth"
