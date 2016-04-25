@@ -8,8 +8,6 @@ media-libs/libutvideo
 # Rezound-0.13 is totaly broken & unusable
 =media-sound/rezound-0.13.1_beta
 
-# Compilation issue (function def)
-media-plugins/vapoursynth-plugins-dfttest
 # Compilation error (yasm file open error)
 media-plugins/vapoursynth-plugins-fluxsmooth
 
