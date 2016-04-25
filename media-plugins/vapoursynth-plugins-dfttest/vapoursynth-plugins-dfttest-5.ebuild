@@ -42,7 +42,7 @@ multilib_src_configure()
 	./configure \
 		${EXTRA_BM3D_CONF} \
 		$(usex debug '--enable-debug' '') \
-		--extra-cxxflags="${CXXFLAGS}" \
+		--extra-cxxflags="${CXXFLAGS} -fabi-version=6" \
 		--extra-ldflags="${LDFLAGS}" \
 		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
 		--target-os="${CHOST}"
@@ -57,5 +57,5 @@ multilib_src_install()
 }
 multilib_src_install_all()
 {
-	dodoc README/md
+	dodoc README.md
 }
