@@ -36,7 +36,7 @@ AUTOTOOLS_AUTORECONF=1
 multilib_src_configure()
 {
 	local -a myeconfargs=(
-		${EXTRA_FFMS_CONF}
+		${EXTRA_MVTOOLS_CONF}
 		--libdir="${EPREFIX}/usr/$(get_libdir)/vapoursynth"
 	)
 	autotools-utils_src_configure

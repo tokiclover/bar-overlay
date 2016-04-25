@@ -43,7 +43,7 @@ multilib_src_configure()
 {
 	append-cxxflags '-fabi-version=6'
 	local -a myeconfargs=(
-		${EXTRA_FFMS_CONF}
+		${EXTRA_TCOMB_CONF}
 		--libdir="${EPREFIX}/usr/$(get_libdir)/vapoursynth"
 	)
 	autotools-utils_src_configure
