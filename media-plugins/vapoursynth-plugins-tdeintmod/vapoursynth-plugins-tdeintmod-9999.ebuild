@@ -41,7 +41,7 @@ multilib_src_configure()
 	./configure \
 		${EXTRA_TDEINTMOD_CONF} \
 		$(usex debug '--enable-debug' '') \
-		--extra-cxxflags="${CXXFLAGS}" \
+		--extra-cxxflags="${CXXFLAGS} -fabi-version=6" \
 		--extra-ldflags="${LDFLAGS}" \
 		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
 		--target-os="${CHOST}"
