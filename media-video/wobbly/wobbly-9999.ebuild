@@ -27,7 +27,8 @@ SLOT="0"
 IUSE="debug python +vapoursynth-pipe +vapoursynth-script"
 
 RDEPEND="dev-qt/qtcore:5 dev-qt/qtwidgets:5
-		media-video/vapoursynth:=[vapoursynth-script]"
+		media-video/vapoursynth:=[vapoursynth-script]
+		>=vapoursynth-plugins-fieldhint-3"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
