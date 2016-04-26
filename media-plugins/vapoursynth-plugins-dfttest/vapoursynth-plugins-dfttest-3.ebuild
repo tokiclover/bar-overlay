@@ -4,7 +4,7 @@
 
 EAPI=5
 
-MY_PN="VapourSynth-BM3D"
+MY_PN="VapourSynth-DFTTest"
 case "${PV}" in
 	(9999*)
 		KEYWORDS=""
@@ -20,8 +20,8 @@ case "${PV}" in
 esac
 inherit multilib-minimal ${VCS_ECLASS}
 
-DESCRIPTION="BM3D denoising filter plugin for VapourSynth ported from Avisynth"
-HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-BM3D"
+DESCRIPTION="DFTTest filter plugin for VapourSynth ported from Avisynth"
+HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DFTTest"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -40,7 +40,7 @@ src_prepare()
 multilib_src_configure()
 {
 	./configure \
-		${EXTRA_BM3D_CONF} \
+		${EXTRA_DFTTEST_CONF} \
 		$(usex debug '--enable-debug' '') \
 		--extra-cxxflags="${CXXFLAGS} -fabi-version=6" \
 		--extra-ldflags="${LDFLAGS}" \
