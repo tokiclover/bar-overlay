@@ -110,7 +110,7 @@ media-video/d2vwitch 1 9999: Cross-platform D2V creator
 media-video/ffmpeg 2.6.9999 2.7.9999 2.8.9999 3.0.9999: Complete solution to record, convert and stream audio and video. Includes libavcodec
 media-video/mpv 0.17.0 9999: Video player based on MPlayer/mplayer2
 media-video/rage 0.1.4 9999: EFL Video Player
-media-video/vapoursynth 31 9999: Video processing framework with simplicity in mind
+media-video/vapoursynth 32 9999: Video processing framework with simplicity in mind
 media-video/wobbly 3 9999: IVTC video processing assistant for VapourSynth similar to Yatta
 net-misc/connman 1.31 9999: Provides a daemon for managing internet connections
 net-misc/dhcpcd 6.10.1: A fully featured, yet light weight RFC2131 compliant DHCP client
