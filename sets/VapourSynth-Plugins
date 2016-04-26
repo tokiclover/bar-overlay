@@ -1,3 +1,6 @@
+dev-python/vapoursynth-plugins-adjust
+dev-python/vapoursynth-plugins-havsfunc
+dev-python/vapoursynth-plugins-mvsfunc
 media-plugins/vapoursynth-plugins-bm3d
 media-plugins/vapoursynth-plugins-d2vsource
 media-plugins/vapoursynth-plugins-damb
