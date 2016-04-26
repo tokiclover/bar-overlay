@@ -21,7 +21,7 @@ case "${PV}" in
 esac
 inherit python-r1 ${VCS_ECLASS}
 
-DESCRIPTION="Holy's functions ported AviSynth for VapourSynth"
+DESCRIPTION="Holy's functions for VapourSynth ported AviSynth"
 HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/havsfunc"
 
 LICENSE="GPL-2"
