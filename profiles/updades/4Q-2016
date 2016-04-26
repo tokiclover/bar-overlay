@@ -1,1 +1,2 @@
 move media-plugins/vapoursynth-plugins-adjust dev-python/vapoursynth-plugins-adjust
+move media-plugins/vapoursynth-plugins-havsfunc dev-python/vapoursynth-plugins-havsfunc

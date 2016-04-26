@@ -14,6 +14,7 @@ dev-python/pyrobase
 dev-python/pyrocore
 dev-python/python-efl
 dev-python/vapoursynth-plugins-adjust
+dev-python/vapoursynth-plugins-havsfunc
 dev-util/edi
 dev-util/eflete
 dev-util/enventor
@@ -83,7 +84,6 @@ media-plugins/vapoursynth-plugins-vaguedenoiser
 media-plugins/vapoursynth-plugins-videoscope
 media-plugins/vapoursynth-plugins-yadifmod
 media-plugins/vapoursynth-scripts-modules
-media-plugins/vapoursynth-scripts-havsfunc
 media-plugins/vapoursynth-scripts-mvsfunc
 media-sound/a2jmidid
 media-sound/ardour
