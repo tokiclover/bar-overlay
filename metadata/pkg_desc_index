@@ -1,0 +1,154 @@
+app-arch/lz4 130 131 9999: Extremely Fast Compression algorithm
+app-benchmarks/rt-tests 0.97: Programs that test various RT-Linux features
+app-dicts/xmlittre 1.0: XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 Littre's dictionary
+app-editors/ecrire 9999: EFL simple text editor
+app-text/pdfchain 0.4.4: Graphical User Interface for PDF Toolkit (PDFtk)
+dev-libs/dbus-c++ 0.9.0-r1: provide a C++ API for D-BUS
+dev-libs/efl 1.13.3 1.14.3 1.15.3 1.16.1 1.17.0 9999: Enlightenment Foundation Core Libraries
+dev-libs/serd 0.22.0: Library for RDF syntax which supports reading and writing Turtle and NTriples
+dev-libs/sord 0.14.0: Library for storing RDF data in memory
+dev-perl/IO-Socket-TIPC 1.08: IO::Socket::TIPC - TIPC sockets for Perl
+dev-perl/Module-Starter-AddModule 1.005: Module::Starter::AddModule - AddModule to an existing distribution
+dev-perl/perl-URxvt 2.2 9999: Perl extensions for the Rxvt-unicode terminal emulator
+dev-python/enum 0.4.4: Robust enumerated type support in Python.
+dev-python/pyrobase 0.2: PyroScope - General Python Helpers and Utilities
+dev-python/pyrocore 0.4.2: PyroScope - Python Torrent Tools Core Package
+dev-python/python-efl 1.13.0 1.14.0 1.15.0 1.16.0 1.17.0 9999: Python bindings for the EFL
+dev-python/vapoursynth-plugins-adjust 9999: Tweak filter plugin for VapourSynth ported from Avisynth
+dev-python/vapoursynth-plugins-havsfunc 9999: Holy's functions for VapourSynth ported AviSynth
+dev-python/vapoursynth-plugins-mvsfunc 9999: mawen1250's functions for VapourSynth
+dev-util/edi 0.3.0 9999: EFL based IDE
+dev-util/eflete 0.6.1 9999: EFL Edje Theme Editor - a theme graphical editor
+dev-util/enventor 0.8.1 9999: EFL Dynamic EDC editor
+dev-util/espionage 9999: PyEFL D-Bus inspector
+dev-util/lv2-c++-tools 1.0.5: some tools and libraries that may come in handy when writing LV2 plugins
+games-board/fuego 1.1 9999: C++ libraries for developing software for the game of Go
+media-fonts/artwiz-aleczapka-de 1.3: Artwiz Aleczapko fonts
+media-fonts/artwiz-aleczapka-se 1.3: Artwiz Aleczapko fonts
+media-fonts/sil-nuosu 2.1.1: Nuosu SIL Font is a single Unicode font for the standardized Yi script used by a large ethnic group in southwestern China.
+media-fonts/ttf-mph2b-damase 001.000: Font with extensive Unicode 4.1 range coverage
+media-gfx/ephoto 9999: EFL image viewer, editor, manipulator and slideshow
+media-libs/aubio 0.4.1 0.4.2: Library for audio labelling
+media-libs/elementary 1.13.3 1.14.3 1.15.3 1.16.1 1.17.0 9999: Basic widget set, based on EFL for mobile touch-screen devices
+media-libs/ewe 0.2.2 9999: Elementary Widgets Extension, desktop widget library
+media-libs/libffado 2.1.0-r1 2.2.1-r1: Successor for freebob: Library for accessing BeBoB IEEE1394 devices
+media-libs/lilv 0.20.0: Library to make the use of LV2 plugins as simple as possible for applications
+media-libs/lv2 1.12.0: LV2 is a simple but extensible successor of LADSPA
+media-libs/mesa 11.1.9999 11.2.9999 9999: OpenGL-like graphic library for Linux
+media-libs/sratom 0.4.6: Library for serialising LV2 atoms to/from RDF, particularly the Turtle syntax
+media-libs/suil 0.8.2: Lightweight C library for loading and wrapping LV2 plugin UIs
+media-libs/zita-alsa-pcmi 0.2.0: Successor of clalsadrv, API providing easy access to ALSA PCM devices
+media-libs/zita-resampler 1.3.0: C++ library for real-time resampling of audio signals
+media-plugins/calf 0.0.19 0.0.60 9999: Audio plug-in pack (instrument and effects) for LV2 and JACK
+media-plugins/deadbeef-plugins-filebrowser 9999 20150416: File-Browser plugin for DeaDBeeF music player
+media-plugins/deadbeef-plugins-infobar 1.4: Info-bar plugin for DeaDBeeF audio player
+media-plugins/deadbeef-plugins-spectogram 9999: spectrum plugin for DeaDBeeF audio player
+media-plugins/deadbeef-plugins-spectrum 9999: spectrum plugin for DeaDBeeF audio player
+media-plugins/deadbeef-plugins-waveform 0.5 9999: Waveform seekbar plugin for DeaDBeeF audio player
+media-plugins/emotion_generic_players 1.13.0 1.14.0 1.15.0 1.16.0 1.17.0: Provides external applications as generic loaders for Evas
+media-plugins/evas_generic_loaders 1.13.2 1.14.0 1.15.0 1.16.0 1.17.0: Provides external applications as generic loaders for Evas
+media-plugins/gst-plugins-oss4 0.10.31 1.2.4: GStreamer plugin for OSS (Open Sound System) support
+media-plugins/ll-plugins 0.2.8 9999: collection of LV2 plugins, LV2 extension definitions, and LV2 related tools
+media-plugins/tap-plugins 0.7.3 9999: TAP LADSPA plugins: contains DeEsser, Dynamics, Equalizer, Reverb, Stereo Echo, Tremolo
+media-plugins/vapoursynth-plugins-addgrain 5 9999: AddGrain plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-bifrost 2.2 9999: Temporal derainbowing filter plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-bilateral 3 9999: Bilateral and Gaussian filter plugin for VapourSynth
+media-plugins/vapoursynth-plugins-bm3d 5 9999: BM3D denoising filter plugin for VapourSynth
+media-plugins/vapoursynth-plugins-combmask 9999: Comb-mask and merge filter plugin for VapourSynth
+media-plugins/vapoursynth-plugins-ctmf 2 9999: Constant Time Median Filtering plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-d2vsource 0_beta7 9999: D2V source decoder plugin for VapourSynth
+media-plugins/vapoursynth-plugins-damb 3 9999: Damb plugin (adding basic audio support) for VapourSynth
+media-plugins/vapoursynth-plugins-deblock 4 9999: Deblock (from x264 deblocking filter) plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-delogo 0.3 9999: TDeint and TMM plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-dfttest 5 9999: BM3D denoising filter plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-eedi2 6 9999: Resize plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-fieldhint 3 9999: FieldHint plugin for VapourSynth
+media-plugins/vapoursynth-plugins-fillborders 1.0 9999: FillBorders plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-filters 9999: Common set of image-processing filters plugin for VapourSynth
+media-plugins/vapoursynth-plugins-fluxsmooth 1.0 9999: FluxSmooth (fluctuations smoothing filter) plugin for VapourSynth
+media-plugins/vapoursynth-plugins-fmtconv 20 9999: Format Conversion Tools plugin for VapourSynth
+media-plugins/vapoursynth-plugins-histogram 1.0 9999: Histogram plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-imagereader 9999: Common set of image-processing filters plugin for VapourSynth
+media-plugins/vapoursynth-plugins-it 1.2 9999: Inverse Telecine plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-msmoosh 1.1 9999: MSharpen and MSmooth plugin for VapourSynth
+media-plugins/vapoursynth-plugins-mvtools 13 9999: MVTools (Motion compensation and estimation filters) plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-nnedi3 8 9999: Intra-field only deinterlacer plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-rawsource 9999: RAW source decoder plugin for VapourSynth
+media-plugins/vapoursynth-plugins-retinex 3 9999: Retinex algorithm plugin for VapourSynth
+media-plugins/vapoursynth-plugins-scrawl 1.0 9999: Text output plugin for VapourSynth
+media-plugins/vapoursynth-plugins-scxvid 1 9999: Scene-change detection plugin (using XviD) for VapourSynth
+media-plugins/vapoursynth-plugins-ssiq 1.0 9999: Structure-preserving smoothing on I/Q chrominance plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-tcanny 5 9999: Edge map builder using canny edge detection plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-tcomb 2 9999: (NTSC) Temporal comb filter plugin for VapourSynth
+media-plugins/vapoursynth-plugins-tdeintmod 7 9999: TDeint and TMM plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-temporalsoften 1.0 9999: TemporalSoften plugin for VapourSynth
+media-plugins/vapoursynth-plugins-vaguedenoiser 2 9999: VagueDenoiser plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-videoscope 1.0 9999: VideoScope plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-yadifmod 9 9999: Yadif plugin for VapourSynth ported from Avisynth
+media-sound/a2jmidid 9999: Daemon for exposing legacy ALSA sequencer applications in JACK MIDI system
+media-sound/ardour 2.9999: multi-track hard disk recording software
+media-sound/deadbeef 0.7.1 9999: DeaDBeeF - Ultimate Music Player For GNU/Linux
+media-sound/empc 0.99.0.639 9999: EFL MPD multiplexer and client
+media-sound/fluidsynth 1.1.6 9999: Fluidsynth is a software real-time synthesizer based on the Soundfont 2 specifications.
+media-sound/hydrogen 0.9.6.1 0.9.7_beta2 9999: Advanced drum machine
+media-sound/jack-audio-connection-kit 0.121.3-r2 1.9.10 1.9999 2.9999: Jackdmp jack implemention for multi-processor machine
+media-sound/jack_capture 0.9.71 9999: JACK Recording utility
+media-sound/jack_mixer 9-r1 10 9999: JACK audio mixer using GTK2 interface.
+media-sound/jalv 1.4.6: Simple and fully featured LV2 host for Jack running and exposing LV2 plugins as JACK applications
+media-sound/ladish 1-r2 9999-r2: LADI Session Handler - a session management system for JACK applications
+media-sound/laditools 1.0.1 1.1.0 9999: Linux Audio Desktop Integration Tools
+media-sound/mpc 0.27: A commandline client for Music Player Daemon (media-sound/mpd)
+media-sound/oss 4.2.2010 4.2.2011: OSSv4 portable, mixing-capable, high quality sound system for Unix
+media-sound/patchage 0.5.0 1.0.0: Modular patch bay for audio and MIDI systems
+media-sound/rezound 0.13.1_beta: Sound editor and recorder
+media-sound/rosegarden 14.02 16.02 9999: MIDI and audio sequencer and notation editor
+media-sound/seq24 0.9.3: Seq24 is a loop based MIDI sequencer with focus on live performances.
+media-sound/yoshimi 1.3.9 9999: A software synthesizer for Linux, based on ZynAddSubFX
+media-sound/zita-ajbridge 0.6.0: Bridge ALSA devices to Jack clients, to provide additional capture (a2j) or playback (j2a) channels
+media-sound/zynaddsubfx 2.5.4 9999: ZynAddSubFX is an opensource software synthesizer.
+media-video/ffmpeg 2.6.9999 2.7.9999 2.8.9999 3.0.9999: Complete solution to record, convert and stream audio and video. Includes libavcodec
+media-video/mpv 0.17.0 9999: Video player based on MPlayer/mplayer2
+media-video/rage 0.1.4 9999: EFL Video Player
+media-video/vapoursynth 31 9999: Video processing framework with simplicity in mind
+media-video/wobbly 3 9999: IVTC video processing assistant for VapourSynth similar to Yatta
+net-misc/connman 1.31 9999: Provides a daemon for managing internet connections
+net-misc/dhcpcd 6.10.1: A fully featured, yet light weight RFC2131 compliant DHCP client
+net-misc/dhcpcd-ui 0.7.5 9999: Desktop notification and configuration for dhcpcd
+net-misc/pacrunner 0.9 9999: Proxy configuration daemon
+net-misc/tipcutils 2.0.3: Utilities for TIPC (Transparent Inter-Process Communication)
+net-p2p/epour 0.6.0 9999: EFL bittorent client
+net-print/cnijfilter 2.60 2.70 2.80 2.90 3.00 3.10 3.20 3.30 3.40 3.50 3.60 3.70 3.80 3.90 4.00 4.10: Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)
+sys-apps/hprofile 6.1.1 6.1.2 9999: Utility to manage hardware, network, power or other profiles
+sys-apps/iucode_tool 1.5.1 9999: intel(r) 64 and IA-32 processor microcode tool
+sys-apps/less 9999: Excellent text file viewer
+sys-fs/aufs-standalone 3.9999 4.9999: An entirely re-designed and re-implemented Unionfs
+sys-fs/aufs-util 9999: AUFS filesystem utilities
+sys-fs/fskit 9999: Filesystem utility library and SDK
+sys-fs/vdev 9999: Virtual device manager for UNIX
+sys-kernel/git-sources 3.4.108 3.10.93 3.12.44 3.14.48 3.14.58 3.18.18 3.18.25 4.1.15 4.3.3 4.4.6: Latest stable branch Linux kernel
+sys-kernel/mkinitramfs-ll 0.21.4 0.22.0 9999: Lightweight, modular and powerfull initramfs genrating tool
+sys-libs/libpstat 9999: Virtual device manager for UNIX
+sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
+sys-process/supervision 34 9999: Supervision Scripts Framework
+virtual/daemontools 0: Virtual for Daemontools Service Manager
+virtual/liblash 1: Virtual for LASH library
+virtual/libproxy 1: Virtual for proxy library
+www-apps/searx 0.8.1 9999: Decentralized and privacy-respecting, hackable metasearch engine
+www-misc/browser-home-profile 4.0 9999: Web-Browser Home Profile Utility
+www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
+x11-libs/ganv 1.4.2: An interactive Gtk widget for boxes and lines or graph-like environments
+x11-misc/netwmpager 2.04: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
+x11-misc/spacefm 1.0.1 9999: A multi-panel tabbed file manager
+x11-misc/tint2 9999: A lightweight panel/taskbar
+x11-plugins/ekbd 9999: A smart vkbd(virtual keyboard) library inspired by illume-keyboard.
+x11-plugins/engage 9999: Shelf/Launcher module for fast switching applications for Enlightenment
+x11-plugins/entrance 9999: PAM compatible display manager build on EFL
+x11-themes/ardoise-xcursor-theme 2.8: A simple, dark, flat and slightly translucent theme
+x11-themes/awoken-icon-theme 2.5: Monochrome/color-ish scalable icon theme with colorization
+x11-themes/e-gtk-theme 0.19.3 9999: a gtk theme to match enlightenment DR17 default theme
+x11-themes/elm-theme-viewer 9999: Elementary Theme Viewer for developers and designers
+x11-themes/gt3-xcursor-theme 20091124: GT3 cursor themes ported to *nix.
+x11-themes/kawoken-icon-theme 1.5: KDE port of monochrome/color-ish scalable icon theme with colorization
+x11-themes/nimbus-gtk-theme 4.2: a gtk+:3 port of the good gtk+:2 theme
+x11-themes/slim-themes-slime 1: SLiM theme to match e-gtk-theme
+x11-wm/enlightenment 0.18.8 0.19.14 0.20.5 9999: Enlightenment DR99 window manager
