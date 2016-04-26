@@ -84,7 +84,6 @@ media-plugins/vapoursynth-plugins-temporalsoften
 media-plugins/vapoursynth-plugins-vaguedenoiser
 media-plugins/vapoursynth-plugins-videoscope
 media-plugins/vapoursynth-plugins-yadifmod
-media-plugins/vapoursynth-scripts-modules
 media-sound/a2jmidid
 media-sound/ardour
 media-sound/deadbeef
