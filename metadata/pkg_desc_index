@@ -152,4 +152,4 @@ x11-themes/gt3-xcursor-theme 20091124: GT3 cursor themes ported to *nix.
 x11-themes/kawoken-icon-theme 1.5: KDE port of monochrome/color-ish scalable icon theme with colorization
 x11-themes/nimbus-gtk-theme 4.2: a gtk+:3 port of the good gtk+:2 theme
 x11-themes/slim-themes-slime 1: SLiM theme to match e-gtk-theme
-x11-wm/enlightenment 0.18.8 0.19.14 0.20.5 9999: Enlightenment DR99 window manager
+x11-wm/enlightenment 0.18.8 0.19.14 0.20.7 9999: Enlightenment DR99 window manager
