@@ -29,6 +29,10 @@ IUSE="+runit s6 static-service"
 DEPEND="sys-apps/sed"
 RDEPEND="${DEPEND} virtual/daemontools"
 
+src_compile()
+{
+	emake CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
+}
 src_install()
 {
 	sed '/.*COPYING.*$/d' -i Makefile
