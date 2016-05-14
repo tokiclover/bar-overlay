@@ -1,12 +1,25 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/kernel-git.eclass,v 2.0 2015/06/30 20:33:34 -tclover Exp $
+# $Header: eclass/kernel-git.eclass,v 2.0 2016/05/14 20:33:34 -tclover Exp $
 
 # @ECLASS: kernel-git.eclass
-# @MAINTAINER: tclover@bar-overlay
-# @BLURB: 
-# @DESCRIPTION: portage eclass base functions used by 
-# sys-kernel/git-sources::bar ebuilds
+# @MAINTAINER:
+# bar-overlay <bar@overlay.org>
+# @AUTHOR:
+# Original author: tokiclover <tokiclover@gmail.com>
+# @BLURB: Provide means to get multiple kernel path sets
+# @DESCRIPTION:
+# Export eclass base functions used by 
+# sys-kernel/git-sources::bar package
+
+# @ECLASS-VARIABLE: PATCHSET
+# @DESCRIPTION:
+# Array holding a list of use/patchset list
+# PATCHSET=(bfs ck gentoo hardened reiser4)
+:	${PATCHSET:=}
+
+if [[ -z "${_KERNEL_GIT_ECLASS}" ]]; then
+_KERNEL_GIT_ECLASS=1
 
 inherit kernel-2 git-2
 detect_version
@@ -45,10 +58,12 @@ that you may suspect being the source of your issues because this ebuild is
 based on the latest stable tree."
 
 # @ECLASS-VARIABLE: OKV
-# @DESCRIPT: kernel version release
+# @DESCRIPTION:
+# MAJOR.MINOR.PATCH (full kernel version/package version)
 :	${OKV:=${PV}}
 # @ECLASS-VARIABLE: MKV
-# @DESCRIPT: *major* kernel version release
+# @DESCRIPTION:
+# MAJOR.MINOR (mini kernel version)
 :	${MKV:=${PV%.*}}
 
 :	${KV_MAJOR:=${MKV%.*}}
@@ -56,10 +71,13 @@ based on the latest stable tree."
 :	${KV_PATCH:=${PV##*.}}
 
 # @ECLASS-VARIABLE: AUFS_VER
-# @DESCRIPTION: AUFS version to use
+# @DESCRIPTION:
+# AUFS version to use
 :	${AUFS_VER:=${MKV}}
 # @ECLASS-VARIABLE: EGIT_REPO_AUFS
-# @DESCRIPTION: AUFS git URI
+# @DESCRIPTION:
+# AUFS git URI
+:	${EGIT_REPO_AUFS:=}
 case "${KV_MAJOR}" in
 	(3)
 :	${EGIT_REPO_AUFS:="git://git.code.sf.net/p/aufs/aufs${KV_MAJOR}-standalone.git"}
@@ -68,116 +86,157 @@ case "${KV_MAJOR}" in
 :	${EGIT_REPO_AUFS:="git://github.com/sfjro/aufs${KV_MAJOR}-standalone.git"}
 	;;
 esac
+
 # @ECLASS-VARIABLE: AUFS_EXTRA_PATCH
-# @DESCRIPTION: extra patches included in AUFS package to use
+# @DESCRIPTION:
+# Extra patches included in AUFS package to use
+:	${AUFS_EXTRA_PATCH:=}
 
 # @ECLASS-VARIABLE: BFS_VER
-# @DESCRIPTION: BFS version string
-# @ECLASS-VARIABLE: BFS_SRC
-# @DESCRIPTION: BFS src file
-:	${BFS_PATCH:=${MKV}-sched-bfs-${BFS_VER}.patch}
+# @DESCRIPTION:
+# BFS version string
+:	${BFS_VER:=}
 # @ECLASS-VARIABLE: BFS_BASE_PATCH
-# @DESCRIPTION: bfs base patch to patch the unpacked files
+# @DESCRIPTION:
+# BFS base patch, to patch the unpacked files/patchset
+:	${BFS_BASE_PATCH:=}
 
 # @ECLASS-VARIABLE: BFS_EXTRA_PATCH
-# @DESCRIPTION: bfs extra patch included in ck broken-out archive
+# @DESCRIPTION:
+# BFS extra patch included in ck broken-out archive
+:	${BFS_EXTRA_PATCH:=}
 
 # @ECLASS-VARIABLE: CK_VER
-# @DESCRIPTION: -ck patchset version string
+# @DESCRIPTION:
+# -ck patchset version string
+:	${CK_VER:=${MKV}-ck1}
 # @ECLASS-VARIABLE: CK_URI
-# @DESCRIPTION: -ck patchset src URI
+# @DESCRIPTION:
+# -ck patchset source URI
 :	${CK_URI:="http://ck.kolivas.org/patches/${KV_MAJOR}.0/${MKV}/${CK_VER}"}
 :	${BFS_URI:=${CK_URI}}
 # @ECLASS-VARIABLE: CK_SRC
-# @DESCRIPTION: -ck src file
+# @DESCRIPTION:
+# -ck source file
 :	${CK_SRC:=${CK_VER}-broken-out.tar.bz2}
+# @ECLASS-VARIABLE: BFS_SRC
+# @DESCRIPTION:
+# BFS source file
 :	${BFS_SRC:=${CK_SRC}}
+:	${BFS_PATCH:=${MKV}-sched-bfs-${BFS_VER}.patch}
 
 # @ECLASS-VARIABLE: GENTOO_VER
-# @DESCRIPTION: gentoo base patchset version string
+# @DESCRIPTION:
+# Gentoo base patchset version string
 :	${GENTOO_VER:=${MKV}-1}
 # @ECLASS-VARIABLE: GENTOO_URI
-# @DESCRIPTION: gentoo patchset src URI
+# @DESCRIPTION:
+# Gentoo patchset source URI
 :	${GENTOO_URI:="http://dev.gentoo.org/~mpagano/genpatches/tarballs"}
 # @ECLASS-VARIABLE: GENTOO_SRC
-# @DESCRIPTION: gentoo base src file
+# @DESCRIPTION:
+# Gentoo base source file
 :	${GENTOO_SRC:=genpatches-${GENTOO_VER}.base.tar.xz}
 
 # @ECLASS-VARIABLE: FBCONDECOR_VER
-# @DESCRIPTION: fbcondecor version string: genpatches extras version
+# @DESCRIPTION:
+# Fbcondecor version string: genpatches extras version
 :	${FBCONDECOR_VER:=${GENTOO_VER}}
 # @ECLASS-VARIABLE: FBCONDECOR_SRC
-# @DESCRIPTION: gentoo extras src file
+# @DESCRIPTION:
+# Gentoo extras source file
 :	${FBCONDECOR_SRC:=genpatches-${FBCONDECOR_VER}.extras.tar.xz}
 :	${FBCONDECOR_URI:=${GENTOO_URI}}
 
 # @ECLASS-VARIABLE: BFQ_VER
-# @DESCRIPTION: BFQ version string: genpatches experimental version
+# @DESCRIPTION:
+# BFQ version string: genpatches experimental version
 :	${BFQ_VER:=${GENTOO_VER}}
 # @ECLASS-VARIABLE: BFQ_SRC
-# @DESCRIPTION: gentoo experimental src file
+# @DESCRIPTION:
+# Gentoo experimental source file
 :	${BFQ_SRC:=genpatches-${BFQ_VER}.experimental.tar.xz}
 :	${BFQ_URI:=${GENTOO_URI}}
 
 # @ECLASS-VARIABLE: HARDENED_VER
-# @DESCRIPTION: gentoo hardened uni patch version string
+# @DESCRIPTION:
+# Gentoo hardened unified patch version string
 :	${HARDENED_VER:=${OKV}-1}
 # @ECLASS-VARIABLE: HARDENED_URI
-# @DESCRIPTION: gentoo hardened uni patch src URI
+# @DESCRIPTION:
+# gentoo hardened unified patch source URI
 :	${HARDENED_URI:="http://dev.gentoo.org/~blueness/hardened-sources/hardened-patches"}
 # @ECLASS-VARIABLE: HARDENED_SRC
-# @DESCRIPTION: gentoo hardened uni patch src file
+# @DESCRIPTION:
+# Gentoo hardened unified patch source file
 :	${HARDENED_SRC:=hardened-patches-${HARDENED_VER}.extras.tar.bz2}
 
 # @ECLASS-VARIABLE: OPTIMIZATION_VER
-# @DESCRIPTION: cpu optimization kind of *version* string
+# @DESCRIPTION:
+# CPU optimization kind of *version* string
 :	${OPTIMIZATION_VER:=${BFQ_VER}}
 # @ECLASS-VARIABLE: OPTIMIZATION_URI
-# @DESCRIPTION: cpu optimization src URI
+# @DESCRIPTION:
+# CPU optimization source URI
 :	${OPTIMIZATION_URI:=${BFQ_URI}}
 # @ECLASS-VARIABLE: OPTIMIZATION_SRC
-# @DESCRIPTION: cpu optimization src file
+# @DESCRIPTION:
+# CPU optimization source file
 :	${OPTIMIZATION_SRC:=${BFQ_SRC}}
 
 # @ECLASS-VARIABLE: REISER4_VER
-# @DESCRIPTION: reiser4 version string
+# @DESCRIPTION:
+# Reiser4 version string
 :	${REISER4_VER:=${OKV}}
 # @ECLASS-VARIABLE: REISER4_URI
-# @DESCRIPTION: reiser4 src URI
+# @DESCRIPTION:
+# Reiser4 source URI
 :	${REISER4_URI:="mirror://sourceforge/project/reiser4/reiser4-for-linux-${KV_MAJOR}.x"}
 # @ECLASS-VARIABLE: REISER4_SRC
-# @DESCRIPTION: reiser4 src file
+# @DESCRIPTION:
+# Reiser4 source file
 :	${REISER4_SRC:=reiser4-for-${REISER4_VER}.patch.gz}
 
-# @ECLASS-VARIABLE: RT_URI
-# @DESCRIPTION: -rt version string
+# @ECLASS-VARIABLE: RT_VER
+# @DESCRIPTION:
+# -rt version string
 :	${RT_VER:=${OKV}-rt1}
 # @ECLASS-VARIABLE: RT_URI
-# @DESCRIPTION: -rt src URI
+# @DESCRIPTION:
+# -rt source URI
 :	${RT_URI:="https://www.kernel.org/pub/linux/kernel/projects/rt/${MKV}"}
 # @ECLASS-VARIABLE: RT_SRC
-# @DESCRIPTION: -rt src file
+# @DESCRIPTION:
+# -rt source file
 :	${RT_SRC:=patch-${RT_VER}.patch.xz}
 
 # @ECLASS-VARIABLE: TOI_VER
-# @DESCRIPTION: tuxonice version string
+# @DESCRIPTION:
+# tuxonice version string
+:	${TOI_VER:=}
 # @ECLASS-VARIABLE: TOI_URI
-# @DESCRIPTION: tuxonice URI
+# @DESCRIPTION:
+# tuxonice URI
 :	${TOI_URI:="http://tuxonice.nigelcunningham.com.au/downloads/all"}
 # @ECLASS-VARIABLE: TOI_SRC
-# @DESCRIPTION: tuxonice src file
+# @DESCRIPTION:
+# tuxonice source file
 :	${TOI_SRC:=tuxonice-for-linux-${TOI_VER}.patch.bz2}
 
 # @ECLASS-VARIABLE: UKSM_REV
-# @DESCRIPTION: uksm version string
+# @DESCRIPTION:
+# uksm version string
 :	${UKSM_REV:=0.1.2.3}
 # @ECLASS-VARIABLE: UKSM_URI
-# @DESCRIPTION: uksm src URI
+# @DESCRIPTION:
+# uksm source URI
 :	${UKSM_URI:="http://kerneldedup.org/download/uksm/${UKSM_REV}"}
 # @ECLASS-VARIABLE: UKSM_VER
-# @DESCRIPTION: uksm base version string
+# @DESCRIPTION:
+# uksm base version string
 # @ECLASS-VARIABLE: UKSM_SRC
-# @DESCRIPTION: uksm src file
+# @DESCRIPTION:
+# uksm source file
 :	${UKSM_SRC:=uksm-${UKSM_REV}-for-v${UKSM_VER}.patch}
 
 SRC_URI+="$(eval
@@ -193,7 +252,10 @@ unset u {CK,BF{S,Q},FBCONDECOR,HARDENED,OPTIMIZATION,REISER4,RT,UKSM}_{URI,VER}
 S="${WORKDIR}/linux-${OKV}-git"
 
 # @FUNCTION: src_patch_unpack
-src_patch_unpack() {
+# @DESCRIPTION:
+# Internal wrapper to unpack patchset
+src_patch_unpack()
+{
 	(( ${#} < 1 )) && return "${?}"
 	local dir="${WORKDIR}"/${2} n=/dev/null
 	mkdir -p "${dir}"
@@ -203,7 +265,10 @@ src_patch_unpack() {
 }
 
 # @FUNCTION: linux-git_src_unpack
-kernel-git_src_unpack() {
+# @DESCRIPTION:
+# Default exported function for unpack phase
+kernel-git_src_unpack()
+{
 	debug-print-function ${FUNCNAME} "${@}"
 
 	unpack ${A}
@@ -228,7 +293,10 @@ kernel-git_src_unpack() {
 }
 
 # @FUNCTION: kernel-git_src_prepare
-kernel-git_src_prepare() {
+# @DESCRIPTION:
+# Default exported function for prepare phase
+kernel-git_src_prepare()
+{
 	debug-print-function ${FUNCNAME} "${@}"
 
 	epatch "${WORKDIR}"/patch-${OKV}
@@ -280,3 +348,5 @@ kernel-git_src_prepare() {
 	rm -fr .git*
 	sed -e "s,EXTRAVERSION =.*$,EXTRAVERSION = -git," -i Makefile || die
 }
+
+fi
