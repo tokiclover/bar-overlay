@@ -1,15 +1,46 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.4 2015/08/14 19:33:34 Exp $
+# $Header: eclass/ecnij.eclass,v 3.4 2016/05/14 19:33:34 Exp $
 
 # @ECLASS: ecnij.eclass
-# @MAINTAINER: bar@overlay
-# @BLURB: 
-# @DESCRIPTION: Exports portage base functions used by ebuilds 
-# written for net-print/cnijfilter packages
-# @AUTHOR: tokiclover <tokiclover@gmail.com>
+# @MAINTAINER:
+# bar-overlay <bar@overlay.org>
+# @AUTHOR:
+# Original author: tokiclover <tokiclover@gmail.com>
+# @BLURB: Provide a set of functions to get Canon(R) printers/scanners utilities
+# @DESCRIPTION:
+# Exports base functions used by ebuilds written
+# for net-print/cnijfilter package for canon(r) hardware
+
+if [[ -z "${_ECNIJ_ECLASS}" ]]; then
+_ECNIJ_ECLASS=1
 
 inherit autotools eutils flag-o-matic multilib-build
+
+# @ECLASS-VARIABLE: CANON_PRINTERS
+# @DESCRIPTION:
+# Global use-expand variable
+#
+# CANON_PRINTERS="ip90 ip 100"
+:	${CANON_PRINTERS:=}
+
+# @ECLASS-VARIABLE: PRINTER_MODEL
+# @DESCRIPTION:
+# Array of printer models supported by the ebuild
+# PRINTER_MODEL=(ip90 ip100)
+:	${PRINTER_MODEL:=}
+
+# @ECLASS-VARIABLE: PRINTER_ID
+# @DESCRIPTION:
+# Array of printer ID supported by the ebuild (complement of PRINTER_MODEL)
+# PRINTER_ID=(303 253)
+:	${PRINTER_ID:=}
+
+# @ECLASS-VARIABLE: PRINTER_USE
+# @DESCRIPTION:
+# Array containing the expanded use flags from PRINTER_MODEL
+# PRINTER_USE=(canon_printers_ip{90,100})
+:	${PRINTER_USE:=}
 
 for card in ${PRINTER_MODEL[@]}; do
 	has ${card} ${CANON_PRINTERS} &&
@@ -53,18 +84,11 @@ DEPEND="${DEPEND}
 
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst
 
-# @ECLASS-VARIABLE: PRINTER_USE
-# @DESCRIPTION: An array with printers USE flags
-
-# @ECLASS-VARIABLE: PRINTER_MODEL
-# @DESCRIPTION: An array with printers model
-
-# @ECLASS-VARIABLE: PRINTER_ID
-# @DESCRIPTION: An array with printers id
-
 # @FUNCTION: dir_src_prepare
 # @DESCRIPTION:
-dir_src_command() {
+# Internal wrapper to handle subdir phase {prepare,config,compilation...}
+dir_src_command()
+{
 	local dirs="${1}" cmd="${2}" args="${3}"
 	(( $# < 2 )) && eeror "Invalid number of argument" && return 1
 
@@ -103,7 +127,9 @@ dir_src_command() {
 
 # @FUNCTION: ecnij_pkg_setup
 # @DESCRIPTION:
-ecnij_pkg_setup() {
+# Default exported pkg_setup() function
+ecnij_pkg_setup()
+{
 	debug-print-function ${FUNCNAME} "${@}"
 
 	[[ "${LINGUAS}" ]] || export LINGUAS="en"
@@ -141,7 +167,9 @@ ecnij_pkg_setup() {
 
 # @FUNCTION: ecnij_src_unpack
 # @DESCRIPTION:
-ecnij_src_unpack() {
+# Default exported src_unpack() function
+ecnij_src_unpack()
+{
 	debug-print-function ${FUNCNAME} "${@}"
 
 	default
@@ -149,8 +177,11 @@ ecnij_src_unpack() {
 }
 
 # @FUNCTION: ecnij_src_prepare
-# @DESCRIPTION: prepare environment and run elibtoolize.
-ecnij_src_prepare() {
+# @DESCRIPTION:
+# Setup environment and run elibtoolize;
+# Default exported src_prepare() function supporting PATCHES
+ecnij_src_prepare()
+{
 	debug-print-function ${FUNCNAME} "${@}"
 
 	[[ "${PATCHES}" ]] && epatch "${PATCHES[@]}"
@@ -178,7 +209,9 @@ ecnij_src_prepare() {
 
 # @FUNCTION: ecnij_src_configure
 # @DESCRIPTION:
-ecnij_src_configure() {
+# Deafult exported src_configure() function
+ecnij_src_configure()
+{
 	debug-print-function ${FUNCNAME} "${@}"
 
 	use backends &&
@@ -198,6 +231,7 @@ ecnij_src_configure() {
 
 # @FUNCTION: ecnij_src_compile
 # @DESCRIPTION:
+# The base exported src_compile() function
 ecnij_src_compile() {
 	debug-print-function ${FUNCNAME} "${@}"
 
@@ -217,7 +251,9 @@ ecnij_src_compile() {
 
 # @FUNCTION: ecnij_src_install
 # @DESCRIPTION:
-ecnij_src_install() {
+# Default exported src_install() function
+ecnij_src_install()
+{
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local abi_libdir=/usr/$(get_libdir) p pr prid
@@ -287,8 +323,10 @@ ecnij_src_install() {
 }
 
 # @FUNCTION: ecnij_pkg_postinst
-# @DESCRIPTION: output some usefull info
-ecnij_pkg_postinst() {
+# @DESCRIPTION:
+# Default exported src_postinst() function
+ecnij_pkg_postinst()
+{
 	debug-print-function ${FUNCNAME} "${@}"
 
 	elog "To install a printer:"
@@ -300,3 +338,4 @@ ecnij_pkg_postinst() {
 	elog "https://bugs.gentoo.org/show_bug.cgi?id=258244"
 }
 
+fi
