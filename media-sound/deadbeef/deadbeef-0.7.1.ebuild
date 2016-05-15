@@ -14,7 +14,7 @@ case "${PV}" in
 		EGIT_PROJECT="${PN}.git"
 		;;
 	(*)
-		KEYWORDS="~alpha ~amd64 ~hppa ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
+		KEYWORDS="~amd64 ~x86"
 		VCS_ECLASS=vcs-snapshot
 		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 		;;
@@ -26,7 +26,6 @@ HOMEPAGE="http://deadbeef.sourceforge.net/"
 LICENSE="|| ( GPL-2 LGPL-2.1 )"
 
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE="+aac adplug alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gtk 
 gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack musepack midi 
 mms +nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis 
