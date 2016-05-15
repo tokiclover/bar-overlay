@@ -62,7 +62,7 @@ FFMPEG_FLAGS=(
 	# indevs
 	libv4l:libv4l2 pulseaudio:libpulse
 	# decoders
-	amr:libopencore-amrwb amr:libopencore-amrnb fdk:libfdk-aac
+	amr:libopencore-amrwb amr:libopencore-amrnb dcadec:libdcadec fdk:libfdk-aac
 	jpeg2k:libopenjpeg bluray:libbluray celt:libcelt gme:libgme gsm:libgsm
 	mmal modplug:libmodplug opus:libopus librtmp ssh:libssh
 	schroedinger:libschroedinger speex:libspeex vorbis:libvorbis vpx:libvpx
@@ -146,6 +146,7 @@ RDEPEND="
 	)
 	celt? ( >=media-libs/celt-0.11.1-r1[${MULTILIB_USEDEP}] )
 	chromaprint? ( >=media-libs/chromaprint-1.2-r1[${MULTILIB_USEDEP}] )
+	dcadec? ( media-sound/dcadec[${MULTILIB_USEDEP}] )
 	encode? (
 		amrenc? ( >=media-libs/vo-amrwbenc-0.1.2-r1[${MULTILIB_USEDEP}] )
 		faac? ( >=media-libs/faac-1.28-r3[${MULTILIB_USEDEP}] )
@@ -311,7 +312,7 @@ multilib_src_configure()
 
 	# Decoders
 	use amr && myeconfargs+=( --enable-version3 )
-	use gmp && myconf+=( --enable-version3 )
+	use gmp && myeconfargs+=( --enable-version3 )
 	use fdk && myeconfargs+=( --enable-nonfree )
 
 	ffuse=(${ffuse[@]/+/})
@@ -356,7 +357,7 @@ multilib_src_configure()
 	done
 
 	# LTO support, bug #566282
-	is-flagq "-flto*" && myconf+=( "--enable-lto" )
+	is-flagq "-flto*" && myeconfargs+=( "--enable-lto" )
 
 	# Mandatory configuration
 	myeconfargs+=(
