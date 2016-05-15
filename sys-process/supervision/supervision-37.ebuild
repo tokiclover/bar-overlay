@@ -44,5 +44,4 @@ src_install()
 		$(usex sysvinit 'SYSVINIT=1' '')
 	)
 	emake PREFIX=/usr "${SV[@]}" DESTDIR="${ED}" install-all
-	use sysvinit || rm -f "${ED}"/lib/sv/bin/sv-shutdown
 }
