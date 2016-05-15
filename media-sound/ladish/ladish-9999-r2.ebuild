@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-1.ebuild,v 1.6 2015/06/08 12:14:19 Exp $
+# $Header: media-sound/ladish/ladish-1.ebuild,v 1.6 2016/05/08 12:14:19 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -20,7 +20,7 @@ case "${PV}" in
 		SRC_URI="https://github.com/LADI/archive/${P}.tar.gz"
 		;;
 esac
-inherit l10n python-single-r1 waf-utils multilib-minimal ${VCS_ECLASS}
+inherit flag-o-matic l10n python-single-r1 waf-utils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="LADI Session Handler - a session management system for JACK applications"
 HOMEPAGE="http://ladish.org/"
@@ -50,17 +50,23 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS README NEWS )
 
+PATCHES=(
+	"${FILESDIR}"/${P}-include.patch
+	"${FILESDIR}"/${P}-libdir.patch
+)
+
 src_prepare()
 {
+	epatch "${PATCHES[@]}"
 	epatch_user
 
 	local linguas
 	use nls && linguas="$(l10n_get_locales)"
 	echo "${linguas}" >po/LINGUAS
 
+	append-cxxflags '-std=c++11'
 	multilib_copy_sources
 }
-
 multilib_src_configure()
 {
 	local -a mywafconfargs=(
@@ -69,26 +75,24 @@ multilib_src_configure()
 		$(use_enable lash liblash)
 		$(use_enable python pylash)
 	)
-	NO_WAF_LIBDIR=1 PREFIX="${EPREFIX}/usr" LIBDIR="${EPREFIX}/usr/$(get_libdir)" \
-		WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_configure "${mywafconfargs[@]}"
+	local NO_WAF_LIBDIR=1 WAF_BINARY="${BUILD_DIR}"/waf
+	local LIBDIR="${EPREFIX}/usr/$(get_libdir)" PREFIX="${EPREFIX}/usr"
+	waf-utils_src_configure "${mywafconfargs[@]}"
 }
-
 multilib_src_compile()
 {
-	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_install
+	local WAF_BINARY="${BUILD_DIR}"/waf
+	waf-utils_src_compile
 }
-
 multilib_src_install()
 {
-	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_install
-	dosym /usr/$(get_libdir)/liblash.so{.1,}
-
-	multilib_is_native_abi && use doc && dohtml -r build/default/html/*
+	local WAF_BINARY="${BUILD_DIR}"/waf
+	waf-utils_src_install
+	dosym liblash.so.1 /usr/$(get_libdir)/liblash.so
 }
-
 multilib_src_install_all()
 {
+	use doc && dohtml -r build/default/html/*
 	rm -f "${ED}"/usr/share/${PN}/{AUTHORS,COPYING,NEWS,README}
 	python_fix_shebang "${ED}"
 }
-
