@@ -19,7 +19,7 @@ dev-python/vapoursynth-plugins-mvsfunc 7 9999: mawen1250's functions for VapourS
 dev-util/edi 0.3.0 9999: EFL based IDE
 dev-util/eflete 0.6.1 9999: EFL Edje Theme Editor - a theme graphical editor
 dev-util/enventor 0.8.1 9999: EFL Dynamic EDC editor
-dev-util/espionage 9999: PyEFL D-Bus inspector
+dev-util/espionage 1.0 9999: PyEFL D-Bus inspector
 dev-util/lv2-c++-tools 1.0.5: some tools and libraries that may come in handy when writing LV2 plugins
 games-board/fuego 1.1 9999: C++ libraries for developing software for the game of Go
 media-fonts/artwiz-aleczapka-de 1.3: Artwiz Aleczapko fonts
