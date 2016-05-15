@@ -1,15 +1,11 @@
-dev-python/vapoursynth-plugins-adjust
 dev-python/vapoursynth-plugins-havsfunc
-dev-python/vapoursynth-plugins-mvsfunc
 media-plugins/vapoursynth-plugins-bm3d
 media-plugins/vapoursynth-plugins-d2vsource
 media-plugins/vapoursynth-plugins-damb
 media-plugins/vapoursynth-plugins-fieldhint
-media-plugins/vapoursynth-plugins-filters
 media-plugins/vapoursynth-plugins-it
 media-plugins/vapoursynth-plugins-mvtools
 media-plugins/vapoursynth-plugins-nnedi3
-media-plugins/vapoursynth-plugins-rawsource
 media-plugins/vapoursynth-plugins-tcomb
 media-plugins/vapoursynth-plugins-tdeintmod
 media-plugins/vapoursynth-plugins-yadifmod
