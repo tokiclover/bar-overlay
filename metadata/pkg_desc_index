@@ -88,6 +88,7 @@ media-plugins/vapoursynth-plugins-temporalsoften 1.0 9999: TemporalSoften plugin
 media-plugins/vapoursynth-plugins-tnlmeans 9999: NL-means denoising plugin for VapourSynth ported from AviSynth
 media-plugins/vapoursynth-plugins-vaguedenoiser 2 9999: VagueDenoiser plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-videoscope 1.0 9999: VideoScope plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-yadif 9999: Yet Another Deinterlacing Filter plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-yadifmod 9 9999: Yet Another Deinterlacing Filter plugin for VapourSynth ported from Avisynth
 media-sound/a2jmidid 9999: Daemon for exposing legacy ALSA sequencer applications in JACK MIDI system
 media-sound/ardour 2.9999: multi-track hard disk recording software
