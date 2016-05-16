@@ -20,7 +20,7 @@ case "${PV}" in
 esac
 inherit multilib-minimal ${VCS_ECLASS}
 
-DESCRIPTION="TDeint and TMM plugin for VapourSynth ported from Avisynth"
+DESCRIPTION="DeLogo plugin for VapourSynth ported from Avisynth"
 HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DeLogo"
 
 LICENSE="GPL-2"
