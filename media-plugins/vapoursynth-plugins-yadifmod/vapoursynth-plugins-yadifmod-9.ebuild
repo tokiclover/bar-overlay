@@ -40,13 +40,15 @@ src_prepare()
 multilib_src_configure()
 {
 	chmod +x configure
-	./configure \
-		${EXTRA_TDEINTMOD_CONF} \
-		$(usex debug '--enable-debug' '') \
-		--extra-cxxflags="${CXXFLAGS} -fabi-version=6" \
-		--extra-ldflags="${LDFLAGS}" \
-		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
+	local -a myeconfargs=(
+		${EXTRA_YADIFMOD_CONF}
+		$(usex debug '--enable-debug' '')
+		--extra-cxxflags="${CXXFLAGS}"
+		--extra-ldflags="${LDFLAGS}"
 		--target-os="${CHOST}"
+	)
+	echo configure "${myeconfargs[@]}"
+	./configure "${myeconfargs[@]}"
 }
 multilib_src_compile()
 {
