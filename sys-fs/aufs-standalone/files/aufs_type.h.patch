@@ -1,5 +1,5 @@
---- aufs_type.h.orig	2014-12-15 10:51:58.292238698 +0100
-+++ aufs_type.h	2014-12-15 11:04:09.142625303 +0100
+--- include/uapi/linux/aufs_type.h	2014-12-15 10:51:58.292238698 +0100
++++ include/uapi/linux/aufs_type.h	2014-12-15 11:04:09.142625303 +0100
 @@ -20,22 +20,8 @@
  
  #define AUFS_NAME	"aufs"

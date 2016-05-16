@@ -12,7 +12,7 @@ EGIT_REPO_URI="git://github.com/sfjro/aufs4-standalone.git"
 EGIT_NONBARE=yes
 
 DEPEND="dev-util/patchutils"
-RDEPEND="sys-fs/aufs4
+RDEPEND="!sys-fs/aufs4
 	=sys-fs/${P/standalone/util}"
 
 LICENSE="GPL-2"
@@ -42,7 +42,7 @@ pkg_setup()
 	case "${KV_MAJOR}" in
 		(4)
 		case "${KV_MINOR}" in
-			([1-4]) branch="${KV_MAJOR}.${KV_MINOR}";;
+			([1-5]) branch="${KV_MAJOR}.${KV_MINOR}";;
 			(*) eval ${ERR_OLD};;
 		esac
 		case "${KV_MINOR}" in
