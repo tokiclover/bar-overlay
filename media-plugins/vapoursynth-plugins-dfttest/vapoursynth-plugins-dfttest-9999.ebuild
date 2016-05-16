@@ -20,8 +20,8 @@ case "${PV}" in
 esac
 inherit multilib-minimal ${VCS_ECLASS}
 
-DESCRIPTION="DFTTest filter plugin for VapourSynth ported from Avisynth"
-HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DFTTest"
+DESCRIPTION="2D/3D frequency domain denoiser using Discrete Fourier Transform (ported from Avisynth)"
+HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DFTTest http://avisynth.nl/index.php/Dfttest"
 
 LICENSE="GPL-3"
 SLOT="0"
