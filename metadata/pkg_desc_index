@@ -77,6 +77,7 @@ media-plugins/vapoursynth-plugins-mvtools 13 9999: MVTools (Motion compensation 
 media-plugins/vapoursynth-plugins-nnedi3 8 9999: Intra-field only deinterlacer plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-rawsource 9999: RAW source decoder plugin for VapourSynth
 media-plugins/vapoursynth-plugins-retinex 3 9999: Retinex algorithm plugin for VapourSynth
+media-plugins/vapoursynth-plugins-sangnommod 0.1_p0 9999: Single field deinterlacer plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-scrawl 1.0 9999: Text output plugin for VapourSynth
 media-plugins/vapoursynth-plugins-scxvid 1 9999: Scene-change detection plugin (using XviD) for VapourSynth
 media-plugins/vapoursynth-plugins-ssiq 1.0 9999: Structure-preserving smoothing on I/Q chrominance plugin for VapourSynth ported from Avisynth
