@@ -20,7 +20,7 @@ case "${PV}" in
 esac
 inherit multilib-minimal ${VCS_ECLASS}
 
-DESCRIPTION="Yadif plugin for VapourSynth ported from Avisynth"
+DESCRIPTION="Yet Another Deinterlacing Filter plugin for VapourSynth ported from Avisynth"
 HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Yadifmod"
 
 LICENSE="GPL-2"
