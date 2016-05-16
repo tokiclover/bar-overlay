@@ -101,7 +101,6 @@ media-sound/jack_mixer 9-r1 10 9999: JACK audio mixer using GTK2 interface.
 media-sound/jalv 1.4.6: Simple and fully featured LV2 host for Jack running and exposing LV2 plugins as JACK applications
 media-sound/ladish 1-r2 9999-r2: LADI Session Handler - a session management system for JACK applications
 media-sound/laditools 1.0.1 1.1.0 9999: Linux Audio Desktop Integration Tools
-media-sound/oss 4.2.2010 4.2.2011: OSSv4 portable, mixing-capable, high quality sound system for Unix
 media-sound/patchage 0.5.0 1.0.0: Modular patch bay for audio and MIDI systems
 media-sound/rezound 0.13.1_beta: Sound editor and recorder
 media-sound/rosegarden 14.02 16.02 9999: MIDI and audio sequencer and notation editor
