@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-plugins/vapoursynth-plugins-tdeintmod/vapoursynth-plugins-tdeintmod-9999.ebuild,v 1.2 2015/10/01 Exp $
+# $Header: media-plugins/vapoursynth-plugins-it/vapoursynth-plugins-it-9999.ebuild,v 1.2 2016/05/12 Exp $
 
 EAPI=5
 
@@ -33,19 +33,21 @@ DEPEND="${RDEPEND}"
 src_prepare()
 {
 	epatch_user
-	sed -e 's/-O[0-3s]//g' -i configure
+	sed -e 's/-O[0-3s]//g' -e 's/-Wl,-Bsymbolic/-Bsymbolic/g' -i configure
 	multilib_copy_sources
 }
 multilib_src_configure()
 {
 	chmod +x configure
-	./configure \
-		${EXTRA_TDEINTMOD_CONF} \
-		$(usex debug '--enable-debug' '') \
-		--extra-cxxflags="${CXXFLAGS}" \
-		--extra-ldflags="${LDFLAGS}" \
-		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
+	local -a myeconfargs=(
+		${EXTRA_IT_CONF}
+		$(usex debug '--enable-debug' '')
+		--extra-cxxflags="${CXXFLAGS}"
+		--extra-ldflags="${LDFLAGS}"
 		--target-os="${CHOST}"
+	)
+	echo configure "${myeconfargs[@]}"
+	./configure "${myeconfargs[@]}"
 }
 multilib_src_compile()
 {
