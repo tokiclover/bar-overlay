@@ -61,6 +61,7 @@ media-plugins/vapoursynth-plugins-deblock 4 9999: Deblock (from x264 deblocking 
 media-plugins/vapoursynth-plugins-delogo 0.3 9999: TDeint and TMM plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-dfttest 3 9999: DFTTest filter plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-eedi2 6 9999: Resize plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-fft3dfilter 9999: 3D Frequency Domain filter plugin for VapourSynth ported from AviSynth
 media-plugins/vapoursynth-plugins-fieldhint 3 9999: FieldHint plugin for VapourSynth
 media-plugins/vapoursynth-plugins-fillborders 1.0 9999: FillBorders plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-filters 9999: Common set of image-processing filters plugin for VapourSynth
