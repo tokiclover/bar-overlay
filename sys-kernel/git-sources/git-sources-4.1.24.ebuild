@@ -5,7 +5,7 @@
 EAPI="5"
 ETYPE="sources"
 K_DEBLOB_AVAILABLE="1"
-PATCHSET=(aufs bfs bfq ck fbcondecor gentoo optimization reiser4 rt)
+PATCHSET=(aufs bfs bfq ck fbcondecor gentoo optimization reiser4 rt toi)
 
 OKV="${PV}"
 MKV="${PV%.*}"
@@ -14,9 +14,10 @@ KV_PATCH="${PV##*.}"
 EGIT_REPO_AUFS="git://github.com/sfjro/aufs${PV:0:1}-linux.git"
 BFS_VER="463"
 CK_VER="${MKV}-ck2"
-GENTOO_VER="${MKV}-19"
+GENTOO_VER="${MKV}-25"
 FBCONDECOR_VER="${GENTOO_VER}"
 REISER4_VER="${MKV}.7"
-RT_VER="${OKV}-rt17"
+RT_VER="${MKV}.20-rt23"
+TOI_VER="${MKV}.22-2016-04-21"
 
 inherit kernel-git
