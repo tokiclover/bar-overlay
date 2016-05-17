@@ -24,11 +24,6 @@ _KERNEL_GIT_ECLASS=1
 inherit kernel-2 git-2
 detect_version
 detect_arch
-SRC_URI+="
-	${KERNEL_BASE_URI}/linux-${MKV}.tar.xz"
-(( ${KV_PATCH} != 0 )) &&
-SRC_URI+="
-	${KERNEL_BASE_URI}/patch-${OKV}.xz"
 
 case "${EAPI:-5}" in
 	(4|5) EXPORT_FUNCTIONS src_unpack src_prepare;;
@@ -238,6 +233,12 @@ esac
 # @DESCRIPTION:
 # uksm source file
 :	${UKSM_SRC:=uksm-${UKSM_REV}-for-v${UKSM_VER}.patch}
+
+SRC_URI+="
+	${KERNEL_BASE_URI}/linux-${MKV}.tar.xz"
+(( ${KV_PATCH} != 0 )) &&
+SRC_URI+="
+	${KERNEL_BASE_URI}/patch-${OKV}.xz"
 
 SRC_URI+="$(eval
 for u in "${PATCHSET[@]}"; do
