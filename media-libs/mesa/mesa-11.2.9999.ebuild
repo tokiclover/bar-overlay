@@ -138,6 +138,7 @@ for card in ${RADEON_CARDS}; do
 done
 
 DEPEND+="
+	video_cards_radeonsi? ( ${LIBDRM_DEPSTRING}[video_cards_amdgpu] )
 	${RDEPEND}
 	${PYTHON_DEPS}
 	llvm? (
@@ -218,7 +219,7 @@ multilib_src_configure() {
 	fi
 
 	if use egl; then
-		myeconfargs+=( "--with-egl-platforms=x11$(usex wayland && ',wayland' '')$(usex gbm ',drm')" )
+		myeconfargs+=( "--with-egl-platforms=x11$(usex wayland ',wayland' '')$(usex gbm ',drm')" )
 	fi
 
 	if use gallium; then
@@ -274,7 +275,7 @@ multilib_src_configure() {
 	# build fails with BSD indent, bug #428112
 	use userland_GNU || export INDENT=cat
 
-	myeconfargs=(
+	myeconfargs+=(
 		--enable-dri
 		--enable-glx
 		--enable-shared-glapi
