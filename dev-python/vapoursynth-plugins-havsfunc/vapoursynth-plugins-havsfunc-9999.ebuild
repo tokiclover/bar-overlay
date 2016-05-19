@@ -3,7 +3,7 @@
 # $Header: dev-python/vapoursynth-plugins-havsfunc/vapoursynth-plugins-havsfunc-9999.ebuild,v 1.2 2016/04/26 Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python3_{3,4} )
+PYTHON_COMPAT=( python3_{3,4,5} )
 PYTHON_REQ_USE='threads(+)'
 
 case "${PV}" in
