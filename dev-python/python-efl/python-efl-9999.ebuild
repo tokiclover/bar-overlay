@@ -3,7 +3,7 @@
 # $Header: dev-python/python-efl/python-efl-1.12.0.ebuild,v 1.2 2015/06/08 Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python{2_{6,7},3_{2,3,4}} )
+PYTHON_COMPAT=( python{2_{6,7},3_{3,4,5}} )
 
 case "${PV}" in
 	(9999*)
