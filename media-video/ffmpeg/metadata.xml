@@ -13,10 +13,13 @@
     <flag name="cpu_flags_arm_v6">Enable optimizations for ARMv6 processors</flag>
     <flag name="cpu_flags_arm_v6t2">Enable optimizations for ARMv6t2 processors</flag>
     <flag name="cpu_flags_arm_vfp">Use Vector Floating-Point instruction set</flag>
-    <flag name="cpu_flags_mips_32r2">Enable MIPS32R2 optimizations</flag>
     <flag name="cpu_flags_mips_dspr1">Enable MIPS DSP ASE R1 optimizations</flag>
     <flag name="cpu_flags_mips_dspr2">Enable MIPS DSP ASE R2 optimizations</flag>
     <flag name="cpu_flags_mips_fpu">Enable floating point MIPS optimizations</flag>
+    <flag name="cpu_flags_mips_msa">Enable MIPS SIMD Architecture optimizations</flag>
+    <flag name="cpu_flags_ppc_altivec">Add support for optimizations for G4 and G5/ppc970 processors</flag>
+    <flag name="cpu_flags_ppc_power8">Add support for optimizations for multithreaded POWER8 processors</flag>
+    <flag name="cpu_flags_ppc_vsx">Add support for Vector Scalar Extension instructions</flag>
     <flag name="cpu_flags_sparc_vis">Use extended SIMD instruction set (UltraSPARC processors)</flag>
     <flag name="bindist">Enforce license compatibility constraints via REQUIRED_USE</flag>
     <flag name="bluray">Enable playback of Blu-ray filesystems</flag>

@@ -90,13 +90,20 @@ IUSE="alsa doc +encode jack oss pic static-libs test v4l
 # Strings for CPU features in the useflag[:configure_option] form
 # if :configure_option isn't set, it will use 'useflag' as configure option
 ARM_CPU_FEATURES=(v5te:armv5te v6:armv6 v6t2:armv6t2 neon:neon vfp:vfp)
-MIPS_CPU_FEATURES=(32r2:mips32r2 dspr1:mipsdspr1 dspr2:mipsdspr2 fpu:mipsfpu)
-PPC_CPU_FEATURES=(altivec:altivec)
+MIPS_CPU_FEATURES=(dspr1:mipsdspr1 dspr2:mipsdspr2 fpu:mipsfpu msa)
+PPC_CPU_FEATURES=(altivec power8 vsx)
 X86_CPU_FEATURES=(
 	3dnow:amd3dnow 3dnowext:amd3dnowext avx:avx avx2:avx2 fma3:fma3 fma4:fma4
 	mmx:mmx mmxext:mmxext sse:sse sse2:sse2 sse3:sse3 ssse3:ssse3 sse4_1:sse4
 	sse4_2:sse42 xop:xop
 )
+MIPS_CPU_REQUIRED_USE="
+	cpu_flags_mips_msa? ( cpu_flags_mips_fpu )
+"
+PPC_CPU_REQUIRED_USE="
+	cpu_flags_ppc_vsx? ( cpu_flags_ppc_altivec )
+	cpu_flags_ppc_power8? ( cpu_flags_ppc_vsx )
+"
 X86_CPU_REQUIRED_USE="
 	cpu_flags_x86_avx2? ( cpu_flags_x86_avx )
 	cpu_flags_x86_fma4? ( cpu_flags_x86_avx )
@@ -116,7 +123,7 @@ X86_CPU_REQUIRED_USE="
 # String for CPU features in the useflag[:configure_option] form
 # if :configure_option isn't set, it will use 'useflag' as configure option
 CPU_FEATURES=(
-	${ARM_CPU_FEATURES[@]/#/cpu_flag_arm_}
+	${ARM_CPU_FEATURES[@]/#/cpu_flags_arm_}
 	${MIPS_CPU_FEATURES[@]/#/cpu_flags_mips_}
 	${PPC_CPU_FEATURES[@]/#/cpu_flags_ppc_}
 	${X86_CPU_FEATURES[@]/#/cpu_flags_x86_}
@@ -254,7 +261,10 @@ REQUIRED_USE="	libv4l? ( v4l )
 	fftools_cws2fws? ( zlib )
 	test? ( encode )
 	${GPL_REQUIRED_USE}
+	${MIPS_CPU_REQUIRED_USE}
+	${PPC_CPU_REQUIRED_USE}
 	${X86_CPU_REQUIRED_USE}"
+unset GPL_REQUIRED_USE {MIPS,PPC,X86}_CPU_REQUIRED_USE
 RESTRICT="
 	encode? ( faac? ( bindist ) aacplus? ( bindist ) )
 	gpl? ( openssl? ( bindist ) fdk? ( bindist ) )"
