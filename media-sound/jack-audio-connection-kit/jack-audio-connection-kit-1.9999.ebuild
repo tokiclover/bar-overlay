@@ -31,15 +31,8 @@ REQUIRED_USE="freebob? ( !ieee1394 ) ieee1394? ( !freebob )"
 
 PPC_CPU_FLAGS=(altivec)
 X86_CPU_FLAGS=(3dnow mmx sse)
-for arch in {PPC,X86}; do
-	eval CPU_FLAGS=\"\${${arch}_CPU_FLAGS[@]}\"
-	for flag in ${CPU_FLAGS}; do
-		cpu_flag=cpu_flags_${arch,,[A-Z]}_${flag%:*}
-		eval has "${flag}" "\${CPU_FLAGS_${arch}}" &&
-			IUSE+=" +${cpu_flag}" || IUSE+=" ${cpu_flag}"
-	done
-done
-unset {PPC,X86}_CPU_FLAGS arch {cpu_,}flag
+IUSE="${IUSE} ${PPC_CPU_FLAGS[@]/#/cpu_flags_ppc_} ${X86_CPU_FLAGS[@]/#/cpu_flags_x86_}"
+unset {PPC,X86}_CPU_FLAGS
 
 RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 	sys-libs/ncurses[${MULTILIB_USEDEP}]
