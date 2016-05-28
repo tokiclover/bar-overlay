@@ -17,7 +17,7 @@ case "${PV}" in
 	SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	;;
 esac
-inherit eutils ${VCS_ECLASS}
+inherit eutils toolchain-funcs ${VCS_ECLASS}
 
 DESCRIPTION="Supervision Scripts Framework"
 HOMEPAGE="https://github.com/tokiclover/supervision"
@@ -32,7 +32,8 @@ RDEPEND="${DEPEND} virtual/daemontools"
 
 src_compile()
 {
-	emake CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" $(usex sysvinit 'SYSVINIT=1' '')
+	emake CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CC="$(tc-getCC)" \
+		$(usex sysvinit 'SYSVINIT=1' '')
 }
 src_install()
 {

@@ -32,7 +32,8 @@ RDEPEND="${DEPEND} virtual/daemontools"
 
 src_compile()
 {
-	emake CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" $(usex sysvinit 'SYSVINIT=1' '')
+	emake CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CC="$(tc-getCC)" \
+		$(usex sysvinit 'SYSVINIT=1' '')
 }
 src_install()
 {
