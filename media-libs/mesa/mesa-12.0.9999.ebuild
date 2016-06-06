@@ -11,7 +11,7 @@ case "${PV}" in
 	(*9999*)
 		KEYWORDS=""
 		inherit git-2
-		EGIT_REPO_URI="git://anongit.freedesktop.org/${PN}/${PN}"
+		EGIT_REPO_URI="git://anongit.freedesktop.org/${PN}/${PN}.git"
 		EGIT_PROJECT="${PN}.git"
 		case "${PV}" in
 			(*.9999*) EGIT_BRANCH="${PV%.9999*}"
@@ -52,8 +52,8 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl
-	opencl osmesa pax_kernel openmax pic selinux +udev vaapi vdpau wayland xvmc
-	xa kernel_FreeBSD"
+	opencl osmesa pax_kernel openmax pic selinux +udev vaapi valgrind vdpau
+	+vulkan wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
 	d3d9? ( gallium dri3 )
@@ -72,17 +72,18 @@ REQUIRED_USE="
 	video_cards_i965?   ( classic )
 	video_cards_ilo?    ( gallium )
 	video_cards_nouveau? ( || ( classic gallium ) )
-	video_cards_radeon? ( || ( classic gallium ) )
+	video_cards_radeon? ( || ( classic gallium )
+						  gallium? ( x86? ( llvm ) amd64? ( llvm ) ) )
 	video_cards_r100?   ( classic )
 	video_cards_r200?   ( classic )
-	video_cards_r300?   ( gallium  llvm )
+	video_cards_r300?   ( gallium x86? ( llvm ) amd64? ( llvm ) )
 	video_cards_r600?   ( gallium )
 	video_cards_radeonsi?   ( gallium llvm )
 	video_cards_vmware? ( gallium )
 	${PYTHON_REQUIRED_USE}
 "
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.64"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.66"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
@@ -119,6 +120,7 @@ RDEPEND="
 	openmax? ( media-libs/libomxil-bellagio:=[${MULTILIB_USEDEP}] )
 	udev? ( kernel_linux? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] ) )
 	vaapi? ( x11-libs/libva:=[${MULTILIB_USEDEP}] )
+	valgrind? ( dev-util/valgrind )
 	vdpau? ( x11-libs/libvdpau:=[${MULTILIB_USEDEP}] )
 	wayland? ( dev-libs/wayland:=[${MULTILIB_USEDEP}] )
 	xvmc? ( x11-libs/libXvMC:=[${MULTILIB_USEDEP}] )
@@ -195,25 +197,25 @@ multilib_src_configure() {
 
 	if use classic; then
 	# Configurable DRI drivers
-		driver_enable swrast
+		driver_enable DRI swrast
 
 	# Intel code
-		driver_enable video_cards_i915 i915
-		driver_enable video_cards_i965 i965
+		driver_enable DRI video_cards_i915 i915
+		driver_enable DRI video_cards_i965 i965
 		if ! use video_cards_i915 && \
 			! use video_cards_i965; then
-			driver_enable video_cards_intel i915 i965
+			driver_enable DRI video_cards_intel i915 i965
 		fi
 
 		# Nouveau code
 		driver_enable video_cards_nouveau nouveau
 
 		# ATI code
-		driver_enable video_cards_r100 radeon
-		driver_enable video_cards_r200 r200
+		driver_enable DRI video_cards_r100 radeon
+		driver_enable DRI video_cards_r200 r200
 		if ! use video_cards_r100 && \
 				! use video_cards_r200; then
-			driver_enable video_cards_radeon radeon r200
+			driver_enable DRI video_cards_radeon radeon r200
 		fi
 	fi
 
@@ -231,25 +233,25 @@ multilib_src_configure() {
 			$(use_enable xa)
 			$(use_enable xvmc)
 		)
-		gallium_enable swrast
-		gallium_enable video_cards_vmware svga
-		gallium_enable video_cards_nouveau nouveau
-		gallium_enable video_cards_i915 i915
-		gallium_enable video_cards_ilo ilo
+		driver_enable GALLIUM swrast
+		driver_enable GALLIUM video_cards_vmware svga
+		driver_enable GALLIUM video_cards_nouveau nouveau
+		driver_enable GALLIUM video_cards_i915 i915
+		driver_enable GALLIUM video_cards_ilo ilo
 		if ! use video_cards_i915 && \
 			! use video_cards_i965; then
-			gallium_enable video_cards_intel i915
+			driver_enable GALLIUM video_cards_intel i915
 		fi
 
-		gallium_enable video_cards_r300 r300
-		gallium_enable video_cards_r600 r600
-		gallium_enable video_cards_radeonsi radeonsi
+		driver_enable GALLIUM video_cards_r300 r300
+		driver_enable GALLIUM video_cards_r600 r600
+		driver_enable GALLIUM video_cards_radeonsi radeonsi
 		if ! use video_cards_r300 && \
 				! use video_cards_r600; then
-			gallium_enable video_cards_radeon r300 r600
+			driver_enable GALLIUM video_cards_radeon r300 r600
 		fi
 
-		gallium_enable video_cards_freedreno freedreno
+		driver_enable GALLIUM video_cards_freedreno freedreno
 		# opencl stuff
 		if use opencl; then
 			myeconfargs+=(
@@ -257,6 +259,10 @@ multilib_src_configure() {
 				--with-clang-libdir="${EPREFIX}/usr/lib"
 			)
 		fi
+	fi
+
+	if use vulkan; then
+		driver_enable VULKAN video_cards_i965 intel
 	fi
 
 	# x86 hardened pax_kernel needs glx-rts, bug 240956
@@ -276,7 +282,7 @@ multilib_src_configure() {
 
 	myeconfargs+=(
 		--enable-dri
-		--enable-glx
+		--enable-glx=dri
 		--enable-shared-glapi
 		--disable-shader-cache
 		$(use_enable !bindist texture-float)
@@ -290,9 +296,11 @@ multilib_src_configure() {
 		$(use_enable nptl glx-tls)
 		$(use_enable osmesa)
 		$(use_enable !udev sysfs)
+		$(use_enable valgrind)
 		--enable-llvm-shared-libs
 		--with-dri-drivers="${DRI_DRIVERS}"
 		--with-gallium-drivers="${GALLIUM_DRIVERS}"
+		--with-vulkan-drivers="${VULKAN_DRIVERS}"
 		PYTHON2="${PYTHON}"
 	)
 	autotools-utils_src_configure
@@ -423,37 +431,23 @@ pkg_prerm() {
 
 # $1 - VIDEO_CARDS flag
 # other args - names of DRI drivers to enable
-# TODO: avoid code duplication for a more elegant implementation
 driver_enable() {
-	case "${#}" in
-		# for enabling unconditionally
-		(1)
-			DRI_DRIVERS+=",$1"
-			;;
-		(*)
-			local u
-			if use "${1}"; then
-				shift
-				for u; do
-					DRI_DRIVERS+=",${u}"
-				done
-			fi
-			;;
+	local list=DRI
+	case "${1}" in
+		(DRI|GALLIUM|VULKAN) list="${1}"; shift;;
 	esac
-}
 
-gallium_enable() {
 	case "${#}" in
 		# for enabling unconditionally
 		(1)
-			GALLIUM_DRIVERS+=",${1}"
+			eval ${list}_DRIVERS=\"\$${list}_DRIVERS,${1}\"
 			;;
 		(*)
 			local u
 			if use "${1}"; then
 				shift
 				for u; do
-					GALLIUM_DRIVERS+=",${u}"
+					eval ${list}_DRIVERS=\"\$${list}_DRIVERS,${u}\"
 				done
 			fi
 			;;

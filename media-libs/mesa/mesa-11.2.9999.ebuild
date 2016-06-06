@@ -11,7 +11,7 @@ case "${PV}" in
 	(*9999*)
 		KEYWORDS=""
 		inherit git-2
-		EGIT_REPO_URI="git://anongit.freedesktop.org/${PN}/${PN}"
+		EGIT_REPO_URI="git://anongit.freedesktop.org/${PN}/${PN}.git"
 		EGIT_PROJECT="${PN}.git"
 		case "${PV}" in
 			(*.9999*) EGIT_BRANCH="${PV%.9999*}"
@@ -196,25 +196,25 @@ multilib_src_configure() {
 
 	if use classic; then
 	# Configurable DRI drivers
-		driver_enable swrast
+		driver_enable DRI swrast
 
 	# Intel code
-		driver_enable video_cards_i915 i915
-		driver_enable video_cards_i965 i965
+		driver_enable DRI video_cards_i915 i915
+		driver_enable DRI video_cards_i965 i965
 		if ! use video_cards_i915 && \
 			! use video_cards_i965; then
-			driver_enable video_cards_intel i915 i965
+			driver_enable DRI video_cards_intel i915 i965
 		fi
 
 		# Nouveau code
-		driver_enable video_cards_nouveau nouveau
+		driver_enable DRI video_cards_nouveau nouveau
 
 		# ATI code
-		driver_enable video_cards_r100 radeon
-		driver_enable video_cards_r200 r200
+		driver_enable DRI video_cards_r100 radeon
+		driver_enable DRI video_cards_r200 r200
 		if ! use video_cards_r100 && \
 				! use video_cards_r200; then
-			driver_enable video_cards_radeon radeon r200
+			driver_enable DRI video_cards_radeon radeon r200
 		fi
 	fi
 
@@ -232,25 +232,25 @@ multilib_src_configure() {
 			$(use_enable xa)
 			$(use_enable xvmc)
 		)
-		gallium_enable swrast
-		gallium_enable video_cards_vmware svga
-		gallium_enable video_cards_nouveau nouveau
-		gallium_enable video_cards_i915 i915
-		gallium_enable video_cards_ilo ilo
+		driver_enable GALLIUM swrast
+		driver_enable GALLIUM video_cards_vmware svga
+		driver_enable GALLIUM video_cards_nouveau nouveau
+		driver_enable GALLIUM video_cards_i915 i915
+		driver_enable GALLIUM video_cards_ilo ilo
 		if ! use video_cards_i915 && \
 			! use video_cards_i965; then
-			gallium_enable video_cards_intel i915
+			driver_enable GALLIUM video_cards_intel i915
 		fi
 
-		gallium_enable video_cards_r300 r300
-		gallium_enable video_cards_r600 r600
-		gallium_enable video_cards_radeonsi radeonsi
+		driver_enable GALLIUM video_cards_r300 r300
+		driver_enable GALLIUM video_cards_r600 r600
+		driver_enable GALLIUM video_cards_radeonsi radeonsi
 		if ! use video_cards_r300 && \
 				! use video_cards_r600; then
-			gallium_enable video_cards_radeon r300 r600
+			driver_enable GALLIUM video_cards_radeon r300 r600
 		fi
 
-		gallium_enable video_cards_freedreno freedreno
+		driver_enable GALLIUM video_cards_freedreno freedreno
 		# opencl stuff
 		if use opencl; then
 			myeconfargs+=(
@@ -424,37 +424,23 @@ pkg_prerm() {
 
 # $1 - VIDEO_CARDS flag
 # other args - names of DRI drivers to enable
-# TODO: avoid code duplication for a more elegant implementation
 driver_enable() {
-	case "${#}" in
-		# for enabling unconditionally
-		(1)
-			DRI_DRIVERS+=",$1"
-			;;
-		(*)
-			local u
-			if use "${1}"; then
-				shift
-				for u; do
-					DRI_DRIVERS+=",${u}"
-				done
-			fi
-			;;
+	local list=DRI
+	case "${1}" in
+		(DRI|GALLIUM|VULKAN) list="${1}"; shift;;
 	esac
-}
 
-gallium_enable() {
 	case "${#}" in
 		# for enabling unconditionally
 		(1)
-			GALLIUM_DRIVERS+=",${1}"
+			eval ${list}_DRIVERS=\"\$${list}_DRIVERS,${1}\"
 			;;
 		(*)
 			local u
 			if use "${1}"; then
 				shift
 				for u; do
-					GALLIUM_DRIVERS+=",${u}"
+					eval ${list}_DRIVERS=\"\$${list}_DRIVERS,${u}\"
 				done
 			fi
 			;;
