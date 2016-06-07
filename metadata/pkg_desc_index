@@ -34,7 +34,7 @@ media-libs/ewe 0.2.2 9999: Elementary Widgets Extension, desktop widget library
 media-libs/libffado 2.1.0-r1 2.2.1-r1: Successor for freebob: Library for accessing BeBoB IEEE1394 devices
 media-libs/lilv 0.20.0: Library to make the use of LV2 plugins as simple as possible for applications
 media-libs/lv2 1.12.0: LV2 is a simple but extensible successor of LADSPA
-media-libs/mesa 11.1.2 11.1.9999 11.2.2 11.2.9999 9999: OpenGL-like graphic library for Linux
+media-libs/mesa 11.2.9999 12.0.9999: OpenGL-like graphic library for Linux
 media-libs/sratom 0.4.6: Library for serialising LV2 atoms to/from RDF, particularly the Turtle syntax
 media-libs/suil 0.8.2: Lightweight C library for loading and wrapping LV2 plugin UIs
 media-libs/zita-alsa-pcmi 0.2.0: Successor of clalsadrv, API providing easy access to ALSA PCM devices
