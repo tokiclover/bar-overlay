@@ -25,7 +25,7 @@ HOMEPAGE="https://github.com/NVIDIA/libglvnd"
 
 LICENSE="MIT MIT-with-advertising"
 SLOT="0/0.1"
-IUSE=""
+IUSE="+nptl"
 
 DEPEND="dev-libs/uthash
 	x11-libs/libX11:=[${MULTILIB_USEDEP}]
@@ -43,5 +43,8 @@ src_prepare()
 multilib_src_configure()
 {
 	local -a myeconfargs=( ${EXTRA_LIBGLVND_CONF} )
+	myeconfargs+=(
+		$(use_enable nptl tls)
+	)
 	autotools-utils_src_configure
 }
