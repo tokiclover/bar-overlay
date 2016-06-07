@@ -5,6 +5,7 @@ app-editors/ecrire 9999: EFL simple text editor
 app-text/pdfchain 0.4.4: Graphical User Interface for PDF Toolkit (PDFtk)
 dev-libs/dbus-c++ 0.9.0-r1: provide a C++ API for D-BUS
 dev-libs/efl 1.13.3 1.14.3 1.15.3 1.16.1 1.17.0 9999: Enlightenment Foundation Core Libraries
+dev-libs/libglvnd 9999: The GL Vendor-Neutral Dispatch library
 dev-libs/serd 0.22.0: Library for RDF syntax which supports reading and writing Turtle and NTriples
 dev-libs/sord 0.14.0: Library for storing RDF data in memory
 dev-perl/IO-Socket-TIPC 1.08: IO::Socket::TIPC - TIPC sockets for Perl
