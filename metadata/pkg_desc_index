@@ -9,7 +9,6 @@ dev-libs/libglvnd 9999: The GL Vendor-Neutral Dispatch library
 dev-libs/serd 0.22.0: Library for RDF syntax which supports reading and writing Turtle and NTriples
 dev-libs/sord 0.14.0: Library for storing RDF data in memory
 dev-perl/IO-Socket-TIPC 1.08: IO::Socket::TIPC - TIPC sockets for Perl
-dev-perl/Module-Starter-AddModule 1.005: Module::Starter::AddModule - AddModule to an existing distribution
 dev-perl/perl-URxvt 2.2 9999: Perl extensions for the Rxvt-unicode terminal emulator
 dev-python/enum 0.4.4: Robust enumerated type support in Python.
 dev-python/pyrobase 0.2: PyroScope - General Python Helpers and Utilities
