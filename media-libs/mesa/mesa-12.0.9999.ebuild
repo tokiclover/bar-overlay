@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/mesa/mesa-9999.ebuild,v 1.6 2015/08/16 22:15:06 Exp $
+# $Header: media-libs/mesa/mesa-9999.ebuild,v 1.7 2016/06/06 22:15:06 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -43,16 +43,17 @@ LICENSE="MIT SGI-B-2.0"
 SLOT="0/${PV:0:4}"
 RESTRICT="!bindist? ( bindist )"
 
-INTEL_CARDS="i915 i965 ilo intel"
-RADEON_CARDS="r100 r200 r300 r600 radeon radeonsi"
-VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} freedreno nouveau vmware"
-for card in ${VIDEO_CARDS}; do
-	IUSE_VIDEO_CARDS+=" video_cards_${card}"
-done
+INTEL_CARDS=(i915 i965 ilo intel)
+RADEON_CARDS=(r100 r200 r300 r600 radeon radeonsi)
+CARDS_LIST=(
+	${INTEL_CARDS[@]}
+	${RADEON_CARDS[@]}
+	freedreno nouveau vmware
+)
 
-IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl
-	opencl osmesa pax_kernel openmax pic selinux +udev vaapi valgrind vdpau
+IUSE="${CARDS_LIST[@]/#/video_cards_}
+	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 glvnd +llvm
+	+nptl opencl osmesa pax_kernel openmax pic selinux +udev vaapi valgrind vdpau
 	+vulkan wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
@@ -95,6 +96,7 @@ RDEPEND="
 	dev-libs/expat[${MULTILIB_USEDEP}]
 	gbm? ( virtual/libudev:=[${MULTILIB_USEDEP}] )
 	dri3? ( virtual/libudev:=[${MULTILIB_USEDEP}] )
+	glvnd? ( dev-libs/libglvnd:=[${MULTILIB_USEDEP}] )
 	x11-libs/libX11:=[${MULTILIB_USEDEP}]
 	x11-libs/libxshmfence:=[${MULTILIB_USEDEP}]
 	x11-libs/libXdamage:=[${MULTILIB_USEDEP}]
@@ -126,17 +128,18 @@ RDEPEND="
 	xvmc? ( x11-libs/libXvMC:=[${MULTILIB_USEDEP}] )
 	${LIBDRM_DEPSTRING}[video_cards_freedreno?,video_cards_nouveau?,video_cards_vmware?,${MULTILIB_USEDEP}]
 "
-for card in ${INTEL_CARDS}; do
+for card in "${INTEL_CARDS[@]}"; do
 	RDEPEND="${RDEPEND}
 		video_cards_${card}? ( ${LIBDRM_DEPSTRING}[video_cards_intel] )
 	"
 done
 
-for card in ${RADEON_CARDS}; do
+for card in "${RADEON_CARDS[@]}"; do
 	RDEPEND="${RDEPEND}
 		video_cards_${card}? ( ${LIBDRM_DEPSTRING}[video_cards_radeon] )
 	"
 done
+unset card INTEL_CARDS RADEON_CARDS CARDS_LIST
 
 DEPEND+="
 	video_cards_radeonsi? ( ${LIBDRM_DEPSTRING}[video_cards_amdgpu] )
@@ -146,9 +149,9 @@ DEPEND+="
 		video_cards_radeonsi? ( sys-devel/llvm[video_cards_radeon] )
 	)
 	opencl? (
-				sys-devel/llvm[${MULTILIB_USEDEP}]
-				sys-devel/clang[${MULTILIB_USEDEP}]
-				sys-devel/gcc
+		sys-devel/llvm[${MULTILIB_USEDEP}]
+		sys-devel/clang[${MULTILIB_USEDEP}]
+		sys-devel/gcc
 	)
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -166,10 +169,12 @@ DEPEND+="
 QA_WX_LOAD="
 x86? (
 	!pic? (
+		!glvnd? (
+			usr/lib*/libGLESv1_CM.so*
+			usr/lib*/libGLESv2.so*
+			usr/lib*/libGL.so*
+		)
 		usr/lib*/libglapi.so*
-		usr/lib*/libGLESv1_CM.so*
-		usr/lib*/libGLESv2.so*
-		usr/lib*/libGL.so*
 		usr/lib*/libOSMesa.so*
 	)
 )"
@@ -293,6 +298,7 @@ multilib_src_configure() {
 		$(use_enable gbm)
 		$(use_enable gles1)
 		$(use_enable gles2)
+		$(use_enable glvnd libglvnd)
 		$(use_enable nptl glx-tls)
 		$(use_enable osmesa)
 		$(use_enable !udev sysfs)
@@ -429,7 +435,6 @@ pkg_prerm() {
 	fi
 }
 
-# $1 - VIDEO_CARDS flag
 # other args - names of DRI drivers to enable
 driver_enable() {
 	local list=DRI

@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/mesa/mesa-9999.ebuild,v 1.6 2015/08/16 22:15:06 Exp $
+# $Header: media-libs/mesa/mesa-9999.ebuild,v 1.7 2016/06/06 22:15:06 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -43,14 +43,15 @@ LICENSE="MIT SGI-B-2.0"
 SLOT="0/${PV:0:4}"
 RESTRICT="!bindist? ( bindist )"
 
-INTEL_CARDS="i915 i965 ilo intel"
-RADEON_CARDS="r100 r200 r300 r600 radeon radeonsi"
-VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} freedreno nouveau vmware"
-for card in ${VIDEO_CARDS}; do
-	IUSE_VIDEO_CARDS+=" video_cards_${card}"
-done
+INTEL_CARDS=(i915 i965 ilo intel)
+RADEON_CARDS=(r100 r200 r300 r600 radeon radeonsi)
+CARDS_LIST=(
+	${INTEL_CARDS[@]}
+	${RADEON_CARDS[@]}
+	freedreno nouveau vmware
+)
 
-IUSE="${IUSE_VIDEO_CARDS}
+IUSE="${CARDS_LIST[@]/#/video_cards_}
 	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl
 	opencl osmesa pax_kernel openmax pic selinux +udev vaapi vdpau wayland xvmc
 	xa kernel_FreeBSD"
@@ -110,13 +111,13 @@ RDEPEND="
 		sys-devel/llvm:=[${MULTILIB_USEDEP}]
 	)
 	opencl? (
-				app-eselect/eselect-opencl
-				dev-libs/libclc
-				|| (
-					dev-libs/elfutils:=[${MULTILIB_USEDEP}]
-					dev-libs/libelf:=[${MULTILIB_USEDEP}]
-				)
-			)
+		app-eselect/eselect-opencl
+		dev-libs/libclc
+		|| (
+			dev-libs/elfutils:=[${MULTILIB_USEDEP}]
+			dev-libs/libelf:=[${MULTILIB_USEDEP}]
+		)
+	)
 	openmax? ( media-libs/libomxil-bellagio:=[${MULTILIB_USEDEP}] )
 	udev? ( kernel_linux? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] ) )
 	vaapi? ( x11-libs/libva:=[${MULTILIB_USEDEP}] )
@@ -136,6 +137,7 @@ for card in ${RADEON_CARDS}; do
 		video_cards_${card}? ( ${LIBDRM_DEPSTRING}[video_cards_radeon] )
 	"
 done
+unset card INTEL_CARDS RADEON_CARDS CARDS_LIST
 
 DEPEND+="
 	video_cards_radeonsi? ( ${LIBDRM_DEPSTRING}[video_cards_amdgpu] )
@@ -422,7 +424,6 @@ pkg_prerm() {
 	fi
 }
 
-# $1 - VIDEO_CARDS flag
 # other args - names of DRI drivers to enable
 driver_enable() {
 	local list=DRI
