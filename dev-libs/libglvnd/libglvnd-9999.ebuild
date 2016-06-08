@@ -27,7 +27,9 @@ LICENSE="MIT MIT-with-advertising"
 SLOT="0/0.1"
 IUSE="+nptl"
 
-DEPEND="dev-libs/uthash
+DEPEND="!<media-libs/mesa-12.0
+	!>=media-libs/mesa-12.0[-glvnd]
+	dev-libs/uthash
 	x11-libs/libX11:=[${MULTILIB_USEDEP}]
 	x11-libs/libXext:=[${MULTILIB_USEDEP}]
 	x11-proto/glproto[${MULTILIB_USEDEP}]
