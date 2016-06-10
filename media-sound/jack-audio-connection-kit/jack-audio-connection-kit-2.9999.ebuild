@@ -15,7 +15,8 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
-		SRC_URI="https://github.com/jackaudio/jack2/archive/${PV}.tar.gz -> ${P}.tar.gz"
+		VCS_ECLASS=vcs-snapshot
+		SRC_URI="https://github.com/jackaudio/jack2/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 		;;
 esac
 inherit eutils python-single-r1 waf-utils multilib-minimal ${VCS_ECLASS}

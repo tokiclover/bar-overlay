@@ -7,16 +7,17 @@ PYTHON_COMPAT=( python2_7 )
 
 case "${PV}" in
 	(*9999*)
+		AUTOTOOLS_AUTORECONF=1
 		KEYWORDS=""
 		VCS_ECLASS=git-2
 		EGIT_REPO_URI="git://github.com/jackaudio/jack1.git"
 		EGIT_PROJECT="${PN}.git"
 		EGIT_HAS_SUBMODULES="example-clients jack"
-		AUTOTOOLS_AUTORECONF=1
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
-		SRC_URI="http://www.jackaudio.org/downloads/${P}.tar.gz"
+		VCS_ECLASS=vcs-snapshot
+		SRC_URI="https://github.com/jackaudio/jack1/archive/${PV/_/}.tar.gz -> ${P}.tar.gz"
 		;;
 esac
 inherit eutils python-single-r1 autotools-multilib ${VCS_ECLASS}
@@ -36,7 +37,8 @@ unset {PPC,X86}_CPU_FLAGS
 
 RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 	${PYTHON_DEPS}
-	sys-libs/ncurses[${MULTILIB_USEDEP}]
+	sys-libs/db:=[${MULTILIB_USEDEP}]
+	sys-libs/ncurses:=[${MULTILIB_USEDEP}]
 	celt? ( >=media-libs/celt-0.5.0[${MULTILIB_USEDEP}] )
 	alsa? ( >=media-libs/alsa-lib-0.9.1[${MULTILIB_USEDEP}] )
 	freebob? ( sys-libs/libfreebob[${MULTILIB_USEDEP}] )
@@ -52,14 +54,13 @@ DEPEND="${RDEPEND}
 DOCS=( AUTHORS TODO README )
 
 PATCHES=(
-	"${FILESDIR}/${P}-sparc-cpuinfo.patch"
-	"${FILESDIR}/${P}-freebsd.patch"
-	"${FILESDIR}/${P}-respect-march.patch"
+	"${FILESDIR}"/${PN}-0.121.3-sparc-cpuinfo.patch
+	"${FILESDIR}"/${PN}-0.121.3-freebsd.patch
 )
 
 src_prepare()
 {
-	autotools-multilib_src_prepare
+	autotools-utils_src_prepare
 	multilib_copy_sources
 }
 
@@ -90,12 +91,12 @@ multilib_src_configure()
 		--with-default-tmpdir=/dev/shm
 		--with-html-dir=/usr/share/doc/${PF}
 	)
-	ECONF_SOURCE="${BUILD_DIR}" autotools-multilib_src_configure
+	autotools-utils_src_configure
 }
 
 multilib_src_install()
 {
-	autotools-multilib_src_install
+	autotools-utils_src_install
 }
 
 multilib_src_install_all()
