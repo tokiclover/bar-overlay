@@ -84,6 +84,8 @@ DEPEND=">=dev-lang/perl-5.8.1
 	nls? ( virtual/libintl )
 	oss? ( virtual/libc )"
 
+AUTOTOOLS_PRUNE_LIBTOOL_FILES=all
+
 pkg_setup() {
 	local LINGUAS
 	use nls && LINGUAS="$(l10n_get_locales)"
@@ -138,7 +140,6 @@ src_configure() {
 src_install() {
 	autotools-utils_src_install
 	docompress -x /usr/share/doc/${PF}
-	remove_libtool_files all
 	for l in LGPLv2.1 GPLv2; do
 		rm -f "${D}"/usr/share/doc/${PF}/COPYING.${l}
 		dosym "${PORTDIR}"/licenses/${l/v/-} /usr/share/doc/${PF}/COPYING.${l}
