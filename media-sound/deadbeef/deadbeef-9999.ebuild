@@ -1,6 +1,6 @@
 # Copyright 2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/deadbeef/deadbeef-0.7.0.ebuild,v 1.5 2016/02/12 19:57:55 Exp $
+# $Header: media-sound/deadbeef/deadbeef-9999.ebuild,v 1.6 2016/06/06 19:57:55 Exp $
 
 EAPI=5
 PLOCALES="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km
@@ -12,6 +12,7 @@ case "${PV}" in
 		VCS_ECLASS=git-2
 		EGIT_REPO_URI="git://github.com/Alexey-Yakovenko/${PN}.git"
 		EGIT_PROJECT="${PN}.git"
+		AUTOTOOLS_AUTORECONF=1
 		;;
 	(*)
 		KEYWORDS="~amd64 ~x86"
@@ -28,10 +29,13 @@ LICENSE="|| ( GPL-2 LGPL-2.1 )"
 SLOT="0"
 IUSE="+aac adplug alac +alsa +artwork +cdda +curl dts dumb ffmpeg +flac gme gtk 
 gtk3 lastfm libnotify libsamplerate +mad +mac sid sndfile +wavpack musepack midi 
-mms +nls oss pulseaudio threads sndfile static +twolame aosdk pth shn tta +vorbis 
+mms +nls oss pulseaudio +nptl sndfile static +twolame aosdk pth shn tta +vorbis
 vtx +X zip imlib"
 
-REQUIRED_USE="lastfm? ( curl ) imlib? ( curl ) ?? ( gtk gtk3 )"
+REQUIRED_USE="lastfm? ( curl )
+	imlib? ( curl )
+	?? ( gtk gtk3 )
+	?? ( nptl pth )"
 
 GTK_DEPEND="dev-libs/jansson
 	 x11-libs/gtkglext"
@@ -80,9 +84,6 @@ DEPEND=">=dev-lang/perl-5.8.1
 	nls? ( virtual/libintl )
 	oss? ( virtual/libc )"
 
-AUTOTOOLS_AUTORECONF=1
-AUTOTOOLS_IN_SOURCE_BUILD=1
-
 pkg_setup() {
 	local LINGUAS
 	use nls && LINGUAS="$(l10n_get_locales)"
@@ -90,11 +91,9 @@ pkg_setup() {
 }
 
 src_configure() {
-	local thd=posix
-	use pth && thd=pth
 	local myeconfargs=(
 		$(use_enable nls)
-		$(use_enable threads threads ${thd})
+		--enable-threads=$(usex nptl posix $(usex pth pth))
 		$(use_enable alsa)
 		$(use_enable oss)
 		$(use_enable pulseaudio pulse)

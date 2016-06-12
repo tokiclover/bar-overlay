@@ -7,7 +7,7 @@
 	<use>
 		<flag name="alac">Support Aple Lossless Audio Codec (through FAAD2)</flag>
 		<flag name="gme">Support Game Music Emu plugin for NSF, AY, etc plugin</flag>
-		<flag name="pth">Support GNU Portable Threads instead of POSIX</flag>
+		<flag name="pth">Enable support GNU Portable Threads <pkg>dev-libs/pth</pkg></flag>
 		<flag name="sid">Support commodore64 SID player based on libsidplay2 plugin</flag>
 		<flag name="mac">Support Monkey's audio (APE) plugin</flag>
 		<flag name="lastfm">Support last.fm scrobbler plugin</flag>
