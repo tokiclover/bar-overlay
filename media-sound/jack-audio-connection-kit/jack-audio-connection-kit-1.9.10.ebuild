@@ -11,7 +11,6 @@ case "${PV}" in
 		KEYWORDS=""
 		VCS_ECLASS=git-2
 		EGIT_REPO_URI="git://github.com/jackaudio/jack2.git"
-		EGIT_PROJECT="${PN}.git"
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
