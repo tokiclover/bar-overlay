@@ -14,6 +14,7 @@ KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86 ~x86-fbsd ~x86-f
 IUSE=""
 
 DEPEND=""
+DEPEND=""
 
 FONT_SUFFIX="pcf"
 
