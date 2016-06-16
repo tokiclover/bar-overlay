@@ -12,6 +12,8 @@ PRINTER_ID=( "256" "260" "265" "266" "273" )
 inherit ecnij rpm
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
+HOMEPAGE="http://canon.com/"
+
 DOWNLOAD_URL="http://support-au.canon.com.au/contents/AU/EN/0900718301.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/3/0900007183/02/${PN}-common-${PV}-4.src.rpm"
 

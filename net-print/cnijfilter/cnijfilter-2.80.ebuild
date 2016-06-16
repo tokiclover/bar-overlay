@@ -12,6 +12,8 @@ PRINTER_ID=( "315" "316" "319" "328" "326" "327" )
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
+HOMEPAGE="http://canon.com/"
+
 DOWNLOAD_URL="http://support-asia.canon-asia.com/content/EN/0100084101.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/0100000841/${PN}-common-${PV}-1.tar.gz"
 

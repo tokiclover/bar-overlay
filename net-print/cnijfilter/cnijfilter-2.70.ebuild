@@ -12,6 +12,8 @@ MULTILIB_COMPAT=( abi_x86_32 )
 inherit ecnij rpm
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
+HOMEPAGE="http://canon.com/"
+
 DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
 SRC_URI="http://hex1a4.net/xubuntu/HOWTO/dl/${PN}-common-${PV}-2.src.rpm"
 
