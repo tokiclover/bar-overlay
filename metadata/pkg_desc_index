@@ -131,7 +131,7 @@ sys-fs/aufs-util 9999: AUFS filesystem utilities
 sys-fs/fskit 9999: Filesystem utility library and SDK
 sys-fs/vdev 9999: Virtual device manager for UNIX
 sys-kernel/git-sources 3.4.108 3.10.101 3.12.58 3.14.58 3.14.68 3.18.25 3.18.30 4.1.24 4.4.6 4.5.4: Latest stable branch Linux kernel
-sys-kernel/mkinitramfs-ll 0.21.4 0.22.0 9999: Lightweight, modular and powerfull initramfs genrating tool
+sys-kernel/mkinitramfs-ll 0.22.0 0.22.1 9999: Lightweight, modular and powerfull initramfs genrating tool
 sys-libs/libpstat 9999: Virtual device manager for UNIX
 sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
 sys-process/supervision 41 9999: Supervision Scripts Framework
