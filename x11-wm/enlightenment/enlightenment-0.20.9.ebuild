@@ -27,7 +27,6 @@ DESCRIPTION="Enlightenment DR${PV:2:4} window manager"
 HOMEPAGE="http://www.enlightenment.org/"
 
 LICENSE="BSD-2"
-KEYWORDS="~amd64 ~x86"
 SLOT="0.17/${PV:0:4}"
 
 E_MODULES_DEFAULT=(
