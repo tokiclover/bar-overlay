@@ -96,9 +96,6 @@ X86_CPU_FEATURES=(
 	mmx:mmx mmxext:mmxext sse:sse sse2:sse2 sse3:sse3 ssse3:ssse3 sse4_1:sse4
 	sse4_2:sse42 xop:xop
 )
-MIPS_CPU_REQUIRED_USE="
-	cpu_flags_mips_msa? ( cpu_flags_mips_fpu )
-"
 PPC_CPU_REQUIRED_USE="
 	cpu_flags_ppc_vsx? ( cpu_flags_ppc_altivec )
 "
