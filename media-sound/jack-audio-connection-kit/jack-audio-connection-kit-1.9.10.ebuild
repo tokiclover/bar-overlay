@@ -25,7 +25,6 @@ HOMEPAGE="http://jackaudio.org/"
 
 LICENSE="GPL-2"
 SLOT="0/2"
-KEYWORDS=""
 IUSE="alsa celt debug doc dbus ieee1394 opus pam"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
