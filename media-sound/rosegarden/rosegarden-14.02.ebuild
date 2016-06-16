@@ -37,7 +37,7 @@ RDEPEND="media-libs/ladspa-sdk:=
 	lirc? ( app-misc/lirc:= )
 	sndfile? ( media-libs/libsndfile:= )
 	qt4? ( >=dev-qt/qtxml-4.8:4 >=dev-qt/qtgui-4.8:4 >=dev-qt/qtnetwork-4.8:8
-		>=qttest-4.8:4 )
+		>=dev-qt/qttest-4.8:4 )
 	qt5? ( dev-qt/qtxml-4.8:4 >=dev-qt/qtgui-5.1:5 >=dev-qt/qtnetwork-4.8:8
 		>=dev-qt/qtprintsupport-5.1:5 >=qttest-4.8:4 >=dev-qt/qtwidgets-5.1:5 )
 	"
