@@ -11,7 +11,7 @@ HOMEPAGE="http://gnome-look.org/content/show.php/Ardoise?content=165308"
 SRC_URI="https://www.dropbox.com/s/8jas94rsqlsw1w6/Ardoise_translucent.tar.gz -> ${PN}-translucent-${PV}.tar.gz
 	https://www.dropbox.com/s/l82xow7a7lx8udc/Ardoise_opaque.tar.gz -> ${PN}-opaque-${PV}.tar.gz"
 
-LICENSE="CC-BY-NC-SA-3"
+LICENSE="CC-BY-NC-SA-3.0"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="-minimal"
