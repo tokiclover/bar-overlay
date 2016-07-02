@@ -143,6 +143,7 @@ multilib_src_configure()
 {
 	local -a myeconfargs=( ${EXTRA_EFL_CONF} )
 
+	use opengl && use drm && myeconfargs+=( --enable-gl-drm )
 	myeconfargs+=(
 		$(use_enable avahi)
 		$(use_enable cpu_flags_arm_neon neon)
