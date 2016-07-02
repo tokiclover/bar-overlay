@@ -91,8 +91,8 @@ IUSE="alsa doc +encode jack oss pic static-libs test v4l
 # Strings for CPU features in the useflag[:configure_option] form
 # if :configure_option isn't set, it will use 'useflag' as configure option
 ARM_CPU_FEATURES=(v5te:armv5te v6:armv6 v6t2:armv6t2 neon:neon vfp:vfp)
-MIPS_CPU_FEATURES=(dspr1:mipsdsp dspr2:mipsdspr2 fpu:mipsfpu msa)
-PPC_CPU_FEATURES=(altivec vsx power8)
+MIPS_CPU_FEATURES=(dspr1:mipsdsp dspr2:mipsdspr2 fpu:mipsfpu msa:msa)
+PPC_CPU_FEATURES=(altivec:altivec vsx:vsx power8:power8)
 X86_CPU_FEATURES=(
 	3dnow:amd3dnow 3dnowext:amd3dnowext avx:avx avx2:avx2 fma3:fma3 fma4:fma4
 	mmx:mmx mmxext:mmxext sse:sse sse2:sse2 sse3:sse3 ssse3:ssse3 sse4_1:sse4
@@ -130,7 +130,7 @@ CPU_FEATURES=(
 	${PPC_CPU_FEATURES[@]/#/cpu_flags_ppc_}
 	${X86_CPU_FEATURES[@]/#/cpu_flags_x86_}
 )
-IUSE+=" ${CPU_FEATURES[@]%:*}"
+IUSE+=" ${CPU_FEATURES[*]/%:*}"
 unset {ARM,MIPS,PPC,X86}_CPU_FEATURES
 
 FFTOOLS=(
