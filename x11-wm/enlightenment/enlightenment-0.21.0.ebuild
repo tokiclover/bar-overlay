@@ -37,7 +37,7 @@ E_MODULES_DEFAULT=(
 	appmenu backlight battery bluez4 clock connman contact cpufreq everything
 	fileman fileman-opinfo gadman ibar ibox lokker mixer msgbus music-control
 	notification pager pager16 quickaccess shot start syscon systray tasks
-	teamwork temperature tiling winlist wizard xkbswitch
+	teamwork temperature tiling time winlist wireless wizard xkbswitch
 )
 E_MODULES=(
 	access packagkit wl-desktop-shell wl-drm wl-fb wl-x11
@@ -48,8 +48,9 @@ IUSE="debug doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
 "
 REQUIED_USE="!udev? ( eeze )"
 
-RDEPEND=">=dev-libs/efl-1.15.2[X,egl?,wayland?]
-	>=media-libs/elementary-1.15.2
+EFL_VERSION="1.17.0"
+RDEPEND=">=dev-libs/efl-${EFL_VERSION}[X,egl?,wayland?]
+	>=media-libs/elementary-${EFL_VERSION}
 	virtual/udev
 	x11-libs/libxcb
 	x11-libs/xcb-util-keysyms
@@ -60,7 +61,7 @@ RDEPEND=">=dev-libs/efl-1.15.2[X,egl?,wayland?]
 	pm-utils? ( sys-power/pm-utils )
 	systemd? ( sys-apps/systemd )
 	wayland? (
-		>=dev-libs/wayland-1.3.0
+		>=dev-libs/wayland-1.11.0
 		>=x11-libs/pixman-0.31.1
 		>=x11-libs/libxkbcommon-0.3.1
 	)"
