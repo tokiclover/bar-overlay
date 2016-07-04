@@ -1,6 +1,6 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-process/supervision/supervision-9999.ebuild,v 1.4 2016/05/08 Exp $
+# $Header: sys-process/supervision/supervision-9999.ebuild,v 1.5 2016/06/08 Exp $
 
 EAPI=5
 
@@ -30,19 +30,20 @@ DEPEND="sys-apps/sed
 	sysvinit? ( sys-apps/sysvinit )"
 RDEPEND="${DEPEND} virtual/daemontools"
 
+src_configure()
+{
+	econf ${EXTRA_CONF_SUPERVISION} \
+		$(use_enable runit) \
+		$(use_enable s6) \
+		$(use_enable static-service) \
+		$(use_enable sysvinit)
+}
 src_compile()
 {
-	emake CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CC="$(tc-getCC)" \
-		$(usex sysvinit 'SYSVINIT=1' '')
+	emake
 }
 src_install()
 {
 	sed '/.*COPYING.*$/d' -i Makefile
-	local SV=(
-		$(usex runit 'RUNIT=1' '')
-		$(usex s6    'S6=1'    '')
-		$(usex static-service 'STATIC=1' '')
-		$(usex sysvinit 'SYSVINIT=1' '')
-	)
-	emake PREFIX=/usr "${SV[@]}" DESTDIR="${ED}" install-all
+	emake DESTDIR="${D}" install-all
 }
