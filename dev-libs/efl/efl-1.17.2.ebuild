@@ -211,7 +211,7 @@ multilib_src_configure()
 		--disable-lua-old
 		--disable-multisense
 		--disable-tizen
-		--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-aba
+		--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-abb
 	)
 	autotools-utils_src_configure
 }
