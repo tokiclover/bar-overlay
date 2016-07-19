@@ -30,6 +30,8 @@ DEPEND="sys-apps/sed
 	sysvinit? ( sys-apps/sysvinit )"
 RDEPEND="${DEPEND} virtual/daemontools"
 
+S="${WORKDIR}/${PN}-${PV#*_pre}"
+
 src_compile()
 {
 	emake CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CC="$(tc-getCC)" \
