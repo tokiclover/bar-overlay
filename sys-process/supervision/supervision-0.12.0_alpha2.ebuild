@@ -33,6 +33,7 @@ RDEPEND="${DEPEND} virtual/daemontools"
 src_configure()
 {
 	econf ${EXTRA_CONF_SUPERVISION} \
+		--libdir="/$(get_libdir)" \
 		$(use_enable runit) \
 		$(use_enable s6) \
 		$(use_enable sysvinit)
