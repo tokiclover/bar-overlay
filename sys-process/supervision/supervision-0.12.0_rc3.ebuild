@@ -14,36 +14,36 @@ case "${PV}" in
 	(*)
 	KEYWORDS="~amd64 ~arm ~x86"
 	VCS_ECLASS=vcs-snapshot
-	SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV#*_pre}.tar.gz -> ${PN}-${PV#*_pre}.tar.gz"
+	SRC_URI="https://github.com/tokiclover/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	;;
 esac
-inherit eutils toolchain-funcs ${VCS_ECLASS}
+inherit eutils ${VCS_ECLASS}
 
 DESCRIPTION="Supervision Scripts Framework"
 HOMEPAGE="https://github.com/tokiclover/supervision"
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="+runit s6 +sysvinit"
+IUSE="+runit s6 sysvinit"
 
 DEPEND="sys-apps/sed
 	sysvinit? ( sys-apps/sysvinit )"
 RDEPEND="${DEPEND} virtual/daemontools"
 
-S="${WORKDIR}/${PN}-${PV#*_pre}"
-
+src_configure()
+{
+	econf ${EXTRA_CONF_SUPERVISION} \
+		--libdir="/$(get_libdir)" \
+		$(use_enable runit) \
+		$(use_enable s6) \
+		$(use_enable sysvinit)
+}
 src_compile()
 {
-	emake CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CC="$(tc-getCC)" \
-		$(usex sysvinit 'SYSVINIT=1' '')
+	emake
 }
 src_install()
 {
 	sed '/.*COPYING.*$/d' -i Makefile
-	local SV=(
-		$(usex runit 'RUNIT=1' '')
-		$(usex s6    'S6=1'    '')
-		$(usex sysvinit 'SYSVINIT=1' '')
-	)
-	emake PREFIX=/usr "${SV[@]}" DESTDIR="${ED}" install-all
+	emake DESTDIR="${D}" install-all
 }
