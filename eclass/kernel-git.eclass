@@ -199,7 +199,7 @@ esac
 # @ECLASS-VARIABLE: RT_URI
 # @DESCRIPTION:
 # -rt source URI
-:	${RT_URI:="https://www.kernel.org/pub/linux/kernel/projects/rt/${MKV}"}
+:	${RT_URI:="https://www.kernel.org/pub/linux/kernel/projects/rt/${MKV}/older"}
 # @ECLASS-VARIABLE: RT_SRC
 # @DESCRIPTION:
 # -rt source file
