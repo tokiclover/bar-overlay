@@ -5,7 +5,7 @@
 EAPI="5"
 ETYPE="sources"
 K_DEBLOB_AVAILABLE="1"
-PATCHSET=(aufs bfs bfq ck fbcondecor gentoo optimization reiser4 rt)
+PATCHSET=(aufs bfs bfq ck fbcondecor gentoo hardened optimization reiser4 rt)
 
 OKV="${PV}"
 MKV="${PV%.*}"
@@ -17,7 +17,7 @@ CK_SRC=${CK_VER}-broken-out.tar.xz
 GENTOO_VER="${MKV}-${KV_PATCH}"
 BFQ_VER="${GENTOO_VER}"
 FBCONDECOR_VER="${GENTOO_VER}"
-HARDENED_VER="${OKV}-2"
+HARDENED_VER="${OKV}-4"
 REISER4_VER="${MKV}.0"
 RT_VER="${OKV}-rt8"
 
