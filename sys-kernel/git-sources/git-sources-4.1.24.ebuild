@@ -11,7 +11,6 @@ OKV="${PV}"
 MKV="${PV%.*}"
 KV_PATCH="${PV##*.}"
 
-EGIT_REPO_AUFS="git://github.com/sfjro/aufs${PV:0:1}-linux.git"
 BFS_VER="463"
 CK_VER="${MKV}-ck2"
 GENTOO_VER="${MKV}-25"
