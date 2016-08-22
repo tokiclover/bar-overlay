@@ -32,17 +32,23 @@ LICENSE="BSD-2 FTL GPL-2 LGPL-2.1 ZLIB"
 SLOT="0/${PV:0:4}"
 
 IUSE="+X avahi +bmp cpu_flags_arm_neon cxx-bindings debug doc drm +eet +egl fbcon
-+fontconfig +fribidi gif gles glib gnutls gstreamer harfbuzz ibus +ico jpeg2k
-+nls +opengl ssl physics pixman +png +ppm +psd  pulseaudio scim sdl sndfile
-static-libs systemd system-lz4 test +tga tiff tslib v4l2 wayland webp xim xine xpm"
-REQUIRED_USE="?? ( gnutls ssl ) ?? ( opengl gles )
++fontconfig +fribidi gif gles glib gnutls gstreamer harfbuzz ibus +ico jpeg2k libuv
++nls +opengl raw ssl svg pdf +postscript physics pixman +png +ppm +psd  pulseaudio
+scim sdl sndfile static-libs systemd system-lz4 test +tga tiff tslib v4l2 wayland
+webp xim xine xpm"
+REQUIRED_USE="
+	?? ( gnutls ssl )
+	?? ( opengl gles )
+	?? ( glib libuv )
 	drm? ( systemd )
 	gles? ( !sdl egl )
 	gles? ( || ( X wayland ) )
+	opengl? ( !egl )
 	pulseaudio? ( sndfile )
-	sdl? ( opengl )
+	sdl? ( !gles opengl )
 	xim? ( X )
-	wayland? ( egl !opengl gles )"
+	wayland? ( egl !opengl gles )
+"
 
 COMMON_DEP="
 	dev-lang/luajit:2
@@ -86,6 +92,7 @@ COMMON_DEP="
 	gnutls? ( net-libs/gnutls[${MULTILIB_USEDEP}] )
 	ssl? ( || ( dev-libs/libressl[${MULTILIB_USEDEP}]
 		dev-libs/openssl[${MULTILIB_USEDEP}] ) )
+	svg? ( gnome-base/librsvg[${MULTILIB_USEDEP}] )
 	gstreamer? (
 		media-libs/gstreamer:1.0[${MULTILIB_USEDEP}]
 		media-libs/gst-plugins-base:1.0[${MULTILIB_USEDEP}]
@@ -93,14 +100,16 @@ COMMON_DEP="
 	harfbuzz? ( media-libs/harfbuzz[${MULTILIB_USEDEP}] )
 	ibus? ( app-i18n/ibus )
 	jpeg2k? ( media-libs/openjpeg[${MULTILIB_USEDEP}] )
+	libuv? ( dev-libs/libuv[${MULTILIB_USEDEP}] )
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )
+	pdf? ( app-text/poppler[cxx,jpeg,jpeg2k?] )
+	postscript? ( app-text/libspectre )
 	pixman? ( x11-libs/pixman[${MULTILIB_USEDEP}] )
 	physics? ( sci-physics/bullet )
 	png? ( media-libs/libpng:0=[${MULTILIB_USEDEP}] )
-	pulseaudio? (
-		media-sound/pulseaudio[${MULTILIB_USEDEP}]
-		media-libs/libsndfile[${MULTILIB_USEDEP}]
-	)
+	pulseaudio? ( media-sound/pulseaudio[${MULTILIB_USEDEP}] )
+	sndfile? ( media-libs/libsndfile[${MULTILIB_USEDEP}] )
+	raw? ( media-libs/libraw[${MULTILIB_USEDEP}] )
 	scim?	( app-i18n/scim )
 	sdl? (
 		>=media-libs/libsdl2-2.0.0:0[opengl?,gles?,${MULTILIB_USEDEP}]
@@ -133,6 +142,7 @@ DEPEND="${COMMON_DEP}
 	!!media-libs/emotion
 	!!media-libs/ethumb
 	!!media-libs/evas
+	!!media-libs/elementary
 	app-arch/xz-utils
 	doc? ( app-doc/doxygen )
 	test? ( dev-libs/check[${MULTILIB_USEDEP}] )"
@@ -144,6 +154,7 @@ multilib_src_configure()
 	local -a myeconfargs=( ${EXTRA_EFL_CONF} )
 
 	use opengl && use drm && myeconfargs+=( --enable-gl-drm )
+	use gles && use fbcon && myeconfargs+=( --enable-eglfs )
 	myeconfargs+=(
 		$(use_enable avahi)
 		$(use_enable cpu_flags_arm_neon neon)
@@ -157,14 +168,19 @@ multilib_src_configure()
 		$(use_enable gstreamer gstreamer1)
 		$(use_enable harfbuzz)
 		$(use_enable ibus)
+		$(use_enable libuv)
 		$(use_enable nls)
+		$(use_enable pdf poppler)
+		$(use_enable postscript spectre)
 		$(use_enable physics)
 		$(use_enable pulseaudio)
 		$(use_enable pulseaudio audio)
+		$(use_enable raw libraw)
 		$(use_enable scim)
 		$(use_enable sdl)
 		$(use_enable sndfile audio)
 		$(use_enable static-libs static)
+		$(use_enable svg librsvg)
 		$(use_enable systemd)
 		$(use_enable system-lz4 liblz4)
 		$(use_enable tslib)
@@ -211,7 +227,7 @@ multilib_src_configure()
 		--disable-lua-old
 		--disable-multisense
 		--disable-tizen
-		--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-aba
+		--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-abb
 	)
 	autotools-utils_src_configure
 }

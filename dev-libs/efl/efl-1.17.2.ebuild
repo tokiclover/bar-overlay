@@ -97,10 +97,8 @@ COMMON_DEP="
 	pixman? ( x11-libs/pixman[${MULTILIB_USEDEP}] )
 	physics? ( sci-physics/bullet )
 	png? ( media-libs/libpng:0=[${MULTILIB_USEDEP}] )
-	pulseaudio? (
-		media-sound/pulseaudio[${MULTILIB_USEDEP}]
-		media-libs/libsndfile[${MULTILIB_USEDEP}]
-	)
+	pulseaudio? ( media-sound/pulseaudio[${MULTILIB_USEDEP}] )
+	sndfile? ( media-libs/libsndfile[${MULTILIB_USEDEP}] )
 	scim?	( app-i18n/scim )
 	sdl? (
 		>=media-libs/libsdl2-2.0.0:0[opengl?,gles?,${MULTILIB_USEDEP}]
