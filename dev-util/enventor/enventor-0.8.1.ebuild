@@ -27,9 +27,7 @@ IUSE=""
 LICENSE="BSD-2"
 SLOT="0"
 
-EFL_VERSION=1.16.0
-RDEPEND=">=dev-libs/efl-${EFL_VERSION}
-	>=media-libs/elementary-${EFL_VERSION}"
+RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.16.0 )"
 DEPEND="${RDEPEND}
 	virtual/libintl"
 

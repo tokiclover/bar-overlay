@@ -48,8 +48,7 @@ IUSE="doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
 "
 REQUIED_USE="!udev? ( eeze )"
 
-RDEPEND=">=dev-libs/efl-1.11.2[X,egl?,wayland?]
-	>=media-libs/elementary-1.11.2
+RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.17.0[X,wayland?] )
 	virtual/udev
 	x11-libs/libxcb
 	x11-libs/xcb-util-keysyms

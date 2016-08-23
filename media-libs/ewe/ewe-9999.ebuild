@@ -14,8 +14,8 @@ IUSE=""
 LICENSE="LGPL-2"
 SLOT="0"
 
-RDEPEND=">=dev-libs/efl-1.12.2:=[${MULTILIB_USEDEP}]
-	>=media-libs/elementary-1.12.2:=[${MULTILIB_USEDEP}]"
+RDEPEND="|| ( >=dev-libs/efl-1.18.0:=[${MULTILIB_USEDEP}]
+	>=media-libs/elementary-1.12.2:=[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README )

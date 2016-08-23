@@ -27,8 +27,7 @@ LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 
 EFL_VERSION=1.17.0
-RDEPEND=">=dev-libs/efl-${EFL_VERSION}
-	>=media-libs/elementary-${EFL_VERSION}"
+RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.17.0 )"
 DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
 	clang? ( sys-devel/clang )

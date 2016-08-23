@@ -26,8 +26,7 @@ IUSE="debug doc enventor"
 LICENSE="BSD-2"
 SLOT="0"
 
-EFL_VERSION=1.17.0
-RDEPEND=">=dev-libs/efl-${EFL_VERSION}
+RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-0.17.0 )
 	>=media-libs/elementary-${EFL_VERSION}
 	enventor? ( >=dev-util/enventor-0.5.1 )
 	>=media-libs/ewe-0.2.2"

@@ -28,8 +28,7 @@ LICENSE="GPL-3"
 SLOT="0"
 IUSE="doc"
 
-EFL_VERSION=1.8.0
-RDEPEND=">=dev-python/python-efl-${EFL_VERSION}
+RDEPEND=">=dev-python/python-efl-1.8.0
 	dev-python/dbus-python[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}"
