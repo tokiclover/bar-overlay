@@ -11,7 +11,7 @@ case "${PV}" in
 	(*9999*)
 		KEYWORDS=""
 		VCS_ECLASS=git-2
-		EGIT_REPO_URI="git://github.com/jackaudio/jack2.git"
+		EGIT_REPO_URI="git://github.com/LADI/${PN}.git"
 		EGIT_PROJECT="${PN}.git"
 		;;
 	(*)
@@ -72,8 +72,8 @@ multilib_src_configure()
 	local -a mywafconfargs=(
 		$(usex debug --debug '')
 		$(usex doc --doxygen '')
-		$(use_enable lash liblash)
-		$(use_enable python pylash)
+		$(usex lash '--enable-liblash' '')
+		$(usex python '--enable-pylash' '')
 	)
 	local NO_WAF_LIBDIR=1 WAF_BINARY="${BUILD_DIR}"/waf
 	local LIBDIR="${EPREFIX}/usr/$(get_libdir)" PREFIX="${EPREFIX}/usr"
