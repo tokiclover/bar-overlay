@@ -41,10 +41,9 @@ RDEPEND="lash? ( virtual/liblash )
 	>=media-sound/jack-audio-connection-kit-0.109.2-r2[dbus]"
 DEPEND="dev-python/python-distutils-extra[${PYTHON_USEDEP}]"
 
-DOCS=( README NEWS )
+DOCS=( README.md NEWS )
 
 pkg_preinst()
 {
 	use wmaker || find "${ED}" -name 'wmladi*' -exec rm '{}' + || die
 }
-
