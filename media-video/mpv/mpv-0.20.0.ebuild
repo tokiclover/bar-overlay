@@ -26,9 +26,9 @@ DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
 SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
-LICENSE="GPL-2+ LGPL-2.1 gpl? ( GPL-3 LGPL-3 ) BSD MIT ISC"
+LICENSE="GPL-2+ LGPL-2.1 BSD MIT ISC"
 SLOT="0/${PV}"
-IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl +enca encode +gbm +gpl
+IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl +enca encode +gbm
 +iconv jack jpeg lcms libarchive +libass libcaca libguess lua luajit openal
 +opengl oss pulseaudio samba sdl selinux +shm static static-libs uchardet
 v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver xv zsh-completion"
@@ -177,7 +177,6 @@ src_configure()
 		$(use_enable dvdnav)
 		$(use_enable enca)
 		$(use_enable gbm)
-		$(use_enable gpl gpl3)
 		$(use_enable iconv)
 		$(use_enable libarchive)
 		$(use_enable libass)
