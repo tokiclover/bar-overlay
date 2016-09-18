@@ -26,6 +26,20 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS ChangeLog README RTC SEQ24 )
 
+src_prepare()
+{
+  # Fix copied from openSUSE
+  # https://build.opensuse.org/package/view_file/multimedia:apps/seq24/seq24.spec
+  # Bug in 0.9.3 and 0.9.3 prereleases
+  # class "mutex" in src/* clashes with "std::mutex" due
+  # to "using namespace std;". Rename mutex to seq24_mutex.
+  sed -i \
+    -e 's,mutex::,seq24_mutex::,' \
+    -e 's,\([ cs]\) mutex,\1 seq24_mutex,' \
+    -e 's,::mutex,::seq24_mutex,' \
+    src/*.h src/*.cpp
+}
+
 src_configure()
 {
 	local -a myeconfargs=(
@@ -43,4 +57,3 @@ src_install()
 	newicon src/pixmaps/seq24_32.xpm seq24.xpm
 	make_desktop_entry seq24
 }
-
