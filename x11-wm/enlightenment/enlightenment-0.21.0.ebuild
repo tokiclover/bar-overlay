@@ -53,6 +53,7 @@ RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.17.0[X,wayland?] )
 	x11-libs/libxcb
 	x11-libs/xcb-util-keysyms
 	debug? ( dev-util/valgrind )
+	enlightenment_modules_connman? ( net-misc/connman )
 	enlightenment_modules_mixer? ( >=media-libs/alsa-lib-1.0.8 )
 	nls? ( virtual/libintl )
 	pam? ( sys-libs/pam )
