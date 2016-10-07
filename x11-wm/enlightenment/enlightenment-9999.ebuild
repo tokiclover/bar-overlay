@@ -67,10 +67,6 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS ChangeLog README )
 
-PATCHES=(
-	 "${FILESDIR}"/${PN}-0.19.1-wayland-cflags.patch
-)
-
 AUTOTOOLS_IN_SOURCE_BUILD=1
 S="${WORKDIR}/${P/_/-}"
 
