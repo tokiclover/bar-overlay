@@ -117,7 +117,7 @@ media-video/rage 0.1.4 0.2.0 9999: EFL Video Player
 media-video/vapoursynth 32 33 9999: Video processing framework with simplicity in mind
 media-video/wobbly 3 9999: IVTC video processing assistant for VapourSynth similar to Yatta
 net-misc/connman 1.31 1.32 9999: Provides a daemon for managing internet connections
-net-misc/dhcpcd 6.11.3: A fully featured, yet light weight RFC2131 compliant DHCP client
+net-misc/dhcpcd 6.11.5: A fully featured, yet light weight RFC2131 compliant DHCP client
 net-misc/dhcpcd-ui 0.7.5 9999: Desktop notification and configuration for dhcpcd
 net-misc/pacrunner 0.9 9999: Proxy configuration daemon
 net-misc/tipcutils 2.0.3: Utilities for TIPC (Transparent Inter-Process Communication)
