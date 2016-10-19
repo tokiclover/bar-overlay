@@ -96,7 +96,7 @@ media-sound/deadbeef 0.7.1 0.7.2 9999: DeaDBeeF - Ultimate Music Player For GNU/
 media-sound/empc 0.99.0.639 9999: EFL MPD multiplexer and client
 media-sound/fluidsynth 1.1.6 9999: Fluidsynth is a software real-time synthesizer based on the Soundfont 2 specifications.
 media-sound/hydrogen 0.9.6.1 0.9.7_beta2 9999: Advanced drum machine
-media-sound/jack-audio-connection-kit 0.124.1 1.9.10 1.9999 2.9999: Jackdmp jack implemention for multi-processor machine
+media-sound/jack-audio-connection-kit 0.124.1 0.125.0 1.9.10 1.9999 2.9999: Jackdmp jack implemention for multi-processor machine
 media-sound/jack_capture 0.9.71 9999: JACK Recording utility
 media-sound/jack_mixer 9-r1 10 9999: JACK audio mixer using GTK2 interface.
 media-sound/jalv 1.4.6: Simple and fully featured LV2 host for Jack running and exposing LV2 plugins as JACK applications
