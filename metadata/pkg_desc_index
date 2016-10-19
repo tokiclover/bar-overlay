@@ -139,7 +139,7 @@ virtual/daemontools 0: Virtual for Daemontools Service Manager
 virtual/liblash 1: Virtual for LASH library
 virtual/libproxy 1: Virtual for proxy library
 www-apps/searx 0.9.0 0.10.0 9999: Decentralized and privacy-respecting, hackable metasearch engine
-www-misc/browser-home-profile 4.0 9999: Web-Browser Home Profile Utility
+www-misc/browser-home-profile 4.1 9999: Web-Browser Home Profile Utility
 www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
 x11-libs/ganv 1.4.2: An interactive Gtk widget for boxes and lines or graph-like environments
 x11-misc/netwmpager 2.04: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
