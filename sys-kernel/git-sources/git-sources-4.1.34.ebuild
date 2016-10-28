@@ -16,7 +16,7 @@ CK_VER="${MKV}-ck2"
 GENTOO_VER="${MKV}-25"
 FBCONDECOR_VER="${GENTOO_VER}"
 REISER4_VER="${MKV}.7"
-RT_VER="${MKV}.20-rt23"
+RT_VER="${OKV}-rt39"
 TOI_VER="${MKV}.22-2016-04-21"
 
 inherit kernel-git
