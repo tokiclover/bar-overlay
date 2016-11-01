@@ -48,7 +48,7 @@ IUSE="debug doc +eeze +nls pam static-libs systemd +udev ukit wayland
 "
 REQUIED_USE="!udev? ( eeze )"
 
-RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.8.3[X,wayland?] )
+RDEPEND=">=media-libs/elementary-1.8.3[X,wayland?]
 	debug? ( dev-util/valgrind )
 	udev? ( virtual/udev )
 	x11-libs/libxcb
