@@ -26,7 +26,7 @@ DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
 SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
-LICENSE="GPL-2+ LGPL-2.1+ BSD MIT ISC"
+LICENSE="GPL-2+ LGPL-2.1 BSD MIT ISC"
 SLOT="0/${PV}"
 IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl +enca encode +gbm
 +iconv jack jpeg lcms libarchive +libass libcaca libguess lua luajit openal
