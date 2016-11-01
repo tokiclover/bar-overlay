@@ -26,7 +26,7 @@ IUSE="glyr +id3tag +nls"
 LICENSE="BSD-2"
 SLOT="0"
 
-RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.12.0 )
+RDEPEND=">=dev-libs/efl-1.18.0 >=media-libs/elementary-1.12.0
 	>=media-libs/libmpdclient-2.9
 	sys-apps/dbus
 	glyr? ( media-libs/glyr )
