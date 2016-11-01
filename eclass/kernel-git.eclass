@@ -41,6 +41,7 @@ IUSE="${PATCHSET[*]}"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 
 has ck "${PATCHSET[@]}" &&
+has bfs "${PATCHES[@]}" &&
 REQUIRED_USE="${REQUIRED_USE}
 	ck? ( bfs )"
 
