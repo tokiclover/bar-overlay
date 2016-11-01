@@ -27,7 +27,7 @@ IUSE="+nls"
 LICENSE="BSD-2"
 SLOT="0"
 
-RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.8.0 )"
+RDEPEND=">=media-libs/elementary-1.8.0"
 DEPEND="${RDEPEND}
 	nls? ( virtual/libintl )"
 
