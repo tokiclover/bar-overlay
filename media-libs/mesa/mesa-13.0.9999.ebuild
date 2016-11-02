@@ -52,9 +52,9 @@ CARDS_LIST=(
 )
 
 IUSE="${CARDS_LIST[@]/#/video_cards_}
-	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl
-	opencl osmesa pax_kernel openmax pic selinux +udev vaapi vdpau wayland xvmc
-	xa kernel_FreeBSD"
+	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 glvnd +llvm
+	+nptl opencl osmesa pax_kernel openmax pic selinux vaapi valgrind vdpau
+	+vulkan wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
 	d3d9? ( gallium dri3 )
@@ -84,7 +84,7 @@ REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 "
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.64"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.66"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
@@ -96,6 +96,7 @@ RDEPEND="
 	dev-libs/expat[${MULTILIB_USEDEP}]
 	gbm? ( virtual/libudev:=[${MULTILIB_USEDEP}] )
 	dri3? ( virtual/libudev:=[${MULTILIB_USEDEP}] )
+	glvnd? ( dev-libs/libglvnd:=[${MULTILIB_USEDEP}] )
 	x11-libs/libX11:=[${MULTILIB_USEDEP}]
 	x11-libs/libxshmfence:=[${MULTILIB_USEDEP}]
 	x11-libs/libXdamage:=[${MULTILIB_USEDEP}]
@@ -111,28 +112,28 @@ RDEPEND="
 		sys-devel/llvm:=[${MULTILIB_USEDEP}]
 	)
 	opencl? (
-		app-eselect/eselect-opencl
-		dev-libs/libclc
-		|| (
-			dev-libs/elfutils:=[${MULTILIB_USEDEP}]
-			dev-libs/libelf:=[${MULTILIB_USEDEP}]
-		)
-	)
+				app-eselect/eselect-opencl
+				dev-libs/libclc
+				|| (
+					dev-libs/elfutils:=[${MULTILIB_USEDEP}]
+					dev-libs/libelf:=[${MULTILIB_USEDEP}]
+				)
+			)
 	openmax? ( media-libs/libomxil-bellagio:=[${MULTILIB_USEDEP}] )
-	udev? ( kernel_linux? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] ) )
 	vaapi? ( x11-libs/libva:=[${MULTILIB_USEDEP}] )
+	valgrind? ( dev-util/valgrind )
 	vdpau? ( x11-libs/libvdpau:=[${MULTILIB_USEDEP}] )
 	wayland? ( dev-libs/wayland:=[${MULTILIB_USEDEP}] )
 	xvmc? ( x11-libs/libXvMC:=[${MULTILIB_USEDEP}] )
 	${LIBDRM_DEPSTRING}[video_cards_freedreno?,video_cards_nouveau?,video_cards_vmware?,${MULTILIB_USEDEP}]
 "
-for card in ${INTEL_CARDS}; do
+for card in "${INTEL_CARDS[@]}"; do
 	RDEPEND="${RDEPEND}
 		video_cards_${card}? ( ${LIBDRM_DEPSTRING}[video_cards_intel] )
 	"
 done
 
-for card in ${RADEON_CARDS}; do
+for card in "${RADEON_CARDS[@]}"; do
 	RDEPEND="${RDEPEND}
 		video_cards_${card}? ( ${LIBDRM_DEPSTRING}[video_cards_radeon] )
 	"
@@ -147,9 +148,9 @@ DEPEND+="
 		video_cards_radeonsi? ( sys-devel/llvm[video_cards_radeon] )
 	)
 	opencl? (
-				sys-devel/llvm[${MULTILIB_USEDEP}]
-				sys-devel/clang[${MULTILIB_USEDEP}]
-				sys-devel/gcc
+		sys-devel/llvm[${MULTILIB_USEDEP}]
+		sys-devel/clang[${MULTILIB_USEDEP}]
+		sys-devel/gcc
 	)
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -167,10 +168,12 @@ DEPEND+="
 QA_WX_LOAD="
 x86? (
 	!pic? (
+		!glvnd? (
+			usr/lib*/libGLESv1_CM.so*
+			usr/lib*/libGLESv2.so*
+			usr/lib*/libGL.so*
+		)
 		usr/lib*/libglapi.so*
-		usr/lib*/libGLESv1_CM.so*
-		usr/lib*/libGLESv2.so*
-		usr/lib*/libGL.so*
 		usr/lib*/libOSMesa.so*
 	)
 )"
@@ -209,7 +212,7 @@ multilib_src_configure() {
 		fi
 
 		# Nouveau code
-		driver_enable DRI video_cards_nouveau nouveau
+		driver_enable video_cards_nouveau nouveau
 
 		# ATI code
 		driver_enable DRI video_cards_r100 radeon
@@ -262,6 +265,10 @@ multilib_src_configure() {
 		fi
 	fi
 
+	if use vulkan; then
+		driver_enable VULKAN video_cards_i965 intel
+	fi
+
 	# x86 hardened pax_kernel needs glx-rts, bug 240956
 	if use pax_kernel; then
 		myeconfargs+=( $(use_enable x86 glx-rts) )
@@ -279,7 +286,7 @@ multilib_src_configure() {
 
 	myeconfargs+=(
 		--enable-dri
-		--enable-glx
+		--enable-glx=dri
 		--enable-shared-glapi
 		--disable-shader-cache
 		$(use_enable !bindist texture-float)
@@ -290,12 +297,14 @@ multilib_src_configure() {
 		$(use_enable gbm)
 		$(use_enable gles1)
 		$(use_enable gles2)
+		$(use_enable glvnd libglvnd)
 		$(use_enable nptl glx-tls)
 		$(use_enable osmesa)
-		$(use_enable !udev sysfs)
+		$(use_enable valgrind)
 		--enable-llvm-shared-libs
 		--with-dri-drivers="${DRI_DRIVERS}"
 		--with-gallium-drivers="${GALLIUM_DRIVERS}"
+		--with-vulkan-drivers="${VULKAN_DRIVERS}"
 		PYTHON2="${PYTHON}"
 	)
 	autotools-utils_src_configure
