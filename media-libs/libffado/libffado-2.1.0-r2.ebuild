@@ -6,7 +6,7 @@ EAPI=5
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit base scons-utils eutils toolchain-funcs multilib-minimal python-single-r1 udev
+inherit base flag-o-matic scons-utils eutils toolchain-funcs multilib-minimal python-single-r1 udev
 
 DESCRIPTION="Successor for freebob: Library for accessing BeBoB IEEE1394 devices"
 HOMEPAGE="http://www.ffado.org"
@@ -45,8 +45,8 @@ DEPEND="${RDEPEND}
 DOCS=( AUTHORS ChangeLog README )
 
 PATCHES=(
-	"${FILESDIR}"/${P}-flags.patch
-	"${FILESDIR}"/${P}-jack-version.patch
+	"${FILESDIR}/${P}-honor-toolchain-env.patch"
+	"${FILESDIR}/${P}-no-jackd-version.patch"
 )
 
 src_prepare()
@@ -56,15 +56,26 @@ src_prepare()
 	multilib_copy_sources
 }
 
-multilib_src_configure() {
+multilib_src_configure()
+{
+	tc-export CC CXX
+	[[ "$(tc-get-compiler-type)" = "gcc" ]] &&
+	(( $(gcc-major-version 5) >= 5 )) &&
+		append-cxxflags -std=gnu++11
+
 	myesconsargs=(
+		CC="${CC}"
+		CXX="${CXX}"
+		CFLAGS="${CFLAGS}"
+		CXXFLAGS="${CXXFLAGS}"
+		LDFLAGS="${LDFLAGS}"
 		PREFIX="${EPREFIX}/usr"
 		LIBDIR="${EPREFIX}/usr/$(get_libdir)"
 		MANDIR="${EPREFIX}/usr/share/man"
 		UDEVDIR="$(get_udevdir)/udev/rules.d"
 		PYPKGDIR="${EPREFIX}/usr/$(get_libdir)/python2.7/site-packages/${PN}"
 		$(use_scons debug DEBUG)
-		$(use_scons test-programs BUILD_TESTS)
+		BUILD_TESTS=False
 		# ENABLE_OPTIMIZATIONS detects cpu type and sets flags accordingly
 		# -fomit-frame-pointer is added also which can cripple debugging.
 		# we set flags from portage instead
@@ -82,7 +93,7 @@ multilib_src_configure() {
 
 multilib_src_compile()
 {
-	escons
+	escons "${myesconsargs[@]}"
 }
 
 multilib_src_install()
