@@ -54,7 +54,7 @@ SLOT="0/${FFMPEG_SUBSLOT}"
 FFMPEG_FLAGS=(
 	+bzip2:bzlib cpudetection:runtime-cpudetect debug gcrypt gnutls gmp
 	+gpl +hardcoded-tables +iconv lzma +network openssl +postproc
-	samba:libsmbclient sdl:ffplay sdl vaapi vdpau X:xlib xcb:libxcb
+	samba:libsmbclient sdl:ffplay sdl cuda vaapi vdpau X:xlib xcb:libxcb
 	xcb:libxcb-shm xcb:libxcb-xfixes +zlib
 	# libavdevice options
 	cdio:libcdio iec61883:libiec61883 ieee1394:libdc1394 libcaca openal
@@ -62,7 +62,7 @@ FFMPEG_FLAGS=(
 	# indevs
 	libv4l:libv4l2 pulseaudio:libpulse
 	# decoders
-	amr:libopencore-amrwb amr:libopencore-amrnb dcadec:libdcadec fdk:libfdk-aac
+	amr:libopencore-amrwb amr:libopencore-amrnb fdk:libfdk-aac
 	jpeg2k:libopenjpeg bluray:libbluray celt:libcelt gme:libgme gsm:libgsm
 	mmal modplug:libmodplug opus:libopus librtmp ssh:libssh
 	schroedinger:libschroedinger speex:libspeex vorbis:libvorbis vpx:libvpx
@@ -153,7 +153,7 @@ RDEPEND="
 	)
 	celt? ( >=media-libs/celt-0.11.1-r1[${MULTILIB_USEDEP}] )
 	chromaprint? ( >=media-libs/chromaprint-1.2-r1[${MULTILIB_USEDEP}] )
-	dcadec? ( media-sound/dcadec[${MULTILIB_USEDEP}] )
+	cuda? ( dev-util/nvidia-cuda-sdk )
 	encode? (
 		amrenc? ( >=media-libs/vo-amrwbenc-0.1.2-r1[${MULTILIB_USEDEP}] )
 		faac? ( >=media-libs/faac-1.28-r3[${MULTILIB_USEDEP}] )

@@ -28,7 +28,7 @@
     <flag name="celt">Add Xiph CELT audio decoding support via <pkg>media-libs/celt</pkg></flag>
   	<flag name="chromaprint">Enables audio fingerprinting support with <pkg>media-libs/chromaprint</pkg>.</flag>
     <flag name="cpudetection">Enable runtime CPU detection (useful for bindist, compatibility on other CPUs)</flag>
-    <flag name="dcadec">Enable DTS Coherent Acoustics Decoder support with <pkg>media-sound/dcadec</pkg></flag>
+	<flag name="cuda">Enable CUDA Video Decoder support with <pkg>dev-util/nvidia-cuda-sdk</pkg></flag>
     <flag name="faac">Use external faac library for AAC encoding</flag>
     <flag name="fdk">Use external fdk-aac library for AAC encoding</flag>
     <flag name="flite">Add a text-to-speech filter via <pkg>app-accessibility/flite</pkg></flag>
