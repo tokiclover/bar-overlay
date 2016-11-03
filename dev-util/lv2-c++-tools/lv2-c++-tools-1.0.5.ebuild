@@ -29,8 +29,11 @@ src_prepare()
 	sed -e '/ldconfig/d' -i Makefile.template || die
 
 	[[ "$(tc-get-compiler-type)" = "gcc" ]] &&
-	(( $(gcc-major-version 5) >= 5 )) &&
-		append-cxxflags -std=c++11
+	if [[ "$(tc-get-compiler-type)" = "gcc" ]] &&
+	(( $(gcc-major-version 5) >= 5 )); then
+		append-cxxflags -std=gnu++11
+		append-ldflags -lboost_system
+	fi
 
 	multilib_copy_sources
 }
