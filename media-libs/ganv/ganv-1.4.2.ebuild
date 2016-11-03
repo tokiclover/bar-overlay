@@ -18,7 +18,7 @@ case "${PV}" in
 	SRC_URI="http://download.drobilla.net/${P}.tar.bz2"
 	;;
 esac
-inherit toolchain-funcs python-any-r1 waf-utils multilib-minimal ${VCS_ECLASS}
+inherit flag-o-matic toolchain-funcs python-any-r1 waf-utils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="An interactive Gtk widget for boxes and lines or graph-like environments"
 HOMEPAGE="http://drobilla.net/software/ganv/"
@@ -49,6 +49,11 @@ src_prepare()
 
 multilib_src_configure()
 {
+	if [[ "$(tc-get-compiler-type)" = "gcc" ]] &&
+	(( $(gcc-major-version 5) >= 5 )); then
+		append-cxxflags -std=c++11
+	fi
+
 	local -a mywafargs=(
 		--prefix="${EPREFIX}/usr"
 		$(use debug && echo '--debug')

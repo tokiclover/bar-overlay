@@ -31,6 +31,7 @@ media-gfx/ephoto 1.0_beta2 9999: EFL image viewer, editor, manipulator and slide
 media-libs/aubio 0.4.1 0.4.2: Library for audio labelling
 media-libs/elementary 1.13.3 1.14.3 1.15.3 1.16.1 1.17.1 9999: Basic widget set, based on EFL for mobile touch-screen devices
 media-libs/ewe 0.2.2 9999: Elementary Widgets Extension, desktop widget library
+media-libs/ganv 1.4.2: An interactive Gtk widget for boxes and lines or graph-like environments
 media-libs/libffado 2.1.0-r1 2.2.1-r1: Successor for freebob: Library for accessing BeBoB IEEE1394 devices
 media-libs/lilv 0.20.0: Library to make the use of LV2 plugins as simple as possible for applications
 media-libs/lv2 1.12.0: LV2 is a simple but extensible successor of LADSPA
@@ -142,7 +143,6 @@ virtual/libproxy 1: Virtual for proxy library
 www-apps/searx 0.9.0 0.10.0 9999: Decentralized and privacy-respecting, hackable metasearch engine
 www-misc/browser-home-profile 4.1 9999: Web-Browser Home Profile Utility
 www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
-x11-libs/ganv 1.4.2: An interactive Gtk widget for boxes and lines or graph-like environments
 x11-misc/netwmpager 2.04: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
 x11-misc/spacefm 1.0.1 9999: A multi-panel tabbed file manager
 x11-misc/tint2 9999: A lightweight panel/taskbar
