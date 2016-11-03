@@ -34,7 +34,7 @@ RDEPEND=">=dev-libs/serd-0.14.0
 	>=media-libs/sratom-0.4.0
 	>=media-libs/lv2-1.8.1
 	>=media-libs/lilv-0.19.2
-	>=x11-libs/ganv-1.4.0
+	>=media-libs/ganv-1.4.0
 	gtk?  ( x11-libs/gtk+:2 ${GTK_COMMON_DEP} )
 	gtk3? ( x11-libs/gtk+:3 ${GTK_COMMON_DEP} )
 	qt4?  ( dev-qt/qtgui:4 )

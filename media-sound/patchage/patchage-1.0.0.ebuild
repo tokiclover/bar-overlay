@@ -28,7 +28,7 @@ SLOT="0"
 IUSE="alsa dbus debug jack-session"
 
 RDEPEND="dev-libs/boost
-	>=x11-libs/ganv-1.4.0
+	>=media-libs/ganv-1.4.0
 	>=dev-cpp/gtkmm-2.11.12:2.4
 	>=dev-cpp/glibmm-2.14:2
 	>=x11-libs/ganv-1.4

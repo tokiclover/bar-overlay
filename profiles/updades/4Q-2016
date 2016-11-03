@@ -1,3 +1,4 @@
+move x11-libs/ganv media-libs/ganv
 move media-plugins/vapoursynth-plugins-adjust dev-python/vapoursynth-plugins-adjust
 move media-plugins/vapoursynth-plugins-havsfunc dev-python/vapoursynth-plugins-havsfunc
 move media-plugins/vapoursynth-plugins-mvsfunc dev-python/vapoursynth-plugins-mvsfunc
