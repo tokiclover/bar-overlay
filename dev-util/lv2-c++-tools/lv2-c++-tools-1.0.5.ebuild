@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit multilib-minimal toolchain-funcs
+inherit flag-o-matic multilib-minimal toolchain-funcs
 
 DESCRIPTION="some tools and libraries that may come in handy when writing LV2 plugins"
 HOMEPAGE="http://ll-plugins.nongnu.org/hacking.html"
@@ -27,6 +27,10 @@ src_prepare()
 {
 	sed -e 's:ar rcs:$(AR) rcs:' -i Makefile.template || die
 	sed -e '/ldconfig/d' -i Makefile.template || die
+
+	[[ "$(tc-get-compiler-type)" = "gcc" ]] &&
+	(( $(gcc-major-version 5) >= 5 )) &&
+		append-cxxflags -std=c++11
 
 	multilib_copy_sources
 }
