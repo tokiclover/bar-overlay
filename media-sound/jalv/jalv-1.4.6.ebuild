@@ -18,7 +18,7 @@ case "${PV}" in
 	SRC_URI="http://download.drobilla.net/${P}.tar.bz2"
 	;;
 esac
-inherit eutils toolchain-funcs python-any-r1 waf-utils ${VCS_ECLASS}
+inherit flag-o-matic eutils toolchain-funcs python-any-r1 waf-utils ${VCS_ECLASS}
 
 DESCRIPTION="Simple and fully featured LV2 host for Jack running and exposing LV2 plugins as JACK applications"
 HOMEPAGE="http://drobilla.net/software/jalv"
@@ -47,6 +47,11 @@ DOCS=( AUTHORS README NEWS )
 
 src_configure()
 {
+	if [[ "$(tc-get-compiler-type)" = "gcc" ]] &&
+	(( $(gcc-major-version 5) >= 5 )); then
+		append-cxxflags -std=c++11
+	fi
+
 	local -a mywafargs=(
 		--prefix=/usr
 		$(use debug && echo '--debug')
