@@ -28,7 +28,6 @@ src_prepare()
 	sed -e 's:ar rcs:$(AR) rcs:' -i Makefile.template || die
 	sed -e '/ldconfig/d' -i Makefile.template || die
 
-	[[ "$(tc-get-compiler-type)" = "gcc" ]] &&
 	if [[ "$(tc-get-compiler-type)" = "gcc" ]] &&
 	(( $(gcc-major-version 5) >= 5 )); then
 		append-cxxflags -std=gnu++11
