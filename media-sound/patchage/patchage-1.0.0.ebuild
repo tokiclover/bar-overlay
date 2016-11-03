@@ -31,7 +31,6 @@ RDEPEND="dev-libs/boost
 	>=media-libs/ganv-1.4.0
 	>=dev-cpp/gtkmm-2.11.12:2.4
 	>=dev-cpp/glibmm-2.14:2
-	>=x11-libs/ganv-1.4
 	>=media-sound/jack-audio-connection-kit-0.107[dbus?]
 	alsa? ( media-libs/alsa-lib )
 	dbus? ( dev-libs/dbus-glib sys-apps/dbus )"
