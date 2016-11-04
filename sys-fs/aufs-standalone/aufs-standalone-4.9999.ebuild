@@ -92,7 +92,7 @@ src_prepare()
 		-e "s:/lib/modules/${KV_FULL}/build:${KV_OUT_DIR}:g" \
 	 	-i Makefile || die
 
-	epatch "${FILESDIR}"/aufs_type.h.patch
+	epatch "${FILESDIR}"/aufs_type.h-${KV_MAJOR}.patch
 }
 
 src_configure()
@@ -111,7 +111,7 @@ src_configure()
 	case "${ARCH}" in
 		(amd64|ppc64) use nfs && config+=INO_T_64;;
 	esac
-	for option in ${config[@]} RDU SBILIST; do
+	for option in "${config[@]}" RDU SBILIST; do
 		grep -q "^CONFIG_AUFS_${option} =" config.mk ||
 			die "CONFIG_AUFS_${option} is not a valid config option"
 		sed -e "/^CONFIG_AUFS_${option}/s:=:= y:g" -i config.mk || die

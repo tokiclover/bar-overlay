@@ -1,6 +1,6 @@
---- include/uapi/linux/aufs_type.h	2014-12-15 10:51:58.292238698 +0100
-+++ include/uapi/linux/aufs_type.h	2014-12-15 11:04:09.142625303 +0100
-@@ -20,22 +20,8 @@
+--- include/uapi/linux/aufs_type.h	2016-11-04 20:32:55.209984380 +0100
++++ /usr/src/linux-3.18.36-git/usr/include/linux/aufs_type.h	2016-08-10 01:34:17.503906515 +0200
+@@ -20,26 +20,12 @@
  
  #define AUFS_NAME	"aufs"
  
@@ -23,6 +23,11 @@
  
  #include <linux/limits.h>
  
+-#define AUFS_VERSION	"3.18.25+-20160822"
++#define AUFS_VERSION	"3.18.1+-20160808"
+ 
+ /* todo? move this to linux-2.6.19/include/magic.h */
+ #define AUFS_SUPER_MAGIC	('a' << 24 | 'u' << 16 | 'f' << 8 | 's')
 @@ -60,11 +46,6 @@
  #endif
  #endif
@@ -35,11 +40,10 @@
  
  /* ---------------------------------------------------------------------- */
  
-@@ -166,28 +147,6 @@
- 
+@@ -167,26 +148,6 @@
  #define AuBrAttr_CMOO_Mask	(AuBrAttr_COO_Mask | AuBrWAttr_MOO)
  
--/* #warning test userspace */
+ /* #warning test userspace */
 -#ifdef __KERNEL__
 -#ifndef CONFIG_AUFS_FHSM
 -#undef AuBrAttr_FHSM
@@ -60,11 +64,10 @@
 -#define AuBrAttr_ICEX_OTH	0
 -#endif
 -#endif
--
+ 
  /* the longest combination */
  /* AUFS_BRATTR_ICEX and AUFS_BRATTR_ICEX_TR don't affect here */
- #define AuBrPermStrSz	sizeof(AUFS_BRPERM_RW			\
-@@ -204,27 +163,27 @@
+@@ -204,27 +165,27 @@
  	char a[AuBrPermStrSz];
  } au_br_perm_str_t;
  
@@ -97,7 +100,7 @@
  {
  	return brperm & AuBrAttr_FHSM;
  }
-@@ -255,11 +214,6 @@
+@@ -255,11 +216,6 @@
  #define __aligned(x)			__attribute__((aligned(x)))
  #endif
  
@@ -109,7 +112,7 @@
  
  struct au_rdu_cookie {
  	uint64_t	h_pos;
-@@ -278,7 +232,7 @@
+@@ -278,7 +234,7 @@
  	char		name[0];
  } __aligned(8);
  
@@ -118,7 +121,7 @@
  {
  	/* include the terminating NULL */
  	return ALIGN(sizeof(struct au_rdu_ent) + nlen + 1,
-@@ -286,7 +240,7 @@
+@@ -286,7 +242,7 @@
  }
  
  union au_rdu_ent_ul {

@@ -1,0 +1,127 @@
+--- include/uapi/linux/aufs_type.h	2016-11-04 20:21:15.742996906 +0100
++++ include/uapi/linux/aufs_type.h	2016-10-28 11:35:09.275842869 +0200
+@@ -20,22 +20,8 @@
+ 
+ #define AUFS_NAME	"aufs"
+ 
+-#ifdef __KERNEL__
+-/*
+- * define it before including all other headers.
+- * sched.h may use pr_* macros before defining "current", so define the
+- * no-current version first, and re-define later.
+- */
+-#define pr_fmt(fmt)	AUFS_NAME " %s:%d: " fmt, __func__, __LINE__
+-#include <linux/sched.h>
+-#undef pr_fmt
+-#define pr_fmt(fmt) \
+-		AUFS_NAME " %s:%d:%.*s[%d]: " fmt, __func__, __LINE__, \
+-		(int)sizeof(current->comm), current->comm, current->pid
+-#else
+ #include <stdint.h>
+ #include <sys/types.h>
+-#endif /* __KERNEL__ */
+ 
+ #include <linux/limits.h>
+ 
+@@ -60,11 +46,6 @@
+ #endif
+ #endif
+ 
+-#ifdef __KERNEL__
+-#ifndef AUFS_BRANCH_MAX
+-#error unknown CONFIG_AUFS_BRANCH_MAX value
+-#endif
+-#endif /* __KERNEL__ */
+ 
+ /* ---------------------------------------------------------------------- */
+ 
+@@ -167,26 +148,6 @@
+ #define AuBrAttr_CMOO_Mask	(AuBrAttr_COO_Mask | AuBrWAttr_MOO)
+ 
+ /* #warning test userspace */
+-#ifdef __KERNEL__
+-#ifndef CONFIG_AUFS_FHSM
+-#undef AuBrAttr_FHSM
+-#define AuBrAttr_FHSM		0
+-#endif
+-#ifndef CONFIG_AUFS_XATTR
+-#undef	AuBrAttr_ICEX
+-#define AuBrAttr_ICEX		0
+-#undef	AuBrAttr_ICEX_SEC
+-#define AuBrAttr_ICEX_SEC	0
+-#undef	AuBrAttr_ICEX_SYS
+-#define AuBrAttr_ICEX_SYS	0
+-#undef	AuBrAttr_ICEX_TR
+-#define AuBrAttr_ICEX_TR	0
+-#undef	AuBrAttr_ICEX_USR
+-#define AuBrAttr_ICEX_USR	0
+-#undef	AuBrAttr_ICEX_OTH
+-#define AuBrAttr_ICEX_OTH	0
+-#endif
+-#endif
+ 
+ /* the longest combination */
+ /* AUFS_BRATTR_ICEX and AUFS_BRATTR_ICEX_TR don't affect here */
+@@ -204,27 +165,27 @@
+ 	char a[AuBrPermStrSz];
+ } au_br_perm_str_t;
+ 
+-static inline int au_br_writable(int brperm)
++static __inline__ int au_br_writable(int brperm)
+ {
+ 	return brperm & AuBrPerm_RW;
+ }
+ 
+-static inline int au_br_whable(int brperm)
++static __inline__ int au_br_whable(int brperm)
+ {
+ 	return brperm & (AuBrPerm_RW | AuBrRAttr_WH);
+ }
+ 
+-static inline int au_br_wh_linkable(int brperm)
++static __inline__ int au_br_wh_linkable(int brperm)
+ {
+ 	return !(brperm & AuBrWAttr_NoLinkWH);
+ }
+ 
+-static inline int au_br_cmoo(int brperm)
++static __inline__ int au_br_cmoo(int brperm)
+ {
+ 	return brperm & AuBrAttr_CMOO_Mask;
+ }
+ 
+-static inline int au_br_fhsm(int brperm)
++static __inline__ int au_br_fhsm(int brperm)
+ {
+ 	return brperm & AuBrAttr_FHSM;
+ }
+@@ -255,11 +216,6 @@
+ #define __aligned(x)			__attribute__((aligned(x)))
+ #endif
+ 
+-#ifdef __KERNEL__
+-#ifndef __packed
+-#define __packed			__attribute__((packed))
+-#endif
+-#endif
+ 
+ struct au_rdu_cookie {
+ 	uint64_t	h_pos;
+@@ -278,7 +234,7 @@
+ 	char		name[0];
+ } __aligned(8);
+ 
+-static inline int au_rdu_len(int nlen)
++static __inline__ int au_rdu_len(int nlen)
+ {
+ 	/* include the terminating NULL */
+ 	return ALIGN(sizeof(struct au_rdu_ent) + nlen + 1,
+@@ -286,7 +242,7 @@
+ }
+ 
+ union au_rdu_ent_ul {
+-	struct au_rdu_ent __user	*e;
++	struct au_rdu_ent *e;
+ 	uint64_t			ul;
+ };
+ 
