@@ -1,2 +1,2 @@
 #!/bin/sh
-egencache --repo=bar --update --update-pkg-desc-index
+egencache --repo="${1:-bar}" --update --update-pkg-desc-index
