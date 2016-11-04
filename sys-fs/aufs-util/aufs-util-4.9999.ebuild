@@ -21,15 +21,15 @@ version_setup()
 {
 	local arg num=1
 	for arg; do
-		if (( $((${num})) == ${#} )); then
+		if (( ${num} == ${#} )); then
 			branch=${arg}
-			break
+			return
 		elif (( ${arg} >= ${KV_MINOR} )); then
-			branch=\$$((${num}-1))
-			break
+			eval branch=\$$((${num}-1))
+			return
 		elif (( ${arg} == ${KV_MINOR} )); then
 			branch=${arg}
-			break
+			return
 		fi
 		num=$((${num}+1))
 	done
