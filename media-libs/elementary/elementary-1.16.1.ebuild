@@ -32,7 +32,7 @@ SLOT="0/${PV:0:4}"
 IUSE="X debug doc examples fbcon +nls quicklaunch sdl static-libs test wayland"
 
 RDEPEND="
-	>=dev-libs/efl-${PV:0:4}[X?,fbcon?,png,sdl?,wayland?,${MULTILIB_USEDEP}]
+	=dev-libs/efl-${PV}[X?,fbcon?,png,sdl?,wayland?,${MULTILIB_USEDEP}]
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
 	app-arch/xz-utils

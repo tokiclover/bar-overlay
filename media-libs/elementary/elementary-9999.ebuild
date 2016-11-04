@@ -33,7 +33,7 @@ IUSE="X debug doc examples fbcon javascript +nls quicklaunch sdl static-libs
 test wayland"
 
 RDEPEND="
-	>=dev-libs/efl-${PV:0:4}[X?,fbcon?,png,sdl?,wayland?,${MULTILIB_USEDEP}]
+	dev-libs/efl:0/1.17[X?,fbcon?,png,sdl?,wayland?,${MULTILIB_USEDEP}]
 	javascript? ( net-libs/nodejs )
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
