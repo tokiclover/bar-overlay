@@ -42,7 +42,7 @@ pkg_setup()
 	case "${KV_MAJOR}" in
 		(4)
 		case "${KV_MINOR}" in
-			([1-5]) branch="${KV_MAJOR}.${KV_MINOR}";;
+			([14678]) branch="${KV_MAJOR}.${KV_MINOR}";;
 			(*) eval ${ERR_OLD};;
 		esac
 		case "${KV_MINOR}" in

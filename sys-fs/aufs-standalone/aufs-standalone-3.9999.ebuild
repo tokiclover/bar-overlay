@@ -42,13 +42,12 @@ pkg_setup()
 	case "${KV_MAJOR}" in
 		(3)
 		case "${KV_MINOR}" in
-			(1[0248]) branch="${KV_MAJOR}.${KV_MINOR}";;
+			(1[0268]) branch="${KV_MAJOR}.${KV_MINOR}";;
 			(*) eval ${ERR_OLD};;
 		esac
 		case "${KV_MINOR}" in
 			(10) (( ${KV_PATCH} >= 31 )) && branch+=.x   || eval ${ERR_OLD};;
 			(12) (( ${KV_PATCH} >= 31 )) && branch+=.31+ || eval ${ERR_OLD};;
-			(14) (( ${KV_PATCH} >= 21 )) && branch+=.40+ || eval ${ERR_OLD};;
 			(18) (( ${KV_PATCH} >= 25 )) && branch+=.25+ || eval ${ERR_OLD};;
 		esac;;
 		(*) die "kernel version is not supported!";;
