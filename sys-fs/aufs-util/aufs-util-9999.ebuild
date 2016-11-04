@@ -46,7 +46,7 @@ pkg_setup()
 	local branch
 	case "${KV_MAJOR}" in
 		(3) version_setup 0 2 9 14;;
-		(4) version_setup 0;;
+		(4) version_setup 0 1;;
 		(*) die "Unsupported kernel!";;
 	esac
 :	${branch:=x-rcN}
