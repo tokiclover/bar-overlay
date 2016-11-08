@@ -3,12 +3,14 @@ app-benchmarks/rt-tests 0.97: Programs that test various RT-Linux features
 app-dicts/xmlittre 1.0: XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 Littre's dictionary
 app-editors/ecrire 9999: EFL simple text editor
 app-text/pdfchain 0.4.4: Graphical User Interface for PDF Toolkit (PDFtk)
+app-text/xpdf 3.04: X viewer for Portable Document Format (PDF) files
 dev-libs/dbus-c++ 0.9.0-r1: provide a C++ API for D-BUS
 dev-libs/efl 1.14.3 1.15.3 1.16.1 1.17.2 1.18.2 9999: Enlightenment Foundation Core Libraries
 dev-libs/libglvnd 9999: The GL Vendor-Neutral Dispatch library
 dev-libs/serd 0.22.0: Library for RDF syntax which supports reading and writing Turtle and NTriples
 dev-libs/sord 0.14.0: Library for storing RDF data in memory
 dev-perl/IO-Socket-TIPC 1.08: IO::Socket::TIPC - TIPC sockets for Perl
+dev-perl/Module-Starter-AddModule 1.005: Module::Starter::AddModule - AddModule to an existing distribution
 dev-perl/perl-URxvt 2.2 9999: Perl extensions for the Rxvt-unicode terminal emulator
 dev-python/enum 0.4.4: Robust enumerated type support in Python.
 dev-python/pyrobase 0.2: PyroScope - General Python Helpers and Utilities
@@ -104,6 +106,7 @@ media-sound/jack_mixer 9-r1 10 9999: JACK audio mixer using GTK2 interface.
 media-sound/jalv 1.4.6: Simple and fully featured LV2 host for Jack running and exposing LV2 plugins as JACK applications
 media-sound/ladish 1-r2 9999: LADI Session Handler - a session management system for JACK applications
 media-sound/laditools 1.0.1 1.1.0 9999: Linux Audio Desktop Integration Tools
+media-sound/mpc 0.27: A commandline client for Music Player Daemon (media-sound/mpd)
 media-sound/patchage 0.5.0 1.0.0: Modular patch bay for audio and MIDI systems
 media-sound/rezound 0.13.1_beta: Sound editor and recorder
 media-sound/rosegarden 14.02 16.02 9999: MIDI and audio sequencer and notation editor
@@ -136,11 +139,12 @@ sys-kernel/git-sources 3.4.108 3.10.101 3.12.58 3.14.58 3.14.68 3.18.25 3.18.36 
 sys-kernel/mkinitramfs-ll 0.22.6 0.22.7 9999: Lightweight, modular and powerfull initramfs genrating tool
 sys-libs/libpstat 9999: Virtual device manager for UNIX
 sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
-sys-process/supervision 0.12.0_rc3 0.12.0_rc4 0.12.2.4 0.12.2.5 9999: Supervision Scripts Framework
+sys-process/supervision 0.12.0_rc3 0.12.0_rc4 0.12.2.5 0.12.2.6 9999: Supervision Scripts Framework
 virtual/daemontools 0: Virtual for Daemontools Service Manager
 virtual/liblash 1: Virtual for LASH library
 virtual/libproxy 1: Virtual for proxy library
 www-apps/searx 0.9.0 0.10.0 9999: Decentralized and privacy-respecting, hackable metasearch engine
+www-client/firefox 38.8.0: Firefox Web Browser
 www-misc/browser-home-profile 4.1 9999: Web-Browser Home Profile Utility
 www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
 x11-misc/netwmpager 2.04: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
