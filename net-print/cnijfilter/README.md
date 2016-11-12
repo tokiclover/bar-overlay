@@ -29,7 +29,7 @@ USAGE INFO
 Actually the mis-named +drivers USE flag is just pulling in `canonMODEL.ppd` file
 and a `cifMODEL` binary linked to propriatary blobs (libraries). The ppd file is
 the only usefull file in most cases because unless you are building the latest 3.x0
-or 4.x0, `cifMODEL` won`t work at all for old tarball because this vry old binary
+or 4.x0, `cifMODEL` won't work at all for old tarball because this vry old binary
 is linked to very new libpng/tiff...
 
 So one could just extract `canonMODEL.ppd` file and put it in `/etc/cups/ppd` and
