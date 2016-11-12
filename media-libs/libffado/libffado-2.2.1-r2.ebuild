@@ -12,19 +12,16 @@ DESCRIPTION="Successor for freebob: Library for accessing BeBoB IEEE1394 devices
 HOMEPAGE="http://www.ffado.org"
 SRC_URI="http://www.ffado.org/files/${P}.tgz"
 
-FIREWIRE_CARDS=( bebob fireworks oxford motu dice metric_halo rme digidesign bounce )
 DEFAULT_CARDS=( bebob fireworks oxford motu dice rme )
-for card in "${FIREWIRE_CARDS[@]}"; do
-	has "${card}" "${DEFAULT_CARDS[@]}" "${FFADO_CARDS}" &&
-		CARDS+=( +ffado_cards_${card} ) || CARDS+=( ffado_cards_${card} )
-done
+OTHER_CARDS=( metric_halo digidesign bounce )
+FIREWIRE_CARDS=( "${DEFAULT_CARDS[@]}" "${OTHER_CARDS[@]}" )
 
 LICENSE="GPL-2"
 KEYWORDS="~amd64 ~ppc ~x86"
 SLOT="0"
-IUSE="debug qt4 ${CARDS[@]}"
-REQUIRED_USE="${PYTHOH_REQUIRED_USE} || ( ${CARD[@]//+/} )"
-unset CARDS
+IUSE="debug qt4 ${DEFAULT_CARDS[@]/#/+ffado_cards_} ${OTHER_CARDS[@]/#/ffado_cards_}"
+REQUIRED_USE="${PYTHOH_REQUIRED_USE} || ( ${FIREWIRE_CARDS[@]/#/ffado_cards_} )"
+unset {DEFAULT,OTHER}_CARDS
 
 RDEPEND=">=dev-cpp/libxmlpp-2.6.13
 	>=dev-libs/dbus-c++-0.9.0[${MULTILIB_USEDEP}]
@@ -61,7 +58,7 @@ multilib_src_configure()
 	tc-export CC CXX
 	[[ "$(tc-get-compiler-type)" = "gcc" ]] &&
 	(( $(gcc-major-version 5) >= 5 )) &&
-		append-cxxflags -std=gnu++11
+		append-cxxflags -std=c++11
 
 	myesconsargs=(
 		CC="${CC}"
