@@ -17,13 +17,6 @@ _ECNIJ_ECLASS=1
 
 inherit autotools eutils flag-o-matic multilib-build
 
-# @ECLASS-VARIABLE: CANON_PRINTERS
-# @DESCRIPTION:
-# Global use-expand variable
-#
-# CANON_PRINTERS="ip90 ip 100"
-:	${CANON_PRINTERS:=}
-
 # @ECLASS-VARIABLE: PRINTER_MODEL
 # @DESCRIPTION:
 # Array of printer models supported by the ebuild
@@ -36,23 +29,11 @@ inherit autotools eutils flag-o-matic multilib-build
 # PRINTER_ID=(303 253)
 :	${PRINTER_ID:=}
 
-# @ECLASS-VARIABLE: PRINTER_USE
-# @DESCRIPTION:
-# Array containing the expanded use flags from PRINTER_MODEL
-# PRINTER_USE=(canon_printers_ip{90,100})
-:	${PRINTER_USE:=}
-
-for card in ${PRINTER_MODEL[@]}; do
-	has ${card} ${CANON_PRINTERS} &&
-	PRINTER_USE=(${PRINTER_USE[@]} +canon_printers_${card}) ||
-	PRINTER_USE=(${PRINTER_USE[@]} canon_printers_${card})
-done
-
-IUSE="${IUSE} backends debug +drivers gtk servicetools +usb ${PRINTER_USE[@]}"
+IUSE="${IUSE} backends debug +drivers gtk servicetools +usb ${PRINTER_MODEL[@]/#/canon_printers_}"
 KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
-	|| ( drivers backends ) drivers? ( || ( ${PRINTER_USE[@]} ) )"
+	|| ( drivers backends ) drivers? ( || ( ${PRINTER_MODEL[@]/#/canon_printers_} ) )"
 ( (( ${PV:0:1} > 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 10 )) ) ) &&
 REQUIRED_USE+=" servicetools? ( net ) backends? ( || ( net usb ) )" ||
 REQUIRED_USE+=" backends? ( usb )"
