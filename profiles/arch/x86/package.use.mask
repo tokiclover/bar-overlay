@@ -1,0 +1,3 @@
+# building with +servicetools is problematic and should not be tried before
+# reading and understanding net-print/cnijfilter/README.md; and will often fail.
+net-print/cnijfilter servicetools
