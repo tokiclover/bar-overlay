@@ -70,10 +70,10 @@ EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_
 # Internal wrapper to handle subdir phase {prepare,config,compilation...}
 dir_src_command()
 {
-	local dirs="${1}" cmd="${2}" args="${3}"
+	local dirs=( ${1} ) cmd="${2}" args="${3}"
 	(( $# < 2 )) && eeror "Invalid number of argument" && return 1
 
-	for dir in ${dirs}; do
+	for dir in "${dirs[@]}"; do
 		pushd ${dir} || die
 		case "${cmd}" in
 			(eautoreconf)
@@ -117,32 +117,33 @@ ecnij_pkg_setup()
 
 	use abi_x86_32 && use amd64 && multilib_toolchain_setup "x86"
 
-	CNIJFILTER_SRC="libs pstocanonij"
-	PRINTER_SRC="cnijfilter"
-	use usb && CNIJFILTER_SRC+=" backend"
-	use_if_iuse net && CNIJFILTER_SRC+=" backendnet"
+	CNIJFILTER_SRC=( libs pstocanonij )
+	PRINTER_SRC=( cnijfilter )
+	use usb && CNIJFILTER_SRC+=( backend )
+	use_if_iuse net && CNIJFILTER_SRC+=( backendnet )
 	if use gtk; then
-		CNIJFILTER_SRC+=" cngpij"
+		CNIJFILTER_SRC+=( cngpij )
 		if (( ${PV:0:1} == 4 )); then
-			PRINTER_SRC+=" lgmon2"
-			use net && PRINTER_SRC+=" cnijnpr"
+			PRINTER_SRC+=( lgmon2 )
+			use net && PRINTER_SRC+=( cnijnpr )
 		else
-			PRINTER_SRC+=" lgmon cngpijmon"
-			use_if_iuse net && PRINTER_SRC+=" cngpijmon/cnijnpr"
+			PRINTER_SRC+=( lgmon cngpijmon )
+			use_if_iuse net && PRINTER_SRC+=( cngpijmon/cnijnpr )
 		fi
 	fi
-	use servicetools &&
+	if use servicetools; then
 	if (( ${PV:0:1} == 4 )); then
-		CNIJFILTER_SRC+=" cngpijmnt"
+		CNIJFILTER_SRC+=( cngpijmnt )
 	elif (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 80 )); then
-		CNIJFILTER_SRC+=" cngpijmnt maintenance"
+		CNIJFILTER_SRC+=( cngpijmnt maintenance )
 	else
-		PRINTER_SRC+=" printui"
+		PRINTER_SRC+=( printui )
+	fi
 	fi
 
 	if (( ${PV:0:1} == 4 )); then
-		PRINTER_SRC="bscc2sts ${PRINTER_SRC}"
-		CNIJFILTER_SRC="cmdtocanonij ${CNIJFILTER_SRC} cnijbe"
+		PRINTER_SRC=( bscc2sts "${PRINTER_SRC[@]}" )
+		CNIJFILTER_SRC=( cmdtocanonij "${CNIJFILTER_SRC[@]}" cnijbe )
 	fi
 }
 
@@ -169,20 +170,17 @@ ecnij_src_prepare()
 
 	epatch_user
 
-	use backends &&
-	dir_src_command "${CNIJFILTER_SRC}" "eautoreconf"
+	use backends && dir_src_command "${CNIJFILTER_SRC[*]}" "eautoreconf"
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
 			mkdir ${pr} || die
-			for dir in ${prid} ${PRINTER_SRC}; do
-				cp -a ${dir} ${pr} || die
-			done
+			cp -a ${prid} "${PRINTER_SRC[@]}" ${pr} || die
 			pushd ${pr} || die
 			[[ -d ../com ]] && ln -s {../,}com
-			dir_src_command "${PRINTER_SRC}" "eautoreconf"
+			dir_src_command "${PRINTER_SRC[*]}" "eautoreconf"
 			popd
 		fi
 	done
@@ -195,16 +193,14 @@ ecnij_src_configure()
 {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	use backends &&
-	dir_src_command "${CNIJFILTER_SRC}" "econf"
+	use backends && dir_src_command "${CNIJFILTER_SRC[*]}" "econf"
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
 			pushd ${pr} || die
-			dir_src_command "${PRINTER_SRC}" \
-				"econf" "--program-suffix=${pr}"
+			dir_src_command "${PRINTER_SRC[*]}" "econf" "--program-suffix=${pr}"
 			popd
 		fi
 	done
@@ -221,13 +217,12 @@ ecnij_src_compile() {
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
 			pushd ${pr} || die
-			dir_src_command "${PRINTER_SRC}" "emake"
+			dir_src_command "${PRINTER_SRC[*]}" "emake"
 			popd
 		fi
 	done
 
-	use backends &&
-	dir_src_command "${CNIJFILTER_SRC}" "emake"
+	use backends && dir_src_command "${CNIJFILTER_SRC[*]}" "emake"
 }
 
 # @FUNCTION: ecnij_src_install
@@ -239,19 +234,19 @@ ecnij_src_install()
 
 	local abi_libdir=/usr/$(get_libdir) p pr prid
 	local abi_lib=${abi_libdir#*lib}
-	local lib license lingua lng
+	local lib license lingua
 	local -a DOCS
 
 	(( ${#MULTILIB_COMPAT[@]} == 1 )) && abi_lib=
 
 	use backends &&
-	dir_src_command "${CNIJFILTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
+	dir_src_command "${CNIJFILTER_SRC[*]}" "emake" "DESTDIR=\"${D}\" install"
 
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
 			pushd ${pr} || die
-			dir_src_command "${PRINTER_SRC}" "emake" "DESTDIR=\"${D}\" install"
+			dir_src_command "${PRINTER_SRC[*]}" "emake" "DESTDIR=\"${D}\" install"
 			popd
 
 			dolib.so ${prid}/libs_bin${abi_lib}/*.so*
@@ -262,15 +257,14 @@ ecnij_src_install()
 
 			use_if_iuse doc &&
 			for lingua in ${LINGUAS}; do
-				lng=${lingua^^[a-z]}
-				[[ -f lproptions/lproptions-${pr}-${PV}${lng}.txt ]] &&
-				DOCS+=(lproptions/lproptions-${pr}-${PV}${lng}.txt)
+				lingua="${lingua^^[a-z]}"
+				[[ -f lproptions/lproptions-${pr}-${PV}${lingua}.txt ]] &&
+				DOCS+=(lproptions/lproptions-${pr}-${PV}${lingua}.txt)
 			done
 		fi
 	done
 
-	use backends &&
-	if use_if_iuse net; then
+	if use backends && use_if_iuse net; then
 		pushd com/libs_bin${abi_lib} || die
 		for lib in lib*.so; do
 			[[ -L ${lib} ]] && continue ||
@@ -284,18 +278,17 @@ ecnij_src_install()
 		doexe com/ini/cnnet.ini
 	fi
 
-	use backends &&
-	if (( ${PV:0:1} == 4 )); then
+	if use backends && (( ${PV:0:1} == 4 )); then
 		mkdir -p "${ED}"/usr/share/${PN} || die
 		mv "${ED}"/usr/share/{cmdtocanonij,${PN}} || die
 	fi
 
 	if use drivers || use_if_iuse net; then
 	for lingua in ${LINGUAS}; do
-		lng=${lingua^^[a-z]}
-		license=LICENSE-${PN}-${PV}${lng}.txt
-		[[ -e ${license%${lng:0:1}.txt}.txt ]] &&
-		mv -f ${license%{lng:0:1}.txt} ${license}
+		lingua="${lingua^^[a-z]}"
+		license=LICENSE-${PN}-${PV}${lingua}.txt
+		[[ -e ${license%${lingua:0:1}.txt}.txt ]] &&
+		mv -f ${license%{lingua:0:1}.txt} ${license}
 		[[ -e ${license} ]] && DOCS+=(${license})
 	done
 	fi
@@ -311,7 +304,7 @@ ecnij_pkg_postinst()
 	debug-print-function ${FUNCNAME} "${@}"
 
 	elog "To install a printer:"
-	elog " * First, restart CUPS: /etc/init.d/cupsd restart"
+	elog " * First, restart CUPS: 'service cupsd restart'"
 	elog " * Go to http://127.0.0.1:631/ with your favorite browser"
 	elog "   and then go to Printers/Add Printer"
 	elog "You can consult the following for any issue/bug:"
