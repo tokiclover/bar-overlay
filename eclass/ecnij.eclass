@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 3.4 2016/05/14 19:33:34 Exp $
+# $Header: eclass/ecnij.eclass,v 4.0 2016/11/12 19:33:34 Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
@@ -29,14 +29,15 @@ inherit autotools eutils flag-o-matic multilib-build
 # PRINTER_ID=(303 253)
 :	${PRINTER_ID:=}
 
-IUSE="${IUSE} backends debug +drivers gtk servicetools +usb ${PRINTER_MODEL[@]/#/canon_printers_}"
+IUSE="${IUSE} cups debug gtk servicetools ${PRINTER_MODEL[@]/#/canon_printers_}"
 KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
-	|| ( drivers backends ) drivers? ( || ( ${PRINTER_MODEL[@]/#/canon_printers_} ) )"
-( (( ${PV:0:1} > 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 10 )) ) ) &&
-REQUIRED_USE+=" servicetools? ( net ) backends? ( || ( net usb ) )" ||
-REQUIRED_USE+=" backends? ( usb )"
+	|| ( cups ${PRINTER_MODEL[@]/#/canon_printers_} )"
+if (( ${PV:0:1} > 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 10 )) ); then
+IUSE+=" +net +usb"
+REQUIRED_USE+=" servicetools? ( net ) cups? ( || ( net usb ) )"
+fi
 
 LICENSE="GPL-2"
 has net ${IUSE} && LICENSE+=" net? ( CNIJFILTER )"
@@ -50,7 +51,7 @@ RDEPEND="${RDEPEND}
 		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	media-libs/tiff[${MULTILIB_USEDEP}]
 	media-libs/libpng[${MULTILIB_USEDEP}]
-	!backends? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},backends] )"
+	!cups? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},cups] )"
 
 ( (( ${PV:0:1} >= 3 )) || (( ${PV:2:2} >= 80 )) ) &&
 RDEPEND="${RDEPEND}
@@ -78,6 +79,8 @@ dir_src_command()
 		case "${cmd}" in
 			(eautoreconf)
 			[[ -d po ]] && echo "no" | glib-gettextize --force --copy
+			[[ ! -e configure.in ]] && [[ -e configures/configure.in.new ]] &&
+				mv -f configures/configure.in.new configure.in
 			${cmd} ${args}
 			;;
 			(econf)
@@ -119,8 +122,12 @@ ecnij_pkg_setup()
 
 	CNIJFILTER_SRC=( libs pstocanonij )
 	PRINTER_SRC=( cnijfilter )
-	use usb && CNIJFILTER_SRC+=( backend )
+	use_if_iuse usb && CNIJFILTER_SRC+=( backend )
 	use_if_iuse net && CNIJFILTER_SRC+=( backendnet )
+	if ! has usb; then
+		(( ${PV:0:1} >= 3 )) || ( (( ${PV:0:1} == 2 )) && (( ${PV:2:2} >= 80 )) ) &&
+			CNIJFILTER_SRC+=( backend )
+	fi
 	if use gtk; then
 		CNIJFILTER_SRC+=( cngpij )
 		if (( ${PV:0:1} == 4 )); then
@@ -170,7 +177,7 @@ ecnij_src_prepare()
 
 	epatch_user
 
-	use backends && dir_src_command "${CNIJFILTER_SRC[*]}" "eautoreconf"
+	use cups && dir_src_command "${CNIJFILTER_SRC[*]}" "eautoreconf"
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
@@ -193,7 +200,7 @@ ecnij_src_configure()
 {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	use backends && dir_src_command "${CNIJFILTER_SRC[*]}" "econf"
+	use cups && dir_src_command "${CNIJFILTER_SRC[*]}" "econf"
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
@@ -222,7 +229,7 @@ ecnij_src_compile() {
 		fi
 	done
 
-	use backends && dir_src_command "${CNIJFILTER_SRC[*]}" "emake"
+	use cups && dir_src_command "${CNIJFILTER_SRC[*]}" "emake"
 }
 
 # @FUNCTION: ecnij_src_install
@@ -234,17 +241,18 @@ ecnij_src_install()
 
 	local abi_libdir=/usr/$(get_libdir) p pr prid
 	local abi_lib=${abi_libdir#*lib}
-	local lib license lingua
+	local lib license lingua=false
 	local -a DOCS
 
 	(( ${#MULTILIB_COMPAT[@]} == 1 )) && abi_lib=
 
-	use backends &&
+	use cups &&
 	dir_src_command "${CNIJFILTER_SRC[*]}" "emake" "DESTDIR=\"${D}\" install"
 
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
+			lingua=true
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC[*]}" "emake" "DESTDIR=\"${D}\" install"
 			popd
@@ -264,7 +272,7 @@ ecnij_src_install()
 		fi
 	done
 
-	if use backends && use_if_iuse net; then
+	if use cups && use_if_iuse net; then
 		pushd com/libs_bin${abi_lib} || die
 		for lib in lib*.so; do
 			[[ -L ${lib} ]] && continue ||
@@ -278,12 +286,12 @@ ecnij_src_install()
 		doexe com/ini/cnnet.ini
 	fi
 
-	if use backends && (( ${PV:0:1} == 4 )); then
+	if use cups && (( ${PV:0:1} == 4 )); then
 		mkdir -p "${ED}"/usr/share/${PN} || die
 		mv "${ED}"/usr/share/{cmdtocanonij,${PN}} || die
 	fi
 
-	if use drivers || use_if_iuse net; then
+	if ${lingua} || use_if_iuse net; then
 	for lingua in ${LINGUAS}; do
 		lingua="${lingua^^[a-z]}"
 		license=LICENSE-${PN}-${PV}${lingua}.txt
