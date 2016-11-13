@@ -38,5 +38,5 @@ PATCHES=(
 pkg_setup() {
 	ecnij_pkg_setup
 
-	CNIJFILTER_SRC="${CNIJFILTER_SRC/backend}"
+	CNIJFILTER_SRC=(${CNIJFILTER_SRC/backend})
 }

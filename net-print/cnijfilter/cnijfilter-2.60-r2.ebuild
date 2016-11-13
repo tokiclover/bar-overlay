@@ -39,6 +39,6 @@ PATCHES=(
 pkg_setup() {
 	ecnij_pkg_setup
 
-	PRINTER_SRC="${PRINTER_SRC/lgmon/stsmon}"
-	CNIJFILTER_SRC="${CNIJFILTER_SRC/backend}"
+	PRINTER_SRC=(${PRINTER_SRC/lgmon/stsmon})
+	CNIJFILTER_SRC=(${CNIJFILTER_SRC/backend})
 }
