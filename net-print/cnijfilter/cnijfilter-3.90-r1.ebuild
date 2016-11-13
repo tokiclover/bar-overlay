@@ -31,6 +31,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.70-1-libexec-backend.patch
 	"${FILESDIR}"/${PN}-3.80-5-abi_x86_32.patch
 	"${FILESDIR}"/${PN}-3.80-1-cups-1.6.patch
+	"${FILESDIR}"/${PN}-${PV}-6-headers.patch
+	"${FILESDIR}"/${PN}-3.80-6-ipp.patch
 )
 
 src_install() {

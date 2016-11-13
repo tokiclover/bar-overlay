@@ -6,14 +6,14 @@ EAPI=5
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
 
-PRINTER_MODEL=( "mg7100" "mg6500" "mg6400" "mg5500" "mg3500" "mg2400" "mg2500" "p200" )
-PRINTER_ID=( "423" "424" "425" "426" "427" "428" "429" "430" )
+PRINTER_MODEL=( "ix6700" "ix6800" "ip2800" "mx470" "mx530" "ip8700" "e560" "e400" )
+PRINTER_ID=( "431" "432" "433" "434" "435" "436" "437" "438" )
 
 inherit ecnij
 
 DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 HOMEPAGE="http://www.canon-europe.com/Support/"
-SRC_URI="http://gdlp01.c-wss.com/gds/5/0100005515/01/${PN}-source-${PV}-1.tar.gz"
+SRC_URI="http://gdlp01.c-wss.com/gds/8/0100005858/01/${PN}-source-${PV}-1.tar.gz"
 
 IUSE="+doc +net"
 SLOT="${PV:0:1}"
@@ -27,13 +27,14 @@ RESTRICT="mirror"
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-${PV}-4-ppd.patch
 	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch
 	"${FILESDIR}"/${PN}-3.70-1-libexec-backend.patch
-	"${FILESDIR}"/${PN}-${PV}-1-libexec-backend.patch
-	"${FILESDIR}"/${PN}-${PV}-1-libexec-cups.patch
-	"${FILESDIR}"/${PN}-${PV}-5-abi_x86_32.patch
+	"${FILESDIR}"/${PN}-4.00-1-libexec-backend.patch
+	"${FILESDIR}"/${PN}-4.00-1-libexec-cups.patch
+	"${FILESDIR}"/${PN}-4.00-5-abi_x86_32.patch
 	"${FILESDIR}"/${PN}-3.80-1-cups-1.6.patch
+	"${FILESDIR}"/${PN}-3.90-6-headers.patch
+	"${FILESDIR}"/${PN}-3.80-6-ipp.patch
 )
 
 src_prepare() {

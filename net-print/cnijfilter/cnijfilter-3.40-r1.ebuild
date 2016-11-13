@@ -27,10 +27,14 @@ S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.20-4-ppd.patch
-	"${FILESDIR}"/${PN}-3.20-4-libpng15.patch
+	"${FILESDIR}"/${PN}-${PV}-4-libpng15.patch
 	"${FILESDIR}"/${PN}-3.70-5-abi_x86_32.patch
 	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch
 	"${FILESDIR}"/${PN}-3.70-1-libexec-backend.patch
+	"${FILESDIR}"/${PN}-3.70-1-libdl.patch
 	"${FILESDIR}"/${PN}-3.80-1-cups-1.6.patch
+	"${FILESDIR}"/${PN}-3.70-6-headers.patch
+	"${FILESDIR}"/${PN}-3.80-6-headers.patch
+	"${FILESDIR}"/${PN}-3.70-6-ipp.patch
 )
 

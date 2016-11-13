@@ -55,24 +55,10 @@ in `/usr/libexec/cups/backend`.
 INTERNAL INFO
 -------------
 
-Actually, old ebuilds used to be mergeable with `-servicetools -gtk` **USE** flags. Alghough
-cnijfilter-4.[01]0 changed it a little bit because now +gtk build, however,
-the same old code in *'cngpijmon'* and *'cngpmnt'* present only in cnijfilter-3.[89]0
-ported, or to be precise copied *'as is'* I think, to *'cnijnpr'* in cnijfilter-4.[01]0
-do not compile and throw the same (old) errors! 
-
-So cnijfilter-{2.[6-9],3.[0-9]}0[-servicetools,-gtk] is compilable while
-cnijfilter-4.[01]0[-servicetools,+gtk] compile just fine! 
-
-I don't really know where the whole old code in *'cngpijmon'* present in old
-tarball went in cnijfilter-4.x0 nor the *'maintenance'* present in the last 3.x0.
-It seems *'cngpijmon/cnijnpr'* was moved and *'lgmon'* API changed because there is a
-new *'lgmon2'* in 4.x0 while many chunk of code where left *'as is'* which are not
-compilable since the old days!
-
-The oddity of the very old packages is a dependency to `gtk+:1`. So unless you have
-it installed, it is imposile to pass src_prepare because aclocal fails on a
-missing *AM GTK MACRO* (with dep to >=gtk+-1.2.6:1).
+net-print/cnijfilter[gtk,servicetools] now compile fine with a patch ported from
+[cnijfilter-source-3.80](https://github.com:tokiclover/cnijfilter-source-3.80)
+to all version provided here. Remain only the issue with x11-libs/gtk+:1
+required by by older ebuilds `<=net-print/cnijfilter-2.70`.
 
 SOURCE FILES NOTE
 -----------------
