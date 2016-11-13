@@ -15,7 +15,6 @@ DESCRIPTION="Canon InkJet Printer Driver for Linux (Pixus/Pixma-Series)"
 HOMEPAGE="http://support-asia.canon-asia.com/content/EN/0100084101.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/7/0100002367/01/${PN}-source-${PV}-1.tar.gz"
 
-IUSE="+net"
 SLOT="${PV:0:1}"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"

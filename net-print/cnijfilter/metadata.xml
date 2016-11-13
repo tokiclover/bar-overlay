@@ -6,8 +6,8 @@
 	<email>bar@overlay</email>
 </maintainer>
 	<use>
-		<flag name="backends">Build only CUPS backends+filter+utilities</flag>
-		<flag name="drivers">Build Canon CUPS filter command line utility and pull in propriatary blobs</flag>
+		<flag name="cups">Build CUPS printing (Network/USB) backends, filters and printer utilities</flag>
+		<flag name="canon_printers_@MODEL@">Build Canon(R) CUPS printer command line utility (pull-in propriatary blobs)</flag>
 		<flag name="servicetools">Build service tools utility, this require very old libs</flag>
 		<flag name="net">Add network backend for CUPS</flag>
 		<flag name="usb">Add usb backend for CUPS</flag>
