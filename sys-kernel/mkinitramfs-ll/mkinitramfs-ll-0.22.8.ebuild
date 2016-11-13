@@ -26,13 +26,13 @@ LICENSE="BSD-2"
 SLOT="0"
 
 COMPRESSOR_USE=( bzip2 gzip lz4 lzo xz )
-FS_USE=( btrfs e2fs f2fs jfs reiserfs xfs )
+FILESYSTEM_USE=( btrfs e2fs f2fs jfs reiserfs xfs )
 IUSE="aufs +bash dm-crypt device-mapper dmraid fbsplash lzma mdadm squashfs
-zfs +zram zsh ${COMPRESSOR_USE[@]/xz/+xz} ${FS_USE[@]/e2fs/+e2fs}"
+zfs +zram zsh ${COMPRESSOR_USE[@]/xz/+xz} ${FILESYSTEM_USE[@]/e2fs/+e2fs}"
 
 REQUIRED_USE="
 	|| ( ${COMPRESSOR_USE[@]} )
-	|| ( ${FS_USE[@]} )"
+	|| ( ${FILESYSTEM_USE[@]} )"
 
 DEPEND="sys-apps/sed"
 RDEPEND="app-arch/cpio
@@ -67,18 +67,18 @@ unset i
 
 pkg_setup()
 {
-	[[ -n "$PKG_SETUP_HAS_BEEN_RAN" ]] && return
+	[[ -n "${PKG_SETUP_HAS_BEEN_RAN}" ]] && return
 	CONFIG_CHECK="BLK_DEV_INITRD PROC_FS SYSFS TMPFS"
 	local u U
 
-	for u in ${COMPRESSOR_USE[@]}; do
+	for u in "${COMPRESSOR_USE[@]}"; do
 		U="${u^^[a-z]}"
 		if use "${u}"; then
 			CONFIG_CHECK+=" ~RD_${U}"
 			eval : ERROR_"${U}"="no support of ${u} compressed initial ramdisk found"
 		fi
 	done
-	for u in ${FS_USE[@]/e2fs}; do
+	for u in "${FILESYSTEM_USE[@]/e2fs}"; do
 		U="${u^^[a-z]}"
 		if use "${u}"; then
 			CONFIG_CHECK+=" ~${U}_FS"
