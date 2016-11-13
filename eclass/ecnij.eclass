@@ -120,8 +120,8 @@ ecnij_pkg_setup()
 
 	use abi_x86_32 && use amd64 && multilib_toolchain_setup "x86"
 
-	CNIJFILTER_SRC=( libs pstocanonij )
-	PRINTER_SRC=( cnijfilter )
+	CNIJFILTER_SRC+=( libs pstocanonij )
+	PRINTER_SRC+=( cnijfilter )
 	use_if_iuse usb && CNIJFILTER_SRC+=( backend )
 	use_if_iuse net && CNIJFILTER_SRC+=( backendnet )
 	if ! has usb; then
