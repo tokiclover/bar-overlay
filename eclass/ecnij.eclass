@@ -263,12 +263,13 @@ ecnij_src_install()
 			insinto /usr/share/cups/model
 			doins ppd/canon${pr}.ppd
 
-			use_if_iuse doc &&
+			if use_if_iuse doc; then
 			for lingua in ${LINGUAS}; do
 				lingua="${lingua^^[a-z]}"
 				[[ -f lproptions/lproptions-${pr}-${PV}${lingua}.txt ]] &&
 				DOCS+=(lproptions/lproptions-${pr}-${PV}${lingua}.txt)
 			done
+			fi
 		fi
 	done
 
