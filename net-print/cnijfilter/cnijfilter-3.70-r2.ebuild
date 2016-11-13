@@ -16,7 +16,7 @@ HOMEPAGE="http://support-asia.canon-asia.com/contents/ASIA/EN/010042.0 2015/08/0
 SRC_URI="http://gdlp01.c-wss.com/gds/8/0100004118/01/${PN}-source-${PV}-1.tar.gz"
 
 IUSE="+doc"
-SLOT="${PV:0:1}"
+SLOT="${PV:0:1}/${PV}"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"

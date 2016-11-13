@@ -17,7 +17,7 @@ HOMEPAGE="http://canon.com/"
 DOWNLOAD_URL="http://software.canon-europe.com/software/0027403.asp"
 SRC_URI="http://hex1a4.net/xubuntu/HOWTO/dl/${PN}-common-${PV}-2.src.rpm"
 
-SLOT="${PV:0:1}"
+SLOT="${PV:0:1}/${PV}"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"

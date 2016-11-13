@@ -16,7 +16,7 @@ HOMEPAGE="http://support-au.canon.com.au/contents/AU/EN/0100517102.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/1/0100005171/01/${PN}-source-${PV}-1.tar.gz"
 
 IUSE="+doc"
-SLOT="${PV:0:1}"
+SLOT="${PV:0:1}/${PV}"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"

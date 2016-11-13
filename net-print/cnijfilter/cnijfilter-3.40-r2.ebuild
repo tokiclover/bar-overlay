@@ -16,7 +16,7 @@ HOMEPAGE="http://software.canon-europe.com/software/0040245.asp"
 SRC_URI="http://files.canon-europe.com/files/soft40245/software/${PN}-source-${PV}-1.tar.gz"
 
 IUSE="+doc"
-SLOT="${PV:0:1}"
+SLOT="${PV:0:1}/${PV}"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"

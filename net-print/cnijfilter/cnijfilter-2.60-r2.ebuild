@@ -17,7 +17,7 @@ HOMEPAGE="http://canon.com/"
 DOWNLOAD_URL="http://support-au.canon.com.au/contents/AU/EN/0900718301.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/3/0900007183/02/${PN}-common-${PV}-4.src.rpm"
 
-SLOT="${PV:0:1}"
+SLOT="${PV:0:1}/${PV}"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"

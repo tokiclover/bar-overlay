@@ -17,7 +17,7 @@ HOMEPAGE="http://canon.com/"
 DOWNLOAD_URL="http://support-ph.canon-asia.com/contents/PH/EN/0100119202.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/2/0100001192/01/${PN}-common-${PV}-1.tar.gz"
 
-SLOT="${PV:0:1}"
+SLOT="${PV:0:1}/${PV}"
 
 DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
 RDEPEND="${RDEPEND}"
