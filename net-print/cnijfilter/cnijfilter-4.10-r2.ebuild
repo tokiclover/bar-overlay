@@ -36,6 +36,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.80-1-cups-1.6.patch
 	"${FILESDIR}"/${PN}-3.90-6-headers.patch
 	"${FILESDIR}"/${PN}-3.80-6-ipp.patch
+	"${FILESDIR}"/${PN}-4.00-6-headers.patch
 )
 
 src_prepare() {

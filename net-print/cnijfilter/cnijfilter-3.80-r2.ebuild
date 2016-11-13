@@ -34,6 +34,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-${PV}-1-cups-1.6.patch
 	"${FILESDIR}"/${PN}-${PV}-6-headers.patch
 	"${FILESDIR}"/${PN}-${PV}-6-ipp.patch
+	"${FILESDIR}"/${PN}-3.70-6-headers.patch
+	"${FILESDIR}"/${PN}-3.70-6-ipp.patch
 )
 
 src_install() {
