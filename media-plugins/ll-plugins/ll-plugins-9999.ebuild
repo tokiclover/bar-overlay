@@ -16,7 +16,7 @@ case "${PV}" in
 		SRC_URI="http://download.savannah.nongnu.org/releases/${PN}/${P}.tar.bz2"
 		;;
 esac
-inherit eutils multilib-minimal ${VCS_ECLASS}
+inherit flag-o-matic eutils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="collection of LV2 plugins, LV2 extension definitions, and LV2 related tools"
 HOMEPAGE="http://ll-plugins.nongnu.org"
@@ -50,6 +50,11 @@ src_prepare()
 
 multilib_src_configure()
 {
+	if [[ "$(tc-get-compiler-type)" = "gcc" ]] &&
+	(( $(gcc-major-version 5) >= 5 )); then
+		append-cxxflags -std=c++11
+	fi
+
 	local myeconfargs=(
 		--CFLAGS="${CFLAGS}"
 		--LDFLAGS="${LDFLAGS}"
