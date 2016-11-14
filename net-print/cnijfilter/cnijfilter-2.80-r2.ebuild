@@ -17,10 +17,7 @@ HOMEPAGE="http://canon.com/"
 DOWNLOAD_URL="http://support-asia.canon-asia.com/content/EN/0100084101.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/0100000841/${PN}-common-${PV}-1.tar.gz"
 
-SLOT="${PV:0:1}/${PV}"
-
 RESTRICT="fetch mirror"
-S="${WORKDIR}"/${PN}-common-${PV}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.70-1-png_jmpbuf-fix.patch

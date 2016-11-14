@@ -37,6 +37,9 @@ REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
 if (( ${PV:0:1} > 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 10 )) ); then
 IUSE+=" +net +usb"
 REQUIRED_USE+=" servicetools? ( net ) cups? ( || ( net usb ) )"
+SLOT="3/${PV}"
+else
+SLOT="2/${PV}"
 fi
 
 LICENSE="GPL-2"
@@ -164,6 +167,7 @@ ecnij_src_unpack()
 
 	default
 	cd "${S}"
+	mv ${PN}-* ${P} || die "Failed to unpack"
 }
 
 # @FUNCTION: ecnij_src_prepare

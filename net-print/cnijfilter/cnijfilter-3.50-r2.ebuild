@@ -16,10 +16,8 @@ HOMEPAGE="http://software.canon-europe.com/software/0040869.asp"
 SRC_URI="http://files.canon-europe.com/files/soft40869/software/${PN}-source-${PV}-1.tar.gz"
 
 IUSE="+doc"
-SLOT="${PV:0:1}/${PV}"
 
 RESTRICT="mirror"
-S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.20-4-ppd.patch

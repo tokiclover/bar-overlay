@@ -17,10 +17,7 @@ HOMEPAGE="http://canon.com/"
 DOWNLOAD_URL="http://support-au.canon.com.au/contents/AU/EN/0900718301.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/3/0900007183/02/${PN}-common-${PV}-4.src.rpm"
 
-SLOT="${PV:0:1}/${PV}"
-
 RESTRICT="mirror"
-S="${WORKDIR}"/${PN}-common-${PV}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.60-1-png_jmpbuf-fix.patch

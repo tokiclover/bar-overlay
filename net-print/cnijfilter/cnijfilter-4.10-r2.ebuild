@@ -16,13 +16,11 @@ HOMEPAGE="http://www.canon-europe.com/Support/"
 SRC_URI="http://gdlp01.c-wss.com/gds/8/0100005858/01/${PN}-source-${PV}-1.tar.gz"
 
 IUSE="+doc"
-SLOT="3/${PV}"
 
 DEPEND="gtk? ( virtual/libusb:1 )"
 RDEPEND="${RDEPEND}"
 
 RESTRICT="mirror"
-S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch

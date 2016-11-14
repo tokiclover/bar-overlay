@@ -16,10 +16,8 @@ HOMEPAGE="http://support-au.canon.com.au/contents/AU/EN/0100517102.html"
 SRC_URI="http://gdlp01.c-wss.com/gds/1/0100005171/01/${PN}-source-${PV}-1.tar.gz"
 
 IUSE="+doc"
-SLOT="${PV:0:1}/${PV}"
 
 RESTRICT="mirror"
-S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.20-4-ppd.patch
