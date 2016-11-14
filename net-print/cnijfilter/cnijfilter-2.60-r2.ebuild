@@ -29,7 +29,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-2.60-1-canonip4200.ppd.patch.bz2
 	"${FILESDIR}"/${PN}-3.70-1-libexec-cups.patch
 	"${FILESDIR}"/${PN}-3.80-6-headers.patch
-	"${FILESDIR}"/${PN}-3.00-6-ipp.patch
+	"${FILESDIR}"/${PN}-3.00-6-cups-1.6.patch
 )
 
 pkg_setup() {

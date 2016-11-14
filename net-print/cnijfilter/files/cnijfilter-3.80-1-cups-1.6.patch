@@ -1,33 +1,5 @@
 --- a/cngpij/cngpij/bjcups.c
 +++ a/cngpij/cngpij/bjcups.c
-@@ -66,6 +66,27 @@
- 
- char* g_printer_name = NULL;
- 
-+#if (CUPS_VERSION_MAJOR > 1) || (CUPS_VERSION_MINOR > 5)
-+#define HAVE_CUPS_1_6 1
-+#endif
-+
-+#ifndef HAVE_CUPS_1_6
-+
-+#define ippSetOperation(ipp_request, ipp_op_id) ipp_request->request.op.operation_id = ipp_op_id
-+#define ippSetRequestId(ipp_request, ipp_rq_id) ipp_request->request.op.request_id = ipp_rq_id
-+#define ippGetStatusCode(ipp_request) ipp_request->request.status.status_code
-+#define ippFirstAttribute(ipp) ipp->attrs /* simplistic */
-+#define bjcups_ippNextAttribute(resp, attr) attr->next
-+#define ippGetGroupTag(attr)  attr->group_tag
-+#define ippGetName(attr) attr->name
-+#define ippGetString(attr, ind, lang) attr->values[ind].string.text
-+#define ippGetValueTag(attr) attr->value_tag
-+
-+#else
-+
-+#define bjcups_ippNextAttribute(resp, attr) ippNextAttribute(resp)
-+
-+#endif
- 
- extern int GetIPCData(LPIPCU pipc, char *sname);
- static short getDeviceURI( const char *pDestName, char *pDeviceURI, short bufSize);
 @@ -698,8 +719,8 @@
  	else {
  		pRequest = ippNew();
@@ -56,7 +28,7 @@
 -					while (pAttribute != NULL && pAttribute->group_tag != IPP_TAG_PRINTER) {
 -						pAttribute = pAttribute->next;
 +					while (pAttribute != NULL && ippGetGroupTag(pAttribute) != IPP_TAG_PRINTER) {
-+						pAttribute = bjcups_ippNextAttribute(pResponse, pAttribute);
++						pAttribute = ippNextAttribute(pResponse);
  					}
  					if (pAttribute == NULL) {
  						break;
@@ -75,7 +47,7 @@
 +							pDUri = ippGetString(pAttribute, 0, NULL);
  						}
 -						pAttribute = pAttribute->next;
-+						pAttribute = bjcups_ippNextAttribute(pResponse, pAttribute);
++						pAttribute = ippNextAttribute(pResponse);
  					}
  
  					if (strcasecmp(pDestName, pPrinter) == 0) {
@@ -84,7 +56,7 @@
  					
  					if (pAttribute != NULL)
 -						 pAttribute = pAttribute->next;
-+						pAttribute = bjcups_ippNextAttribute(pResponse, pAttribute);
++						pAttribute = ippNextAttribute(pResponse);
  				}
  			}
 
