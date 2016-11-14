@@ -323,7 +323,7 @@ ecnij_pkg_postinst()
 	elog "   and then go to Printers/Add Printer"
 	elog "You can consult the following for any issue/bug:"
 	elog "https://forums.gentoo.org/viewtopic-p-3217721.html"
-	elog "https://bugs.gentoo.org/show_bug.cgi?id=258244"
+	elog "https://bugs.gentoo.org/show_bug.cgi?id=130645"
 }
 
 fi
