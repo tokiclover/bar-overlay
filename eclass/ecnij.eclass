@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 4.0 2016/11/12 19:33:34 Exp $
+# $Header: eclass/ecnij.eclass,v 4.1 2016/11/14 19:33:34 Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
@@ -318,6 +318,11 @@ ecnij_src_install()
 ecnij_pkg_postinst()
 {
 	debug-print-function ${FUNCNAME} "${@}"
+
+	# XXX: set up ppd files to use newer CUPS backends
+	if (( ${PV:0:1} < 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} == 00 )) ); then
+		use cups || sed 's,cnij_usb,cnijusb,g' -i "${ED}"/usr/share/cups/model/canon*.ppd
+	fi
 
 	elog "To install a printer:"
 	elog " * First, restart CUPS: 'service cupsd restart'"

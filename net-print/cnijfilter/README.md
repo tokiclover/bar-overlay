@@ -44,6 +44,8 @@ a use case test!
 Finaly, if the latest package does not work for you, you can try (3.90 -- 4.00 is a
 major update;) 3.70 -- 3.80 is a major update; and 3.40 -- multilib support.
 
+**NOTE: This is now done automatically in as of ecnij-4.1 eclass!**
+
 One last note is that when using later backends with older printers than `<=cnijfilter-3.00`,
 one has to edit `cnij_usb` to `cnijusb`, newtork backend should be fine, in the
 ppd file. Just check CUPS backends used in the ppd file in regards to what is installed
