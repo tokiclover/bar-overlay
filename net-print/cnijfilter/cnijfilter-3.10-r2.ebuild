@@ -17,11 +17,7 @@ SRC_URI="http://files.canon-europe.com/files/soft33571/software/${PN}-source-${P
 
 SLOT="${PV:0:1}/${PV}"
 
-DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
-RDEPEND="${RDEPEND}"
-
 RESTRICT="mirror"
-
 S="${WORKDIR}"/${PN}-source-${PV}
 
 PATCHES=(

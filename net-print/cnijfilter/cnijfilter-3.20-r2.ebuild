@@ -17,11 +17,7 @@ SRC_URI="http://gdlp01.c-wss.com/gds/7/0100002367/01/${PN}-source-${PV}-1.tar.gz
 
 SLOT="${PV:0:1}/${PV}"
 
-DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
-RDEPEND="${RDEPEND}"
-
 RESTRICT="mirror"
-
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(

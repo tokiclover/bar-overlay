@@ -18,12 +18,10 @@ SRC_URI="http://gdlp01.c-wss.com/gds/8/0100005858/01/${PN}-source-${PV}-1.tar.gz
 IUSE="+doc"
 SLOT="3/${PV}"
 
-DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]
-	gtk? ( virtual/libusb:1 )"
+DEPEND="gtk? ( virtual/libusb:1 )"
 RDEPEND="${RDEPEND}"
 
 RESTRICT="mirror"
-
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(
@@ -39,7 +37,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-4.00-6-headers.patch
 )
 
-src_prepare() {
+src_prepare()
+{
 	local arc=64
 	[[ x${ABI} == xx86 ]] && arc=32
 	sed -e "s,cnijlgmon2_LDADD =,cnijlgmon2_LDADD = -L../../com/libs_bin${arc}," \

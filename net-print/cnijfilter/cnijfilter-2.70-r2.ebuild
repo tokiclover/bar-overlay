@@ -19,11 +19,7 @@ SRC_URI="http://hex1a4.net/xubuntu/HOWTO/dl/${PN}-common-${PV}-2.src.rpm"
 
 SLOT="${PV:0:1}/${PV}"
 
-DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
-RDEPEND="${RDEPEND}"
-
 RESTRICT="mirror"
-
 S="${WORKDIR}"/${PN}-common-${PV}
 
 PATCHES=(

@@ -18,12 +18,10 @@ SRC_URI="http://gdlp01.c-wss.com/gds/5/0100005515/01/${PN}-source-${PV}-1.tar.gz
 IUSE="+doc"
 SLOT="3/${PV}"
 
-DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]
-	gtk? ( virtual/libusb:1 )"
+DEPEND="gtk? ( virtual/libusb:1 )"
 RDEPEND="${RDEPEND}"
 
 RESTRICT="mirror"
-
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(

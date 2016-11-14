@@ -19,11 +19,7 @@ PRINTER_ID=( "386" "387" "388" "389" "390" "391" "392" "393" )
 IUSE="+doc"
 SLOT="${PV:0:1}/${PV}"
 
-DEPEND=">=net-print/cups-1.1.14[${MULTILIB_USEDEP}]"
-RDEPEND="${RDEPEND}"
-
 RESTRICT="mirror"
-
 S="${WORKDIR}"/${PN}-source-${PV}-1
 
 PATCHES=(

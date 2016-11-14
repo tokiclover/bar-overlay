@@ -43,6 +43,7 @@ LICENSE="GPL-2"
 has net ${IUSE} && LICENSE+=" net? ( CNIJFILTER )"
 
 RDEPEND="${RDEPEND}
+	>=net-print/cups-1.6.0[${MULTILIB_USEDEP}]
 	app-text/ghostscript-gpl
 	dev-libs/glib[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
