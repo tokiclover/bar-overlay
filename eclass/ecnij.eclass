@@ -57,11 +57,13 @@ RDEPEND="${RDEPEND}
 	media-libs/libpng[${MULTILIB_USEDEP}]
 	!cups? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},cups] )"
 
-( (( ${PV:0:1} >= 3 )) || (( ${PV:2:2} >= 80 )) ) &&
+if (( ${PV:0:1} >= 3 )) || (( ${PV:2:2} >= 80 )); then
 RDEPEND="${RDEPEND}
-	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )" ||
+	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
+else
 RDEPEND="${RDEPEND}
 	gtk? ( x11-libs/gtk+:1[${MULTILIB_USEDEP}] )"
+fi
 DEPEND="${DEPEND}
 	virtual/libintl"
 
