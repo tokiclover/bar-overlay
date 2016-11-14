@@ -29,10 +29,10 @@ inherit autotools eutils flag-o-matic multilib-build
 # PRINTER_ID=(303 253)
 :	${PRINTER_ID:=}
 
-IUSE="${IUSE} cups debug gtk servicetools ${PRINTER_MODEL[@]/#/canon_printers_}"
+IUSE="${IUSE} cups debug servicetools ${PRINTER_MODEL[@]/#/canon_printers_}"
 KEYWORDS="~x86 ~amd64"
 
-REQUIRED_USE="${REQUIRED_USE} servicetools? ( gtk )
+REQUIRED_USE="${REQUIRED_USE}
 	|| ( cups ${PRINTER_MODEL[@]/#/canon_printers_} )"
 if (( ${PV:0:1} > 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 10 )) ); then
 IUSE+=" +net +usb"
@@ -57,12 +57,12 @@ RDEPEND="${RDEPEND}
 	media-libs/libpng[${MULTILIB_USEDEP}]
 	!cups? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},cups] )"
 
-if (( ${PV:0:1} >= 3 )) || (( ${PV:2:2} >= 80 )); then
+if (( ${PV:0:1} == 3 )) || ( (( ${PV:0:1} == 2 )) && (( ${PV:2:2} >= 80 )) ); then
 RDEPEND="${RDEPEND}
-	gtk? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
-else
+	servicetools? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
+elif (( ${PV:0:1} == 2 )); then
 RDEPEND="${RDEPEND}
-	gtk? ( x11-libs/gtk+:1[${MULTILIB_USEDEP}] )"
+	servicetools? ( x11-libs/gtk+:1[${MULTILIB_USEDEP}] )"
 fi
 DEPEND="${DEPEND}
 	virtual/libintl"
@@ -134,16 +134,15 @@ ecnij_pkg_setup()
 		(( ${PV:0:1} >= 3 )) || ( (( ${PV:0:1} == 2 )) && (( ${PV:2:2} >= 80 )) ) &&
 			CNIJFILTER_SRC+=( backend )
 	fi
-	if use gtk; then
-		CNIJFILTER_SRC+=( cngpij )
-		if (( ${PV:0:1} == 4 )); then
-			PRINTER_SRC+=( lgmon2 )
-			use net && PRINTER_SRC+=( cnijnpr )
-		else
-			PRINTER_SRC+=( lgmon cngpijmon )
-			use_if_iuse net && PRINTER_SRC+=( cngpijmon/cnijnpr )
-		fi
+	CNIJFILTER_SRC+=( cngpij )
+	if (( ${PV:0:1} == 4 )); then
+		PRINTER_SRC+=( lgmon2 )
+		use_if_iuse net && PRINTER_SRC+=( cnijnpr )
+	else
+		PRINTER_SRC+=( lgmon cngpijmon )
+		use_if_iuse net && PRINTER_SRC+=( cngpijmon/cnijnpr )
 	fi
+
 	if use servicetools; then
 	if (( ${PV:0:1} == 4 )); then
 		CNIJFILTER_SRC+=( cngpijmnt )

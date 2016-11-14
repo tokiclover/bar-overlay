@@ -30,7 +30,7 @@ or 4.x0, `cif<MODEL>` won't work at all for old tarball because this vry old bin
 is linked to very old libpng/tiff... libraries.
 
 So one could just extract `canon<MODEL>.ppd` file and put it in `/etc/cups/ppd` and
-and then merge something with `net-print/cnijfilter cups gtk net usb servicetools`.
+and then merge something with `net-print/cnijfilter cups net usb servicetools`.
 
 Beware that +net USE flag pull in propriatary blobs (libraries) which are linked to
 network backend.
@@ -56,7 +56,7 @@ suffice.
 INTERNAL INFO
 -------------
 
-net-print/cnijfilter[gtk,servicetools] now compile fine with a patch ported from
+net-print/cnijfilter[servicetools] now compile fine with a patch ported from
 [cnijfilter-source-3.80](https://github.com/tokiclover/cnijfilter-source-3.80)
 to all version provided here. Remain only the issue with x11-libs/gtk+:1
 required by by older ebuilds `<=net-print/cnijfilter-2.70`.

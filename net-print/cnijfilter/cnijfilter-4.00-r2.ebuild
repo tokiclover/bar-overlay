@@ -17,7 +17,7 @@ SRC_URI="http://gdlp01.c-wss.com/gds/5/0100005515/01/${PN}-source-${PV}-1.tar.gz
 
 IUSE="+doc"
 
-DEPEND="gtk? ( virtual/libusb:1 )"
+DEPEND="virtual/libusb:1"
 RDEPEND="${RDEPEND}"
 
 RESTRICT="mirror"
