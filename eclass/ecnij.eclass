@@ -168,8 +168,8 @@ ecnij_src_unpack()
 	debug-print-function ${FUNCNAME} "${@}"
 
 	default
-	cd "${S}"
 	mv ${PN}-* ${P} || die "Failed to unpack"
+	cd "${S}"
 }
 
 # @FUNCTION: ecnij_src_prepare
