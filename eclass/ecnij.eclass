@@ -50,19 +50,24 @@ RDEPEND="${RDEPEND}
 	app-text/ghostscript-gpl
 	dev-libs/glib[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
-	servicetools? ( 
-		gnome-base/libglade[${MULTILIB_USEDEP}]
-		dev-libs/libxml2[${MULTILIB_USEDEP}] )
 	media-libs/tiff[${MULTILIB_USEDEP}]
 	media-libs/libpng[${MULTILIB_USEDEP}]
 	!cups? ( >=${CATEGORY}/${P}[${MULTILIB_USEDEP},cups] )"
 
 if (( ${PV:0:1} == 3 )) || ( (( ${PV:0:1} == 2 )) && (( ${PV:2:2} >= 80 )) ); then
 RDEPEND="${RDEPEND}
-	servicetools? ( x11-libs/gtk+:2[${MULTILIB_USEDEP}] )"
+	servicetools? (
+		dev-libs/libxml2[${MULTILIB_USEDEP}]
+		gnome-base/libglade[${MULTILIB_USEDEP}]
+		x11-libs/gtk+:2[${MULTILIB_USEDEP}]
+	)"
 elif (( ${PV:0:1} == 2 )); then
 RDEPEND="${RDEPEND}
-	servicetools? ( x11-libs/gtk+:1[${MULTILIB_USEDEP}] )"
+	servicetools? (
+		dev-libs/libxml2[${MULTILIB_USEDEP}]
+		gnome-base/libglade[${MULTILIB_USEDEP}]
+		x11-libs/gtk+:2[${MULTILIB_USEDEP}]
+	)"
 fi
 DEPEND="${DEPEND}
 	virtual/libintl"
