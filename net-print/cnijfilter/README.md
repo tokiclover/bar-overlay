@@ -17,8 +17,8 @@ Wait a sec before merging the package! If old printer models are needed present 
 jump to the following.
 
 If `<net-print/cnijfilter-2.80` is needed, then x86 users would pull in `gtk+:1`
-and amd64 user would pull in `gtk+:1[abi_x86_32]` which is not available in the
-tree, meaning: impossible for **ABI=amd64**, if +servicetools USE flag is enabled.
+and amd64 user would pull in `gtk+:1[abi_x86_32]` when +servicetools USE flag is
+enabled.
 
 USAGE INFO
 ----------
