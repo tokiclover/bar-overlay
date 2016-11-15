@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer>
-		<email>tclover@bar-overlay</email>
-	</maintainer>
-	<use>
-		<flag name="aufs">Add Another Union FS support</flag>
-		<flag name="bfq">Add Budget Fair Queueing I/O Scheduler support</flag>
-		<flag name="bfs">Add Brain Fuck CPU Scheduler support</flag>
-		<flag name="deblob">Deblob kernel firmware for libre support</flag>
-		<flag name="fbcondecor">Add genpatch extras to the patch stack</flag>
-		<flag name="ck">Add the whole -ck patchset to the patch stack</flag>
-		<flag name="gentoo">Adds genpatch base to the patch stack</flag>
-		<flag name="hardened">Add hardened patchset or GRSecurity/PaX support</flag>
-		<flag name="reiser4">Add reiser4 FS support</flag>
-		<flag name="rt">Add Real Time patchset support</flag>
-		<flag name="toi">Add TuxOnIce patchset support</flag>
-		<flag name="uksm">Add Ultra Kernel SamePage Merging for transparent full-system memory de-duplication support</flag>
-	</use>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
+<use>
+	<flag name="aufs">Add Another Union FS support</flag>
+	<flag name="bfq">Add Budget Fair Queueing I/O Scheduler support</flag>
+	<flag name="bfs">Add Brain Fuck CPU Scheduler support</flag>
+	<flag name="deblob">Deblob kernel firmware for libre support</flag>
+	<flag name="fbcondecor">Add genpatch extras to the patch stack</flag>
+	<flag name="ck">Add the whole -ck patchset to the patch stack</flag>
+	<flag name="gentoo">Adds genpatch base to the patch stack</flag>
+	<flag name="hardened">Add hardened patchset or GRSecurity/PaX support</flag>
+	<flag name="reiser4">Add reiser4 FS support</flag>
+	<flag name="rt">Add Real Time patchset support</flag>
+	<flag name="toi">Add TuxOnIce patchset support</flag>
+	<flag name="uksm">Add Ultra Kernel SamePage Merging for transparent full-system memory de-duplication support</flag>
+</use>
 </pkgmetadata>
