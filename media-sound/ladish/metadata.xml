@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <maintainer>
-    <email>tclover@bar.name</email>
-    <name>tclover</name>
-  </maintainer>
-  <use>
-  	<flag name="python">Build lash <pkg>dev-lang/python</pkg> bindings</flag>
-  </use>
-  <longdescription>
-LADI Session Handler or simply ladish is a session management system for JACK applications. Its aim is to allow you to have many different audio programs running at once, to save their setup, close them down and then easily reload the setup at some other time.
-  </longdescription>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+	LADI Session Handler or simply ladish is a session management system for JACK
+	applications. Its aim is to allow you to have many different audio programs
+	running at once, to save their setup, close them down and then easily reload
+	the setup at some other time.
+</longdescription>
+<use>
+	<flag name="python">Build lash <pkg>dev-lang/python</pkg> bindings</flag>
+</use>
 </pkgmetadata>
