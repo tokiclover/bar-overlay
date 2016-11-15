@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer>
-		<email>bar@overlay</email>
-	</maintainer>
-	<use>
-		<flag name="runit">Enable <pkg>sys-process/runit</pkg> Supervision and Init-Stage support</flag>
-		<flag name="s6">Enable <pkg>sys-apps/s6</pkg> Supervision and Init-Satge support</flag>
-		<flag name="sysvinit">Install compatibility utility and service for <pkg>sys-apps/sysvinit</pkg> (reboot/shutdown)</flag>
-	</use>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
+<use>
+	<flag name="runit">Enable <pkg>sys-process/runit</pkg> Supervision and Init-Stage support</flag>
+	<flag name="s6">Enable <pkg>sys-apps/s6</pkg> Supervision and Init-Satge support</flag>
+	<flag name="sysvinit">Install compatibility utility and service for <pkg>sys-apps/sysvinit</pkg> (reboot/shutdown)</flag>
+</use>
 </pkgmetadata>
