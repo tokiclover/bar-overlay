@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <maintainer>
-    <email>tclover@bar-overaly</email>
-    <name>tclover</name>
-  </maintainer>
-  <longdescription>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
 LADI Tools is a set of tools aiming to achieve the goals of the LADI project
 to improve desktop integration and user workflow of Linux audio system based
 on JACK and LADISH. Those tools take advantage of the DBus interfaces of JACK2
@@ -23,5 +24,7 @@ The following tools are included:
  * ladi-player: compact front-end to that allows users to start, stop and
    monitor a LADI system.
  * g15ladi : a JACK monitor for g15 keyboards
-  </longdescription>
+</longdescription>
+<use>
+</use>
 </pkgmetadata>
