@@ -4,10 +4,11 @@
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
-# bar-overlay <bar@overlay.org>
+# bar-overlay <bar-overlay@noreply.github.com>
 # @AUTHOR:
 # Original author: tokiclover <tokiclover@gmail.com>
-# @BLURB: Provide a set of functions to get Canon(R) printers/scanners utilities
+# @BLURB: Provide a set of functions to get CUPS backends, filters and utilities
+# for Canon(R) Pixma/Pixus printer series
 # @DESCRIPTION:
 # Exports base functions used by ebuilds written
 # for net-print/cnijfilter package for canon(r) hardware
@@ -29,14 +30,15 @@ inherit autotools eutils flag-o-matic multilib-build
 # PRINTER_ID=(303 253)
 :	${PRINTER_ID:=}
 
-IUSE="${IUSE} cups debug servicetools ${PRINTER_MODEL[@]/#/canon_printers_}"
+IUSE="${IUSE} +cups debug servicetools ${PRINTER_MODEL[@]/#/canon_printers_}"
 KEYWORDS="~x86 ~amd64"
 
 REQUIRED_USE="${REQUIRED_USE}
 	|| ( cups ${PRINTER_MODEL[@]/#/canon_printers_} )"
 if (( ${PV:0:1} > 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} >= 10 )) ); then
-IUSE+=" +net +usb"
-REQUIRED_USE+=" servicetools? ( net ) cups? ( || ( net usb ) )"
+IUSE="${IUSE} +net +usb"
+REQUIRED_USE="${REQUIRED_USE}
+	servicetools? ( net ) cups? ( || ( net usb ) )"
 SLOT="3/${PV}"
 else
 SLOT="2/${PV}"
@@ -324,7 +326,7 @@ ecnij_pkg_postinst()
 	debug-print-function ${FUNCNAME} "${@}"
 
 	# XXX: set up ppd files to use newer CUPS backends
-	if (( ${PV:0:1} < 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:2} == 00 )) ); then
+	if (( ${PV:0:1} < 3 )) || ( (( ${PV:0:1} == 3 )) && (( ${PV:2:1} == 0 )) ); then
 		use cups || sed 's,cnij_usb,cnijusb,g' -i "${ED}"/usr/share/cups/model/canon*.ppd
 	fi
 
@@ -332,7 +334,10 @@ ecnij_pkg_postinst()
 	elog " * First, restart CUPS: 'service cupsd restart'"
 	elog " * Go to http://127.0.0.1:631/ with your favorite browser"
 	elog "   and then go to Printers/Add Printer"
+	elog
 	elog "You can consult the following for any issue/bug:"
+	elog
+	elog "${FILESDIR%/*}/README.md"
 	elog "https://forums.gentoo.org/viewtopic-p-3217721.html"
 	elog "https://bugs.gentoo.org/show_bug.cgi?id=130645"
 }
