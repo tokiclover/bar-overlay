@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
 <use>
 	<flag name='bindist'>Disable patent-encumbered ARB_texture_float, EXT_texture_shared_exponent, and EXT_packed_float extensions.</flag>
 	<flag name='classic'>Build drivers based on the classic architecture.</flag>
