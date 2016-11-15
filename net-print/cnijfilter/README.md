@@ -16,12 +16,12 @@ Wait a sec before merging the package! If old printer models are needed present 
 `ABI=amd64` because these packages lack any multilib support. `x86` users can
 jump to the following.
 
-If `<net-print/cnijfilter-2.80` is needed, then x86 users would pull in `gtk+:1`
-and amd64 user would pull in `gtk+:1[abi_x86_32]` when +servicetools USE flag is
+If `<net-print/cnijfilter-2.80` is needed, then x86 users would pull in `x11-libs/gtk+:1`
+and amd64 user would pull in `x11-libs/gtk+:1[abi_x86_32]` when +servicetools USE flag is
 enabled.
 
-USAGE INFO
-----------
+USAGE
+-----
 
 Actually `canon_printers_<MODEL>` USE flags are just pulling in `canon<MODEL>.ppd` file
 and a `cif<MODEL>` binary linked to propriatary blobs (libraries). The ppd file is
@@ -53,16 +53,38 @@ in `/usr/libexec/cups/backend`.
 Say `sed 's,cnij_usb,cnijusb,g' -i /usr/share/cups/model/canon<MODEL>.ppd` will
 suffice.
 
-INTERNAL INFO
+SERVICETOOLS
 -------------
 
-net-print/cnijfilter[servicetools] now compile fine with a patch ported from
+`net-print/cnijfilter[servicetools]` now compile fine with a patch ported from
 [cnijfilter-source-3.80](https://github.com/tokiclover/cnijfilter-source-3.80)
 to all version provided here. Remain only the issue with x11-libs/gtk+:1
 required by by older ebuilds `<=net-print/cnijfilter-2.70`.
 
-SOURCE FILES NOTE
------------------
+**NOTE:** Actually there was an old `cnijfilter-3.80-1-cpus-1.6.patch` with a
+partial fix for building servitools utility. I've almost forget about it and
+stumbled upon it when porting the patches to other versions. Everything was there
+to be ported in the frst place... and nobody tried to completly fix servicetools
+compilation.
+
+**net-print/cnijfilter:3/4.x0[servicetools]**
+
+    Print Head Cleaning
+    [user@zzz /yyy]$ lpr -P MG7100USB /usr/share/cmdtocanonij/cleaning.utl
+    Print nozzle check pattern
+    Prints a pattern that lets you check whether the print head nozzles are clogged.
+    [user@zzz /yyy]$ lpr -P MG7100USB /usr/share/cmdtocanonij/nozzlecheck.utl
+    Print Head Alignment
+    [user@zzz /yyy]$ lpr -P MG7100USB /usr/share/cmdtocanonij/autoalign.utl
+
+**net-print/cnijfilter:3/3.x0[servicetools]**
+
+Use `/usr/bin/printerui<MODEL>` for administration tasks.
+`net-print/cnijfilter:2/x.y0[servicetools]` should have alsmost the same
+functionalities. -- Beware of `x11-libs/gtk+:1` dependency!
+
+SOURCE-FILES/TARBALL
+--------------------
 
 Note: if 2.70 src rpm cannot be found, dead link..., just search the full name
 with your favorite search engine, or else, look for *Linux_Print_Filterv270.tgz*
