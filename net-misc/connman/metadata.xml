@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <maintainer>
-    <email>bar@overlay</email>
-  </maintainer>
-  <use>
-    <flag name="ethernet">Enable ethernet support</flag>
-    <flag name="proxy">Use <pkg>net-misc/pacrunner</pkg> for proxy configuration</flag>
-    <flag name="pptp">Use <pkg>net-misc/pptpd</pkg> for nptd plugin</flag>
-    <flag name="ofono">Use <pkg>net-misc/ofono</pkg> for telephony support</flag>
-    <flag name="openvpn">Use <pkg>net-misc/openvpn</pkg> for openvpn support</flag>
-    <flag name="tools">Enable testing tools</flag>
-    <flag name="vpnc">Use <pkg>net-misc/vpnc</pkg> for cisco VPN support</flag>
-    <flag name="wifi">Use <pkg>net-wireless/wpa_supplicant</pkg> WiFi support</flag>
-  </use>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
+<use>
+	<flag name="ethernet">Enable ethernet support</flag>
+	<flag name="proxy">Use <pkg>net-misc/pacrunner</pkg> for proxy configuration</flag>
+	<flag name="pptp">Use <pkg>net-misc/pptpd</pkg> for nptd plugin</flag>
+	<flag name="ofono">Use <pkg>net-misc/ofono</pkg> for telephony support</flag>
+	<flag name="openvpn">Use <pkg>net-misc/openvpn</pkg> for openvpn support</flag>
+	<flag name="tools">Enable testing tools</flag>
+	<flag name="vpnc">Use <pkg>net-misc/vpnc</pkg> for cisco VPN support</flag>
+	<flag name="wifi">Use <pkg>net-wireless/wpa_supplicant</pkg> WiFi support</flag>
+</use>
 </pkgmetadata>
