@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer><email>tclover@bar-overlay</email>
-	</maintainer>
-	<use>
-		<flag name="fhsm">Enable File-based Hierarchy Storage Management support (experimental)</flag>
-		<flag name="kernel-builtin">Build against kernel-builtin instead of sys-fs/aufs-standlone header</flag>
-	</use>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
+<use>
+	<flag name="fhsm">Enable File-based Hierarchy Storage Management support (experimental)</flag>
+	<flag name="kernel-builtin">Build against kernel-builtin instead of sys-fs/aufs-standlone header</flag>
+</use>
 </pkgmetadata>
