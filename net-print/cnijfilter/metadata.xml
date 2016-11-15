@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<longdescription lang="en"></longdescription>
-<maintainer>
-	<email>bar@overlay</email>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
 </maintainer>
-	<use>
-		<flag name="cups">Build CUPS printing (Network/USB) backends, filters and printer utilities</flag>
-		<flag name="canon_printers_@MODEL@">Build Canon(R) CUPS printer command line utility (pull-in propriatary blobs)</flag>
-		<flag name="servicetools">Build service tools utility, this require very old libs</flag>
-		<flag name="net">Add network backend for CUPS</flag>
-		<flag name="usb">Add usb backend for CUPS</flag>
-	</use>
+<longdescription lang="en">
+	Canon(R) Pixma/Pixus CUPS printer backends, filters, utilities, ppd files.
+</longdescription>
+<use>
+	<flag name="cups">Build CUPS printing (Network/USB) backends, filters and printer utilities</flag>
+	<flag name="canon_printers_@MODEL@">Build Canon(R) CUPS printer command line utility (pull-in propriatary blobs)</flag>
+	<flag name="servicetools">Build service tools utility, this require very old libs</flag>
+	<flag name="net">Add network backend for CUPS</flag>
+	<flag name="usb">Add usb backend for CUPS</flag>
+</use>
 </pkgmetadata>
