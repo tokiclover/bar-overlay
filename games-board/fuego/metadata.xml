@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer>
-		<email>bar@overlay</email>
-	</maintainer>
-	<use>
-		<flag name="cache-sync">Enable explicit synchronization of the CPU cache, required for most non-Intel architectures to support lock-free multi-threading</flag>
-	</use>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
+<use>
+	<flag name="cache-sync">Enable explicit synchronization of the CPU cache, required for most non-Intel architectures to support lock-free multi-threading</flag>
+</use>
 </pkgmetadata>
