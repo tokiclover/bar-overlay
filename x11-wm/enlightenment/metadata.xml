@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <maintainer>
-    <email>tclover@bar-overlay</email>
-  </maintainer>
-  <longdescription>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
 Enlightenment is a completely themeable, highly configurable Window Manager for 
 the X Window System, traditionally used in Unix environments.
 
@@ -46,7 +48,7 @@ Enlightenment Features:
 * Window auto-cleanup support
 * Graphical on-line help.
 </longdescription>
-  <use>
+<use>
 	<flag name='udev'>Use sys-fs/udev to determine available devices</flag>
 	<flag name='ukit'>Use upower/udisks to automount devices</flag>
 	<flag name="enlightenment_modules_access">Accessibility module designed to improve ease of use for the vision impaired and the blind</flag>
@@ -97,5 +99,5 @@ Enlightenment Features:
 	<flag name="enlightenment_modules_conf-wallpaper2">Used to configure your theme preferences</flag>
 	<flag name="enlightenment_modules_conf-window-manipulation">Configures window raise, resistance, and maximize policies</flag>
 	<flag name="enlightenment_modules_conf-window-remembers">Delete existing window remembers</flag>
-  </use>
+</use>
 </pkgmetadata>
