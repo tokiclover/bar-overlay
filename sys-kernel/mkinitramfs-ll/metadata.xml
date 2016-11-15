@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer>
-		<email>bar@overlay</email>
-	</maintainer>
-	<use>
-		<flag name="aufs">Add Another Union FileSystem support</flag>
-		<flag name="bash">Install BaSh (Bourne Again Shell) (build) scripts</flag>
-		<flag name="btrfs">Add BtrFS FileSystem support</flag>
-		<flag name="device-mapper">Add device-mapper LVM2 support</flag>
-		<flag name="dm-crypt">Add dm-crypt LUKS support</flag>
-		<flag name="dmraid">Add dm-raid Fake ATA RAID support</flag>
-		<flag name="e2fs">Add <pkg>sys-fs/e2fsprogs</pkg> (Extended FileSystem Tools) support</flag>
-		<flag name="f2fs">Add <pkg>sys-fs/f2fs-tools</pkg> (Flash-Friendly FileSystem) support</flag>
-		<flag name="fbsplash">Add <pkg>media-gfx/splashutils</pkg> (FrameBuffer Splash) support</flag>
-		<flag name="jfs">Add JFS FileSystem support</flag>
-		<flag name="lz4">Enable support for LZ4 (de)compression</flag>
-		<flag name="mdadm">Add md-raid Software RAID support</flag>
-		<flag name="reiserfs">Add ReiserFS FileSystem support</flag>
-		<flag name="squashfs">Add squashfs-tools support, +aufs adds squashed directory support</flag>
-		<flag name="xfs">Add XFS FileSystem support</flag>
-		<flag name="xz">Enable support for XZ (de)compression</flag>
-		<flag name="zfs">Add ZFS FileSystem support</flag>
-		<flag name="zram">Add zram init service support for zram devices initialization</flag>
-		<flag name="zsh">Install ZSh (build) scripts</flag>
-	</use>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
+<use>
+	<flag name="aufs">Add Another Union FileSystem support</flag>
+	<flag name="bash">Install BaSh (Bourne Again Shell) (build) scripts</flag>
+	<flag name="btrfs">Add BtrFS FileSystem support</flag>
+	<flag name="device-mapper">Add device-mapper LVM2 support</flag>
+	<flag name="dm-crypt">Add dm-crypt LUKS support</flag>
+	<flag name="dmraid">Add dm-raid Fake ATA RAID support</flag>
+	<flag name="e2fs">Add <pkg>sys-fs/e2fsprogs</pkg> (Extended FileSystem Tools) support</flag>
+	<flag name="f2fs">Add <pkg>sys-fs/f2fs-tools</pkg> (Flash-Friendly FileSystem) support</flag>
+	<flag name="fbsplash">Add <pkg>media-gfx/splashutils</pkg> (FrameBuffer Splash) support</flag>
+	<flag name="jfs">Add JFS FileSystem support</flag>
+	<flag name="lz4">Enable support for LZ4 (de)compression</flag>
+	<flag name="mdadm">Add md-raid Software RAID support</flag>
+	<flag name="reiserfs">Add ReiserFS FileSystem support</flag>
+	<flag name="squashfs">Add squashfs-tools support, +aufs adds squashed directory support</flag>
+	<flag name="xfs">Add XFS FileSystem support</flag>
+	<flag name="xz">Enable support for XZ (de)compression</flag>
+	<flag name="zfs">Add ZFS FileSystem support</flag>
+	<flag name="zram">Add zram init service support for zram devices initialization</flag>
+	<flag name="zsh">Install ZSh (build) scripts</flag>
+</use>
 </pkgmetadata>
