@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<longdescription lang="en">
-	</longdescription>
-	<use>
-		<flag name="celt">Use <pkg>media-libs/celt</pkg></flag>
-		<flag name="coreaudio">Build the CoreAudio driver on Mac OS X systems</flag>
-		<flag name="cpudetection">Enables runtime cpudetection</flag>
-		<flag name="dbus">Build jackdbus</flag>
-		<flag name="freebob">enables support for older 'BeBoB' ieee1394</flag>
-		<flag name="ieee1394">enables support for FFADO - 'BeBoB'</flag>
-		<flag name="netjack">Build netjack</flag>
-		<flag name="opus">build with compression support using media-libs/opus in netjack</flag>
-		<flag name="pam">Add basic realime configuration via <pkg>sys-auth/realtime-base</pkg></flag>
-		<flag name="zalsa">Add multi device support via <pkg>media-libs/ziza-alsa-pcmi</pkg> and <pkg>media-libs/zita-resampler</pkg></flag>
-	</use>
+<maintainer type="project">
+	<description>Primary maintainer</description>
+	<email>bar-overlay@noreply.github.com</email>
+	<name>Gentoo Bar Overlay</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
+<use>
+	<flag name="celt">Use <pkg>media-libs/celt</pkg></flag>
+	<flag name="coreaudio">Build the CoreAudio driver on Mac OS X systems</flag>
+	<flag name="cpudetection">Enables runtime cpudetection</flag>
+	<flag name="dbus">Build jackdbus</flag>
+	<flag name="freebob">enables support for older 'BeBoB' ieee1394</flag>
+	<flag name="ieee1394">enables support for FFADO - 'BeBoB'</flag>
+	<flag name="netjack">Build netjack</flag>
+	<flag name="opus">build with compression support using media-libs/opus in netjack</flag>
+	<flag name="pam">Add basic realime configuration via <pkg>sys-auth/realtime-base</pkg></flag>
+	<flag name="zalsa">Add multi device support via <pkg>media-libs/ziza-alsa-pcmi</pkg> and <pkg>media-libs/zita-resampler</pkg></flag>
+</use>
 </pkgmetadata>
