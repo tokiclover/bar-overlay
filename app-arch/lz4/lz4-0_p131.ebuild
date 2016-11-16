@@ -8,13 +8,13 @@ case "${PV}" in
 	(9999*)
 	KEYWORDS=""
 	VCS_ECLASS=git-2
-	EGIT_REPO_URI="git://github.com/Cyan4973/${PN}.git"
+	EGIT_REPO_URI="git://github.com/${PN}/${PN}.git"
 	EGIT_PROJECT="${PN}.git"
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~mips ~s390 ~x86 ~amd64-linux ~x86-linux"
 	VCS_ECLASS=vcs-snapshot
-	SRC_URI="https://github.com/Cyan4973/${PN}/archive/r${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/${PN}/${PN}/archive/r${PV#0_p}.tar.gz -> ${PN}-${PV#0_p}.tar.gz"
 	;;
 esac
 inherit multilib-minimal toolchain-funcs ${VCS_ECLASS}
@@ -32,9 +32,7 @@ DOCS=( NEWS lz4_Block_format.md lz4_Frame_format.md )
 
 src_prepare()
 {
-	if ! use debug; then
-		sed -i -e '/^test:/s|test-mem||g' programs/Makefile || die
-	fi
+	epatch_user
 	multilib_copy_sources
 }
 
@@ -52,4 +50,9 @@ multilib_src_install()
 	emake install DESTDIR="${D}" \
 		PREFIX="${EPREFIX}/usr" \
 		LIBDIR="${EPREFIX}"/usr/$(get_libdir)
+}
+
+multilib_src_test()
+{
+	emake test
 }

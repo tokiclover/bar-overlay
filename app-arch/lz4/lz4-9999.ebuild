@@ -8,13 +8,13 @@ case "${PV}" in
 	(9999*)
 	KEYWORDS=""
 	VCS_ECLASS=git-2
-	EGIT_REPO_URI="git://github.com/Cyan4973/${PN}.git"
+	EGIT_REPO_URI="git://github.com/${PN}/${PN}.git"
 	EGIT_PROJECT="${PN}.git"
 	;;
 	(*)
 	KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~mips ~s390 ~x86 ~amd64-linux ~x86-linux"
 	VCS_ECLASS=vcs-snapshot
-	SRC_URI="https://github.com/Cyan4973/${PN}/archive/r${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	;;
 esac
 inherit multilib-minimal toolchain-funcs ${VCS_ECLASS}
@@ -28,23 +28,18 @@ IUSE="debug test"
 
 DEPEND="test? ( debug? ( dev-util/valgrind ) )"
 
-DOCS=( NEWS lz4_Block_format.md lz4_Frame_format.md )
+DOCS=( NEWS doc/lz4_Block_format.md doc/lz4_Frame_format.md doc/lz4_manual.html )
 
 src_prepare()
 {
-	if ! use debug; then
-		sed -i -e '/^test:/s|test-mem||g' programs/Makefile || die
-	fi
+	epatch_user
 	multilib_copy_sources
 }
 
 multilib_src_compile()
 {
 	tc-export CC AR
-	# we must not use the 'all' target since it builds test programs
-	# & extra -m32 executables
 	emake
-	emake -C programs
 }
 
 multilib_src_install()
@@ -52,4 +47,9 @@ multilib_src_install()
 	emake install DESTDIR="${D}" \
 		PREFIX="${EPREFIX}/usr" \
 		LIBDIR="${EPREFIX}"/usr/$(get_libdir)
+}
+
+multilib_src_test()
+{
+	emake test
 }

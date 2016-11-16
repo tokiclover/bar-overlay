@@ -1,16 +1,14 @@
-app-arch/lz4 130 131 9999: Extremely Fast Compression algorithm
+app-arch/lz4 0_p131 1.7.3 9999: Extremely Fast Compression algorithm
 app-benchmarks/rt-tests 0.97: Programs that test various RT-Linux features
 app-dicts/xmlittre 1.0: XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 Littre's dictionary
 app-editors/ecrire 9999: EFL simple text editor
 app-text/pdfchain 0.4.4: Graphical User Interface for PDF Toolkit (PDFtk)
-app-text/xpdf 3.04: X viewer for Portable Document Format (PDF) files
 dev-libs/dbus-c++ 0.9.0-r1: provide a C++ API for D-BUS
 dev-libs/efl 1.14.3 1.15.3 1.16.1 1.17.2 1.18.2 9999: Enlightenment Foundation Core Libraries
 dev-libs/libglvnd 9999: The GL Vendor-Neutral Dispatch library
 dev-libs/serd 0.22.0: Library for RDF syntax which supports reading and writing Turtle and NTriples
 dev-libs/sord 0.14.0: Library for storing RDF data in memory
 dev-perl/IO-Socket-TIPC 1.08: IO::Socket::TIPC - TIPC sockets for Perl
-dev-perl/Module-Starter-AddModule 1.005: Module::Starter::AddModule - AddModule to an existing distribution
 dev-perl/perl-URxvt 2.2 9999: Perl extensions for the Rxvt-unicode terminal emulator
 dev-python/enum 0.4.4: Robust enumerated type support in Python.
 dev-python/pyrobase 0.2: PyroScope - General Python Helpers and Utilities
@@ -144,7 +142,6 @@ virtual/daemontools 0: Virtual for Daemontools Service Manager
 virtual/liblash 1: Virtual for LASH library
 virtual/libproxy 1: Virtual for proxy library
 www-apps/searx 0.9.0 0.10.0 9999: Decentralized and privacy-respecting, hackable metasearch engine
-www-client/firefox 38.8.0: Firefox Web Browser
 www-misc/browser-home-profile 4.1 9999: Web-Browser Home Profile Utility
 www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
 x11-misc/netwmpager 2.04: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
