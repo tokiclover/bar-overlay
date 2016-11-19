@@ -78,7 +78,7 @@ pkg_setup()
 			eval : ERROR_"${U}"="no support of ${u} compressed initial ramdisk found"
 		fi
 	done
-	for u in "${FILESYSTEM_USE[@]/e2fs}"; do
+	for u in ${FILESYSTEM_USE[@]/e2fs}; do
 		U="${u^^[a-z]}"
 		if use "${u}"; then
 			CONFIG_CHECK+=" ~${U}_FS"
