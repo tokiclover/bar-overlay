@@ -104,7 +104,6 @@ media-sound/jack_mixer 9-r1 10 9999: JACK audio mixer using GTK2 interface.
 media-sound/jalv 1.4.6: Simple and fully featured LV2 host for Jack running and exposing LV2 plugins as JACK applications
 media-sound/ladish 1-r2 9999: LADI Session Handler - a session management system for JACK applications
 media-sound/laditools 1.0.1 1.1.0 9999: Linux Audio Desktop Integration Tools
-media-sound/mpc 0.27: A commandline client for Music Player Daemon (media-sound/mpd)
 media-sound/patchage 0.5.0 1.0.0: Modular patch bay for audio and MIDI systems
 media-sound/rezound 0.13.1_beta: Sound editor and recorder
 media-sound/rosegarden 14.02 16.02 9999: MIDI and audio sequencer and notation editor
@@ -144,6 +143,7 @@ virtual/libproxy 1: Virtual for proxy library
 www-apps/searx 0.9.0 0.10.0 9999: Decentralized and privacy-respecting, hackable metasearch engine
 www-misc/browser-home-profile 4.1 9999: Web-Browser Home Profile Utility
 www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
+www-misc/multiwatch 1.0.0 9999: Supervise multiple instances of a process
 x11-misc/netwmpager 2.04: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
 x11-misc/spacefm 1.0.1 9999: A multi-panel tabbed file manager
 x11-misc/tint2 9999: A lightweight panel/taskbar
