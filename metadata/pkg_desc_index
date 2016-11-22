@@ -143,6 +143,7 @@ virtual/libproxy 1: Virtual for proxy library
 www-apps/searx 0.9.0 0.10.0 9999: Decentralized and privacy-respecting, hackable metasearch engine
 www-misc/browser-home-profile 4.1 9999: Web-Browser Home Profile Utility
 www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
+www-misc/fcgi-cgi 0.2.2 9999: FastCGI application to run cgi applications
 www-misc/multiwatch 1.0.0 9999: Supervise multiple instances of a process
 x11-misc/netwmpager 2.04: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
 x11-misc/spacefm 1.0.1 9999: A multi-panel tabbed file manager
