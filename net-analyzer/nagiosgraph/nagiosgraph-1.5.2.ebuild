@@ -6,7 +6,7 @@ EAPI=5
 
 inherit perl-app
 
-DESCRIPTION="Graph plugin for Nagios using RRDtool"
+DESCRIPTION="Nagios Graph plugin using RRDtool"
 HOMEPAGE="http://nagiosgraph.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.gz"
 
@@ -39,9 +39,10 @@ src_install()
 	fperms 775 /var/log/nagiosgraph
 	fowners apache:nagios /var/log/nagiosgraph
 
-	dodir /etc/apache2/modules.d /etc/logrotate.d /etc/nagios/objects
+	dodir /etc/apache2/modules.d /etc/logrotate.d
 	cp "${FILESDIR}"/99_nagiosgraph.conf "${ED}"/etc/apache2/modules.d
-	cp "${FILESDIR}"/nagiosgraph.cfg "${ED}"/etc/nagios/objects
+	cp "${FILESDIR}"/ngcommands.cfg "${ED}"/etc/${PN}
+	cp "${FILESDIR}"/nagios.cfg "${ED}"/etc/${PN}
 	cp examples/nagiosgraph-logrotate "${ED}"/etc/logrotate.d/nagiosgraph
 	rm -f "${ED}"/etc/${PN}/${PN}{-,_}*.conf \
 		"${ED}"/etc/${PN}/${PN}-commands.cfg \
@@ -52,19 +53,13 @@ src_install()
 pkg_postinst()
 {
 	elog "---"
-	elog "Don't forget to add '-D NAGIOSGRAPH' to apache configuration file;"
+	elog "Do not forget to add '-D NAGIOSGRAPH' to apache configuration file;"
 	elog "and then review /etc/apache2/modules.d/99_nagiosgraph.conf and"
 	elog "modify it to get nagiosgraph to be functional."
 	elog
 	elog "And do not forget to add the following lines to /etc/nagios/nagios.cfg:"
 	elog
-	elog "cfg_file=/etc/nagios/objects/nagiosgraph.cfg"
-	elog "service_perfdata_file=/var/nagios/service-perfdata.log"
-	elog "service_perfdata_file_template=$LASTSERVICECHECK$||$HOSTNAME$||$SERVICEDESC$||$SERVICEOUTPUT$||$SERVICEPERFDATA$"
-	elog "service_perfdata_file_mode=a"
-	elog "service_perfdata_file_processing_interval=30"
-	elog "service_perfdata_file_processing_command=process-service-perfdata-nagiosgraph"
-	elog
-	elog "after process_performance_data=1 line (which should be enabled!)"
+	elog "cfg_file=/etc/${PN}/ngcommands.cfg"
+	elog "resource_file=/etc/${PN}/nagios.cfg"
 	elog "---"
 }
