@@ -6,7 +6,7 @@ EAPI=5
 
 inherit perl-app
 
-DESCRIPTION="Nagios Graph plugin using RRDtool"
+DESCRIPTION="Sinmple Nagios Graph plugin using RRDtool (PNP4Nagios:builk-mode)"
 HOMEPAGE="http://nagiosgraph.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.gz"
 
