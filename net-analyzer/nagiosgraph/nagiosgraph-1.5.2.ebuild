@@ -60,6 +60,7 @@ pkg_postinst()
 	elog "And do not forget to add the following lines to /etc/nagios/nagios.cfg:"
 	elog
 	elog "cfg_file=/etc/${PN}/ngcommands.cfg"
-	elog "resource_file=/etc/${PN}/nagios.cfg"
+	elog
+	elog "And include the content of /etc/${PN}/nagios.cfg configuration file."
 	elog "---"
 }
