@@ -74,16 +74,69 @@ check_parameters = [
 #    A check item or the keyword None for checks that do not need an item.
 #    Paramters for the check or the keyword None for checks that do not need a parameter.
 #
+# DEFAULT: checks = []
 # EXAMPLE:
 
 checks = [
-#	( "cluster1", "df", "/",    ( 80, 90 ) ),
-	( ["linux", "bsd"], ALL_HOSTS, "ps", "sshd", ( "/usr/sbin/sshd",1,1,1,1)),
+	#( "cluster1", "df", "/",    ( 80, 90 ) ),
+
+        # FreeBSD on ZFS
+	#( "freebsd-host", "zfsget", "zroot/ROOT/default", ( 80, 90 ) ),
+	#( "freebsd-host", "zfsget", "zroot/usr/home",    ( 80, 90 ) ),
+	#( "freebsd-host", "zfsget", "zroot/usr/ports",   ( 80, 90 ) ),
+	#( "freebsd-host", "zfsget", "zroot/usr/src",     ( 80, 90 ) ),
+	#( "freebsd-host", "zfsget", "zroot/usr/log",     ( 80, 90 ) ),
+	#( "freebsd-host", "zfsget", "zroot/usr/mail",    ( 80, 90 ) ),
+
+        # various processes to check
+	( ["linux", "snmp"],   ALL_HOSTS, "ps", "SNMPD", {
+            "user": "nobody", "process": "/usr/sbin/snmpd",
+            "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+        } ),
+	( ["freebsd", "linux"], ALL_HOSTS, "ps", "SSHD", {
+            "user": "root", "process" : "/usr/sbin/sshd",
+            "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
+        } ),
+
+	( ["cgroup"],   ALL_HOSTS, "ps", "CGRED", {
+            "user": "root", "process": "/usr/sbin/cgrulesengd",
+            "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+        } ),
+
+        # use performance variant for web services
+	#( ["httpd"],   ALL_HOSTS, "ps.perf", "SSHD", {
+        #    "user": "apache", "process": "/usr/sbin/httpd",
+        #    "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+        #} ),
+	( ["cgi"],   ALL_HOSTS, "ps.perf", "FCGIWRAP", {
+            "user": "nginx", "process": "/usr/sbin/fcgiwrap",
+            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
+        } ),
+	( ["cgi"],   ALL_HOSTS, "ps.perf", "FCGI-CGI", {
+            "user": "lighttpd", "process": "/usr/bin/fcgi-cgi",
+            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
+        } ),
+	( ["fpm"],   ALL_HOSTS, "ps.perf", "PHP-FPM_apache", {
+            "user": "apache", "process": "php-fpm:",
+            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
+        } ),
+	( ["httpd"],   ALL_HOSTS, "ps.perf", "PHP-FPM_lighttpd", {
+            "user": "lighttpd", "process": "php-fpm:",
+            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
+        } ),
+	( ["httpd"],   ALL_HOSTS, "ps.perf", "PHP-FPM", {
+            "user": "nginx", "process": "php-fpm:",
+            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
+        } ),
+	( ["mysql"],   ALL_HOSTS, "ps.perf", "MySQLD", {
+            "user" : "mysql", "process": "/usr/sbin/mysqld",
+            "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
+        } ),
+	( ["postgres"],ALL_HOSTS, "ps.perf", "PostgreSQL", {
+            "user" : "postgres", "process" : "/usr/lib/postgresql-9.6/bin/postgres",
+            "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
+        } ),
 ]
-
-# DEFAULT:
-
-checks = []
 
 # 1.3. agent_port
 #
