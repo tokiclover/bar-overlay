@@ -21,7 +21,6 @@ IUSE="agent-only apache_status livestatus logwatch mysql
 	nfsexports oracle postgres smart systemd wato xinetd zypper"
 
 DEPEND="wato? ( app-admin/sudo )
-	livestatus? ( !!net-analyzer/mk-livestatus )
 	xinetd? ( sys-apps/xinetd )
 	!agent-only? ( || ( net-analyzer/nagios-core net-analyzer/icinga ) )
 	!agent-only? ( www-servers/apache[-apache2_mpms_worker] www-apache/mod_python )
