@@ -10,7 +10,7 @@
 # of bloker.
 nagios_command_pipe_path           = '/var/nagios/rw/nagios.cmd'
 check_result_path                  = '/var/nagios/spool/checkresults'
-nagios_startscript                 = '/etc/sv/nagios/run'
+nagios_startscript                 = '/etc/init.d/nagios'
 nagios_binary                      = '/usr/sbin/nagios'
 nagios_config_file                 = '/etc/nagios/nagios.cfg'
 logwatch_notes_url                 = "/nagios/logwatch.php?host=%s&file=%s"
@@ -63,7 +63,7 @@ check_parameters = [
 	( (80, 90), ALL_HOSTS, [ "fs_" ] ),
 ]
 
-# 1.2. checks
+# 1.2. checks <https://mathias-kettner.de/checkmk_manualchecks.html>
 #
 # List of manually configured checks (those not found by inventory). Each entry
 # of the list is four or five-tuple with the following elements:
@@ -80,62 +80,62 @@ check_parameters = [
 checks = [
 	#( "cluster1", "df", "/",    ( 80, 90 ) ),
 
-        # FreeBSD on ZFS
-	#( "freebsd-host", "zfsget", "zroot/ROOT/default", ( 80, 90 ) ),
-	#( "freebsd-host", "zfsget", "zroot/usr/home",    ( 80, 90 ) ),
-	#( "freebsd-host", "zfsget", "zroot/usr/ports",   ( 80, 90 ) ),
-	#( "freebsd-host", "zfsget", "zroot/usr/src",     ( 80, 90 ) ),
-	#( "freebsd-host", "zfsget", "zroot/usr/log",     ( 80, 90 ) ),
-	#( "freebsd-host", "zfsget", "zroot/usr/mail",    ( 80, 90 ) ),
+	# FreeBSD on ZFS
+	( "freebasd-host", "zfsget", "/", ( 80, 90 ) ),
+	( "freebasd-host", "zfsget", "/usr/home",    ( 80, 90 ) ),
+	( "freebasd-host", "zfsget", "/usr/ports",   ( 80, 90 ) ),
+	( "freebasd-host", "zfsget", "/usr/src",     ( 80, 90 ) ),
+	( "freebasd-host", "zfsget", "/usr/log",     ( 80, 90 ) ),
+	( "freebasd-host", "zfsget", "/usr/mail",    ( 80, 90 ) ),
 
-        # various processes to check
+	    # various processes to check
 	( ["linux", "snmp"],   ALL_HOSTS, "ps", "SNMPD", {
-            "user": "nobody", "process": "/usr/sbin/snmpd",
-            "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
-        } ),
+	        "user": "nobody", "process": "/usr/sbin/snmpd",
+	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+	    } ),
 	( ["freebsd", "linux"], ALL_HOSTS, "ps", "SSHD", {
-            "user": "root", "process" : "/usr/sbin/sshd",
-            "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
-        } ),
+	        "user": "root", "process" : "/usr/sbin/sshd",
+	        "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
+	    } ),
 
 	( ["cgroup"],   ALL_HOSTS, "ps", "CGRED", {
-            "user": "root", "process": "/usr/sbin/cgrulesengd",
-            "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
-        } ),
+	        "user": "root", "process": "/usr/sbin/cgrulesengd",
+	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+	    } ),
 
-        # use performance variant for web services
+	    # use performance variant for web services
 	#( ["httpd"],   ALL_HOSTS, "ps.perf", "SSHD", {
-        #    "user": "apache", "process": "/usr/sbin/httpd",
-        #    "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
-        #} ),
+	    #    "user": "apache", "process": "/usr/sbin/httpd",
+	    #    "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+	    #} ),
 	( ["cgi"],   ALL_HOSTS, "ps.perf", "FCGIWRAP", {
-            "user": "nginx", "process": "/usr/sbin/fcgiwrap",
-            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
-        } ),
+	        "user": "nginx", "process": "/usr/sbin/fcgiwrap",
+	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
+	    } ),
 	( ["cgi"],   ALL_HOSTS, "ps.perf", "FCGI-CGI", {
-            "user": "lighttpd", "process": "/usr/bin/fcgi-cgi",
-            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
-        } ),
+	        "user": "lighttpd", "process": "/usr/bin/fcgi-cgi",
+	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
+	    } ),
 	( ["fpm"],   ALL_HOSTS, "ps.perf", "PHP-FPM_apache", {
-            "user": "apache", "process": "php-fpm:",
-            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
-        } ),
+	        "user": "apache", "process": "php-fpm:",
+	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
+	    } ),
 	( ["httpd"],   ALL_HOSTS, "ps.perf", "PHP-FPM_lighttpd", {
-            "user": "lighttpd", "process": "php-fpm:",
-            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
-        } ),
+	        "user": "lighttpd", "process": "php-fpm:",
+	        "warnmin": 16, "okmin": 2, "okmax": 16, "warnmax" : 16
+	    } ),
 	( ["httpd"],   ALL_HOSTS, "ps.perf", "PHP-FPM", {
-            "user": "nginx", "process": "php-fpm:",
-            "warnmin": 1, "okmin": 2, "okmax": 16, "warnmax" : 1
-        } ),
+	        "user": "nginx", "process": "php-fpm:",
+	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
+	    } ),
 	( ["mysql"],   ALL_HOSTS, "ps.perf", "MySQLD", {
-            "user" : "mysql", "process": "/usr/sbin/mysqld",
-            "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
-        } ),
+	        "user" : "mysql", "process": "/usr/sbin/mysqld",
+	        "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
+	    } ),
 	( ["postgres"],ALL_HOSTS, "ps.perf", "PostgreSQL", {
-            "user" : "postgres", "process" : "/usr/lib/postgresql-9.6/bin/postgres",
-            "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
-        } ),
+	        "user" : "postgres", "process" : "/usr/lib/postgresql-9.6/bin/postgres",
+	        "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
+	    } ),
 ]
 
 # 1.3. agent_port
@@ -246,11 +246,30 @@ perfdata_format = "pnp"
 
 #check_max_cachefile_age = 0
 
-# 1.11. datasource_programs
+# 1.11. datasource_programs <https://mathias-kettner.de/checkmk_datasource_programs.html>
 #
 # This is a configuration list that allows you to define external commands as
 # data sources when retrieving data from a host - instead of a TCP connection
 # to the agent. Please refer to this article for details.
+datasource_programs = [
+        # Use default nagios SSH key with 'ssh' host tag.
+        # XXX: There is no command in this case because $HOME/.ssh/authorized_keys
+        # contains:
+        # command="/path/to/check_mk_agent",no-port-forwarding,no-agent-forwarding,no-X11-forwarding ssh-$TYPE xxxx nagios@host'
+        # for security reasons.
+        # The key should not have a password for this and the '<IP>' host should
+        # have: cat >/etc/[local/]sudoers.d/check_mk <<EOF
+        # check_mk_agent    ALL=NOPASSWD: /usr/bin/check_mk_agent /usr/local/bin/check_mk_agent
+        # EOF
+	( "/usr/bin/ssh -q check_mk_agent@<IP>", ["ssh"], ALL_HOSTS ),
+
+        # use a specific <user> and idendity file and a list of hosts
+	#( "/usr/bin/ssh -i /path/to/.ssh/id_rsa -l user <IP>",
+        # [ "server01", "server02" ] ),
+
+        # use a directly the agent on localhost instead of using xinetd/ssh
+        ( "/usr/bin/check_mk_agent", ["localhost"] ),
+]
 
 # 1.12. www_group
 #
@@ -338,10 +357,9 @@ check_submission = "file"
 # may be added using a vertical bar. Example:
 
 all_hosts = [
-	"localhost|http|linux|snmp|v3|tcp",
+	"localhost|http|linux|snmp|v3|tcp|postgres|mysql|cgroup|cgi|fpm",
+	"vlan-router|routers|ping",
 	"local-router|routers|ping",
-        # virtual LAN router
-	#"vlan-router|routers|ping",
 ]
 
 # DEFAULT:
@@ -357,9 +375,9 @@ all_hosts = [
 # EXAMPLE:
 #
 ipaddresses = {
-	"localhost"    : "127.0.0.1",
+	"localhost"   : "127.0.0.1",
+	"vlan-router" : "172.16.14.1",
 	"local-router" : "192.168.0.1",
-	#"vlan-router" : "172.16.0.1",
 }
 
 # DEFAULT:
@@ -413,11 +431,11 @@ dyndns_hosts = [
 # for testing your installation with just some of your hosts. Example:
 #
 only_hosts = [
-	# all hosts with tag "vlan"
+	# all hosts with tag "test"
 	#( ["vlan"], ALL_HOSTS ),
 	# and: two single special hosts (do not omit the comma
 	# in the one-tuple!
-	#( ["localhost", "vlan-router"], )
+	#( ["localhost", "vne4-router"], )
 ]
 
 # 2.6. ping_levels
@@ -457,7 +475,7 @@ ping_levels += [
 #
 host_check_commands += [
 	( ("tcp", "80"), ["http"], ALL_HOSTS ),
-	( ( "service", "ssh"), ["bsd"], ALL_HOSTS ),
+	( ( "service", "ssh"), ["freebsd"], ALL_HOSTS ),
 ]
 
 # 3. SETTINGS FOR SERVICES
@@ -493,7 +511,7 @@ host_groups = [
 	( "linux-servers",      ["linux"], ALL_HOSTS ),
 	( "http-servers",       ["http"], ALL_HOSTS ),
 	( "vlan-hosts",         ["vlan"], ALL_HOSTS ),
-	( "bsd-servers",    ["bsd"], ALL_HOSTS ),
+	( "freebsd-servers",    ["freebsd"], ALL_HOSTS ),
 	( "routers",            ["router"], ALL_HOSTS ),
 	( "switches",           ["switch"], ALL_HOSTS ),
 	# All non-cluster hosts go into the host group 'hosts'
@@ -514,7 +532,7 @@ host_contactgroups = [
 	( "snmp",       ["snmp"], ALL_HOSTS ),
 	( "linux",      ["linux"], ALL_HOSTS ),
 	( "httpd",      ["httpd"], ALL_HOSTS ),
-	( "bsd",        ["bsd"], ALL_HOSTS ),
+	( "freebsd",    ["freebsd"], ALL_HOSTS ),
 	# The host-group 'test' just contains the hosts ab17 and ab18
 	#( "test",     [ "ab17", "ab18" ] ),
 	# All hosts (even ab17 and ab18) go into host group "ALL_HOSTS"
@@ -579,7 +597,7 @@ service_groups = [
 # should be saved in images/icons/):
 #
 extra_host_conf["icon_image"] = [
-	( "linux.png",   ["linux"], ALL_HOSTS ),
+	( "linux.png", ["linux"], ALL_HOSTS ),
 	( "windows.png", ["windows"], ALL_HOSTS ),
 	( "special.png", [ "host123", "host345" ] )
 ]
@@ -661,7 +679,7 @@ define_hostgroups = True
 define_hostgroups = {
 	"http-servers"   : "HTTP Servers",
 	"linux-servers"   : "Linux Servers",
-	"bsd-servers" : "FreeBSD Servers",
+	"freebsd-servers" : "FreeBSD Servers",
 	"routers"    : "Network routers",
 	"switches"   : "Network switches",
 	"all-hosts"  : "All hosts",
@@ -869,9 +887,9 @@ snmp_default_community = "public"
 snmp_communities = [
 	# all hosts with the tag "vlan" have to community "vlan-SNMP"
 	( "vlan-SNMP", ["vlan"], ALL_HOSTS ),
-	# The two single hosts localhost, local-router have "lufen-SNMP"
+	# The two single hosts localhost, local-router have "local-SNMP"
 	( "local-SNMP",   ["localhost", "local-router"] ),
-	    ( ( "authPriv", "SHA", "user", "authPassword", "AES", 
+	    ( ( "authPriv", "SHA", "snm-user", "authPassword", "AES", 
 	        "privPassword" ), ["v3"], ALL_HOSTS ),
 	# all other hosts have the snmp_default_community
 ]
@@ -888,7 +906,7 @@ snmp_hosts = [ (['snmp'], ALL_HOSTS) ]
 
 snmp_hosts += [
 	# explicit list of hosts. Important: the comma after the list!
-	( ["vlan-router", "local-router"], ), # do not try TCP on these two
+	#( ["switch01", "switch02"], ), # do not try TCP on these two
 	# use host tags: all hosts with tag 'snmp-servers', except those with tag 'both'
 	( ["snmp", "!both"], ALL_HOSTS ),
 	# all other hosts will be contacted with TCP on inventory
@@ -936,7 +954,7 @@ snmpv2c_hosts = [ (['v2c'], ALL_HOSTS) ]
 #
 snmp_ports += [
 	( 161, [ "snmp" ], ALL_HOSTS ),
-	#( 561, [ "dmz" ], ALL_HOSTS ),
+	#( 555, [ "dmz" ], ALL_HOSTS ),
 ]
 
 # 6.7. snmp_timing
@@ -962,7 +980,7 @@ snmp_timing += [
 #
 # Assume all devices with tags snmp-servers and printer to use latin1 encoding
 snmp_character_encodings += [
-	#( "latin1", [ "snmp", "printer" ], ALL_HOSTS ),
+	#( "latin1", [ "snmp", "printers" ], ALL_HOSTS ),
 ]
 
 # Note: There may still be some checks that do not honor this setting. If you
@@ -1005,7 +1023,7 @@ clusters = {}
 # 7.2. clustered_services
 #
 # Definition of services that should be considered as being clustered.
-# DEFAULT:
+# Default:
 #
 clustered_services = []
 
