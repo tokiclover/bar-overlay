@@ -1,0 +1,50 @@
+# /etc/conf.d/mod_gearman_worker: config file for /etc/init.d/mod_gearman_worker
+
+#Basic Settings:
+#       --debug=<lvl>
+#       --logmode=<automatic|stdout|syslog|file>
+#       --logfile=<path>
+#       --debug-result
+#       --help|-h
+#       --daemon|-d
+#       --config=<configfile>
+#       --server=<server>
+#       --dupserver=<server>
+
+#Encryption:
+#       --encryption=<yes|no>
+#       --key=<string>
+#       --keyfile=<file>
+#
+#Job Control:
+#       --hosts
+#       --services
+#       --eventhandler
+#       --hostgroup=<name>
+#       --servicegroup=<name>
+#       --do_hostchecks
+#       --max-age=<sec>
+#       --timeout
+#
+#Worker Control:
+#       --min-worker=<nr>
+#       --max-worker=<nr>
+#       --idle-timeout=<nr>
+#       --max-jobs=<nr>
+#       --spawn-rate=<nr>
+#       --fork_on_exec
+#       --load_limit1=load1
+#       --load_limit5=load5
+#       --load_limit15=load15
+#       --show_error_output
+#
+#Embedded Perl:
+#       --enable_embedded_perl
+#       --use_embedded_perl_implicitly
+#       --use_perl_cache
+#       --p1_file
+#
+# see README for a detailed explaination of all options.
+#
+#MOD_GEARMAN_WORKER_ARGS=""
+

@@ -1,0 +1,24 @@
+#!/sbin/openrc-run
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+extra_started_commands="reload"
+
+pidfile="/var/run/mod_gearman_worker.pid"
+command="/usr/bin/mod_gearman_worker"
+configfile="${configfile:-/etc/mod_gearman/mod_gearman_worker.conf}"
+command_args="--daemon --config=${configfile} --pidfile=${pidfile} ${MOD_GEARMAN_WORKER_ARGS}"
+
+depend() {
+	use logger
+	config ${configfile}
+}
+
+reload() {
+	ebegin "Reloading ${SVCNAME}"
+	local pid
+	read pid <${pidfile}
+	kill -HUP ${pid}
+	eend "${?}"
+}

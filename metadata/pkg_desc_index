@@ -119,7 +119,9 @@ media-video/rage 0.1.4 0.2.0 9999: EFL Video Player
 media-video/vapoursynth 33 34 9999: Video processing framework with simplicity in mind
 media-video/wobbly 3 9999: IVTC video processing assistant for VapourSynth similar to Yatta
 net-analyzer/check_mk 1.2.8_p14: General purpose Nagios/Icinga plugin for retrieving data
+net-analyzer/mod_gearman 1.5.2: Nagios distributed active checks for scalability
 net-analyzer/nagiosgraph 1.5.2: Sinmple Nagios Graph plugin using RRDtool (PNP4Nagios:builk-mode)
+net-analyzer/nagvis 1.6.6: NagVis is a visualization addon for the well known network managment system Nagios
 net-misc/connman 1.31 1.32 9999: Provides a daemon for managing internet connections
 net-misc/dhcpcd 6.11.5: A fully featured, yet light weight RFC2131 compliant DHCP client
 net-misc/dhcpcd-ui 0.7.5 9999: Desktop notification and configuration for dhcpcd
