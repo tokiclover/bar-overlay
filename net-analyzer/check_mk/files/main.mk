@@ -88,7 +88,6 @@ checks = [
 	( "freebasd-host", "zfsget", "/usr/log",     ( 80, 90 ) ),
 	( "freebasd-host", "zfsget", "/usr/mail",    ( 80, 90 ) ),
 
-	    # various processes to check
 	( ["linux", "snmp"],   ALL_HOSTS, "ps", "SNMPD", {
 	        "user": "nobody", "process": "/usr/sbin/snmpd",
 	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
@@ -103,28 +102,36 @@ checks = [
 	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
 	    } ),
 
-	    # use performance variant for web services
-	#( ["httpd"],   ALL_HOSTS, "ps.perf", "SSHD", {
-	    #    "user": "apache", "process": "/usr/sbin/httpd",
-	    #    "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
-	    #} ),
-	( ["cgi"],   ALL_HOSTS, "ps.perf", "FCGIWRAP", {
+	# Monitors web processes by using various tags on hosts
+	( ["http", "apache"],   ALL_HOSTS, "ps.perf", "HTTPD", {
+	        "user": "apache", "process": "/usr/sbin/apache2",
+	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+	    } ),
+	( ["http", "lighttpd"],   ALL_HOSTS, "ps.perf", "HTTPD", {
+	        "user": "lighttd", "process": "/usr/sbin/lighttpd",
+	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+	    } ),
+	( ["http", "nginx"],   ALL_HOSTS, "ps.perf", "HTTPD", {
+	        "user": "nginx", "process": "/usr/sbin/nginx",
+	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
+	    } ),
+	( ["cgi", "nginx"],   ALL_HOSTS, "ps.perf", "FCGIWRAP", {
 	        "user": "nginx", "process": "/usr/sbin/fcgiwrap",
 	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
 	    } ),
-	( ["cgi"],   ALL_HOSTS, "ps.perf", "FCGI-CGI", {
+	( ["cgi", "lighttpd",],   ALL_HOSTS, "ps.perf", "FCGI-CGI", {
 	        "user": "lighttpd", "process": "/usr/bin/fcgi-cgi",
 	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
 	    } ),
-	( ["fpm"],   ALL_HOSTS, "ps.perf", "PHP-FPM_apache", {
+	( ["fpm", "apache"],   ALL_HOSTS, "ps.perf", "PHP-FPM_apache", {
 	        "user": "apache", "process": "php-fpm:",
 	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
 	    } ),
-	( ["httpd"],   ALL_HOSTS, "ps.perf", "PHP-FPM_lighttpd", {
+	( ["fpm", "lighttpd"],   ALL_HOSTS, "ps.perf", "PHP-FPM_lighttpd", {
 	        "user": "lighttpd", "process": "php-fpm:",
-	        "warnmin": 16, "okmin": 2, "okmax": 16, "warnmax" : 16
+	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
 	    } ),
-	( ["httpd"],   ALL_HOSTS, "ps.perf", "PHP-FPM", {
+	( ["fpm", "nginx"],   ALL_HOSTS, "ps.perf", "PHP-FPM_nginx", {
 	        "user": "nginx", "process": "php-fpm:",
 	        "warnmin": 12, "okmin": 2, "okmax": 16, "warnmax" : 16
 	    } ),
@@ -357,7 +364,7 @@ check_submission = "file"
 # may be added using a vertical bar. Example:
 
 all_hosts = [
-	"localhost|http|linux|snmp|v3|tcp|postgres|mysql|cgroup|cgi|fpm",
+	"localhost|http|linux|snmp|v3|tcp|postgres|mysql|cgroup|cgi|fpm|apache|lighttpd|nginx",
 	"vlan-router|routers|ping",
 	"local-router|routers|ping",
 ]

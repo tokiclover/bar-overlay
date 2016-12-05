@@ -100,7 +100,9 @@ src_install() {
 		sed 's,/pnp4nagios/,/pnp/,g' -i \
 			usr/share/check_mk/check_mk_templates.cfg \
 			usr/share/check_mk/notifications/mail \
+			usr/share/check_mk/modules/defaults \
 			usr/share/check_mk/web/htdocs/wato.py \
+			usr/share/check_mk/web/htdocs/defaults.py \
 			usr/share/check_mk/web/plugins/{icons/builtin.py,wato/backup_domains.py}
 
 		# Apache configuration
