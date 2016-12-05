@@ -892,12 +892,13 @@ snmp_default_community = "public"
 # main.mk
 
 snmp_communities = [
+        # use SNMP v3 credentials for host tagged 'snmp' and 'v3'
+	( ( "authPriv", "SHA", "snm-user", "authPassword", "AES", 
+	    "privPassword" ), ["v3"], ALL_HOSTS ),
 	# all hosts with the tag "vlan" have to community "vlan-SNMP"
 	( "vlan-SNMP", ["vlan"], ALL_HOSTS ),
 	# The two single hosts localhost, local-router have "local-SNMP"
 	( "local-SNMP",   ["localhost", "local-router"] ),
-	    ( ( "authPriv", "SHA", "snm-user", "authPassword", "AES", 
-	        "privPassword" ), ["v3"], ALL_HOSTS ),
 	# all other hosts have the snmp_default_community
 ]
 
