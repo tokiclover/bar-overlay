@@ -24,7 +24,7 @@ DEPEND="wato? ( app-admin/sudo )
 	livestatus? ( !!net-analyzer/mk-livestatus )
 	xinetd? ( sys-apps/xinetd )
 	!agent-only? ( || ( net-analyzer/nagios-core net-analyzer/icinga ) )
-	!agent-only? ( www-servers/apache[-apache2_mpms_worker] www-apache/mod_python )
+	!agent-only? ( www-servers/apache[apache2_mpms_prefork] www-apache/mod_python )
 	media-libs/libpng:0"
 RDEPEND="${DEPEND}"
 
