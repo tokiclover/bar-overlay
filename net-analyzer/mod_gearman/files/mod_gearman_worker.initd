@@ -7,11 +7,12 @@ extra_started_commands="reload"
 
 pidfile="/var/run/mod_gearman_worker.pid"
 command="/usr/bin/mod_gearman_worker"
-configfile="${configfile:-/etc/mod_gearman/mod_gearman_worker.conf}"
+configfile="${MOD_GEARMAN_WORKER_CONFIG:-/etc/mod_gearman/mod_gearman_worker.conf}"
 command_args="--daemon --config=${configfile} --pidfile=${pidfile} ${MOD_GEARMAN_WORKER_ARGS}"
 
 depend() {
-	use logger
+	after gearmand localmount netmount nfs
+	use gearmand logger
 	config ${configfile}
 }
 

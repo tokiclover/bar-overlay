@@ -17,7 +17,7 @@ esac
 
 inherit eutils ${VCS_ECLASS}
 
-DESCRIPTION="Nagios distributed active checks for scalability"
+DESCRIPTION="Nagios distributed active checks and perfdata analyzis (PNP4Nagios) for scalability"
 HOMEPAGE="https://labs.consol.de/nagios/mod-gearman/"
 
 LICENSE="GPL-2"
@@ -40,6 +40,7 @@ src_install()
 	default
 
 	rm -fr "${ED}"/etc/init.d/gearmand "${ED}"/var/lib/log
+	mv -f "${ED}"/etc/${PN}/${PN}{_neb,}.conf
 	newinitd "${FILESDIR}/${PN}_worker.initd" "${PN}_worker"
 	newconfd "${FILESDIR}/${PN}_worker.confd" "${PN}_worker"
 

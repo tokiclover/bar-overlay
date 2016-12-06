@@ -46,5 +46,10 @@
 #
 # see README for a detailed explaination of all options.
 #
+#MOD_GEARMAN_WORKER_CONFIG="/etc/mod_gearman/mod_gearman_worker.conf"
+#
+# command line argument to pass to the deamon besides:
+# 		--daemon --config=/etc/mod_gearman/mod_gearman_worker.conf
+# 		--pidfile=/var/run/mod_gearman_worker/pid
+#
 #MOD_GEARMAN_WORKER_ARGS=""
-
