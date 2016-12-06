@@ -7,7 +7,10 @@
 # Any variable defined in /usr/share/check_mk/{modules,web/htdocs}/defaults
 # can be changed here. Beware that some values are hardcoded in modules files
 # or htdocs files, so a recursive sed may be necessary to get around that kind
-# of bloker.
+# of bloker. This is pretty true for /pnp4nagios/ path which should be changed
+# in the files in /usr/share/check_mk/web.
+# However, any value changed from the default should be also changed in
+# /usr/share/check_mk/web/htdocs/defaults.py or the web UI will fail badly.
 nagios_command_pipe_path           = '/var/nagios/rw/nagios.cmd'
 check_result_path                  = '/var/nagios/spool/checkresults'
 nagios_startscript                 = '/etc/init.d/nagios'
@@ -17,7 +20,6 @@ logwatch_notes_url                 = "/nagios/logwatch.php?host=%s&file=%s"
 pnp_url                            = '/pnp/'
 rrdcached_socket                   = '/run/rrdcached.sock'
 rrd_path                           = '/var/nagios/perfdata'
-# modifying this one require a recursive sed to get out of hardcoded values!
 livestatus_unix_socket             = '/var/nagios/rw/live'
 
 
@@ -266,16 +268,22 @@ datasource_programs = [
         # for security reasons.
         # The key should not have a password for this and the '<IP>' host should
         # have: cat >/etc/[local/]sudoers.d/check_mk <<EOF
-        # check_mk_agent    ALL=NOPASSWD: /usr/bin/check_mk_agent /usr/local/bin/check_mk_agent
+        # check_mk_agent ALL= (root) NOPASSWD: /usr/bin/check_mk_agent /usr/local/bin/check_mk_agent
         # EOF
+        # Or else, root account can be used instead to avoid having an extra user
+        # to configure and sudo installation and configuration!
 	( "/usr/bin/ssh -q check_mk_agent@<IP>", ["ssh"], ALL_HOSTS ),
 
         # use a specific <user> and idendity file and a list of hosts
 	#( "/usr/bin/ssh -i /path/to/.ssh/id_rsa -l user <IP>",
         # [ "server01", "server02" ] ),
 
-        # use a directly the agent on localhost instead of using xinetd/ssh
-        ( "/usr/bin/check_mk_agent", ["localhost"] ),
+        # Use a directly the agent on localhost instead of using xinetd/ssh.
+        # Prefix the command with sudo to run the command as root, but configure
+        # sudo with nagios user: cat >/etc/[local/]sudoers.d/check_mk <<EOF
+        # nagios ALL = (root) NOPASSWD: /usr/bin/check_mk_agent /usr/local/bin/check_mk_agent
+        # EOF
+        ( "/usr/bin/sudo /usr/bin/check_mk_agent", ["localhost"] ),
 ]
 
 # 1.12. www_group
