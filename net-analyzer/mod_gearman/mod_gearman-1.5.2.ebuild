@@ -17,7 +17,7 @@ esac
 
 inherit eutils ${VCS_ECLASS}
 
-DESCRIPTION="Nagios distributed active checks and perfdata analyzis (PNP4Nagios) for scalability"
+DESCRIPTION="Nagios/Icinga distributed active checks and perfdata analyzis (PNP4Nagios) for scalability"
 HOMEPAGE="https://labs.consol.de/nagios/mod-gearman/"
 
 LICENSE="GPL-2"
