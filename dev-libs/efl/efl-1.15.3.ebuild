@@ -104,7 +104,7 @@ COMMON_DEP="
 		>=media-libs/libsdl2-2.0.0:0[opengl?,gles?,${MULTILIB_USEDEP}]
 	)
 	systemd? ( sys-apps/systemd[${MULTILIB_USEDEP}] )
-	system-lz4? ( >=app-arch/lz4-120[${MULTILIB_USEDEP}] )
+	system-lz4? ( >=app-arch/lz4-0_p120[${MULTILIB_USEDEP}] )
 	tiff? ( media-libs/tiff:0[${MULTILIB_USEDEP}] )
 	tslib? ( x11-libs/tslib[${MULTILIB_USEDEP}] )
 	wayland? (
