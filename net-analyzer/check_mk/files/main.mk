@@ -94,7 +94,11 @@ checks = [
 	        "user": "nobody", "process": "/usr/sbin/snmpd",
 	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
 	    } ),
-	( ["freebsd", "linux"], ALL_HOSTS, "ps", "SSHD", {
+	( ["freebsd"], ALL_HOSTS, "ps", "SSHD", {
+	        "user": "root", "process" : "/usr/sbin/sshd",
+	        "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
+	    } ),
+	( ["linux"], ALL_HOSTS, "ps", "SSHD", {
 	        "user": "root", "process" : "/usr/sbin/sshd",
 	        "warnmin" : 1, "okmin" : 1, "okmax" : 1, "warnmax" : 1
 	    } ),

@@ -6,7 +6,7 @@
  
  # Only handle always updated values, add device path and vendor/model
 -if which smartctl > /dev/null 2>&1 ; then
-+$smartctl="$(command -v smartctl 2>/dev/null)"
++smartctl="$(command -v smartctl 2>/dev/null)"
 +if [ -n "$smartctl" ] ; then
      #
      # if the 3ware-utility is found

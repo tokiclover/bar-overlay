@@ -104,6 +104,7 @@ src_install() {
 		# location in apache; so, some clean up is necessary although aliasing
 		# reverse aliasing the directory will also work.
 		sed 's,/pnp4nagios/,/pnp/,g' -i \
+			etc/check_mk/multisite.mk* \
 			usr/share/check_mk/check_mk_templates.cfg \
 			usr/share/check_mk/notifications/mail \
 			usr/share/check_mk/modules/defaults \

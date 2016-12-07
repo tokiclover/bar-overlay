@@ -1,106 +1,171 @@
---- usr/share/check_mk/agent/check_mk_agent.linux	2016-12-07 11:50:25.555936010 +0100
-+++ usr/share/check_mk/agent/check_mk_agent.linux	2016-12-07 11:41:57.672939757 +0100
-@@ -93,7 +93,7 @@
+--- usr/share/check_mk/agent/check_mk_agent.linux	2016-12-07 21:16:39.742984162 +0100
++++ usr/share/check_mk/agent/check_mk_agent.linux	2016-12-07 21:25:03.503980445 +0100
+@@ -24,6 +24,8 @@
+ # to the Free Software Foundation, Inc., 51 Franklin St,  Fifth Floor,
+ # Boston, MA 02110-1301 USA.
+ 
++shopt -qs extglob nullglob
++
+ # Remove locale settings to eliminate localized outputs where possible
+ export LC_ALL=C
+ unset LANG
+@@ -93,7 +95,7 @@
      else
          CPU_REGEX='^CPU|^processor'
      fi
--    echo "$(</proc/loadavg) $(grep -E $CPU_REGEX < /proc/cpuinfo | wc -l)"
-+    echo "$(cat /proc/loadavg) $(grep -E $CPU_REGEX < /proc/cpuinfo | wc -l)"
+-    echo "$(cat /proc/loadavg) $(grep -E $CPU_REGEX < /proc/cpuinfo | wc -l)"
++    echo "$(</proc/loadavg) $(grep -E $CPU_REGEX < /proc/cpuinfo | wc -l)"
  }
  
  
-@@ -301,7 +301,7 @@
+@@ -153,7 +155,7 @@
+         if [ $((NOW - MTIME)) -le $MAXAGE ] ; then local USE_CACHEFILE=1 ; fi
+         # Output the file in any case, even if it is
+         # outdated. The new file will not yet be available
+-        cat "$CACHEFILE"
++		echo "$(< "$CACHEFILE")"
+     fi
+ 
+     # Cache file outdated and new job not yet running? Start it
+@@ -301,7 +303,7 @@
  
  # Uptime
  echo '<<<uptime>>>'
--echo "$(< /proc/uptime)"
-+cat /proc/uptime
+-cat /proc/uptime
++echo "$(< /proc/uptime)"
  
  
  # New variant: Information about speed and state in one section
-@@ -321,7 +321,7 @@
+@@ -321,7 +323,7 @@
      do
          echo "[$eth]"
          ethtool $eth | egrep '(Speed|Duplex|Link detected|Auto-negotiation):'
--		echo -en "\tAddress: " ; echo "$(< /sys/class/net/$eth/address)" ; echo
-+        echo -en "\tAddress: " ; cat /sys/class/net/$eth/address ; echo
+-        echo -en "\tAddress: " ; cat /sys/class/net/$eth/address ; echo
++		echo -en "\tAddress: " ; echo "$(< /sys/class/net/$eth/address)" ; echo
      done
  fi
  
-@@ -346,9 +346,7 @@
+@@ -346,7 +348,9 @@
  
  # Number of TCP connections in the various states
  echo '<<<tcp_conn_stats>>>'
--for file in /proc/net/tcp{,6}; do
--	echo "$(< $file)" | awk ' /:/ { c[$4]++; } END { for (x in c) { print x, c[x]; } }'
--done
-+cat /proc/net/tcp /proc/net/tcp6 2>/dev/null | awk ' /:/ { c[$4]++; } END { for (x in c) { print x, c[x]; } }'
+-cat /proc/net/tcp /proc/net/tcp6 2>/dev/null | awk ' /:/ { c[$4]++; } END { for (x in c) { print x, c[x]; } }'
++for file in /proc/net/tcp{,6}; do
++	echo "$(< $file)" | awk ' /:/ { c[$4]++; } END { for (x in c) { print x, c[x]; } }'
++done
  
  # Linux Multipathing
  if type multipath >/dev/null ; then
-@@ -375,8 +373,7 @@
+@@ -373,7 +377,8 @@
  # Performancecounter Kernel
  echo '<<<kernel>>>'
  date +%s
--echo "$(</proc/vmstat)"
--echo "$(</proc/stat)"
-+cat /proc/vmstat /proc/stat
+-cat /proc/vmstat /proc/stat
++echo "$(</proc/vmstat)"
++echo "$(</proc/stat)"
  
  # Hardware sensors via IPMI (need ipmitool)
  if type ipmitool > /dev/null
-@@ -408,7 +405,7 @@
+@@ -405,7 +410,7 @@
  
  # RAID status of Linux software RAID
  echo '<<<md>>>'
--echo "$(</proc/mdstat)"
+-cat /proc/mdstat
 +echo "$(< /proc/mdstat)"
  
  # RAID status of Linux RAID via device mapper
  if type dmraid >/dev/null && DMSTATUS=$(dmraid -r)
-@@ -422,7 +419,7 @@
+@@ -419,7 +424,7 @@
      DISKS=$(echo "$DMSTATUS" | cut -f1 -d\:)
  
      for disk in $DISKS ; do
--        device=$(</sys/block/${disk##*/}/device/model )
-+        device=$(cat /sys/block/$(basename $disk)/device/model )
+-        device=$(cat /sys/block/$(basename $disk)/device/model )
++        device=$(</sys/block/${disk##*/}/device/model )
          status=$(echo "$DMSTATUS" | grep ^${disk})
          echo "$status Model: $device"
      done
-@@ -519,7 +516,7 @@
+@@ -516,7 +521,7 @@
  
  if [ -e /proc/drbd ]; then
    echo '<<<drbd>>>'
--  echo "$(</proc/drbd)"
-+  echo $(< /proc/drbd)
+-  cat /proc/drbd
++  echo "$(< /proc/drbd)"
  fi
  
  # Status of CUPS printer queues
-@@ -640,7 +637,7 @@
+@@ -637,7 +642,7 @@
  	    site=${statsfile%/var/log*}
  	    site=${site#/omd/sites/}
  	    echo "[$site]"
--		echo "$(< $statsfile)"
-+            cat $statsfile
+-            cat $statsfile
++		echo "$(< $statsfile)"
              > $statsfile
          fi
      done
-@@ -674,7 +671,7 @@
+@@ -671,7 +676,7 @@
  if [ -r "$MK_CONFDIR/fileinfo.cfg" ] ; then
      echo '<<<fileinfo:sep(124)>>>'
      date +%s
--    for line in $(< "$MK_CONFDIR/fileinfo.cfg")
-+    for line in $(cat "$MK_CONFDIR/fileinfo.cfg")
+-    for line in $(cat "$MK_CONFDIR/fileinfo.cfg")
++    for line in $(< "$MK_CONFDIR/fileinfo.cfg")
      do
          stat -c "%n|%s|%Y" $line 2>/dev/null
  
-@@ -726,9 +723,7 @@
-     for F in /sys/class/thermal/thermal_zone*; do
-         echo -n "${F##*/} "
-         if [ ! -e $F/mode ] ; then echo -n "- " ; fi
--        for file in $F/{mode,type,temp,trip_point_*}; do
--			echo "$(<$file)" | tr \\n " "
--		done
-+        cat $F/{mode,type,temp,trip_point_*} | tr \\n " "
-         echo
+@@ -718,15 +723,15 @@
+ 
+ # Gather thermal information provided e.g. by acpi
+ # At the moment only supporting thermal sensors
+-if ls /sys/class/thermal/thermal_zone* >/dev/null 2>&1; then
+-    echo '<<<lnx_thermal>>>'
+-    for F in /sys/class/thermal/thermal_zone*; do
+-        echo -n "${F##*/} "
+-        if [ ! -e $F/mode ] ; then echo -n "- " ; fi
+-        cat $F/{mode,type,temp,trip_point_*} | tr \\n " "
+-        echo
+-    done
+-fi
++echo '<<<lnx_thermal>>>'
++for F in /sys/class/thermal/thermal_zone*; do
++    echo -n "${F##*/} "
++    if [ ! -e $F/mode ] ; then echo -n "- " ; fi
++    for file in $F/{mode,type,temp,trip_point_*}; do
++		echo "$(<$file)" | tr \\n " "
++	done
++    echo
++done
+ 
+ # Libelle Business Shadow
+ if type trd >/dev/null; then
+@@ -869,9 +874,9 @@
+ # Local checks
+ echo '<<<local>>>'
+ if cd $LOCALDIR ; then
+-    for skript in $(ls) ; do
++    for skript in * ; do
+         if is_valid_plugin "$skript" ; then
+-            ./$skript
++            MK_CONFDIR="$MK_CONFDIR" $LOCALDIR/$skript
+         fi
      done
+     # Call some plugins only every X'th second
+@@ -884,9 +889,9 @@
+ 
+ # Plugins
+ if cd $PLUGINSDIR ; then
+-    for skript in $(ls) ; do
++    for skript in * ; do
+         if is_valid_plugin "$skript" ; then
+-            ./$skript
++            MK_CONFDIR="$MK_CONFDIR" $PLUGINSDIR/$skript
+         fi
+     done
+     # Call some plugins only every Xth second
+@@ -928,7 +933,7 @@
+         fi
+ 
+         # Output the file
+-        cat "$file"
++		echo "$(< "$file")"
+     done
+     popd > /dev/null
  fi
