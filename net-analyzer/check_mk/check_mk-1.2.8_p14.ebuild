@@ -93,10 +93,12 @@ src_compile() {
 }
 
 src_install() {
+	# some optimizations... especially for mk_postgres to not have su auth
+	# in every minute if check_interlal is left to one minute
+	epatch "${FILESDIR}"/{check_mk_agent-${PV}.linux,mk_{mysql,postgres},smart}.patch
+
 	if ! use agent-only; then
-		# some optimizations... especially for mk_postgres to not have su auth
-		# in every minute if check_interlal is left to one minute
-		epatch "${FILESDIR}"/{check_mk,mk_{mysql,postgres},smart}.patch
+		epatch "${FILESDIR}"/check_mk.patch
 
 		# pnp4nagios is installed in /usr/share/pnp and configured in /pnp/
 		# location in apache; so, some clean up is necessary although aliasing
