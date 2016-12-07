@@ -1,0 +1,48 @@
+--- usr/share/check_mk/agents/plugins/smart	2016-12-01 00:08:31.000000000 +0100
++++ usr/share/check_mk/agents/plugins/smart	2016-12-07 10:47:41.036963783 +0100
+@@ -1,7 +1,8 @@
+-#!/bin/bash
++#!/bin/sh
+ 
+ # Only handle always updated values, add device path and vendor/model
+-if which smartctl > /dev/null 2>&1 ; then
++$smartctl="$(command -v smartctl 2>/dev/null)"
++if [ -n "$smartctl" ] ; then
+     #
+     # if the 3ware-utility is found
+     # get the serials for all disks on the controller
+@@ -39,7 +40,7 @@
+         if [ -r /sys/block/$N/device/model ]; then
+             MODEL=$(sed -e 's/ /_/g' -e 's/_*$//g' < /sys/block/$N/device/model)
+         else
+-            MODEL=$(smartctl -a $D | grep -i "device model" | sed -e "s/.*:[ ]*//g" -e "s/\ /_/g")
++            MODEL=$($smartctl -a $D | grep -i "device model" | sed -e "s/.*:[ ]*//g" -e "s/\ /_/g")
+         fi
+         # Excluded disk models for SAN arrays or certain RAID luns that are also not usable..
+         if [ "$MODEL" = "iSCSI_Disk" -o "$MODEL" = "LOGICAL_VOLUME" ]; then
+@@ -60,7 +61,7 @@
+         if [ "$VEND" == "AMCC" -a -n "$TWAC" ]; then
+ 	    DNAME=${DNAME#1}
+ 	    [ -z "${!DNAME}" ] && continue
+-	    CMD="smartctl -d 3ware,${!DNAME} -v 9,raw48 -A /dev/twa0"
++	    CMD="$smartctl -d 3ware,${!DNAME} -v 9,raw48 -A /dev/twa0"
+ 	    # create nice device name including model
+ 	    MODEL=$(tw_cli /$TWAC/p${!DNAME} show model | head -n 1 | awk -F= '{ print $2 }')
+ 	    MODEL=${MODEL## }
+@@ -71,14 +72,14 @@
+ 	    TEMP=
+ 	    # create temperature output as expected by checks/smart
+ 	    # this is a hack, TODO: change checks/smart to support SCSI-disks
+-	    eval `smartctl -d scsi -i -A $D | while read a b c d e ; do
++	    eval `$smartctl -d scsi -i -A $D | while read a b c d e ; do
+ 		[ "$a" == Serial ] && echo SN=$c
+ 		[ "$a" == Current -a "$b" == Drive  -a "$c" == Temperature: ] && echo TEMP=$d
+ 	    done`
+ 	    [ -n "$TEMP" ] && CMD="echo 194 Temperature_Celsius 0x0000 000 000 000 Old_age Always - $TEMP (0 0 0 0)"
+ 	    DNAME="${VEND}_${MODEL}_${SN}"
+ 	else
+-	    CMD="smartctl -d ata -v 9,raw48 -A $D"
++	    CMD="$smartctl -d ata -v 9,raw48 -A $D"
+ 	fi
+ 	
+         [ -n "$CMD" ] && $CMD | grep Always | egrep -v '^190(.*)Temperature(.*)' | sed "s|^|$DNAME $VEND $MODEL |"

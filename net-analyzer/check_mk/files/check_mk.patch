@@ -1,0 +1,41 @@
+diff --git a/check_mk b/check_mk
+index 53c3750..391a3f9 100755
+--- usr/bin/check_mk
++++ usr/bin/check_mk
+@@ -1,2 +1,34 @@
+-#!/bin/sh
+-exec python /usr/share/check_mk/modules/check_mk.py "$@"
++#!/usr/bin/python
++# vim:fileencoding=utf-8:ft=python
++from __future__ import with_statement
++
++# prepare a clean globals for exec()
++new_globals = dict(globals())
++import errno, os, os.path, sys
++
++data = None
++target = '/usr/share/check_mk/modules/check_mk.py'
++while data is None:
++	try:
++		kwargs = {}
++		if sys.version_info[0] >= 3:
++			import tokenize
++			# encoding is needed
++			with open(taget, 'rb', **kwargs) as f:
++				kwargs['encoding'] = tokenize.detect_encoding(f.readline)[0]
++		with open(target, 'r', **kwargs) as f:
++			data = f.read()
++	except OSError as e:
++		if e.errno == errno.EINTR:
++			# retry
++			continue
++		elif e.errno == errno.ENOENT:
++			sys.stderr.write('%s: This Python (%s) implementation is not supported by the script\n'
++				% (tagret, EPYTHON))
++			sys.exit(127)
++		else:
++			raise
++
++sys.argv[0] = target
++new_globals['__file__'] = sys.argv[0]
++exec(data, new_globals)

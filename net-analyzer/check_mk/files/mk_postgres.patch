@@ -1,0 +1,34 @@
+--- usr/share/check_mk/agents/plugins/mk_postgres	2016-12-01 00:08:31.000000000 +0100
++++ usr/share/check_mk/agents/plugins/mk_postgres	2016-12-07 10:54:21.449960829 +0100
+@@ -1,20 +1,15 @@
+-#!/bin/bash
++#!/bin/sh
+ 
+-# Try to detect the postgres user
+-if id pgsql >/dev/null 2>&1; then
+-    USER=pgsql
+-elif id postgres >/dev/null 2>&1; then
+-    USER=postgres
+-else
+-    exit 0
+-fi
++USER=postgres
++psql="$(command -v psql)"
++[ -n "$psql" ] || exit
+ 
+ echo '<<<postgres_sessions>>>'
+ # Postgres 9.2 uses 'query' instead of 'current_query'
+ for name in query current_query
+ do
+     OUTPUT="$(echo "select $name = '<IDLE>', count(*) from pg_stat_activity group by ($name = '<IDLE>');" |\
+-         su - $USER -c "psql --variable ON_ERROR_STOP=1 -d postgres -A -t -F' '" 2>/dev/null)" && break
++         $psql --username="$USER" --variable ON_ERROR_STOP=1 -d postgres -A -t -F' ' 2>/dev/null)" && break
+ done
+ echo "$OUTPUT"
+ # line with number of idle sessions is sometimes missing on Postgre 8.x. This can lead
+@@ -23,4 +18,4 @@
+ 
+ echo '<<<postgres_stat_database:sep(59)>>>'
+ echo 'select datid, datname, numbackends, xact_commit, xact_rollback, blks_read, blks_hit, tup_returned, tup_fetched, tup_inserted, tup_updated, tup_deleted, pg_database_size(datname) "datsize" from pg_stat_database;' \
+-    | su - $USER -c "psql -d postgres -A -F';'" | sed '$d'
++    | $psql --username=$USER -d postgres -A -F ' ' | sed '$d'

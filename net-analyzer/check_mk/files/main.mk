@@ -272,6 +272,8 @@ datasource_programs = [
         # EOF
         # Or else, root account can be used instead to avoid having an extra user
         # to configure and sudo installation and configuration!
+        # SSH private keys can have password if keychain is used to setup manually
+        # the keys.
 	( "/usr/bin/ssh -q check_mk_agent@<IP>", ["ssh"], ALL_HOSTS ),
 
         # use a specific <user> and idendity file and a list of hosts
