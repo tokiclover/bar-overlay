@@ -1,0 +1,11 @@
+--- usr/share/check_mk/checks/apache_status	2016-12-08 10:07:38.719997412 +0100
++++ usr/share/check_mk/checks/apache_status	2016-12-08 02:21:43.433849125 +0100
+@@ -75,6 +75,8 @@
+         if len(line) != 4:
+             continue # Skip unexpected lines
+         label = (' '.join(line[2:-1])).rstrip(':')
++        if label not in apache_status_fields.keys():
++            continue
+         value = apache_status_fields[label][1](line[-1])
+         item = '%s:%s' % (address, port)
+ 

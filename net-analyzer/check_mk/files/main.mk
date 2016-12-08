@@ -109,15 +109,15 @@ checks = [
 	    } ),
 
 	# Monitors web processes by using various tags on hosts
-	( ["http", "apache"],   ALL_HOSTS, "ps.perf", "HTTPD", {
+	( ["http", "apache"],   ALL_HOSTS, "ps.perf", "Apache", {
 	        "user": "apache", "process": "/usr/sbin/apache2",
 	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
 	    } ),
-	( ["http", "lighttpd"],   ALL_HOSTS, "ps.perf", "HTTPD", {
+	( ["http", "lighttpd"],   ALL_HOSTS, "ps.perf", "LigHTTPD", {
 	        "user": "lighttd", "process": "/usr/sbin/lighttpd",
 	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
 	    } ),
-	( ["http", "nginx"],   ALL_HOSTS, "ps.perf", "HTTPD", {
+	( ["http", "nginx"],   ALL_HOSTS, "ps.perf", "Nginx", {
 	        "user": "nginx", "process": "/usr/sbin/nginx",
 	        "warnmin": 1, "okmin": 1, "okmax": 1, "warnmax" : 1
 	    } ),
