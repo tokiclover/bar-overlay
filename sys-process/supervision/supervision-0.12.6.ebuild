@@ -46,4 +46,5 @@ src_install()
 {
 	sed '/.*COPYING.*$/d' -i Makefile
 	emake DESTDIR="${D}" install-all
+	keepdir $(get_libdir)/sv/cache
 }
