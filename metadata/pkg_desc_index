@@ -141,7 +141,7 @@ sys-kernel/mkinitramfs-ll 0.22.8 0.22.9 9999: Lightweight, modular and powerfull
 sys-libs/libpstat 9999: Virtual device manager for UNIX
 sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
 sys-process/set_rlimits 1.2.0: Give unpriviledged users access to realtime scheduling
-sys-process/supervision 0.12.4 0.12.4.1 0.12.5 0.12.6 9999: Supervision Scripts Framework
+sys-process/supervision 0.12.4 0.12.4.1 0.12.5 0.12.6.1 9999: Supervision Scripts Framework
 virtual/daemontools 0: Virtual for Daemontools Service Manager
 virtual/liblash 1: Virtual for LASH library
 virtual/libproxy 1: Virtual for proxy library
