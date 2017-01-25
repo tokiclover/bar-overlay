@@ -116,7 +116,7 @@ media-video/ffmpeg 2.6.9999 2.8.9999 3.0.9999 3.1.9999: Complete solution to rec
 media-video/l-smash 2.9.1 9999: (FFmpeg) Libavcodec-SMASH decoder/demuxer wrapper library
 media-video/mpv 0.19.0 0.20.0 0.21.0 9999: Video player based on MPlayer/mplayer2
 media-video/rage 0.1.4 0.2.0 9999: EFL Video Player
-media-video/vapoursynth 33 34 9999: Video processing framework with simplicity in mind
+media-video/vapoursynth 34 36 9999: Video processing framework with simplicity in mind
 media-video/wobbly 3 9999: IVTC video processing assistant for VapourSynth similar to Yatta
 net-analyzer/check_mk 1.2.8_p14: General purpose Nagios/Icinga plugin for retrieving data
 net-analyzer/mod_gearman 1.5.2: Nagios/Icinga distributed active checks and perfdata analyzis (PNP4Nagios) for scalability
@@ -141,7 +141,7 @@ sys-kernel/mkinitramfs-ll 0.22.9 0.22.10 9999: Lightweight, modular and powerful
 sys-libs/libpstat 9999: Virtual device manager for UNIX
 sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
 sys-process/set_rlimits 1.2.0: Give unpriviledged users access to realtime scheduling
-sys-process/supervision 0.12.4 0.12.4.1 0.12.5 0.12.6.3 9999: Supervision init-system and service-manager
+sys-process/supervision 0.12.4.1 0.12.5 0.12.6.3 0.13.0 9999: Supervision init-system and service-manager
 virtual/daemontools 0: Virtual for Daemontools Service Manager
 virtual/liblash 1: Virtual for LASH library
 virtual/libproxy 1: Virtual for proxy library
