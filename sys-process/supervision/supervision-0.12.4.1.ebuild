@@ -19,14 +19,16 @@ case "${PV}" in
 esac
 inherit eutils ${VCS_ECLASS}
 
-DESCRIPTION="Supervision Scripts Framework"
+DESCRIPTION="Supervision init-system and service-manager"
 HOMEPAGE="https://github.com/tokiclover/supervision"
 
 LICENSE="BSD-2"
 SLOT="0"
 IUSE="+runit s6 sysvinit"
 
-DEPEND="sys-apps/sed
+DEPEND="sys-apps/grep
+	sys-apps/sed
+	sys-process/procps
 	sysvinit? ( sys-apps/sysvinit )"
 RDEPEND="${DEPEND} virtual/daemontools"
 

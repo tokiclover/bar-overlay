@@ -9,8 +9,8 @@
 <longdescription lang="en">
 </longdescription>
 <use>
-	<flag name="runit">Enable <pkg>sys-process/runit</pkg> Supervision and Init-Stage support</flag>
-	<flag name="s6">Enable <pkg>sys-apps/s6</pkg> Supervision and Init-Satge support</flag>
-	<flag name="sysvinit">Install compatibility utility and service for <pkg>sys-apps/sysvinit</pkg> (reboot/shutdown)</flag>
+	<flag name="runit">Enable <pkg>sys-process/runit</pkg> supervision and init-stage support</flag>
+	<flag name="s6">Enable <pkg>sys-apps/s6</pkg> supervision and init-satge support</flag>
+	<flag name="sysvinit">Install compatibility service for <pkg>sys-apps/sysvinit</pkg> shutdown</flag>
 </use>
 </pkgmetadata>
