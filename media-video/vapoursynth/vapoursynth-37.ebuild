@@ -43,7 +43,7 @@ unset i
 
 RDEPEND="|| ( >=media-video/libav-11:=[${MULTILIB_USEDEP}]
 		>=media-video/ffmpeg-2.4.0:=[${MULTILIB_USEDEP}] )
-	>=media-libs/zimg-2.3[${MULTILIB_USEDEP}]
+	media-libs/zimg[${MULTILIB_USEDEP}]
 	debug? ( sys-devel/gdb )
 	python? ( dev-python/cython[${PYTHON_USEDEP}] 
 		${PYTHON_DEPS} )
