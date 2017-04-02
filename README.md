@@ -57,6 +57,14 @@ CLONE/MIRRORS
 - git://gitlab.com/tokiclover/bar-overlay.git;
 - git@gitlab.com:tokiclover/bar-overlay.git;
 
+GNUPG FINGERPRINT
+---------
+
+pub   rsa2048 2017-04-02 [SC] [expires: 2019-04-02]
+      2555 6CC7 7D28 0B8A 761D  49C4 0800 233A 751F 578D
+uid           [ultimate] tokiclover (BAR) **<EMAIL>**
+sub   rsa2048 2017-04-02 [E] [expires: 2019-04-02]
+
 ---
 
 [0]: https://gentoo.org
