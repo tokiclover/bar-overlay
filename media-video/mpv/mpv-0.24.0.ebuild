@@ -28,17 +28,15 @@ SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
 LICENSE="GPL-2+ LGPL-2.1 BSD MIT ISC"
 SLOT="0/${PV}"
-IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl +enca encode +gbm
-+iconv jack jpeg lcms libarchive +libass libcaca libguess lua luajit openal
+IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl encode +gbm
++iconv jack jpeg lcms libarchive +libass libcaca lua luajit openal
 +opengl oss pulseaudio samba sdl selinux +shm static static-libs uchardet
 v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver xv zsh-completion"
 
 REQUIRED_USE="
 	dvdnav? ( dvd )
-	enca? ( iconv )
 	gbm? ( egl drm )
 	lcms? ( opengl )
-	libguess? ( iconv )
 	luajit? ( lua )
 	opengl? ( || ( wayland X ) )
 	uchardet? ( iconv )
@@ -51,8 +49,8 @@ REQUIRED_USE="
 	xv? ( X )"
 RDEPEND+="
 	|| (
-		>=media-video/libav-11:=[encode?,threads,vaapi?,vdpau?]
-		>=media-video/ffmpeg-2.4.0:0=[encode?,threads,vaapi?,vdpau?]
+		>=media-video/libav-12:=[encode?,threads,vaapi?,vdpau?]
+		>=media-video/ffmpeg-3.2.2:0=[encode?,threads,vaapi?,vdpau?]
 	)
 	sys-libs/ncurses
 	sys-libs/zlib
@@ -80,17 +78,15 @@ RDEPEND+="
 		>=media-libs/libdvdread-4.1.3
 		dvdnav? ( >=media-libs/libdvdnav-4.2.0 )
 	)
-	enca? ( app-i18n/enca )
 	iconv? ( virtual/libiconv )
 	jack? ( media-sound/jack-audio-connection-kit )
 	jpeg? ( virtual/jpeg:0 )
 	libarchive? ( >=app-arch/libarchive-3.0 )
 	libass? (
-		>=media-libs/libass-0.12.1:=[enca?,fontconfig]
+		>=media-libs/libass-0.12.1:=[fontconfig]
 		virtual/ttf-fonts
 	)
 	libcaca? ( >=media-libs/libcaca-0.99_beta18 )
-	libguess? ( >=app-i18n/libguess-1.0 )
 	lua? (
 		!luajit? ( <dev-lang/lua-5.3 >=dev-lang/lua-5.1 )
 		luajit? ( dev-lang/luajit:2 )
@@ -175,12 +171,10 @@ src_configure()
 		$(use_enable drm)
 		$(use_enable dvd dvdread)
 		$(use_enable dvdnav)
-		$(use_enable enca)
 		$(use_enable gbm)
 		$(use_enable iconv)
 		$(use_enable libarchive)
 		$(use_enable libass)
-		$(use_enable libguess)
 		$(use_enable dvb dvbin)
 		$(use_enable uchardet)
 		$(use_enable v4l libv4l2)
