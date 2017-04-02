@@ -40,10 +40,15 @@ HOMEPAGE="http://www.kernel.org"
 IUSE="${PATCHSET[*]}"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 
-has ck "${PATCHSET[@]}" &&
-has bfs "${PATCHES[@]}" &&
+if has ck "${PATCHSET[@]}"; then
+	if (( ${KV_MAJOR} == 4 )) && (( ${KV_MINOR} >= 8 )); then
+REQUIRED_USE="${REQUIRED_USE}
+	ck? ( muqss )"
+	else
 REQUIRED_USE="${REQUIRED_USE}
 	ck? ( bfs )"
+	fi
+fi
 
 RDEDEPEND="hardened? ( sys-apps/paxctl sys-apps/gradm )"
 DEPEND="${RDEPEND}"
@@ -83,25 +88,10 @@ case "${KV_MAJOR}" in
 	;;
 esac
 
-# @ECLASS-VARIABLE: AUFS_EXTRA_PATCH
-# @DESCRIPTION:
-# Extra patches included in AUFS package to use
-:	${AUFS_EXTRA_PATCH:=}
-
 # @ECLASS-VARIABLE: BFS_VER
 # @DESCRIPTION:
 # BFS version string
 :	${BFS_VER:=}
-# @ECLASS-VARIABLE: BFS_BASE_PATCH
-# @DESCRIPTION:
-# BFS base patch, to patch the unpacked files/patchset
-:	${BFS_BASE_PATCH:=}
-
-# @ECLASS-VARIABLE: BFS_EXTRA_PATCH
-# @DESCRIPTION:
-# BFS extra patch included in ck broken-out archive
-:	${BFS_EXTRA_PATCH:=}
-
 # @ECLASS-VARIABLE: CK_VER
 # @DESCRIPTION:
 # -ck patchset version string
@@ -119,7 +109,14 @@ esac
 # @DESCRIPTION:
 # BFS source file
 :	${BFS_SRC:=${CK_SRC}}
-:	${BFS_PATCH:=${MKV}-sched-bfs-${BFS_VER}.patch}
+# @ECLASS-VARIABLE: MUQSS_VER
+# @DESCRIPTION:
+# MuQSS version string
+:	${MUQSS_VER:=}
+# @ECLASS-VARIABLE: MUQSS_SRC
+# @DESCRIPTION:
+# BFS source file
+:	${MUQSS_SRC:=${CK_SRC}}
 
 # @ECLASS-VARIABLE: GENTOO_VER
 # @DESCRIPTION:
@@ -144,6 +141,10 @@ esac
 :	${FBCONDECOR_SRC:=genpatches-${FBCONDECOR_VER}.extras.tar.xz}
 :	${FBCONDECOR_URI:=${GENTOO_URI}}
 
+if (( ${KV_MAJOR} == 4 )) && (( ${KV_MINOR} >= 8 )); then
+:	${BFQ_SRC:=${CK_SRC}}
+:	${BFQ_URI:=${CK_URI}}
+else
 # @ECLASS-VARIABLE: BFQ_VER
 # @DESCRIPTION:
 # BFQ version string: genpatches experimental version
@@ -153,19 +154,6 @@ esac
 # Gentoo experimental source file
 :	${BFQ_SRC:=genpatches-${BFQ_VER}.experimental.tar.xz}
 :	${BFQ_URI:=${GENTOO_URI}}
-
-# @ECLASS-VARIABLE: HARDENED_VER
-# @DESCRIPTION:
-# Gentoo hardened unified patch version string
-:	${HARDENED_VER:=${OKV}-1}
-# @ECLASS-VARIABLE: HARDENED_URI
-# @DESCRIPTION:
-# gentoo hardened unified patch source URI
-:	${HARDENED_URI:="http://dev.gentoo.org/~blueness/hardened-sources/hardened-patches"}
-# @ECLASS-VARIABLE: HARDENED_SRC
-# @DESCRIPTION:
-# Gentoo hardened unified patch source file
-:	${HARDENED_SRC:=hardened-patches-${HARDENED_VER}.extras.tar.bz2}
 
 # @ECLASS-VARIABLE: OPTIMIZATION_VER
 # @DESCRIPTION:
@@ -179,6 +167,20 @@ esac
 # @DESCRIPTION:
 # CPU optimization source file
 :	${OPTIMIZATION_SRC:=${BFQ_SRC}}
+fi
+
+# @ECLASS-VARIABLE: HARDENED_VER
+# @DESCRIPTION:
+# Gentoo hardened unified patch version string
+:	${HARDENED_VER:=${OKV}-1}
+# @ECLASS-VARIABLE: HARDENED_URI
+# @DESCRIPTION:
+# gentoo hardened unified patch source URI
+:	${HARDENED_URI:="http://dev.gentoo.org/~blueness/hardened-sources/hardened-patches"}
+# @ECLASS-VARIABLE: HARDENED_SRC
+# @DESCRIPTION:
+# Gentoo hardened unified patch source file
+:	${HARDENED_SRC:=hardened-patches-${HARDENED_VER}.extras.tar.bz2}
 
 # @ECLASS-VARIABLE: REISER4_VER
 # @DESCRIPTION:
@@ -285,13 +287,17 @@ kernel-git_src_unpack()
 		export EGIT_PROJECT=aufs${KV_MAJOR}-standalone.git
 		git-2_src_unpack
 	fi
-	if use_if_iuse bfs || use_if_iuse ck; then
+	if use_if_iuse bfs || use_if_iuse ck || use_if_iuse muqss; then
 		unpack ${CK_SRC}
 	fi
 	use_if_iuse hardened   && unpack ${HARDENED_SRC}
 	use_if_iuse gentoo     && src_patch_unpack ${GENTOO_SRC} base
 	use_if_iuse fbcondecor && src_patch_unpack ${FBCONDECOR_SRC} extras
+	if (( ${KV_MAJOR} == 4 )) && (( ${KV_MINOR} >= 8 )); then
+		:;
+	else
 	use_if_iuse bfq        && src_patch_unpack ${BFQ_SRC} experimental
+	fi
 }
 
 # @FUNCTION: kernel-git_src_prepare
@@ -301,12 +307,12 @@ kernel-git_src_prepare()
 {
 	debug-print-function ${FUNCNAME} "${@}"
 
-	epatch "${WORKDIR}"/patch-${OKV}
+	PATCHES+=( "${WORKDIR}"/patch-${OKV} )
 	epatch_user
 
 	if use_if_iuse aufs; then
 		local dir src=aufs${KV_MAJOR}-standalone
-		local -a PATCHES=(
+		PATCHES+=(
 			"${WORKDIR}"/${src}/aufs${KV_MAJOR}-{kbuild,base,mmap}.patch
 			"${WORKDIR}"/${src}/aufs${KV_MAJOR}-{standalone,loopback}.patch
 		)
@@ -314,39 +320,38 @@ kernel-git_src_prepare()
 			cp -a "${WORKDIR}"/${src}/${dir} "${S}" || die
 		done
 		cp -a {"${WORKDIR}/${src}","${S}"}/include/uapi/linux/aufs_type.h || die
-		epatch "${PATCHES[@]}"
-		[[ -n "${AUFS_EXTRA_PATCH}" ]] &&
-			epatch "${WORKDIR}"/${src}/${AUFS_EXTRA_PATCH}
 	fi
 
-	use_if_iuse hardened   && epatch "${WORKDIR}"/${MKV}*/*.patch
-	use_if_iuse gentoo     && epatch "${WORKDIR}"/base/*.patch
-	use_if_iuse fbcondecor && epatch "${WORKDIR}"/extras/*.patch
-	use_if_iuse bfq        && epatch "${WORKDIR}"/experimental/*BFQ*.patch
-
-	if use_if_iuse ck || use_if_iuse bfs; then
-		[[ -n "${BFS_BASE_PATCH}" ]] &&
-			epatch "${WORKDIR}"/patches/${BFS_BASE}
+	use_if_iuse hardened   && PATCHES+=( "${WORKDIR}"/${MKV}*/*.patch )
+	use_if_iuse gentoo     && PATCHES+=( "${WORKDIR}"/base/*.patch )
+	use_if_iuse fbcondecor && PATCHES+=( "${WORKDIR}"/extras/*.patch )
+	if (( ${KV_MAJOR} == 4 )) && (( ${KV_MINOR} >= 8 )); then
+		if use_if_iuse bfq; then
+			use_if_iuse ck || PATCHES+=( "${WORKDIR}"/patches/*BFQ*.patch )
+		else
+			rm -f "${WORKDIR}"/patches/series/*BFQ*.patch
+		fi
+	else
+		use_if_iuse bfq    && PATCHES+=( "${WORKDIR}"/experimental/*BFQ*.patch )
 	fi
+
 	if use_if_iuse ck; then
-		sed -e "/ck.*-version.patch/d" \
-			-i "${WORKDIR}"/patches/series || die
-		while read line; do
-			epatch "${WORKDIR}"/patches/$line
-		done <"${WORKDIR}"/patches/series
+		rm -f "${WORKDIR}"/patches/series/*version*.patch
+		PATCHES+=( "${WORKDIR}"/patches/*.patch )
  	elif use_if_iuse bfs; then
-		epatch "${WORKDIR}"/patches/${BFS_PATCH}
-		epatch "${WORKDIR}"/patches/hz-{default_1000,no_default_250}.patch
-		[[ -n "${BFS_EXTRA_PATCH}" ]] &&
-			epatch "${WORKDIR}"/patches/${BFS_EXTRA}
+		PATCHES+=( "${WORKDIR}"/patches/${MKV}-sched-bfs-*.patch )
+		PATCHES+=( "${WORKDIR}"/patches/hz-{default_1000,no_default_250}.patch )
+ 	elif use_if_iuse muqss; then
+		PATCHES+=( "${WORKDIR}"/patches/*MuQSS*.patch )
 	fi
 	
-	use_if_iuse reiser4 && epatch "${DISTDIR}"/${REISER4_SRC}
-	use_if_iuse rt && epatch "${DISTDIR}"/${RT_SRC}
-	use_if_iuse toi && epatch "${DISTDIR}"/${TOI_SRC}
-	use_if_iuse uksm && epatch "${DISTDIR}"/${UKSM_SRC}
-	use_if_iuse optimization && epatch "${DISTDIR}"/experimental/*-cpu-optimization*.patch
+	use_if_iuse reiser4 && PATCHES+=( "${DISTDIR}"/${REISER4_SRC} )
+	use_if_iuse rt && PATCHES+=( "${DISTDIR}"/${RT_SRC} )
+	use_if_iuse toi && PATCHES+=( "${DISTDIR}"/${TOI_SRC} )
+	use_if_iuse uksm && PATCHES+=( "${DISTDIR}"/${UKSM_SRC} )
+	use_if_iuse optimization && PATCHES+=( "${DISTDIR}"/experimental/*-cpu-optimization*.patch )
 	
+	epatch "${PATCHES[@]}"
 	rm -fr .git*
 	sed -e "s,EXTRAVERSION =.*$,EXTRAVERSION = -git," -i Makefile || die
 }
