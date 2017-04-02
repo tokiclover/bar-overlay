@@ -14,7 +14,7 @@ case "${PV}" in
 	(*)
 	KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~mips ~s390 ~x86 ~amd64-linux ~x86-linux"
 	VCS_ECLASS=vcs-snapshot
-	SRC_URI="https://github.com/${PN}/${PN}/archive/r${PV#0_p}.tar.gz -> ${PN}-${PV#0_p}.tar.gz"
+	SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	;;
 esac
 inherit multilib-minimal toolchain-funcs ${VCS_ECLASS}
@@ -28,7 +28,7 @@ IUSE="debug test"
 
 DEPEND="test? ( debug? ( dev-util/valgrind ) )"
 
-DOCS=( NEWS lz4_Block_format.md lz4_Frame_format.md )
+DOCS=( NEWS doc/lz4_Block_format.md doc/lz4_Frame_format.md doc/lz4_manual.html )
 
 src_prepare()
 {
@@ -39,10 +39,7 @@ src_prepare()
 multilib_src_compile()
 {
 	tc-export CC AR
-	# we must not use the 'all' target since it builds test programs
-	# & extra -m32 executables
 	emake
-	emake -C programs
 }
 
 multilib_src_install()
