@@ -268,7 +268,7 @@ REQUIRED_USE="	libv4l? ( v4l )
 	${X86_CPU_REQUIRED_USE}"
 unset GPL_REQUIRED_USE {MIPS,PPC,X86}_CPU_REQUIRED_USE
 RESTRICT="
-	encode? ( faac? ( bindist ) nvenc? ( bindist ) )
+	encode? ( faac? ( bindist ) )
 	gpl? ( openssl? ( bindist ) fdk? ( bindist ) )"
 
 DOCS=( Changelog README.md CREDITS doc/APIchanges )
@@ -301,7 +301,7 @@ multilib_src_configure()
 		if use amrenc ; then
 			myeconfargs+=( --enable-version3 )
 		fi
-		if use faac || use nvenc ; then
+		if use faac ; then
 			myeconfargs+=( --enable-nonfree )
 		fi
 	else
