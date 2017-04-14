@@ -61,9 +61,7 @@ GNUPG FINGERPRINT
 ---------
 
 pub   rsa2048 2017-04-02 [SC] [expires: 2019-04-02]
-      2555 6CC7 7D28 0B8A 761D  49C4 0800 233A 751F 578D
-uid           [ultimate] tokiclover (BAR) **<EMAIL>**
-sub   rsa2048 2017-04-02 [E] [expires: 2019-04-02]
+AD5D 6311 D85D 1E6A 86A8  CB87 2806 F421 E1E0 0BC2
 
 ---
 
