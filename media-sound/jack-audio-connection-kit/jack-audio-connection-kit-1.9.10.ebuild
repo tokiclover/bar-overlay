@@ -46,7 +46,7 @@ RDEPEND="${RDEPEND}
 
 DOCS=( ChangeLog README README_NETJACK2 TODO )
 
-S="${WORKDIR}/jack-${PV}"
+S="${WORKDIR}/jack-audio-connection-kit-${PV}"
 
 src_prepare()
 {
