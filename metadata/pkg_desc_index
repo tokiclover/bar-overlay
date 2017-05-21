@@ -4,7 +4,7 @@ app-dicts/xmlittre 1.0: XMLittre (offline version) of E. Littrre's refresh 1872-
 app-editors/ecrire 9999: EFL simple text editor
 app-text/pdfchain 0.4.4: Graphical User Interface for PDF Toolkit (PDFtk)
 dev-libs/dbus-c++ 0.9.0-r1: provide a C++ API for D-BUS
-dev-libs/efl 1.15.3 1.16.1 1.17.2 1.18.2 1.19.8 9999: Enlightenment Foundation Core Libraries
+dev-libs/efl 1.15.3 1.16.1 1.17.2 1.18.5 1.19.8 9999: Enlightenment Foundation Core Libraries
 dev-libs/libglvnd 0.1.1 9999: The GL Vendor-Neutral Dispatch library
 dev-libs/serd 0.22.0: Library for RDF syntax which supports reading and writing Turtle and NTriples
 dev-libs/sord 0.14.0: Library for storing RDF data in memory
