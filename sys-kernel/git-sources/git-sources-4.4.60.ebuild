@@ -14,10 +14,10 @@ KV_PATCH="${PV##*.}"
 BFS_VER="468"
 CK_VER="${MKV}-ck1"
 CK_SRC=${CK_VER}-broken-out.tar.xz
-GENTOO_VER="${MKV}-28"
+GENTOO_VER="${MKV}-68"
 BFQ_VER="${GENTOO_VER}"
 FBCONDECOR_VER="${GENTOO_VER}"
 REISER4_VER="${MKV}.0"
-RT_VER="${OKV}-rt35"
+RT_VER="${OKV}-rt73"
 
 inherit kernel-git

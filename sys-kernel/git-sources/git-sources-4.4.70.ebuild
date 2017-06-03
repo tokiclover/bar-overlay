@@ -18,6 +18,6 @@ GENTOO_VER="${MKV}-29"
 BFQ_VER="${GENTOO_VER}"
 FBCONDECOR_VER="${GENTOO_VER}"
 REISER4_VER="${MKV}.0"
-RT_VER="${OKV}-rt37"
+RT_VER="${MKV}.66-rt79"
 
 inherit kernel-git
