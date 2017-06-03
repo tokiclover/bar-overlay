@@ -136,7 +136,7 @@ sys-fs/aufs-standalone 3.9999 4.9999: An entirely re-designed and re-implemented
 sys-fs/aufs-util 3.9999 4.9999: AUFS filesystem utilities
 sys-fs/fskit 9999: Filesystem utility library and SDK
 sys-fs/vdev 9999: Virtual device manager for UNIX
-sys-kernel/git-sources 3.4.108 3.10.101 3.12.58 3.14.58 3.14.68 3.18.36 4.1.34 4.1.35 4.4.60 4.4.70 4.9.24 4.9.30 4.10.5: Latest stable branch Linux kernel
+sys-kernel/git-sources 3.4.108 3.10.101 3.12.58 3.14.58 3.14.68 4.1.34 4.1.35 4.4.60 4.4.70 4.9.24 4.9.30 4.10.5 4.11.3: Latest stable branch Linux kernel
 sys-kernel/mkinitramfs-ll 0.22.9 0.22.10 9999: Lightweight, modular and powerfull initramfs genrating tool
 sys-libs/libpstat 9999: Virtual device manager for UNIX
 sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
