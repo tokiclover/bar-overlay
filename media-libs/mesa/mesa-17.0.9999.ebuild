@@ -53,7 +53,7 @@ CARDS_LIST=(
 
 IUSE="${CARDS_LIST[@]/#/video_cards_}
 	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 glvnd +llvm
-	+nptl opencl osmesa pax_kernel openmax pic selinux +udev vaapi valgrind vdpau
+	+nptl opencl osmesa pax_kernel openmax pic selinux vaapi valgrind vdpau
 	+vulkan wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
@@ -120,7 +120,6 @@ RDEPEND="
 				)
 			)
 	openmax? ( media-libs/libomxil-bellagio:=[${MULTILIB_USEDEP}] )
-	udev? ( kernel_linux? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] ) )
 	vaapi? ( x11-libs/libva:=[${MULTILIB_USEDEP}] )
 	valgrind? ( dev-util/valgrind )
 	vdpau? ( x11-libs/libvdpau:=[${MULTILIB_USEDEP}] )
@@ -301,7 +300,6 @@ multilib_src_configure() {
 		$(use_enable glvnd libglvnd)
 		$(use_enable nptl glx-tls)
 		$(use_enable osmesa)
-		$(use_enable !udev sysfs)
 		$(use_enable valgrind)
 		--enable-llvm-shared-libs
 		--with-dri-drivers="${DRI_DRIVERS}"
