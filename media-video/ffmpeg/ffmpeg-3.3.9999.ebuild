@@ -68,9 +68,9 @@ FFMPEG_FLAGS=(
 	schroedinger:libschroedinger speex:libspeex vorbis:libvorbis vpx:libvpx
 	zvbi:libzvbi
 	# libavfilter options
-	bs2b:libbs2b chromaprint flite:libflite frei0r fribidi:libfribidi
-	fontconfig ladspa libass truetype:libfreetype rubberband:librubberband
-	zimg:libzimg
+	bs2b:libbs2b chromaprint flite:libflite frei0r
+	fribidi:libfribidi fontconfig ladspa libass truetype:libfreetype
+	rubberband:librubberband sofalizer:netcdf zeromq:libzmq zimg:libzimg
 	# libswresample options
 	libsoxr
 	# Threads; we only support pthread for now but ffmpeg supports more
@@ -90,7 +90,15 @@ IUSE="alsa doc +encode jack oss pic static-libs test v4l
 
 # Strings for CPU features in the useflag[:configure_option] form
 # if :configure_option isn't set, it will use 'useflag' as configure option
-ARM_CPU_FEATURES=(v5te:armv5te v6:armv6 v6t2:armv6t2 neon:neon vfp:vfp)
+ARM_CPU_FEATURES=(
+	v5te:armv5te
+	v6:armv6
+	v6t2:armv6t2
+	neon:neon
+	vfp:vfp
+	vfpv3:vfpv3
+	v8:armv8
+)
 MIPS_CPU_FEATURES=(dspr1:mipsdsp dspr2:mipsdspr2 fpu:mipsfpu msa:msa)
 PPC_CPU_FEATURES=(altivec:altivec vsx:vsx power8:power8)
 X86_CPU_FEATURES=(
@@ -98,6 +106,14 @@ X86_CPU_FEATURES=(
 	mmx:mmx mmxext:mmxext sse:sse sse2:sse2 sse3:sse3 ssse3:ssse3 sse4_1:sse4
 	aes:aesni sse4_2:sse42 xop:xop
 )
+ARM_CPU_REQUIRED_USE="
+	arm64? ( cpu_flags_arm_v8 )
+	cpu_flags_arm_v8? (  cpu_flags_arm_vfpv3 cpu_flags_arm_neon )
+	cpu_flags_arm_neon? ( cpu_flags_arm_thumb2 cpu_flags_arm_vfp )
+	cpu_flags_arm_vfpv3? ( cpu_flags_arm_vfp )
+	cpu_flags_arm_thumb2? ( cpu_flags_arm_v6 )
+	cpu_flags_arm_v6? ( cpu_flags_arm_thumb )
+"
 MIPS_CPU_REQUIRED_USE="
 	cpu_flags_mips_msa? ( cpu_flags_mips_fpu )
 "
@@ -130,6 +146,14 @@ CPU_FEATURES=(
 	${PPC_CPU_FEATURES[@]/#/cpu_flags_ppc_}
 	${X86_CPU_FEATURES[@]/#/cpu_flags_x86_}
 )
+
+CPU_REQUIRED_USE="
+	${ARM_CPU_REQUIRED_USE}
+	${MIPS_CPU_REQUIRED_USE}
+	${PPC_CPU_REQUIRED_USE}
+	${X86_CPU_REQUIRED_USE}
+"
+
 IUSE+=" ${CPU_FEATURES[*]/%:*}"
 unset {ARM,MIPS,PPC,X86}_CPU_FEATURES
 
@@ -210,6 +234,10 @@ RDEPEND="
 	samba? ( >=net-fs/samba-3.6.23-r1[${MULTILIB_USEDEP}] )
 	schroedinger? ( >=media-libs/schroedinger-1.0.11-r1[${MULTILIB_USEDEP}] )
 	sdl? ( >=media-libs/libsdl-1.2.15-r4[sound,video,${MULTILIB_USEDEP}] )
+	sofalizer? (
+		>=sci-libs/netcdf-4.3.2-r1[hdf5]
+		>=sci-libs/hdf5-1.8.18[hl]
+	)
 	speex? ( >=media-libs/speex-1.2_rc1-r1[${MULTILIB_USEDEP}] )
 	ssh? ( >=net-libs/libssh-0.5.5[${MULTILIB_USEDEP}] )
 	truetype? ( >=media-libs/freetype-2.5.0.1:2[${MULTILIB_USEDEP}] )
@@ -227,6 +255,7 @@ RDEPEND="
 		>=x11-libs/libXv-1.0.10[${MULTILIB_USEDEP}]
 	)
 	xcb? ( x11-libs/libxcb[${MULTILIB_USEDEP}] )
+	zeromq? ( >=net-libs/zeromq-4.1.6 )
 	zimg? ( media-libs/zimg[${MULTILIB_USEDEP}] )
 	zlib? ( >=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}] )
 	zvbi? ( >=media-libs/zvbi-0.2.35[${MULTILIB_USEDEP}] )
@@ -262,10 +291,8 @@ REQUIRED_USE="	libv4l? ( v4l )
 	fftools_cws2fws? ( zlib )
 	test? ( encode )
 	${GPL_REQUIRED_USE}
-	${MIPS_CPU_REQUIRED_USE}
-	${PPC_CPU_REQUIRED_USE}
-	${X86_CPU_REQUIRED_USE}"
-unset GPL_REQUIRED_USE {MIPS,PPC,X86}_CPU_REQUIRED_USE
+	${CPU_REQUIRED_USE}"
+unset GPL_REQUIRED_USE {ARM,MIPS,PPC,X86}_CPU_REQUIRED_USE CPU_REQUIRED_USE
 RESTRICT="
 	gpl? ( openssl? ( bindist ) fdk? ( bindist ) )"
 
@@ -326,7 +353,7 @@ multilib_src_configure()
 
 	# (temporarily) disable non-multilib deps
 	if ! multilib_is_native_abi; then
-		for i in frei0r ; do
+		for i in frei0r netcdf libzmq ; do
 			myeconfargs+=( "--disable-${i}" )
 		done
 	fi
@@ -377,6 +404,7 @@ multilib_src_configure()
 		myeconfargs+=( --enable-cross-compile
 			"--arch=$(tc-arch-kernel)"
 			"--cross-prefix=${CHOST}-"
+			"--host-cc=$(tc-getBUILD_CC)"
 		)
 		case "${CHOST}" in
 			(*freebsd*) myeconfargs+=( --target-os=freebsd );;
