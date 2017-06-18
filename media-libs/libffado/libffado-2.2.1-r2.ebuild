@@ -23,7 +23,7 @@ IUSE="debug qt4 ${DEFAULT_CARDS[@]/#/+ffado_cards_} ${OTHER_CARDS[@]/#/ffado_car
 REQUIRED_USE="${PYTHOH_REQUIRED_USE} || ( ${FIREWIRE_CARDS[@]/#/ffado_cards_} )"
 unset {DEFAULT,OTHER}_CARDS
 
-RDEPEND=">=dev-cpp/libxmlpp-2.6.13
+RDEPEND=">=dev-cpp/libxmlpp-2.6.13:2.6
 	>=dev-libs/dbus-c++-0.9.0[${MULTILIB_USEDEP}]
 	>=dev-libs/libconfig-1.4.8[${MULTILIB_USEDEP}]
 	>=media-libs/alsa-lib-1.0.0[${MULTILIB_USEDEP}]

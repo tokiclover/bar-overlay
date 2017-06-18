@@ -23,7 +23,7 @@ IUSE="debug qt4 +test-programs ${DEFAULT_CARDS[@]/#/+ffado_cards_} ${OTHER_CARDS
 REQUIRED_USE="${PYTHOH_REQUIRED_USE} || ( ${FIREWIRE_CARDS[@]/#/ffado_cards_} )"
 unset {DEFAULT,OTHER}_CARDS
 
-RDEPEND=">=dev-cpp/libxmlpp-2.6.13
+RDEPEND=">=dev-cpp/libxmlpp-2.6.13:2.6
 	>=dev-libs/dbus-c++-0.9.0[${MULTILIB_USEDEP}]
 	>=dev-libs/libconfig-1.4.8[${MULTILIB_USEDEP}]
 	>=media-libs/alsa-lib-1.0.0[${MULTILIB_USEDEP}]
@@ -40,11 +40,6 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 DOCS=( AUTHORS ChangeLog README )
-
-PATCHES=(
-	"${FILESDIR}/${P}-honor-toolchain-env.patch"
-	"${FILESDIR}/${P}-no-jackd-version.patch"
-)
 
 src_prepare()
 {
@@ -76,7 +71,7 @@ multilib_src_configure()
 		# ENABLE_OPTIMIZATIONS detects cpu type and sets flags accordingly
 		# -fomit-frame-pointer is added also which can cripple debugging.
 		# we set flags from portage instead
-		ENABLE_OPTIMIZATIONS=False
+		ENABLE_OPTIMIZATIONS=True
 	)
 	for card in "${FIREWIRE_CARDS[@]}"; do
 		if use ffado_cards_${card} || has ${card} ${FFADO_CARDS}; then
