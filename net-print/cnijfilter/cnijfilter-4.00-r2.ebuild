@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-print/cnijfilter-drivers/cnijfilter-drivers-4.00.ebuild,v 2.0 2015/08/08 03:10:53  Exp $
+# $Id: net-print/cnijfilter-drivers/cnijfilter-drivers-4.00.ebuild,v 2.0 2015/08/08 03:10:53  Exp $
 
 EAPI=5
 

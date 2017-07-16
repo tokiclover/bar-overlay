@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/slim-themes-slime/slim-themes-slime-0.19.3.ebuild,v 1.1 2015/06/22 14:23:22 Exp $
+# $Id: x11-themes/slim-themes-slime/slim-themes-slime-0.19.3.ebuild,v 1.1 2015/06/22 14:23:22 Exp $
 
 EAPI=5
 

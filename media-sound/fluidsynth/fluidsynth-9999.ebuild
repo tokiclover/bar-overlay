@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/fluidsynth/fluidsynth-9999.ebuild,v 1.2 2015/06/08 09:57:24 Exp $
+# $Id: media-sound/fluidsynth/fluidsynth-9999.ebuild,v 1.2 2015/06/08 09:57:24 Exp $
 
 EAPI=5
 

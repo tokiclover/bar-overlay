@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/ewe/ewe-9999.ebuild,v 1.2 2014/12/22 12:02:10 Exp $
+# $Id: media-libs/ewe/ewe-9999.ebuild,v 1.2 2014/12/22 12:02:10 Exp $
 
 EAPI=5
 

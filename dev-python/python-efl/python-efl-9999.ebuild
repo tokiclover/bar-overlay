@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-python/python-efl/python-efl-1.12.0.ebuild,v 1.2 2015/06/08 Exp $
+# $Id: dev-python/python-efl/python-efl-1.12.0.ebuild,v 1.2 2015/06/08 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python{2_{6,7},3_{3,4,5}} )

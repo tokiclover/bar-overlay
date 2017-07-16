@@ -1,6 +1,6 @@
 # Copyright 2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/deadbeef/deadbeef-9999.ebuild,v 1.6 2016/06/06 19:57:55 Exp $
+# $Id: media-sound/deadbeef/deadbeef-9999.ebuild,v 1.6 2016/06/06 19:57:55 Exp $
 
 EAPI=5
 PLOCALES="be bg bn ca cs da de el en_GB eo es et fa fi fr gl he hr hu id it ja kk km

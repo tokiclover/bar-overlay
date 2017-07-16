@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-process/runit/runit-2.1.1-r1.ebuild,v 1.13 2015/06/18 19:18:50 Exp $
+# $Id: sys-process/runit/runit-2.1.1-r1.ebuild,v 1.13 2015/06/18 19:18:50 Exp $
 
 EAPI=3
 

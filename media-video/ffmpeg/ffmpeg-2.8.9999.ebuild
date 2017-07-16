@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/ffmpeg/ffmpeg-2.8.9999.ebuild,v 1.5 2016/02/18 10:01:57 Exp $
+# $Id: media-video/ffmpeg/ffmpeg-2.8.9999.ebuild,v 1.5 2016/02/18 10:01:57 Exp $
 
 EAPI=5
 

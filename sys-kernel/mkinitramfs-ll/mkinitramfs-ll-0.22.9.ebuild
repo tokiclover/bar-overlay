@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.16 2015/05/26 08:41:42 Exp $
+# $Id: sys-kernel/mkinitramfs-ll/mkinitramfs-ll-9999.ebuild,v 1.16 2015/05/26 08:41:42 Exp $
 
 EAPI=5
 

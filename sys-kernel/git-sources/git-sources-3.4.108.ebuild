@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: sys-kernel/git-sources/git-sources-3.4.97.ebuild,v 2.2 2015/06/30 13:45:34 Exp $
+# $Id: sys-kernel/git-sources/git-sources-3.4.97.ebuild,v 2.2 2015/06/30 13:45:34 Exp $
 
 EAPI="5"
 ETYPE="sources"

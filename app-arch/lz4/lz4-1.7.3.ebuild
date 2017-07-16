@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: app-arch/lz4/lz4-129.ebuild,v 1.14 2015/08/14 12:58:22 Exp $
+# $Id: app-arch/lz4/lz4-129.ebuild,v 1.14 2015/08/14 12:58:22 Exp $
 
 EAPI=5
 

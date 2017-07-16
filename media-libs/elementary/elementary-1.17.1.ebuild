@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/elementary/elementary-1.17.0.ebuild,v 1.4 2016/04/04 Exp $
+# $Id: media-libs/elementary/elementary-1.17.0.ebuild,v 1.4 2016/04/04 Exp $
 
 EAPI=5
 

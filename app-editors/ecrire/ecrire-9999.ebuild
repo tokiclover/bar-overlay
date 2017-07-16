@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: app-editors/ecrire/ecrire-9999.ebuild,v 1.1 2015/08/12 12:02:10 Exp $
+# $Id: app-editors/ecrire/ecrire-9999.ebuild,v 1.1 2015/08/12 12:02:10 Exp $
 
 EAPI=5
 PLOCALES="ca eo es fr gl he hu it ko lt pl pt sr tr zh_CN"

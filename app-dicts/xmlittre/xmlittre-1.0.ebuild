@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: app-dicts/xmlittre/xmlittre-1.0.ebuild,v 1.1 2012/08/05 10:20:35 Exp $
+# $Id: app-dicts/xmlittre/xmlittre-1.0.ebuild,v 1.1 2012/08/05 10:20:35 Exp $
 
 EAPI=2
 

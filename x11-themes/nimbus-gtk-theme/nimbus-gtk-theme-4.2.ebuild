@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-themes/nimbus-gtk-theme/nimbus-gtk-theme-4.2.ebuild,v 1.1 2014/08/08 00:22:09 Exp $
+# $Id: x11-themes/nimbus-gtk-theme/nimbus-gtk-theme-4.2.ebuild,v 1.1 2014/08/08 00:22:09 Exp $
 
 EAPI=5
 

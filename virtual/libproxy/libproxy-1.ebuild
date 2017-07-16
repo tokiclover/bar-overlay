@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: virtual/liblash/libproxy-1.ebuild,v 1.1 2014/12/01 20:54:56 Exp $
+# $Id: virtual/liblash/libproxy-1.ebuild,v 1.1 2014/12/01 20:54:56 Exp $
 
 EAPI=5
 

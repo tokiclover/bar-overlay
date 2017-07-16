@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-plugins/ekbd/ekbd-9999.ebuild,v 1.4 2014/12/22 12:02:10 Exp $
+# $Id: x11-plugins/ekbd/ekbd-9999.ebuild,v 1.4 2014/12/22 12:02:10 Exp $
 
 EAPI=5
 

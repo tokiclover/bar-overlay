@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/aubio/aubio-0.3.2-r2.ebuild,v 1.7 2015/02/10 18:03:32 Exp $
+# $Id: media-libs/aubio/aubio-0.3.2-r2.ebuild,v 1.7 2015/02/10 18:03:32 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )

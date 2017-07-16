@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/jack_mixer/jack_mixer-10.ebuild, 2014/09/15 $
+# $Id: media-sound/jack_mixer/jack_mixer-10.ebuild, 2014/09/15 $
 
 EAPI=5
 

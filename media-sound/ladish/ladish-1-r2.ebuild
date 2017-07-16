@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/ladish/ladish-1.ebuild,v 1.6 2016/05/08 12:14:19 Exp $
+# $Id: media-sound/ladish/ladish-1.ebuild,v 1.6 2016/05/08 12:14:19 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )

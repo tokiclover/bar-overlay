@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/seq24/seq24-0.9.2.ebuild,v 1.7 2014/10/10 17:54:29 Exp $
+# $Id: media-sound/seq24/seq24-0.9.2.ebuild,v 1.7 2014/10/10 17:54:29 Exp $
 
 EAPI=5
 

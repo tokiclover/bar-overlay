@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/d2vwitch/d2vwitch-9999.ebuild,v 1.1 2015/09/24 Exp $
+# $Id: media-video/d2vwitch/d2vwitch-9999.ebuild,v 1.1 2015/09/24 Exp $
 
 EAPI=5
 MY_PN="D2VWitch"

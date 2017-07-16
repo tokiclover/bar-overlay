@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-video/l-smash/l-smash-9999.ebuild,v 1.2 2016/05/12 Exp $
+# $Id: media-video/l-smash/l-smash-9999.ebuild,v 1.2 2016/05/12 Exp $
 
 EAPI=5
 

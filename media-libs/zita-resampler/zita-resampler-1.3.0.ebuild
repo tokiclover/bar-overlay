@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-libs/zita-resampler-1.3.0.ebuild,v 1.0 2014/10/10 Exp $
+# $Id: media-libs/zita-resampler-1.3.0.ebuild,v 1.0 2014/10/10 Exp $
 
 EAPI=5
 

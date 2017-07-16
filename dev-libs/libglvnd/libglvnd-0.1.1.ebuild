@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: dev-libs/libglvnd/libglvnd-9999.ebuild,v 1.0 2016/06/04 12:58:22 Exp $
+# $Id: dev-libs/libglvnd/libglvnd-9999.ebuild,v 1.0 2016/06/04 12:58:22 Exp $
 
 EAPI=5
 

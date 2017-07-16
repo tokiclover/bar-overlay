@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-misc/spacefm/spacefm-9999.ebuild,v 1.5 2015/06/06 17:56:49 Exp $
+# $Id: x11-misc/spacefm/spacefm-9999.ebuild,v 1.5 2015/06/06 17:56:49 Exp $
 
 EAPI=5
 

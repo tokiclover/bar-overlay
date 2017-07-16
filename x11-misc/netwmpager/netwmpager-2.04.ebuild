@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: x11-misc/netwmpager/netwmpager-2.04.ebuild,v 1.4 2014/07/31 15:08:29 Exp $
+# $Id: x11-misc/netwmpager/netwmpager-2.04.ebuild,v 1.4 2014/07/31 15:08:29 Exp $
 
 EAPI=5
 

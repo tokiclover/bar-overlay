@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-fonts/ttf-mph2b-damase/ttf-mph2b-damase-001.000.ebuild,v 1.2 2014/07/17 Exp $
+# $Id: media-fonts/ttf-mph2b-damase/ttf-mph2b-damase-001.000.ebuild,v 1.2 2014/07/17 Exp $
 
 inherit font
 

@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: net-misc/pacrunner/pacrunner-9999.ebuild,v 1.2 2015/05/28 20:54:56 Exp $
+# $Id: net-misc/pacrunner/pacrunner-9999.ebuild,v 1.2 2015/05/28 20:54:56 Exp $
 
 EAPI=5
 

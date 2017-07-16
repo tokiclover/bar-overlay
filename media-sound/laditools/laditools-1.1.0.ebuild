@@ -1,6 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: media-sound/laditools/laditools-1.1.0.ebuild,v 1.3 2016/04/04 14:40:00 Exp $
+# $Id: media-sound/laditools/laditools-1.1.0.ebuild,v 1.3 2016/04/04 14:40:00 Exp $
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
