@@ -1,9 +1,8 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: dev-util/edi/edi-9999.ebuild,v 1.1 2015/02/02 12:02:10 Exp $
+# $Id: dev-util/edi/edi-9999.ebuild,v 1.1 2017/10/02 12:02:10 Exp $
 
 EAPI=5
-AUTOTOOLS_AUTORECONF=1
 
 case "${PV}" in
 	(*9999*)
@@ -26,13 +25,15 @@ IUSE="clang doc test"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 
-RDEPEND=">=dev-libs/efl-1.18.0"
+RDEPEND=">=dev-libs/efl-1.20.0"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	doc? ( app-doc/doxygen )
 	clang? ( sys-devel/clang )
 	virtual/libintl"
 
 DOCS=( AUTHORS ChangeLog NEWS README TODO )
+AUTOTOOLS_AUTORECONF=1
 
 src_configure()
 {

@@ -17,7 +17,7 @@ dev-python/python-efl 1.14.0 1.15.0 1.16.0 1.17.0 1.18.0 9999: Python bindings f
 dev-python/vapoursynth-plugins-adjust 9999: Tweak filter plugin for VapourSynth ported from Avisynth
 dev-python/vapoursynth-plugins-havsfunc 22 9999: Holy's functions for VapourSynth ported AviSynth
 dev-python/vapoursynth-plugins-mvsfunc 7 9999: mawen1250's functions for VapourSynth
-dev-util/edi 0.4.0 9999: EFL based IDE
+dev-util/edi 0.6.0 9999: EFL based IDE
 dev-util/eflete 0.6.1 0.7.0 9999: EFL Edje Theme Editor - a theme graphical editor
 dev-util/enventor 0.9.0 1.0.0 9999: EFL Dynamic EDC editor
 dev-util/espionage 1.0 9999: PyEFL D-Bus inspector
