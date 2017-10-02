@@ -29,6 +29,7 @@ SLOT="0"
 
 RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.8.0 )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	nls? ( virtual/libintl )"
 
 DOCS=( AUTHORS NEWS README TODO )
