@@ -29,7 +29,7 @@ media-fonts/sil-nuosu 2.1.1: Nuosu SIL Font is a single Unicode font for the sta
 media-fonts/ttf-mph2b-damase 001.000: Font with extensive Unicode 4.1 range coverage
 media-gfx/ephoto 1.5 9999: EFL image viewer, editor, manipulator and slideshow
 media-libs/aubio 0.4.1 0.4.2: Library for audio labelling
-media-libs/elementary 1.13.3 1.14.3 1.15.3 1.16.1 1.17.1 9999: Basic widget set, based on EFL for mobile touch-screen devices
+media-libs/elementary 1.16.1 1.17.1 9999: Basic widget set, based on EFL for mobile touch-screen devices
 media-libs/ewe 0.2.2 9999: Elementary Widgets Extension, desktop widget library
 media-libs/ganv 1.4.2: An interactive Gtk widget for boxes and lines or graph-like environments
 media-libs/libffado 2.2.1-r2 2.3.0: Successor for freebob: Library for accessing BeBoB IEEE1394 devices
