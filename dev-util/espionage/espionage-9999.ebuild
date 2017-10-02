@@ -31,6 +31,7 @@ IUSE="doc"
 RDEPEND=">=dev-python/python-efl-1.8.0
 	dev-python/dbus-python[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	${PYTHON_DEPS}"
+	${PYTHON_DEPS}
+	app-portage/elt-patches"
 
 DOCS=( ChangeLog README )

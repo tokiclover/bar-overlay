@@ -25,6 +25,7 @@ RDEPEND="${DEPEND}
 	grub? ( sys-boot/grub:2 )
 	vkbd? ( x11-plugins/ekbd )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	virtual/libintl"
 
 DOCS=( AUTHORS ChangeLog NEWS README )

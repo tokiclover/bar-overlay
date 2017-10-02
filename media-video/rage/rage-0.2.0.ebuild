@@ -27,6 +27,7 @@ LICENSE="BSD-2"
 SLOT="0"
 
 RDEPEND=">=dev-libs/efl-1.18.0"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-portage/elt-patches"
 
 DOCS=( AUTHORS README TODO )

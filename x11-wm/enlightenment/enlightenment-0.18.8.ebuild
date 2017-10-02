@@ -64,6 +64,7 @@ RDEPEND=">=media-libs/elementary-1.8.3[X,wayland?]
 		>=x11-libs/libxkbcommon-0.3.1
 	)"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	doc? ( app-doc/doxygen )"
 
 DOCS=( AUTHORS ChangeLog README )

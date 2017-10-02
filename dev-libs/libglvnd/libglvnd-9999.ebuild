@@ -34,7 +34,8 @@ RDEPEND="!<media-libs/mesa-12.0
 	x11-libs/libXext:=[${MULTILIB_USEDEP}]
 	x11-proto/glproto[${MULTILIB_USEDEP}]
 "
-DEPEND="dev-lang/python:2.7
+DEPEND="app-portage/elt-patches
+	dev-lang/python:2.7
 	${RDEPEND}
 "
 

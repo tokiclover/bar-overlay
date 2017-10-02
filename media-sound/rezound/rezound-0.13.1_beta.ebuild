@@ -43,6 +43,7 @@ RDEPEND=">=x11-libs/fox-1.1.0:1.6
 	soundtouch? ( >=media-libs/libsoundtouch-1.3.1 )
 	vorbis? ( media-libs/libvorbis media-libs/libogg )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	nls? ( virtual/libintl )
 	virtual/pkgconfig"
 

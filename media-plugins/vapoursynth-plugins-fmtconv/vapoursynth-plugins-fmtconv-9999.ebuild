@@ -27,7 +27,8 @@ SLOT="0"
 IUSE=""
 
 RDEPEND="media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-portage/elt-patches"
 
 AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_PRUNE_LIBTOOL_FILES=all

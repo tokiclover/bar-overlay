@@ -77,7 +77,8 @@ RDEPEND="adplug? ( media-libs/adplug )
 	lastfm? ( net-misc/curl )
 	dumb? ( media-libs/dumb )"
 
-DEPEND=">=dev-lang/perl-5.8.1
+DEPEND="app-portage/elt-patches
+	>=dev-lang/perl-5.8.1
 	dev-perl/XML-Parser
 	dev-lang/yasm
 	ffmpeg? ( virtual/ffmpeg )

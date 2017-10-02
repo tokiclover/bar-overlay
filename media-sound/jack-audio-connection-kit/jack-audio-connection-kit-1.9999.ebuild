@@ -45,6 +45,7 @@ RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 	zalsa? ( media-libs/zita-alsa-pcmi[${MULTILIB_USEDEP}]
 		    media-libs/zita-resampler[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	virtual/pkgconfig
 	doc? ( app-doc/doxygen )
 	netjack? ( dev-util/scons )"

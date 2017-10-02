@@ -28,6 +28,7 @@ IUSE=""
 
 RDEPEND="media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	media-fonts/terminus-font"
 
 AUTOTOOLS_AUTORECONF=1

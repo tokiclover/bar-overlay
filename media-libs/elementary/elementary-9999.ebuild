@@ -37,6 +37,7 @@ RDEPEND="
 	javascript? ( net-libs/nodejs )
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	app-arch/xz-utils
 	doc? ( app-doc/doxygen )
 	test? ( >=dev-libs/check-0.9.5[${MULTILIB_USEDEP}] )"

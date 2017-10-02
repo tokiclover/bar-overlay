@@ -35,7 +35,9 @@ RDEPEND="dev-libs/expat
 	x11-libs/gtk+:2
 	lash? ( virtual/liblash )
 	lv2? ( >=media-libs/lv2-1.0.0 )"
-DEPEND="${RDEPEND} virtual/pkgconfig"
+DEPEND="${RDEPEND}
+	app-portage/elt-patches
+	virtual/pkgconfig"
 
 DOCS=(AUTHORS ChangeLog NEWS README TODO)
 

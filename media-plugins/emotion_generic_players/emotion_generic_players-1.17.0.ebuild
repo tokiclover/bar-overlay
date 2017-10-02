@@ -33,6 +33,7 @@ RDEPEND="
 	>=dev-libs/efl-1.8.0
 	vlc? ( >=media-video/vlc-2.0 )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	app-arch/xz-utils"
 
 DOCS=( AUTHORS ChangeLog README NEWS )

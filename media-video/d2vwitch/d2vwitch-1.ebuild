@@ -29,6 +29,7 @@ IUSE=""
 
 RDEPEND=">=virtual/ffmpeg-9"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	virtual/pkgconfig"
 
 AUTOTOOLS_AUTORECONF=1

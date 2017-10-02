@@ -28,7 +28,8 @@ IUSE=""
 
 RDEPEND="media-libs/xvid:=[${MULTILIB_USEDEP}]
 	media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-portage/elt-patches"
 
 AUTOTOOLS_AUTORECONF=1
 

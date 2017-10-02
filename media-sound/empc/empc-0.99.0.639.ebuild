@@ -32,6 +32,7 @@ RDEPEND=">=media-libs/elementary-1.12.0
 	glyr? ( media-libs/glyr )
 	id3tag? ( media-libs/libid3tag )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	virtual/libintl"
 
 DOCS=( AUTHORS README TODO )

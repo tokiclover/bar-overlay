@@ -42,6 +42,7 @@ RDEPEND="
 		x11-libs/cairo
 	)"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	app-arch/xz-utils"
 
 S="${WORKDIR}/${PN}-${PV/_/-}"

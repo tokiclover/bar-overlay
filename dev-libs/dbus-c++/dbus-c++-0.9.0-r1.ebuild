@@ -19,6 +19,7 @@ RDEPEND="sys-apps/dbus[${MULTILIB_USEDEP}]
 	ecore? ( dev-libs/ecore )
 	glib? ( dev-libs/glib[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	doc? ( app-doc/doxygen )
 	dev-util/cppunit
 	virtual/pkgconfig"

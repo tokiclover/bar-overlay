@@ -18,6 +18,7 @@ SLOT="0"
 RDEPEND=">=dev-libs/efl-1.8.0[X?]
 	>=media-libs/elementary-1.8.0[X?]"
 DEPEND="${DEPEND}
+	app-portage/elt-patches
 	virtual/libintl"
 
 DOCS=( AUTHORS ChangeLog README )

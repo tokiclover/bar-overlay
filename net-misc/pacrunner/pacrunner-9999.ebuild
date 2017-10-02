@@ -32,6 +32,8 @@ DEPEND=">=sys-apps/dbus-1.2[${MULTILIB_USEDEP}]
 	curl? ( >=net-misc/curl-7.16[${MULTILIB_USEDEP}] )
 	libproxy? ( !net-libs/libproxy )"
 RDEPEND="${DEPEND}"
+DEPEND="${DEPEND}
+	app-portage/elt-patches"
 
 DOCS=( AUTHORS ChangeLog HACKING README TODO )
 

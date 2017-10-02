@@ -52,6 +52,7 @@ RDEPEND="|| ( >=media-video/libav-11:=[${MULTILIB_USEDEP}]
 	vapoursynth_plugins_image? ( media-gfx/imagemagick[cxx,hdri(-),q8(-),q32(-),q64(-)] )
 	vapoursynth_plugins_ocr? ( app-text/tesseract )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	doc? ( dev-python/sphinx )
 	dev-lang/yasm
 	virtual/pkgconfig"

@@ -40,6 +40,7 @@ RDEPEND=">=dev-libs/glib-2.6.5:2
 	sndfile? ( >=media-libs/libsndfile-1.0.18 )"
 DEPEND="${RDEPEND}
 	app-doc/doxygen
+	app-portage/elt-patches
 	virtual/pkgconfig"
 
 DOCS=( AUTHORS NEWS README THANKS TODO )

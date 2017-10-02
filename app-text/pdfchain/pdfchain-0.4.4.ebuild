@@ -27,7 +27,8 @@ LICENSE="GPL-3"
 SLOT="0"
 IUSE=""
 
-DEPEND="app-text/pdftk
+DEPEND="app-portage/elt-patches
+	app-text/pdftk
 	>=dev-cpp/gtkmm-3.6.0"
 RDEPEND="${DEPEND}"
 

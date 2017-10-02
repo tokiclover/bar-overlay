@@ -141,6 +141,7 @@ done
 unset card INTEL_CARDS RADEON_CARDS CARDS_LIST
 
 DEPEND+="
+	app-portage/elt-patches
 	video_cards_radeonsi? ( ${LIBDRM_DEPSTRING}[video_cards_amdgpu] )
 	${RDEPEND}
 	${PYTHON_DEPS}

@@ -46,7 +46,9 @@ DEPEND=">=sys-kernel/linux-headers-2.6.39
 	selinux? ( sec-policy/selinux-openvpn )
 	vpnc? ( net-misc/vpnc )
 	wifi? ( >=net-wireless/wpa_supplicant-0.7[dbus] )"
-RDEPEND="${RDEPEND}"
+RDEPEND="${DEPEND}"
+DEPEND="${DEPEND}
+	app-portage/elt-patches"
 
 src_configure()
 {

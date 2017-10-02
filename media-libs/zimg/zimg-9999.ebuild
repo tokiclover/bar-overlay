@@ -27,7 +27,8 @@ SLOT="0"
 IUSE="cpu_flags_x86_sse debug static-libs"
 
 RDEPEND=""
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-portage/elt-patches"
 
 AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_IN_SOURCE_BUILD=yes

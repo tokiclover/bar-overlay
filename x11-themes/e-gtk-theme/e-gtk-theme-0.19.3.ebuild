@@ -25,7 +25,7 @@ LICENSE="BSD-2"
 SLOT=0
 IUSE="gnome gtk minimal openbox"
 
-DEPEND=""
+DEPEND="app-portage/elt-patches"
 RDEPEND="!minimal? ( gtk? ( x11-themes/gnome-themes-standard ) )
 	x11-themes/gtk-engines"
 

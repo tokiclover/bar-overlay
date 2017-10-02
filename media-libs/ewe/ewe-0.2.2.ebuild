@@ -18,7 +18,8 @@ SLOT="0"
 
 RDEPEND="|| ( >=dev-libs/efl-1.18.0:=[${MULTILIB_USEDEP}]
 	>=media-libs/elementary-1.12.2:=[${MULTILIB_USEDEP}] )"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-portage/elt-patches"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
 

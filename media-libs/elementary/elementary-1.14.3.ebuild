@@ -35,6 +35,7 @@ RDEPEND="
 	=dev-libs/efl-${PV:0:4}*[X?,fbcon?,png,sdl?,wayland?,${MULTILIB_USEDEP}]
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	app-arch/xz-utils
 	doc? ( app-doc/doxygen )
 	test? ( >=dev-libs/check-0.9.5[${MULTILIB_USEDEP}] )"

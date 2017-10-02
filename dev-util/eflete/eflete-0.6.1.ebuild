@@ -30,6 +30,7 @@ RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-0.17.0 )
 	enventor? ( >=dev-util/enventor-0.5.1 )
 	>=media-libs/ewe-0.2.2"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	doc? ( app-doc/doxygen )
 	virtual/libintl"
 

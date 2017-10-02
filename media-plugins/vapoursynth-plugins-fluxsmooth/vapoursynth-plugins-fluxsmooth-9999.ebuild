@@ -27,7 +27,8 @@ SLOT="0"
 IUSE=""
 
 RDEPEND="media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
-DEPEND="dev-lang/yasm
+DEPEND="app-portage/elt-patches
+	dev-lang/yasm
 	${RDEPEND}"
 
 AUTOTOOLS_AUTORECONF=1

@@ -31,6 +31,8 @@ IUSE="debug"
 
 DEPEND="debug? ( dev-util/valgrind )"
 RDEPEND="${DEPEND}"
+DEPEND="${DEPEND}
+	app-portage/elt-patches"
 
 DOCS=( AUTHORS README NEWS TODO )
 

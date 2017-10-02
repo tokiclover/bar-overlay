@@ -19,6 +19,8 @@ DEPEND="dev-libs/efl"
 RDEPEND="${DEPEND}
 	>=x11-wm/enlightenment-0.17.0:0.17=
 	virtual/libintl"
+DEPEND="${DEPEND}
+	app-portage/elt-patches"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
 

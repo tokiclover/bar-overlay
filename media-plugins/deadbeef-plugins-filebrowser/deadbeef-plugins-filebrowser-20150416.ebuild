@@ -32,6 +32,8 @@ DEPEND="gtk? ( x11-libs/gtk+:2 )
 	gtk3? ( x11-libs/gtk+:3 )"
 RDEPEND="media-sound/deadbeef[gtk?,gtk3?]
 	${DEPEND}"
+DEPEND="${DEPEND}
+	app-portage/elt-patches"
 
 AUTOTOOLS_PRUNE_LIBTOOL_FILES=modules
 AUTOTOOLS_IN_SOURCE_BUILD=1

@@ -14,6 +14,7 @@ LICENSE="|| ( BSD-2 GPL-2 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=">=sys-kernel/linux-headers-2.6.39"
+DEPEND="app-portage/elt-patches
+	>=sys-kernel/linux-headers-2.6.39"
 
 DOCS=( README )

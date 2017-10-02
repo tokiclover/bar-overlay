@@ -28,3 +28,6 @@ IUSE=""
 DEPEND="dev-libs/libev
 	>=dev-libs/glib-2.16.0:2"
 RDEPEND="${DEPEND}"
+DEPEND="${DEPEND}
+	app-portage/elt-patches"
+

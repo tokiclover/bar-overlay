@@ -30,6 +30,7 @@ RDEPEND="dev-qt/qtcore:5 dev-qt/qtwidgets:5
 		media-video/vapoursynth:=[vapoursynth-script]
 		>=media-plugins/vapoursynth-plugins-fieldhint-3"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	virtual/pkgconfig"
 
 AUTOTOOLS_AUTORECONF=1

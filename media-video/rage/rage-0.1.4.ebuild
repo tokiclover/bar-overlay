@@ -29,6 +29,7 @@ SLOT="0"
 EFL_VERSION=1.13.0
 RDEPEND=">=dev-libs/efl-${EFL_VERSION}
 	>=media-libs/elementary-${EFL_VERSION}"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-portage/elt-patches"
 
 DOCS=( AUTHORS README TODO )

@@ -27,7 +27,8 @@ IUSE="cache-sync doc"
 
 DEPEND="doc? ( app-doc/doxygen )
 	>=dev-libs/boost-1.33.1"
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	app-portage/elt-patches"
 
 src_configure() {
 	local myeconfargs=(

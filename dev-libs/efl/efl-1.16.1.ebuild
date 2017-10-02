@@ -132,6 +132,7 @@ DEPEND="${COMMON_DEP}
 	!!media-libs/ethumb
 	!!media-libs/evas
 	app-arch/xz-utils
+	app-portage/elt-patches
 	doc? ( app-doc/doxygen )
 	test? ( dev-libs/check[${MULTILIB_USEDEP}] )"
 
