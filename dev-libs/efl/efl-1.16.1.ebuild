@@ -135,6 +135,7 @@ DEPEND="${COMMON_DEP}
 	doc? ( app-doc/doxygen )
 	test? ( dev-libs/check[${MULTILIB_USEDEP}] )"
 
+unset COMMON_DEP
 DOCS=( AUTHORS COMPLIANCE COPYING ChangeLog NEWS README )
 
 multilib_src_configure()

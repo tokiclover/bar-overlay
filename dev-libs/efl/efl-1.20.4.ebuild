@@ -33,8 +33,9 @@ SLOT="0/${PV:0:4}"
 
 IUSE="+X avahi +bmp cpu_flags_arm_neon cxx-bindings debug doc drm +eet +egl fbcon
 +fontconfig +fribidi gif gles glib gnutls gstreamer harfbuzz ibus +ico jpeg2k
-+nls +opengl ssl physics pixman +png +ppm +psd  pulseaudio scim sdl sndfile
-static-libs systemd system-lz4 test +tga tiff tslib v4l2 wayland webp xim xine xpm"
++nls +opengl ssl pdf physics pixman +png postscript +ppm +psd  pulseaudio raw scim
+sdl sndfile static-libs svg systemd system-lz4 test +tga tiff tslib v4l2 wayland
+webp xim xine xpm"
 REQUIRED_USE="?? ( gnutls ssl ) ?? ( opengl gles )
 	drm? ( systemd )
 	gles? ( !sdl egl )
@@ -56,8 +57,10 @@ COMMON_DEP="
 		x11-libs/libXcomposite[${MULTILIB_USEDEP}]
 		x11-libs/libXcursor[${MULTILIB_USEDEP}]
 		x11-libs/libXdamage[${MULTILIB_USEDEP}]
+		x11-libs/libXdmcp[${MULTILIB_USEDEP}]
 		x11-libs/libXext[${MULTILIB_USEDEP}]
 		x11-libs/libXfixes[${MULTILIB_USEDEP}]
+		x11-libs/libXi[${MULTILIB_USEDEP}]
 		x11-libs/libXinerama[${MULTILIB_USEDEP}]
 		x11-libs/libXp[${MULTILIB_USEDEP}]
 		x11-libs/libXrandr[${MULTILIB_USEDEP}]
@@ -94,15 +97,19 @@ COMMON_DEP="
 	ibus? ( app-i18n/ibus )
 	jpeg2k? ( media-libs/openjpeg[${MULTILIB_USEDEP}] )
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )
+	pdf? ( app-text/poppler[cxx] )
 	pixman? ( x11-libs/pixman[${MULTILIB_USEDEP}] )
 	physics? ( sci-physics/bullet )
 	png? ( media-libs/libpng:0=[${MULTILIB_USEDEP}] )
+	postscript? ( app-text/libspectre )
 	pulseaudio? ( media-sound/pulseaudio[${MULTILIB_USEDEP}] )
+	raw? ( media-libs/libraw[${MULTILIB_USEDEP}] )
 	sndfile? ( media-libs/libsndfile[${MULTILIB_USEDEP}] )
 	scim?	( app-i18n/scim )
 	sdl? (
 		>=media-libs/libsdl2-2.0.0:0[opengl?,gles?,${MULTILIB_USEDEP}]
 	)
+	svg? ( gnome-base/librsvg[${MULTILIB_USEDEP}] )
 	systemd? ( sys-apps/systemd[${MULTILIB_USEDEP}] )
 	system-lz4? ( >=app-arch/lz4-0_p120[${MULTILIB_USEDEP}] )
 	tiff? ( media-libs/tiff:0[${MULTILIB_USEDEP}] )
@@ -132,9 +139,11 @@ DEPEND="${COMMON_DEP}
 	!!media-libs/ethumb
 	!!media-libs/evas
 	app-arch/xz-utils
+	app-portage/elt-patches
 	doc? ( app-doc/doxygen )
 	test? ( dev-libs/check[${MULTILIB_USEDEP}] )"
 
+unset COMMON_DEP
 DOCS=( AUTHORS COMPLIANCE COPYING ChangeLog NEWS README )
 
 multilib_src_configure()
@@ -155,13 +164,17 @@ multilib_src_configure()
 		$(use_enable harfbuzz)
 		$(use_enable ibus)
 		$(use_enable nls)
+		$(use_enable pdf poppler)
+		$(use_enable postscript spectre)
 		$(use_enable physics)
 		$(use_enable pulseaudio)
 		$(use_enable pulseaudio audio)
+		$(use_enable raw libraw)
 		$(use_enable scim)
 		$(use_enable sdl)
 		$(use_enable sndfile audio)
 		$(use_enable static-libs static)
+		$(use_enable svg librsvg)
 		$(use_enable systemd)
 		$(use_enable system-lz4 liblz4)
 		$(use_enable tslib)
@@ -208,7 +221,7 @@ multilib_src_configure()
 		--disable-lua-old
 		--disable-multisense
 		--disable-tizen
-		--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-aba
+		--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-abb
 	)
 	autotools-utils_src_configure
 }
