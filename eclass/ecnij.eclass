@@ -253,7 +253,7 @@ ecnij_src_install()
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local abi_libdir=/usr/$(get_libdir) p pr prid
-	local abi_lib=${abi_libdir#*lib}
+	local abi_lib=$(usex abi_x86_64 64 32)
 	local lib license lingua=false
 	local -a DOCS
 
