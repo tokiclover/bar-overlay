@@ -2,7 +2,6 @@ app-arch/lz4 1.7.5 1.8.0 9999: Extremely Fast Compression algorithm
 app-benchmarks/rt-tests 0.97: Programs that test various RT-Linux features
 app-dicts/xmlittre 1.0: XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 Littre's dictionary
 app-editors/ecrire 9999: EFL simple text editor
-app-misc/iris-floss 9999: Screen color temperature management software
 app-text/pdfchain 0.4.4: Graphical User Interface for PDF Toolkit (PDFtk)
 dev-libs/dbus-c++ 0.9.0-r1: provide a C++ API for D-BUS
 dev-libs/efl 1.16.1 1.17.2 1.18.5 1.19.8 1.20.4 9999: Enlightenment Foundation Core Libraries
@@ -151,6 +150,7 @@ www-misc/browser-home-profile 4.1 9999: Web-Browser Home Profile Utility
 www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
 www-misc/fcgi-cgi 0.2.2 9999: FastCGI application to run cgi applications
 www-misc/multiwatch 1.0.0 9999: Supervise multiple instances of a process
+x11-misc/iris-floss 9999: Screen color temperature management software
 x11-misc/netwmpager 2.04: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
 x11-misc/spacefm 1.0.1 9999: A multi-panel tabbed file manager
 x11-misc/tint2 9999: A lightweight panel/taskbar
