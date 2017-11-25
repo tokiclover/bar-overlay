@@ -2,6 +2,7 @@ app-arch/lz4 1.7.5 1.8.0 9999: Extremely Fast Compression algorithm
 app-benchmarks/rt-tests 0.97: Programs that test various RT-Linux features
 app-dicts/xmlittre 1.0: XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 Littre's dictionary
 app-editors/ecrire 9999: EFL simple text editor
+app-misc/iris-floss 9999: Screen color temperature management software
 app-text/pdfchain 0.4.4: Graphical User Interface for PDF Toolkit (PDFtk)
 dev-libs/dbus-c++ 0.9.0-r1: provide a C++ API for D-BUS
 dev-libs/efl 1.16.1 1.17.2 1.18.5 1.19.8 1.20.4 9999: Enlightenment Foundation Core Libraries
