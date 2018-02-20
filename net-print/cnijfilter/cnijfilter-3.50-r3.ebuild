@@ -33,6 +33,6 @@ PATCHES=(
 )
 
 src_install () {
-	emake DESTDIR="${D}" install
+	ecnij_src_install
 	mv "$D/usr/lib" "$D/usr/lib64"
 }
