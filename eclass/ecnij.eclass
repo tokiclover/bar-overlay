@@ -269,6 +269,13 @@ ecnij_src_install()
 			pushd ${pr} || die
 			dir_src_command "${PRINTER_SRC[*]}" "emake" "DESTDIR=\"${D}\" install"
 			popd
+			
+			pushd ${prid}/libs_bin${abi_lib} || die
+			for lib in lib*.so; do
+				[[ -L ${lib} ]] && continue ||
+				rm ${lib} && ln -s ${lib}.[0-9]* ${lib}
+			done
+			popd
 
 			dolib.so ${prid}/libs_bin${abi_lib}/*.so*
 			exeinto /var/lib/cnijlib
