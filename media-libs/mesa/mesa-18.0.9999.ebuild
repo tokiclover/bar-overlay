@@ -112,7 +112,7 @@ RDEPEND="
 	llvm? (
 		video_cards_radeonsi? ( 
 			virtual/libelf:0=[${MULTILIB_USEDEP}]
-			)
+		)
 		video_cards_r600? (
 			virtual/libelf:0=[${MULTILIB_USEDEP}]
 		)
@@ -125,7 +125,7 @@ RDEPEND="
 				app-eselect/eselect-opencl
 				dev-libs/libclc
 				virtual/libelf:0=[${MULTILIB_USEDEP}]
-			)
+	)
 	openmax? (
 		media-libs/libomxil-bellagio:=[${MULTILIB_USEDEP}]
 		x11-misc/xdg-utils
@@ -180,7 +180,7 @@ LLVM_DEPSTR="
 	)
 	sys-devel/llvm:=[${MULTILIB_USEDEP}]
 "
-cdLLVM_DEPSTR_AMDGPU=${LLVM_DEPSTR//]/,llvm_targets_AMDGPU(-)]}
+LLVM_DEPSTR_AMDGPU=${LLVM_DEPSTR//]/,llvm_targets_AMDGPU(-)]}
 CLANG_DEPSTR=${LLVM_DEPSTR//llvm/clang}
 CLANG_DEPSTR_AMDGPU=${CLANG_DEPSTR//]/,llvm_targets_AMDGPU(-)]}
 RDEPEND="${RDEPEND}
@@ -256,7 +256,7 @@ DEPEND="${RDEPEND}
 	x11-proto/xf86driproto[${MULTILIB_USEDEP}]
 	x11-proto/xf86vidmodeproto[${MULTILIB_USEDEP}]
 	vulkan? (
-		$(python_gen_any_dep ">=dev-python/mako-0.7.3[\${PYTHON_USEDEP}]")
+		$(python_gen_any_dep ">=dev-python/mako-0.8.0[\${PYTHON_USEDEP}]")
 	)
 "
 
@@ -408,7 +408,6 @@ multilib_src_configure() {
 		--enable-dri
 		--enable-glx=dri
 		--enable-shared-glapi
-		--disable-shader-cache
 		$(use_enable !bindist texture-float)
 		$(use_enable d3d9 nine)
 		$(use_enable debug)
