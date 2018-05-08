@@ -1,11 +1,11 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-video/mpv/mpv-9999.ebuild,v 1.11 2016/04/04 21:11:27 Exp $
+# $Id$
 
 EAPI=5
-PYTHON_COMPAT=( python{2_7,3_{3,4,5}} )
+PYTHON_COMPAT=( python{2_7,3_{4,5,6}} )
 PYTHON_REQ_USE='threads(+)'
-WAF_VERSION=1.8.12
+WAF_VERSION=1.9.8
 
 case "${PV}" in
 	(9999*)
@@ -26,12 +26,13 @@ DESCRIPTION="Video player based on MPlayer/mplayer2"
 HOMEPAGE="http://mpv.io/"
 SRC_URI+=" http://ftp.waf.io/pub/release/waf-${WAF_VERSION}"
 
-LICENSE="GPL-2+ LGPL-2.1 BSD MIT ISC"
+LICENSE="GPL-2+ LGPL-2.1+ BSD MIT ISC samba? ( GPL-3+ )"
 SLOT="0/${PV}"
-IUSE="+alsa bluray cdio -doc-pdf +drm dvb +dvd dvdnav +egl encode +gbm
-+iconv jack jpeg lcms libarchive +libass libcaca lua luajit openal
-+opengl oss pulseaudio samba sdl selinux +shm static static-libs uchardet
-v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver xv zsh-completion"
+IUSE="+alsa bluray cdda +drm dvb +dvd dvdnav +egl encode +gbm
++iconv jack javascript jpeg lcms libarchive +libass libcaca +lua luajit openal
++opengl oss pulseaudio rubberband samba sdl selinux static static-libs uchardet
+v4l vaapi vapoursynth vdpau wayland +X xinerama +xscreensaver +xv zlib
+zsh-completion"
 
 REQUIRED_USE="
 	dvdnav? ( dvd )
@@ -53,7 +54,7 @@ RDEPEND+="
 		>=media-video/ffmpeg-3.2.2:0=[encode?,threads,vaapi?,vdpau?]
 	)
 	sys-libs/ncurses
-	sys-libs/zlib
+	zlib? ( sys-libs/zlib )
 	X? (
 		x11-libs/libX11
 		x11-libs/libXext
@@ -68,7 +69,7 @@ RDEPEND+="
 	)
 	alsa? ( media-libs/alsa-lib )
 	bluray? ( >=media-libs/libbluray-0.3.0 )
-	cdio? (
+	cdda? (
 		dev-libs/libcdio
 		dev-libs/libcdio-paranoia
 	)
@@ -76,10 +77,12 @@ RDEPEND+="
 	dvb? ( virtual/linuxtv-dvb-headers )
 	dvd? (
 		>=media-libs/libdvdread-4.1.3
-		dvdnav? ( >=media-libs/libdvdnav-4.2.0 )
+		dvdnav? ( >=media-libs/libdvdnav-4.2.0
+			>=media-libs/libdvdread-4.1.0 )
 	)
 	iconv? ( virtual/libiconv )
 	jack? ( media-sound/jack-audio-connection-kit )
+	javascript? ( >=dev-lang/mujs-1.0.0 )
 	jpeg? ( virtual/jpeg:0 )
 	libarchive? ( >=app-arch/libarchive-3.0 )
 	libass? (
@@ -93,6 +96,7 @@ RDEPEND+="
 	)
 	openal? ( >=media-libs/openal-1.13 )
 	pulseaudio? ( media-sound/pulseaudio )
+	rubberband? ( >=media-libs/rubberband-1.8.0 )
 	samba? ( net-fs/samba )
 	sdl? ( media-libs/libsdl2[threads] )
 	selinux? ( sec-policy/selinux-mplayer )
@@ -101,7 +105,7 @@ RDEPEND+="
 	vapoursynth? ( media-video/vapoursynth )
 	wayland? (
 		>=dev-libs/wayland-1.6.0
-		media-libs/mesa[egl,wayland]
+		dev-libs/wayland-protocols
 		>=x11-libs/libxkbcommon-0.3.0
 	)"
 DEPEND="${RDEPEND}
@@ -109,11 +113,10 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	>=dev-lang/perl-5.8
 	dev-python/docutils
-	doc-pdf? ( dev-python/rst2pdf )
 	X? (
 		x11-proto/videoproto
 		x11-proto/xf86vidmodeproto
-		xinerama? ( x11-proto/xineramaproto )
+		x11-proto/xineramaproto
 		xscreensaver? ( x11-proto/scrnsaverproto )
 	)"
 DOCS=( Copyright README.md )
@@ -166,8 +169,8 @@ src_configure()
 		$(use_enable samba libsmbclient)
 		$(use_enable lua)
 		$(usex luajit '--lua=luajit' '')
-		$(use_enable doc-pdf pdf-build)
-		$(use_enable cdio cdda)
+		$(use_enable javascript)
+		$(use_enable cdda)
 		$(use_enable drm)
 		$(use_enable dvd dvdread)
 		$(use_enable dvdnav)
@@ -187,19 +190,24 @@ src_configure()
 		$(use_enable openal)
 		$(use_enable oss oss-audio)
 		$(use_enable pulseaudio pulse)
-		$(use_enable shm)
+		$(use_enable rubberband)
 		$(usex static '--enable-static-build' '')
 		$(usex static-libs '--enable-libmpv-static' '--enable-libmpv-shared')
 		$(use_enable X x11)
 		$(use_enable vaapi)
+		$(usex vaapi "$(use_enable X vaapi-x11)" '--disable-vaapi-x11')
+		$(usex vaapi "$(use_enable wayland vaapi-wayland)" '--disable-vaapi-wayland')
+		$(usex vaapi "$(use_enable gbm vaapi-drm)" '--disable-vaapi-drm')
 		$(use_enable vdpau)
+		$(usex vdpau "$(use_enable opengl vdpau-gl-x11)" '--disable-vdpau-gl-x11')
 		$(use_enable vapoursynth)
 		$(use_enable wayland)
-		$(use_enable xinerama)
 		$(use_enable xv)
 		$(use_enable opengl gl)
+		$(usex opengl "$(use_enable X gl-x11)" '--disable-gl-x11')
+		$(usex opengl "$(use_enable wayland gl-wayland)" '--disable-gl-wayland')
 		$(use_enable lcms lcms2)
-		$(use_enable xscreensaver xss)
+		$(use_enable zlib)
 		$(use_enable zsh-completion zsh-comp)
 		--confdir="${EPREFIX}"/etc/${PN}
 		--mandir="${EPREFIX}"/usr/share/man
@@ -211,6 +219,11 @@ src_configure()
 src_install()
 {
 	waf-utils_src_install
+
+	if use lua; then
+		insinto /usr/share/${PN}
+		doins -r TOOLS/lua
+	fi
 
 	if use luajit; then
 		pax-mark -m "${ED}"usr/bin/mpv
