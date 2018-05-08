@@ -1,6 +1,6 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-libs/mesa/mesa-9999.ebuild,v 1.7 2016/06/06 22:15:06 Exp $
+# $Id$
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -173,13 +173,14 @@ unset card INTEL_CARDS RADEON_CARDS CARDS_LIST
 LLVM_MAX_SLOT="5"
 LLVM_DEPSTR="
 	|| (
+		sys-devel/llvm:6[${MULTILIB_USEDEP}]
 		sys-devel/llvm:5[${MULTILIB_USEDEP}]
 		sys-devel/llvm:4[${MULTILIB_USEDEP}]
 		>=sys-devel/llvm-3.9.0:0[${MULTILIB_USEDEP}]
 	)
-	<sys-devel/llvm-6:=[${MULTILIB_USEDEP}]
+	sys-devel/llvm:=[${MULTILIB_USEDEP}]
 "
-LLVM_DEPSTR_AMDGPU=${LLVM_DEPSTR//]/,llvm_targets_AMDGPU(-)]}
+cdLLVM_DEPSTR_AMDGPU=${LLVM_DEPSTR//]/,llvm_targets_AMDGPU(-)]}
 CLANG_DEPSTR=${LLVM_DEPSTR//llvm/clang}
 CLANG_DEPSTR_AMDGPU=${CLANG_DEPSTR//]/,llvm_targets_AMDGPU(-)]}
 RDEPEND="${RDEPEND}
@@ -420,6 +421,7 @@ multilib_src_configure() {
 		$(use_enable unwind libunwind)
 		--enable-valgrind="$(usex valgrind auto no)"
 		--enable-llvm-shared-libs
+		--disable-opencl-icd
 		--with-dri-drivers="${DRI_DRIVERS}"
 		--with-gallium-drivers="${GALLIUM_DRIVERS}"
 		--with-vulkan-drivers="${VULKAN_DRIVERS}"
