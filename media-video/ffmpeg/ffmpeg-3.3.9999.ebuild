@@ -1,6 +1,6 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-video/ffmpeg/ffmpeg-3.0.9999.ebuild,v 1.5 2016/02/18 10:01:57 Exp $
+# $Id$
 
 EAPI=5
 
@@ -109,10 +109,10 @@ X86_CPU_FEATURES=(
 ARM_CPU_REQUIRED_USE="
 	arm64? ( cpu_flags_arm_v8 )
 	cpu_flags_arm_v8? (  cpu_flags_arm_vfpv3 cpu_flags_arm_neon )
-	cpu_flags_arm_neon? ( cpu_flags_arm_thumb2 cpu_flags_arm_vfp )
+	cpu_flags_arm_neon? ( cpu_flags_arm_v6t2 cpu_flags_arm_vfp )
 	cpu_flags_arm_vfpv3? ( cpu_flags_arm_vfp )
-	cpu_flags_arm_thumb2? ( cpu_flags_arm_v6 )
-	cpu_flags_arm_v6? ( cpu_flags_arm_thumb )
+	cpu_flags_arm_v6t2? ( cpu_flags_arm_v6 )
+	cpu_flags_arm_v6? ( cpu_flags_arm_v5te )
 "
 MIPS_CPU_REQUIRED_USE="
 	cpu_flags_mips_msa? ( cpu_flags_mips_fpu )

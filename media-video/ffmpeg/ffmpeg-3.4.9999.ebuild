@@ -1,6 +1,6 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-video/ffmpeg/ffmpeg-3.0.9999.ebuild,v 1.5 2016/02/18 10:01:57 Exp $
+# $Id$
 
 EAPI=5
 
@@ -53,24 +53,25 @@ SLOT="0/${FFMPEG_SUBSLOT}"
 # foo is added to IUSE.
 FFMPEG_FLAGS=(
 	+bzip2:bzlib cpudetection:runtime-cpudetect debug gcrypt gnutls gmp
-	+gpl +hardcoded-tables +iconv lzma +network openssl +postproc
+	+gpl +hardcoded-tables +iconv lzma +network opencl openssl +postproc
 	samba:libsmbclient sdl:ffplay sdl cuda vaapi vdpau X:xlib xcb:libxcb
 	xcb:libxcb-shm xcb:libxcb-xfixes +zlib
 	# libavdevice options
 	cdio:libcdio iec61883:libiec61883 ieee1394:libdc1394 libcaca openal
 	opengl
 	# indevs
-	libv4l:libv4l2 pulseaudio:libpulse
+	libv4l:libv4l2 pulseaudio:libpulse libdrm
 	# decoders
 	amr:libopencore-amrwb amr:libopencore-amrnb fdk:libfdk-aac
 	jpeg2k:libopenjpeg bluray:libbluray celt:libcelt gme:libgme gsm:libgsm
 	mmal modplug:libmodplug opus:libopus librtmp ssh:libssh
-	schroedinger:libschroedinger speex:libspeex vorbis:libvorbis vpx:libvpx
-	zvbi:libzvbi
+	speex:libspeex svg:librsvg vorbis:libvorbis
+	vpx:libvpx zvbi:libzvbi
 	# libavfilter options
-	bs2b:libbs2b chromaprint flite:libflite frei0r fribidi:libfribidi
-	fontconfig ladspa libass truetype:libfreetype rubberband:librubberband
-	zimg:libzimg
+	appkit
+	bs2b:libbs2b chromaprint flite:libflite frei0r
+	fribidi:libfribidi fontconfig ladspa libass truetype:libfreetype
+	rubberband:librubberband zeromq:libzmq zimg:libzimg
 	# libswresample options
 	libsoxr
 	# Threads; we only support pthread for now but ffmpeg supports more
@@ -80,7 +81,7 @@ FFMPEG_FLAGS=(
 # Same as above but for encoders, i.e. they do something only with USE=encode.
 FFMPEG_ENCODER_FLAGS=(
 	amrenc:libvo-amrwbenc mp3:libmp3lame
-	faac:libfaac kvazaar:libkvazaar nvenc:nvenc
+	kvazaar:libkvazaar nvenc:nvenc
 	openh264:libopenh264 snappy:libsnappy theora:libtheora twolame:libtwolame
 	wavpack:libwavpack webp:libwebp x264:libx264 x265:libx265 xvid:libxvid
 )
@@ -90,7 +91,15 @@ IUSE="alsa doc +encode jack oss pic static-libs test v4l
 
 # Strings for CPU features in the useflag[:configure_option] form
 # if :configure_option isn't set, it will use 'useflag' as configure option
-ARM_CPU_FEATURES=(v5te:armv5te v6:armv6 v6t2:armv6t2 neon:neon vfp:vfp)
+ARM_CPU_FEATURES=(
+	v5te:armv5te
+	v6:armv6
+	v6t2:armv6t2
+	neon:neon
+	vfp:vfp
+	vfpv3:vfpv3
+	v8:armv8
+)
 MIPS_CPU_FEATURES=(dspr1:mipsdsp dspr2:mipsdspr2 fpu:mipsfpu msa:msa)
 PPC_CPU_FEATURES=(altivec:altivec vsx:vsx power8:power8)
 X86_CPU_FEATURES=(
@@ -98,6 +107,14 @@ X86_CPU_FEATURES=(
 	mmx:mmx mmxext:mmxext sse:sse sse2:sse2 sse3:sse3 ssse3:ssse3 sse4_1:sse4
 	aes:aesni sse4_2:sse42 xop:xop
 )
+ARM_CPU_REQUIRED_USE="
+	arm64? ( cpu_flags_arm_v8 )
+	cpu_flags_arm_v8? (  cpu_flags_arm_vfpv3 cpu_flags_arm_neon )
+	cpu_flags_arm_neon? ( cpu_flags_arm_v6t2 cpu_flags_arm_vfp )
+	cpu_flags_arm_vfpv3? ( cpu_flags_arm_vfp )
+	cpu_flags_arm_v6t2? ( cpu_flags_arm_v6 )
+	cpu_flags_arm_v6? ( cpu_flags_arm_v5te )
+"
 MIPS_CPU_REQUIRED_USE="
 	cpu_flags_mips_msa? ( cpu_flags_mips_fpu )
 "
@@ -130,6 +147,14 @@ CPU_FEATURES=(
 	${PPC_CPU_FEATURES[@]/#/cpu_flags_ppc_}
 	${X86_CPU_FEATURES[@]/#/cpu_flags_x86_}
 )
+
+CPU_REQUIRED_USE="
+	${ARM_CPU_REQUIRED_USE}
+	${MIPS_CPU_REQUIRED_USE}
+	${PPC_CPU_REQUIRED_USE}
+	${X86_CPU_REQUIRED_USE}
+"
+
 IUSE+=" ${CPU_FEATURES[*]/%:*}"
 unset {ARM,MIPS,PPC,X86}_CPU_FEATURES
 
@@ -156,7 +181,6 @@ RDEPEND="
 	cuda? ( dev-util/nvidia-cuda-sdk )
 	encode? (
 		amrenc? ( >=media-libs/vo-amrwbenc-0.1.2-r1[${MULTILIB_USEDEP}] )
-		faac? ( >=media-libs/faac-1.28-r3[${MULTILIB_USEDEP}] )
 		kvazaar? ( media-libs/kvazaar[${MULTILIB_USEDEP}] )
 		mp3? ( >=media-sound/lame-3.99.5-r1[${MULTILIB_USEDEP}] )
 		nvenc? ( media-video/nvidia_video_sdk )
@@ -196,6 +220,7 @@ RDEPEND="
 	jpeg2k? ( >=media-libs/openjpeg-2:2[${MULTILIB_USEDEP}] )
 	libass? ( >=media-libs/libass-0.10.2[${MULTILIB_USEDEP}] )
 	libcaca? ( >=media-libs/libcaca-0.99_beta18-r1[${MULTILIB_USEDEP}] )
+	libdrm? ( x11-libs/libdrm[${MULTILIB_USEDEP}] )
 	librtmp? ( >=media-video/rtmpdump-2.4_p20131018[${MULTILIB_USEDEP}] )
 	libsoxr? ( >=media-libs/soxr-0.1.0[${MULTILIB_USEDEP}] )
 	libv4l? ( >=media-libs/libv4l-0.9.5[${MULTILIB_USEDEP}] )
@@ -203,16 +228,17 @@ RDEPEND="
 	mmal? ( media-libs/raspberrypi-userland )
 	modplug? ( >=media-libs/libmodplug-0.8.8.4-r1[${MULTILIB_USEDEP}] )
 	openal? ( >=media-libs/openal-1.15.1[${MULTILIB_USEDEP}] )
+	opencl? ( virtual/opencl[${MULTILIB_USEDEP}] )
 	opengl? ( >=virtual/opengl-7.0-r1[${MULTILIB_USEDEP}] )
 	openssl? ( >=dev-libs/openssl-1.0.1h-r2[${MULTILIB_USEDEP}] )
 	opus? ( >=media-libs/opus-1.0.2-r2[${MULTILIB_USEDEP}] )
 	pulseaudio? ( >=media-sound/pulseaudio-2.1-r1[${MULTILIB_USEDEP}] )
 	rubberband? ( >=media-libs/rubberband-1.8.1-r1[${MULTILIB_USEDEP}] )
 	samba? ( >=net-fs/samba-3.6.23-r1[${MULTILIB_USEDEP}] )
-	schroedinger? ( >=media-libs/schroedinger-1.0.11-r1[${MULTILIB_USEDEP}] )
 	sdl? ( >=media-libs/libsdl-1.2.15-r4[sound,video,${MULTILIB_USEDEP}] )
 	speex? ( >=media-libs/speex-1.2_rc1-r1[${MULTILIB_USEDEP}] )
 	ssh? ( >=net-libs/libssh-0.5.5[${MULTILIB_USEDEP}] )
+	svg? ( gnome-base/librsvg:2=[${MULTILIB_USEDEP}] )
 	truetype? ( >=media-libs/freetype-2.5.0.1:2[${MULTILIB_USEDEP}] )
 	vaapi? ( >=x11-libs/libva-1.2.1-r1[${MULTILIB_USEDEP}] )
 	vdpau? ( >=x11-libs/libvdpau-0.7[${MULTILIB_USEDEP}] )
@@ -228,6 +254,7 @@ RDEPEND="
 		>=x11-libs/libXv-1.0.10[${MULTILIB_USEDEP}]
 	)
 	xcb? ( x11-libs/libxcb[${MULTILIB_USEDEP}] )
+	zeromq? ( >=net-libs/zeromq-4.1.6 )
 	zimg? ( media-libs/zimg[${MULTILIB_USEDEP}] )
 	zlib? ( >=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}] )
 	zvbi? ( >=media-libs/zvbi-0.2.35[${MULTILIB_USEDEP}] )
@@ -239,7 +266,7 @@ DEPEND="${RDEPEND}
 	doc? ( sys-apps/texinfo )
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
 	ladspa? ( >=media-libs/ladspa-sdk-1.13-r2[${MULTILIB_USEDEP}] )
-	cpu_flags_x86_mmx? ( >=dev-lang/yasm-1.2 )
+	cpu_flags_x86_mmx? ( || ( >=dev-lang/nasm-2.13 >=dev-lang/yasm-1.3 ) )
 	test? ( net-misc/wget sys-devel/bc )
 	v4l? ( sys-kernel/linux-headers )
 "
@@ -263,12 +290,9 @@ REQUIRED_USE="	libv4l? ( v4l )
 	fftools_cws2fws? ( zlib )
 	test? ( encode )
 	${GPL_REQUIRED_USE}
-	${MIPS_CPU_REQUIRED_USE}
-	${PPC_CPU_REQUIRED_USE}
-	${X86_CPU_REQUIRED_USE}"
-unset GPL_REQUIRED_USE {MIPS,PPC,X86}_CPU_REQUIRED_USE
+	${CPU_REQUIRED_USE}"
+unset GPL_REQUIRED_USE {ARM,MIPS,PPC,X86}_CPU_REQUIRED_USE CPU_REQUIRED_USE
 RESTRICT="
-	encode? ( faac? ( bindist ) )
 	gpl? ( openssl? ( bindist ) fdk? ( bindist ) )"
 
 DOCS=( Changelog README.md CREDITS doc/APIchanges )
@@ -301,9 +325,6 @@ multilib_src_configure()
 		if use amrenc ; then
 			myeconfargs+=( --enable-version3 )
 		fi
-		if use faac ; then
-			myeconfargs+=( --enable-nonfree )
-		fi
 	else
 		myeconfargs+=( --disable-encoders )
 	fi
@@ -313,7 +334,6 @@ multilib_src_configure()
 	for i in alsa oss jack ; do
 		use "${i}" || myeconfargs+=( "--disable-indev=${i}" )
 	done
-	use xcb || ffuse+=( X:x11grab )
 
 	# Outdevs
 	for i in alsa oss sdl ; do
@@ -332,7 +352,7 @@ multilib_src_configure()
 
 	# (temporarily) disable non-multilib deps
 	if ! multilib_is_native_abi; then
-		for i in frei0r ; do
+		for i in frei0r libzmq ; do
 			myeconfargs+=( "--disable-${i}" )
 		done
 	fi
@@ -383,6 +403,7 @@ multilib_src_configure()
 		myeconfargs+=( --enable-cross-compile
 			"--arch=$(tc-arch-kernel)"
 			"--cross-prefix=${CHOST}-"
+			"--host-cc=$(tc-getBUILD_CC)"
 		)
 		case "${CHOST}" in
 			(*freebsd*) myeconfargs+=( --target-os=freebsd );;
