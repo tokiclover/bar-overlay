@@ -1,4 +1,4 @@
-app-arch/lz4 1.7.5 1.8.0 9999: Extremely Fast Compression algorithm
+app-arch/lz4 1.7.5 1.8.2 9999: Extremely Fast Compression algorithm
 app-benchmarks/rt-tests 0.97: Programs that test various RT-Linux features
 app-dicts/xmlittre 1.0: XMLittre (offline version) of E. Littrre's refresh 1872-7 of 1863 Littre's dictionary
 app-editors/ecrire 9999: EFL simple text editor
