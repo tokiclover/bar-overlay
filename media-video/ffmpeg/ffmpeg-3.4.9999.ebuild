@@ -54,7 +54,7 @@ SLOT="0/${FFMPEG_SUBSLOT}"
 FFMPEG_FLAGS=(
 	+bzip2:bzlib cpudetection:runtime-cpudetect debug gcrypt gnutls gmp
 	+gpl +hardcoded-tables +iconv lzma +network opencl openssl +postproc
-	samba:libsmbclient sdl:ffplay sdl cuda vaapi vdpau X:xlib xcb:libxcb
+	samba:libsmbclient sdl:ffplay sdl:sdl2 cuda vaapi vdpau X:xlib xcb:libxcb
 	xcb:libxcb-shm xcb:libxcb-xfixes +zlib
 	# libavdevice options
 	cdio:libcdio iec61883:libiec61883 ieee1394:libdc1394 libcaca openal
@@ -235,7 +235,7 @@ RDEPEND="
 	pulseaudio? ( >=media-sound/pulseaudio-2.1-r1[${MULTILIB_USEDEP}] )
 	rubberband? ( >=media-libs/rubberband-1.8.1-r1[${MULTILIB_USEDEP}] )
 	samba? ( >=net-fs/samba-3.6.23-r1[${MULTILIB_USEDEP}] )
-	sdl? ( >=media-libs/libsdl-1.2.15-r4[sound,video,${MULTILIB_USEDEP}] )
+	sdl? ( media-libs/libsdl2[sound,video,${MULTILIB_USEDEP}] )
 	speex? ( >=media-libs/speex-1.2_rc1-r1[${MULTILIB_USEDEP}] )
 	ssh? ( >=net-libs/libssh-0.5.5[${MULTILIB_USEDEP}] )
 	svg? ( gnome-base/librsvg:2=[${MULTILIB_USEDEP}] )

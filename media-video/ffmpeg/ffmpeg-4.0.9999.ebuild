@@ -54,7 +54,7 @@ SLOT="0/${FFMPEG_SUBSLOT}"
 FFMPEG_FLAGS=(
 	+bzip2:bzlib cpudetection:runtime-cpudetect cuda debug gcrypt gnutls gmp
 	+gpl +hardcoded-tables +iconv lzma libressl:libtls +network opencl openssl
-	+postproc samba:libsmbclient srtp:libsrt vaapi
+	+postproc samba:libsmbclient sdl:ffplay sdl:sdl2 srtp:libsrt vaapi
 	vdpau X:xlib xcb:libxcb xcb:libxcb-shm xcb:libxcb-xfixes +zlib
 	# libavdevice options
 	cdio:libcdio iec61883:libiec61883 ieee1394:libdc1394 libcaca openal
@@ -64,8 +64,8 @@ FFMPEG_FLAGS=(
 	# decoders
 	amr:libopencore-amrwb amr:libopencore-amrnb codec2:libcodec2 fdk:libfdk-aac
 	jpeg2k:libopenjpeg bluray:libbluray celt:libcelt gme:libgme gsm:libgsm
-	mmal modplug:libmodplug nvidia:nvdec opus:libopus librtmp ssh:libssh
-	speex:libspeex svg:librsvg vorbis:libvorbis
+	mmal modplug:libmodplug opus:libopus librtmp ssh:libssh
+	speex:libspeex svg:librsvg video_cards_nvidia:ffnvcodec vorbis:libvorbis
 	vpx:libvpx zvbi:libzvbi
 	# libavfilter options
 	appkit
@@ -238,12 +238,14 @@ RDEPEND="
 	pulseaudio? ( >=media-sound/pulseaudio-2.1-r1[${MULTILIB_USEDEP}] )
 	rubberband? ( >=media-libs/rubberband-1.8.1-r1[${MULTILIB_USEDEP}] )
 	samba? ( >=net-fs/samba-3.6.23-r1[${MULTILIB_USEDEP}] )
+	sdl? ( media-libs/libsdl2[sound,video,${MULTILIB_USEDEP}] )
 	speex? ( >=media-libs/speex-1.2_rc1-r1[${MULTILIB_USEDEP}] )
 	ssh? ( >=net-libs/libssh-0.5.5[${MULTILIB_USEDEP}] )
 	srtp? ( net-libs/libsrtp:0=[${MULTILIB_USEDEP}] )
 	svg? ( gnome-base/librsvg:2=[${MULTILIB_USEDEP}] )
 	truetype? ( >=media-libs/freetype-2.5.0.1:2[${MULTILIB_USEDEP}] )
 	vaapi? ( >=x11-libs/libva-1.2.1-r1[${MULTILIB_USEDEP}] )
+	video_cards_nvidia? ( media-libs/nv-codec-headers[${MULTILIB_USEDEP}] )
 	vdpau? ( >=x11-libs/libvdpau-0.7[${MULTILIB_USEDEP}] )
 	vorbis? (
 		>=media-libs/libvorbis-1.3.3-r1[${MULTILIB_USEDEP}]
@@ -334,7 +336,7 @@ multilib_src_configure()
 
 	# Indevs
 	use v4l || myeconfargs+=( --disable-indev=v4l2 --disable-outdev=v4l2 )
-	for i in alsa oss jack ; do
+	for i in alsa oss jack sdl ; do
 		use "${i}" || myeconfargs+=( "--disable-indev=${i}" )
 	done
 
