@@ -54,7 +54,7 @@ SLOT="0/${FFMPEG_SUBSLOT}"
 FFMPEG_FLAGS=(
 	+bzip2:bzlib cpudetection:runtime-cpudetect debug gcrypt gnutls gmp
 	+gpl +hardcoded-tables +iconv lzma +network opencl openssl +postproc
-	samba:libsmbclient sdl:ffplay sdl:sdl2 cuda vaapi vdpau X:xlib xcb:libxcb
+	samba:libsmbclient sdl:ffplay sdl:sdl2 vaapi vdpau X:xlib xcb:libxcb
 	xcb:libxcb-shm xcb:libxcb-xfixes +zlib
 	# libavdevice options
 	cdio:libcdio iec61883:libiec61883 ieee1394:libdc1394 libcaca openal
@@ -178,7 +178,6 @@ RDEPEND="
 	)
 	celt? ( >=media-libs/celt-0.11.1-r1[${MULTILIB_USEDEP}] )
 	chromaprint? ( >=media-libs/chromaprint-1.2-r1[${MULTILIB_USEDEP}] )
-	cuda? ( dev-util/nvidia-cuda-sdk )
 	encode? (
 		amrenc? ( >=media-libs/vo-amrwbenc-0.1.2-r1[${MULTILIB_USEDEP}] )
 		kvazaar? ( media-libs/kvazaar[${MULTILIB_USEDEP}] )
@@ -336,8 +335,8 @@ multilib_src_configure()
 	done
 
 	# Outdevs
-	for i in alsa oss sdl ; do
-		use ${i} || myeconfargs+=( "--disable-outdev=${i}" )
+	for i in alsa oss sdl:sdl2 ; do
+		use "${i%:*}" || myeconfargs+=( "--disable-outdev=${i#*:}" )
 	done
 
 	# Decoders

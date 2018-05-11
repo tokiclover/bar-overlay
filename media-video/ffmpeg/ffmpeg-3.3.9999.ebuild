@@ -337,8 +337,8 @@ multilib_src_configure()
 	done
 
 	# Outdevs
-	for i in alsa oss sdl ; do
-		use ${i} || myeconfargs+=( "--disable-outdev=${i}" )
+	for i in alsa oss sdl:sdl2 ; do
+		use "${i%:*}" || myeconfargs+=( "--disable-outdev=${i#*:}" )
 	done
 
 	# Decoders

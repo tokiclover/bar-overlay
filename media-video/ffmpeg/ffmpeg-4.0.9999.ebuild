@@ -336,8 +336,8 @@ multilib_src_configure()
 
 	# Indevs
 	use v4l || myeconfargs+=( --disable-indev=v4l2 --disable-outdev=v4l2 )
-	for i in alsa oss jack sdl ; do
-		use "${i}" || myeconfargs+=( "--disable-indev=${i}" )
+	for i in alsa oss sdl:sdl2 ; do
+		use "${i%:*}" || myeconfargs+=( "--disable-outdev=${i#*:}" )
 	done
 
 	# Outdevs
