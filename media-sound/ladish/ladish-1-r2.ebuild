@@ -75,8 +75,8 @@ multilib_src_configure()
 		$(usex lash '--enable-liblash' '')
 		$(usex python '--enable-pylash' '')
 	)
-	local NO_WAF_LIBDIR=1 WAF_BINARY="${BUILD_DIR}"/waf
-	local LIBDIR="${EPREFIX}/usr/$(get_libdir)" PREFIX="${EPREFIX}/usr"
+	export NO_WAF_LIBDIR=1 WAF_BINARY="${BUILD_DIR}"/waf
+	export LIBDIR="${EPREFIX}/usr/$(get_libdir)" PREFIX="${EPREFIX}/usr"
 	waf-utils_src_configure "${mywafconfargs[@]}"
 }
 multilib_src_compile()
