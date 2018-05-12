@@ -1,6 +1,6 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-plugins/calf/calf-0.0.60.ebuild,v 1.3 2015/05/30 00:38:33 Exp $
+# $Id$
 
 EAPI=5
 
@@ -24,7 +24,7 @@ HOMEPAGE="http://calf-studio-gear.org/"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="debug +lash lv2 static-libs"
+IUSE="debug experimental +lash lv2 static-libs"
 
 RDEPEND="dev-libs/expat
 	dev-libs/glib:2
@@ -41,6 +41,10 @@ DEPEND="${RDEPEND}
 
 DOCS=(AUTHORS ChangeLog NEWS README TODO)
 
+PATCHES=(
+	"${FILESDIR}/${P}-cpp14.patch" # bug #594116
+)
+
 ATOTOOL_IN_SOURCE_BUILD=1
 AUTOTOOLS_PRUNE_LIBTOOL_FILES=modules
 
@@ -49,6 +53,7 @@ src_configure()
 	local -a myeconfargs=(
 		${CALF_EXTRA_CONF}
 		$(use_enable debug)
+		$(use_enable experimental)
 		$(use_with lash)
 		$(use_with lv2)
 		$(usex lv2 "--with-lv2-dir=${EPREFIX}/usr/$(get_libdir)/lv2")

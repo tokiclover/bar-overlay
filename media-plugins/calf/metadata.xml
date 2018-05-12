@@ -13,6 +13,7 @@
 <longdescription lang="en">
 </longdescription>
 <use>
+    <flag name="experimental">Enable experimental features/plugins</flag>
 	<flag name="lv2">Add support for Ladspa V2</flag>
 </use>
 <!--
