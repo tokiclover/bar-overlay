@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-sound/yoshimi/yoshimi-1.2.4.ebuild,v 1.2 2015/06/08 Exp $
+# $Id$
 
 EAPI=5
 

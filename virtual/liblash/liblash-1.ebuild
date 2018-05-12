@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: virtual/liblash/liblash-1.ebuild, 2014/09/09 Exp $
+# $Id$
 
 EAPI=5
 

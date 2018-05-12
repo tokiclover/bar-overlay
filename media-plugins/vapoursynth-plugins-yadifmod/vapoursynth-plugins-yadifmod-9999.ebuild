@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-plugins/vapoursynth-plugins-yadifmod/vapoursynth-plugins-yadifmod-9999.ebuild,v 1.2 2015/10/01 Exp $
+# $Id$
 
 EAPI=5
 

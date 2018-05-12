@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: dev-libs/efl/efl-9999.ebuild,v 1.5 2015/02/02 Exp $
+# $Id$
 
 EAPI=5
 

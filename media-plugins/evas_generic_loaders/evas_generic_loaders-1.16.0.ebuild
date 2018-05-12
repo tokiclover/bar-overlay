@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-plugins/evas_generic_loaders/evas_generic_loaders-1.14.0.ebuild,v 1.2 2015/05/22 Exp $
+# $Id$
 
 EAPI=5
 

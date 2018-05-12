@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: x11-themes/kawoken-icon-theme/kawoken-icon-theme-1.5.ebuild,v 1.2 2015/06/24 00:22:08 Exp $
+# $Id$
 
 EAPI=5
 

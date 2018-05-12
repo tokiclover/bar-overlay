@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-plugins/vapoursynth-plugins-fluxsmooth/vapoursynth-plugins-fluxsmooth-9999.ebuild,v 1. 2016/04/25 22:19:33 Exp $
+# $Id$
 
 EAPI=5
 

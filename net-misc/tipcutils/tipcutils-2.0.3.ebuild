@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: net-misc/tipcutils/tipcutils-2.0.3.ebuild,v 1.4 2015/01/26 22:21:54 Exp $
+# $Id$
 
 EAPI=5
 

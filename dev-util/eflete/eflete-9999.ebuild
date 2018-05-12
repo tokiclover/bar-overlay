@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: dev-util/eflete/eflete-9999.ebuild,v 1.2 2015/06/30 12:02:10 Exp $
+# $Id$
 
 EAPI=5
 

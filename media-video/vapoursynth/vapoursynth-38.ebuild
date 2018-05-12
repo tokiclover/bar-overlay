@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-video/vapursynth/vapursynth-9999.ebuild,v 1.2 2016/01/20 Exp $
+# $Id$
 
 EAPI=5
 PYTHON_COMPAT=( python3_{3,4,5} )

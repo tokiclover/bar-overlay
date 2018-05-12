@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: sys-apps/less/less-9999.ebuild,v 1.8 2014/07/14 05:20:34 Exp $
+# $Id$
 
 EAPI="4"
 

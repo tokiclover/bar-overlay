@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: www-misc/fcgi-cgi/fcgi-cgi-0.2.2.ebuild,v 1.1 2016/11/20 Exp $
+# $Id$
 
 EAPI=5
 

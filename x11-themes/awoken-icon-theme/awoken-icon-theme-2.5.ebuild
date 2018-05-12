@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: x11-themes/awoken-icon-theme/awoken-icon-theme-2.5.ebuild,v 1.4 2015/06/24 00:21:46 Exp $
+# $Id$
 
 EAPI=5
 

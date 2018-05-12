@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-sound/empc/empc-9999.ebuild,v 1.2 2015/05/26 12:02:10 Exp $
+# $Id$
 
 EAPI=5
 PLOCALES="ca eo fr gl it lt pl pt ru sr tr"

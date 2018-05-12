@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: sys-process/supervision/supervision-9999.ebuild,v 1.5 2016/06/08 Exp $
+# $Id$
 
 EAPI=5
 

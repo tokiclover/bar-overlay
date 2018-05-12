@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: dev-util/edi/edi-9999.ebuild,v 1.1 2017/10/02 12:02:10 Exp $
+# $Id$
 
 EAPI=5
 

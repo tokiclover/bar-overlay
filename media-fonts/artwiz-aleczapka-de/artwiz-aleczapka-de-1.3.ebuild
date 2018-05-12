@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-fonts/artwiz-aleczapka-en/artwiz-aleczapka-en-1.3.ebuild,v 1.19 2010/01/01 17:57:15 fauli Exp $
+# $Id$
 
 inherit font
 

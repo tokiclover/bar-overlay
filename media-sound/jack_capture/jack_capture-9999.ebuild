@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-sound/jack_capture/jack-capture-9999.ebuild,v 1.2 2015/08/24 Exp $
+# $Id$
 
 EAPI=5
 RESTRICT="mirror"

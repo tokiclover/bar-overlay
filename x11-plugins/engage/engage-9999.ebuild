@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: x11-plugins/e_modules-engage/e_modules-engage-9999.ebuild,v 1.3 2014/12/12 12:02:10 Exp $
+# $Id$
 
 EAPI=5
 

@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-libs/zita-alsa-pcmi-0.2.0ebuild,v 1.0 2014/10/10 Exp $
+# $Id$
 
 EAPI=5
 

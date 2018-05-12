@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: dev-perl/perl-URxvt/perl-URxvt-9999.ebuild,v 1.2 2015/05/30 09:39:34 Exp $
+# $Id$
 
 EAPI=5
 

@@ -1,6 +1,6 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id: media-plugins/tap-plugins/tap-plugins-9999.ebuild,v 1.1 2014/10/10 18:00:11 Exp $
+# $Id$
 
 EAPI=5
 
