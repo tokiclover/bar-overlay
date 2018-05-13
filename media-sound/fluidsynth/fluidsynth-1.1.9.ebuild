@@ -10,21 +10,20 @@ case "${PV}" in
 		VCS_ECLASS=git-2
 		EGIT_REPO_URI="git://sourceforge.net/p/${PN}/code-git.git"
 		EGIT_PROJECT="${PN}.git"
-		AUTOTOOLS_AUTORECONF=1
 		;;
 	(*)
 		KEYWORDS="~alpha ~amd64 ~hppa ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
 		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 		;;
 esac
-inherit autotools-utils ${VCS_ECLASS}
+inherit cmake-multilib ${VCS_ECLASS}
 
 DESCRIPTION="Fluidsynth is a software real-time synthesizer based on the Soundfont 2 specifications."
 HOMEPAGE="http://www.fluidsynth.org/"
 
 LICENSE="LGPL-2"
 SLOT="0"
-IUSE="+alsa dbus debug doc +jack ladspa +lash portaudio pulseaudio readline sndfile"
+IUSE="+alsa dbus debug doc ipv6 +jack ladspa +lash portaudio pulseaudio readline sndfile"
 REQUIRE_USE="lash? ( alsa )"
 
 RDEPEND=">=dev-libs/glib-2.6.5:2
@@ -43,36 +42,42 @@ DEPEND="${RDEPEND}
 	app-portage/elt-patches
 	virtual/pkgconfig"
 
-DOCS=( AUTHORS NEWS README THANKS TODO )
+DOCS=( AUTHORS NEWS README.md THANKS TODO )
+
+AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
 PATCHES=(
 	"${FILESDIR}"/configure.ac.patch
 )
 
-AUTOTOOLS_IN_SOURCE_BUILD=1
 
 src_configure()
 {
-	local -a myeconfargs=(
-		$(use_enable alsa alsa-support)
-		$(use_enable dbus dbus-support)
-		$(use_enable debug)
-		$(use_enable jack jack-support)
-		--disable-ladcca
-		$(use_enable ladspa)
-		$(use_enable lash)
-		$(use_enable sndfile libsndfile-support)
-		$(use_enable portaudio portaudio-support)
-		$(use_enable pulseaudio pulse-support)
-		$(use_with readline)
+	# autotools based build system has AC_CHECK_LIB(pthread, pthread_create) wrt
+	# bug #436762
+	append-flags -pthread
+
+	local -a mycmakeargs=(
+		$(cmake-utils_use alsa enable-alsa)
+		$(cmake-utils_use dbus enable-dbus)
+		$(cmake-utils_use debug enable-debug)
+		$(cmake-utils_use ipv6 enable-ipv6)
+		$(cmake-utils_use jack enable-jack)
+		-Denable-ladcca=OFF
+		$(cmake-utils_use ladspa enable-ladspa)
+		$(cmake-utils_use lash enable-lash)
+		$(cmake-utils_use sndfile enable-libsndfile)
+		$(cmake-utils_use portaudio enable-portaudio)
+		$(cmake-utils_use pulseaudio enable-pulseaudio)
+		$(cmake-utils_use readline enable-readline)
 	)
-	autotools-utils_src_configure
+	cmake-multilib_src_configure
 }
 
 src_install()
 {
-	default
+	cmake-multilib_src_install
 
 	if use doc; then
 		insinto /usr/share/doc/${PF}/pdf
