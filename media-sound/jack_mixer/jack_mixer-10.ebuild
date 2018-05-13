@@ -6,7 +6,7 @@ EAPI=5
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit eutils gnome2 python-single-r1
+inherit eutils gnome2 python-utils-r1 python-single-r1
 
 DESCRIPTION="JACK audio mixer using GTK2 interface."
 HOMEPAGE="http://home.gna.org/jackmixer/"
@@ -33,16 +33,7 @@ DOCS=( AUTHORS NEWS README )
 
 src_install() {
 	gnome2_src_install
-	python_convert_shebangs -r 2 "${ED}"
+	python_fix_shebang -f "${ED}"/usr/bin/*.py
 	dosym /usr/bin/jack_mixer.py /usr/bin/jack_mixer
-}
-
-pkg_postinst() {
-	python_mod_optimize "${EPREFIX}/usr/share/${PN}"
-	gnome2_pkg_postinst
-}
-
-pkg_postrm() {
-	python_mod_cleanup "${EPREFIX}/usr/share/${PN}"
-	gnome2_pkg_postrm
+	python_optimize "${EPREFIX}/usr/share/${PN}"
 }
