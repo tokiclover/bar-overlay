@@ -61,7 +61,7 @@ RDEPEND+="
 		x11-libs/libXxf86vm
 		opengl? ( virtual/opengl )
 		lcms? ( >=media-libs/lcms-2.6:2 )
-		vaapi? ( >=x11-libs/libva-0.36.0[X?,drm?,wayland?] )
+		vaapi? ( <=x11-libs/libva-2.0.0:0[X?,drm?,wayland?] )
 		vdpau? ( >=x11-libs/libvdpau-0.2 )
 		xinerama? ( x11-libs/libXinerama )
 		xscreensaver? ( x11-libs/libXScrnSaver )
