@@ -50,7 +50,7 @@ S="${WORKDIR}/jack-audio-connection-kit-${PV}"
 
 src_prepare()
 {
-	base_src_prepare
+	default
 	multilib_copy_sources
 }
 

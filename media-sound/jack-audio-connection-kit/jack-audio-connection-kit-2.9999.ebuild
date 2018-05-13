@@ -47,7 +47,7 @@ DOCS=( ChangeLog README README_NETJACK2 TODO )
 
 src_prepare()
 {
-	base_src_prepare
+	default
 	multilib_copy_sources
 }
 
