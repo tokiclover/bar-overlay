@@ -53,6 +53,7 @@ DOCS=( AUTHORS README NEWS )
 src_prepare()
 {
 	epatch_user
+	sed -e 's/lash-1.0/lash/' -i lash_compat/lash-1.0.pc.in
 
 	local linguas
 	use nls && linguas="$(l10n_get_locales)"
