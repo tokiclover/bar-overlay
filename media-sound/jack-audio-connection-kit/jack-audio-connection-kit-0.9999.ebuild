@@ -11,12 +11,12 @@ case "${PV}" in
 		KEYWORDS=""
 		VCS_ECLASS=git-2
 		EGIT_REPO_URI="git://github.com/jackaudio/jack1.git"
-		EGIT_HAS_SUBMODULES="example-clients jack"
+		EGIT_HAS_SUBMODULES="example-clients jack tools"
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
 		VCS_ECLASS=vcs-snapshot
-		SRC_URI="https://github.com/jackaudio/jack1/archive/${PV/_/}.tar.gz -> ${P}.tar.gz"
+		SRC_URI="https://github.com/jackaudio/jack1/archive/${PV}.tar.gz -> ${P}.tar.gz"
 		;;
 esac
 inherit eutils python-single-r1 autotools-multilib ${VCS_ECLASS}
@@ -34,7 +34,6 @@ IUSE="${IUSE} ${PPC_CPU_FLAGS[@]/#/cpu_flags_ppc_} ${X86_CPU_FLAGS[@]/#/cpu_flag
 unset {PPC,X86}_CPU_FLAGS
 
 RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
-	${PYTHON_DEPS}
 	sys-libs/db:=[${MULTILIB_USEDEP}]
 	sys-libs/ncurses:=[${MULTILIB_USEDEP}]
 	celt? ( >=media-libs/celt-0.5.0[${MULTILIB_USEDEP}] )
@@ -50,11 +49,6 @@ DEPEND="${RDEPEND}
 	netjack? ( dev-util/scons )"
 
 DOCS=( AUTHORS TODO README )
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.121.3-sparc-cpuinfo.patch
-	"${FILESDIR}"/${PN}-0.121.3-freebsd.patch
-)
 
 src_prepare()
 {
@@ -100,6 +94,5 @@ multilib_src_install()
 multilib_src_install_all()
 {
 	use examples && dodoc -r example-clients
-	python_fix_shebang "${ED}"
 }
 

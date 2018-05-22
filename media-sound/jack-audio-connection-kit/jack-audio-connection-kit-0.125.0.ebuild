@@ -26,8 +26,7 @@ HOMEPAGE="http://www.jackaudio.org"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0/1"
-IUSE="alsa celt coreaudio cpudetection doc debug examples oss netjack freebob ieee1394 zalsa"
-REQUIRED_USE="freebob? ( !ieee1394 ) ieee1394? ( !freebob )"
+IUSE="alsa celt coreaudio cpudetection doc debug examples oss netjack ieee1394 zalsa"
 
 PPC_CPU_FLAGS=(altivec)
 X86_CPU_FLAGS=(3dnow mmx sse)
@@ -40,7 +39,6 @@ RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
 	sys-libs/ncurses:=[${MULTILIB_USEDEP}]
 	celt? ( >=media-libs/celt-0.5.0[${MULTILIB_USEDEP}] )
 	alsa? ( >=media-libs/alsa-lib-0.9.1[${MULTILIB_USEDEP}] )
-	freebob? ( sys-libs/libfreebob[${MULTILIB_USEDEP}] )
 	ieee1394? ( media-libs/libffado[${MULTILIB_USEDEP}] )
 	netjack? ( media-libs/libsamplerate[${MULTILIB_USEDEP}] )
 	zalsa? ( media-libs/zita-alsa-pcmi[${MULTILIB_USEDEP}]
@@ -73,7 +71,6 @@ multilib_src_configure()
 
 	myeconfargs+=(
 		$(use_enable ieee1394 firewire)
-		$(use_enable freebob)
 		$(use_enable alsa)
 		$(use_enable coreaudio)
 		$(use_enable debug)
@@ -82,6 +79,7 @@ multilib_src_configure()
 		$(use_enable oss)
 		$(use_enable cpu_flags_x86_sse sse)
 		$(use_enable zalsa) 
+		--disable-freebob
 		--disable-dependency-tracking
 		--with-default-tmpdir=/dev/shm
 		--with-html-dir=/usr/share/doc/${PF}

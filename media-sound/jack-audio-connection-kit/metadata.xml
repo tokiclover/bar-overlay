@@ -14,6 +14,7 @@
 </longdescription>
 <use>
 	<flag name="celt">Use <pkg>media-libs/celt</pkg></flag>
+    <flag name="classic">Enable building of jackd</flag>
 	<flag name="coreaudio">Build the CoreAudio driver on Mac OS X systems</flag>
 	<flag name="cpudetection">Enables runtime cpudetection</flag>
 	<flag name="dbus">Build jackdbus</flag>

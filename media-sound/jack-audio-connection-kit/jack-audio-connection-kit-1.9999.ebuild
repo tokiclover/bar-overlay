@@ -4,97 +4,94 @@
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
+PYTHON_REQ_USE='threads(+)'
 
 case "${PV}" in
 	(*9999*)
-		AUTOTOOLS_AUTORECONF=1
 		KEYWORDS=""
 		VCS_ECLASS=git-2
-		EGIT_REPO_URI="git://github.com/jackaudio/jack1.git"
-		EGIT_HAS_SUBMODULES="example-clients jack tools"
+		EGIT_REPO_URI="git://github.com/jackaudio/jack2.git"
 		;;
 	(*)
 		KEYWORDS="~amd64 ~ppc ~x86"
 		VCS_ECLASS=vcs-snapshot
-		SRC_URI="https://github.com/jackaudio/jack1/archive/${PV}.tar.gz -> ${P}.tar.gz"
+		SRC_URI="https://github.com/jackaudio/jack2/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 		;;
 esac
-inherit eutils python-single-r1 autotools-multilib ${VCS_ECLASS}
+inherit eutils python-single-r1 waf-utils multilib-minimal ${VCS_ECLASS}
 
-DESCRIPTION="A low-latency audio server"
-HOMEPAGE="http://www.jackaudio.org"
+DESCRIPTION="Jackdmp jack implemention for multi-processor machine"
+HOMEPAGE="http://jackaudio.org/"
 
-LICENSE="GPL-2 LGPL-2.1"
-SLOT="0/${PV:0:1}"
-IUSE="alsa celt coreaudio cpudetection doc debug examples oss netjack freebob ieee1394 zalsa"
-REQUIRED_USE="freebob? ( !ieee1394 ) ieee1394? ( !freebob )"
+LICENSE="GPL-2"
+SLOT="0/2"
+IUSE="alsa celt classic debug doc dbus ieee1394 opus pam readline libsamplerate sndfile"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-PPC_CPU_FLAGS=(altivec)
-X86_CPU_FLAGS=(3dnow mmx sse)
-IUSE="${IUSE} ${PPC_CPU_FLAGS[@]/#/cpu_flags_ppc_} ${X86_CPU_FLAGS[@]/#/cpu_flags_x86_}"
-unset {PPC,X86}_CPU_FLAGS
-
-RDEPEND=">=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
-	sys-libs/db:=[${MULTILIB_USEDEP}]
-	sys-libs/ncurses:=[${MULTILIB_USEDEP}]
-	celt? ( >=media-libs/celt-0.5.0[${MULTILIB_USEDEP}] )
-	alsa? ( >=media-libs/alsa-lib-0.9.1[${MULTILIB_USEDEP}] )
-	freebob? ( sys-libs/libfreebob[${MULTILIB_USEDEP}] )
+RDEPEND="media-libs/libsamplerate[${MULTILIB_USEDEP}]
+	>=media-libs/libsndfile-1.0.0[${MULTILIB_USEDEP}]
+	${PYTHON_DEPS}
+	alsa? ( >=media-libs/alsa-lib-1.0.24[${MULTILIB_USEDEP}] )
+	celt? ( media-libs/celt[${MULTILIB_USEDEP}] )
+	dbus? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
 	ieee1394? ( media-libs/libffado[${MULTILIB_USEDEP}] )
-	netjack? ( media-libs/libsamplerate[${MULTILIB_USEDEP}] )
-	zalsa? ( media-libs/zita-alsa-pcmi[${MULTILIB_USEDEP}]
-		    media-libs/zita-resampler[${MULTILIB_USEDEP}] )"
+	opus? ( media-libs/opus[custom-modes,${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
-	app-portage/elt-patches
 	virtual/pkgconfig
-	doc? ( app-doc/doxygen )
-	netjack? ( dev-util/scons )"
+	doc? ( app-doc/doxygen )"
+RDEPEND="${RDEPEND}
+	dbus? ( dev-python/dbus-python[${PYTHON_USEDEP}] )
+	pam? ( sys-auth/realtime-base )"
 
-DOCS=( AUTHORS TODO README )
+DOCS=( ChangeLog README README_NETJACK2 TODO )
 
 src_prepare()
 {
-	autotools-utils_src_prepare
+	default
 	multilib_copy_sources
 }
 
 multilib_src_configure()
 {
-	local -a myconfargs=(${EXTRA_JACK_CONF})
-
-	# CPU Detection (dynsimd) uses asm routines which requires 3dnow, mmx and sse.
-	if use cpudetection && use cpu_flags_x86_3dnow && use cpu_flags_x86_mmx &&
-		use cpu_flags_x86_sse; then
-		einfo "Enabling cpudetection (dynsimd)"
-		myconfargs=(--enable-dynsimd)
-	fi
-	use doc || export ac_cv_prog_HAVE_DOXYGEN=false
-
-	myeconfargs+=(
-		$(use_enable ieee1394 firewire)
-		$(use_enable freebob)
-		$(use_enable alsa)
-		$(use_enable coreaudio)
-		$(use_enable debug)
-		$(use_enable cpu_flags_ppc_altivec altivec)
-		$(use_enable cpu_flags_x86_mmx mmx)
-		$(use_enable oss)
-		$(use_enable cpu_flags_x86_sse sse)
-		$(use_enable zalsa) 
-		--disable-dependency-tracking
-		--with-default-tmpdir=/dev/shm
-		--with-html-dir=/usr/share/doc/${PF}
+	local -a mywafconfargs=(
+		${EXTRA_JACK_CONF}
+		--htmldir=/usr/share/doc/${PF}/html
+		$(usex dbus --dbus "")
+		$(usex classic --classic "")
+		--alsa=$(usex alsa yes no)
+		--celt=$(usex celt yes no)
+		--doxygen=$(multilib_native_usex doc yes no)
+		--firewire=$(usex ieee1394 yes no)
+		--freebob=no
+		--iio=no
+		--opus=$(usex opus yes no)
+		--portaudio=no
+		--readline=$(multilib_native_usex readline yes no)
+		--samplerate=$(multilib_native_usex libsamplerate yes no)
+		--sndfile=$(multilib_native_usex sndfile yes no)
+		--winmme=no
 	)
-	autotools-utils_src_configure
+	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_configure "${mywafconfargs[@]}"
+}
+
+multilib_src_compile()
+{
+	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_compile
+
+	if multilib_is_native_abi && use doc; then
+		doxygen || die "doxygen failed"
+	fi
 }
 
 multilib_src_install()
 {
-	autotools-utils_src_install
+	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_install
+
+	multilib_is_native_abi && use doc && dohtml -r html/*
 }
 
 multilib_src_install_all()
 {
-	use examples && dodoc -r example-clients
+	python_fix_shebang "${ED}"
 }
 

@@ -25,8 +25,7 @@ HOMEPAGE="http://jackaudio.org/"
 
 LICENSE="GPL-2"
 SLOT="0/2"
-IUSE="alsa celt debug doc dbus ieee1394 opus pam"
-
+IUSE="alsa celt classic debug doc dbus ieee1394 opus pam readline libsamplerate sndfile"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="media-libs/libsamplerate[${MULTILIB_USEDEP}]
@@ -58,10 +57,21 @@ multilib_src_configure()
 {
 	local -a mywafconfargs=(
 		${EXTRA_JACK_CONF}
-		$(usex alsa --alsa "")
-		$(usex dbus --dbus --classic)
-		$(usex debug --debug "")
-		$(usex ieee1394 --firewire "")
+		--htmldir=/usr/share/doc/${PF}/html
+		$(usex dbus --dbus "")
+		$(usex classic --classic "")
+		--alsa=$(usex alsa yes no)
+		--celt=$(usex celt yes no)
+		--doxygen=$(multilib_native_usex doc yes no)
+		--firewire=$(usex ieee1394 yes no)
+		--freebob=no
+		--iio=no
+		--opus=$(usex opus yes no)
+		--portaudio=no
+		--readline=$(multilib_native_usex readline yes no)
+		--samplerate=$(multilib_native_usex libsamplerate yes no)
+		--sndfile=$(multilib_native_usex sndfile yes no)
+		--winmme=no
 	)
 	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_configure "${mywafconfargs[@]}"
 }
