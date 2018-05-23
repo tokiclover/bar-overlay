@@ -20,12 +20,10 @@ inherit eutils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="TAP LADSPA plugins: contains DeEsser, Dynamics, Equalizer, Reverb, Stereo Echo, Tremolo"
 HOMEPAGE="http://tap-plugins.sf.net"
-SRC_URI+="
-	doc? ( mirror://sourceforge/${PN}/${PN}-doc-20140526.tar.gz )"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="doc"
+IUSE=""
 
 DEPEND="media-libs/ladspa-sdk[${MULTILIB_USEDEP}]"
 RDEPEND="${DEPEND}"
@@ -45,9 +43,3 @@ multilib_src_install()
 		INSTALL_PLUGINS_DIR="${ED}"/usr/$(get_libdir)/ladspa \
 		INSTALL_LRDF_DIR="${ED}"/usr/share/ladspa/rdf
 }
-
-multilib_src_install_all()
-{
-	dohtml -r "${WORKDIR}"/${PN}-doc-*/*
-}
-
