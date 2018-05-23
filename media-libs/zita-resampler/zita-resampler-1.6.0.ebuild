@@ -21,7 +21,7 @@ RDEPEND="${DEPEND}"
 DOCS=( AUTHORS README )
 
 PATCHES=(
-	"${FILESDIR}"/${P}-Makefile.patch
+       "${FILESDIR}"/${P}-Makefile.patch
 )
 
 src_prepare()

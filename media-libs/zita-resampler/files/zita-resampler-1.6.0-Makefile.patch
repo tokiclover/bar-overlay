@@ -2,18 +2,19 @@
 +++ apps/Makefile	2014-10-19 15:10:35.474539520 +0200
 @@ -24,10 +24,10 @@
  DISTDIR = zresample-$(VERSION)
- VERSION = 0.4.0
+ VERSION = 1.6.0
  MANDIR = /usr/share/man/man1
 -LDFLAGS += -L$(PREFIX)/$(LIBDIR)
 -CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\"
 -CXXFLAGS += -O3  -ffast-math -Wall
+-CXXFLAGS += -march=native
 +LDLIBS += -L../libs
 +CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\" -I../libs
 +CXXFLAGS += -ffast-math -Wall
- CXXFLAGS += -march=native
- 
- 
- ZITA-RESAMPLER_SO = libzita-resampler.so
++CXXFLAGS +=
+
+
+ all:	zresample zretune zresample.1.gz zretune.1.gz
 @@ -36,7 +36,7 @@
  ZRESAMPLE_O = zresample.o audiofile.o dither.o
  zresample:	LDLIBS += -lzita-resampler -lsndfile -lrt
