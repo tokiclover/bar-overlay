@@ -3,7 +3,7 @@
 # $Id$
 
 EAPI=5
-PYTHON_COMPAT=( python{2_7,3_{3,4,5}} )
+PYTHON_COMPAT=( python{2_7,3_{3,4,5,6}} )
 PYTHON_REQ_USE='threads(+)'
 
 case "${PV}" in
