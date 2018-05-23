@@ -25,11 +25,13 @@ HOMEPAGE="http://drobilla.net/software/suil/"
 
 LICENSE="ISC"
 SLOT="0"
-IUSE="doc gtk qt4 static-libs"
+IUSE="doc gtk qt4 qt5 static-libs"
+REQUIRED_USE="?? ( qt4 qt5 )"
 
 RDEPEND="media-libs/lv2
 	gtk? ( x11-libs/gtk+:2 )
-	qt4? ( dev-qt/qtgui:4 )"
+	qt4? ( dev-qt/qtgui:4 )
+	qt5? ( dev-qt/qtgui:5 )"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	doc? ( app-doc/doxygen )
@@ -51,7 +53,8 @@ multilib_src_configure()
 		"--mandir=${EPREFIX}/usr/share/man"
 		$(use doc && echo '--docs')
 		$(use gtk || echo '--no-gtk')
-		$(use qt4 || echo '--no-qt')
+		$(use qt4 || echo '--no-qt4')
+		$(use qt5 || echo '--no-qt5')
 		$(use static-libs && echo '--static')
 	)
 	WAF_BINARY="${BUILD_DIR}"/waf waf-utils_src_configure "${mywafargs[@]}"
