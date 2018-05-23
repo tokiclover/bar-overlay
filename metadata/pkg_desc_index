@@ -115,7 +115,7 @@ media-video/d2vwitch 1 9999: Cross-platform D2V creator
 media-video/ffmpeg 3.2.9999 3.3.9999 4.0.9999: Complete solution to record, convert and stream audio and video. Includes libavcodec
 media-video/l-smash 2.9.1 9999: (FFmpeg) Libavcodec-SMASH decoder/demuxer wrapper library
 media-video/mpv 0.27.2 0.28.2 9999: Video player based on MPlayer/mplayer2
-media-video/rage 0.1.4 0.2.0 9999: EFL Video Player
+media-video/rage 0.2.0 0.3.0 9999: EFL Video Player
 media-video/vapoursynth 37 38 9999: Video processing framework with simplicity in mind
 media-video/wobbly 3 9999: IVTC video processing assistant for VapourSynth similar to Yatta
 net-analyzer/check_mk 1.2.8_p14: General purpose Nagios/Icinga plugin for retrieving data

@@ -17,7 +17,7 @@ case "${PV}" in
 	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${PN}-${PV/_/-}.tar.xz"
 	;;
 esac
-inherit autotools-utils ${VCS_ECLASS}
+inherit meson ${VCS_ECLASS}
 
 DESCRIPTION="EFL Video Player"
 HOMEPAGE="https://enlightenment.org"
@@ -26,7 +26,7 @@ IUSE=""
 LICENSE="BSD-2"
 SLOT="0"
 
-RDEPEND=">=dev-libs/efl-1.18.0"
+RDEPEND=">=dev-libs/efl-1.19.0"
 DEPEND="${RDEPEND}
 	app-portage/elt-patches"
 
