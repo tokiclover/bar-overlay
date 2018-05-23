@@ -48,9 +48,7 @@ IUSE="debug doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
 "
 REQUIED_USE="!udev? ( eeze )"
 
-RDEPEND="|| (
-		>=dev-libs/efl-1.17.0[debug?,egl?,nls?,systemd?,wayland?]
-		>>=media-libs/elementary-1.17.0[X,wayland?] )
+RDEPEND=">=dev-libs/efl-1.20.5[debug?,egl?,nls?,systemd?,wayland?]
 	virtual/udev
 	x11-libs/libxcb
 	x11-libs/xcb-util-keysyms
@@ -65,6 +63,7 @@ RDEPEND="|| (
 		>=dev-libs/wayland-1.11.0
 		>=x11-libs/pixman-0.31.1
 		>=x11-libs/libxkbcommon-0.3.1
+		dev-libs/efl[drm,wayland]
 	)"
 DEPEND="${RDEPEND}
 	app-portage/elt-patches
