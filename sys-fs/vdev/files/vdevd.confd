@@ -1,5 +1,0 @@
-# /etc/conf.d/vdevd: config file for vdevd
-
-# Set this to a valid value to log
-#VDEV_LOGFILE="/run/vdevd.log"
-
