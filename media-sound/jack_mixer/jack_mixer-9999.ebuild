@@ -45,15 +45,6 @@ src_prepare() {
 src_install() {
 	gnome2_src_install
 	python_fix_shebang -f "${ED}"/usr/bin/*.py
+	python_optimize "${D}"
 	dosym /usr/bin/jack_mixer.py /usr/bin/jack_mixer
-}
-
-pkg_postinst() {
-	python_mod_optimize "${EPREFIX}/usr/share/${PN}"
-	gnome2_pkg_postinst
-}
-
-pkg_postrm() {
-	python_mod_cleanup "${EPREFIX}/usr/share/${PN}"
-	gnome2_pkg_postrm
 }

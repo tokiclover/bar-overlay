@@ -35,5 +35,5 @@ src_install() {
 	gnome2_src_install
 	python_fix_shebang -f "${ED}"/usr/bin/*.py
 	dosym /usr/bin/jack_mixer.py /usr/bin/jack_mixer
-	python_optimize "${EPREFIX}/usr/share/${PN}"
+	python_optimize "${D}"
 }
