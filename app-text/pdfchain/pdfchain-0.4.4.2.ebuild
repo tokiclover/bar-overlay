@@ -29,7 +29,7 @@ IUSE=""
 
 DEPEND="app-portage/elt-patches
 	app-text/pdftk
-	>=dev-cpp/gtkmm-3.6.0"
+	>=dev-cpp/gtkmm-3.18.0"
 RDEPEND="${DEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
