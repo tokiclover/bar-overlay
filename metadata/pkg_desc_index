@@ -131,7 +131,6 @@ sys-apps/less 9999: Excellent text file viewer
 sys-fs/aufs-standalone 3.9999 4.9999: An entirely re-designed and re-implemented Unionfs
 sys-fs/aufs-util 3.9999 4.9999: AUFS filesystem utilities
 sys-kernel/mkinitramfs-ll 0.22.9 0.22.10 9999: Lightweight, modular and powerfull initramfs genrating tool
-sys-libs/libpstat 9999: Virtual device manager for UNIX
 sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
 sys-process/set_rlimits 1.2.0: Give unpriviledged users access to realtime scheduling
 sys-process/supervision 0.12.4.1 0.12.5 0.12.6.3 0.13.0 9999: Supervision init-system and service-manager
