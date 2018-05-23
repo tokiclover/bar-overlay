@@ -130,8 +130,6 @@ sys-apps/iucode_tool 1.5.1 9999: intel(r) 64 and IA-32 processor microcode tool
 sys-apps/less 9999: Excellent text file viewer
 sys-fs/aufs-standalone 3.9999 4.9999: An entirely re-designed and re-implemented Unionfs
 sys-fs/aufs-util 3.9999 4.9999: AUFS filesystem utilities
-sys-fs/fskit 9999: Filesystem utility library and SDK
-sys-fs/vdev 9999: Virtual device manager for UNIX
 sys-kernel/mkinitramfs-ll 0.22.9 0.22.10 9999: Lightweight, modular and powerfull initramfs genrating tool
 sys-libs/libpstat 9999: Virtual device manager for UNIX
 sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
