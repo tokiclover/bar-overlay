@@ -63,7 +63,9 @@ RDEPEND=">=dev-libs/efl-1.20.5[debug?,egl?,nls?,systemd?,wayland?]
 		>=dev-libs/wayland-1.11.0
 		>=x11-libs/pixman-0.31.1
 		>=x11-libs/libxkbcommon-0.3.1
-		dev-libs/efl[drm,wayland]
+		enlightenment_modules_wl-fb?  ( >=dev-libs/efl-1.20.5[fbcon,wayland] )
+		enlightenment_modules_wl-drm? ( >=dev-libs/efl-1.20.5[drm,wayland] )
+		enlightenment_modules_wl-x11? ( >=dev-libs/efl-1.20.5[X,wayland] )
 	)"
 DEPEND="${RDEPEND}
 	app-portage/elt-patches

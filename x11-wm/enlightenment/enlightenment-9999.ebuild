@@ -3,6 +3,7 @@
 # $Id$
 
 EAPI=5
+PLOCALES="bg ca cs da de el eo es fi fr fr_CH he hu it ja ko nb nl pl pt_BR ru sk sl sv tr zh_CN zh_TW"
 
 case "${PV}" in
 	(*9999*)
@@ -20,13 +21,12 @@ case "${PV}" in
 	SRC_URI="https://download.enlightenment.org/rel/apps/${PN}/${P/_/-}.tar.xz"
 	;;
 esac
-inherit autotools-utils ${VCS_ECLASS}
+inherit l10n autotools-utils ${VCS_ECLASS}
 
 DESCRIPTION="Enlightenment DR${PV:2:4} window manager"
 HOMEPAGE="http://www.enlightenment.org/"
 
 LICENSE="BSD-2"
-KEYWORDS="~amd64 ~x86"
 SLOT="0.17/${PV:0:4}"
 
 E_MODULES_DEFAULT=(
@@ -37,21 +37,22 @@ E_MODULES_DEFAULT=(
 	appmenu backlight battery bluez4 clock connman contact cpufreq everything
 	fileman fileman-opinfo gadman ibar ibox lokker mixer msgbus music-control
 	notification pager pager16 quickaccess shot start syscon systray tasks
-	teamwork temperature tiling winlist wizard xkbswitch
+	teamwork temperature tiling time winlist wireless wizard xkbswitch
 )
 E_MODULES=(
 	access packagkit wl-desktop-shell wl-drm wl-fb wl-x11
 )
-IUSE="doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
+IUSE="debug doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
 	${E_MODULES_DEFAULT[@]/#/+enlightenment_modules_}
 	${E_MODULES[@]/#/enlightenment_modules_}
 "
 REQUIED_USE="!udev? ( eeze )"
 
-RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.17.0[X,wayland?] )
+RDEPEND=">=dev-libs/efl-1.20.5[debug?,egl?,nls?,systemd?,wayland?]
 	virtual/udev
 	x11-libs/libxcb
 	x11-libs/xcb-util-keysyms
+	debug? ( dev-util/valgrind )
 	enlightenment_modules_connman? ( net-misc/connman )
 	enlightenment_modules_mixer? ( >=media-libs/alsa-lib-1.0.8 )
 	nls? ( virtual/libintl )
@@ -59,11 +60,15 @@ RDEPEND="|| ( >=dev-libs/efl-1.18.0 >=media-libs/elementary-1.17.0[X,wayland?] )
 	pm-utils? ( sys-power/pm-utils )
 	systemd? ( sys-apps/systemd )
 	wayland? (
-		>=dev-libs/wayland-1.3.0
+		>=dev-libs/wayland-1.11.0
 		>=x11-libs/pixman-0.31.1
 		>=x11-libs/libxkbcommon-0.3.1
+		enlightenment_modules_wl-fb? ( dev-libs/efl[fbcon,wayland] )
+		enlightenment_modules_wl-drm? ( dev-libs/efl[drm,wayland] )
+		enlightenment_modules_wl-x11? ( dev-libs/efl[X,wayland] )
 	)"
 DEPEND="${RDEPEND}
+	app-portage/elt-patches
 	doc? ( app-doc/doxygen )"
 
 DOCS=( AUTHORS ChangeLog README )
