@@ -31,26 +31,21 @@ HOMEPAGE="http://www.enlightenment.org/"
 LICENSE="BSD-2 FTL GPL-2 LGPL-2.1 ZLIB"
 SLOT="0/${PV:0:4}"
 
-IUSE="+X avahi +bmp cpu_flags_arm_neon cxx-bindings debug doc drm +eet +egl fbcon
-+fontconfig +fribidi gif gles glib gnutls gstreamer harfbuzz ibus +ico jpeg2k libuv
-+nls +opengl raw ssl svg pdf +postscript physics pixman +png +ppm +psd  pulseaudio
-scim sdl sndfile static-libs systemd system-lz4 test +tga tiff tslib v4l2 wayland
+IUSE="+X avahi +bmp cpu_flags_arm_neon cxx debug doc drm +eet +egl fbcon
++fontconfig +fribidi gif gles glib gnutls gstreamer harfbuzz ibus +ico jpeg2k
++nls +opengl ssl pdf physics pixman +png postscript +ppm +psd  pulseaudio raw scim
+sdl sndfile static-libs svg systemd system-lz4 test +tga tiff tslib v4l2 wayland
 webp xim xine xpm"
-REQUIRED_USE="
-	?? ( gnutls ssl )
-	?? ( opengl gles )
-	?? ( glib libuv )
+REQUIRED_USE="?? ( gnutls ssl ) ?? ( opengl gles )
 	drm? ( systemd )
 	gles? ( !sdl egl )
 	gles? ( || ( X wayland ) )
-	opengl? ( !egl )
 	pulseaudio? ( sndfile )
-	sdl? ( !gles opengl )
+	sdl? ( opengl )
 	xim? ( X )
-	wayland? ( egl !opengl gles )
-"
+	wayland? ( egl !opengl gles )"
 
-COMMON_DEP="
+RDEPEND="!!media-libs/elementary
 	dev-lang/luajit:2
 	sys-apps/dbus[${MULTILIB_USEDEP}]
 	sys-libs/zlib[${MULTILIB_USEDEP}]
@@ -62,8 +57,10 @@ COMMON_DEP="
 		x11-libs/libXcomposite[${MULTILIB_USEDEP}]
 		x11-libs/libXcursor[${MULTILIB_USEDEP}]
 		x11-libs/libXdamage[${MULTILIB_USEDEP}]
+		x11-libs/libXdmcp[${MULTILIB_USEDEP}]
 		x11-libs/libXext[${MULTILIB_USEDEP}]
 		x11-libs/libXfixes[${MULTILIB_USEDEP}]
+		x11-libs/libXi[${MULTILIB_USEDEP}]
 		x11-libs/libXinerama[${MULTILIB_USEDEP}]
 		x11-libs/libXp[${MULTILIB_USEDEP}]
 		x11-libs/libXrandr[${MULTILIB_USEDEP}]
@@ -92,7 +89,6 @@ COMMON_DEP="
 	gnutls? ( net-libs/gnutls[${MULTILIB_USEDEP}] )
 	ssl? ( || ( dev-libs/libressl[${MULTILIB_USEDEP}]
 		dev-libs/openssl[${MULTILIB_USEDEP}] ) )
-	svg? ( gnome-base/librsvg[${MULTILIB_USEDEP}] )
 	gstreamer? (
 		media-libs/gstreamer:1.0[${MULTILIB_USEDEP}]
 		media-libs/gst-plugins-base:1.0[${MULTILIB_USEDEP}]
@@ -100,20 +96,20 @@ COMMON_DEP="
 	harfbuzz? ( media-libs/harfbuzz[${MULTILIB_USEDEP}] )
 	ibus? ( app-i18n/ibus )
 	jpeg2k? ( media-libs/openjpeg[${MULTILIB_USEDEP}] )
-	libuv? ( dev-libs/libuv[${MULTILIB_USEDEP}] )
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )
-	pdf? ( app-text/poppler[cxx,jpeg,jpeg2k?] )
-	postscript? ( app-text/libspectre )
+	pdf? ( app-text/poppler[cxx] )
 	pixman? ( x11-libs/pixman[${MULTILIB_USEDEP}] )
 	physics? ( sci-physics/bullet )
 	png? ( media-libs/libpng:0=[${MULTILIB_USEDEP}] )
+	postscript? ( app-text/libspectre )
 	pulseaudio? ( media-sound/pulseaudio[${MULTILIB_USEDEP}] )
-	sndfile? ( media-libs/libsndfile[${MULTILIB_USEDEP}] )
 	raw? ( media-libs/libraw[${MULTILIB_USEDEP}] )
+	sndfile? ( media-libs/libsndfile[${MULTILIB_USEDEP}] )
 	scim?	( app-i18n/scim )
 	sdl? (
 		>=media-libs/libsdl2-2.0.0:0[opengl?,gles?,${MULTILIB_USEDEP}]
 	)
+	svg? ( gnome-base/librsvg[${MULTILIB_USEDEP}] )
 	systemd? ( sys-apps/systemd[${MULTILIB_USEDEP}] )
 	system-lz4? ( >=app-arch/lz4-0_p120[${MULTILIB_USEDEP}] )
 	tiff? ( media-libs/tiff:0[${MULTILIB_USEDEP}] )
@@ -126,8 +122,7 @@ COMMON_DEP="
 	webp? ( media-libs/libwebp[${MULTILIB_USEDEP}] )
 	xine? ( >=media-libs/xine-lib-1.1.1[${MULTILIB_USEDEP}] )
 	xpm? ( x11-libs/libXpm[${MULTILIB_USEDEP}] )"
-RDEPEND="${COMMON_DEP}"
-DEPEND="${COMMON_DEP}
+DEPEND="${RDEPEND}
 	!!dev-libs/ecore
 	!!dev-libs/edbus
 	!!dev-libs/eet
@@ -142,25 +137,21 @@ DEPEND="${COMMON_DEP}
 	!!media-libs/emotion
 	!!media-libs/ethumb
 	!!media-libs/evas
-	!!media-libs/elementary
 	app-arch/xz-utils
 	app-portage/elt-patches
 	doc? ( app-doc/doxygen )
 	test? ( dev-libs/check[${MULTILIB_USEDEP}] )"
 
-unset COMMON_DEP
 DOCS=( AUTHORS COMPLIANCE COPYING ChangeLog NEWS README )
 
 multilib_src_configure()
 {
 	local -a myeconfargs=( ${EXTRA_EFL_CONF} )
 
-	use opengl && use drm && myeconfargs+=( --enable-gl-drm )
-	use gles && use fbcon && myeconfargs+=( --enable-eglfs )
 	myeconfargs+=(
 		$(use_enable avahi)
 		$(use_enable cpu_flags_arm_neon neon)
-		$(use_enable cxx-bindings cxx-bindings)
+		$(use_enable cxx cxx-bindings)
 		$(use_enable doc)
 		$(use_enable drm)
 		$(use_enable egl)
@@ -170,7 +161,6 @@ multilib_src_configure()
 		$(use_enable gstreamer gstreamer1)
 		$(use_enable harfbuzz)
 		$(use_enable ibus)
-		$(use_enable libuv)
 		$(use_enable nls)
 		$(use_enable pdf poppler)
 		$(use_enable postscript spectre)

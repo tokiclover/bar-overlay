@@ -31,7 +31,7 @@ HOMEPAGE="http://www.enlightenment.org/"
 LICENSE="BSD-2 FTL GPL-2 LGPL-2.1 ZLIB"
 SLOT="0/${PV:0:4}"
 
-IUSE="+X avahi +bmp cpu_flags_arm_neon cxx-bindings debug doc drm +eet +egl fbcon
+IUSE="+X avahi +bmp cpu_flags_arm_neon cxx debug doc drm +eet +egl fbcon
 +fontconfig +fribidi gif gles glib gnutls gstreamer harfbuzz ibus +ico jpeg2k
 +nls +opengl ssl physics pixman +png +ppm +psd  pulseaudio scim sdl sndfile
 static-libs systemd system-lz4 test +tga tiff tslib v4l2 wayland webp xim xine xpm"
@@ -44,8 +44,7 @@ REQUIRED_USE="?? ( gnutls ssl ) ?? ( opengl gles )
 	xim? ( X )
 	wayland? ( egl !opengl gles )"
 
-COMMON_DEP="
-	dev-lang/luajit:2
+RDEPEND="dev-lang/luajit:2
 	sys-apps/dbus[${MULTILIB_USEDEP}]
 	sys-libs/zlib[${MULTILIB_USEDEP}]
 	virtual/jpeg[${MULTILIB_USEDEP}]
@@ -77,7 +76,6 @@ COMMON_DEP="
 	drm? ( x11-libs/libdrm[${MULTILIB_USEDEP}]
 		x11-libs/libxkbcommon[${MULTILIB_USEDEP}]
 		media-libs/mesa[gbm,${MULTILIB_USEDEP}]
-		dev-libs/libinput
 	)
 	fontconfig? ( media-libs/fontconfig[${MULTILIB_USEDEP}] )
 	fribidi? ( dev-libs/fribidi[${MULTILIB_USEDEP}] )
@@ -108,6 +106,7 @@ COMMON_DEP="
 	tiff? ( media-libs/tiff:0[${MULTILIB_USEDEP}] )
 	tslib? ( x11-libs/tslib[${MULTILIB_USEDEP}] )
 	wayland? (
+		dev-libs/libinput
 		>=dev-libs/wayland-1.3.0:0[${MULTILIB_USEDEP}]
 		>=x11-libs/libxkbcommon-0.3.1[${MULTILIB_USEDEP}]
 		egl? ( media-libs/mesa[egl,gles2,${MULTILIB_USEDEP}] )
@@ -115,8 +114,7 @@ COMMON_DEP="
 	webp? ( media-libs/libwebp[${MULTILIB_USEDEP}] )
 	xine? ( >=media-libs/xine-lib-1.1.1[${MULTILIB_USEDEP}] )
 	xpm? ( x11-libs/libXpm[${MULTILIB_USEDEP}] )"
-RDEPEND="${COMMON_DEP}"
-DEPEND="${COMMON_DEP}
+DEPEND="${RDPEND}
 	!!dev-libs/ecore
 	!!dev-libs/edbus
 	!!dev-libs/eet
@@ -136,7 +134,6 @@ DEPEND="${COMMON_DEP}
 	doc? ( app-doc/doxygen )
 	test? ( dev-libs/check[${MULTILIB_USEDEP}] )"
 
-unset COMMON_DEP
 DOCS=( AUTHORS COMPLIANCE COPYING ChangeLog NEWS README )
 
 multilib_src_configure()
@@ -147,7 +144,7 @@ multilib_src_configure()
 	myeconfargs+=(
 		$(use_enable avahi)
 		$(use_enable cpu_flags_arm_neon neon)
-		$(use_enable cxx-bindings cxx-bindings)
+		$(use_enable cxx cxx-bindings)
 		$(use_enable doc)
 		$(use_enable drm)
 		$(use_enable egl)
