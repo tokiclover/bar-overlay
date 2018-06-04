@@ -3,6 +3,5 @@ app-misc/muttprint
 mail-client/mutt
 mail-filter/procmail
 mail-filter/bogofilter
-net-mail/fetchmail
 net-mail/notmuch[mutt]
 net-misc/urlview
