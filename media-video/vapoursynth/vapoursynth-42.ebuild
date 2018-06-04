@@ -26,12 +26,14 @@ HOMEPAGE="http://www.vapoursynth.com/ https://github.com/vapoursynth/vapoursynth
 
 LICENSE="LGPL-2.1 OFL-1.1"
 SLOT="0/${PV}"
-IUSE="debug +doc +python static static-libs +vapoursynth-pipe +vapoursynth-script"
+IUSE="debug +doc +python static static-libs misc-filters +vapoursynth-pipe
++vapoursynth-script"
 REQUIRED_USE="vapoursynth-pipe? ( vapoursynth-script )
 	python? ( || ( ${PYTHON_REQUIRED_USE} ) )"
 
 DEFAULT_PLUGINS=( eedi3 morpho removegrain inverse:vinverse ivtc:vivtc )
-for i in ass:assvapour image:imwri ocr "${DEFAULT_PLUGINS[@]}"; do
+OTHER_PLUGINS=(ass:subtext image:imwri ocr misc-filters:miscfilters)
+for i in  "${DEFAULT_PLUGINS[@]}" "${OTHER_PLUGINS[@]}"; do
 	if has "${i%:*}" ${VAPOURSYNTH_PLUGINS} ||
 		has "${i}" "${DEFAULT_PLUGINS[@]}"; then
 		IUSE+=" +vapoursynth_plugins_${i%:*}"
@@ -48,13 +50,16 @@ RDEPEND="|| ( >=media-video/libav-11:=[${MULTILIB_USEDEP}]
 	python? ( dev-python/cython[${PYTHON_USEDEP}] 
 		${PYTHON_DEPS} )
 	vapoursynth-script? ( ${PYTHON_DEPS} )
-	vapoursynth_plugins_ass? ( media-libs/libass[${MULTILIB_USEDEP}] )
+	vapoursynth_plugins_ass? (
+		media-libs/libass[${MULTILIB_USEDEP}]
+		virtual/libiconv[${MULTILIB_USEDEP}]
+	)
 	vapoursynth_plugins_image? ( media-gfx/imagemagick[cxx,hdri(-),q8(-),q32(-),q64(-)] )
 	vapoursynth_plugins_ocr? ( app-text/tesseract )"
 DEPEND="${RDEPEND}
 	app-portage/elt-patches
 	doc? ( dev-python/sphinx )
-	dev-lang/yasm
+	dev-lang/nasm
 	virtual/pkgconfig"
 
 AUTOTOOLS_AUTORECONF=1
@@ -77,10 +82,9 @@ multilib_src_configure()
 		$(use_enable vapoursynth-pipe vspipe)
 		$(use_enable vapoursynth-script vsscript)
 		--enable-core
-		--enable-guard-pattern
 	)
 	local i
-	for i in ass:assvapour image:imwri ocr "${DEFAULT_PLUGINS[@]}"; do
+	for i in "${DEFAULT_PLUGINS[@]}" "${OTHER_PLUGINS[@]}"; do
 		myeconfargs+=( $(use_enable vapoursynth_plugins_${i%:*} ${i#*:}) )
 	done
 	autotools-utils_src_configure
