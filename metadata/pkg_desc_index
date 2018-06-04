@@ -117,7 +117,7 @@ net-analyzer/mod_gearman 1.5.2: Nagios/Icinga distributed active checks and perf
 net-analyzer/nagiosgraph 1.5.2: Sinmple Nagios Graph plugin using RRDtool (PNP4Nagios:builk-mode)
 net-analyzer/nagvis 1.6.6: NagVis is a visualization addon for the well known network managment system Nagios
 net-misc/connman 1.31 1.32 9999: Provides a daemon for managing internet connections
-net-misc/dhcpcd 6.11.5: A fully featured, yet light weight RFC2131 compliant DHCP client
+net-misc/dhcpcd 7.0.5: A fully featured, yet light weight RFC2131 compliant DHCP client
 net-misc/dhcpcd-ui 0.7.5 9999: Desktop notification and configuration for dhcpcd
 net-misc/pacrunner 0.9 9999: Proxy configuration daemon
 net-misc/tipcutils 2.0.3: Utilities for TIPC (Transparent Inter-Process Communication)
