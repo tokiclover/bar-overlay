@@ -3,7 +3,6 @@
 # $Id$
 
 EAPI=5
-MY_PN="D2VWitch"
 
 case "${PV}" in
 	(9999*)
@@ -27,16 +26,13 @@ LICENSE="LGPL-2.1 ISC"
 SLOT="0"
 IUSE=""
 
-RDEPEND=">=virtual/ffmpeg-9"
+RDEPEND=">=virtual/ffmpeg-9
+	media-video/vapoursynth
+	dev-qt/qtcore:5
+	dev-qt/dev-qt/qtcore:5"
 DEPEND="${RDEPEND}
 	app-portage/elt-patches
 	virtual/pkgconfig"
 
 AUTOTOOLS_AUTORECONF=1
 DOCS=( readme.rst )
-
-src_install()
-{
-	autotools-utils_src_install
-	mv "${ED}"/usr/bin/{${MY_PN},${PN}}
-}

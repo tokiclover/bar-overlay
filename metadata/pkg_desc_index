@@ -105,7 +105,7 @@ media-sound/seq24 0.9.3: Seq24 is a loop based MIDI sequencer with focus on live
 media-sound/yoshimi 1.3.9 9999: A software synthesizer for Linux, based on ZynAddSubFX
 media-sound/zita-ajbridge 0.7.0: Bridge ALSA devices to Jack clients, to provide additional capture (a2j) or playback (j2a) channels
 media-sound/zynaddsubfx 2.5.4 9999: ZynAddSubFX is an opensource software synthesizer.
-media-video/d2vwitch 1 9999: Cross-platform D2V creator
+media-video/d2vwitch 2 9999: Cross-platform D2V creator
 media-video/ffmpeg 3.2.9999 3.3.9999 4.0.9999: Complete solution to record, convert and stream audio and video. Includes libavcodec
 media-video/l-smash 2.9.1 9999: (FFmpeg) Libavcodec-SMASH decoder/demuxer wrapper library
 media-video/mpv 0.27.2 0.28.2 9999: Video player based on MPlayer/mplayer2
