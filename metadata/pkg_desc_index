@@ -134,7 +134,7 @@ sys-process/supervision 0.12.4.1 0.12.5 0.12.6.3 0.13.0 9999: Supervision init-s
 virtual/daemontools 0: Virtual for Daemontools Service Manager
 virtual/liblash 1: Virtual for LASH library
 virtual/libproxy 1: Virtual for proxy library
-www-apps/searx 0.9.0 0.10.0 9999: Decentralized and privacy-respecting, hackable metasearch engine
+www-apps/searx 0.12.0 0.13.0 9999: Decentralized and privacy-respecting, hackable metasearch engine
 www-misc/browser-home-profile 4.1 9999: Web-Browser Home Profile Utility
 www-misc/dactyl 1.1 9999: Efficient and keyboard friendly vim UI interface add-on
 www-misc/fcgi-cgi 0.2.2 9999: FastCGI application to run cgi applications
