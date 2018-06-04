@@ -111,7 +111,7 @@ media-video/l-smash 2.14.5 9999: (FFmpeg) Libavcodec-SMASH decoder/demuxer wrapp
 media-video/mpv 0.27.2 0.28.2 9999: Video player based on MPlayer/mplayer2
 media-video/rage 0.2.0 0.3.0 9999: EFL Video Player
 media-video/vapoursynth 40 42 9999: Video processing framework with simplicity in mind
-media-video/wobbly 3 9999: IVTC video processing assistant for VapourSynth similar to Yatta
+media-video/wobbly 4 9999: IVTC video processing assistant for VapourSynth similar to Yatta
 net-analyzer/check_mk 1.2.8_p14: General purpose Nagios/Icinga plugin for retrieving data
 net-analyzer/mod_gearman 1.5.2: Nagios/Icinga distributed active checks and perfdata analyzis (PNP4Nagios) for scalability
 net-analyzer/nagiosgraph 1.5.2: Sinmple Nagios Graph plugin using RRDtool (PNP4Nagios:builk-mode)
