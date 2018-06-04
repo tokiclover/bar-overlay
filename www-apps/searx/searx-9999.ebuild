@@ -9,36 +9,34 @@ case "${PV}" in
 	(9999*)
 		KEYWORDS=""
 		VCS_ECLASS=git-2
-		EGIT_REPO_URI="git://github.com/asciimoo/${PN}.git"
+		EGIT_REPO_URI="git://github.com/searx/${PN}.git"
 		EGIT_PROJECT="${PN}.git"
 		;;
 	(*)
 		KEYWORDS="~amd64 ~arm ~x86"
-		SRC_URI="https://github.com/asciimoo/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+		SRC_URI="https://github.com/searx/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 		;;
 esac
 inherit eutils user distutils-r1 ${VCS_ECLASS}
 
 DESCRIPTION="Decentralized and privacy-respecting, hackable metasearch engine"
-HOMEPAGE="https://github.com/asciimoo/searx https://searx.me"
+HOMEPAGE="https://github.com/searx/searx https://searx.me"
 
 LICENSE="AGPL-3"
 SLOT="0"
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-DEPEND=">=dev-python/flask-0.10.1[${PYTHON_USEDEP}]
-	>=dev-python/flask-babel-0.9[${PYTHON_USEDEP}]
-	>=dev-python/mock-1.0.1[${PYTHON_USEDEP}]
-	>=dev-python/lxml-3.5.0[${PYTHON_USEDEP}]
-	>=dev-python/pyyaml-3.11[${PYTHON_USEDEP}]
-	>=dev-python/pygments-2.0.2[${PYTHON_USEDEP}]
-	>=dev-python/python-dateutil-2.4.2[${PYTHON_USEDEP}]
-	>=dev-python/pyopenssl-0.15.1[${PYTHON_USEDEP}]
-	>=dev-python/ndg-httpsclient-0.4.0[${PYTHON_USEDEP}]
-	>=dev-python/pyasn1-0.1.9[${PYTHON_USEDEP}]
-	>=dev-python/pyasn1-modules-0.0.8[${PYTHON_USEDEP}]
-	>=dev-python/certifi-2015.11.20[${PYTHON_USEDEP}]
+DEPEND=">=dev-python/flask-0.12.2[${PYTHON_USEDEP}]
+	>=dev-python/flask-babel-0.11.2[${PYTHON_USEDEP}]
+	>=dev-python/idna-2.5[${PYTHON_USEDEP}]
+	>=dev-python/lxml-3.8.0[${PYTHON_USEDEP}]
+	>=dev-python/pyyaml-3.12[${PYTHON_USEDEP}]
+	>=dev-python/pygments-2.1.3[${PYTHON_USEDEP}]
+	>=dev-python/python-dateutil-2.6.1[${PYTHON_USEDEP}]
+	>=dev-python/pyopenssl-0.17.2[${PYTHON_USEDEP}]
+	>=dev-python/requests-2.18.4[socks5,${PYTHON_USEDEP}]
+	>=dev-python/certifi-2017.07.27[${PYTHON_USEDEP}]
 	${PYTHON_DEPS}"
 RDEPEND="${DEPEND}"
 
