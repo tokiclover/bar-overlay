@@ -7,63 +7,47 @@ EAPI=5
 case "${PV}" in
 	(9999*)
 	KEYWORDS=""
-	VCS_ECLASS=subversion
-	ESVN_REPO_URI="http://tint2.googlecode.com/svn/trunk/"
-	SRC_URI="https://dl.dropbox.com/s/gmko5d6sy8qjpao/tint2patchfiles.tar.gz"
+	VCS_ECLASS=git-2
+	EGIT_REPO_URI="git://gitlab.com/o9000/tint2.git"
 	;;
 	(*)
 	KEYWORDS="~amd64 ~x86"
-	SRC_URI="http://tint2.googlecode.com/files/${MY_P}.tar.bz2"
+	SRC_URI="https://gitlab.com/o9000/${PN}/repository/archive.tar.gz?ref=v${PV} -> ${P}.tar.gz"
 	;;
 esac
-inherit eutils cmake-utils ${VCS_ECLASS}
+inherit cmake-utils gnome-utils vcs-snapshot ${VCS_ECLASS}
 
-DESCRIPTION="A lightweight panel/taskbar"
-HOMEPAGE="http://code.google.com/p/tint2/"
+DESCRIPTION="tint2 is a lightweight panel/taskbar for Linux"
+HOMEPAGE="https://gitlab.com/o9000/tint2"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="battery examples tint2conf"
+IUSE="battery svg startup-notification tint2conf"
 
-DEPEND="dev-libs/glib:2
+RDEPEND="dev-libs/glib:2
+	svg? ( gnome-base/librsvg )
+	>=media-libs/imlib2-1.4.2[X,png]
 	x11-libs/cairo
+	tint2conf? ( x11-libs/gtk+:2 )
 	x11-libs/pango[X]
 	x11-libs/libX11
 	x11-libs/libXinerama
 	x11-libs/libXdamage
-	x11-libs/libXcomposite
+	>=x11-libs/libXrandr-1.3
 	x11-libs/libXrender
-	x11-libs/libXrandr
-	media-libs/imlib2[X]
-	virtual/pkgconfig
+	startup-notification? ( x11-libs/startup-notification )
 	x11-proto/xineramaproto"
 
-RDEPEND="${COMMON_DEPEND}
-	tint2conf? ( x11-misc/tintwizard )"
-
-PATCHES=(
-	"${WORKDIR}"/freespace.patch
-	"${WORKDIR}"/launcher_apps_dir-v2.patch
-	"${WORKDIR}"/src-task-align.patch
-)
-
-src_unpack()
-{
-	subversion_src_unpack
-	unpack "${A}"
-}
-
-src_prepare()
-{
-	subversion_src_prepare
-	cmake-utils_src_prepare
-}
+DEPEND="${RDEPEND}
+	virtual/pkgconfig"
 
 src_configure()
 {
 	local mycmakeargs=(
+		${EXTRA_TINT2_CONF}
 		$(cmake-utils_use_enable battery BATTERY)
-		$(cmake-utils_use_enable examples EXAMPLES)
+		$(cmake-utils_use_enable svg RSVG)
+		$(cmake-utils_use_enable startup-notification SN)
 		$(cmake-utils_use_enable tint2conf TINT2CONF)
 
 		# bug 296890
