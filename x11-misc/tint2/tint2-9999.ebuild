@@ -15,7 +15,7 @@ case "${PV}" in
 	SRC_URI="https://gitlab.com/o9000/${PN}/repository/archive.tar.gz?ref=v${PV} -> ${P}.tar.gz"
 	;;
 esac
-inherit cmake-utils gnome-utils vcs-snapshot ${VCS_ECLASS}
+inherit cmake-utils vcs-snapshot ${VCS_ECLASS}
 
 DESCRIPTION="tint2 is a lightweight panel/taskbar for Linux"
 HOMEPAGE="https://gitlab.com/o9000/tint2"
