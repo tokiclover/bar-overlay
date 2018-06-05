@@ -40,13 +40,17 @@ E_MODULES_DEFAULT=(
 	teamwork temperature tiling time winlist wireless wizard xkbswitch
 )
 E_MODULES=(
-	access packagkit wl-desktop-shell wl-drm wl-fb wl-x11
+	wl-desktop-shell wl-drm wl-fb wl-x11
 )
 IUSE="debug doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
 	${E_MODULES_DEFAULT[@]/#/+enlightenment_modules_}
 	${E_MODULES[@]/#/enlightenment_modules_}
 "
-REQUIED_USE="!udev? ( eeze )"
+REQUIED_USE="!udev? ( eeze )
+	enlightenment_modules_wl-fb? ( wayland )
+	enlightenment_modules_wl-drm? ( wayland )
+	enlightenment_modules_wl-x11? ( wayland )
+	wayland? ( enlightenment_modules_wl-desktop-shell )"
 
 RDEPEND=">=dev-libs/efl-1.20.5[debug?,egl?,nls?,systemd?,wayland?]
 	virtual/udev
@@ -63,9 +67,9 @@ RDEPEND=">=dev-libs/efl-1.20.5[debug?,egl?,nls?,systemd?,wayland?]
 		>=dev-libs/wayland-1.11.0
 		>=x11-libs/pixman-0.31.1
 		>=x11-libs/libxkbcommon-0.3.1
-		enlightenment_modules_wl-fb? ( dev-libs/efl[fbcon,wayland] )
-		enlightenment_modules_wl-drm? ( dev-libs/efl[drm,wayland] )
-		enlightenment_modules_wl-x11? ( dev-libs/efl[X,wayland] )
+		enlightenment_modules_wl-fb?  ( >=dev-libs/efl-1.20.5[fbcon,wayland] )
+		enlightenment_modules_wl-drm? ( >=dev-libs/efl-1.20.5[drm,wayland] )
+		enlightenment_modules_wl-x11? ( >=dev-libs/efl-1.20.5[X,wayland] )
 	)"
 DEPEND="${RDEPEND}
 	app-portage/elt-patches
@@ -78,27 +82,21 @@ S="${WORKDIR}/${P/_/-}"
 
 src_configure()
 {
-	local -a myconfargs=(
+	local -a myeconfargs=(
 		${EXTRA_E_CONF}
-		--disable-device-hal
-		--disable-simple-x11
-		--disable-wayland-only
 		--enable-conf
 		--enable-device-udev # instead of hal
-		--enable-enotify
 		--enable-files
 		--enable-install-enlightenment-menu
 		--enable-install-sysactions
 		$(use_enable doc)
-		$(use_enable egl wayland-egl)
 		$(use_enable nls)
 		$(use_enable pam)
 		$(use_enable static-libs static)
 		$(use_enable systemd)
 		$(use_enable ukit mount-udisks)
 		$(use_enable eeze mount-eeze)
-		$(use_enable wayland wayland-clients)
-		$(usex wayland '--enable-wl-desktop-shell' '')
+		$(use_enable wayland)
 	)
 	local i
 	for i in ${E_MODULES_DEFAULT} ${E_MODULES}; do

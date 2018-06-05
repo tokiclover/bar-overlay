@@ -42,14 +42,14 @@ E_MODULES_DEFAULT=(
 E_MODULES=(
 	access packagkit wl-desktop-shell wl-drm wl-fb wl-x11
 )
-IUSE="debug doc +eeze egl +nls pam pm-utils static-libs systemd ukit wayland
+IUSE="debug doc +eeze egl +nls pam pm-utils static-libs systemd ukit
 	${E_MODULES_DEFAULT[@]/#/+enlightenment_modules_}
 	${E_MODULES[@]/#/enlightenment_modules_}
 "
 REQUIED_USE="!udev? ( eeze )"
 
-RDEPEND="|| ( >=media-libs/elementary-1.11.2[X,wayland?]
-		>=dev-libs/efl-1.18.0[debug?,egl?,nls?,systemd?,wayland?] )
+RDEPEND="|| ( >=media-libs/elementary-1.11.2[X]
+		>=dev-libs/efl-1.18.0[debug?,egl?,nls?,systemd?] )
 	virtual/udev
 	x11-libs/libxcb
 	x11-libs/xcb-util-keysyms
@@ -59,31 +59,19 @@ RDEPEND="|| ( >=media-libs/elementary-1.11.2[X,wayland?]
 	nls? ( virtual/libintl )
 	pam? ( sys-libs/pam )
 	pm-utils? ( sys-power/pm-utils )
-	systemd? ( sys-apps/systemd )
-	wayland? (
-		>=dev-libs/wayland-1.3.0
-		>=x11-libs/pixman-0.31.1
-		>=x11-libs/libxkbcommon-0.3.1
-		enlightenment_modules_wl-fb? ( dev-libs/efl[fbcon,wayland] )
-		enlightenment_modules_wl-drm? ( dev-libs/efl[drm,wayland] )
-		enlightenment_modules_wl-x11? ( dev-libs/efl[X,wayland] )
-	)"
+	systemd? ( sys-apps/systemd )"
 DEPEND="${RDEPEND}
 	app-portage/elt-patches
 	doc? ( app-doc/doxygen )"
 
 DOCS=( AUTHORS ChangeLog README )
 
-PATCHES=(
-	 "${FILESDIR}"/${PN}-0.19.1-wayland-cflags.patch
-)
-
 AUTOTOOLS_IN_SOURCE_BUILD=1
 S="${WORKDIR}/${P/_/-}"
 
 src_configure()
 {
-	local -a myconfargs=(
+	local -a myeconfargs=(
 		${EXTRA_E_CONF}
 		--disable-device-hal
 		--disable-simple-x11
@@ -95,15 +83,12 @@ src_configure()
 		--enable-install-enlightenment-menu
 		--enable-install-sysactions
 		$(use_enable doc)
-		$(use_enable egl wayland-egl)
 		$(use_enable nls)
 		$(use_enable pam)
 		$(use_enable static-libs static)
 		$(use_enable systemd)
 		$(use_enable ukit mount-udisks)
 		$(use_enable eeze mount-eeze)
-		$(use_enable wayland wayland-clients)
-		$(usex wayland '--enable-wl-desktop-shell' '')
 	)
 	local i
 	for i in ${E_MODULES_DEFAULT} ${E_MODULES}; do

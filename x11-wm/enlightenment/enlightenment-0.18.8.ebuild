@@ -40,16 +40,18 @@ E_MODULES_DEFAULT=(
 	teamwork temperature tiling winlist wizard xkbswitch
 )
 E_MODULES=(
-	access packagkit wl-desktop-shell wl-drm wl-fb wl-x11
+	access packagkit wl-desktop-shell:wl_desktop_shell wl-screenshot:wl_screenshot
 )
 IUSE="debug doc +eeze +nls pam static-libs systemd +udev ukit wayland
 	${E_MODULES_DEFAULT[@]/#/+enlightenment_modules_}
 	${E_MODULES[@]/#/enlightenment_modules_}
 "
-REQUIED_USE="!udev? ( eeze )"
+REQUIED_USE="!udev? ( eeze )
+	enlightenment_modules_wl-screenshot? ( wayland )
+	wayland? ( enlightenment_modules_wl-desktop-shell )"
 
 RDEPEND="|| ( >=media-libs/elementary-1.8.3[X,wayland?]
-		>=dev-libs/efl-1.18.0[debug?,egl?,nls?,systemd?,wayland?] )
+		>=dev-libs/efl-1.18.0[debug?,nls?,systemd?,wayland?] )
 	debug? ( dev-util/valgrind )
 	udev? ( virtual/udev )
 	x11-libs/libxcb
@@ -63,9 +65,7 @@ RDEPEND="|| ( >=media-libs/elementary-1.8.3[X,wayland?]
 		>=dev-libs/wayland-1.3.0
 		>=x11-libs/pixman-0.31.1
 		>=x11-libs/libxkbcommon-0.3.1
-		enlightenment_modules_wl-fb? ( dev-libs/efl[fbcon,wayland] )
-		enlightenment_modules_wl-drm? ( dev-libs/efl[drm,wayland] )
-		enlightenment_modules_wl-x11? ( dev-libs/efl[X,wayland] )
+		dev-libs/efl[X,wayland]
 	)"
 DEPEND="${RDEPEND}
 	app-portage/elt-patches
@@ -78,11 +78,10 @@ S="${WORKDIR}/${P/_/-}"
 
 src_configure()
 {
-	local -a myconfargs=(
+	local -a myeconfargs=(
 		${EXTRA_E_CONF}
 		--disable-device-hal
 		--disable-simple-x11
-		--disable-wayland-only
 		--enable-conf
 		--enable-device-udev # instead of hal
 		--enable-enotify
@@ -101,7 +100,7 @@ src_configure()
 	)
 	local i
 	for i in ${E_MODULES_DEFAULT} ${E_MODULES}; do
-		myeconfargs+=( $(use_enable enlightenment_modules_${i} ${i}) )
+		myeconfargs+=( $(use_enable enlightenment_modules_${i} ${i#*:}) )
 	done
 	autotools-utils_src_configure
 }
