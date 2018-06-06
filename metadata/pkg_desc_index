@@ -53,7 +53,7 @@ media-plugins/vapoursynth-plugins-bifrost 2.2 9999: Temporal derainbowing filter
 media-plugins/vapoursynth-plugins-bilateral 3 9999: Bilateral and Gaussian filter plugin for VapourSynth
 media-plugins/vapoursynth-plugins-bm3d 7 9999: BM3D denoising filter plugin for VapourSynth
 media-plugins/vapoursynth-plugins-combmask 9999: Comb-mask and merge filter plugin for VapourSynth
-media-plugins/vapoursynth-plugins-ctmf 2 9999: Constant Time Median Filtering plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-ctmf 4 9999: Constant Time Median Filtering plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-d2vsource 1.0 9999: D2V source decoder plugin for VapourSynth
 media-plugins/vapoursynth-plugins-damb 3 9999: Damb plugin (adding basic audio support) for VapourSynth
 media-plugins/vapoursynth-plugins-deblock 4 9999: Deblock (from x264 deblocking filter) plugin for VapourSynth ported from Avisynth
