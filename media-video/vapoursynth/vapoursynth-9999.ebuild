@@ -89,7 +89,7 @@ multilib_src_compile()
 {
 	autotools-utils_src_compile
 	use python &&
-		LDFLAGS="${LDFLAGS} -L." \
+		LDFLAGS="${LDFLAGS} -L.libs" \
 		CFLAGS="${CFLAGS} $(usex static-libs '' '-fPIC')" \
 		distutils-r1_src_compile
 }
