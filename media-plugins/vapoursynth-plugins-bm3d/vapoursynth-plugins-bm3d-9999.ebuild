@@ -27,7 +27,7 @@ LICENSE="GPL-3"
 SLOT="0"
 IUSE="debug"
 
-RDEPEND="sci-libs/fftw:3.[${MULTILIB_USEDEP}]
+RDEPEND="sci-libs/fftw:3.0[${MULTILIB_USEDEP}]
 	media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 
@@ -42,6 +42,7 @@ multilib_src_configure()
 	./configure \
 		${EXTRA_BM3D_CONF} \
 		$(usex debug '--enable-debug' '') \
+		--cxx="$(tc-getCXX)" \
 		--extra-cxxflags="${CXXFLAGS}" \
 		--extra-ldflags="${LDFLAGS}" \
 		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
@@ -49,7 +50,7 @@ multilib_src_configure()
 }
 multilib_src_compile()
 {
-	emake -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getCXX)"
+	emake -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getLD)"
 }
 multilib_src_install()
 {

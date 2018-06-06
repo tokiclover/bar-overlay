@@ -51,7 +51,7 @@ media-plugins/tap-plugins 1.0.0 9999: TAP LADSPA plugins: contains DeEsser, Dyna
 media-plugins/vapoursynth-plugins-addgrain 5 9999: AddGrain plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-bifrost 2.2 9999: Temporal derainbowing filter plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-bilateral 3 9999: Bilateral and Gaussian filter plugin for VapourSynth
-media-plugins/vapoursynth-plugins-bm3d 5 9999: BM3D denoising filter plugin for VapourSynth
+media-plugins/vapoursynth-plugins-bm3d 7 9999: BM3D denoising filter plugin for VapourSynth
 media-plugins/vapoursynth-plugins-combmask 9999: Comb-mask and merge filter plugin for VapourSynth
 media-plugins/vapoursynth-plugins-ctmf 2 9999: Constant Time Median Filtering plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-d2vsource 1.0 9999: D2V source decoder plugin for VapourSynth
