@@ -30,10 +30,11 @@ IUSE="debug"
 RDEPEND="media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 
+AUTOTOOLS_AUTORECONF=1
+
 src_prepare()
 {
 	epatch_user
-	sed -e 's/-O[0-3s]//g' -i configure
 	multilib_copy_sources
 }
 multilib_src_configure()
