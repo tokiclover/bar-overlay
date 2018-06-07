@@ -18,7 +18,7 @@ case "${PV}" in
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
-inherit multilib-minimal ${VCS_ECLASS}
+inherit autotools-multilib ${VCS_ECLASS}
 
 DESCRIPTION="2D/3D frequency domain denoiser using Discrete Fourier Transform (ported from Avisynth)"
 HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DFTTest http://avisynth.nl/index.php/Dfttest"
@@ -31,31 +31,15 @@ RDEPEND="sci-libs/fftw:3[${MULTILIB_USEDEP}]
 	media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 
-src_prepare()
-{
-	epatch_user
-	sed -e 's/-O[0-3s]//g' -i configure
-	multilib_copy_sources
-}
+AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_IN_SOURCE_BUILD=1
+
+DOCS=( README.md )
+
 multilib_src_configure()
 {
-	./configure \
-		${EXTRA_DFTTEST_CONF} \
-		$(usex debug '--enable-debug' '') \
-		--extra-cxxflags="${CXXFLAGS} -fabi-version=6" \
-		--extra-ldflags="${LDFLAGS}" \
-		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
-		--target-os="${CHOST}"
-}
-multilib_src_compile()
-{
-	emake -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getCXX)"
-}
-multilib_src_install()
-{
-	emake -f GNUmakefile libdir="${ED}/usr/$(get_libdir)/vapoursynth" install
-}
-multilib_src_install_all()
-{
-	dodoc README.md
+	local -a myeconfargs=(
+		--libdir="/usr/$(get_libdir)/vapoursynth"
+	)
+	autotools-utils_src_configure
 }
