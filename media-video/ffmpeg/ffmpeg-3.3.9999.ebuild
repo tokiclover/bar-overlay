@@ -227,7 +227,9 @@ RDEPEND="
 	modplug? ( >=media-libs/libmodplug-0.8.8.4-r1[${MULTILIB_USEDEP}] )
 	openal? ( >=media-libs/openal-1.15.1[${MULTILIB_USEDEP}] )
 	opengl? ( >=virtual/opengl-7.0-r1[${MULTILIB_USEDEP}] )
-	openssl? ( >=dev-libs/openssl-1.0.1h-r2[${MULTILIB_USEDEP}] )
+	openssl? ( || ( >=dev-libs/openssl-1.0.1h-r2[${MULTILIB_USEDEP}]
+		dev-libs/libressl[${MULTILIB_USEDEP}] )
+	)
 	opus? ( >=media-libs/opus-1.0.2-r2[${MULTILIB_USEDEP}] )
 	pulseaudio? ( >=media-sound/pulseaudio-2.1-r1[${MULTILIB_USEDEP}] )
 	rubberband? ( >=media-libs/rubberband-1.8.1-r1[${MULTILIB_USEDEP}] )
@@ -302,8 +304,13 @@ MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/libavutil/avconfig.h
 )
 
+PATCHES=(
+	${FILESDIR}/${P%.9999}-libressl.patch
+)
+
 src_prepare()
 {
+	[[ ${PATCHES} ]] && epatch "${PATCHES[@]}"
 	epatch_user
 }
 
