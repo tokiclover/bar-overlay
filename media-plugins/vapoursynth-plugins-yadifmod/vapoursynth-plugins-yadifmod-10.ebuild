@@ -18,45 +18,28 @@ case "${PV}" in
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
-inherit multilib-minimal ${VCS_ECLASS}
+inherit autotools-multilib ${VCS_ECLASS}
 
 DESCRIPTION="Yet Another Deinterlacing Filter plugin for VapourSynth ported from Avisynth"
 HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Yadifmod"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="debug"
+IUSE=""
 
 RDEPEND="media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 
-src_prepare()
-{
-	epatch_user
-	sed -e 's/-O[0-3s]//g' -i configure
-	sed -e 's,./configure,../configure,g' -i GNUmakefile
-	multilib_copy_sources
-}
+AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_PRUNE_LIBTOOL_FILES=all
+
 multilib_src_configure()
 {
-	chmod +x configure
 	local -a myeconfargs=(
 		${EXTRA_YADIFMOD_CONF}
-		$(usex debug '--enable-debug' '')
-		--extra-cxxflags="${CXXFLAGS}"
-		--extra-ldflags="${LDFLAGS}"
-		--target-os="${CHOST}"
+		--libdir="${EPREFIX}/usr/$(get_libdir)/vapoursynth"
 	)
-	echo configure "${myeconfargs[@]}"
-	./configure "${myeconfargs[@]}"
-}
-multilib_src_compile()
-{
-	emake -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getCXX)"
-}
-multilib_src_install()
-{
-	emake -f GNUmakefile libdir="${ED}/usr/$(get_libdir)/vapoursynth" install
+	autotools-utils_src_configure
 }
 multilib_src_install_all()
 {
