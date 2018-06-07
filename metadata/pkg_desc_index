@@ -65,7 +65,7 @@ media-plugins/vapoursynth-plugins-fft3dfilter 9999: 3D Frequency Domain filter p
 media-plugins/vapoursynth-plugins-fieldhint 3 9999: FieldHint plugin for VapourSynth
 media-plugins/vapoursynth-plugins-fillborders 1.0 9999: FillBorders plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-filters 9999: Common set of image-processing filters plugin for VapourSynth
-media-plugins/vapoursynth-plugins-fluxsmooth 1.0 9999: FluxSmooth (fluctuations smoothing filter) plugin for VapourSynth
+media-plugins/vapoursynth-plugins-fluxsmooth 2.0 9999: FluxSmooth (fluctuations smoothing filter) plugin for VapourSynth
 media-plugins/vapoursynth-plugins-fmtconv 20 9999: Format Conversion Tools plugin for VapourSynth
 media-plugins/vapoursynth-plugins-histogram 1.0 9999: Histogram plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-imagereader 9999: Common set of image-processing filters plugin for VapourSynth

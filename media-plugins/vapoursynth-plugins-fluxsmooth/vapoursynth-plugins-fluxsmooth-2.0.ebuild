@@ -13,7 +13,7 @@ case "${PV}" in
 		;;
 	(*)
 		KEYWORDS="~amd64 ~arm ~ppc ~x86"
-		SRC_URI="https://github.com/dubhater/${PN/-plugins}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+		SRC_URI="https://github.com/dubhater/${PN/-plugins}/archive/v${PV%.*}.tar.gz -> ${P}.tar.gz"
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
@@ -32,14 +32,8 @@ DEPEND="app-portage/elt-patches
 	${RDEPEND}"
 
 AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_PRUNE_LIBTOOL_FILES=all
 
-src_prepare()
-{
-	epatch_user
-	sed -e 's/-O[0-3s]//g' -i configure
-	multilib_copy_sources
-	autotools-utils_src_prepare
-}
 multilib_src_configure()
 {
 	local -a myeconfargs=(
