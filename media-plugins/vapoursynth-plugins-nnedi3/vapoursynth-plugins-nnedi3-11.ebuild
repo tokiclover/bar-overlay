@@ -32,6 +32,7 @@ DEPEND="${RDEPEND}
 	dev-lang/yasm"
 
 AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_PRUNE_LIBTOOL_FILES=all
 
 multilib_src_configure()
 {
