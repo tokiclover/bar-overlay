@@ -17,7 +17,7 @@ case "${PV}" in
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
-inherit flag-o-matic autotools-multilib ${VCS_ECLASS}
+inherit autotools-multilib ${VCS_ECLASS}
 
 DESCRIPTION="(NTSC) Temporal comb filter plugin for VapourSynth"
 HOMEPAGE="https://github.com/dubhater/vapoursynth-tcomb"
@@ -32,17 +32,10 @@ DEPEND="${RDEPEND}
 	dev-lang/yasm"
 
 AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_PRUNE_LIBTOOL_FILES=all
 
-src_prepare()
-{
-	epatch_user
-	sed -e 's/-O[0-3s]//g' -i configure
-	multilib_copy_sources
-	autotools-utils_src_prepare
-}
 multilib_src_configure()
 {
-	append-cxxflags '-fabi-version=6'
 	local -a myeconfargs=(
 		${EXTRA_TCOMB_CONF}
 		--libdir="${EPREFIX}/usr/$(get_libdir)/vapoursynth"

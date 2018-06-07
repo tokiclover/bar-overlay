@@ -81,7 +81,7 @@ media-plugins/vapoursynth-plugins-scrawl 1.0 9999: Text output plugin for Vapour
 media-plugins/vapoursynth-plugins-scxvid 1 9999: Scene-change detection plugin (using XviD) for VapourSynth
 media-plugins/vapoursynth-plugins-ssiq 1.0 9999: Structure-preserving smoothing on I/Q chrominance plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-tcanny 10 9999: Edge map builder using canny edge detection plugin for VapourSynth ported from Avisynth
-media-plugins/vapoursynth-plugins-tcomb 2 9999: (NTSC) Temporal comb filter plugin for VapourSynth
+media-plugins/vapoursynth-plugins-tcomb 3 9999: (NTSC) Temporal comb filter plugin for VapourSynth
 media-plugins/vapoursynth-plugins-tdeintmod 7 9999: TDeint and TMM plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-temporalsoften 1.0 9999: TemporalSoften plugin for VapourSynth
 media-plugins/vapoursynth-plugins-tnlmeans 9999: NL-means denoising plugin for VapourSynth ported from AviSynth
