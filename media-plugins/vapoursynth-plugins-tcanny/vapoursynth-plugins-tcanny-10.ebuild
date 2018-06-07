@@ -18,41 +18,28 @@ case "${PV}" in
 		VCS_ECLASS=vcs-snapshot
 		;;
 esac
-inherit multilib-minimal ${VCS_ECLASS}
+inherit autotools-multilib ${VCS_ECLASS}
 
 DESCRIPTION="Edge map builder using canny edge detection plugin for VapourSynth ported from Avisynth"
 HOMEPAGE="https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TCanny"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="debug"
+IUSE=""
 
 RDEPEND="media-video/vapoursynth:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 
-src_prepare()
-{
-	epatch_user
-	sed -e 's/-O[0-3s]//g' -i configure
-	multilib_copy_sources
-}
+AUTOTOOLS_AUTORECONF=1
+AUTOTOOLS_PRUNE_LIBTOOL_FILES=all
+
 multilib_src_configure()
 {
-	./configure \
-		${EXTRA_TCANNY_CONF} \
-		$(usex debug '--enable-debug' '') \
-		--extra-cxxflags="${CXXFLAGS}" \
-		--extra-ldflags="${LDFLAGS}" \
-		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
-		--target-os="${CHOST}"
-}
-multilib_src_compile()
-{
-	emake -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getCXX)"
-}
-multilib_src_install()
-{
-	emake -f GNUmakefile libdir="${ED}/usr/$(get_libdir)/vapoursynth" install
+	local -a myeconfargs=(
+		${EXTRA_TCANNY_CONF}
+		--libdir="${EPREFIX}/usr/$(get_libdir)/vapoursynth"
+	)
+	autotools-utils_src_configure
 }
 multilib_src_install_all()
 {
