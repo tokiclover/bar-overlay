@@ -72,7 +72,7 @@ media-plugins/vapoursynth-plugins-imagereader 9999: Common set of image-processi
 media-plugins/vapoursynth-plugins-it 1.2 9999: Inverse Telecine plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-lsmashsource 9999: (FFmpeg) Libavcodec-SMASH Source plugin for VapourSynth
 media-plugins/vapoursynth-plugins-msmoosh 1.1 9999: MSharpen and MSmooth plugin for VapourSynth
-media-plugins/vapoursynth-plugins-mvtools 13 9999: MVTools (Motion compensation and estimation filters) plugin for VapourSynth ported from Avisynth
+media-plugins/vapoursynth-plugins-mvtools 18 9999: MVTools (Motion compensation and estimation filters) plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-nnedi3 8 9999: Intra-field only deinterlacer plugin for VapourSynth ported from Avisynth
 media-plugins/vapoursynth-plugins-rawsource 9999: RAW source decoder plugin for VapourSynth
 media-plugins/vapoursynth-plugins-retinex 3 9999: Retinex algorithm plugin for VapourSynth

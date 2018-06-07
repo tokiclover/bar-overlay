@@ -33,6 +33,7 @@ DEPEND="app-portage/elt-patches
 	${RDEPEND}"
 
 AUTOTOOLS_AUTORECONF=1
+AUTTOOLS_PRUNE_LIBTOOL_FILES=all
 
 multilib_src_configure()
 {
