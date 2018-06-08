@@ -41,21 +41,23 @@ src_prepare()
 }
 multilib_src_configure()
 {
-	pushd src
+	pushd src >/dev/null 2>&1
 	chmod +x configure
-	./configure \
+	local -a myconfargs=(./configure \
 		${EXTRA_IMAGEREADER_CONF} \
 		$(usex debug '--enable-debug' '') \
-		--enable-new-png
+		--enable-new-png \
 		--extra-cflags=\"${CXXFLAGS}\" \
 		--extra-ldflags=\"${LDFLAGS}\" \
-		--install="${EPREFIX}/usr/$(get_libdir)/vapoursynth" \
 		--target-os="${CHOST}"
-	popd
+	)
+	echo -- "${myconfargs[@]}"
+	eval "${myconfargs[@]}"
+	popd >/dev/null 2>&1
 }
 multilib_src_compile()
 {
-	emake -C src -f GNUmakefile CXX="$(tc-getCXX)" LD="$(tc-getCXX)"
+	emake -C src -f GNUmakefile CC="$(tc-getCC)" LD="$(tc-getCC)"
 }
 multilib_src_install()
 {
