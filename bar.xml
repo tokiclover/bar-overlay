@@ -3,18 +3,18 @@
   <repo quality="experimental" status="unofficial">
   <name><![CDATA[bar]]></name>
   <description lang="en"><![CDATA[yet another gentoo overlay]]></description>
-  <homepage>https://github.com/tokiclover/bar-overlay</homepage>
+  <homepage>https://gitlab.com/tokiclover/bar-overlay</homepage>
   <owner type="person">
     <email>tokiclover@gmail.com</email>
     <name><![CDATA[tokiclover]]></name>
   </owner>
-  <source type="git">https://github.com/tokiclover/bar-overlay.git</source>
-  <source type="git">https://gitlab.com/tokiclover/bar-overlay.git</source>
-  <source type="git">git://github.com/tokiclover/bar-overlay.git</source>
   <source type="git">git://gitlab.com/tokiclover/bar-overlay.git</source>
+  <source type="git">git://github.com/tokiclover/bar-overlay.git</source>
+  <source type="git">https://gitlab.com/tokiclover/bar-overlay.git</source>
+  <source type="git">https://github.com/tokiclover/bar-overlay.git</source>
   <source type="git">git@github.com:tokiclover/bar-overlay.git</source>
   <source type="git">git@github.com:tokiclover/bar-overlay.git</source>
-  <feed>https://github.com/tokiclover/bar-overlay/commits/master.atom</feed>
   <feed>https://gitlab.com/tokiclover/bar-overlay/commits/master.atom</feed>
+  <feed>https://github.com/tokiclover/bar-overlay/commits/master.atom</feed>
   </repo>
 </repositories>

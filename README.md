@@ -20,7 +20,7 @@ times to times to optimize local disk usage.
 
 Just merge *git* with `emerge -av git`; and then clone the repository with
 `mkdir -p /var/db/repos`, and then
-`git clone git://github.com/tokiclover/bar-overlay.git /var/db/repos/bar`;
+`git clone git://gitlab.com/tokiclover/bar-overlay.git /var/db/repos/bar`;
 and finaly include [bar.conf](bar.conf) in `/etc/portage/repos.conf/` directory,
 or concatenate the content to the file directly with
 `cat <bar.conf >>/etc/portage/repos.conf`.
@@ -39,7 +39,7 @@ or merge package sets for the repository (see sets/ for more info.)
 ### Configuration
 
 Examples of runtime configuration files can be found in this repository
-[dotfiles](https://github.com/tokiclover/dotfiles) might be handy to get,
+[dotfiles](https://gitlab.com/tokiclover/dotfiles) might be handy to get,
 for example, JACK/LADI or mail-utilities @set set up and working in no time!
 
 LICENSE
