@@ -43,4 +43,5 @@ src_install()
 		insinto /usr/$(get_libdir)/${u/_/.}
 		doins mvsfunc.py
 	done
+	python_foreach_impl python_optimize "${D}"
 }
