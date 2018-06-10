@@ -98,7 +98,7 @@ RDEPEND="!!media-libs/elementary
 	)
 	harfbuzz? ( media-libs/harfbuzz[${MULTILIB_USEDEP}] )
 	ibus? ( app-i18n/ibus )
-	jpeg2k? ( media-libs/openjpeg[${MULTILIB_USEDEP}] )
+	jpeg2k? ( media-libs/openjpeg:0[${MULTILIB_USEDEP}] )
 	libuv? ( dev-libs/libuv[${MULTILIB_USEDEP}] )
 	nls? ( virtual/libintl[${MULTILIB_USEDEP}] )
 	pdf? ( app-text/poppler[cxx,jpeg,jpeg2k?] )
