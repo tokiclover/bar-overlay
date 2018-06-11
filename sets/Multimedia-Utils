@@ -1,5 +1,5 @@
 app-text/mupdf
-app-text/pdftk
+app-text/qpdf
 media-gfx/gimp
 media-gfx/inkscape
 media-gfx/sane-backends
