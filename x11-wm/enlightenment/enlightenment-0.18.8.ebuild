@@ -42,10 +42,12 @@ E_MODULES_DEFAULT=(
 E_MODULES=(
 	access packagkit wl-desktop-shell:wl_desktop_shell wl-screenshot:wl_screenshot
 )
+e_modules=("${E_MODULES[@]%:*}")
 IUSE="debug doc +eeze +nls pam static-libs systemd +udev ukit wayland
 	${E_MODULES_DEFAULT[@]/#/+enlightenment_modules_}
-	${E_MODULES[@]/#/enlightenment_modules_}
+	${e_modules[@]/#/enlightenment_modules_}
 "
+e_modules=
 REQUIED_USE="!udev? ( eeze )
 	enlightenment_modules_wl-screenshot? ( wayland )
 	wayland? ( enlightenment_modules_wl-desktop-shell )"
