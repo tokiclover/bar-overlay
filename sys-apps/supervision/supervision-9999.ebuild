@@ -20,11 +20,11 @@ esac
 inherit eutils ${VCS_ECLASS}
 
 DESCRIPTION="Supervision init-system and service-manager"
-OMEPAGE="https://gitlab.com/tokiclover/supervision"
+HOMEPAGE="https://gitlab.com/tokiclover/supervision"
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="+runit s6 sysvinit"
+IUSE="debug +runit s6 sysvinit"
 
 DEPEND="sys-apps/grep
 	sys-apps/sed
@@ -37,6 +37,7 @@ src_configure()
 {
 	econf ${EXTRA_CONF_SUPERVISION} \
 		--libdir="/$(get_libdir)" \
+		$(use_enable debug) \
 		$(use_enable runit) \
 		$(use_enable s6) \
 		$(use_enable sysvinit)
@@ -58,9 +59,18 @@ src_install()
 
 		local level
 		for level in sysinit sysboot single default shutdown; do
-			dodir /usr/share/${PN}/${level}
-			cp -a ${D}/etc/sv/.${level} ${D}/usr/share/${PN}/runlevels/${level}
-			rm ${D}/etc/sv/.${level}/*
+			dodir /usr/share/${PN}/sv.init.d/${level}
+			cp -a ${D}/etc/sv.init.d/${level}/* ${D}/usr/share/${PN}/sv.init.d/${level}
+			rm ${D}/etc/sv.init.d/${level}/*
 		done
 	fi
+}
+pkg_postinst()
+{
+	elog "If CONFIG_RTC_HCTOSYS is set in the kernel;"
+	elog "Remove hwclock service from sysboot runlevel:"
+	elog "\`sv-run --sysboot hwclock del'"
+	elog
+	elog "Updating the previous installation (if any)..."
+	/lib/sv/sbin/sv-config --update
 }
