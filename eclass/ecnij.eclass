@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: eclass/ecnij.eclass,v 4.1 2016/11/14 19:33:34 Exp $
+# $Header: eclass/ecnij.eclass,v 4.2 2018/08/22 19:33:34 Exp $
 
 # @ECLASS: ecnij.eclass
 # @MAINTAINER:
@@ -84,17 +84,18 @@ EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_
 # Internal wrapper to handle subdir phase {prepare,config,compilation...}
 dir_src_command()
 {
-	local dirs=( ${1} ) cmd="${2}" args="${3}"
-	(( $# < 2 )) && eeror "Invalid number of argument" && return 1
+	debug-print-function ${FUNCNAME} "${@}"
+	(( $# < 1 )) && die "Invalid number of argument"
 
-	for dir in "${dirs[@]}"; do
+	for dir in "${DIRS[@]}"; do
+		echo $dir
 		pushd ${dir} || die
-		case "${cmd}" in
+		case "${1}" in
 			(eautoreconf)
 			[[ -d po ]] && echo "no" | glib-gettextize --force --copy
 			[[ ! -e configure.in ]] && [[ -e configures/configure.in.new ]] &&
 				mv -f configures/configure.in.new configure.in
-			${cmd} ${args}
+			"${@}"
 			;;
 			(econf)
 			case ${dir} in
@@ -112,10 +113,10 @@ dir_src_command()
 					)
 				;;
 			esac
-			${cmd} ${args} ${myeconfargs[@]}
+			"${@}" "${myeconfargs[@]}"
 			;;
 			(*)
-			${cmd} ${args}
+			"${@}"
 			;;
 		esac
 		popd || die
@@ -185,22 +186,24 @@ ecnij_src_unpack()
 ecnij_src_prepare()
 {
 	debug-print-function ${FUNCNAME} "${@}"
+	local -a DIRS
 
 	[[ "${PATCHES}" ]] && epatch "${PATCHES[@]}"
-
 	epatch_user
 
-	use cups && dir_src_command "${CNIJFILTER_SRC[*]}" "eautoreconf"
+	DIRS=("${CNIJFILTER_SRC[@]}")
+	use cups && dir_src_command "eautoreconf"
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
 			mkdir ${pr} || die
-			cp -a ${prid} "${PRINTER_SRC[@]}" ${pr} || die
+			cp -a ${prid} "${PRINTER_SRC[@]}" ${pr} || die "Failed to copy source files"
 			pushd ${pr} || die
 			[[ -d ../com ]] && ln -s {../,}com
-			dir_src_command "${PRINTER_SRC[*]}" "eautoreconf"
+			DIRS=("${PRINTER_SRC[@]}")
+			dir_src_command "eautoreconf"
 			popd
 		fi
 	done
@@ -212,15 +215,18 @@ ecnij_src_prepare()
 ecnij_src_configure()
 {
 	debug-print-function ${FUNCNAME} "${@}"
+	local -a DIRS
 
-	use cups && dir_src_command "${CNIJFILTER_SRC[*]}" "econf"
+	DIRS=("${CNIJFILTER_SRC[@]}")
+	use cups && dir_src_command "econf"
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
 			pushd ${pr} || die
-			dir_src_command "${PRINTER_SRC[*]}" "econf" "--program-suffix=${pr}"
+			DIRS=("${PRINTER_SRC[@]}")
+			dir_src_command "econf" "--program-suffix=${pr}"
 			popd
 		fi
 	done
@@ -231,18 +237,21 @@ ecnij_src_configure()
 # The base exported src_compile() function
 ecnij_src_compile() {
 	debug-print-function ${FUNCNAME} "${@}"
+	local -a DIRS
 
 	local p pr prid
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
 			pushd ${pr} || die
-			dir_src_command "${PRINTER_SRC[*]}" "emake"
+			DIRS=("${PRINTER_SRC[@]}")
+			dir_src_command "emake"
 			popd
 		fi
 	done
 
-	use cups && dir_src_command "${CNIJFILTER_SRC[*]}" "emake"
+	DIRS=("${CNIJFILTER_SRC[@]}")
+	use cups && dir_src_command "emake"
 }
 
 # @FUNCTION: ecnij_src_install
@@ -251,6 +260,7 @@ ecnij_src_compile() {
 ecnij_src_install()
 {
 	debug-print-function ${FUNCNAME} "${@}"
+	local -a DIRS
 
 	local abi_libdir=/usr/$(get_libdir) p pr prid
 	local abi_lib=$(usex abi_x86_64 64 32)
@@ -259,15 +269,16 @@ ecnij_src_install()
 
 	(( ${#MULTILIB_COMPAT[@]} == 1 )) && abi_lib=
 
-	use cups &&
-	dir_src_command "${CNIJFILTER_SRC[*]}" "emake" "DESTDIR=\"${D}\" install"
+	DIRS=("${CNIJFILTER_SRC[@]}")
+	use cups && dir_src_command "emake" "DESTDIR=\"${D}\" install"
 
 	for (( p=0; p<${#PRINTER_ID[@]}; p++ )); do
 		pr=${PRINTER_MODEL[$p]} prid=${PRINTER_ID[$p]}
 		if use canon_printers_${pr}; then
 			lingua=true
 			pushd ${pr} || die
-			dir_src_command "${PRINTER_SRC[*]}" "emake" "DESTDIR=\"${D}\" install"
+			DIRS=("${PRINTER_SRC[@]}")
+			dir_src_command "emake" "DESTDIR=\"${D}\" install"
 			popd
 			
 			pushd ${prid}/libs_bin${abi_lib} || die
