@@ -23,9 +23,9 @@ HOMEPAGE="http://smarden.org/runit/"
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="doc static +scripts"
+IUSE="doc static"
 
-RDEPEND="scripts? ( sys-process/supervision )"
+RDEPEND=""
 
 S=${WORKDIR}/admin/${P}/src
 PATCHES=(
