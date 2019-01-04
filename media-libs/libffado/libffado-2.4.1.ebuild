@@ -46,6 +46,10 @@ RDEPEND="${RDEPEND}
 	!<media-sound/jack-audio-connection-kit-0.122.0
 	!<media-sound/jack-audio-connection-kit-1.9.9"
 
+PATCHES=(
+	${FILESDIR}/${P}-python3-scons-fix.patch
+)
+
 myescons() {
 	local myesconsargs=(
 		PREFIX="${EPREFIX}/usr"
@@ -81,12 +85,11 @@ myescons() {
 src_prepare() {
 	default
 
-	# Python3 fixes
-	sed -i -e 's/\t/        /g' support/mixer-qt4/ffado/mixer/phase88control.py || die
-	sed -i -e 's/\t/        /g' support/mixer-qt4/ffado/mixer/audiofire.py || die
-
 	# Always use Qt5
 	sed -i -e 's/try:/if False:/' -e 's/except.*/else:/' support/mixer-qt4/ffado/import_pyqt.py || die
+
+	# Bugs #658052, #659226
+	sed -i -e 's/^CacheDir/#CacheDir/' SConstruct || die
 
 	multilib_copy_sources
 }
