@@ -28,7 +28,6 @@ media-libs/suil 0.10.0: Lightweight C library for loading and wrapping LV2 plugi
 media-libs/zita-alsa-pcmi 0.2.0: Successor of clalsadrv, API providing easy access to ALSA PCM devices
 media-libs/zita-resampler 1.6.0: C++ library for real-time resampling of audio signals
 media-plugins/calf 0.0.60-r1 0.90.0 9999: Audio plug-in pack (instrument and effects) for LV2 and JACK
-media-plugins/deadbeef-plugins-filebrowser 9999 20150416: File-Browser plugin for DeaDBeeF music player
 media-plugins/deadbeef-plugins-infobar 1.4: Info-bar plugin for DeaDBeeF audio player
 media-plugins/deadbeef-plugins-spectogram 9999: spectrum plugin for DeaDBeeF audio player
 media-plugins/deadbeef-plugins-spectrum 9999: spectrum plugin for DeaDBeeF audio player
