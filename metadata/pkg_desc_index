@@ -110,6 +110,7 @@ sys-apps/supervision 0.13.0 0.14.4 9999: Supervision init-system and service-man
 sys-fs/aufs-standalone 3.9999 4.9999: An entirely re-designed and re-implemented Unionfs
 sys-fs/aufs-util 3.9999 4.9999: AUFS filesystem utilities
 sys-kernel/mkinitramfs-ll 0.22.9 0.22.10 9999: Lightweight, modular and powerfull initramfs genrating tool
+sys-kernel/openrazer 9999: Razer Drivers for Linux
 sys-process/runit 2.1.2-r2: A UNIX init scheme with service supervision
 virtual/daemontools 0: Virtual for Daemontools Service Manager
 virtual/liblash 1: Virtual for LASH library
