@@ -4,4 +4,3 @@ mail-client/mutt
 mail-filter/procmail
 mail-filter/bogofilter
 net-mail/notmuch[mutt]
-net-misc/urlview
