@@ -73,7 +73,6 @@ media-plugins/vapoursynth-plugins-yadif 0.0.4_p1 9999: Yet Another Deinterlacing
 media-plugins/vapoursynth-plugins-yadifmod 10 9999: Yet Another Deinterlacing Filter plugin for VapourSynth ported from Avisynth
 media-sound/a2jmidid 9999: Daemon for exposing legacy ALSA sequencer applications in JACK MIDI system
 media-sound/ardour 2.9999: multi-track hard disk recording software
-media-sound/deadbeef 0.7.1 0.7.2 9999: DeaDBeeF - Ultimate Music Player For GNU/Linux
 media-sound/fluidsynth 1.1.6 9999: Fluidsynth is a software real-time synthesizer based on the Soundfont 2 specifications.
 media-sound/hydrogen 0.9.6.1 0.9.7_beta2 9999: Advanced drum machine
 media-sound/jack-audio-connection-kit 0.124.1 0.125.0 0.9999 1.9.10 1.9999: Jackdmp jack implemention for multi-processor machine
