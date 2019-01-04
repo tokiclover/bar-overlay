@@ -18,7 +18,6 @@ media-fonts/sil-nuosu 2.1.1: Nuosu SIL Font is a single Unicode font for the sta
 media-fonts/ttf-mph2b-damase 001.000: Font with extensive Unicode 4.1 range coverage
 media-gfx/ephoto 1.5 9999: EFL image viewer, editor, manipulator and slideshow
 media-libs/aubio 0.4.1 0.4.2: Library for audio labelling
-media-libs/ewe 0.2.2 9999: Elementary Widgets Extension, desktop widget library
 media-libs/ganv 1.4.2: An interactive Gtk widget for boxes and lines or graph-like environments
 media-libs/libffado 2.4.0 2.4.1: Successor for freebob: Library for accessing BeBoB IEEE1394 devices
 media-libs/lilv 0.22.0 0.24.2: Library to make the use of LV2 plugins as simple as possible for applications
@@ -97,7 +96,6 @@ media-video/d2vwitch 2 9999: Cross-platform D2V creator
 media-video/ffmpeg 3.2.9999 3.3.9999 4.0.9999: Complete solution to record, convert and stream audio and video. Includes libavcodec
 media-video/l-smash 2.14.5 9999: (FFmpeg) Libavcodec-SMASH decoder/demuxer wrapper library
 media-video/mpv 0.27.2 0.28.2 9999: Video player based on MPlayer/mplayer2
-media-video/rage 0.2.0 0.3.0 9999: EFL Video Player
 media-video/vapoursynth 40 42 9999: Video processing framework with simplicity in mind
 media-video/wobbly 4 9999: IVTC video processing assistant for VapourSynth similar to Yatta
 net-analyzer/check_mk 1.2.8_p14: General purpose Nagios/Icinga plugin for retrieving data
