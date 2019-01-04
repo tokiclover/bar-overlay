@@ -27,6 +27,12 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS NEWS README internals.txt )
 
+src_unpack()
+{
+	git-2_src_unpack
+	cd "${P}"
+	git checkout master
+}
 src_configure()
 {
 	local -a mywafconfargs=(
@@ -34,7 +40,6 @@ src_configure()
 	)
 	NO_WAF_LIBDIR=1 waf-utils_src_configure "${mywafconfargs[@]}"
 }
-
 src_install()
 {
 	waf-utils_src_install
