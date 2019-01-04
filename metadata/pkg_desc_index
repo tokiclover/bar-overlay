@@ -8,7 +8,6 @@ dev-libs/sord 0.14.0 0.16.0: Library for storing RDF data in memory
 dev-perl/IO-Socket-TIPC 1.08: IO::Socket::TIPC - TIPC sockets for Perl
 dev-perl/perl-URxvt 2.2 9999: Perl extensions for the Rxvt-unicode terminal emulator
 dev-python/enum 0.4.4: Robust enumerated type support in Python.
-dev-python/pyrocore 0.4.2: PyroScope - Python Torrent Tools Core Package
 dev-python/vapoursynth-plugins-adjust 9999: Tweak filter plugin for VapourSynth ported from Avisynth
 dev-python/vapoursynth-plugins-havsfunc 30 9999: Holy's functions for VapourSynth ported AviSynth
 dev-python/vapoursynth-plugins-mvsfunc 8 9999: mawen1250's functions for VapourSynth
