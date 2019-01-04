@@ -10,7 +10,6 @@ dev-perl/perl-URxvt 2.2 9999: Perl extensions for the Rxvt-unicode terminal emul
 dev-python/enum 0.4.4: Robust enumerated type support in Python.
 dev-python/pyrobase 0.2: PyroScope - General Python Helpers and Utilities
 dev-python/pyrocore 0.4.2: PyroScope - Python Torrent Tools Core Package
-dev-python/python-efl 1.14.0 1.15.0 1.16.0 1.17.0 1.18.0 9999: Python bindings for the EFL
 dev-python/vapoursynth-plugins-adjust 9999: Tweak filter plugin for VapourSynth ported from Avisynth
 dev-python/vapoursynth-plugins-havsfunc 30 9999: Holy's functions for VapourSynth ported AviSynth
 dev-python/vapoursynth-plugins-mvsfunc 8 9999: mawen1250's functions for VapourSynth
