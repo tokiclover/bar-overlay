@@ -113,12 +113,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	>=dev-lang/perl-5.8
 	dev-python/docutils
-	X? (
-		x11-proto/videoproto
-		x11-proto/xf86vidmodeproto
-		x11-proto/xineramaproto
-		xscreensaver? ( x11-proto/scrnsaverproto )
-	)"
+	X? ( x11-base/xorg-proto )"
 DOCS=( Copyright README.md )
 
 pkg_setup()
