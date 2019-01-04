@@ -44,7 +44,6 @@ media-plugins/deadbeef-plugins-infobar 1.4: Info-bar plugin for DeaDBeeF audio p
 media-plugins/deadbeef-plugins-spectogram 9999: spectrum plugin for DeaDBeeF audio player
 media-plugins/deadbeef-plugins-spectrum 9999: spectrum plugin for DeaDBeeF audio player
 media-plugins/deadbeef-plugins-waveform 0.5 9999: Waveform seekbar plugin for DeaDBeeF audio player
-media-plugins/emotion_generic_players 1.16.0 1.17.0: Provides external applications as generic loaders for Evas
 media-plugins/ll-plugins 0.2.8 9999: collection of LV2 plugins, LV2 extension definitions, and LV2 related tools
 media-plugins/tap-plugins 1.0.0 9999: TAP LADSPA plugins: contains DeEsser, Dynamics, Equalizer, Reverb, Stereo Echo, Tremolo
 media-plugins/vapoursynth-plugins-addgrain 5 9999: AddGrain plugin for VapourSynth ported from Avisynth
