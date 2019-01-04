@@ -16,7 +16,7 @@ case "${PV}" in
 		SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 		;;
 esac
-inherit cmake-multilib ${VCS_ECLASS}
+inherit cmake-utils multilib-minimal ${VCS_ECLASS}
 
 DESCRIPTION="Fluidsynth is a software real-time synthesizer based on the Soundfont 2 specifications."
 HOMEPAGE="http://www.fluidsynth.org/"
@@ -52,7 +52,7 @@ PATCHES=(
 )
 
 
-src_configure()
+multilib_src_configure()
 {
 	# autotools based build system has AC_CHECK_LIB(pthread, pthread_create) wrt
 	# bug #436762
@@ -72,12 +72,15 @@ src_configure()
 		$(cmake-utils_use pulseaudio enable-pulseaudio)
 		$(cmake-utils_use readline enable-readline)
 	)
-	cmake-multilib_src_configure
+	cmake-utils_src_configure
 }
-
-src_install()
+multilib_src_compile()
 {
-	cmake-multilib_src_install
+	cmake-utils_src_compile
+}
+multilib_src_install()
+{
+	cmake-utils_src_install
 
 	if use doc; then
 		insinto /usr/share/doc/${PF}/pdf
