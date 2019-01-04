@@ -129,7 +129,6 @@ x11-misc/iris-floss 9999: Screen color temperature management software
 x11-misc/netwmpager 2.05: EWMH (NetWM) compatible pager. Works with Openbox and other EWMH compliant window managers.
 x11-misc/spacefm 1.0.1 9999: A multi-panel tabbed file manager
 x11-misc/tint2 9999: A lightweight panel/taskbar
-x11-plugins/entrance 9999: PAM compatible display manager build on EFL
 x11-themes/ardoise-xcursor-theme 2.8: A simple, dark, flat and slightly translucent theme
 x11-themes/awoken-icon-theme 2.5: Monochrome/color-ish scalable icon theme with colorization
 x11-themes/e-gtk-theme 0.19.3 9999: a gtk theme to match enlightenment DR17 default theme
