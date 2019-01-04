@@ -132,7 +132,6 @@ x11-misc/tint2 9999: A lightweight panel/taskbar
 x11-plugins/ekbd 9999: A smart vkbd(virtual keyboard) library inspired by illume-keyboard.
 x11-plugins/engage 9999: Shelf/Launcher module for fast switching applications for Enlightenment
 x11-plugins/entrance 9999: PAM compatible display manager build on EFL
-x11-terms/terminology 1.2.1 9999: Feature rich terminal emulator using the Enlightenment Foundation Libraries
 x11-themes/ardoise-xcursor-theme 2.8: A simple, dark, flat and slightly translucent theme
 x11-themes/awoken-icon-theme 2.5: Monochrome/color-ish scalable icon theme with colorization
 x11-themes/e-gtk-theme 0.19.3 9999: a gtk theme to match enlightenment DR17 default theme
